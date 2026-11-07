@@ -3,10 +3,20 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  <code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that range. The
+  visible <code>label</code> names the indicator (<code>aria-labelledby</code>); without one it is
+  named "Loading".
+</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-circular-progress value='40'></wc-circular-progress>
+  <wc-circular-progress value='2' max='5' label='2 of 5'></wc-circular-progress>
 </DemoComponentCard>
+
+<p>
+  <code>indeterminate</code> spins while the amount of work is unknown.
+</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-circular-progress label='Indeterminate' helper-text='Testing' indeterminate></wc-circular-progress>

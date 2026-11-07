@@ -22,6 +22,7 @@ import styles from './chart-line.scss';
 export type {
   ChartConfig,
   ChartDatum,
+  ChartLegendMode,
   ChartSelectDetail,
   ChartSeriesConfig,
   ChartValueFormatter,
@@ -60,11 +61,42 @@ type DotModel = {
  * @tag wc-chart-line
  * @rawTag chart-line
  * @summary Shows how values change across ordered categories such as time, with one line per series.
+ *
+ * @overview
+ * <p>Set <code>data</code> to an array of rows and <code>category-key</code> to the field that holds
+ * each row's category label. <code>config</code> names the series fields, with an optional
+ * <code>label</code> and <code>color</code> for each; without it every numeric field of the first row
+ * becomes a series. Use <code>wc-chart-area</code> to fill the area under the lines or stack them,
+ * and <code>wc-chart-bar</code> to compare categories that have no order.</p>
+ * <ul>
+ * <li><code>curve</code> joins the points <code>monotone</code> (smooth, the default),
+ * <code>linear</code> or <code>step</code>.</li>
+ * <li><code>show-dots</code> draws a dot at every point; dots always show for the hovered
+ * category.</li>
+ * <li><code>hide-grid</code>, <code>hide-category-axis</code> and <code>hide-value-axis</code> remove
+ * the gridlines and axis labels. Category labels are thinned out when they would overlap.</li>
+ * <li><code>height</code> sets the plot height in pixels (300 by default); the width follows the
+ * container.</li>
+ * </ul>
+ * <p>Hovering or focusing a category shows a tooltip with every visible series' value
+ * (<code>hide-tooltip</code> turns it off). The legend shows for more than one series by default
+ * (<code>legend</code>: <code>auto</code>, <code>show</code> or <code>hide</code>); each entry is a
+ * toggle button that hides or shows its series, and hovering one highlights that series.
+ * <code>valueFormatter</code> formats values in tooltips and on the axis; by default they use the
+ * locale's number format, compact on the axis.</p>
+ * <p>The plot is focusable. The arrow keys move through the categories (Left and Right follow the
+ * reading direction), Home and End jump to the first and last, Escape clears the focus, and Enter or
+ * Space fires <code>select</code>. Each move is announced through a polite live region, and a
+ * visually hidden table holds the data for screen readers. Give the chart a <code>label</code> to
+ * name it.</p>
+ * <p><code>loading</code> shows a skeleton, and the <code>empty</code> slot shows when there is no
+ * data. Marks animate in and on data changes unless <code>disable-animation</code> is set or the
+ * user prefers reduced motion.</p>
  * @tags charts
  *
  * @example
  * ```html
- * <wc-chart-line index="month" label="Visitors by month"></wc-chart-line>
+ * <wc-chart-line category-key="month" label="Visitors by month"></wc-chart-line>
  * <script>
  *   const chart = document.querySelector('wc-chart-line');
  *   chart.config = {
@@ -80,8 +112,9 @@ type DotModel = {
  * ```
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
+ * @slot insight - Below the chart, a line that explains it, such as the assistant’s reading of a trend. The data comes from the platform; the insight only puts it into words.
  *
- * @fires chart-select - A category was clicked or chosen with Enter. `detail` holds `index` and `datum`.
+ * @fires {CustomEvent<ChartSelectDetail>} select - A category was clicked or chosen with Enter. `detail` holds `index` (the row position) and `datum`.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.

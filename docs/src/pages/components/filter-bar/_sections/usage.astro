@@ -1,0 +1,115 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<style is:inline>
+  .filter-bar-demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+  .filter-bar-demo wc-table {
+    height: 20rem;
+  }
+</style>
+
+<p>
+  Describe the filters with <code>filters</code>: each has a <code>key</code>, a
+  <code>label</code> and a <code>type</code> (<code>select</code>, <code>multiselect</code>,
+  <code>text</code>, <code>date-range</code> or <code>boolean</code>), plus <code>options</code>
+  for the select types. "Add filter" lists the filters not in use; each active filter is a chip
+  that opens its control in a popover, and its dismiss button (or <kbd>Delete</kbd>) removes it.
+</p>
+<p>
+  <code>value</code> holds the active filters by key, and the search text under <code>q</code>.
+  It is plain JSON, so it can go in the URL. Every committed change fires <code>change</code>
+  with <code>{'{ value }'}</code>; typing in the search box fires <code>input</code>. The bar does not
+  filter anything itself: here a small script filters the table rows on each event.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div class='filter-bar-demo'>
+    <wc-filter-bar id='filter-bar-usage' search search-placeholder='Search issues'></wc-filter-bar>
+    <wc-table id='filter-bar-table' key-field='id' label='Issues'></wc-table>
+  </div>
+
+  <script is:inline>
+    const $bar = document.getElementById('filter-bar-usage');
+    const $table = document.getElementById('filter-bar-table');
+    const issues = [
+      { id: 1, title: 'Crash on save', status: 'open', tags: ['bug'], owner: 'Ada', created: '2026-10-02', archived: false },
+      { id: 2, title: 'Dark mode', status: 'open', tags: ['feature'], owner: 'Grace', created: '2026-10-15', archived: false },
+      { id: 3, title: 'Typo in guide', status: 'closed', tags: ['docs'], owner: 'Ada', created: '2026-09-20', archived: true },
+      { id: 4, title: 'Slow table scroll', status: 'open', tags: ['bug', 'feature'], owner: 'Linus', created: '2026-11-01', archived: false },
+      { id: 5, title: 'Export to CSV', status: 'closed', tags: ['feature'], owner: 'Grace', created: '2026-08-11', archived: true },
+    ];
+    $bar.filters = [
+      {
+        key: 'status',
+        label: 'Status',
+        type: 'select',
+        options: [
+          { label: 'Open', value: 'open' },
+          { label: 'Closed', value: 'closed' },
+        ],
+      },
+      {
+        key: 'tags',
+        label: 'Tags',
+        type: 'multiselect',
+        options: [
+          { label: 'Bug', value: 'bug' },
+          { label: 'Feature', value: 'feature' },
+          { label: 'Docs', value: 'docs' },
+        ],
+      },
+      { key: 'owner', label: 'Owner', type: 'text', placeholder: 'Name contains…' },
+      { key: 'created', label: 'Created', type: 'date-range' },
+      { key: 'archived', label: 'Archived', type: 'boolean' },
+    ];
+    $bar.value = { status: 'open' };
+    $table.columns = [
+      { name: 'title', label: 'Title', width: 16 },
+      { name: 'status', label: 'Status', width: 8 },
+      { name: 'tags', label: 'Tags', width: 12, template: row => row.tags.join(', ') },
+      { name: 'owner', label: 'Owner', width: 10 },
+      { name: 'created', label: 'Created', width: 10 },
+    ];
+
+    function matches(issue, value) {
+      const q = (value.q || '').toLowerCase();
+      if (q && !issue.title.toLowerCase().includes(q)) return false;
+      if (value.status && issue.status !== value.status) return false;
+      if (value.tags && !value.tags.some(tag => issue.tags.includes(tag))) return false;
+      if (value.owner && !issue.owner.toLowerCase().includes(value.owner.toLowerCase())) return false;
+      if (value.created) {
+        const [start, end] = value.created.split('/');
+        if (issue.created < start || issue.created > end) return false;
+      }
+      if (typeof value.archived === 'boolean' && issue.archived !== value.archived) return false;
+      return true;
+    }
+
+    function apply(value) {
+      $table.data = issues.filter(issue => matches(issue, value));
+    }
+
+    apply($bar.value);
+    $bar.addEventListener('input', event => apply(event.detail.value));
+    $bar.addEventListener('change', event => {
+      apply(event.detail.value);
+      console.log('change', JSON.stringify(event.detail.value));
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  The bar is a group named by <code>label</code> (default "Filters"). The chips are one tab stop:
+  the arrow keys move between them, <kbd>Home</kbd> and <kbd>End</kbd> jump to the ends,
+  <kbd>Enter</kbd> opens a chip's popover (a dialog named after the filter; <kbd>Escape</kbd>
+  closes it) and <kbd>Delete</kbd> removes the filter. Removals are announced to screen readers.
+  "Clear all" removes every filter but keeps the search text.
+</p>

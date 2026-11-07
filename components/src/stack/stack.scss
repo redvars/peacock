@@ -1,0 +1,74 @@
+@use '../../scss/mixin';
+@use './spacing';
+
+@include mixin.base-styles;
+
+// The host is the flex container, so slotted children are its flex items.
+:host {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host([direction='horizontal']) {
+  flex-direction: row;
+}
+
+// A horizontal stack narrower than `collapse-below` lays out vertically.
+:host([direction='horizontal']:state(collapsed)) {
+  flex-direction: column;
+}
+
+:host([wrap]) {
+  flex-wrap: wrap;
+}
+
+@include spacing.step-attribute('gap', 'gap');
+
+:host([align='start']) {
+  align-items: flex-start;
+}
+
+:host([align='center']) {
+  align-items: center;
+}
+
+:host([align='end']) {
+  align-items: flex-end;
+}
+
+:host([align='stretch']) {
+  align-items: stretch;
+}
+
+:host([align='baseline']) {
+  align-items: baseline;
+}
+
+:host([justify='start']) {
+  justify-content: flex-start;
+}
+
+:host([justify='center']) {
+  justify-content: center;
+}
+
+:host([justify='end']) {
+  justify-content: flex-end;
+}
+
+:host([justify='space-between']) {
+  justify-content: space-between;
+}
+
+:host([justify='space-around']) {
+  justify-content: space-around;
+}
+
+:host([justify='space-evenly']) {
+  justify-content: space-evenly;
+}

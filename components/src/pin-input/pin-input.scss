@@ -1,0 +1,86 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+// The field box hugs the cells; long helper text wraps under them.
+:host {
+  display: block;
+  width: min-content;
+  max-width: 100%;
+
+  --_cell-width: var(--pin-input-cell-width, 2.5rem);
+  --_cell-height: 2.5rem;
+  --_cell-divider-color: var(--color-outline-variant);
+}
+
+// Cells as tall as the field box of each size.
+:host([size='md']) {
+  --_cell-width: var(--pin-input-cell-width, 3rem);
+  --_cell-height: 3.5rem;
+}
+
+:host([size='lg']) {
+  --_cell-width: var(--pin-input-cell-width, 3.5rem);
+  --_cell-height: 4rem;
+}
+
+// The cells span the field box from edge to edge, over its inline padding.
+.cells {
+  display: flex;
+  align-self: stretch;
+  margin-inline: calc(-1 * var(--spacing-200));
+}
+
+.cell {
+  flex: none;
+  inline-size: var(--_cell-width);
+  block-size: var(--_cell-height);
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+  text-align: center;
+  caret-color: var(--color-primary);
+  cursor: inherit;
+  @include mixin.get-typography-not-important(title-medium);
+
+  & + & {
+    border-inline-start: 0.0625rem solid var(--_cell-divider-color);
+  }
+
+  &::placeholder {
+    color: var(--color-on-surface-variant);
+  }
+
+  &:focus {
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    box-shadow: inset 0 -0.125rem 0 var(--color-primary);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+:host([size='md']) .cell,
+:host([size='lg']) .cell {
+  @include mixin.get-typography-not-important(title-large);
+}
+
+// Forced colors drop the focus tint and shadow, so mark the focused cell with an outline.
+@media (forced-colors: active) {
+  .cell + .cell {
+    border-inline-start-color: CanvasText;
+  }
+
+  .cell:focus {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .cell:disabled {
+    color: GrayText;
+  }
+}

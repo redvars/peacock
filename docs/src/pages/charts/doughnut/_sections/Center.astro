@@ -6,15 +6,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <p>
   Put anything in the <code>center</code> slot to replace the total, such as a goal or a status.
-  <code>inner-radius</code> sets the hole as a fraction of the radius, from <code>0</code> (a pie) to
-  <code>0.9</code>; the default is <code>0.62</code>.
+  <code>inner-radius</code> sets the hole as a fraction of the radius, up to <code>0.9</code>; the default is
+  <code>0.62</code>. The doughnut owns the hole: at <code>0</code> there is no hole, so the centre content and
+  <code>center-label</code> are not shown. Use <code>wc-chart-pie</code> for a chart without a hole.
 </p>
 
 <DemoComponentCard lang='html'>
   <wc-chart-doughnut
     id='doughnut-center'
     inner-radius='0.75'
-    hide-legend
+    legend='hide'
     height='220'
     label='Monthly goal progress'
   >

@@ -1,0 +1,29 @@
+---
+export const title = 'Accessibility and touch';
+export const order = 200;
+---
+
+<ul>
+  <li>
+    A hover card is a supplement. The trigger keeps its own action (a link still goes to the
+    profile), and everything in the card must also be reachable without it, for example on the
+    page the link goes to.
+  </li>
+  <li>
+    The trigger gets <code>aria-details</code> pointing at the content. Screen readers announce
+    "has details" and offer a command to read it, without reading the whole card on every
+    focus as <code>aria-describedby</code> would. The trigger gets no
+    <code>aria-haspopup</code> or <code>aria-expanded</code>: those promise that activating it
+    opens the card, and it does not.
+  </li>
+  <li>
+    Keyboard focus on the trigger opens the card after the delay; Tab then moves into the card's
+    links and buttons, and Escape closes it and returns focus to the trigger. Focus that comes
+    from a click or tap does not open it.
+  </li>
+  <li>
+    Touch screens have no hover. A tap activates the trigger and does not open the card. If touch
+    users need the preview, open it from a control of your own with <code>show()</code>.
+  </li>
+  <li>The card fades in and out, without motion when reduced motion is requested.</li>
+</ul>

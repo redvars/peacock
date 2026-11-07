@@ -1,0 +1,84 @@
+@use '../../scss/mixin';
+@use '../stack/spacing';
+
+@include mixin.base-styles;
+
+// The host is the grid container, so slotted children are its grid items.
+:host {
+  --_column-gap-resolved: var(--_column-gap, var(--_gap, 0px));
+
+  display: grid;
+  min-inline-size: 0;
+  row-gap: var(--_row-gap, var(--_gap, 0px));
+  column-gap: var(--_column-gap-resolved);
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+@include spacing.step-attribute('gap', '--_gap');
+@include spacing.step-attribute('row-gap', '--_row-gap');
+@include spacing.step-attribute('column-gap', '--_column-gap');
+
+// Equal columns.
+:host([columns]) {
+  grid-template-columns: repeat(var(--_columns), minmax(0, 1fr));
+}
+
+// As many columns as fit, each at least `min-column-width` wide.
+:host([min-column-width]) {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(var(--_min-column-width), 100%), 1fr)
+  );
+}
+
+// Both: as many as fit, but never more than `columns`.
+:host([columns][min-column-width]) {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      max(
+        min(var(--_min-column-width), 100%),
+        calc(
+          (100% - (var(--_columns) - 1) * var(--_column-gap-resolved)) /
+            var(--_columns)
+        )
+      ),
+      1fr
+    )
+  );
+}
+
+:host([align='start']) {
+  align-items: start;
+}
+
+:host([align='center']) {
+  align-items: center;
+}
+
+:host([align='end']) {
+  align-items: end;
+}
+
+:host([align='stretch']) {
+  align-items: stretch;
+}
+
+:host([justify='start']) {
+  justify-items: start;
+}
+
+:host([justify='center']) {
+  justify-items: center;
+}
+
+:host([justify='end']) {
+  justify-items: end;
+}
+
+:host([justify='stretch']) {
+  justify-items: stretch;
+}

@@ -1,7 +1,7 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
+import { e } from './class-map-NDIkZErE.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
 import './directive-ZPhl09Yt.js';
 
@@ -11,13 +11,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   --divider-color: var(--color-outline-variant);
@@ -37,39 +59,39 @@ var css_248z = i`* {
   --_line-border: var(--divider-line-thickness) solid var(--divider-color);
 }
 .divider:not(.vertical) {
-  width: 100%;
-  padding: var(--divider-spacing) 0;
+  inline-size: 100%;
+  padding-block: var(--divider-spacing);
   align-items: center;
   justify-content: center;
 }
 .divider:not(.vertical) .line {
-  width: 100%;
-  border-top: var(--_line-border);
+  inline-size: 100%;
+  border-block-start: var(--_line-border);
 }
 .divider:not(.vertical).slot-has-content .slot-container {
-  padding: 0 var(--spacing-200);
+  padding-inline: var(--spacing-200);
 }
 .divider.vertical {
-  height: 100%;
-  padding: 0 var(--divider-spacing);
+  block-size: 100%;
+  padding-inline: var(--divider-spacing);
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 .divider.vertical .line {
-  height: 100%;
-  border-right: var(--_line-border);
+  block-size: 100%;
+  border-inline-end: var(--_line-border);
 }
 .divider.vertical.slot-has-content .slot-container {
-  padding: var(--spacing-200) 0;
+  padding-block: var(--spacing-200);
 }
 
-:host(:not([vertical])) {
-  width: auto;
+:host(:not([orientation=vertical])) {
+  inline-size: auto;
 }
 
-:host([vertical]) {
-  height: auto;
+:host([orientation=vertical]) {
+  block-size: auto;
 }`;
 
 /**
@@ -77,13 +99,20 @@ var css_248z = i`* {
  * @tag wc-divider
  * @rawTag divider
  *
- * @summary The divider component is used to visually separate content.
+ * @summary A horizontal or vertical line that separates groups of content, with an optional label such as "or".
  * @overview
- *  - Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented.
- *  - They can be oriented either vertically or horizontally, depending on the layout requirements.
+ * <ul>
+ * <li>Dividers are used to separate content into clear groups, making it easier for users to scan
+ * and understand the information presented.</li>
+ * <li>Set <code>orientation</code> to <code>horizontal</code> (the default) or
+ * <code>vertical</code>, depending on the layout.</li>
+ * <li>Content in the default slot, such as "or", shows in the middle of the line.</li>
+ * <li>The host is <code>role="separator"</code> with a matching <code>aria-orientation</code>.</li>
+ * </ul>
  *
  * @cssprop --divider-color - Controls the color of the divider.
- * @cssprop --divider-padding - Controls the padding of the divider.
+ * @cssprop --divider-spacing - Controls the space around the divider.
+ * @cssprop [--divider-line-thickness=1px] - Controls the thickness of the line.
  *
  * @example
  * ```html
@@ -94,22 +123,34 @@ var css_248z = i`* {
 let Divider = class Divider extends i$1 {
     constructor() {
         super(...arguments);
-        /** When true, renders the divider vertically. Defaults to horizontal. */
-        this.vertical = false;
+        /** Direction of the line. */
+        this.orientation = 'horizontal';
         /** True when the default slot contains content, used to show the label variant. */
         this.slotHasContent = false;
+    }
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+    connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute('role')) {
+            this.setAttribute('role', 'separator');
+        }
+    }
+    willUpdate(changed) {
+        if (changed.has('orientation')) {
+            this.setAttribute('aria-orientation', this.orientation);
+        }
     }
     firstUpdated() {
         observerSlotChangesWithCallback(this.renderRoot.querySelector('slot'), hasContent => {
             this.slotHasContent = hasContent;
-            this.requestUpdate();
         });
     }
+    // ── Render ────────────────────────────────────────────────────────────────
     render() {
         return b `<div
       class=${e({
             divider: true,
-            vertical: this.vertical,
+            vertical: this.orientation === 'vertical',
             'slot-has-content': this.slotHasContent,
         })}
     >
@@ -123,8 +164,8 @@ let Divider = class Divider extends i$1 {
 };
 Divider.styles = [css_248z];
 __decorate([
-    n({ type: Boolean, reflect: true })
-], Divider.prototype, "vertical", void 0);
+    n({ reflect: true })
+], Divider.prototype, "orientation", void 0);
 __decorate([
     r()
 ], Divider.prototype, "slotHasContent", void 0);

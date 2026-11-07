@@ -4,17 +4,17 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Provide a URL to any SVG file via the <code>src</code> attribute. The SVG is fetched, sanitized, and rendered inline. Use <code>image-title</code> for accessible alt text and <code>preview</code> to enable a click-to-enlarge lightbox.</p>
+<p>Provide a URL to any SVG file via the <code>src</code> attribute. The SVG is fetched, sanitized, and rendered inline. Use <code>alt</code> for the text alternative, as on a native <code>&lt;img&gt;</code> (the SVG is then <code>role="img"</code>; without it, it is decorative), and <code>preview</code> to enable a click-to-enlarge lightbox.</p>
 
 <DemoComponentCard lang={'html'} inline>
   <wc-svg
     src='https://icons.getbootstrap.com/assets/icons/bug.svg'
-    image-title='Bug icon'
+    alt='Bug icon'
     style='--svg-size: 2rem;'
   ></wc-svg>
   <wc-svg
     src='https://icons.getbootstrap.com/assets/icons/heart-fill.svg'
-    image-title='Heart icon'
+    alt='Heart icon'
     style='--svg-size: 2rem; --svg-color: var(--color-error);'
     preview
   ></wc-svg>

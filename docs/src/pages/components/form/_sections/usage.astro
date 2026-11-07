@@ -1,0 +1,53 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-form</code> wraps a native <code>&lt;form&gt;</code> and adds what enterprise forms
+  otherwise build by hand: an error summary, unsaved-change tracking, a busy state while saving and
+  errors from the server. Write the form inside it, in the page:
+  <code>&lt;wc-form&gt;&lt;form&gt;…&lt;/form&gt;&lt;/wc-form&gt;</code>. Every Peacock field and
+  native control in the form counts.
+</p>
+<p>
+  Submit the form below empty. Instead of submitting, an error summary at the top lists each
+  invalid field; its links move focus to the field, and it updates as you fix them. A valid submit
+  fires <code>submit</code> with <code>detail.value</code>, the form data as a plain object (a name
+  submitted more than once becomes an array). Call <code>preventDefault()</code> to save it
+  yourself; otherwise the form submits natively to its <code>action</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 400px;'>
+    <wc-form id='form-demo'>
+      <form style='display: flex; flex-direction: column; gap: 1rem;'>
+        <wc-input label='Name' name='name' required></wc-input>
+        <wc-input label='Email' name='email' type='email' required></wc-input>
+        <wc-select label='Team' name='team' required>
+          <wc-option value='design'>Design</wc-option>
+          <wc-option value='engineering'>Engineering</wc-option>
+        </wc-select>
+        <wc-checkbox label='Accept the terms' name='terms' required></wc-checkbox>
+        <div style='display: flex; gap: 0.5rem;'>
+          <wc-button type='submit'>Save</wc-button>
+          <wc-button type='reset' variant='text'>Reset</wc-button>
+        </div>
+      </form>
+    </wc-form>
+  </div>
+  <script is:inline>
+    document.querySelector('#form-demo').addEventListener('submit', function (event) {
+      if (!(event instanceof CustomEvent)) return;
+      event.preventDefault();
+      myConsole.log('submit: ' + JSON.stringify(event.detail.value));
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  With <code>no-summary</code> the summary is off, and an invalid submit moves focus to the first
+  invalid field, which shows its message. <code>validate()</code> runs the same check without
+  submitting and resolves to whether the form is valid.
+</p>

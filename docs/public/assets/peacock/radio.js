@@ -1,13 +1,16 @@
-import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, b } from './IndividualComponent-BK7XZjE2.js';
+import { r } from './state-BCeDVCI9.js';
+import { e } from './class-map-NDIkZErE.js';
 import { s as spread } from './spread-B5cgadZl.js';
-import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { m as mixinFormAssociated, g as getFormValue, a as getFormState } from './form-associated-Bhwwr6dT.js';
-import './base-Cl6v8-BZ.js';
+import { p as peacockString } from './strings-WY90FZfd.js';
+import { T as ToggleBase } from './toggle-base-Cq6DEEgq.js';
+import './property-B2TG3KEE.js';
 import './directive-ZPhl09Yt.js';
+import './query-CHb9Ft_d.js';
+import './base-Cl6v8-BZ.js';
+import './form-associated-D3Tn33s_.js';
+import './element-internals-QME0yEz4.js';
+import './BaseInput-DJ7w21-i.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -15,13 +18,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline-block;
   --radio-size: 20px;
@@ -160,193 +185,139 @@ var css_248z = i`* {
 }
 .radio.disabled.state-checked .inner-circle {
   background: var(--color-on-surface);
+}
+
+@media (forced-colors: active) {
+  .radio .outer-circle {
+    border-color: CanvasText;
+  }
+  .radio.state-checked .outer-circle {
+    border-color: Highlight;
+  }
+  .radio.state-checked .inner-circle {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .radio.disabled .outer-circle {
+    border-color: GrayText;
+  }
+  .radio.disabled .inner-circle {
+    background: GrayText;
+  }
 }`;
 
 var Radio_1;
-let Radio = Radio_1 = class Radio extends mixinFormAssociated(mixinElementInternals(i$1)) {
+/**
+ * @label Radio
+ * @tag wc-radio
+ * @rawTag radio
+ * @summary A round button for choosing one option from a set; radios that share a name form a group.
+ * @overview
+ * <p>Radios that share a <code>name</code> form a group. Wrap them in <code>wc-radio-group</code> to get a
+ * group label and a single <code>change</code> event for the whole set.</p>
+ * <p>The radio is form-associated: the checked radio submits its <code>value</code> under its <code>name</code>.
+ * When any radio of a group is <code>required</code>, the group blocks form submission until one is checked.</p>
+ *
+ * @cssprop --radio-size: Size of the outer radio circle.
+ * @cssprop --radio-dot-size: Size of the inner dot when selected.
+ * @cssprop --radio-selected-color: Color of the radio when selected.
+ * @cssprop --radio-unselected-color: Color of the radio outline when unselected.
+ * @cssprop --radio-state-layer-size: Size of the state layer for touch target.
+ * @cssprop --radio-disabled-opacity: Opacity applied when the radio is disabled.
+ *
+ * @fires {CustomEvent<{checked: boolean, value: string, originalEvent?: Event}>} change - Dispatched when the radio is selected.
+ *
+ * @example
+ * ```html
+ * <wc-radio name="fruits" value="apple" label="Apple"></wc-radio>
+ * ```
+ * @tags input, form
+ */
+let Radio = Radio_1 = class Radio extends ToggleBase {
     constructor() {
         // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
         // ── Properties ───────────────────────────────────────────────────────────
-        // `name` (which groups radios) and `disabled` come from mixinFormAssociated.
-        /**
-         * The submitted value when this radio is selected.
-         */
-        this.value = '';
-        /**
-         * The radio label.
-         */
-        this.label = '';
-        /**
-         * Whether the radio is selected.
-         */
-        this.checked = false;
-        /**
-         * If true, required icon is shown. Defaults to `false`.
-         */
-        this.required = false;
-        /**
-         * If true, the radio is readonly. Defaults to `false`.
-         */
-        this.readonly = false;
-        /**
-         * Configuration object for aria attributes.
-         */
-        this.configAria = {};
+        // `name` (which groups radios), `disabled`, `required`, `readonly`, `label`, `checked`, `value`
+        // and `configAria` are inherited.
         // ── State ────────────────────────────────────────────────────────────────
-        /** True while the radio container has keyboard focus. */
-        this.hasFocus = false;
-        /** True while the user is actively pressing the radio (mouse/keyboard). */
-        this.isActive = false;
-        /** True when slotted label content or `label` property is present. */
-        this.slotHasContent = false;
         /** True for the one radio in the group that should receive tab focus (roving tabindex). */
         this.isGroupFocusTarget = false;
-        this.windowMouseUp = () => {
-            if (this.isActive) {
-                this.isActive = false;
-            }
-        };
-        this.windowKeyUp = (evt) => {
-            if (this.isActive && evt.key === ' ') {
-                evt.preventDefault();
-                this.isActive = false;
-            }
-        };
-        this.mouseDownHandler = () => {
-            this.isActive = true;
-        };
-        this.keyDownHandler = (evt) => {
-            if (evt.key === ' ') {
-                evt.preventDefault();
+        // ── Private methods ──────────────────────────────────────────────────────
+        this.keyDownHandler = (event) => {
+            if (event.key === ' ') {
+                event.preventDefault();
                 this.isActive = true;
-                this.selectRadio(evt);
+                this.selectRadio(event);
             }
-            else if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') {
-                evt.preventDefault();
+            else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                event.preventDefault();
                 this.navigateGroup(Radio_1.DIRECTION_NEXT);
             }
-            else if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') {
-                evt.preventDefault();
+            else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                event.preventDefault();
                 this.navigateGroup(Radio_1.DIRECTION_PREVIOUS);
             }
         };
-        this.clickHandler = (ev) => {
-            this.selectRadio(ev);
-        };
-        this.blurHandler = (ev) => {
-            this.hasFocus = false;
-            this.dispatchEvent(new CustomEvent('blur', {
-                detail: ev,
-                bubbles: true,
-                composed: true,
-            }));
-        };
-        this.focusHandler = (ev) => {
-            this.hasFocus = true;
-            this.dispatchEvent(new CustomEvent('focus', {
-                detail: ev,
-                bubbles: true,
-                composed: true,
-            }));
+        this.clickHandler = (event) => {
+            this.selectRadio(event);
         };
     }
     // ── Lifecycle ────────────────────────────────────────────────────────────
-    connectedCallback() {
-        super.connectedCallback();
-        this.defaultChecked ??= this.checked;
-        this.handleInitialAttributes();
-        window.addEventListener('mouseup', this.windowMouseUp);
-        window.addEventListener('keyup', this.windowKeyUp);
-    }
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        window.removeEventListener('mouseup', this.windowMouseUp);
-        window.removeEventListener('keyup', this.windowKeyUp);
-    }
     firstUpdated() {
-        this.slotHasContent = this.hasChildNodes() || !!this.label;
         this.updateGroupFocusTarget();
     }
-    updated(changedProps) {
-        if (changedProps.has('label')) {
-            this.slotHasContent = this.hasChildNodes() || !!this.label;
-        }
-        if (changedProps.has('checked') && this.checked) {
+    updated(changed) {
+        super.updated(changed);
+        if (changed.has('checked') && this.checked) {
             this.uncheckSiblings();
         }
-        if (changedProps.has('checked') || changedProps.has('name')) {
+        if (changed.has('checked') || changed.has('name')) {
             this.updateGroupFocusTarget();
         }
-    }
-    // ── Public methods ───────────────────────────────────────────────────────
-    /**
-     * Sets focus on the radio.
-     */
-    focus() {
-        this.containerElement?.focus();
-    }
-    /**
-     * Removes focus from the radio.
-     */
-    blur() {
-        this.containerElement?.blur();
-    }
-    // ── Form association ─────────────────────────────────────────────────────
-    [getFormValue]() {
-        return this.checked ? this.value || 'on' : null;
-    }
-    [getFormState]() {
-        return String(this.checked);
-    }
-    formResetCallback() {
-        this.checked = this.defaultChecked ?? false;
-    }
-    formStateRestoreCallback(state) {
-        this.checked = state === 'true';
-    }
-    // ── Private methods ──────────────────────────────────────────────────────
-    handleInitialAttributes() {
-        if (this.hasAttribute('tabindex')) {
-            const attrValue = this.getAttribute('tabindex');
-            if (attrValue !== null) {
-                this.tabindex = parseInt(attrValue, 10);
+        if (changed.has('checked') || changed.has('required')) {
+            // Group validity depends on every radio; let the others recompute theirs.
+            for (const radio of this.getGroupRadios()) {
+                if (radio !== this)
+                    radio.requestUpdate();
             }
-            this.removeAttribute('tabindex');
         }
-        Array.from(this.attributes).forEach(attr => {
-            if (attr.name.startsWith('aria-')) {
-                this.configAria[attr.name] = attr.value;
-                this.removeAttribute(attr.name);
-            }
-        });
     }
-    selectRadio(ev) {
+    // ── Protected methods ────────────────────────────────────────────────────
+    /** A radio submits nothing but its `value`; there is no `"on"` default to show. */
+    get defaultToggleValue() {
+        return '';
+    }
+    /** Invalid while any radio of the group is required and none is checked. */
+    computeValidity() {
+        const group = this.getGroupRadios();
+        const required = group.some(radio => radio.required);
+        const checked = group.some(radio => radio.checked);
+        if (required && !checked && !this.disabled) {
+            return {
+                flags: { valueMissing: true },
+                message: peacockString('valueMissingRadio'),
+            };
+        }
+        return { flags: {}, message: '' };
+    }
+    selectRadio(event) {
         if (this.disabled || this.readonly)
             return;
         if (!this.checked) {
             this.checked = true;
             this.uncheckSiblings();
-            this.dispatchChange(ev);
+            this.dispatchChange(event);
         }
         this.containerElement?.focus();
-    }
-    dispatchChange(ev) {
-        this.dispatchEvent(new CustomEvent('change', {
-            detail: { value: this.value, checked: this.checked, originalEvent: ev },
-            bubbles: true,
-            composed: true,
-        }));
     }
     uncheckSiblings() {
         if (!this.name || !this.checked)
             return;
-        const radios = this.getGroupRadios();
-        radios.forEach(radio => {
-            if (radio === this)
-                return;
-            radio.checked = false;
-        });
+        for (const radio of this.getGroupRadios()) {
+            if (radio !== this)
+                radio.checked = false;
+        }
     }
     getGroupRadios() {
         if (!this.name)
@@ -357,14 +328,14 @@ let Radio = Radio_1 = class Radio extends mixinFormAssociated(mixinElementIntern
             this.getRootNode());
         return Array.from(scopeRoot.querySelectorAll(`wc-radio[name="${CSS.escape(this.name)}"]`));
     }
-    isRadioEnabled(radio) {
+    static isRadioEnabled(radio) {
         return !radio.disabled && !radio.readonly;
     }
     updateGroupFocusTarget() {
         const group = this.getGroupRadios();
         if (!group.length)
             return;
-        const enabledGroup = group.filter(radio => this.isRadioEnabled(radio));
+        const enabledGroup = group.filter(radio => Radio_1.isRadioEnabled(radio));
         if (!enabledGroup.length) {
             group.forEach(radio => {
                 radio.isGroupFocusTarget = false;
@@ -377,7 +348,7 @@ let Radio = Radio_1 = class Radio extends mixinFormAssociated(mixinElementIntern
         });
     }
     navigateGroup(direction) {
-        const group = this.getGroupRadios().filter(radio => this.isRadioEnabled(radio));
+        const group = this.getGroupRadios().filter(radio => Radio_1.isRadioEnabled(radio));
         if (!group.length)
             return;
         const currentIndex = group.indexOf(this);
@@ -399,25 +370,21 @@ let Radio = Radio_1 = class Radio extends mixinFormAssociated(mixinElementIntern
             required: this.required,
             'has-content': this.slotHasContent,
         };
+        const attributes = this.controlAttributes();
+        if (!this.isGroupFocusTarget)
+            attributes.tabindex = '-1';
         return b `
       <label class=${e(cssClasses)}>
         <div
           class="container"
-          tabindex=${this.isGroupFocusTarget
-            ? this.tabindex !== undefined
-                ? this.tabindex
-                : 0
-            : -1}
           role="radio"
-          aria-disabled=${this.disabled}
-          aria-required=${this.required}
-          aria-checked=${this.checked}
+          aria-checked=${String(this.checked)}
           @click=${this.clickHandler}
-          @mousedown=${this.mouseDownHandler}
+          @mousedown=${this.handleMouseDown}
           @keydown=${this.keyDownHandler}
-          @blur=${this.blurHandler}
-          @focus=${this.focusHandler}
-          ${spread(this.configAria)}
+          @focus=${this.handleFocusChange}
+          @blur=${this.handleFocusChange}
+          ${spread(attributes)}
         >
           <div class="state-layer"></div>
           <div class="outer-circle"></div>
@@ -427,18 +394,14 @@ let Radio = Radio_1 = class Radio extends mixinFormAssociated(mixinElementIntern
         <input
           type="radio"
           class="input-native"
-          name=${this.name}
           .value=${this.value}
           .checked=${this.checked}
           aria-hidden="true"
-          ?required=${this.required}
           ?disabled=${this.disabled}
           tabindex="-1"
         />
 
-        ${this.label
-            ? b `<div class="label">${this.label}</div>`
-            : b `<div class="label slot-container"><slot></slot></div>`}
+        ${this.renderLabel()}
       </label>
     `;
     }
@@ -447,38 +410,8 @@ Radio.DIRECTION_NEXT = 1;
 Radio.DIRECTION_PREVIOUS = -1;
 Radio.styles = [css_248z];
 __decorate([
-    n({ type: String })
-], Radio.prototype, "value", void 0);
-__decorate([
-    n({ type: String })
-], Radio.prototype, "label", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Radio.prototype, "checked", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Radio.prototype, "required", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Radio.prototype, "readonly", void 0);
-__decorate([
-    n({ type: Object })
-], Radio.prototype, "configAria", void 0);
-__decorate([
-    r()
-], Radio.prototype, "hasFocus", void 0);
-__decorate([
-    r()
-], Radio.prototype, "isActive", void 0);
-__decorate([
-    r()
-], Radio.prototype, "slotHasContent", void 0);
-__decorate([
     r()
 ], Radio.prototype, "isGroupFocusTarget", void 0);
-__decorate([
-    e$1('.container')
-], Radio.prototype, "containerElement", void 0);
 Radio = Radio_1 = __decorate([
     IndividualComponent
 ], Radio);

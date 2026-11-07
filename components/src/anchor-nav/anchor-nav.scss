@@ -1,0 +1,77 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_text-color: var(--anchor-nav-text-color, var(--color-on-surface-variant));
+  --_current-color: var(--anchor-nav-current-color, var(--color-primary));
+  --_track-color: var(--anchor-nav-track-color, var(--color-outline-variant));
+  --_marker-width: 2px;
+
+  display: block;
+}
+
+.headline {
+  @include mixin.get-typography(title-small);
+
+  margin-block-end: var(--spacing-100);
+  color: var(--color-on-surface);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.level-1 {
+  border-inline-start: var(--_marker-width) solid var(--_track-color);
+}
+
+.link {
+  @include mixin.get-typography(body-medium);
+
+  display: block;
+  margin-inline-start: calc(var(--_marker-width) * -1);
+  padding-block: var(--spacing-050);
+  padding-inline: var(--spacing-150) var(--spacing-100);
+  border-inline-start: var(--_marker-width) solid transparent;
+  color: var(--_text-color);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+
+  &:hover {
+    color: var(--color-on-surface);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+    border-radius: var(--shape-corner-extra-small);
+  }
+
+  &.current {
+    border-inline-start-color: var(--_current-color);
+    color: var(--_current-color);
+    font-weight: var(--font-weight-medium);
+  }
+}
+
+.level-2 .link {
+  padding-inline-start: var(--spacing-300);
+}
+
+.level-3 .link {
+  padding-inline-start: var(--spacing-500);
+}
+
+@media (forced-colors: active) {
+  .level-1 {
+    border-inline-start-color: CanvasText;
+  }
+
+  .link.current {
+    border-inline-start-color: Highlight;
+    outline: none;
+  }
+}

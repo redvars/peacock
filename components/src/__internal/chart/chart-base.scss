@@ -142,6 +142,12 @@
 
 // ── Legend
 
+// A line that explains the chart (ADR-030002).
+::slotted([slot='insight']) {
+  display: block;
+  margin-block-start: var(--spacing-150);
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
@@ -204,7 +210,8 @@
 
   span {
     flex: 1;
-    border-radius: var(--shape-corner-extra-small) var(--shape-corner-extra-small) 0 0;
+    border-radius: var(--shape-corner-extra-small)
+      var(--shape-corner-extra-small) 0 0;
     background: var(--color-surface-container-highest);
     animation: chart-pulse 1.6s var(--easing-standard) infinite;
   }

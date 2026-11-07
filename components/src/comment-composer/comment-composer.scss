@@ -1,0 +1,115 @@
+@use '../../scss/mixin';
+@use '../__internal/rich-text/editor-chrome';
+
+@include mixin.base-styles;
+@include editor-chrome.styles;
+
+.composer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-150, 0.75rem);
+}
+
+::slotted([slot='avatar']) {
+  flex: none;
+  margin-block-start: var(--spacing-050, 0.25rem);
+}
+
+.box {
+  flex: 1;
+  min-inline-size: 0;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  background: var(--comment-composer-background, var(--color-surface));
+  transition: border-color 0.12s ease;
+}
+
+.composer:hover .box {
+  border-color: var(--color-outline);
+}
+
+.composer.focused .box {
+  border-color: var(--color-primary);
+  outline: 1px solid var(--color-primary);
+}
+
+.composer.invalid .box {
+  border-color: var(--color-error);
+}
+
+.editor-area {
+  --_pad: var(--spacing-100, 0.5rem);
+
+  padding-inline: var(--spacing-150, 0.75rem);
+}
+
+// Closed: one line, like a text field.
+.composer:not(.open) .editor-area,
+.composer:not(.open) .editor-root,
+.composer:not(.open) .ProseMirror {
+  min-block-size: var(--_line);
+}
+
+.composer:not(.open) .editor-area {
+  min-block-size: calc(var(--_line) + 2 * var(--_pad));
+}
+
+.composer.open .editor-area {
+  max-block-size: 20rem;
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+  border-block-start: 1px solid var(--color-outline-variant);
+  border-radius: 0;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Footer controls keep their own size: a select or button, not a full-width field.
+::slotted([slot='start']) {
+  flex: none;
+  inline-size: auto;
+  min-inline-size: 0;
+}
+
+.footer .toolbar {
+  border: none;
+  padding: 0;
+  flex: 0 1 auto;
+}
+
+.spacer {
+  flex: 1;
+}
+
+// A reply the assistant drafted (ADR-030002).
+.suggestion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem) 0;
+}
+
+.suggestion-reason {
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+.error-text {
+  margin-block-start: var(--spacing-050, 0.25rem);
+  color: var(--color-error);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+:host([disabled]) .box {
+  opacity: 0.6;
+}

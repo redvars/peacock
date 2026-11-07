@@ -1,0 +1,67 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-hover-card</code> shows a rich preview, such as a profile or a link preview, while the
+  pointer rests on its trigger or the trigger has keyboard focus. The first child is the trigger;
+  the element with <code>slot="content"</code> is the card. The card can hold links and buttons.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p>
+    Reviewed by
+    <wc-hover-card id='hover-card-demo'>
+      <a href='#ana-lima'>Ana Lima</a>
+      <div slot='content' style='display: flex; flex-direction: column; gap: 0.5rem;'>
+        <div style='display: flex; gap: 0.75rem; align-items: center;'>
+          <wc-avatar name='Ana Lima'></wc-avatar>
+          <div>
+            <strong>Ana Lima</strong>
+            <div>Product designer, Lisbon</div>
+          </div>
+        </div>
+        <p style='margin: 0;'>Works on the design system and the mobile app.</p>
+        <div><wc-button size='sm' variant='outlined'>Follow</wc-button></div>
+      </div>
+    </wc-hover-card>
+    yesterday.
+  </p>
+  <script is:inline>
+    (function () {
+      const card = document.querySelector('#hover-card-demo');
+      card.addEventListener('open', () => myConsole.log('open'));
+      card.addEventListener('close', event => myConsole.log('close', event.detail.reason));
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Timing</h3>
+<p>
+  The card opens after <code>open-delay</code> (500 ms), so it does not flash while the pointer
+  crosses the page, and closes <code>close-delay</code> (300 ms) after the pointer and focus leave
+  both the trigger and the card, so the pointer can move into the card. It stays open while the
+  pointer is over it or focus is inside it. Escape and a press outside close it at once.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-hover-card open-delay='150' close-delay='600' placement='top-start'>
+    <a href='#release'>Release 3.4</a>
+    <div slot='content'>
+      <strong>Release 3.4</strong>
+      <p style='margin: 0.25rem 0 0;'>12 changes, shipped 6 November.</p>
+    </div>
+  </wc-hover-card>
+</DemoComponentCard>
+
+<h3>When to use it</h3>
+<ul>
+  <li><code>wc-tooltip</code>: a short plain-text description of a control.</li>
+  <li>
+    <code>wc-hover-card</code>: a preview of where a link goes, with optional actions. Nothing in it
+    may be the only way to do something.
+  </li>
+  <li><code>wc-popover</code>: content the person opens on purpose, by clicking.</li>
+</ul>

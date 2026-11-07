@@ -76,6 +76,8 @@
     width: 100%;
 
     top: 50%;
+    // Centering: physical on purpose, paired with the physical translate.
+    // stylelint-disable-next-line property-disallowed-list
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: var(--_button-cursor, pointer);
@@ -109,6 +111,35 @@
   .ripple {
     display: none;
   }
+}
+
+/*
+ * Loading: a spinner takes the icon's place (or sits before the label).
+ */
+.loading-indicator {
+  flex-shrink: 0;
+  inline-size: var(--button-icon-size, var(--_button-icon-size));
+  pointer-events: none;
+
+  --progress-height: var(--button-icon-size, var(--_button-icon-size));
+  --progress-container-color: var(--_button-label-text-color);
+  --progress-track-color: transparent;
+}
+
+:host([loading]) {
+  --_button-cursor: progress;
+
+  .icon-slot {
+    display: none;
+  }
+
+  .ripple {
+    display: none;
+  }
+}
+
+:host([loading][has-label]) .button {
+  gap: var(--_button-icon-label-spacing);
 }
 
 /**

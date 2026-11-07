@@ -124,9 +124,9 @@
   --_state-opacity: 0.12;
 }
 
-// ── Selected ─────────────────────────────────────────────────────────────
+// ── Current ──────────────────────────────────────────────────────────────
 
-:host([selected]) {
+:host([current]) {
   --_container-color: var(
     --list-item-selected-container-color,
     var(--color-secondary-container)
@@ -159,8 +159,8 @@
   }
 }
 
-:host([selected][disabled]),
-:host([selected][soft-disabled]) {
+:host([current][disabled]),
+:host([current][soft-disabled]) {
   --_container-color: var(--color-on-surface);
   --_container-opacity: 0.12;
 }

@@ -12,7 +12,7 @@ import { LitElement } from 'lit';
  * card or editor header. Both variants lay their actions out horizontally or vertically.</p>
  *
  * <p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of
- * actions; in a horizontal toolbar give it the <code>vertical</code> attribute.</p>
+ * actions; in a horizontal toolbar give it <code>orientation="vertical"</code>.</p>
  *
  * <p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow
  * keys along its orientation move focus between actions (Home and End jump to the first and last).
@@ -31,7 +31,7 @@ import { LitElement } from 'lit';
  * <wc-toolbar aria-label="Formatting">
  *   <wc-icon-button variant="text" color="surface" aria-label="Undo"><wc-icon name="undo"></wc-icon></wc-icon-button>
  *   <wc-icon-button variant="text" color="surface" aria-label="Redo"><wc-icon name="redo"></wc-icon></wc-icon-button>
- *   <wc-divider vertical></wc-divider>
+ *   <wc-divider orientation="vertical"></wc-divider>
  *   <wc-icon-button variant="tonal" aria-label="Bold"><wc-icon name="format_bold"></wc-icon></wc-icon-button>
  *   <wc-icon-button variant="text" color="surface" aria-label="Italic"><wc-icon name="format_italic"></wc-icon></wc-icon-button>
  * </wc-toolbar>
@@ -74,21 +74,12 @@ export declare class Toolbar extends LitElement {
      * Raises the floating toolbar to a higher elevation. Has no effect on the flat variant.
      */
     elevated: boolean;
-    /** The item that holds the toolbar's single tab stop. */
-    private __activeItem;
+    /** The toolbar's single tab stop, moved with the arrow keys along its orientation. */
+    private readonly roving;
     connectedCallback(): void;
-    firstUpdated(): void;
     updated(changed: Map<string, unknown>): void;
     /** Actions that can take focus, in slot order. */
     private __getItems;
-    /** Gives the active item `tabindex="0"` and every other item `tabindex="-1"`. */
-    private __syncTabStops;
-    /** Makes `item` the tab stop and focuses it. */
-    private __focusItem;
-    /** Finds the toolbar item an event came from. */
-    private __itemFromEvent;
     private __handleSlotChange;
-    private __handleFocusIn;
-    private __handleKeyDown;
     render(): import("lit-html").TemplateResult<1>;
 }

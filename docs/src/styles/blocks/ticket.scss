@@ -1,0 +1,76 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Ticket block (pages/blocks/ticket/). The frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.ticket-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-200);
+  background: var(--color-surface-container-lowest);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-400);
+  }
+}
+
+.ticket-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.ticket-number {
+  margin-block-end: var(--spacing-050);
+}
+
+.ticket-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.ticket-layout {
+  display: grid;
+  gap: var(--spacing-400);
+  grid-template-columns: minmax(0, 1fr);
+
+  @include mixin.for-tablet-landscape-up {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+  }
+}
+
+.ticket-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  min-width: 0;
+}
+
+.ticket-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+
+  @include mixin.for-tablet-landscape-up {
+    order: 0;
+  }
+}
+
+.ticket-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-100);
+}
+
+.ticket-meta {
+  margin-block-start: var(--spacing-100);
+}

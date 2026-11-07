@@ -1,0 +1,20 @@
+---
+export const title = 'Inline and size';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>inline</code> shows the Markdown as a single run of text without block
+  spacing: paragraphs and list items join with spaces. Use it for a one-line
+  summary or an activity entry. <code>size="sm"</code> uses the smaller body
+  text, as on the editors.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p style="margin: 0;">
+    <strong>Ana Lima</strong> changed the priority:
+    <wc-markdown inline value="**High** because [@Ravi Kumar](mention:usr_7) is blocked"></wc-markdown>
+  </p>
+  <wc-markdown size="sm" value="Small text with a [link](https://peacock.redvars.com) and `code`."></wc-markdown>
+</DemoComponentCard>

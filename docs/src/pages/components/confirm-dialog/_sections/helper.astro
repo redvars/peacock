@@ -1,0 +1,34 @@
+---
+export const title = 'From script';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>confirmDialog(options)</code> asks without any markup: it appends a dialog to the page,
+  resolves to <code>true</code> when the person confirms and <code>false</code> when they cancel or
+  press Escape, and removes the dialog once it has closed. The options mirror the attributes:
+  <code>headline</code>, <code>message</code> (plain text), <code>confirmLabel</code>,
+  <code>cancelLabel</code>, <code>intent</code> and <code>confirmText</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='confirm-dialog-helper-open'>Sign out</wc-button>
+  <script type='module' is:inline>
+    import { confirmDialog } from '/assets/peacock/confirm-dialog.js';
+
+    document.querySelector('#confirm-dialog-helper-open').addEventListener('click', async () => {
+      const confirmed = await confirmDialog({
+        headline: 'Sign out?',
+        message: 'You will need to sign in again on this device.',
+        confirmLabel: 'Sign out',
+      });
+      myConsole.log(`confirmed: ${confirmed}`);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  In an app, import it from the package:
+  <code>import &#123; confirmDialog &#125; from '@redvars/peacock';</code>
+</p>

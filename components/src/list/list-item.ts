@@ -22,7 +22,7 @@ export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
  * @tag wc-list-item
  * @rawTag list-item
  *
- * @summary A list item with start, end and content slots.
+ * @summary One row of a list, with a label, optional text above and below it, and leading and trailing content.
  *
  * @slot - The item's label.
  * @slot start - Leading content, such as an icon or avatar.
@@ -31,22 +31,24 @@ export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
  * @slot headline - The label, as an alternative to the default slot.
  * @slot supporting-text - Text below the label.
  * @slot trailing-supporting-text - Short text before the `end` slot, such as a count.
- * @slot leading - Deprecated: use `start`. Rendered in the same place.
- * @slot trailing - Deprecated: use `end`. Rendered in the same place.
  *
  * @cssprop --list-item-container-color - Row background.
  * @cssprop --list-item-label-text-color - Label color.
  * @cssprop --list-item-icon-color - Color of the `start` and `end` content.
  * @cssprop --list-item-state-color - Hover and press state layer color.
- * @cssprop --list-item-selected-container-color - Row background when selected.
- * @cssprop --list-item-selected-label-text-color - Label color when selected.
- * @cssprop --list-item-selected-icon-color - `start` and `end` color when selected.
+ * @cssprop --list-item-selected-container-color - Row background when current.
+ * @cssprop --list-item-selected-label-text-color - Label color when current.
+ * @cssprop --list-item-selected-icon-color - `start` and `end` color when current.
  * @cssprop --list-item-container-shape - Corner radius of the row.
  * @cssprop --list-item-outer-container-shape - Corner radius of the outer corners of the first and last rows (set by `wc-list` in the segmented variant).
  *
+ * @overview
+ * <p>Use <code>current</code> for the row of the current page in a navigation list, or
+ * <code>wc-listbox</code> to let the person choose items.</p>
+ *
  * @example
  * ```html
- * <wc-list-item selected>
+ * <wc-list-item href="/profile" current>
  *   <wc-icon slot="start" name="person"></wc-icon>
  *   Profile
  *   <wc-icon slot="end" name="chevron_right"></wc-icon>
@@ -70,10 +72,16 @@ export class ListItem extends mixinBaseButton(
 
   // ── Properties ───────────────────────────────────────────────────────────
 
-  /** Shows the row as selected, actionable or not. */
-  @property({ type: Boolean, reflect: true }) selected = false;
+  /**
+   * Marks the row of the current page or location in a navigation list: `aria-current="page"`
+   * on a link row, `aria-current="true"` otherwise.
+   */
+  @property({ type: Boolean, reflect: true }) current = false;
 
-  /** When true, renders the list-item in a loading skeleton state. */
+  /**
+   * When true, renders the list-item as a placeholder (a skeleton) while its content is not known
+   * yet, and ignores clicks. It is a look, not a busy state (which components spell `loading`).
+   */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
   /** Renders the row as a button, with hover, press and focus states. */
@@ -180,6 +188,8 @@ export class ListItem extends mixinBaseButton(
 
     // Needed for closure conformance
     const { ariaLabel } = this as ARIAMixinStrict;
+    let ariaCurrent: 'page' | 'true' | typeof nothing = nothing;
+    if (this.current) ariaCurrent = isElementLink ? 'page' : 'true';
 
     if (!clickable) {
       return html`
@@ -187,6 +197,7 @@ export class ListItem extends mixinBaseButton(
           id="list-item"
           class=${classMap(cssClasses)}
           aria-label="${ariaLabel || nothing}"
+          aria-current=${ariaCurrent}
         >
           ${this.renderContent(clickable)}
         </div>
@@ -200,7 +211,8 @@ export class ListItem extends mixinBaseButton(
           class=${classMap(cssClasses)}
           ?disabled=${this.disabled}
           aria-label="${ariaLabel || nothing}"
-          ?aria-disabled=${this.softDisabled}
+          aria-disabled=${this.softDisabled ? 'true' : nothing}
+          aria-current=${ariaCurrent}
           @click=${this.__dispatchClick}
         >
           ${this.renderContent(clickable)}
@@ -214,10 +226,11 @@ export class ListItem extends mixinBaseButton(
         class=${classMap(cssClasses)}
         href=${this.href}
         target=${this.target}
-        ?rel=${this.rel}
-        ?download=${this.download}
+        rel=${this.rel || nothing}
+        download=${this.download || nothing}
         tabindex=${this.disabled ? '-1' : '0'}
         aria-disabled=${String(this.disabled || this.softDisabled)}
+        aria-current=${ariaCurrent}
         @click=${this.__dispatchClick}
       >
         ${this.renderContent(clickable)}
@@ -226,11 +239,10 @@ export class ListItem extends mixinBaseButton(
   }
 
   renderContent(clickable: boolean) {
-    // `leading` / `trailing` are deprecated aliases of `start` / `end`; both
-    // land in the same wc-item slot. The slots are rendered only when used so
-    // an empty start or end column does not take up space.
-    const hasStart = this.__hasNamedSlot('start', 'leading');
-    const hasEnd = this.__hasNamedSlot('end', 'trailing');
+    // The start and end slots are rendered only when used so an empty start or
+    // end column does not take up space.
+    const hasStart = this.__hasNamedSlot('start');
+    const hasEnd = this.__hasNamedSlot('end');
     const hasTrailingSupportingText = this.__hasNamedSlot(
       'trailing-supporting-text',
     );
@@ -253,8 +265,7 @@ export class ListItem extends mixinBaseButton(
         <wc-skeleton class="skeleton" slot="container"></wc-skeleton>
 
         ${hasStart
-          ? html`<slot class="icon-slot" name="start" slot="start"></slot
-              ><slot class="icon-slot" name="leading" slot="start"></slot>`
+          ? html`<slot class="icon-slot" name="start" slot="start"></slot>`
           : nothing}
         <slot name="overline" slot="overline"></slot>
         <slot name="headline" slot="headline"></slot>
@@ -267,8 +278,7 @@ export class ListItem extends mixinBaseButton(
             ></slot>`
           : nothing}
         ${hasEnd
-          ? html`<slot class="icon-slot" name="end" slot="end"></slot
-              ><slot class="icon-slot" name="trailing" slot="end"></slot>`
+          ? html`<slot class="icon-slot" name="end" slot="end"></slot>`
           : nothing}
       </wc-item>
     `;

@@ -1,0 +1,21 @@
+---
+export const title = 'Accessibility';
+export const order = 400;
+---
+
+<p>
+  The diff is a native <code>table</code> named by <code>label</code> (default "Changes") and
+  described by the summary, such as "3 additions, 2 deletions". A table rather than a grid: the
+  lines are read, not edited or selected, so screen readers' table navigation (by row, and by
+  old and new column in split view) is enough, and no extra arrow-key model is needed. The fold
+  buttons are ordinary Tab stops, and the scroll area is focusable for keyboard scrolling.
+</p>
+<ul>
+  <li>
+    Changed lines do not rely on color: each has a <code>−</code> or <code>+</code> marker, and
+    screen readers hear "Removed line 12" or "Added line 13" before the text. Line number cells
+    are hidden from them, since that text already carries the number.
+  </li>
+  <li>In forced-colors mode the fills drop away; the markers stay and changed words are underlined.</li>
+  <li>Split view has "Old" and "New" column headers for screen readers.</li>
+</ul>

@@ -1,0 +1,63 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-kbd</code> shows a keyboard shortcut. Give it the keys joined by <code>+</code>;
+  <code>mod</code> is Command on Apple platforms and Ctrl elsewhere, so one shortcut reads right
+  for everyone.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p style='display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;'>
+    <wc-kbd keys='mod+k'></wc-kbd>
+    <wc-kbd keys='mod+shift+p'></wc-kbd>
+    <wc-kbd keys='alt+up'></wc-kbd>
+    <wc-kbd keys='shift+enter'></wc-kbd>
+  </p>
+</DemoComponentCard>
+
+<h3>Platform styles</h3>
+<p>
+  On Apple platforms modifiers show as symbols with no separators, as in macOS menus; elsewhere
+  they show as names joined by <code>+</code>. The person's platform is detected;
+  <code>platform="apple"</code> or <code>platform="other"</code> forces one, for documentation.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; grid-template-columns: auto auto; gap: 0.75rem 2rem; align-items: center;'>
+    <span>Apple</span><wc-kbd keys='mod+alt+shift+backspace' platform='apple'></wc-kbd>
+    <span>Windows, Linux</span><wc-kbd keys='mod+alt+shift+backspace' platform='other'></wc-kbd>
+  </div>
+</DemoComponentCard>
+
+<h3>In text</h3>
+<p>
+  Without <code>keys</code>, the content shows as one key cap. The caps scale with the
+  surrounding text.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p>Press <wc-kbd>Esc</wc-kbd> to close, or <wc-kbd keys='mod+enter'></wc-kbd> to send.</p>
+</DemoComponentCard>
+
+<h3>Key names</h3>
+<p>
+  <code>mod</code>, <code>ctrl</code>, <code>meta</code> (<code>cmd</code>), <code>alt</code>
+  (<code>option</code>), <code>shift</code>, <code>enter</code>, <code>escape</code>
+  (<code>esc</code>), <code>tab</code>, <code>backspace</code>, <code>delete</code>,
+  <code>space</code>, <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>,
+  <code>pageup</code>, <code>pagedown</code>, <code>home</code>, <code>end</code> and
+  <code>capslock</code>. Any other key shows as written, a single letter upper-cased;
+  <code>ctrl++</code> is Ctrl and the plus key.
+</p>
+
+<h3>Accessibility</h3>
+<p>
+  Screen readers read symbols such as ⌘ and ⇧ badly or not at all. The key caps are hidden from
+  them and a spelled-out copy, such as "Control+Shift+P", is read instead. The spoken and shown
+  names are Peacock strings (<code>kbdControl</code>, <code>kbdCtrlShort</code>, ...) and can be
+  translated with <code>setPeacockStrings()</code>.
+</p>

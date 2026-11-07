@@ -1,0 +1,72 @@
+---
+export const title = 'Value and events';
+export const order = 200;
+---
+
+<p>
+  The value is a <code>DocumentValue</code>: the page setup and three Tiptap
+  JSON documents. JSON keeps everything the editor can show, which Markdown
+  cannot: alignment, text color, page size, margins, page breaks, and the
+  header and footer. Store it as is, and set it back to load the document.
+</p>
+
+<pre><code>{'{'}
+  version: 1,
+  page: {'{'} size: 'a4', orientation: 'portrait',
+          margins: {'{'} top: 25.4, right: 25.4, bottom: 25.4, left: 25.4 {'}'} {'}'},  // millimetres
+  header: {'{'} type: 'doc', content: [...] {'}'},
+  footer: {'{'} type: 'doc', content: [...] {'}'},
+  body:   {'{'} type: 'doc', content: [...] {'}'},
+{'}'}</code></pre>
+
+<p>
+  <code>input</code> fires with <code>{'{ value }'}</code> as the document
+  changes, <code>debounce</code> milliseconds after typing stops (400 by
+  default), and <code>change</code> when focus leaves after an edit. A value
+  set on the editor loads at once.
+</p>
+
+<h3 class="text-title-medium">Exports</h3>
+<ul>
+  <li>
+    <code>getMarkdown()</code> returns the body as Markdown, for search
+    indexes, notifications or a <code>wc-markdown</code> preview. Alignment,
+    colors, the header and footer are left out; page breaks become
+    <code>&lt;!-- page break --&gt;</code>.
+  </li>
+  <li><code>getHTML()</code> returns the body as HTML, for email.</li>
+  <li>
+    <code>importMarkdown(markdown)</code> replaces the body with Markdown, for
+    example to turn a <code>wc-markdown-editor</code> description into a
+    document.
+  </li>
+  <li>
+    <code>print()</code> prints the pages exactly as they look on screen,
+    with the header, footer and page numbers, on white paper whatever the
+    theme.
+  </li>
+</ul>
+
+<h3 class="text-title-medium">Images</h3>
+<p>
+  Adding an image (the toolbar button, a paste or a drop) fires
+  <code>image-upload</code> with the <code>file</code> and a
+  <code>respond(src, alt?)</code> function. Store the file and call
+  <code>respond</code> with its address; the image is inserted where it was
+  added. Peacock never uploads files and never embeds them in the value. Only
+  web and relative addresses are accepted. Images can be resized by dragging
+  their corners.
+</p>
+
+<pre><code>editor.addEventListener('image-upload', async event =&gt; {'{'}
+  const {'{ file, respond }'} = event.detail;
+  const url = await uploadToStorage(file);   // your storage
+  respond(url, file.name);
+{'}'});</code></pre>
+
+<h3 class="text-title-medium">Mentions</h3>
+<p>
+  Mentions work as on <code>wc-markdown-editor</code>: answer
+  <code>search</code> by setting <code>suggestions</code>.
+  <code>triggers=""</code> turns them off.
+</p>

@@ -1,0 +1,47 @@
+---
+export const title = 'Presets';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>presets</code> lists ready-made ranges beside the calendar. Each preset is
+  <code>{'{ label, start, end }'}</code> with ISO dates; picking one sets the value, fires
+  <code>input</code> and <code>change</code>, and closes the calendar. Presets with a date outside
+  <code>min</code>/<code>max</code> are disabled. From HTML, pass the list as JSON; from script, set
+  the property to an array.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-date-range-field
+      label='Report period'
+      presets='[{"label":"First week","start":"2026-11-01","end":"2026-11-07"},{"label":"Second week","start":"2026-11-08","end":"2026-11-14"},{"label":"November","start":"2026-11-01","end":"2026-11-30"}]'
+    ></wc-date-range-field>
+  </div>
+</DemoComponentCard>
+
+<p>Presets relative to today, such as "Last 7 days", are computed in script:</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-date-range-field id='date-range-field-relative' label='Activity'></wc-date-range-field>
+  </div>
+  <script is:inline>
+    (function () {
+      const iso = function (date) {
+        return date.toISOString().slice(0, 10);
+      };
+      const daysAgo = function (days) {
+        const date = new Date();
+        date.setDate(date.getDate() - days);
+        return iso(date);
+      };
+      document.querySelector('#date-range-field-relative').presets = [
+        { label: 'Last 7 days', start: daysAgo(6), end: daysAgo(0) },
+        { label: 'Last 30 days', start: daysAgo(29), end: daysAgo(0) },
+        { label: 'Last 90 days', start: daysAgo(89), end: daysAgo(0) },
+      ];
+    })();
+  </script>
+</DemoComponentCard>

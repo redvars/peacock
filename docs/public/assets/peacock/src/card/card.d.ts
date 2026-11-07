@@ -5,7 +5,21 @@ declare const Card_base: typeof LitElement & import("../__internal/mixins/MixinC
  * @label Card
  * @tag wc-card
  * @rawTag card
- * @summary A surface that groups content and actions about one subject. Set `actionable` to make the whole card a button, or `href` to make it a link.
+ * @summary A surface that groups content and actions about one subject.
+ *
+ * @overview
+ * <p>A card is <code>elevated</code> (the default), <code>filled</code> or <code>outlined</code>.
+ * It adds no padding of its own: put text in <code>wc-card-content</code>, which can sit next to
+ * edge-to-edge media.</p>
+ * <p>Set <code>actionable</code> to make the whole card a single button that fires
+ * <code>click</code>, or <code>href</code> (with <code>target</code>, <code>rel</code> and
+ * <code>download</code>) to make it a link. The content of an actionable or link card is inert, so
+ * don't put buttons or links inside one; use a plain card with its own actions instead.
+ * <code>throttle-delay</code> throttles activation.</p>
+ * <p><code>disabled</code> dims the card and makes its content inert; an actionable or link card
+ * also stops responding to clicks and leaves the tab order. With <code>disabled-reason</code> it
+ * stays focusable and screen readers read the reason with it.</p>
+ *
  * @cssprop --card-container-shape - Corner radius of the card. Defaults to `--shape-corner-large`.
  * @cssprop --card-padding - Padding inside the card, around its children. Defaults to 0; `wc-card-content` adds its own padding.
  * @cssprop --card-gap - Gap between the card's children. Defaults to 0.

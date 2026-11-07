@@ -13,7 +13,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-code-editor id='read-only-css-editor' language='css' label='tokens.css' readonly show-readonly-badge style='display:block; width: 100%; --code-editor-height: 12rem;'></wc-code-editor>
+  <wc-code-editor id='read-only-css-editor' language='css' file-name='tokens.css' readonly show-readonly-badge style='display:block; width: 100%; --code-editor-height: 12rem;'></wc-code-editor>
   <script is:inline>
     document.getElementById('read-only-css-editor').value = `:root {
   --color-primary: var(--color-primary-40);

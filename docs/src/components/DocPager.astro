@@ -1,0 +1,50 @@
+---
+// Previous/next cards at the end of a docs page. Blocks, Foundations, Frameworks, component
+// and chart pages all end with it. Styles: styles/layout/doc-page.scss (.doc-pager).
+import '../styles/layout/doc-page.scss';
+
+export interface DocPagerLink {
+  label: string;
+  href: string;
+  /** One line under the title. */
+  description?: string;
+}
+
+interface Props {
+  previous?: DocPagerLink;
+  next?: DocPagerLink;
+  /** Accessible name of the nav, for example "Components". */
+  label: string;
+  previousCaption?: string;
+  nextCaption?: string;
+}
+
+const { previous, next, label, previousCaption = 'Previous', nextCaption = 'Next' } = Astro.props;
+---
+
+{(previous || next) && (
+  <nav class='doc-pager' aria-label={`${label} pages`} data-pagefind-ignore='all'>
+    {previous ? (
+      <a class='doc-pager-link' href={previous.href} rel='prev'>
+        <span class='doc-pager-caption text-label-medium'>
+          <wc-icon name='arrow_back' aria-hidden='true'></wc-icon>
+          {previousCaption}
+        </span>
+        <span class='doc-pager-title text-title-medium'>{previous.label}</span>
+        {previous.description && <span class='doc-pager-description text-body-small'>{previous.description}</span>}
+      </a>
+    ) : (
+      <span class='doc-pager-spacer' aria-hidden='true'></span>
+    )}
+    {next && (
+      <a class='doc-pager-link doc-pager-next' href={next.href} rel='next'>
+        <span class='doc-pager-caption text-label-medium'>
+          {nextCaption}
+          <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+        </span>
+        <span class='doc-pager-title text-title-medium'>{next.label}</span>
+        {next.description && <span class='doc-pager-description text-body-small'>{next.description}</span>}
+      </a>
+    )}
+  </nav>
+)}

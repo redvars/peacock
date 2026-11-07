@@ -1,0 +1,94 @@
+---
+export const title = 'Collaboration';
+export const order = 180;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Several people can edit a document at once. Set <code>collaboration</code>
+  to <code>{'{ document, provider, user }'}</code>:
+</p>
+<ul>
+  <li>
+    <code>document</code>: a <code>Y.Doc</code> from
+    <a href="https://yjs.dev" target="_blank" rel="noopener noreferrer">Yjs</a>.
+    Its fragments <code>body</code>, <code>header</code> and
+    <code>footer</code> and its map <code>page</code> hold the document.
+  </li>
+  <li>
+    <code>provider</code>: the connection to the others, such as
+    <code>y-websocket</code>, Hocuspocus or your own server. Its
+    <code>awareness</code> carries each person's caret and name.
+  </li>
+  <li>
+    <code>user</code>: the person editing here,
+    <code>{'{ name, color?, avatar? }'}</code>.
+  </li>
+</ul>
+<p>
+  Edits merge live without conflicts, including the header, footer, page setup
+  and comment highlights. Other people's carets show with their names, and
+  their avatars appear in the toolbar; <code>presence-change</code> lists who
+  is there. Undo only undoes your own edits. Edits from others update
+  <code>value</code> without firing <code>input</code>, so save from one place
+  (usually the server) rather than from every editor. The first person into an
+  empty shared document brings the editor's <code>value</code>.
+</p>
+<p>
+  Install <code>yjs</code> next to Peacock; it is loaded only when
+  <code>collaboration</code> is set, and your provider and the editor must use
+  the same copy.
+</p>
+
+<pre><code>import * as Y from 'yjs';
+import {'{ WebsocketProvider }'} from 'y-websocket';
+
+const doc = new Y.Doc();
+const provider = new WebsocketProvider('wss://collab.example.com', 'policy-42', doc);
+editor.collaboration = {'{'}
+  document: doc,
+  provider,
+  user: {'{'} name: 'Ana Lima', color: '#1a73e8' {'}'},
+{'}'};</code></pre>
+
+<p>
+  The two editors below are two people on one document, connected in the
+  page. Type in either one, change the page setup, or comment, and watch the
+  other.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: grid; gap: 16px; width: 100%;">
+    <wc-document-editor
+      id="collab-ana"
+      label="Ana's view"
+      style="--document-editor-height: 24rem;"
+    ></wc-document-editor>
+    <wc-document-editor
+      id="collab-ravi"
+      label="Ravi's view"
+      style="--document-editor-height: 24rem;"
+    ></wc-document-editor>
+  </div>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
+  <script type="module" is:inline>
+    import { connect } from '/assets/js/collaboration-demo.js';
+
+    const ana = document.getElementById('collab-ana');
+    const ravi = document.getElementById('collab-ravi');
+    window.peacockMentionDemo(ana);
+    window.peacockMentionDemo(ravi);
+    await customElements.whenDefined('wc-document-editor');
+    await ana.updateComplete;
+    ana.importMarkdown(
+      '# Launch plan\n\nWe launch the new billing page in **Q1**. Edit this text in either view.',
+    );
+    await connect(
+      [ana, ravi],
+      [
+        { name: 'Ana Lima', color: '#1a73e8' },
+        { name: 'Ravi Kumar', color: '#d93025' },
+      ],
+    );
+  </script>
+</DemoComponentCard>

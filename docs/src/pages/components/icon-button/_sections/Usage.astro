@@ -5,5 +5,50 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <wc-icon-button><wc-icon name='home'></wc-icon></wc-icon-button>
+  <wc-icon-button aria-label='Home'><wc-icon name='home'></wc-icon></wc-icon-button>
+</DemoComponentCard>
+
+<h3>Accessible name</h3>
+<p>
+  An icon button shows no text, so give it an <code>aria-label</code>. Without one, its
+  <code>tooltip</code> text is used as the accessible name. With neither (and no slotted text), the
+  button logs a warning once per page.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-icon-button aria-label='Delete row'><wc-icon name='delete'></wc-icon></wc-icon-button>
+  <wc-icon-button tooltip='Settings'><wc-icon name='settings'></wc-icon></wc-icon-button>
+</DemoComponentCard>
+
+<h3>Toggle</h3>
+<p>
+  Add <code>toggle</code> for a toggle button: it renders <code>aria-pressed</code>, flips
+  <code>selected</code> on click and fires <code>change</code> with <code>detail.selected</code>.
+  <code>selected</code> has no effect without <code>toggle</code>.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-icon-button toggle aria-label='Bold'><wc-icon name='format_bold'></wc-icon></wc-icon-button>
+  <wc-icon-button toggle selected aria-label='Italic'><wc-icon name='format_italic'></wc-icon></wc-icon-button>
+</DemoComponentCard>
+
+<h3>Loading</h3>
+<p>
+  <code>loading</code> swaps the icon for a spinner, sets <code>aria-busy="true"</code> and ignores
+  clicks.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-icon-button loading aria-label='Sync'><wc-icon name='sync'></wc-icon></wc-icon-button>
+</DemoComponentCard>
+
+<h3>Links</h3>
+<p>
+  With <code>href</code>, the icon button renders a link (common in toolbars). This stays supported on
+  <code>wc-icon-button</code>; for a link with a text label use
+  <a href='/components/link-button'><code>wc-link-button</code></a>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-icon-button href='#' aria-label='Open help'><wc-icon name='help'></wc-icon></wc-icon-button>
 </DemoComponentCard>

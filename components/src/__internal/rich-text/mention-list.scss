@@ -1,0 +1,107 @@
+@use '../../../scss/mixin';
+
+// The mention suggestion list of `RichTextMentionController`, the same look as wc-mention-input's.
+// A component's stylesheet adds it with `@use '../__internal/rich-text/mention-list';` and
+// `@include mention-list.styles;`. Public custom properties: `--mention-list-width` and
+// `--mention-list-max-height`.
+
+@mixin styles {
+  .mention-anchor {
+    position: fixed;
+    inline-size: 1px;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .mention-list {
+    --_option-height: calc(2.75rem + var(--density, 0) * 0.25rem);
+
+    // Reset the UA popover styles; floating-ui positions the list in the top layer.
+    margin: 0;
+    border: 0;
+    inset: auto;
+    position: fixed;
+    top: 0;
+    // floating-ui positions the list with physical left/top.
+    // stylelint-disable-next-line property-disallowed-list
+    left: 0;
+    box-sizing: border-box;
+    inline-size: var(--mention-list-width, 18rem);
+    max-inline-size: calc(100vw - 2 * var(--spacing-100, 0.5rem));
+    max-block-size: min(
+      var(--mention-list-max-height, 16rem),
+      var(--floating-available-height, 100vh)
+    );
+    overflow-y: auto;
+    padding: var(--spacing-050, 0.25rem);
+    background-color: var(--color-surface-container);
+    color: var(--color-on-surface);
+    border-radius: var(--shape-corner-small);
+    box-shadow: var(--elevation-level2);
+  }
+
+  .mention-option {
+    align-items: center;
+    border-radius: var(--shape-corner-extra-small);
+    cursor: pointer;
+    display: flex;
+    gap: var(--spacing-100, 0.5rem);
+    min-block-size: var(--_option-height);
+    padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+
+    &.active {
+      background-color: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+    }
+  }
+
+  .mention-option-avatar {
+    flex: none;
+  }
+
+  .mention-option-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+
+  .mention-option-label {
+    @include mixin.get-typography-not-important(body-medium);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mention-option-description {
+    @include mixin.get-typography-not-important(body-small);
+    color: var(--color-on-surface-variant);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mention-loading {
+    @include mixin.get-typography-not-important(body-medium);
+    align-items: center;
+    color: var(--color-on-surface-variant);
+    display: flex;
+    gap: var(--spacing-100, 0.5rem);
+    padding: var(--spacing-100, 0.5rem);
+  }
+
+  .mention-loading-indicator {
+    --progress-height: 1.25rem;
+  }
+
+  @media (forced-colors: active) {
+    .mention-list {
+      border: 1px solid CanvasText;
+    }
+
+    .mention-option.active {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+  }
+}

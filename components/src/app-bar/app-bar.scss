@@ -50,19 +50,21 @@
 
 /* ---- Slots ---- */
 
-.leading,
-.trailing {
+.start,
+.end {
   display: flex;
   align-items: center;
   flex-shrink: 0;
   gap: 0.25rem;
 }
 
-.leading {
+.start {
   --icon-color: var(--_app-bar-leading-icon-color);
 }
 
-.trailing {
+.end {
+  // Pushes the actions to the end in the two-row variants, which have no headline in the row.
+  margin-inline-start: auto;
   --icon-color: var(--_app-bar-trailing-icon-color);
 }
 

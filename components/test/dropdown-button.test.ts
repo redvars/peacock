@@ -92,6 +92,60 @@ describe('DropdownButton', () => {
     expect(parts(el).menu.open).to.be.false;
   });
 
+  it('fires its own open and close, with the menu reason, and updates the trigger ARIA', async () => {
+    const el = await fixture<DropdownButton>(html`
+      <wc-dropdown-button>
+        Actions
+        <wc-menu-item slot="menu">Edit</wc-menu-item>
+      </wc-dropdown-button>
+    `);
+    const { triggerEl, menu } = parts(el);
+    const seen: string[] = [];
+    const record = (event: Event) => {
+      const { reason } =
+        (event as CustomEvent<{ reason?: string } | null>).detail ?? {};
+      const from = event.target === el ? 'host' : 'inner';
+      seen.push([event.type, from, reason].filter(Boolean).join(':'));
+    };
+    document.addEventListener('open', record);
+    document.addEventListener('close', record);
+    const aria = () =>
+      (triggerEl as HTMLElement & { configAria: Record<string, string> })
+        .configAria;
+
+    expect(aria()['aria-expanded']).to.equal('false');
+    expect(aria()['aria-controls']).to.equal(menu.id);
+    expect(aria()['aria-haspopup']).to.equal('menu');
+
+    el.show();
+    await settle(el);
+    await el.updateComplete;
+    expect(aria()['aria-expanded']).to.equal('true');
+    expect(triggerEl.classList.contains('active')).to.be.true;
+
+    el.close();
+    await settle(el);
+    await el.updateComplete;
+    expect(aria()['aria-expanded']).to.equal('false');
+    document.removeEventListener('open', record);
+    document.removeEventListener('close', record);
+    expect(seen).to.deep.equal(['open:host', 'close:host:api']);
+  });
+
+  it('passes logical placements to the menu', async () => {
+    const el = await fixture<DropdownButton>(html`
+      <wc-dropdown-button placement="end-start">
+        Actions
+        <wc-menu-item slot="menu">Edit</wc-menu-item>
+      </wc-dropdown-button>
+    `);
+    expect(parts(el).menu.placement).to.equal('end-start');
+
+    el.placement = 'top-end';
+    await el.updateComplete;
+    expect(parts(el).menu.placement).to.equal('top-end');
+  });
+
   it('passes menu-variant to the menu', async () => {
     const el = await fixture<DropdownButton>(html`
       <wc-dropdown-button menu-variant="expressive">

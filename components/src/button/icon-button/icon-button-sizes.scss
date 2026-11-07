@@ -11,9 +11,8 @@
   --_button-container-padding: 0;
 }
 
-:host([size='xs']),
-:host([size='extra-small']) {
-  --button-height: 2rem;
+:host([size='xs']) {
+  --button-height: calc(2rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.25rem;
 
   &:host([shape='narrow']) {
@@ -25,9 +24,8 @@
   }
 }
 
-:host([size='sm']),
-:host([size='small']) {
-  --button-height: 2.5rem;
+:host([size='sm']) {
+  --button-height: calc(2.5rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.25rem;
 
   &:host([shape='narrow']) {
@@ -39,14 +37,12 @@
   }
 }
 
-:host([size='md']),
-:host([size='medium']) {
-  --button-height: 3.5rem;
+:host([size='md']) {
+  --button-height: calc(3.5rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.5rem;
 }
 
-:host([size='lg']),
-:host([size='large']) {
+:host([size='lg']) {
   --button-height: 6rem;
   --_button-icon-size: 2rem;
 }

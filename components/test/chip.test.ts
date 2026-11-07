@@ -37,19 +37,58 @@ describe('Chip', () => {
     expect(el.shadowRoot!.querySelector('.selected-icon')).to.exist;
   });
 
-  it('fires dismiss, and the deprecated tag--dismiss, from the close button', async () => {
+  it('fires a composed dismiss from the close button', async () => {
     const el = await fixture<Chip>(html`<wc-chip dismissible>Chip</wc-chip>`);
     const close = el.shadowRoot!.querySelector<HTMLButtonElement>('.close-btn');
     expect(close).to.exist;
 
-    let legacyFired = false;
-    el.addEventListener('tag--dismiss', () => {
-      legacyFired = true;
-    });
-
     setTimeout(() => close!.click());
-    await oneEvent(el, 'dismiss');
+    const event = await oneEvent(el, 'dismiss');
 
-    expect(legacyFired).to.be.true;
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+  });
+
+  it('renders the dismiss button next to the chip button, not inside it', async () => {
+    const el = await fixture<Chip>(html`<wc-chip dismissible>Chip</wc-chip>`);
+    const close = el.shadowRoot!.querySelector('.close-btn')!;
+
+    expect(close.closest('.chip')).to.be.null;
+    expect(close.parentNode).to.equal(el.shadowRoot);
+  });
+
+  it('has no aria-pressed unless it is selectable', async () => {
+    const plain = await fixture<Chip>(html`<wc-chip selected>Chip</wc-chip>`);
+    expect(
+      plain.shadowRoot!.querySelector('.chip')!.hasAttribute('aria-pressed'),
+    ).to.be.false;
+
+    const toggle = await fixture<Chip>(
+      html`<wc-chip selectable>Chip</wc-chip>`,
+    );
+    const button = toggle.shadowRoot!.querySelector('.chip')!;
+    expect(button.getAttribute('aria-pressed')).to.equal('false');
+
+    toggle.selected = true;
+    await toggle.updateComplete;
+    expect(button.getAttribute('aria-pressed')).to.equal('true');
+  });
+
+  it('puts aria-pressed on a selectable link chip too', async () => {
+    const el = await fixture<Chip>(
+      html`<wc-chip selectable selected href="/x">Chip</wc-chip>`,
+    );
+    expect(
+      el.shadowRoot!.querySelector('a.chip')!.getAttribute('aria-pressed'),
+    ).to.equal('true');
+  });
+
+  it('disables the dismiss button with the chip', async () => {
+    const el = await fixture<Chip>(
+      html`<wc-chip dismissible disabled>Chip</wc-chip>`,
+    );
+    expect(
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.close-btn')!.disabled,
+    ).to.be.true;
   });
 });

@@ -2,20 +2,29 @@
 // A static wireframe of a component for its card on the Components overview, in the style of
 // the Blocks previews. Plain markup and CSS (styles/wireframe.scss, styles/component-previews.scss).
 // Complex components are drawn here; simpler ones in ComponentPreviewControls.astro.
-import { isComplexPreview, isControlPreview } from '../_data/component-previews';
+import {
+  isComplexPreview,
+  isControlPreview,
+  isV4PreviewA,
+  isV4PreviewB,
+} from '../_data/component-previews';
 import ComponentPreviewControls from './ComponentPreviewControls.astro';
+import ComponentPreviewV4A from './ComponentPreviewV4A.astro';
+import ComponentPreviewV4B from './ComponentPreviewV4B.astro';
 
 interface Props {
   name: string;
 }
 const { name } = Astro.props;
+const drawn =
+  isComplexPreview(name) || isControlPreview(name) || isV4PreviewA(name) || isV4PreviewB(name);
 ---
 
 {isControlPreview(name) && <ComponentPreviewControls name={name} />}
+{isV4PreviewA(name) && <ComponentPreviewV4A name={name} />}
+{isV4PreviewB(name) && <ComponentPreviewV4B name={name} />}
 
-{!isComplexPreview(name) && !isControlPreview(name) && (
-  <wc-icon class='bp-fallback' name='widgets'></wc-icon>
-)}
+{!drawn && <wc-icon class='bp-fallback' name='widgets'></wc-icon>}
 
 {name === 'calendar' && (
   <div class='bp cp-frame cp-calendar'>
@@ -103,20 +112,6 @@ const { name } = Astro.props;
   </div>
 )}
 
-{name === 'footer' && (
-  <div class='bp cp-frame cp-page'>
-    <div class='cp-page-body'>
-      <span class='bp-line cp-w1'></span>
-      <span class='bp-line cp-w3'></span>
-    </div>
-    <div class='cp-footer'>
-      {Array.from({ length: 3 }, () => (
-        <div class='cp-col'><span class='bp-line cp-head'></span><span class='bp-line'></span><span class='bp-line'></span></div>
-      ))}
-    </div>
-  </div>
-)}
-
 {(name === 'html-editor' || name === 'markdown-editor') && (
   <div class='bp cp-frame cp-editor'>
     <div class='cp-toolbar'>
@@ -132,6 +127,33 @@ const { name } = Astro.props;
       <span class='bp-line cp-w2'></span>
       <span class='cp-bullet'><i></i><span class='bp-line cp-w1'></span></span>
       <span class='cp-bullet'><i></i><span class='bp-line cp-w3'></span></span>
+    </div>
+  </div>
+)}
+
+{name === 'markdown' && (
+  <div class='bp cp-frame cp-editor'>
+    <div class='cp-doc'>
+      <span class='bp-line cp-heading'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='cp-bullet'><i></i><span class='bp-line cp-w1'></span></span>
+      <span class='cp-bullet'><i></i><span class='bp-line cp-w3'></span></span>
+      <span class='bp-line cp-w2'></span>
+    </div>
+  </div>
+)}
+
+{name === 'document-editor' && (
+  <div class='bp cp-frame cp-editor'>
+    <div class='cp-toolbar'>
+      {Array.from({ length: 7 }, (_, i) => <span class:list={['cp-tool', { 'cp-tool-on': i === 1 }]}></span>)}
+    </div>
+    <div class='cp-doc'>
+      <span class='bp-line cp-w3'></span>
+      <span class='bp-line cp-heading'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-w1'></span>
     </div>
   </div>
 )}

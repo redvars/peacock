@@ -1,0 +1,44 @@
+---
+export const title = 'Collapsing, keyboard and saving';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A <code>collapsible</code> panel collapses to its <code>collapsed-size</code> (0 by default) when
+  it is dragged more than half way from its minimum towards that size, and a double-click or Enter
+  on the divider collapses or restores it. <code>collapsed</code> reflects the state, and
+  <code>size</code> keeps the size to restore. A panel collapsed to nothing takes its content out
+  of the Tab order.
+</p>
+
+<p>
+  Each divider is a focusable <code>role="separator"</code>. Its value is the size of the panel
+  before it, and it is named after that panel's <code>label</code>. The arrow keys along the split
+  move it by 1% (10% with Shift), Home and End move it to that panel's minimum and maximum, and
+  Enter collapses or restores. <code>input</code> fires while a divider is dragged and
+  <code>change</code> when the drag ends or a key moves it, with every panel's size in
+  <code>detail.value</code>.
+</p>
+
+<p>
+  Set <code>autosave</code> to a key and the layout is kept in local storage and restored on the
+  next visit (when storage is unavailable the layout simply is not kept).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-resizable-panels
+    autosave='docs-collapsing-demo'
+    style='height: 280px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'
+  >
+    <wc-panel size='25' min-size='15' collapsible label='Folders'>
+      <div style='padding: 1rem;'>Folders</div>
+    </wc-panel>
+    <wc-panel min-size='30' label='Files'>
+      <div style='padding: 1rem;'>Files</div>
+    </wc-panel>
+    <wc-panel size='25' min-size='15' collapsible collapsed-size='4' label='Details'>
+      <div style='padding: 1rem;'>Details</div>
+    </wc-panel>
+  </wc-resizable-panels>
+</DemoComponentCard>

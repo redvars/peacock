@@ -1,0 +1,52 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-typing-indicator</code> shows that a reply is on its way: three pulsing dots and a short
+  status. Say what is happening rather than only "Thinking…", and change <code>label</code> as the
+  work moves on.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-typing-indicator></wc-typing-indicator>
+    <wc-typing-indicator id='typing-steps' label='Looking up your laptop in Asset management…'></wc-typing-indicator>
+  </div>
+  <script is:inline>
+    (function () {
+      var steps = [
+        'Looking up your laptop in Asset management…',
+        'Checking your leave balance in Human resources…',
+        'Writing the drafts…',
+      ];
+      var index = 0;
+      var el = document.querySelector('#typing-steps');
+      setInterval(function () {
+        index = (index + 1) % steps.length;
+        el.label = steps[index];
+      }, 2500);
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>People typing</h3>
+<p>
+  The same indicator shows people typing in a discussion. Put their avatar in the <code>start</code>
+  slot. It does not depend on the page's AI settings.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-typing-indicator label='Ravi is typing'>
+    <wc-avatar slot='start' name='Ravi Kumar' size='sm'></wc-avatar>
+  </wc-typing-indicator>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The indicator is a polite status region (<code>role="status"</code>): screen readers read the label
+  when it appears and each time it changes, never in a loop. The dots are hidden from them, and with
+  reduced motion they hold still. The default label is the <code>typingThinking</code> string.
+</p>

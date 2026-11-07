@@ -3,10 +3,19 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  <code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that range. The
+  visible <code>label</code> names the bar for assistive technology (<code>aria-labelledby</code>);
+  without one the bar is named "Loading".
+</p>
+
 <DemoComponentCard lang={'html'}>
   <wc-linear-progress value='40' label='Progress' helper-text='Optional helper text goes here...'></wc-linear-progress>
 </DemoComponentCard>
 
+<DemoComponentCard lang={'html'}>
+  <wc-linear-progress value='3' max='8' label='Step 3 of 8'></wc-linear-progress>
+</DemoComponentCard>
 
 <DemoComponentCard lang={'html'}>
     <wc-linear-progress label='Indeterminate' indeterminate></wc-linear-progress>

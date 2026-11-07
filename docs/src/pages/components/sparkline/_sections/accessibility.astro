@@ -1,0 +1,19 @@
+---
+export const title = 'Accessibility';
+export const order = 200;
+---
+
+<p>
+  A sparkline is one image (<code>role="img"</code>) whose name is its <code>label</code> followed by
+  a summary, for example "Signups, Trend from 12 to 18, high 21, low 9". <code>format</code>
+  (<code>Intl.NumberFormat</code> options) formats those numbers in the nearest <code>lang</code>. A
+  flat series is drawn across the middle; an empty one draws nothing and reads "No data".
+</p>
+<p>
+  The chart mirrors in right-to-left layouts, does not animate when reduced motion is requested, and
+  draws in the system text color in forced-colors mode.
+</p>
+<p>
+  The strings are translated with <code>setPeacockStrings()</code>: <code>sparklineSummary</code>,
+  <code>sparklineValue</code> and <code>sparklineNoData</code>.
+</p>

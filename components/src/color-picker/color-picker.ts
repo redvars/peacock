@@ -3,6 +3,7 @@ import { property, state, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import styles from './color-picker.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 // ── Color utilities ───────────────────────────────────────────────────────────
 
@@ -57,8 +58,26 @@ function hsvToRgb(h: number, s: number, v: number): { r: number; g: number; b: n
   };
 }
 
+/** Whether `s` is a hex color without `#`: 6 digits (`rrggbb`) or 8 with alpha (`rrggbbaa`). */
 function isValidHex(s: string): boolean {
-  return /^[0-9a-fA-F]{6}$/.test(s);
+  return /^(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(s);
+}
+
+/** The opacity, 0–1, in an 8-digit hex color (without `#`); 1 for a 6-digit one. */
+function hexAlpha(hex: string): number {
+  return hex.length === 8 ? parseInt(hex.slice(6), 16) / 255 : 1;
+}
+
+/** An opacity, 0–1, as the two hex digits of `#rrggbbaa`. */
+function alphaToHex(opacity: number): string {
+  return Math.round(Math.max(0, Math.min(1, opacity)) * 255)
+    .toString(16)
+    .padStart(2, '0');
+}
+
+/** The fraction of `size` that `offset` is, clamped to 0–1; 0 when there is no size. */
+function fraction(offset: number, size: number): number {
+  return size ? Math.max(0, Math.min(1, offset / size)) : 0;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -68,12 +87,17 @@ function isValidHex(s: string): boolean {
  * @tag wc-color-picker
  * @rawTag color-picker
  *
- * @summary A color picker component for selecting colors via a hue/saturation/value interface.
+ * @summary A panel for picking a color from a saturation and brightness square and a hue slider, with optional opacity and a hex field.
  *
  * @overview
  * <p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.
  * An optional alpha slider allows controlling opacity. The current hex value is displayed in
  * an editable text field.</p>
+ * <p>With <code>alpha</code> the value carries the opacity as an 8-digit hex color
+ * (<code>#rrggbbaa</code>); without it the value is <code>#rrggbb</code>. Events also give the
+ * opacity, 0–1, as <code>detail.alpha</code>.</p>
+ * <p>It is a building block, not a form control: it has no <code>name</code> and is not submitted
+ * with a form. In a form, use <code>wc-color-field</code>.</p>
  *
  * @cssprop --color-picker-width - Overall width of the component. Defaults to 240px.
  * @cssprop --color-picker-sv-height - Height of the saturation/brightness panel. Defaults to 160px.
@@ -100,12 +124,13 @@ export class ColorPicker extends LitElement {
   // ── Properties ───────────────────────────────────────────────────────────
 
   /**
-   * The current color as a 6-digit hex string (e.g. `"#ff5733"`).
+   * The current color as a hex string: `#rrggbb` (e.g. `"#ff5733"`), or `#rrggbbaa` with `alpha`.
    */
-  @property({ type: String, reflect: true }) value = '#2352d5';
+  @property({ type: String }) value = '#2352d5';
 
   /**
-   * Whether to show the alpha (opacity) slider and input.
+   * Whether to show the alpha (opacity) slider and input. The value then carries the opacity
+   * as its last two hex digits.
    */
   @property({ type: Boolean }) alpha = false;
 
@@ -113,6 +138,9 @@ export class ColorPicker extends LitElement {
    * Whether the color picker is disabled.
    */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Shows the color but does not let it be changed by pointer or keyboard. */
+  @property({ type: Boolean, reflect: true }) readonly = false;
 
   // ── State ─────────────────────────────────────────────────────────────────
 
@@ -145,6 +173,9 @@ export class ColorPicker extends LitElement {
   /** The last `value` we set ourselves, used to skip redundant re-syncs in `updated`. */
   private _lastEmittedValue = '';
 
+  /** Peacock's strings for the slider and input labels. */
+  private readonly i18n = new I18nController(this);
+
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   connectedCallback() {
@@ -162,6 +193,11 @@ export class ColorPicker extends LitElement {
 
   // ── Private methods ───────────────────────────────────────────────────────
 
+  /** Whether the color can be changed: not disabled and not read-only. */
+  private get _locked(): boolean {
+    return this.disabled || this.readonly;
+  }
+
   private _syncFromValue() {
     const clean = this.value.startsWith('#') ? this.value.slice(1) : this.value;
     if (!isValidHex(clean)) return;
@@ -170,21 +206,29 @@ export class ColorPicker extends LitElement {
     this._hue = h;
     this._sat = s;
     this._bri = v;
-    this._hexInput = clean.toUpperCase();
+    this._opacity = hexAlpha(clean);
+    this._hexInput = clean.slice(0, 6).toUpperCase();
   }
 
+  /** The color without opacity, as `#rrggbb`. */
   private _computeHex(): string {
     const { r, g, b } = hsvToRgb(this._hue, this._sat, this._bri);
     return rgbToHex(r, g, b);
   }
 
-  private _emitValue(type: 'input' | 'change') {
+  /** The value to emit: `#rrggbb`, or `#rrggbbaa` with `alpha`. */
+  private _computeValue(): string {
     const hex = this._computeHex();
-    this._lastEmittedValue = hex;
-    this.value = hex;
-    this._hexInput = hex.slice(1).toUpperCase();
+    return this.alpha ? `${hex}${alphaToHex(this._opacity)}` : hex;
+  }
+
+  private _emitValue(type: 'input' | 'change') {
+    const value = this._computeValue();
+    this._lastEmittedValue = value;
+    this.value = value;
+    this._hexInput = value.slice(1, 7).toUpperCase();
     this.dispatchEvent(new CustomEvent(type, {
-      detail: { value: hex, alpha: this._opacity },
+      detail: { value, alpha: this._opacity },
       bubbles: true,
       composed: true,
     }));
@@ -192,7 +236,7 @@ export class ColorPicker extends LitElement {
 
   // SV panel
   private _onSvPointerDown(e: PointerEvent) {
-    if (this.disabled) return;
+    if (this._locked) return;
     e.preventDefault();
     this._dragging = 'sv';
     (e.currentTarget as Element).setPointerCapture(e.pointerId);
@@ -213,13 +257,14 @@ export class ColorPicker extends LitElement {
   }
 
   private _updateSv(e: PointerEvent) {
-    const rect = this._svPanel!.getBoundingClientRect();
-    this._sat = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    this._bri = 1 - Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+    const rect = this._svPanel?.getBoundingClientRect();
+    if (!rect) return;
+    this._sat = fraction(e.clientX - rect.left, rect.width);
+    this._bri = 1 - fraction(e.clientY - rect.top, rect.height);
   }
 
   private _onSvKeyDown(e: KeyboardEvent) {
-    if (this.disabled) return;
+    if (this._locked) return;
     const step = e.shiftKey ? 0.1 : 0.01;
     let changed = false;
 
@@ -237,7 +282,7 @@ export class ColorPicker extends LitElement {
 
   // Hue slider
   private _onHuePointerDown(e: PointerEvent) {
-    if (this.disabled) return;
+    if (this._locked) return;
     e.preventDefault();
     this._dragging = 'hue';
     (e.currentTarget as Element).setPointerCapture(e.pointerId);
@@ -258,12 +303,13 @@ export class ColorPicker extends LitElement {
   }
 
   private _updateHue(e: PointerEvent) {
-    const rect = this._hueTrack!.getBoundingClientRect();
-    this._hue = Math.round(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * 360);
+    const rect = this._hueTrack?.getBoundingClientRect();
+    if (!rect) return;
+    this._hue = Math.round(fraction(e.clientX - rect.left, rect.width) * 360);
   }
 
   private _onHueKeyDown(e: KeyboardEvent) {
-    if (this.disabled) return;
+    if (this._locked) return;
     const step = e.shiftKey ? 10 : 1;
     let changed = false;
 
@@ -279,7 +325,7 @@ export class ColorPicker extends LitElement {
 
   // Alpha slider
   private _onAlphaPointerDown(e: PointerEvent) {
-    if (this.disabled) return;
+    if (this._locked) return;
     e.preventDefault();
     this._dragging = 'alpha';
     (e.currentTarget as Element).setPointerCapture(e.pointerId);
@@ -300,12 +346,13 @@ export class ColorPicker extends LitElement {
   }
 
   private _updateAlpha(e: PointerEvent) {
-    const rect = this._alphaTrack!.getBoundingClientRect();
-    this._opacity = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const rect = this._alphaTrack?.getBoundingClientRect();
+    if (!rect) return;
+    this._opacity = fraction(e.clientX - rect.left, rect.width);
   }
 
   private _onAlphaKeyDown(e: KeyboardEvent) {
-    if (this.disabled) return;
+    if (this._locked) return;
     const step = e.shiftKey ? 0.1 : 0.01;
     let changed = false;
 
@@ -321,6 +368,10 @@ export class ColorPicker extends LitElement {
 
   // Hex input
   private _onHexInput(e: InputEvent) {
+    // The native `input` is composed and would escape the shadow root next to the picker's own
+    // `input` CustomEvent, so stop it here.
+    e.stopPropagation();
+    if (this._locked) return;
     const raw = (e.target as HTMLInputElement).value.toUpperCase().replace(/[^0-9A-F]/g, '');
     this._hexInput = raw;
     if (isValidHex(raw)) {
@@ -329,19 +380,28 @@ export class ColorPicker extends LitElement {
       this._hue = h;
       this._sat = s;
       this._bri = v;
+      // Typed `rrggbbaa` sets the opacity too; typed `rrggbb` keeps it.
+      if (raw.length === 8) this._opacity = hexAlpha(raw);
       this._emitValue('input');
+      this._hexInput = raw;
     }
   }
 
   private _onHexChange() {
+    if (this._locked) return;
     if (isValidHex(this._hexInput)) {
       this._emitValue('change');
     } else {
-      this._hexInput = this.value.slice(1).toUpperCase();
+      this._hexInput = this._computeHex().slice(1).toUpperCase();
     }
   }
 
+  private _stopNativeInput(e: Event) {
+    e.stopPropagation();
+  }
+
   private _onAlphaNumberChange(e: Event) {
+    if (this._locked) return;
     const raw = parseInt((e.target as HTMLInputElement).value, 10);
     this._opacity = Math.max(0, Math.min(100, isNaN(raw) ? 100 : raw)) / 100;
     this._emitValue('change');
@@ -371,8 +431,9 @@ export class ColorPicker extends LitElement {
             class="sv-cursor"
             role="slider"
             tabindex=${this.disabled ? '-1' : '0'}
-            aria-label="Saturation and brightness"
-            aria-valuetext="Saturation ${Math.round(this._sat * 100)}%, Brightness ${Math.round(this._bri * 100)}%"
+            aria-label=${this.i18n.t('saturationAndBrightness')}
+            aria-readonly=${this.readonly ? 'true' : nothing}
+            aria-valuetext=${this.i18n.t('saturationBrightnessValue')(String(Math.round(this._sat * 100)), String(Math.round(this._bri * 100)))}
             style=${styleMap({
               left: `${this._sat * 100}%`,
               top: `${(1 - this._bri) * 100}%`,
@@ -400,7 +461,8 @@ export class ColorPicker extends LitElement {
                 class="slider-thumb"
                 role="slider"
                 tabindex=${this.disabled ? '-1' : '0'}
-                aria-label="Hue"
+                aria-label=${this.i18n.t('hue')}
+                aria-readonly=${this.readonly ? 'true' : nothing}
                 aria-valuemin="0"
                 aria-valuemax="360"
                 aria-valuenow=${this._hue}
@@ -423,7 +485,8 @@ export class ColorPicker extends LitElement {
                   class="slider-thumb"
                   role="slider"
                   tabindex=${this.disabled ? '-1' : '0'}
-                  aria-label="Opacity"
+                  aria-label=${this.i18n.t('opacity')}
+                  aria-readonly=${this.readonly ? 'true' : nothing}
                   aria-valuemin="0"
                   aria-valuemax="100"
                   aria-valuenow=${Math.round(this._opacity * 100)}
@@ -438,18 +501,19 @@ export class ColorPicker extends LitElement {
         <!-- Hex + alpha inputs -->
         <div class="inputs-row">
           <div class="hex-input-wrapper">
-            <span class="input-label">HEX</span>
+            <span class="input-label">${this.i18n.t('hexLabel')}</span>
             <span class="hex-prefix">#</span>
             <input
               class="hex-input"
               type="text"
               inputmode="text"
-              maxlength="6"
+              maxlength=${this.alpha ? 8 : 6}
               spellcheck="false"
               autocomplete="off"
               .value=${this._hexInput}
               ?disabled=${this.disabled}
-              aria-label="Hex color value"
+              ?readonly=${this.readonly}
+              aria-label=${this.i18n.t('hexColorValue')}
               @input=${this._onHexInput}
               @change=${this._onHexChange}
             />
@@ -465,7 +529,9 @@ export class ColorPicker extends LitElement {
                 step="1"
                 .value=${String(Math.round(this._opacity * 100))}
                 ?disabled=${this.disabled}
-                aria-label="Opacity percentage"
+                ?readonly=${this.readonly}
+                aria-label=${this.i18n.t('opacityPercentage')}
+                @input=${this._stopNativeInput}
                 @change=${this._onAlphaNumberChange}
               />
               <span class="input-label">%</span>

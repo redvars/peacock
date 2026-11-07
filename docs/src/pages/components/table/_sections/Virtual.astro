@@ -1,0 +1,43 @@
+---
+export const title = 'Virtual scroll';
+export const order = 520;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>virtual</code> to show a large data set without pagination: the table renders only the
+  rows in view, plus a few on each side, between two spacers that keep the scroll height of every
+  row. Give the table a height, so it scrolls inside itself.
+</p>
+<p>
+  Every row has the same, fixed height: <code>--table-row-height</code> (set by
+  <code>density</code>). Rows of different heights are not supported, so cells do not wrap.
+  <code>virtual</code> has no effect while rows have details (<code>detailTemplate</code>); grouped
+  rows work, because a group header is one row high too.
+</p>
+<p>
+  <code>aria-rowcount</code> and each row's <code>aria-rowindex</code> describe the whole data set.
+  The arrow keys, <kbd>Ctrl</kbd>+<kbd>Home</kbd> and <kbd>Ctrl</kbd>+<kbd>End</kbd> move through
+  every row: the table scrolls the target row into view first. When the active row scrolls out of
+  view, the first rendered row takes the tab stop.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 24rem;'>
+    <wc-table id='table-virtual' virtual label='10,000 rows'></wc-table>
+  </div>
+
+  <script is:inline>
+    const $table = document.getElementById('table-virtual');
+    $table.columns = [
+      { name: 'id', label: 'ID', width: 7, type: 'number' },
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'score', label: 'Score', width: 8, type: 'number' },
+    ];
+    $table.data = Array.from({ length: 10000 }, (_, index) => ({
+      id: index + 1,
+      name: `Item ${index + 1}`,
+      score: (index * 37) % 100,
+    }));
+  </script>
+</DemoComponentCard>

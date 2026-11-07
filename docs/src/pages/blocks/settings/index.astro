@@ -3,95 +3,265 @@ import Layout from '../../../layouts/WithBlocksSidebar.astro';
 import '../../../styles/blocks/settings.scss';
 
 interface NotificationSetting {
+  name: string;
   label: string;
   description: string;
   checked: boolean;
 }
 
-const notifications: NotificationSetting[] = [
-  { label: 'Product updates', description: 'News about features and releases.', checked: true },
-  { label: 'Weekly summary', description: 'A digest of activity in your workspace.', checked: true },
-  { label: 'Mentions', description: 'When someone mentions you in a comment.', checked: true },
-  { label: 'Marketing email', description: 'Offers, events and surveys.', checked: false },
+interface NotificationGroup {
+  headline: string;
+  supportingText: string;
+  items: NotificationSetting[];
+}
+
+const notificationGroups: NotificationGroup[] = [
+  {
+    headline: 'Email',
+    supportingText: 'Sent to jane@northwind.example.',
+    items: [
+      { name: 'email-mentions', label: 'Mentions and replies', description: 'When someone mentions you or replies to your comment.', checked: true },
+      { name: 'email-summary', label: 'Weekly summary', description: 'A Monday digest of activity in your workspace.', checked: true },
+      { name: 'email-product', label: 'Product updates', description: 'News about features and releases, about once a month.', checked: false },
+    ],
+  },
+  {
+    headline: 'Push',
+    supportingText: 'Shown on devices where you are signed in.',
+    items: [
+      { name: 'push-assigned', label: 'Assigned to you', description: 'When a task or order is assigned to you.', checked: true },
+      { name: 'push-reminders', label: 'Reminders', description: 'Due dates and meetings you have set reminders for.', checked: false },
+    ],
+  },
 ];
 ---
 
 <Layout
   title='Settings'
-  description='An account settings page built from Peacock components: tabs for profile, notifications and security, form fields, switches, and save and cancel actions.'
+  description='An account settings page built from Peacock components: a page header, tabs for profile, notifications and security, an avatar upload, grouped fieldsets in forms that track unsaved changes, switch rows, a new-password checklist and a danger zone behind a confirm dialog.'
 >
   <div class='block-demo settings-shell'>
-    <div class='settings-header'>
-      <div>
-        <h2 class='text-headline-small'>Account settings</h2>
-        <p class='text-body-medium block-muted'>Manage your profile, notifications and security.</p>
-      </div>
-      <wc-avatar name='Jane Doe'></wc-avatar>
-    </div>
+    <wc-page-header
+      class='settings-header'
+      headline='Account settings'
+      heading-level='2'
+      supporting-text='Manage your profile, notifications and security.'
+    >
+      <wc-avatar slot='start' name='Jane Doe' size='lg'></wc-avatar>
+      <wc-tag slot='meta' size='sm' intent='info'>Team plan</wc-tag>
+      <wc-button slot='actions' variant='outlined'>
+        <wc-icon slot='icon' name='open_in_new'></wc-icon>
+        View public profile
+      </wc-button>
+    </wc-page-header>
 
     <wc-tab-group class='settings-tabs'>
       <wc-tabs>
-        <wc-tab active>Profile</wc-tab>
+        <wc-tab selected>Profile</wc-tab>
         <wc-tab>Notifications</wc-tab>
         <wc-tab>Security</wc-tab>
       </wc-tabs>
 
       <wc-tab-panel>
+        <wc-form id='profile-form' class='settings-form'>
+          <form>
+            <wc-fieldset headline='Profile photo' supporting-text='Shown next to your name across the workspace.'>
+              <div class='settings-photo'>
+                <wc-avatar id='profile-avatar' name='Jane Doe' size='lg'></wc-avatar>
+                <wc-file-upload
+                  id='profile-photo'
+                  class='settings-photo-upload'
+                  name='photo'
+                  accept='image/png, image/jpeg'
+                  max-size='2000000'
+                  helper-text='PNG or JPG, up to 2 MB. Square images look best.'
+                ></wc-file-upload>
+              </div>
+            </wc-fieldset>
+
+            <wc-fieldset headline='Personal details'>
+              <div class='settings-grid'>
+                <wc-input name='first-name' label='First name' value='Jane' autocomplete='given-name' required></wc-input>
+                <wc-input name='last-name' label='Last name' value='Doe' autocomplete='family-name' required></wc-input>
+              </div>
+              <wc-input type='email' name='email' label='Email address' value='jane@northwind.example' autocomplete='email' required></wc-input>
+              <div class='settings-grid'>
+                <wc-select name='language' label='Language' value='en'>
+                  <wc-option value='en'>English</wc-option>
+                  <wc-option value='fr'>Français</wc-option>
+                  <wc-option value='de'>Deutsch</wc-option>
+                  <wc-option value='hi'>हिन्दी</wc-option>
+                </wc-select>
+                <wc-select name='timezone' label='Time zone' value='europe-berlin'>
+                  <wc-option value='america-new-york'>New York (UTC−5)</wc-option>
+                  <wc-option value='europe-london'>London (UTC+0)</wc-option>
+                  <wc-option value='europe-berlin'>Berlin (UTC+1)</wc-option>
+                  <wc-option value='asia-kolkata'>Kolkata (UTC+5:30)</wc-option>
+                </wc-select>
+              </div>
+              <wc-textarea
+                name='bio'
+                label='Bio'
+                rows='3'
+                value='Operations lead at Northwind. I look after orders, stock and suppliers.'
+                helper-text='Shown on your public profile.'
+              ></wc-textarea>
+            </wc-fieldset>
+
+            <div class='settings-actions'>
+              <span class='text-body-medium block-muted' id='profile-status'>All changes saved</span>
+              <wc-button type='reset' variant='text'>Cancel</wc-button>
+              <wc-button type='submit' level='primary'>Save changes</wc-button>
+            </div>
+          </form>
+        </wc-form>
+      </wc-tab-panel>
+
+      <wc-tab-panel>
         <div class='settings-form'>
-          <div class='settings-grid'>
-            <wc-input label='First name' value='Jane'></wc-input>
-            <wc-input label='Last name' value='Doe'></wc-input>
-          </div>
-          <wc-input type='email' label='Email address' value='jane@example.com'></wc-input>
-          <wc-select label='Language' value='en' placeholder='Pick a language'>
-            <wc-option value='en'>English</wc-option>
-            <wc-option value='fr'>Français</wc-option>
-            <wc-option value='de'>Deutsch</wc-option>
-            <wc-option value='hi'>हिन्दी</wc-option>
-          </wc-select>
-          <wc-textarea
-            label='Bio'
-            rows='4'
-            placeholder='Tell people a little about yourself'
-            helper-text='Shown on your public profile.'
-          ></wc-textarea>
+          {
+            notificationGroups.map(group => (
+              <wc-fieldset headline={group.headline} supporting-text={group.supportingText}>
+                <ul class='settings-list'>
+                  {group.items.map(item => (
+                    <li class='settings-row'>
+                      <div class='settings-row-text'>
+                        <div class='text-body-large'>{item.label}</div>
+                        <div class='text-body-medium block-muted'>{item.description}</div>
+                      </div>
+                      <wc-switch class='settings-row-control' name={item.name} checked={item.checked ? true : null} aria-label={item.label} />
+                    </li>
+                  ))}
+                </ul>
+              </wc-fieldset>
+            ))
+          }
+          <p class='text-body-small block-muted settings-note'>
+            <wc-icon name='info'></wc-icon>
+            Notification changes save as you make them.
+          </p>
         </div>
       </wc-tab-panel>
 
       <wc-tab-panel>
-        <ul class='settings-list'>
-          {notifications.map(item => (
-            <li class='settings-list-item'>
-              <div>
-                <div class='text-body-large'>{item.label}</div>
-                <div class='text-body-medium block-muted'>{item.description}</div>
-              </div>
-              <wc-switch checked={item.checked ? true : null} aria-label={item.label}></wc-switch>
-            </li>
-          ))}
-        </ul>
-      </wc-tab-panel>
-
-      <wc-tab-panel>
         <div class='settings-form'>
-          <wc-input type='password' label='Current password'></wc-input>
-          <wc-input type='password' label='New password' helper-text='At least 12 characters.'></wc-input>
-          <wc-input type='password' label='Confirm new password'></wc-input>
-          <wc-divider></wc-divider>
-          <div class='settings-list-item'>
-            <div>
-              <div class='text-body-large'>Two-factor authentication</div>
-              <div class='text-body-medium block-muted'>Ask for a code from your authenticator app at sign-in.</div>
+          <wc-form id='password-form'>
+            <form>
+              <wc-fieldset headline='Change password' supporting-text='You will stay signed in on this device.'>
+                <wc-password-field name='current-password' label='Current password' autocomplete='current-password' required></wc-password-field>
+                <wc-password-field id='new-password' name='new-password' label='New password' autocomplete='new-password' required></wc-password-field>
+                <wc-password-rules for='new-password' minlength='12' require-uppercase require-number require-symbol></wc-password-rules>
+                <div class='settings-actions'>
+                  <wc-button type='submit' level='primary'>Update password</wc-button>
+                </div>
+              </wc-fieldset>
+            </form>
+          </wc-form>
+
+          <wc-fieldset headline='Sign-in'>
+            <ul class='settings-list'>
+              <li class='settings-row'>
+                <div class='settings-row-text'>
+                  <div class='text-body-large'>Two-factor authentication</div>
+                  <div class='text-body-medium block-muted'>Ask for a code from your authenticator app at sign-in.</div>
+                </div>
+                <wc-switch class='settings-row-control' checked aria-label='Two-factor authentication'></wc-switch>
+              </li>
+              <li class='settings-row'>
+                <div class='settings-row-text'>
+                  <div class='text-body-large'>Active sessions</div>
+                  <div class='text-body-medium block-muted'>Signed in on 3 devices. Last active 5 minutes ago in Berlin.</div>
+                </div>
+                <wc-button variant='outlined' class='settings-row-control'>Sign out others</wc-button>
+              </li>
+            </ul>
+          </wc-fieldset>
+
+          <section class='settings-danger' aria-labelledby='danger-title'>
+            <div class='settings-row-text'>
+              <h3 class='text-title-medium' id='danger-title'>Delete account</h3>
+              <p class='text-body-medium block-muted'>
+                Removes your profile, order history and saved reports. This can't be undone.
+              </p>
             </div>
-            <wc-switch aria-label='Two-factor authentication'></wc-switch>
-          </div>
+            <wc-button id='delete-account' level='danger'>
+              <wc-icon slot='icon' name='delete'></wc-icon>
+              Delete account
+            </wc-button>
+          </section>
         </div>
       </wc-tab-panel>
     </wc-tab-group>
 
-    <div class='settings-actions'>
-      <wc-button variant='text'>Cancel</wc-button>
-      <wc-button level='primary'>Save changes</wc-button>
-    </div>
+    <wc-confirm-dialog
+      id='delete-account-dialog'
+      headline='Delete your account?'
+      intent='danger'
+      confirm-label='Delete account'
+      confirm-text='jane.doe'
+    >
+      Your profile, order history and saved reports are deleted for good. This can't be undone.
+    </wc-confirm-dialog>
   </div>
+
+  <script is:inline>
+    const toast = (title, intent = 'success') =>
+      window.dispatchEvent(new CustomEvent('peacock-toast', { detail: { title, intent, dismissible: true } }));
+
+    // Profile: the status line follows the form's dirty state; saving pretends to call a server.
+    const profileForm = document.getElementById('profile-form');
+    const profileStatus = document.getElementById('profile-status');
+    profileForm.addEventListener('dirty-change', event => {
+      profileStatus.textContent = event.detail.dirty ? 'Unsaved changes' : 'All changes saved';
+    });
+    profileForm.addEventListener('submit', event => {
+      if (!(event instanceof CustomEvent)) return;
+      event.preventDefault();
+      profileForm.loading = true;
+      setTimeout(() => {
+        profileForm.loading = false;
+        profileForm.markClean();
+        toast('Profile saved');
+      }, 800);
+    });
+
+    // Preview the chosen photo in the avatar.
+    const avatar = document.getElementById('profile-avatar');
+    document.getElementById('profile-photo').addEventListener('change', event => {
+      const [file] = event.detail.files;
+      if (file) avatar.src = URL.createObjectURL(file);
+      else avatar.removeAttribute('src');
+    });
+
+    const passwordForm = document.getElementById('password-form');
+    passwordForm.addEventListener('submit', event => {
+      if (!(event instanceof CustomEvent)) return;
+      event.preventDefault();
+      passwordForm.loading = true;
+      setTimeout(() => {
+        passwordForm.loading = false;
+        passwordForm.querySelector('form').reset();
+        toast('Password updated');
+      }, 800);
+    });
+
+    document.querySelectorAll('.settings-shell wc-switch').forEach(item => {
+      item.addEventListener('change', event => {
+        const label = item.getAttribute('aria-label');
+        toast(`${label} ${event.detail.checked ? 'on' : 'off'}`, 'info');
+      });
+    });
+
+    const deleteDialog = document.getElementById('delete-account-dialog');
+    document.getElementById('delete-account').addEventListener('click', () => deleteDialog.show());
+    deleteDialog.addEventListener('confirm', event => {
+      event.preventDefault();
+      deleteDialog.loading = true;
+      setTimeout(() => {
+        deleteDialog.loading = false;
+        deleteDialog.hide();
+        toast('This is a demo, so your account is still here', 'info');
+      }, 900);
+    });
+  </script>
 </Layout>

@@ -1,147 +1,88 @@
 ---
 export const title = 'Usage';
 export const order = 100;
-import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  A Notion-like Markdown editor built on Tiptap. It supports four interaction
-  patterns:
+  <code>wc-markdown-editor</code> is a form field for rich text, such as a
+  ticket description or release notes. People edit formatted text directly,
+  the way they would in a word processor; the value is Markdown, so it stores
+  as plain text and reads back the same in <code>wc-markdown</code>.
 </p>
 <ul>
-  <li><strong>Slash commands</strong> — type <code>/</code> on any line to pick a block type from the menu.</li>
-  <li><strong>Inline bubble toolbar</strong> — select text to reveal bold, italic, underline, strikethrough, and inline-code buttons.</li>
-  <li><strong>Block handle</strong> — hover over any block to reveal a <code>+</code> button (insert a new block below) and a drag handle (reorder blocks by dragging).</li>
-  <li><strong>Source toggle</strong> — the segmented switch at the bottom flips between the visual editor and the raw Markdown source; both views stay in sync.</li>
+  <li>
+    <strong>Toolbar</strong>: text style, bold, italic, strikethrough, inline
+    code, link, lists, checklist, quote, code block, table, divider and
+    mention. While the caret is in a table, a <em>Table</em> menu adds and
+    removes rows and columns.
+  </li>
+  <li>
+    <strong>Selection bubble</strong>: select text to format it in place.
+  </li>
+  <li>
+    <strong>Slash menu</strong>: type <code>/</code> to insert a block.
+    Markdown shortcuts such as <code>## </code>, <code>- </code>,
+    <code>1. </code>, <code>&gt; </code> and <code>**bold**</code> work as you
+    type.
+  </li>
+  <li>
+    <strong>Block handle</strong>: hover a block to drag it, or press
+    <strong>+</strong> to insert a block below.
+  </li>
+  <li>
+    <strong>Link</strong>: the toolbar button, the bubble or
+    <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> open the link editor. Only web,
+    email and relative addresses are accepted.
+  </li>
+  <li>
+    <strong>View source</strong>: the last toolbar button shows the Markdown,
+    which you can edit directly.
+  </li>
 </ul>
 
 <DemoComponentCard lang={'html'}>
   <wc-markdown-editor
     id="md-editor"
+    label="Description"
+    helper-text="Type / for blocks, select text to format, @ to mention."
+    style="display:block; width: 100%;"
+  ></wc-markdown-editor>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
+  <script is:inline>
+    // Answers `search` with people (@) and tickets (#), so mentions list suggestions.
+    window.peacockMentionDemo(document.getElementById('md-editor'));
+    document.getElementById('md-editor').value = [
+      '## Steps to reproduce',
+      '',
+      '1. Open the **billing** page as an admin',
+      '2. Export last month as *CSV*',
+      '',
+      '- [x] Reproduced on staging',
+      '- [ ] Reproduced on production',
+      '',
+      '| Region | Status |',
+      '| --- | --- |',
+      '| EU | Failing |',
+      '| US | OK |',
+    ].join('\n');
+  </script>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Without the toolbar</h3>
+
+<p>
+  <code>hide-toolbar</code> leaves a clean writing surface. Formatting stays
+  available from the selection bubble, the slash menu, Markdown shortcuts and
+  keyboard shortcuts.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
     label="Notes"
-    helper-text="Type '/' · select text · hover a block for the +/drag handle"
-    style="display:block;"
+    hide-toolbar
+    rows="3"
+    placeholder="Write a note. Select text to format it."
+    style="display:block; width: 100%;"
   ></wc-markdown-editor>
-  <script is:inline>
-    const mdEditor = document.getElementById('md-editor');
-    mdEditor.addEventListener('change', () => {
-      console.log('value changed:\n', mdEditor.value);
-    });
-  </script>
-</DemoComponentCard>
-
-<h2>Insert block</h2>
-
-<p>
-  Hover over any paragraph, heading, or other block to reveal a small handle
-  panel to its left. Click the <strong>+</strong> button to open the block-type
-  menu and insert a new block immediately below. The same block types are
-  available as with the slash command.
-</p>
-
-<DemoComponentCard lang={'html'}>
-  <wc-markdown-editor
-    id="md-editor-insert"
-    label="Project Brief"
-    helper-text="Hover a block and click + to insert a new block below it."
-    style="display:block;"
-  ></wc-markdown-editor>
-  <script is:inline>
-    document.getElementById('md-editor-insert').value = [
-      '## Goals',
-      '',
-      'Define the success criteria for this project.',
-      '',
-      '## Scope',
-      '',
-      'List what is in and out of scope.',
-      '',
-      '## Timeline',
-      '',
-      'Add milestones and deadlines here.',
-    ].join('\n');
-  </script>
-</DemoComponentCard>
-
-<h2>Drag to reorder</h2>
-
-<p>
-  Hover over a block and grab the drag handle (the six-dot icon) to drag the
-  entire block to a new position. A drop cursor shows where the block will land.
-</p>
-
-<DemoComponentCard lang={'html'}>
-  <wc-markdown-editor
-    id="md-editor-drag"
-    label="Agenda"
-    helper-text="Hover a block, grab the drag handle, and drop it in a new position."
-    style="display:block;"
-  ></wc-markdown-editor>
-  <script is:inline>
-    document.getElementById('md-editor-drag').value = [
-      '## Item 1 — Introductions',
-      '',
-      'Round-table introductions (5 min).',
-      '',
-      '## Item 2 — Status update',
-      '',
-      'Each team shares a 2-minute status.',
-      '',
-      '## Item 3 — Blockers',
-      '',
-      'Open floor for blockers and questions.',
-      '',
-      '## Item 4 — Next steps',
-      '',
-      'Assign owners and due dates.',
-    ].join('\n');
-  </script>
-</DemoComponentCard>
-
-<h2>Pre-filled content</h2>
-
-<p>
-  Set the <code>value</code> property to any Markdown string to pre-populate
-  the editor. Toggle to the <strong>Markdown</strong> view to see the raw
-  source; edits in either view stay in sync.
-</p>
-
-<DemoComponentCard lang={'html'}>
-  <wc-markdown-editor
-    id="md-editor-seeded"
-    label="Release Notes"
-    helper-text="Edits dispatch a 'change' event with the updated markdown."
-    style="display:block;"
-  ></wc-markdown-editor>
-  <script is:inline>
-    const seeded = document.getElementById('md-editor-seeded');
-
-    seeded.value = [
-      '# Release 1.0',
-      '',
-      'Welcome to **Peacock Markdown Editor** — a _Notion-like_ writing surface.',
-      '',
-      '## Highlights',
-      '',
-      '- Slash menu (`/`) for block insertion',
-      '- Bubble menu for inline formatting',
-      '- Block handle — hover to insert or drag-reorder blocks',
-      '- Round-trips between visual and raw Markdown views',
-      '',
-      '> Tip: hover over any block to reveal the + and drag handle on the left.',
-      '',
-      '```js',
-      'const editor = document.querySelector(\'wc-markdown-editor\');',
-      'editor.value = \'# Hello world\';',
-      '```',
-      '',
-      '---',
-      '',
-      'Happy writing!',
-    ].join('\n');
-
-    seeded.addEventListener('change', () => {
-      console.log('release notes updated:\n', seeded.value);
-    });
-  </script>
 </DemoComponentCard>

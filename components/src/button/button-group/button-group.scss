@@ -11,22 +11,17 @@ $border-width: 0.0625rem;
 }
 
 // Size-specific rules (can be overridden by variant rules below)
-:host([size='xs']),
-:host([size='extra-small']) {
+:host([size='xs']) {
   --_button-group-spacing: var(--spacing-200);
 }
 
-:host([size='sm']),
-:host([size='small']) {
+:host([size='sm']) {
   --_button-group-spacing: var(--spacing-150);
 }
 
 :host([size='md']),
-:host([size='medium']),
 :host([size='lg']),
-:host([size='large']),
-:host([size='xl']),
-:host([size='extra-large']) {
+:host([size='xl']) {
   --_button-group-spacing: var(--spacing-100);
 }
 

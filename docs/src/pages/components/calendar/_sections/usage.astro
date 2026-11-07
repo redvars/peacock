@@ -4,6 +4,23 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  <code>date</code> sets the date the view shows as an ISO string (<code>YYYY-MM-DD</code>); the
+  <code>contextDate</code> property holds the same date as a <code>Date</code>, and the two stay in step.
+  <code>date-change</code> carries both, as <code>detail.date</code> and <code>detail.value</code>.
+  <code>first-day</code> sets the first day of the week, <code>0</code> (Sunday) to <code>6</code>; it defaults
+  to the locale's week start. <code>today()</code>, <code>previous()</code> and <code>next()</code> move the
+  view. <code>timezone</code> takes an IANA zone such as <code>America/New_York</code> for the current-time line
+  and Today.
+</p>
+
+<p>
+  <code>loading</code> shows a progress bar and marks the calendar busy while you fetch events.
+  <code>events-readonly</code> shows events without making them clickable or focusable; otherwise each event is
+  a button that fires <code>event-click</code> on click, Enter or Space. The month view is a grid of weeks and
+  days; day and week views are a region labelled with their dates.
+</p>
+
 <DemoComponentCard lang={'html'}>
   <wc-calendar id='week-calendar' view='week' style='height: 700px; width: 100%'></wc-calendar>
   <script is:inline>

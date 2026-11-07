@@ -39,11 +39,11 @@ export interface FloatingOptions {
 
 export class FloatingController implements ReactiveController {
   private host: ReactiveControllerHost;
-  
+
   private reference: HTMLElement | null = null;
-  
+
   private floating: HTMLElement | null = null;
-  
+
   private arrowElement: HTMLElement | null = null;
 
   private cleanup: (() => void) | null = null;
@@ -51,7 +51,7 @@ export class FloatingController implements ReactiveController {
   private options: Required<FloatingOptions>;
 
   private isHostConnected = false;
-  
+
   public isOpen = false;
 
   constructor(host: ReactiveControllerHost, options: FloatingOptions = {}) {
@@ -83,7 +83,22 @@ export class FloatingController implements ReactiveController {
     document.removeEventListener('mousedown', this.handleOutsideClick);
   }
 
-  setElements(reference: HTMLElement, floating: HTMLElement, arrowElement?: HTMLElement) {
+  /**
+   * Removes every listener and detaches the controller from its host. Call it before replacing
+   * the controller with a new one, or the old listeners keep firing.
+   */
+  dispose() {
+    this.hostDisconnected();
+    this.reference = null;
+    this.floating = null;
+    this.host.removeController(this);
+  }
+
+  setElements(
+    reference: HTMLElement,
+    floating: HTMLElement,
+    arrowElement?: HTMLElement,
+  ) {
     this.cleanup?.();
     this.cleanup = null;
     this.removeEventListeners();
@@ -111,7 +126,10 @@ export class FloatingController implements ReactiveController {
       this.setupEventListeners();
     }
 
-    if (this.isHostConnected && previousCloseOnClickOutside !== this.options.closeOnClickOutside) {
+    if (
+      this.isHostConnected &&
+      previousCloseOnClickOutside !== this.options.closeOnClickOutside
+    ) {
       document.removeEventListener('mousedown', this.handleOutsideClick);
       if (this.options.closeOnClickOutside) {
         document.addEventListener('mousedown', this.handleOutsideClick);
@@ -126,7 +144,10 @@ export class FloatingController implements ReactiveController {
   private setupEventListeners() {
     if (!this.reference) return;
 
-    if (this.options.trigger === 'hover' || this.options.trigger === 'hover-focus') {
+    if (
+      this.options.trigger === 'hover' ||
+      this.options.trigger === 'hover-focus'
+    ) {
       this.reference.addEventListener('mouseenter', this.open);
       this.reference.addEventListener('mouseleave', this.close);
     }
@@ -139,7 +160,10 @@ export class FloatingController implements ReactiveController {
       this.reference.addEventListener('contextmenu', this.handleContextMenu);
     }
 
-    if (this.options.trigger === 'focus' || this.options.trigger === 'hover-focus') {
+    if (
+      this.options.trigger === 'focus' ||
+      this.options.trigger === 'hover-focus'
+    ) {
       this.reference.addEventListener('focusin', this.open);
       this.reference.addEventListener('focusout', this.handleFocusOut);
     }
@@ -156,7 +180,8 @@ export class FloatingController implements ReactiveController {
   }
 
   private toggle = () => {
-    this.isOpen ? this.close() : this.open()
+    if (this.isOpen) this.close();
+    else this.open();
   };
 
   private handleContextMenu = (e: MouseEvent) => {
@@ -165,7 +190,8 @@ export class FloatingController implements ReactiveController {
   };
 
   private handleFocusOut = (e: FocusEvent) => {
-    if (!this.reference || this.reference.contains(e.relatedTarget as Node)) return;
+    if (!this.reference || this.reference.contains(e.relatedTarget as Node))
+      return;
     this.close();
   };
 

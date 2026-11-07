@@ -1,0 +1,94 @@
+---
+export const title = 'Comments';
+export const order = 170;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Select text and press <strong>Comment</strong>, in the toolbar or the
+  selection bubble. The text is highlighted and the editor fires a cancelable
+  <code>comment-add</code> with a new <code>threadId</code> and the
+  <code>quote</code>. The app owns the threads: it adds an element with that
+  <code>thread-id</code> to the <code>comments</code> slot, usually a
+  <code>wc-discussion</code>, and the editor lines each one up beside its text
+  in a column next to the pages.
+</p>
+<ul>
+  <li>
+    Moving the caret into commented text makes its thread active: the thread
+    gets <code>data-active</code> and the editor fires
+    <code>comment-select</code>. Focusing a thread highlights its text.
+  </li>
+  <li>
+    When a thread is resolved, call <code>removeComment(threadId)</code> and
+    remove its element. A thread whose text was deleted gets
+    <code>data-orphan</code>.
+  </li>
+  <li>
+    <code>comments</code> lists the threads in the document with their quotes,
+    and <code>focusComment(threadId)</code> goes to one.
+  </li>
+  <li>
+    The highlights are part of the document, so they are saved in the value
+    and shared when collaborating; the threads are the app's.
+  </li>
+</ul>
+
+<DemoComponentCard lang={'html'}>
+  <wc-document-editor
+    id="document-comments"
+    label="Contract"
+    style="width: 100%; --document-editor-height: 34rem;"
+  >
+    <wc-discussion slot="comments" thread-id="t-term" label="Comments on the term">
+      <wc-discussion-comment
+        comment-id="c1"
+        author="Ana Lima"
+        datetime="2026-11-06T09:00:00Z"
+        value="Should this be **24 months** to match the order form?"
+      ></wc-discussion-comment>
+    </wc-discussion>
+  </wc-document-editor>
+  <script is:inline src="/assets/js/discussion-demo.js"></script>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
+  <script is:inline>
+    const contract = document.getElementById('document-comments');
+    window.peacockMentionDemo(contract);
+    customElements.whenDefined('wc-document-editor').then(async () => {
+      await contract.updateComplete;
+      contract.importMarkdown(
+        [
+          '# Services agreement',
+          '',
+          'This agreement starts on the effective date and runs for an initial term of 12 months. It renews for further periods of 12 months unless either party gives 60 days written notice.',
+          '',
+          'Select any text and press Comment to start a thread.',
+        ].join('\n'),
+      );
+      // Highlight the existing thread's text.
+      const editor = contract;
+      const json = editor.value.body;
+      const text = 'initial term of 12 months';
+      const paragraph = json.content[1];
+      const original = paragraph.content[0].text;
+      const at = original.indexOf(text);
+      paragraph.content = [
+        { type: 'text', text: original.slice(0, at) },
+        { type: 'text', text, marks: [{ type: 'comment', attrs: { threadId: 't-term' } }] },
+        { type: 'text', text: original.slice(at + text.length) },
+      ];
+      editor.value = { ...editor.value, body: json };
+    });
+
+    // A new comment: add a discussion for the thread, wired like any other.
+    contract.addEventListener('comment-add', event => {
+      const thread = document.createElement('wc-discussion');
+      thread.slot = 'comments';
+      thread.setAttribute('thread-id', event.detail.threadId);
+      thread.label = `Comments on “${event.detail.quote}”`;
+      contract.append(thread);
+      window.peacockDiscussionDemo(thread);
+    });
+    window.peacockDiscussionDemo(contract.querySelector('[thread-id="t-term"]'));
+  </script>
+</DemoComponentCard>

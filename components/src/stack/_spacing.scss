@@ -1,0 +1,13 @@
+// Step names of the spacing token scale; keep in sync with `spacing.ts`.
+$steps:
+  '000', '025', '050', '075', '100', '150', '200', '250', '300', '400', '500',
+  '600', '800', '1000', '1200', '2000';
+
+// Maps `[<attribute>="<step>"]` on the host to `<property>: var(--spacing-<step>)`.
+@mixin step-attribute($attribute, $property) {
+  @each $step in $steps {
+    :host([#{$attribute}='#{$step}']) {
+      #{$property}: var(--spacing-#{$step});
+    }
+  }
+}

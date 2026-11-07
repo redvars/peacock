@@ -1,0 +1,58 @@
+---
+export const title = 'Saving';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Saving a changed text fires a cancelable <code>change</code> with <code>detail.value</code>. An
+  unchanged text just closes the editor. The app answers in one of three ways:
+</p>
+<ul>
+  <li><b>Synchronous:</b> do nothing. The component sets <code>value</code> and closes.</li>
+  <li>
+    <b>Rejected:</b> call <code>event.preventDefault()</code>. The editor stays open; set
+    <code>error-text</code> to say why.
+  </li>
+  <li>
+    <b>Asynchronous:</b> set <code>loading</code> in the handler. The editor stays open and read
+    only with a progress indicator. When the server answers, set <code>loading</code> back to
+    false, with <code>error-text</code> set to keep the editor open on an error, or empty to close
+    it. Set <code>value</code> first to show the server's version of the text.
+  </li>
+</ul>
+<p>
+  While <code>loading</code>, <kbd>Escape</kbd> and blur do nothing. Clear
+  <code>error-text</code> when the next save starts and on <code>cancel</code>. With
+  <code>required</code> a blank text is not saved and the editor shows a message.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-inline-edit
+      id='inline-edit-async'
+      label='Project name'
+      value='Apollo'
+    ></wc-inline-edit>
+    <p style='margin: 0.5rem 0 0;'>The demo server takes a second and rejects names with "fail".</p>
+  </div>
+  <script is:inline>
+    const asyncEdit = document.querySelector('#inline-edit-async');
+    asyncEdit.addEventListener('change', function (event) {
+      const next = event.detail.value;
+      asyncEdit.errorText = '';
+      asyncEdit.loading = true;
+      setTimeout(function () {
+        if (next.toLowerCase().includes('fail')) {
+          asyncEdit.errorText = 'The server rejected this name';
+        } else {
+          myConsole.log('saved: ' + next);
+        }
+        asyncEdit.loading = false;
+      }, 1200);
+    });
+    asyncEdit.addEventListener('cancel', function () {
+      asyncEdit.errorText = '';
+    });
+  </script>
+</DemoComponentCard>

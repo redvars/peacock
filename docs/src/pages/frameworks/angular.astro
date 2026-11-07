@@ -1,0 +1,83 @@
+---
+import Layout from '../../layouts/Frameworks.astro';
+import Highlighter from '../../components/Highlighter.astro';
+
+const install = `npm install @redvars/peacock @redvars/peacock-angular`;
+
+const styles = `// angular.json, under build options
+"styles": ["@redvars/peacock/styles.css"]`;
+
+const usage = `import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PEACOCK_COMPONENTS } from '@redvars/peacock-angular';
+
+@Component({
+  selector: 'app-settings',
+  imports: [FormsModule, ...PEACOCK_COMPONENTS],
+  template: \`
+    <wc-input label="Name" [(ngModel)]="name"></wc-input>
+    <wc-switch label="Enabled" [(ngModel)]="enabled"></wc-switch>
+    <wc-select
+      label="Choice"
+      [options]="options"
+      [(ngModel)]="choice"
+      (change)="log($event.detail.values)"
+    ></wc-select>
+    <wc-button (click)="save()">Save</wc-button>
+  \`,
+})
+export class Settings {
+  options = [
+    { label: 'Alpha', value: 'alpha' },
+    { label: 'Beta', value: 'beta' },
+  ];
+  name = 'Ada';
+  enabled = false;
+  choice = 'alpha';
+}`;
+
+const forms = `form = new FormGroup({
+  name: new FormControl('Ada'),
+  enabled: new FormControl(false),
+});
+
+// <form [formGroup]="form">
+//   <wc-input formControlName="name"></wc-input>
+//   <wc-switch formControlName="enabled"></wc-switch>
+// </form>`;
+---
+
+<Layout
+  title='Angular'
+  description='@redvars/peacock-angular gives every Peacock element a standalone Angular component with typed inputs and outputs, and connects fields to ngModel and reactive forms. It works with Angular 17 and later.'
+>
+  <section class='foundation-section' aria-labelledby='install-title'>
+    <h2 class='text-headline-small' id='install-title'>Install</h2>
+    <Highlighter lang='bash'><Fragment set:text={install} /></Highlighter>
+    <Highlighter lang='json'><Fragment set:text={styles} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='usage-title'>
+    <h2 class='text-headline-small' id='usage-title'>Use</h2>
+    <p class='text-body-large'>
+      Import <code class='text-code-block'>PEACOCK_COMPONENTS</code>, or single components such as
+      <code class='text-code-block'>WcButton</code> and <code class='text-code-block'>WcInput</code>, into
+      a standalone component's <code class='text-code-block'>imports</code>. You write the tags as they
+      are, and Angular checks their inputs and <code class='text-code-block'>$event</code> types with
+      strict templates. No <code class='text-code-block'>CUSTOM_ELEMENTS_SCHEMA</code> is needed.
+    </p>
+    <Highlighter lang='ts'><Fragment set:text={usage} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='forms-title'>
+    <h2 class='text-headline-small' id='forms-title'>Forms</h2>
+    <p class='text-body-large'>
+      <code class='text-code-block'>ngModel</code>, <code class='text-code-block'>formControl</code> and
+      <code class='text-code-block'>formControlName</code> work on every Peacock field and toggle.
+      Disabling the control disables the element, and leaving it marks the control touched. The
+      value accessors are part of <code class='text-code-block'>PEACOCK_COMPONENTS</code>; when you
+      import single components, add <code class='text-code-block'>PEACOCK_VALUE_ACCESSORS</code> too.
+    </p>
+    <Highlighter lang='ts'><Fragment set:text={forms} /></Highlighter>
+  </section>
+</Layout>

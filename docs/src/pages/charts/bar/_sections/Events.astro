@@ -5,13 +5,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  Clicking a category, or pressing Enter while it is focused, fires <code>chart-select</code>. Its
+  Clicking a category, or pressing Enter while it is focused, fires <code>select</code>. Its
   <code>detail</code> holds the row's <code>index</code> and the <code>datum</code> itself, so you can drill down
-  or filter other views.
+  or filter other views. Every chart fires it; pie and doughnut charts add the slice's <code>series</code>.
 </p>
 
 <DemoComponentCard lang='html'>
-  <wc-chart-bar id='bar-select' index='month' height='240' label='Orders by month'></wc-chart-bar>
+  <wc-chart-bar id='bar-select' category-key='month' height='240' label='Orders by month'></wc-chart-bar>
   <p id='bar-select-output' class='text-body-medium'>Click a bar.</p>
 
   <script is:inline>
@@ -23,7 +23,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       { month: 'Mar', orders: 143 },
       { month: 'Apr', orders: 160 },
     ];
-    barSelect.addEventListener('chart-select', event => {
+    barSelect.addEventListener('select', event => {
       const { datum } = event.detail;
       document.getElementById('bar-select-output').textContent =
         `${datum.month}: ${datum.orders} orders`;

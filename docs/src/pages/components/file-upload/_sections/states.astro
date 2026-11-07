@@ -1,0 +1,41 @@
+---
+export const title = 'Forms and states';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  File upload is form-associated: inside a <code>&lt;form&gt;</code> it submits each file under its
+  <code>name</code>, like <code>&lt;input type="file"&gt;</code>. <code>required</code> blocks
+  submission while no file is chosen and shows the message under the zone, and
+  <code>form.reset()</code> clears the list. <code>error</code> with <code>error-text</code> shows an
+  error of the app's own. <code>disabled</code> takes no files; <code>readonly</code> shows the list
+  without the drop zone and the remove buttons.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form
+    id='file-upload-form'
+    style='width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 1rem;'
+  >
+    <wc-file-upload label='Resume' name='resume' accept='.pdf' required helper-text='PDF only'></wc-file-upload>
+    <div style='display: flex; gap: 0.5rem;'>
+      <wc-button type='submit'>Submit</wc-button>
+      <wc-button type='reset' variant='outlined'>Reset</wc-button>
+    </div>
+  </form>
+  <script is:inline>
+    document.querySelector('#file-upload-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var files = new FormData(event.target).getAll('resume');
+      myConsole.log('submit: ' + files.map(function (file) { return file.name; }).join(', '));
+    });
+  </script>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-file-upload label='Error' error error-text='The server is not accepting files right now'></wc-file-upload>
+    <wc-file-upload label='Disabled' disabled></wc-file-upload>
+  </div>
+</DemoComponentCard>

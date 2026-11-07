@@ -1,5 +1,4 @@
 @charset "utf-8";
-@use '../mixin';
 
 // Data table block (pages/blocks/data-table/). The frame is .block-demo from
 // styles/pages/blocks.scss.
@@ -8,33 +7,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-200);
-  padding: var(--spacing-300);
+  padding: 0 var(--spacing-300) var(--spacing-300);
   background: var(--color-surface-container-lowest);
-}
 
-.table-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-
-  h2,
-  p {
-    margin: 0;
+  @media (max-width: 40rem) {
+    padding: 0 var(--spacing-200) var(--spacing-200);
   }
 }
 
-.table-toolbar-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--spacing-100);
-
-  .table-search {
-    flex: 1 1 14rem;
-    min-width: 0;
-  }
+.table-header {
+  --page-header-padding-inline: 0;
+  --page-header-padding-block: var(--spacing-300) var(--spacing-100);
 }
 
 .customer-table {
@@ -43,19 +26,37 @@
   contain: inline-size;
 }
 
-.table-empty-section {
-  margin-block-start: var(--spacing-600);
-}
-
 .table-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-500) var(--spacing-200);
-  background: var(--color-surface-container-lowest);
+  gap: var(--spacing-100);
+  padding: var(--spacing-400) var(--spacing-200);
+  text-align: center;
 
-  wc-empty-state {
-    width: 100%;
+  h3,
+  p {
+    margin: 0;
   }
+
+  > wc-button {
+    margin-block-start: var(--spacing-100);
+  }
+}
+
+.table-empty-section {
+  margin-block-start: var(--spacing-600);
+}
+
+.table-empty-first {
+  padding-block: var(--spacing-500);
+  background: var(--color-surface-container-lowest);
+}
+
+.table-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-100);
+  margin-block-start: var(--spacing-150);
 }

@@ -33,6 +33,14 @@
   }
 }
 
+// Read-only: the color shows but the panel and tracks do not invite dragging.
+:host([readonly]) {
+  .sv-panel,
+  .slider-track {
+    cursor: default;
+  }
+}
+
 // ── SV panel ──────────────────────────────────────────────────────────────────
 
 .sv-panel {

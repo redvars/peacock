@@ -4,39 +4,69 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<DemoComponentCard lang={'html'}>
-  <wc-button id='show-modal-bottom'>Open modal bottom sheet</wc-button>
-  <wc-button id='show-standard-bottom' variant='outlined'>Open standard bottom sheet</wc-button>
-  <br />
+<p>
+  A modal bottom sheet (the default <code>variant</code>) opens a native
+  <code>&lt;dialog&gt;</code> in the browser’s top layer with a scrim. The page behind it is
+  inert and doesn’t scroll, focus moves to the element with <code>autofocus</code> inside it, and
+  returns to where it was when the sheet closes. Escape and a scrim click close it; set
+  <code>no-light-dismiss</code> to keep it open on scrim clicks. Name the sheet with
+  <code>label</code>.
+</p>
+<p>
+  The drag handle is a button: drag it down, click it, or focus it and press Enter or Space to
+  close the sheet. Set <code>hide-handle</code> to remove it.
+</p>
 
-  <wc-bottom-sheet id='modal-bottom-sheet' variant='modal' show-handle>
-    <h3 style='margin: 0 0 0.5rem;'>Modal Bottom Sheet</h3>
-    <p>This is a modal bottom sheet. Tap the scrim or drag down to close.</p>
-    <wc-button id='close-modal-bottom' variant='outlined'>Close</wc-button>
+<DemoComponentCard lang={'html'}>
+  <wc-button id='show-modal-bottom'>Share</wc-button>
+
+  <wc-bottom-sheet id='modal-bottom-sheet' label='Share'>
+    <h3 style='margin: 0 0 0.5rem;'>Share “Atlas Website”</h3>
+    <p>Drag the handle down, tap the scrim or press Escape to close.</p>
+    <wc-button id='close-modal-bottom' variant='outlined' autofocus>Copy link</wc-button>
   </wc-bottom-sheet>
 
-  <div style='position: relative; height: 200px; overflow: hidden; border: 1px solid var(--color-outline, #ccc); border-radius: 8px; margin-top: 1rem;'>
-    <p style='padding: 1rem; margin: 0;'>Page content area (standard sheet is positioned relative to its container)</p>
-    <wc-bottom-sheet id='standard-bottom-sheet' variant='standard' show-handle>
-      <h3 style='margin: 0 0 0.5rem;'>Standard Bottom Sheet</h3>
-      <p>This coexists with the page content.</p>
+  <script is:inline>
+    const modalBottomSheet = document.querySelector('#modal-bottom-sheet');
+    document.querySelector('#show-modal-bottom').addEventListener('click', () => {
+      modalBottomSheet.show();
+    });
+    document.querySelector('#close-modal-bottom').addEventListener('click', () => {
+      modalBottomSheet.hide();
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Standard variant</h3>
+<p>
+  <code>variant="standard"</code> opens the sheet with <code>dialog.show()</code>: it isn’t
+  modal, has no scrim and stays in the page flow at the end of its container. It doesn’t trap
+  focus, lock scrolling or close on Escape.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='show-standard-bottom' variant='outlined'>Toggle standard bottom sheet</wc-button>
+
+  <div
+    style='display: flex; flex-direction: column; justify-content: space-between; height: 240px; margin-top: 1rem; overflow: hidden; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-medium);'
+  >
+    <p style='padding: 1rem; margin: 0;'>Page content</p>
+    <wc-bottom-sheet id='standard-bottom-sheet' variant='standard' label='Now playing'>
+      <h3 style='margin: 0 0 0.5rem;'>Now playing</h3>
+      <p style='margin: 0;'>This sheet coexists with the page content.</p>
     </wc-bottom-sheet>
   </div>
 
   <script is:inline>
-    const modal = document.querySelector('#modal-bottom-sheet');
-    const standard = document.querySelector('#standard-bottom-sheet');
-
-    document.querySelector('#show-modal-bottom').addEventListener('click', () => {
-      modal.show();
-    });
-
     document.querySelector('#show-standard-bottom').addEventListener('click', () => {
-      standard.open = !standard.open;
-    });
-
-    document.querySelector('#close-modal-bottom').addEventListener('click', () => {
-      modal.hide();
+      document.querySelector('#standard-bottom-sheet').toggle();
     });
   </script>
 </DemoComponentCard>
+
+<h3>Events</h3>
+<p>
+  The sheet fires <code>open</code> when it opens and <code>close</code> when it closes, with
+  <code>detail.reason</code>: <code>'escape'</code>, <code>'light-dismiss'</code> (a scrim
+  click), <code>'action'</code> (the drag handle) or <code>'api'</code> (<code>hide()</code>).
+</p>

@@ -1,11 +1,14 @@
-import { LitElement } from 'lit';
-import type { MenuItem } from '../menu/menu-item/menu-item.js';
+import { nothing, type PropertyValues, type TemplateResult } from 'lit';
+import { MenuItem } from '../menu/menu-item/menu-item.js';
 /**
  * @label Select Option
  * @tag wc-option
  * @rawTag option
  *
- * @summary A declarative option element for use inside wc-select.
+ * @summary One option in a select dropdown, with an optional icon before its label.
+ * @overview
+ * <p>Options are menu items with the <code>option</code> role. The selected option of a single select
+ * shows a check mark at the end; in a multi-select every option shows a checkbox at the start.</p>
  *
  * @example
  * ```html
@@ -15,40 +18,21 @@ import type { MenuItem } from '../menu/menu-item/menu-item.js';
  * </wc-select>
  * ```
  */
-export declare class SelectOptionElement extends LitElement {
-    static styles: import("lit").CSSResult[];
-    /**
-     * The option's submitted value.
-     */
-    value: string;
+export declare class SelectOptionElement extends MenuItem {
     /**
      * Optional Material Symbol icon name shown before the label.
      */
     icon: string;
+    /** Whether the option belongs to a multi-select, which shows a checkbox. Set by wc-select. */
+    multiple: boolean;
     /**
-     * Disables the option so it cannot be selected.
-     */
-    disabled: boolean;
-    /** Reflects whether this option is currently selected. Set by wc-select. */
-    selected: boolean;
-    /**
-     * When true the menu stays open after selection (used for multi-select).
-     * Set by wc-select.
-     */
-    keepOpen: boolean;
-    /**
-     * When true the option is hidden and excluded from keyboard navigation
-     * because it does not match the current typeahead search query.
-     * Set by wc-select.
+     * When true the option is hidden and skipped by keyboard navigation because it does not
+     * match the current typeahead search query. Set by wc-select.
      */
     filtered: boolean;
-    private readonly _menuItemEl?;
-    /**
-     * Returns the inner `wc-menu-item` element.
-     * `wc-menu` discovers this via its `items` getter which checks `el.item`
-     * as a `MenuItem` proxy, so keyboard navigation and activation work
-     * without `wc-option` extending `MenuItem` directly.
-     */
-    get item(): MenuItem | null;
-    render(): import("lit-html").TemplateResult<1>;
+    protected willUpdate(changed: PropertyValues<this>): void;
+    protected get itemRole(): string;
+    protected get itemAriaSelected(): string;
+    protected renderStart(): TemplateResult | typeof nothing;
+    protected renderEnd(): TemplateResult | typeof nothing;
 }

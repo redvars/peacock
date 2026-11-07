@@ -1,0 +1,43 @@
+---
+export const title = 'Limits and adding cards';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Each column header shows the column's title and card count. A column with a work-in-progress
+  <code>limit</code> shows the count against it, such as <code>3/2</code>; with more cards than
+  the limit, the column gets an error outline and an "Over limit" badge. The limit is advice: the
+  board still accepts the card (cancel <code>card-move</code> to enforce it).
+</p>
+<p>
+  <code>addable</code> adds an "Add card" button under every column. It fires
+  <code>card-add</code> with <code>detail.columnId</code>; add the card to <code>cards</code>
+  yourself.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-kanban id='kanban-limits' addable label='Support' style='width: 100%; height: 22rem;'></wc-kanban>
+  <script is:inline>
+    const $support = document.getElementById('kanban-limits');
+    $support.columns = [
+      { id: 'open', title: 'Open' },
+      { id: 'working', title: 'Working', limit: 2 },
+      { id: 'closed', title: 'Closed' },
+    ];
+    $support.cards = [
+      { id: 't1', columnId: 'open', title: 'Printer offline' },
+      { id: 't2', columnId: 'working', title: 'VPN drops' },
+      { id: 't3', columnId: 'working', title: 'Password reset' },
+      { id: 't4', columnId: 'working', title: 'New laptop' },
+    ];
+    let next = 5;
+    $support.addEventListener('card-add', event => {
+      $support.cards = [
+        ...$support.cards,
+        { id: `t${next}`, columnId: event.detail.columnId, title: `Ticket ${next}` },
+      ];
+      next += 1;
+    });
+  </script>
+</DemoComponentCard>

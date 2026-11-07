@@ -1,0 +1,183 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  inline-size: 100%;
+  // The lists stack when the component itself is narrow, not the viewport.
+  container-type: inline-size;
+}
+
+.transfer-list {
+  --_list-block-size: var(--transfer-list-list-block-size, 16rem);
+  --_container-color: var(
+    --transfer-list-container-color,
+    var(--color-surface)
+  );
+  --_outline-color: var(
+    --transfer-list-outline-color,
+    var(--color-outline-variant)
+  );
+  --_label-text-color: var(--color-primary);
+  --_helper-text-color: var(--color-on-surface-variant);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  &.has-error {
+    --_label-text-color: var(--color-error);
+    --_helper-text-color: var(--color-error);
+    --_outline-color: var(--color-error);
+  }
+}
+
+.label {
+  @include mixin.get-typography(body-small);
+
+  color: var(--_label-text-color);
+
+  .required {
+    color: var(--color-error);
+    padding-inline-start: var(--spacing-025);
+  }
+}
+
+.panes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: var(--spacing-200);
+  align-items: stretch;
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  border: 0.0625rem solid var(--_outline-color);
+  border-radius: var(--shape-corner-medium);
+  background-color: var(--_container-color);
+  overflow: hidden;
+}
+
+.pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  min-block-size: calc(3rem + var(--density, 0) * 0.25rem);
+  padding-inline: var(--spacing-200) var(--spacing-100);
+  border-block-end: 0.0625rem solid var(--_outline-color);
+}
+
+.headline {
+  @include mixin.get-typography(title-small);
+
+  color: var(--color-on-surface);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.reorder {
+  display: flex;
+  flex: none;
+  gap: var(--spacing-050);
+}
+
+.search {
+  margin: var(--spacing-100) var(--spacing-100) 0;
+}
+
+.list-wrapper {
+  position: relative;
+  flex: 1;
+  block-size: var(--_list-block-size);
+  overflow-y: auto;
+}
+
+.list {
+  min-block-size: 100%;
+
+  &::part(container) {
+    min-block-size: 100%;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+}
+
+.empty {
+  @include mixin.get-typography(body-medium);
+
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-200);
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  pointer-events: none;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-100);
+}
+
+// The arrows point at the list they move to; in right-to-left that list is on the other side.
+:host(:dir(rtl)) .direction-icon {
+  transform: scaleX(-1);
+}
+
+.disabled {
+  .label,
+  .helper,
+  .pane-header,
+  .search {
+    // The listbox dims itself.
+    opacity: 0.38;
+  }
+}
+
+.helper {
+  @include mixin.get-typography(body-small);
+
+  margin: 0;
+  padding-inline: var(--spacing-200);
+  color: var(--_helper-text-color);
+}
+
+// Narrow containers: Available above Selected, buttons in a row, arrows pointing down and up.
+@container (max-width: 36rem) {
+  .panes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .actions {
+    flex-direction: row;
+  }
+
+  .direction-icon,
+  :host(:dir(rtl)) .direction-icon {
+    transform: rotate(90deg);
+  }
+}
+
+// Forced colors drop the fills; keep the list borders and headings visible.
+@media (forced-colors: active) {
+  .pane,
+  .pane-header {
+    border-color: CanvasText;
+  }
+
+  .disabled .pane {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

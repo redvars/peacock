@@ -1,0 +1,42 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-workspace-switcher</code> sits at the top of an app's navigation and shows the current
+  workspace: its logo (or initials), name and description. It opens a menu of the person's
+  workspaces with a check on the current one and a search field that filters them. Picking another
+  fires <code>change</code> with <code>detail.value</code>. <code>creatable</code> adds a "Create
+  workspace" action that fires <code>create</code> with the search text.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 280px;'>
+    <wc-workspace-switcher id='workspace-switcher-demo' value='acme' creatable></wc-workspace-switcher>
+  </div>
+  <script is:inline>
+    (function () {
+      const switcher = document.querySelector('#workspace-switcher-demo');
+      switcher.workspaces = [
+        { value: 'acme', label: 'Acme Inc', description: 'Enterprise · 48 members' },
+        { value: 'globex', label: 'Globex', description: 'Team · 12 members' },
+        { value: 'initech', label: 'Initech', description: 'Free · 3 members' },
+        { value: 'umbrella', label: 'Umbrella Labs', description: 'Team · 9 members' },
+      ];
+      switcher.addEventListener('change', event => {
+        myConsole.log(`change: ${event.detail.value}`);
+      });
+      switcher.addEventListener('create', event => {
+        myConsole.log(`create: "${event.detail.value}"`);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<p>
+  For a short list, <code>hide-search</code> removes the search field. To say "project" or
+  "organization" instead of "workspace", set the per-instance <code>strings</code>, for example
+  <code>switcher.strings = &#123; workspaceSwitcherCreate: 'New project' &#125;</code>.
+</p>

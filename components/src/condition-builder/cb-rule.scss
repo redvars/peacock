@@ -19,6 +19,10 @@
   background: var(--color-surface);
 }
 
+.rule.disabled .content {
+  opacity: var(--state-disabled-content-opacity);
+}
+
 .handle {
   position: relative;
   display: flex;
@@ -87,4 +91,14 @@
   .remove {
     padding-inline: 0;
   }
+}
+
+// The Suggested badge of a rule the assistant wrote (ADR-030002).
+.suggested-badge {
+  flex: none;
+  align-self: center;
+}
+
+:host([suggested]) .content {
+  --field-outline-color: var(--color-primary);
 }

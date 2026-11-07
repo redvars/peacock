@@ -1,0 +1,112 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-discussion</code> is the conversation on a record, such as a
+  ticket, an order or a document. It holds
+  <code>wc-discussion-comment</code> and
+  <code>wc-discussion-activity</code> elements and a
+  <code>wc-comment-composer</code> under them. Comments are Markdown, with
+  mentions, one level of replies, and inline reply and edit.
+</p>
+<p>
+  The app owns the data. The discussion fires events and changes nothing; the
+  app adds, updates or removes the elements, usually after saving to its
+  server. Every event bubbles, so one set of listeners on the discussion is
+  enough:
+</p>
+<ul>
+  <li>
+    <code>submit</code> (cancelable): <code>{'{ value, mentions, parentId }'}</code>,
+    a new comment (<code>parentId</code> null) or a reply. Cancel it to keep
+    the text in the composer, for example while a save fails.
+  </li>
+  <li>
+    <code>edit</code> (cancelable): <code>{'{ commentId, value, mentions }'}</code>
+    when someone saves an edit.
+  </li>
+  <li><code>delete</code>, <code>reply</code> and <code>copy-link</code>.</li>
+  <li>
+    <code>search</code>: answer it by setting <code>suggestions</code> on the
+    discussion.
+  </li>
+</ul>
+<p>
+  Try it: add a comment, reply, mention someone with <code>@</code>, or edit
+  and delete your own comments from their menu.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-discussion id="discussion-usage" style="display:block; width:100%; max-width: 44rem;">
+    <wc-discussion-activity
+      icon="add_circle"
+      author="Ana Lima"
+      datetime="2026-11-07T08:12:00Z"
+      value="opened the ticket"
+    ></wc-discussion-activity>
+    <wc-discussion-comment
+      comment-id="c1"
+      author="Ravi Kumar"
+      datetime="2026-11-07T08:40:00Z"
+      href="#c1"
+      value="I can reproduce it on **staging**. The export job stops after 500 rows:"
+    >
+      <wc-discussion-comment
+        slot="replies"
+        comment-id="c2"
+        author="Ana Lima"
+        datetime="2026-11-07T09:05:00Z"
+        value="Thanks [@Ravi Kumar](mention:usr_7). Same on production."
+      ></wc-discussion-comment>
+    </wc-discussion-comment>
+    <wc-discussion-activity
+      icon="swap_horiz"
+      author="Ravi Kumar"
+      datetime="2026-11-07T09:20:00Z"
+      value="changed **State** from New to In progress"
+    ></wc-discussion-activity>
+  </wc-discussion>
+  <script is:inline src="/assets/js/discussion-demo.js"></script>
+  <script is:inline>
+    window.peacockDiscussionDemo(document.getElementById('discussion-usage'));
+  </script>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Your own composer</h3>
+
+<p>
+  Put a <code>wc-comment-composer</code> in the <code>composer</code> slot to
+  add an avatar or footer controls, such as a choice between a public comment
+  and an internal work note. The <code>header</code> slot sits above the
+  entries.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-discussion id="discussion-custom" style="display:block; width:100%; max-width: 44rem;">
+    <div slot="header" class="text-title-medium">Activity</div>
+    <wc-discussion-comment
+      comment-id="w1"
+      author="Mei Chen"
+      datetime="2026-11-06T16:00:00Z"
+      value="Rolled back the config change."
+    >
+      <wc-tag slot="badge" intent="warning">Work note</wc-tag>
+    </wc-discussion-comment>
+    <wc-comment-composer slot="composer" placeholder="Add a comment or work note">
+      <wc-avatar slot="avatar" name="You" size="md"></wc-avatar>
+      <wc-select slot="start" id="discussion-visibility" size="sm" value="comment" aria-label="Visibility">
+        <wc-option value="comment">Comment</wc-option>
+        <wc-option value="work">Work note</wc-option>
+      </wc-select>
+    </wc-comment-composer>
+  </wc-discussion>
+  <script is:inline>
+    const visibility = document.getElementById('discussion-visibility');
+    window.peacockDiscussionDemo(document.getElementById('discussion-custom'), {
+      badge: () => (visibility.value === 'work' ? 'Work note' : ''),
+    });
+  </script>
+</DemoComponentCard>

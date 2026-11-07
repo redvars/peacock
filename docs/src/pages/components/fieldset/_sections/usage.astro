@@ -1,0 +1,39 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-fieldset</code> groups related fields under a <code>headline</code>, like a native
+  <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code>: screen readers announce the
+  fields as a group named by the headline. <code>supporting-text</code> describes the group. The
+  fields stack with the standard gap, which tightens with density.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-fieldset headline='Shipping address' supporting-text='Where should we send the order?'>
+      <wc-input label='Street' name='street'></wc-input>
+      <wc-input label='City' name='city'></wc-input>
+      <wc-input label='Postal code' name='zip'></wc-input>
+    </wc-fieldset>
+  </div>
+</DemoComponentCard>
+
+<h3>Disabled</h3>
+<p>
+  <code>disabled</code> disables every form control inside, however deeply nested, including
+  controls added later, and leaves them out of form submission, as a disabled native fieldset does.
+  Turning it off re-enables only the controls it disabled.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-fieldset headline='Billing address' supporting-text='Same as shipping' disabled>
+      <wc-input label='Street' name='billing-street'></wc-input>
+      <wc-input label='City' name='billing-city'></wc-input>
+      <wc-checkbox label='Send a receipt' name='receipt'></wc-checkbox>
+    </wc-fieldset>
+  </div>
+</DemoComponentCard>

@@ -1,0 +1,105 @@
+---
+export const title = 'Building an empty state';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Peacock 4 has no <code>wc-empty-state</code>. Compose empty, error and success screens from an
+  illustration, a heading, a line of text and the buttons that get the user going. You choose the
+  heading level, the wording and the actions, so the screen fits its place on the page.
+</p>
+<ul>
+  <li>Keep the illustration decorative: the heading already says what happened.</li>
+  <li>Say what happened in the heading and what to do next in the text.</li>
+  <li>Offer at most one primary action, and a secondary one when it helps.</li>
+  <li>Match the size to the space: <code>sm</code> in popups, <code>md</code> in a page section, <code>lg</code> on a full page.</li>
+</ul>
+
+<h3>Empty table or list</h3>
+
+<p>
+  Inside a page, where the table or list would be. Use a heading one level below the page's.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <section
+    style='display: flex; flex-direction: column; align-items: center; gap: var(--spacing-100); padding: var(--spacing-400) var(--spacing-200); text-align: center; border: 1px dashed var(--color-outline-variant); border-radius: var(--shape-corner-medium); width: 100%;'
+  >
+    <wc-illustration name='empty'></wc-illustration>
+    <h3 style='margin: 0;'>No projects yet</h3>
+    <p style='margin: 0; max-width: 28rem; color: var(--color-on-surface-variant);'>
+      Projects group your work and the people on it. Create the first one to get started.
+    </p>
+    <div style='display: flex; gap: var(--spacing-100); margin-block-start: var(--spacing-100);'>
+      <wc-button level='primary'>Create project</wc-button>
+      <wc-button level='secondary'>Import</wc-button>
+    </div>
+  </section>
+</DemoComponentCard>
+
+<p>
+  A search that finds nothing works the same way with <code>no-results</code>: repeat the query in
+  the text and offer to clear the filters.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <section
+    style='display: flex; flex-direction: column; align-items: center; gap: var(--spacing-100); padding: var(--spacing-400) var(--spacing-200); text-align: center; width: 100%;'
+  >
+    <wc-illustration name='no-results'></wc-illustration>
+    <h3 style='margin: 0;'>No results for "invoice 2019"</h3>
+    <p style='margin: 0; max-width: 28rem; color: var(--color-on-surface-variant);'>
+      Check the spelling or try fewer filters.
+    </p>
+    <wc-button level='tertiary'>Clear filters</wc-button>
+  </section>
+</DemoComponentCard>
+
+<h3>Full-page 404</h3>
+
+<p>
+  A page of its own, with a large illustration and the page's main heading. Point back to somewhere
+  useful. Links that navigate are <code>wc-link-button</code>. The same layout fits <code>server-error</code>, <code>no-access</code>,
+  <code>offline</code> and <code>maintenance</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <main
+    style='display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-200); min-height: 28rem; padding: var(--spacing-400) var(--spacing-200); text-align: center; width: 100%;'
+  >
+    <wc-illustration name='not-found' size='lg'></wc-illustration>
+    <h1 style='margin: 0;'>We can't find that page</h1>
+    <p style='margin: 0; max-width: 32rem; color: var(--color-on-surface-variant);'>
+      The link may be old, or the page may have moved. Check the address, or head back home.
+    </p>
+    <div style='display: flex; gap: var(--spacing-100);'>
+      <wc-link-button level='primary' href='/'>Go to home</wc-link-button>
+      <wc-link-button level='secondary' href='/support'>Contact support</wc-link-button>
+    </div>
+  </main>
+</DemoComponentCard>
+
+<h3>Inline in a menu or select popup</h3>
+
+<p>
+  In a small popup, use <code>size="sm"</code>, a short line of text instead of a heading, and at
+  most one small action. Let the text be announced: in a live search it is the result screen
+  readers need to hear.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div
+    style='width: 18rem; padding: var(--spacing-100); border-radius: var(--shape-corner-small); background: var(--color-surface-container); box-shadow: var(--elevation-level2);'
+  >
+    <wc-input label='Assignee' value='zoë' size='sm'></wc-input>
+    <div
+      role='status'
+      style='display: flex; flex-direction: column; align-items: center; gap: var(--spacing-050); padding: var(--spacing-200) var(--spacing-100); text-align: center;'
+    >
+      <wc-illustration name='no-team' size='sm'></wc-illustration>
+      <span>No one matches "zoë"</span>
+      <wc-button level='tertiary' size='xs'>Invite by email</wc-button>
+    </div>
+  </div>
+</DemoComponentCard>

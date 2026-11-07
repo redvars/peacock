@@ -1,0 +1,96 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --avatar-group-overlap: calc(var(--_size) * 0.25);
+  --avatar-group-ring-width: 2px;
+  --avatar-group-ring-color: var(--color-surface);
+  --_size: 2rem;
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host([size='sm']) {
+  --_size: 1.5rem;
+}
+
+:host([size='lg']) {
+  --_size: 3rem;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+}
+
+// Each avatar after the first slides under the previous one's end edge; `inline-start` mirrors
+// in RTL, so the group stacks from the right there.
+::slotted(*) {
+  border-radius: var(--global-avatar-container-shape);
+  box-shadow: 0 0 0 var(--avatar-group-ring-width)
+    var(--avatar-group-ring-color);
+}
+
+::slotted(:not(:first-child)),
+.overflow {
+  margin-inline-start: calc(-1 * var(--avatar-group-overlap));
+}
+
+.overflow {
+  display: inline-flex;
+}
+
+.more {
+  @include mixin.reset-button-styles;
+  @include mixin.get-typography('label-medium');
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  border-radius: var(--global-avatar-container-shape);
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-on-surface-variant);
+  box-shadow: 0 0 0 var(--avatar-group-ring-width)
+    var(--avatar-group-ring-color);
+  font-size: calc(var(--_size) * 0.4) !important;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-surface-container-high);
+  }
+
+  &:focus-visible {
+    @include mixin.focus-ring(var(--color-primary));
+    outline-offset: 2px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  @include mixin.get-typography('body-medium');
+}
+
+@media (forced-colors: active) {
+  .more {
+    border: 1px solid ButtonText;
+  }
+}

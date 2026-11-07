@@ -1,0 +1,39 @@
+---
+export const title = 'Mentions';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The editors store a mention as a Markdown link with the <code>mention:</code>
+  scheme: the trigger and name as the link text, the id as the address. It
+  reads well in any Markdown viewer, and <code>wc-markdown</code> shows it as a
+  chip.
+</p>
+
+<pre><code>[@Ana Lima](mention:usr_142)</code></pre>
+
+<p>
+  Set <code>mention-href</code> to make mentions links. <code>{'{id}'}</code>
+  is replaced by the mention's id.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown
+    mention-href="#user-{id}"
+    value="Restarted the worker. [@Ana Lima](mention:usr_142), can you verify on [#INC-2041](mention:inc_2041)?"
+  ></wc-markdown>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Finding who to notify</h3>
+
+<p>
+  <code>extractMentions(markdown)</code>, exported from
+  <code>@redvars/peacock</code>, lists the mentions in a value once each,
+  skipping code. Use it when a comment is saved to decide who to notify.
+</p>
+
+<pre><code>import {'{ extractMentions }'} from '@redvars/peacock';
+
+extractMentions('Thanks [@Ana Lima](mention:usr_142)!');
+// [{'{ id: \'usr_142\', label: \'Ana Lima\', trigger: \'@\' }'}]</code></pre>

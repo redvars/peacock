@@ -3,7 +3,11 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>Here are different types of inputs.</p>
+<p>
+  Set <code>value</code> and each digit rolls to its new position. The number is grouped for
+  <code>locale</code>; without one it follows the nearest <code>lang</code>, then the document's, then
+  the browser language.
+</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-number-counter id="number-counter" value="4282828"></wc-number-counter>
@@ -18,3 +22,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     });
   </script>
 </DemoComponentCard>
+
+<h3>Locale</h3>
+
+<DemoComponentCard lang={'html'}>
+  <wc-number-counter value="4282828" locale="de-DE"></wc-number-counter>
+  <wc-number-counter value="4282828" locale="en-IN"></wc-number-counter>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The rolling digit columns are <code>aria-hidden</code>, so screen readers do not read every 0–9 in
+  each column. A visually hidden copy of the formatted value is read instead.
+</p>

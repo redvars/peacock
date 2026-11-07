@@ -2,112 +2,89 @@
 
 @include mixin.base-styles;
 
-@keyframes reveal-top {
-  0% {
-    opacity: 0;
-    transform: translateY(-1rem);
-    max-height: 0;
-  }
-
-  100% {
-    max-height: 500px;
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes reveal-bottom {
-  0% {
-    opacity: 0;
-    transform: translateY(1rem);
-    max-height: 0;
-  }
-
-  100% {
-    max-height: 500px;
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 :host {
-  display: block;
-  position: var(--notification-manager-position, absolute);
-  width: 20rem;
-  z-index: var(--z-index-notification-manager, 9000);
-  pointer-events: none;
+  display: contents;
+
+  --_offset: var(--notification-manager-offset, var(--spacing-200, 1rem));
 }
 
-.notification-manager {
-  pointer-events: none;
+// Fixed to the viewport at `placement`. While it holds toasts it is a manual popover in the top
+// layer, so these rules also undo the browser's default popover styles.
+.region {
+  align-items: flex-end;
+  background: transparent;
+  border: 0;
+  color: inherit;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-100);
-  margin: var(--spacing-150);
+  height: auto;
+  inset: auto;
+  margin: 0;
+  max-block-size: calc(100% - 2 * var(--_offset));
+  max-inline-size: calc(100% - 2 * var(--_offset));
+  overflow: visible;
+  padding: 0;
+  pointer-events: none;
+  position: fixed;
+  width: fit-content;
+  z-index: var(--z-index-notification-manager, 9000);
 }
 
-.notification {
-  pointer-events: auto;
-  max-height: 500px;
-  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-  overflow: hidden;
+// An empty region stays out of the way: the browser hides a closed popover, but `display: flex`
+// above would show it.
+.region:not(:popover-open) {
+  display: none;
 }
 
-.notification.hidden {
-  max-height: 0;
-  opacity: 0;
+.region > wc-snackbar {
+  inline-size: 100%;
 }
 
-/* Position variants */
-
-:host([position='bottom-right']) {
-  bottom: 0;
-  right: 0;
-
-  .notification-manager {
-    align-items: flex-end;
-  }
-
-  .notification {
-    animation: reveal-bottom 0.5s ease-in;
-  }
+.toast-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  min-inline-size: 0;
 }
 
-:host([position='bottom-left']) {
-  bottom: 0;
-  left: 0;
-
-  .notification-manager {
-    align-items: flex-start;
-  }
-
-  .notification {
-    animation: reveal-bottom 0.5s ease-in;
-  }
+.toast-title {
+  @include mixin.get-typography(label-large);
 }
 
-:host([position='top-right']) {
-  top: 0;
-  right: 0;
-
-  .notification-manager {
-    align-items: flex-end;
-  }
-
-  .notification {
-    animation: reveal-top 0.5s ease-in;
-  }
+.toast-subtitle {
+  @include mixin.get-typography(body-medium);
 }
 
-:host([position='top-left']) {
-  top: 0;
-  left: 0;
+// ── Placement ──────────────────────────────────────────────────────────────
 
-  .notification-manager {
-    align-items: flex-start;
-  }
+.placement-top-start,
+.placement-top-center,
+.placement-top-end {
+  inset-block-start: calc(var(--_offset) + env(safe-area-inset-top, 0px));
+}
 
-  .notification {
-    animation: reveal-top 0.5s ease-in;
-  }
+.placement-bottom-start,
+.placement-bottom-center,
+.placement-bottom-end {
+  inset-block-end: calc(var(--_offset) + env(safe-area-inset-bottom, 0px));
+}
+
+.placement-top-start,
+.placement-bottom-start {
+  align-items: flex-start;
+  inset-inline-start: var(--_offset);
+}
+
+.placement-top-end,
+.placement-bottom-end {
+  align-items: flex-end;
+  inset-inline-end: var(--_offset);
+}
+
+.placement-top-center,
+.placement-bottom-center {
+  align-items: center;
+  inset-inline: 0;
+  margin-inline: auto;
 }

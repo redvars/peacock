@@ -1,0 +1,18 @@
+@use '../button/button-layers.scss';
+@use '../button/button-base.scss';
+@use '../button/button-shapes.scss';
+@use '../button/button-colors.scss';
+@use '../button/button-sizes.scss';
+
+/* When both icon and label are present, apply the configured spacing */
+:host([has-icon][has-label]) .button {
+  gap: var(--_button-icon-label-spacing);
+}
+
+:host(:not([trailing-icon])) .button {
+  flex-direction: row;
+}
+
+:host([trailing-icon]) .button {
+  flex-direction: row-reverse;
+}

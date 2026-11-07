@@ -180,6 +180,48 @@ describe('DatePicker', () => {
     expect(tabStop(el).dataset.date).to.equal('2028-03-06');
   });
 
+  it('exposes the month and year views as listboxes of options', async () => {
+    const el = await fixture<DatePicker>(
+      html`<wc-date-picker value="2026-11-06" locale="en-US"></wc-date-picker>`,
+    );
+    const viewButton =
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.view-button')!;
+    const checkView = (view: string) => {
+      const choices = el.shadowRoot!.querySelector('.choices')!;
+      expect(choices.getAttribute('role'), view).to.equal('listbox');
+      const options = choices.querySelectorAll('.choice');
+      expect(options.length).to.be.greaterThan(0);
+      for (const option of Array.from(options)) {
+        expect(option.getAttribute('role')).to.equal('option');
+      }
+      expect(choices.querySelectorAll('[aria-selected="true"]')).to.have.length(
+        1,
+      );
+      expect(el.shadowRoot!.querySelector('[role="gridcell"]')).to.be.null;
+    };
+    viewButton.click();
+    await el.updateComplete;
+    checkView('month');
+    viewButton.click();
+    await el.updateComplete;
+    checkView('year');
+  });
+
+  it('announces the shown period from a live region, not the header button', async () => {
+    const el = await fixture<DatePicker>(
+      html`<wc-date-picker value="2026-11-06" locale="en-US"></wc-date-picker>`,
+    );
+    const viewButton =
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.view-button')!;
+    const live = el.shadowRoot!.querySelector('[aria-live]')!;
+    expect(viewButton.hasAttribute('aria-live')).to.be.false;
+    expect(live.getAttribute('aria-live')).to.equal('polite');
+    expect(live.textContent!.trim()).to.equal('November 2026');
+    el.shadowRoot!.querySelector<HTMLElement>('.next')!.click();
+    await el.updateComplete;
+    expect(live.textContent!.trim()).to.equal('December 2026');
+  });
+
   it('clears and picks today from the actions', async () => {
     const el = await fixture<DatePicker>(
       html`<wc-date-picker value="2026-11-06" show-actions></wc-date-picker>`,
@@ -191,5 +233,14 @@ describe('DatePicker', () => {
       value: string;
     }>;
     expect(event.detail.value).to.equal('');
+  });
+
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<DatePicker>(
+      html`<wc-date-picker></wc-date-picker>`,
+    );
+    el.value = '2026-11-06';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
   });
 });

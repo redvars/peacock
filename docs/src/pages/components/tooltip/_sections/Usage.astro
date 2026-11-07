@@ -10,6 +10,14 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 
+<p class='text-body-medium'>
+  A tooltip opens in the browser's top layer, so it shows above modals and menus. It describes its target
+  through <code>aria-describedby</code>: the element whose id is in <code>for</code> (in the tooltip's own
+  document or shadow root), or else its parent element. Escape hides a visible tooltip without closing the
+  dialog or menu around it. <code>placement</code> takes <code>top</code> (default), <code>bottom</code>,
+  <code>start</code> or <code>end</code>, optionally with <code>-start</code> or <code>-end</code> alignment.
+</p>
+
 <DemoComponentCard lang='html'>
 
   <span class='tooltiwc-link' tabindex='1'>
@@ -20,29 +28,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <br/>
 
-<h3>Rich Tooltip</h3>
-
-<DemoComponentCard lang='html'>
-  <span class='tooltiwc-link' tabindex='1'>
-     hover here
-      <wc-tooltip variant='rich' open>
-        <span slot='title'>Rich tooltip</span>
-        Rich tooltips bring attention to important information or actions.
-        <div slot='actions'>
-          <wc-button variant='text' size='xs'>Action</wc-button>
-           <wc-button variant='text' size='xs'>Action</wc-button>
-        </div>
-      </wc-tooltip>
-    </span>
-</DemoComponentCard>
-
-
-
 <DemoComponentCard lang='html'>
   <div style='position:relative;'>
     <wc-button id='tooltip-btn' variant='outlined'><wc-icon slot='icon' name='save'></wc-icon></wc-button>
-    <wc-tooltip for='tooltip-btn'>Relative tooltup using for attribute</wc-tooltip>
+    <wc-tooltip for='tooltip-btn' placement='bottom'>Relative tooltip using the for attribute</wc-tooltip>
   </div>
 </DemoComponentCard>
 
-
+<p class='text-body-medium'>
+  For rich content with actions, use <a href='/components/popover'><code>wc-popover</code></a>.
+</p>

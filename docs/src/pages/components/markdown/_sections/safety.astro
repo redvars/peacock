@@ -1,0 +1,25 @@
+---
+export const title = 'Safe for typed text';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-markdown</code> never parses HTML, so it is safe for text people
+  typed. Raw HTML shows as the text that was written. Links are followed only
+  for <code>http</code>, <code>https</code>, <code>mailto</code>,
+  <code>tel</code> and relative addresses; any other link, such as
+  <code>javascript:</code>, shows its text only. Links open in a new tab,
+  except links to <code>#</code> anchors on the page.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown id="markdown-safety"></wc-markdown>
+  <script is:inline>
+    document.getElementById('markdown-safety').value = [
+      'Raw HTML stays text: <img src=x onerror="alert(1)">',
+      '',
+      '[A safe link](https://peacock.redvars.com) and [an unsafe one](javascript:alert(1)).',
+    ].join('\n');
+  </script>
+</DemoComponentCard>

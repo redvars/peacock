@@ -1,32 +1,29 @@
 ---
 export const title = 'Events';
 export const order = 700;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import Highlighter from '../../../../components/Highlighter.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>A button fires <code>click</code>, except while <code>loading</code>, <code>soft-disabled</code> or
+  <code>skeleton</code>. A <code>toggle</code> button also fires <code>change</code> after the click flips
+  <code>selected</code>; read the new state from <code>event.detail.selected</code>.</p>
+
 <DemoComponentCard lang='html' inline>
   <wc-button id='click-me-btn'>Click me</wc-button>
   <wc-button disabled id='disabled-btn'>Disabled Button</wc-button>
-   <wc-button toggle id='toggle-btn'><wc-icon name="home" slot="icon"></wc-icon>Toggle Button</wc-button>
+  <wc-button toggle id='toggle-btn'><wc-icon name="home" slot="icon"></wc-icon>Toggle Button</wc-button>
 
   <script is:inline>
-    document.querySelector('#click-me-btn').addEventListener('click', (event) => {
-      myConsole.log('IconButton clicked', '<wc-button>');
+    document.querySelector('#click-me-btn').addEventListener('click', () => {
+      myConsole.log('Button clicked', '<wc-button>');
     });
-    document.querySelector('#disabled-btn').addEventListener('click', (event) => {
-      myConsole.log('IconButton clicked', '<wc-button disabled>');
+    document.querySelector('#disabled-btn').addEventListener('click', () => {
+      myConsole.log('Button clicked', '<wc-button disabled>');
     });
     const $toggleBtn = document.querySelector('#toggle-btn');
-    $toggleBtn.addEventListener('click', (event) => {
-      $toggleBtn.selected = !$toggleBtn.selected;
-      debugger;
-      if ($toggleBtn.selected) {
-        $toggleBtn.querySelector('wc-icon').name = 'home-fill';
-      } else {
-        $toggleBtn.querySelector('wc-icon').name = 'home';
-      }
-      myConsole.log('ToggleButton clicked', '<wc-button toggle>');
+    $toggleBtn.addEventListener('change', (event) => {
+      const { selected } = event.detail;
+      $toggleBtn.querySelector('wc-icon').name = selected ? 'home-fill' : 'home';
+      myConsole.log(`change: selected=${selected}`, '<wc-button toggle>');
     });
   </script>
 </DemoComponentCard>

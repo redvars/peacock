@@ -104,6 +104,27 @@
     }
   }
 
+  /* Badge on the icon */
+  .badge {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: var(--spacing-025);
+    inset-inline-start: calc(50% + var(--spacing-050));
+    min-inline-size: 1rem;
+    padding-inline: var(--spacing-050);
+    border-radius: var(--shape-corner-full);
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+    box-sizing: border-box;
+    text-align: center;
+    pointer-events: none;
+    @include mixin.get-typography('label-small');
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
   /* Label */
   .label {
     @include mixin.get-typography('label-medium');
@@ -141,7 +162,7 @@
   }
 
   /* Active state */
-  &.active {
+  &.current {
     --_state-color: var(--_active-icon-color);
 
     .indicator {
@@ -162,7 +183,7 @@
   }
 
   /* Active icon slot: show when active and slot has content */
-  &.active.has-active-icon {
+  &.current.has-active-icon {
     .active-icon-slot {
       display: flex;
     }

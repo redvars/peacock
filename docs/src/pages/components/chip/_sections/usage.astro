@@ -20,15 +20,24 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </wc-chip>
 </DemoComponentCard>
 
-<DemoComponentCard lang={'html'}>
-  <wc-chip selected>Team</wc-chip>
-</DemoComponentCard>
+<p>
+  A <code>selectable</code> chip is a toggle (a filter chip): its button tells assistive technology
+  whether it is <code>selected</code> through <code>aria-pressed</code>. A plain chip is an action
+  and has no pressed state. A standalone selectable chip does not toggle itself; set
+  <code>selected</code> on <code>click</code>, or put the chips in a selecting
+  <a href='../chip-set'><code>wc-chip-set</code></a>, which does.
+</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-chip-set>
-    <wc-chip>Design</wc-chip>
-    <wc-chip>Engineering</wc-chip>
-    <wc-chip dismissible value="Product">Product</wc-chip>
-    <wc-chip selected>Ops</wc-chip>
-  </wc-chip-set>
+  <wc-chip selectable selected>Team</wc-chip>
+  <wc-chip selectable>Personal</wc-chip>
+</DemoComponentCard>
+
+<p>
+  <code>skeleton</code> renders the chip as a placeholder while its content is not known yet. It is a
+  look, not a busy state.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chip skeleton>Loading</wc-chip>
 </DemoComponentCard>

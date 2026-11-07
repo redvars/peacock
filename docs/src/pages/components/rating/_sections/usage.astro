@@ -1,0 +1,49 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-rating</code> picks a score from 1 to <code>max</code> (5 by default). Pointing at the
+  stars previews a score; the click commits it and fires <code>input</code> and <code>change</code>
+  with <code>detail.value</code>. It is one keyboard stop following the WAI-ARIA slider pattern: the
+  arrow keys move by one step (mirrored in right-to-left layouts), Home and End go to the lowest and
+  highest score, and the digit keys pick that many stars.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-rating id='rating-demo' label='Your rating' name='rating'></wc-rating>
+  <script is:inline>
+    document.querySelector('#rating-demo').addEventListener('change', function (event) {
+      myConsole.log('change: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Half stars and clearing</h3>
+<p>
+  <code>precision="0.5"</code> picks half stars: the start half of a star gives the half. With
+  <code>clearable</code>, choosing the current score again (or going below the lowest with the keys)
+  clears it to <code>0</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-rating label='Half stars' precision='0.5' value='3.5' clearable></wc-rating>
+</DemoComponentCard>
+
+<h3>Other icons and sizes</h3>
+<p>
+  <code>icon</code> names a Material Symbol for the empty shape; <code>&lt;icon&gt;-fill</code> is
+  used for the filled one. <code>size</code> takes <code>sm</code> (default), <code>md</code> and
+  <code>lg</code>; <code>--rating-filled-color</code> and <code>--rating-empty-color</code> recolor
+  it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-rating label='Hearts' icon='favorite' value='4' size='md' style='--rating-filled-color: var(--color-error)'
+    ></wc-rating>
+    <wc-rating label='Out of ten' max='10' value='7' size='lg'></wc-rating>
+  </div>
+</DemoComponentCard>

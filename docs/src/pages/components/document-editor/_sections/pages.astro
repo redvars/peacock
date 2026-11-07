@@ -1,0 +1,90 @@
+---
+export const title = 'Pages, header and footer';
+export const order = 150;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Pages are A4, Letter or Legal, portrait or landscape, with normal (25.4 mm),
+  narrow (12.7 mm) or wide margins. People change them from the status bar;
+  they are part of the value, so a document keeps its setup.
+</p>
+<p>
+  The text breaks over pages the way a word processor does: a paragraph that
+  does not fit continues on the next page at the line that crossed the
+  bottom, lists and quotes break between items, table rows move whole, and
+  images move to the next page when they do not fit. A page break
+  (<kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Enter</kbd> or the toolbar) starts a new
+  page.
+</p>
+<p>
+  Double-click the top or bottom margin of any page to edit the header or
+  footer; they repeat on every page. While one is edited, the toolbar offers
+  inline formatting, alignment, links and <strong>Page number</strong>, which
+  inserts the page number or the page count.
+</p>
+<p>
+  <strong>Zoom.</strong> A page wider than the editor, as in this column, on a
+  tablet or a phone, is scaled down to fit its width, so the whole page shows
+  without scrolling sideways; it is never enlarged past 100%. The zoom menu at
+  the end of the status bar switches between <strong>Fit width</strong> and
+  fixed sizes from 50% to 150%; set <code>zoom</code> to <code>"fit"</code>
+  (the default) or a percentage, and listen for <code>zoom-change</code> to
+  remember the choice. Zooming only changes how the pages are shown: the text
+  breaks over the same pages at every zoom, and <code>print()</code> always
+  prints at 100%.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-document-editor
+    id="document-pages"
+    label="Letter"
+    style="width: 100%; --document-editor-height: 32rem;"
+  ></wc-document-editor>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
+  <script is:inline>
+    const letterEditor = document.getElementById('document-pages');
+    window.peacockMentionDemo(letterEditor);
+    customElements.whenDefined('wc-document-editor').then(async () => {
+      await letterEditor.updateComplete;
+      letterEditor.value = {
+        version: 1,
+        page: {
+          size: 'letter',
+          orientation: 'landscape',
+          margins: { top: 12.7, right: 12.7, bottom: 12.7, left: 12.7 },
+        },
+        header: {
+          type: 'doc',
+          content: [
+            { type: 'paragraph', attrs: { textAlign: 'center' }, content: [{ type: 'text', text: 'Quarterly review · Q4 2026' }] },
+          ],
+        },
+        footer: {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              attrs: { textAlign: 'center' },
+              content: [
+                { type: 'pageNumber', attrs: { kind: 'current' } },
+                { type: 'text', text: ' / ' },
+                { type: 'pageNumber', attrs: { kind: 'total' } },
+              ],
+            },
+          ],
+        },
+        body: {
+          type: 'doc',
+          content: [
+            { type: 'heading', attrs: { level: 1, textAlign: 'center' }, content: [{ type: 'text', text: 'Quarterly review' }] },
+            { type: 'paragraph', attrs: { textAlign: 'center' }, content: [{ type: 'text', marks: [{ type: 'textStyle', attrs: { color: '#5f6368' } }], text: 'Landscape Letter pages with narrow margins.' }] },
+            { type: 'pageBreak' },
+            { type: 'heading', attrs: { level: 2 }, content: [{ type: 'text', text: 'Highlights' }] },
+            { type: 'paragraph', content: [{ type: 'text', text: 'This page starts after a page break.' }] },
+          ],
+        },
+      };
+    });
+  </script>
+</DemoComponentCard>

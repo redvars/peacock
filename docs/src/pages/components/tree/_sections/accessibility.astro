@@ -1,0 +1,40 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 400;
+---
+
+<p>
+  The tree follows the WAI-ARIA tree view pattern: <code>role="tree"</code> (with
+  <code>aria-multiselectable</code> for multiple selection), items with
+  <code>role="treeitem"</code>, <code>aria-level</code>, <code>aria-setsize</code>,
+  <code>aria-posinset</code> and, when they have children, <code>aria-expanded</code>; children sit
+  in a <code>role="group"</code>. A single-select tree marks items with
+  <code>aria-selected</code>, a multi-select tree with <code>aria-checked</code>. It is one tab
+  stop.
+</p>
+<ul>
+  <li><kbd>Up</kbd> and <kbd>Down</kbd> move between visible items; disabled items are skipped.</li>
+  <li>
+    <kbd>Right</kbd> expands a collapsed item, or moves to the first child of an expanded one.
+    <kbd>Left</kbd> collapses an expanded item, or moves to its parent. Both are mirrored in
+    right-to-left layouts, as is the expander arrow.
+  </li>
+  <li><kbd>Home</kbd> and <kbd>End</kbd> jump to the first and last visible item.</li>
+  <li><kbd>*</kbd> expands the focused item and all its siblings.</li>
+  <li>Typing a letter moves to the next item whose label starts with it.</li>
+  <li>
+    <kbd>Space</kbd> toggles the checkbox in a multi-select tree. In a single-select tree the
+    selection follows focus.
+  </li>
+  <li><kbd>Enter</kbd> fires <code>activate</code>, as a double-click does.</li>
+</ul>
+<p>
+  <code>change</code> fires on the tree when the person changes the selection, with
+  <code>detail.value</code> (and <code>detail.values</code> for multiple selection);
+  <code>expand</code>, <code>collapse</code> and <code>activate</code> fire on the item and
+  bubble. Changing <code>value</code> or <code>expanded</code> from code fires nothing.
+</p>
+<p>
+  Indentation is <code>--tree-indent</code> per level (default <code>1.5rem</code>), and row
+  height follows <code>data-density</code>.
+</p>

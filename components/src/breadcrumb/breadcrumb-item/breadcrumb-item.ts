@@ -9,7 +9,11 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @label Breadcrumb Item
  * @tag wc-breadcrumb-item
  * @rawTag breadcrumb-item
- * @summary A breadcrumb item component that represents a single item in a breadcrumb navigation.
+ * @summary One link in a breadcrumb trail, or the current page as plain text.
+ * @overview
+ * <p>The item is the list item of the breadcrumb's list (<code>role="listitem"</code> on the
+ * element itself, since the list sits in the breadcrumb's shadow root). Mark the page the user is on
+ * with <code>current</code>: it renders as text with <code>aria-current="page"</code>.</p>
  * @tags navigation
  *
  * @example
@@ -19,7 +23,11 @@ import IndividualComponent from '@/IndividualComponent.js';
  */
 @IndividualComponent
 export class BreadcrumbItem extends LitElement {
+  // ── Static ───────────────────────────────────────────────────────────────
+
   static styles = [styles];
+
+  // ── Properties ───────────────────────────────────────────────────────────
 
   /**
    * Hyperlink to navigate to on click.
@@ -31,44 +39,52 @@ export class BreadcrumbItem extends LitElement {
    */
   @property() target?: string;
 
-  /**
-   * Indicates if this is the active (current) breadcrumb item.
-   */
-  @property({ type: Boolean, reflect: true }) active = false;
+  /** Whether this item is the current page. Sets `aria-current="page"`. */
+  @property({ type: Boolean, reflect: true }) current = false;
 
   /**
    * Custom separator character. If not provided, default "/" is used.
    */
   @property({ type: String }) separator?: string;
 
+  // ── State ────────────────────────────────────────────────────────────────
+
   /** 1-based position among sibling breadcrumb items, used for schema.org `ListItem` metadata. */
   @state()
   private position = 1;
 
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
   connectedCallback() {
     super.connectedCallback();
+    // The breadcrumb's `<ol>` is in its shadow root, so the item itself is the list item.
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'listitem');
     this.calculatePosition();
   }
+
+  // ── Private methods ──────────────────────────────────────────────────────
 
   private calculatePosition() {
     // Calculate position by counting sibling breadcrumb items
     if (this.parentElement) {
       const items = Array.from(
-        this.parentElement.querySelectorAll('p-breadcrumb-item'),
+        this.parentElement.querySelectorAll(':scope > wc-breadcrumb-item'),
       );
       this.position = items.indexOf(this) + 1;
     }
   }
 
+  // ── Render ───────────────────────────────────────────────────────────────
+
   render() {
     return html`
-      <li
-        class=${classMap({ 'breadcrumb-item': true, active: this.active })}
+      <div
+        class=${classMap({ 'breadcrumb-item': true, current: this.current })}
         itemprop="itemListElement"
         itemscope
         itemtype="https://schema.org/ListItem"
       >
-        ${this.active
+        ${this.current
           ? html`
               <span aria-current="page" itemprop="name">
                 <slot></slot>
@@ -80,8 +96,8 @@ export class BreadcrumbItem extends LitElement {
                 itemprop="item"
                 href=${ifDefined(this.href)}
                 target=${ifDefined(this.target)}
-                ${this.target === '_blank'
-                  ? html`rel="noopener noreferrer"`
+                rel=${this.target === '_blank'
+                  ? 'noopener noreferrer'
                   : nothing}
               >
                 <span itemprop="name">
@@ -95,7 +111,7 @@ export class BreadcrumbItem extends LitElement {
               >${this.separator}</span
             >`
           : nothing}
-      </li>
+      </div>
     `;
   }
 }

@@ -7,10 +7,4 @@ const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
 const sections = buildSections({ ...astroModules, ...mdxModules });
 ---
 
-<style is:inline>
-  goat-checkbox {
-    margin: 0 0.5rem 1rem 0;
-  }
-</style>
-
 <Layout componentName='code-editor' sections={sections}></Layout>

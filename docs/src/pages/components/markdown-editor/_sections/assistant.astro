@@ -1,0 +1,53 @@
+---
+export const title = 'Writing with the assistant';
+export const order = 350;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With a provider that offers <code>transform</code> (ADR-030002), the rich-text editors get AI
+  actions. Select text and press <strong>Ask AI</strong> in the selection bubble, or the sparkle in
+  the toolbar, to <em>Improve writing</em>, <em>Make shorter</em>, <em>Fix spelling and grammar</em>,
+  <em>Translate</em> or <em>Tell it what to change</em>. Type <code>/</code> for <em>Continue
+  writing</em> and <em>Summarize above</em>. With <code>ai-completion</code>, a pause at the end of a
+  paragraph shows ghost text that Tab takes.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    label='Incident summary'
+    ai-completion
+    value={'Hi team,\n\nso basically the export job kept failing since the retry limit was set to zero by someone and nobody noticed for like three days which is why customers didnt get their reports'}
+    style='max-width: 44rem;'
+  ></wc-markdown-editor>
+  <script type='module' src='/assets/js/ai-demo.js'></script>
+</DemoComponentCard>
+
+<h3>Nothing changes until you accept</h3>
+<p>
+  The answer streams into a preview beside the text, never into the document. <strong>Accept</strong>
+  replaces the selection (or, for Continue and Summarize, inserts at the caret) in one step that undo
+  reverts; <strong>Discard</strong> or Escape leaves the text as it was; <strong>Try again</strong>
+  asks once more. A rewrite has a <strong>Changes</strong> view that shows the old and new text as a
+  diff. You can keep editing while the preview is open; the range the answer will replace follows
+  your edits.
+</p>
+<p>
+  Model text is inserted as plain paragraphs. It is never parsed as HTML or Markdown, so an answer
+  can't add links, images or markup of its own.
+</p>
+
+<h3>Where it applies</h3>
+<p>
+  The same actions are in <code>wc-html-editor</code>, <code>wc-comment-composer</code> and the body of
+  <code>wc-document-editor</code>. <code>no-ai</code> turns them off for one editor, and
+  <code>sensitive</code> keeps an editor out of AI altogether. With AI off for the page, the editors
+  show no Ask AI button, no Assistant group in the slash menu and no ghost text.
+</p>
+
+<h3>Accessibility</h3>
+<p>
+  The toolbar's sparkle opens the actions from the keyboard and moves focus into them; the preview is
+  a labelled dialog whose text is announced once it is complete. Ghost text is read as the editor's
+  description while it shows.
+</p>

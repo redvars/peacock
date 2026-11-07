@@ -1,0 +1,102 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Assistant panel block (pages/blocks/assistant/). The frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.assistant-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-block-size: 46rem;
+  background: var(--color-surface-container-lowest);
+
+  @include mixin.for-tablet-landscape-up {
+    grid-template-columns: minmax(0, 1fr) 28rem;
+    // A fixed height, so the conversation scrolls inside the panel as it would beside a page.
+    block-size: 46rem;
+  }
+}
+
+.assistant-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-200);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-400);
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.assistant-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+}
+
+.assistant-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--spacing-150);
+}
+
+.assistant-tile wc-card-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.assistant-mark {
+  display: grid;
+  flex: none;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: var(--shape-corner-small);
+}
+
+.assistant-mark-it {
+  color: var(--color-on-blue-container);
+  background: var(--color-blue-container);
+}
+
+.assistant-mark-hr {
+  color: var(--color-on-red-container);
+  background: var(--color-red-container);
+}
+
+.assistant-mark-pr {
+  color: var(--color-on-purple-container);
+  background: var(--color-purple-container);
+}
+
+.assistant-aside {
+  display: flex;
+  min-block-size: 40rem;
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-tablet-landscape-up {
+    min-block-size: 0;
+    border-block-start: 0;
+    border-inline-start: 1px solid var(--color-outline-variant);
+  }
+
+  wc-assistant-panel {
+    flex: 1;
+    min-inline-size: 0;
+  }
+}
+
+.assistant-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  max-inline-size: 22rem;
+}

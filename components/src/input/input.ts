@@ -1,11 +1,11 @@
 import { html, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 
-import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
 import { spread } from '@/__internal/directive/spread.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
-import BaseInput from './BaseInput.js';
+import BaseField from './BaseField.js';
+import { type ControlValidity, nativeValidity } from './BaseInput.js';
 import styles from './input.scss';
 
 /**
@@ -13,13 +13,20 @@ import styles from './input.scss';
  * @tag wc-input
  * @rawTag input
  *
- * @summary The Input component is used to capture user input.
+ * @summary A single-line text field for plain text, an email address or a phone number.
  * @overview
  * <p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted
  * under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>
+ * <p>It validates like a native input: <code>required</code> and an invalid <code>type="email"</code>
+ * block form submission, and the message shows under the field once the value is committed or the
+ * form is submitted. <code>checkValidity()</code>, <code>reportValidity()</code> and
+ * <code>setCustomValidity()</code> work as on <code>&lt;input&gt;</code>, and so do
+ * <code>minlength</code>, <code>maxlength</code> and <code>pattern</code>. With
+ * <code>maxlength</code> a character counter shows under the field.</p>
+ * <p>For a password, use <code>wc-password-field</code>.</p>
  *
- * @fires {Event} input - Re-fired from the native input as the user types.
- * @fires {Event} change - Re-fired from the native input when the value is committed.
+ * @fires {CustomEvent<{value: string}>} input - Dispatched as the user types.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed.
  *
  * @example
  * ```html
@@ -28,7 +35,7 @@ import styles from './input.scss';
  * @tags input, form
  */
 @IndividualComponent
-export class Input extends BaseInput {
+export class Input extends BaseField {
   // ── Static ───────────────────────────────────────────────────────────────
 
   static styles = [styles];
@@ -38,179 +45,112 @@ export class Input extends BaseInput {
   @property({ type: String })
   value = '';
 
+  /** Kind of text. For a password, use `wc-password-field`. */
   @property({ type: String })
-  placeholder = '';
-
-  @property({ type: String })
-  label = '';
-
-  @property({ type: Boolean, reflect: true })
-  inline = false;
-
-  /** Field size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. */
-  @property({ type: String, reflect: true })
-  size: 'sm' | 'md' | 'lg' = 'md';
-
-  @property({ type: String })
-  type: 'text' | 'password' | 'email' | 'tel' = 'text';
-
-  @property({ type: String })
-  autocomplete: 'on' | 'off' = 'off';
-
-  @property({ type: Object })
-  configAria: Record<string, string> = {};
-
-  @property({ type: String })
-  variant: 'filled' | 'outlined' | 'default' = 'default';
+  type: 'text' | 'email' | 'tel' = 'text';
 
   /**
-   * Helper text to display below the input.
+   * Autofill hint for the browser, any `autocomplete` token such as `email`, `username`, `name`,
+   * `tel`, `one-time-code` or `off`. Unset by default, so the browser decides.
    */
-  @property({ type: String, attribute: 'helper-text' })
-  helperText: string = '';
+  @property({ type: String })
+  autocomplete = '';
 
-  @property({ type: Boolean })
-  error: boolean = false;
+  /** Fewest characters allowed. */
+  @property({ type: Number, attribute: 'minlength' })
+  minLength?: number;
 
-  @property({ type: String, attribute: 'error-text' })
-  errorText: string = '';
+  /** Most characters allowed; the input stops taking more and shows a character counter. */
+  @property({ type: Number, attribute: 'maxlength' })
+  maxLength?: number;
 
-  @property({ type: Boolean })
-  warning: boolean = false;
-
-  @property({ type: String, attribute: 'warning-text' })
-  warningText: string = '';
-
-  // ── State ────────────────────────────────────────────────────────────────
-
-  @state()
-  private focused = false;
-
-  @state()
-  private passwordVisible = false;
+  /** Regular expression the whole value must match, as on `<input pattern>`. */
+  @property({ type: String })
+  pattern = '';
 
   /**
-   * Returns true when the text field has been interacted with. Native
-   * validation errors only display in response to user interactions.
+   * The `inputmode` attribute: which virtual keyboard to show (`numeric`, `decimal`, `email`,
+   * `tel`, `url`, `search`, `none`). Passed to the native input only when set.
    */
-  @state()
-  private dirty = false;
+  @property({ type: String, attribute: 'inputmode' })
+  protected inputModeAttribute: string | null = null;
+
+  /**
+   * The `spellcheck` attribute (`true` or `false`). Passed to the native input only when set, so
+   * the browser default applies otherwise.
+   */
+  @property({ type: String, attribute: 'spellcheck' })
+  protected spellcheckAttribute: string | null = null;
 
   // ── Queries ──────────────────────────────────────────────────────────────
 
   @query('.input-element')
   private inputElement?: HTMLInputElement;
 
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.handleInitialAttributes();
-  }
-
   // ── Public methods ───────────────────────────────────────────────────────
 
-  override async focus() {
-    await Promise.all([
-      customElements.whenDefined('wc-input'),
-      customElements.whenDefined('wc-field'),
-    ]);
-    await this.updateComplete;
+  override focus() {
     this.inputElement?.focus();
+  }
+
+  override blur() {
+    this.inputElement?.blur();
+  }
+
+  // ── Protected methods ────────────────────────────────────────────────────
+
+  protected override computeValidity(): ControlValidity {
+    return this.inputElement
+      ? nativeValidity(this.inputElement)
+      : super.computeValidity();
+  }
+
+  protected override validityAnchor() {
+    return this.inputElement;
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private handleInitialAttributes() {
-    Array.from(this.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-')) {
-        this.configAria[attr.name] = attr.value;
-        this.removeAttribute(attr.name);
-      }
-    });
-  }
-
-  private __handleInput(event: InputEvent) {
-    this.dirty = true;
+  private handleInput(event: Event) {
+    // Replace the native event, which escapes the shadow root, with the field's own.
+    event.stopPropagation();
     this.value = (event.target as HTMLInputElement).value;
+    this.emitValue('input');
   }
 
-  private __handleFocusChange = (event: FocusEvent) => {
-    this.focused = event.type === 'focus';
-  };
-
-  private __redispatchEvent(event: Event) {
-    redispatchEvent(this, event);
-  }
-
-  // ── Render helpers ───────────────────────────────────────────────────────
-
-  private __renderPasswordToggle() {
-    if (this.type !== 'password') return nothing;
-    return html`
-      <wc-icon-button
-        class="password-toggle"
-        variant="text"
-        slot="field-end"
-        tooltip=${this.passwordVisible ? 'Hide password' : 'Show password'}
-        @click=${() => {
-          this.passwordVisible = !this.passwordVisible;
-        }}
-      >
-        <wc-icon
-          name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
-        ></wc-icon>
-      </wc-icon-button>
-    `;
+  private handleChange(event: Event) {
+    event.stopPropagation();
+    this.emitValue('change');
   }
 
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
-    const displayType =
-      this.type === 'password' && this.passwordVisible ? 'text' : this.type;
-
-    return html`
-      <wc-field
+    return this.renderField(
+      html`<input
+        class="input input-element"
+        type=${this.type}
+        placeholder=${this.placeholder}
+        autocomplete=${this.autocomplete || nothing}
+        minlength=${this.minLength ?? nothing}
+        maxlength=${this.maxLength ?? nothing}
+        pattern=${this.pattern || nothing}
+        inputmode=${this.inputModeAttribute ?? nothing}
+        spellcheck=${this.spellcheckAttribute ?? nothing}
+        .value=${this.value}
+        ?readonly=${this.readonly}
         ?required=${this.required}
         ?disabled=${this.disabled}
-        ?readonly=${this.readonly}
-        ?skeleton=${this.skeleton}
-        helper-text=${this.helperText}
-        ?error=${this.error}
-        error-text=${this.errorText}
-        ?warning=${this.warning}
-        variant=${this.variant}
-        ?populated=${!!this.value}
-        warning-text=${this.warningText}
-        label=${this.label}
-        ?focused=${this.focused}
-        .host=${this}
-        class="input-wrapper"
-      >
-        <slot name="start" slot="field-start"></slot>
-
-        <input
-          class="input input-element"
-          name=${this.name}
-          type=${displayType}
-          placeholder=${this.placeholder}
-          autocomplete=${this.autocomplete}
-          .value=${this.value}
-          ?readonly=${this.readonly}
-          ?required=${this.required}
-          ?disabled=${this.disabled}
-          @input=${this.__handleInput}
-          @change=${this.__redispatchEvent}
-          @focus=${this.__handleFocusChange}
-          @blur=${this.__handleFocusChange}
-          ${spread(this.configAria)}
-        />
-
-        <slot name="end" slot="field-end"></slot>
-
-        ${this.__renderPasswordToggle()}
-      </wc-field>
-    `;
+        @input=${this.handleInput}
+        @change=${this.handleChange}
+        @focus=${this.handleFieldFocus}
+        @blur=${this.handleFieldFocus}
+        ${spread(this.fieldAria())}
+      />`,
+      {
+        populated: !!this.value,
+        textCount: this.characterCount(this.maxLength),
+      },
+    );
   }
 }

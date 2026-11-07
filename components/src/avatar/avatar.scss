@@ -11,6 +11,14 @@
   --avatar-container-shape: var(--global-avatar-container-shape);
 }
 
+:host([size=sm]) {
+  --avatar-size: 1.5rem;
+}
+
+:host([size=lg]) {
+  --avatar-size: 3rem;
+}
+
 .avatar-container {
   display: flex;
   align-items: center;
@@ -36,5 +44,11 @@
     height: 100%;
     overflow: hidden;
     border-radius: inherit;
+    object-fit: cover;
+  }
+
+  .fallback-icon {
+    --icon-size: calc(var(--avatar-size) * 0.6);
+    --icon-color: var(--avatar-text-color);
   }
 }

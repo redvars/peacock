@@ -1,7 +1,10 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { e } from './class-map-NDIkZErE.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
 import './directive-ZPhl09Yt.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -9,13 +12,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   container-type: inline-size;
@@ -239,6 +264,19 @@ function getPageItems(current, total, siblings = 1) {
 }
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
+let variantWarned = false;
+/** Warns once per page that a `full` or `compact` variant shows as `simple` without a total. */
+function warnVariantForced(variant) {
+    if (variantWarned)
+        return;
+    variantWarned = true;
+    // eslint-disable-next-line no-console
+    console.warn(`[peacock] wc-pagination: variant="${variant}" needs total-items; it shows as "simple" while the total is unknown.`);
+}
+/** Lets the next forced variant warn again. For tests only. */
+function resetPaginationWarnings() {
+    variantWarned = false;
+}
 /**
  * @label Pagination
  * @tag wc-pagination
@@ -249,7 +287,7 @@ const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
  * <p>Three variants cover different data sets: <code>full</code> lists page numbers with ellipses, <code>compact</code> shows "Page [n] of N" with a field to jump to a page, and <code>simple</code> shows previous and next only. When <code>total-items</code> is not set, the total is unknown (cursor-based APIs): the control shows previous and next, and <code>has-next</code> says whether another page exists.</p>
  * <p>On a narrow container the <code>full</code> variant collapses to <code>compact</code>.</p>
  *
- * @fires {CustomEvent} page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.
+ * @fires {CustomEvent<{page: number, pageSize: number}>} page -Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.
  *
  * @cssprop --pagination-background - Background of the control. Defaults to the surface color.
  *
@@ -277,11 +315,6 @@ let Pagination = class Pagination extends i$1 {
          */
         this.pageSizes = DEFAULT_PAGE_SIZES;
         /**
-         * How the pages are shown: `full` (page numbers), `compact` ("Page [n] of N") or `simple`
-         * (previous and next only). Defaults to `full`.
-         */
-        this.variant = 'full';
-        /**
          * Whether another page exists after this one. Used only when `total-items` is unset.
          */
         this.hasNext = false;
@@ -294,9 +327,17 @@ let Pagination = class Pagination extends i$1 {
          */
         this.hidePageSize = false;
         /**
-         * Accessible name of the navigation landmark. Defaults to `"Pagination"`.
+         * Accessible name of the navigation landmark. Defaults to Peacock's `pagination` string
+         * (`"Pagination"`).
          */
-        this.label = 'Pagination';
+        this.label = '';
+        // ── Private fields ───────────────────────────────────────────────────────
+        /** Peacock's strings and the locale page numbers are formatted in. */
+        this.i18n = new I18nController(this);
+        /** Backing field of `variant`. */
+        this._variant = 'full';
+        /** True once `variant` was set by the consumer rather than left at its default. */
+        this.variantSet = false;
         this.handlePageInput = (event) => {
             const input = event.target;
             const value = Number.parseInt(input.value, 10);
@@ -311,6 +352,18 @@ let Pagination = class Pagination extends i$1 {
                 this.handlePageInput(event);
             }
         };
+    }
+    /**
+     * How the pages are shown: `full` (page numbers), `compact` ("Page [n] of N") or `simple`
+     * (previous and next only). Defaults to `full`. Without `total-items` the control can only show
+     * `simple`; a `full` or `compact` set explicitly then logs one console warning.
+     */
+    get variant() {
+        return this._variant;
+    }
+    set variant(value) {
+        this._variant = value;
+        this.variantSet = true;
     }
     // ── Lifecycle ────────────────────────────────────────────────────────────
     willUpdate(changedProperties) {
@@ -344,6 +397,9 @@ let Pagination = class Pagination extends i$1 {
         if (totalPages !== undefined && this.page > totalPages) {
             this.page = totalPages;
         }
+        if (this.variantSet && this.variant !== 'simple' && !this.hasTotal) {
+            warnVariantForced(this.variant);
+        }
     }
     // ── Private methods ──────────────────────────────────────────────────────
     /** True when the total is known. */
@@ -370,15 +426,22 @@ let Pagination = class Pagination extends i$1 {
     get effectiveVariant() {
         return this.hasTotal ? this.variant : 'simple';
     }
+    /** Formats a number in the resolved locale. */
+    formatNumber(value) {
+        return new Intl.NumberFormat(this.i18n.locale).format(value);
+    }
     getRangeText() {
         const total = this.totalItems ?? 0;
-        if (this.hasTotal && total === 0)
-            return '0 of 0';
-        const start = this.pageSize * (this.page - 1) + 1;
-        if (!this.hasTotal)
-            return `${start}–${this.pageSize * this.page}`;
+        if (this.hasTotal && total === 0) {
+            return this.i18n.t('emptyPageRange')(this.formatNumber(0));
+        }
+        const pageRange = this.i18n.t('pageRange');
+        const start = this.formatNumber(this.pageSize * (this.page - 1) + 1);
+        if (!this.hasTotal) {
+            return pageRange(start, this.formatNumber(this.pageSize * this.page));
+        }
         const end = Math.min(this.pageSize * this.page, total);
-        return `${start}–${end} of ${total}`;
+        return pageRange(start, this.formatNumber(end), this.formatNumber(total));
     }
     setPage(nextPage) {
         const totalPages = this.getTotalPages() ?? Number.MAX_SAFE_INTEGER;
@@ -440,11 +503,11 @@ let Pagination = class Pagination extends i$1 {
                 'page-button': true,
                 current: item === this.page,
             })}
-                    aria-label="Page ${item}"
+                    aria-label=${this.i18n.t('pageNumber')(this.formatNumber(item))}
                     aria-current=${item === this.page ? 'page' : A}
                     @click=${() => this.setPage(item)}
                   >
-                    ${item}
+                    ${this.formatNumber(item)}
                   </button>
                 </li>
               `)}
@@ -452,9 +515,10 @@ let Pagination = class Pagination extends i$1 {
     `;
     }
     renderPageJump(totalPages) {
+        const pages = this.formatNumber(totalPages);
         return b `
       <div class="page-jump">
-        <span>Page</span>
+        <span>${this.i18n.t('page')}</span>
         <input
           class="page-input"
           type="number"
@@ -462,11 +526,11 @@ let Pagination = class Pagination extends i$1 {
           min="1"
           max=${totalPages}
           .value=${String(this.page)}
-          aria-label="Page number, ${totalPages} pages"
+          aria-label=${this.i18n.t('pageNumberField')(pages)}
           @change=${this.handlePageInput}
           @keydown=${this.handlePageInputKeydown}
         />
-        <span>of ${totalPages}</span>
+        <span>${this.i18n.t('ofPages')(pages)}</span>
       </div>
     `;
     }
@@ -475,14 +539,18 @@ let Pagination = class Pagination extends i$1 {
             return A;
         return b `
       <div class="page-size">
-        <span class="page-size-label" aria-hidden="true">Rows per page</span>
+        <span class="page-size-label" aria-hidden="true"
+          >${this.i18n.t('rowsPerPage')}</span
+        >
         <wc-select
           class="page-size-select"
           .value=${String(this.pageSize)}
-          aria-label="Rows per page"
+          aria-label=${this.i18n.t('rowsPerPage')}
           @change=${this.handlePageSizeChange}
         >
-          ${this.pageSizes.map(size => b `<wc-option value=${String(size)}>${size}</wc-option>`)}
+          ${this.pageSizes.map(size => b `<wc-option value=${String(size)}
+                >${this.formatNumber(size)}</wc-option
+              >`)}
         </wc-select>
       </div>
     `;
@@ -496,27 +564,27 @@ let Pagination = class Pagination extends i$1 {
         return b `
       <nav
         class=${e({ pagination: true, [`variant-${variant}`]: true })}
-        aria-label=${this.label}
+        aria-label=${this.label || this.i18n.t('pagination')}
       >
         <div class="range" aria-hidden="true">${rangeText}</div>
         <span class="visually-hidden" aria-live="polite">
-          Showing ${rangeText}
+          ${this.i18n.t('showingRange')(rangeText)}
         </span>
 
         ${this.renderPageSize()}
 
         <div class="controls">
           ${showFirstLast
-            ? this.renderNavButton('first_page', 'First page', this.isFirstPage, () => 1, 'first')
+            ? this.renderNavButton('first_page', this.i18n.t('firstPage'), this.isFirstPage, () => 1, 'first')
             : A}
-          ${this.renderNavButton('chevron_left', 'Previous page', this.isFirstPage, () => this.page - 1, 'previous')}
+          ${this.renderNavButton('chevron_left', this.i18n.t('previousPage'), this.isFirstPage, () => this.page - 1, 'previous')}
           ${variant === 'full' ? this.renderPageList(totalPages) : A}
           ${variant === 'full' || variant === 'compact'
             ? this.renderPageJump(totalPages)
             : A}
-          ${this.renderNavButton('chevron_right', 'Next page', this.isLastPage, () => this.page + 1, 'next')}
+          ${this.renderNavButton('chevron_right', this.i18n.t('nextPage'), this.isLastPage, () => this.page + 1, 'next')}
           ${showFirstLast
-            ? this.renderNavButton('last_page', 'Last page', this.isLastPage, () => totalPages, 'last')
+            ? this.renderNavButton('last_page', this.i18n.t('lastPage'), this.isLastPage, () => totalPages, 'last')
             : A}
         </div>
       </nav>
@@ -538,7 +606,7 @@ __decorate([
 ], Pagination.prototype, "pageSizes", void 0);
 __decorate([
     n({ type: String, reflect: true })
-], Pagination.prototype, "variant", void 0);
+], Pagination.prototype, "variant", null);
 __decorate([
     n({ type: Boolean, attribute: 'has-next' })
 ], Pagination.prototype, "hasNext", void 0);
@@ -551,9 +619,12 @@ __decorate([
 __decorate([
     n({ type: String })
 ], Pagination.prototype, "label", void 0);
+__decorate([
+    n({ attribute: false })
+], Pagination.prototype, "strings", void 0);
 Pagination = __decorate([
     IndividualComponent
 ], Pagination);
 
-export { Pagination };
+export { Pagination, resetPaginationWarnings };
 //# sourceMappingURL=pagination.js.map

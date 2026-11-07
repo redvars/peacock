@@ -4,7 +4,13 @@ import { AccordionItem } from './accordion-item.js';
  * @label Accordion
  * @tag wc-accordion
  * @rawTag accordion
- * @summary A vertically stacked set of expansion panels.
+ * @summary A stack of panels whose headers the person opens to show or hide their content.
+ * @overview
+ * <p>Every panel header is in the Tab order; the Up and Down arrow keys also move focus between
+ * the headers, Home and End jump to the first and last. Disabled panels are skipped. Without
+ * <code>multiple</code>, opening a panel (by the person or by setting <code>open</code>) closes
+ * the others.</p>
+ * <p>Items fire <code>open</code> and <code>close</code>.</p>
  *
  * @example
  * ```html
@@ -24,6 +30,7 @@ import { AccordionItem } from './accordion-item.js';
  */
 export declare class Accordion extends LitElement {
     static styles: import("lit").CSSResultGroup[];
+    static Item: typeof AccordionItem;
     /**
      * Whether multiple panels can be expanded simultaneously.
      * When `false` (default), expanding one panel collapses all others.
@@ -41,10 +48,11 @@ export declare class Accordion extends LitElement {
      */
     leadingToggle: boolean;
     items: Array<AccordionItem>;
+    /** Up/Down, Home and End move focus between the header buttons. */
+    private readonly roving;
     connectedCallback(): void;
     disconnectedCallback(): void;
-    private _onItemToggle;
-    private _onKeyDown;
+    private __handleItemOpen;
+    private __handleSlotChange;
     render(): import("lit-html").TemplateResult<1>;
-    static Item: typeof AccordionItem;
 }

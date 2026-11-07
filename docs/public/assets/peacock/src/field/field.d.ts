@@ -4,9 +4,12 @@ import { LitElement, nothing } from 'lit';
  * @tag wc-field
  * @rawTag field
  *
- * @summary Wrapper for form fields with label and help text.
+ * @summary The box around a form control, with its label, required mark, helper, error or warning text and a character count.
  * @overview
- * <p>Field provides consistent styling and behavior for form inputs.</p>
+ * <p>The field draws the frame of a form control: the label with a required mark, the bordered
+ * box with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,
+ * error or warning text and a character count. Wrap a custom control in it to match the
+ * built-in fields.</p>
  *
  * @example
  * ```html
@@ -21,8 +24,6 @@ export declare class Field extends LitElement {
     static styles: import("lit").CSSResultGroup[];
     /** Label text shown above the field input. */
     label: string;
-    /** Help text (deprecated — prefer `helperText`). */
-    help: string;
     /** When true, marks the field as required and shows a required indicator. */
     required: boolean;
     /** When true, the field and its slotted input are disabled. */
@@ -49,6 +50,11 @@ export declare class Field extends LitElement {
     populated: boolean;
     /** Visual variant of the field container. */
     variant: 'filled' | 'outlined' | 'default';
+    /**
+     * Height of the field box: `sm` (2.5rem, the default, the same as a default button), `md`
+     * (3.5rem) or `lg` (4rem). `data-density` on an ancestor shortens it further.
+     */
+    size: 'sm' | 'md' | 'lg';
     /** Reference to the host input element; used to forward click-on-label focus. */
     host?: HTMLElement;
     /** True when the `field-start` slot contains at least one node. */

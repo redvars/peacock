@@ -8,7 +8,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-option
  * @rawTag option
  *
- * @summary An option of a wc-select.
+ * @summary One option in a select dropdown, with an optional icon before its label.
  * @overview
  * <p>Options are menu items with the <code>option</code> role. The selected option of a single select
  * shows a check mark at the end; in a multi-select every option shows a checkbox at the start.</p>
@@ -41,6 +41,13 @@ export class SelectOptionElement extends MenuItem {
    */
   @property({ type: Boolean, reflect: true })
   filtered: boolean = false;
+
+  /**
+   * Marks the option the assistant suggested with a Suggested badge, while the select holds the
+   * suggestion. Set by wc-select.
+   */
+  @property({ type: Boolean, reflect: true })
+  suggested: boolean = false;
 
   protected override willUpdate(changed: PropertyValues<this>) {
     super.willUpdate(changed);
@@ -81,6 +88,8 @@ export class SelectOptionElement extends MenuItem {
 
   protected override renderEnd(): TemplateResult | typeof nothing {
     // A multi-select shows its state in the leading checkbox instead of a trailing check.
-    return this.multiple ? nothing : super.renderEnd();
+    const end = this.multiple ? nothing : super.renderEnd();
+    if (!this.suggested) return end;
+    return html`<wc-ai-badge class="suggested-badge"></wc-ai-badge>${end}`;
   }
 }

@@ -34,8 +34,11 @@
 .sidenav {
   position: absolute;
   width: 100%;
+  height: auto;
   padding-bottom: var(--spacing-150);
-  padding-inline: var(--spacing-100);
+  --navigation-drawer-width: 100%;
+  --navigation-drawer-container-color: transparent;
+  --navigation-drawer-item-height: 3rem;
 }
 
 /** Desktop and tablet landscape styles */

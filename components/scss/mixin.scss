@@ -4,12 +4,41 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  // Read by screen readers, invisible on screen. Not `display: none`, which hides it from screen
+  // readers too.
   .screen-reader-only {
-    display: none !important;
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 
   [hidden] {
     display: none !important;
+  }
+
+  // Forced colors (Windows high contrast) drop background fills and shadows, so a state shown
+  // only as a fill disappears. Mark chosen and current items with an outline in the system
+  // highlight color, and grey out disabled content.
+  @media (forced-colors: active) {
+    .selected,
+    [aria-selected='true'],
+    [aria-pressed='true'],
+    [aria-checked='true'],
+    [aria-current]:not([aria-current='false']) {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+
+    .disabled,
+    [aria-disabled='true'] {
+      color: GrayText;
+    }
   }
 }
 

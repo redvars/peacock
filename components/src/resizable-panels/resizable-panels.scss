@@ -1,0 +1,88 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_divider-size: var(--resizable-panels-divider-size, 1px);
+  --_divider-color: var(
+    --resizable-panels-divider-color,
+    var(--color-outline-variant)
+  );
+  --_divider-active-color: var(
+    --resizable-panels-divider-active-color,
+    var(--color-primary)
+  );
+  // Extra pointer target on each side of the line.
+  --_divider-hit: var(--spacing-050);
+
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+:host([orientation='vertical']) {
+  flex-direction: column;
+}
+
+.divider {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  inline-size: var(--_divider-size);
+  background-color: var(--_divider-color);
+  cursor: col-resize;
+  touch-action: none;
+  outline: none;
+  transition: background-color var(--duration-short2, 100ms) linear;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc(-1 * var(--_divider-hit));
+  }
+
+  &:hover,
+  &.dragging {
+    background-color: var(--_divider-active-color);
+  }
+
+  &:focus-visible {
+    background-color: var(--_divider-active-color);
+    outline: 2px solid var(--_divider-active-color);
+    outline-offset: 1px;
+  }
+}
+
+:host([orientation='vertical']) .divider {
+  inline-size: auto;
+  block-size: var(--_divider-size);
+  cursor: row-resize;
+
+  &::before {
+    inset-block: calc(-1 * var(--_divider-hit));
+    inset-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .divider {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .divider {
+    background-color: CanvasText;
+
+    &:hover,
+    &.dragging,
+    &:focus-visible {
+      background-color: Highlight;
+      outline-color: Highlight;
+    }
+  }
+}

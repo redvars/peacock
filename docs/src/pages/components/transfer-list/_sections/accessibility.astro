@@ -1,0 +1,65 @@
+---
+export const title = 'Keyboard, events and forms';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Each list is a <code>wc-listbox multiple</code>, named by its headline and count ("Selected
+  (3)"), so it works as there: <kbd>Up</kbd> and <kbd>Down</kbd> move, <kbd>Space</kbd> or a
+  click checks an item, <kbd>Ctrl</kbd>+<kbd>A</kbd> (<kbd>Cmd</kbd>+<kbd>A</kbd>) checks all.
+  <kbd>Enter</kbd> moves the focused item to the other list and keeps focus in its list. The move
+  buttons are named "Move checked items to Selected", "Move all items to Available" and so on,
+  and point the other way in right-to-left layouts. Every move is announced in a polite live
+  region, such as "2 items moved to Selected".
+</p>
+<p>
+  Every move or reorder fires one <code>change</code>, which bubbles, with
+  <code>detail.value</code> (comma-separated) and <code>detail.values</code>. A move is a commit,
+  so there is no separate <code>input</code>. Setting <code>value</code> or
+  <code>values</code> from code fires nothing.
+</p>
+<p>
+  Inside a <code>&lt;form&gt;</code> each value is submitted under <code>name</code>.
+  <code>required</code> blocks submission while nothing is selected, <code>form.reset()</code>
+  restores the first value, <code>readonly</code> shows the lists without letting the person
+  move items, and <code>disabled</code> turns everything off.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form id='transfer-list-form' style='width: 100%; max-width: 44rem; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-transfer-list
+      label='Team members'
+      name='members'
+      required
+      options='[{"value":"ana","label":"Ana"},{"value":"ben","label":"Ben"},{"value":"chen","label":"Chen"},{"value":"dara","label":"Dara"}]'
+    ></wc-transfer-list>
+    <div style='display: flex; gap: 0.5rem;'>
+      <wc-button type='submit'>Submit</wc-button>
+      <wc-button type='reset' variant='outlined'>Reset</wc-button>
+    </div>
+  </form>
+  <script is:inline>
+    document.querySelector('#transfer-list-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      myConsole.log('submit', JSON.stringify(new FormData(event.target).getAll('members')));
+    });
+  </script>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 44rem; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-transfer-list
+      label='Read only'
+      readonly
+      value='ben'
+      options='[{"value":"ana","label":"Ana"},{"value":"ben","label":"Ben"}]'
+    ></wc-transfer-list>
+    <wc-transfer-list
+      label='Disabled'
+      disabled
+      value='ben'
+      options='[{"value":"ana","label":"Ana"},{"value":"ben","label":"Ben"}]'
+    ></wc-transfer-list>
+  </div>
+</DemoComponentCard>

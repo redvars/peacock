@@ -7,19 +7,22 @@ import dataSource from '../_data-source.json';
 ---
 
 <p>
-  With <code>selection-type="checkbox"</code>, a selected row is tinted and gets an accent bar on its
-  leading edge. While rows are selected, a bar covers the header with the count, a
-  <strong>Clear</strong> action and whatever you put in the <code>bulk-actions</code> slot.
+  Set <code>selection</code> to choose how rows are selected: <code>none</code> (the default),
+  <code>single</code> or <code>multiple</code>.
 </p>
 <p>
-  When every row on the page is selected, the bar offers <strong>Select all</strong> for the whole
-  data set. The <code>selection-change</code> event then reports <code>allPages: true</code>; in
-  managed mode, use that flag to act on every item on the server.
+  With <code>selection="multiple"</code>, each row gets a checkbox and the header a select-all
+  checkbox for the page. A selected row is tinted and gets an accent bar on its leading edge. While
+  rows are selected, a bar covers the header with the count, a <strong>Clear</strong> action and
+  whatever you put in the <code>bulk-actions</code> slot. When every row on the page is selected,
+  the bar offers <strong>Select all</strong> for the whole data set. The
+  <code>selection-change</code> event then reports <code>allPages: true</code>; in managed mode,
+  use that flag to act on every item on the server.
 </p>
 
 <DemoComponentCard lang='html'>
   <div style='width: 100%; height: 28rem;'>
-    <wc-table id='table-selection' key-field='_id' selection-type='checkbox' paginate page-size='10' label='People'>
+    <wc-table id='table-selection' key-field='_id' selection='multiple' label='People'>
       <wc-button slot='bulk-actions' variant='text' size='sm'>
         <wc-icon slot='icon' name='download'></wc-icon>
         Export
@@ -28,6 +31,7 @@ import dataSource from '../_data-source.json';
         <wc-icon slot='icon' name='delete'></wc-icon>
         Delete
       </wc-button>
+      <wc-pagination slot='footer'></wc-pagination>
     </wc-table>
   </div>
   <p class='text-body-medium'>Selection: <code id='selection-output'>[]</code></p>
@@ -40,6 +44,8 @@ import dataSource from '../_data-source.json';
       { name: 'email', label: 'Email', width: 22 },
     ];
     $table.data = dataSource;
+    // Inactive people cannot be selected.
+    $table.isRowSelectable = row => row.isActive !== false;
     $table.addEventListener('selection-change', event => {
       const { value, allPages } = event.detail;
       document.getElementById('selection-output').textContent = allPages
@@ -48,3 +54,40 @@ import dataSource from '../_data-source.json';
     });
   </script>
 </DemoComponentCard>
+
+<h3>Single selection</h3>
+<p>
+  With <code>selection="single"</code>, each row gets a radio button and selecting a row clears the
+  others. Rows carry <code>aria-selected</code>; there is no select-all and no selection bar.
+  <kbd>Space</kbd> selects the focused row.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 20rem;'>
+    <wc-table id='table-single' key-field='_id' selection='single' label='People'></wc-table>
+  </div>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $single = document.getElementById('table-single');
+    $single.columns = [
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'company', label: 'Company', width: 12, flex: 1 },
+    ];
+    $single.data = dataSource.slice(0, 5);
+  </script>
+</DemoComponentCard>
+
+<h3>Rows that cannot be selected</h3>
+<p>
+  Set the <code>isRowSelectable</code> property to a function of the row. Rows it returns
+  <code>false</code> for show a disabled control, carry <code>aria-disabled</code> and are skipped by
+  select-all and by <strong>Select all</strong>.
+</p>
+
+<h3>Row keys</h3>
+<p>
+  <code>key-field</code> (default <code>id</code>) names the field that identifies a row. Keys are
+  always compared and reported as strings, so a numeric <code>id</code> of <code>1</code> matches
+  <code>selected-row-keys='["1"]'</code>, and <code>selection-change</code> reports
+  <code>["1"]</code>.
+</p>

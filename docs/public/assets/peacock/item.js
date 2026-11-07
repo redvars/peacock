@@ -1,16 +1,10 @@
-import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { e as e$1 } from './base-Cl6v8-BZ.js';
-import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
+import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './query-all-ThKhg-Lp.js';
+import { m as mixinDelegatesAria } from './delegate-Bw2wdPFP.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
 import { h as hasMeaningfulContent } from './observe-slot-change-DPxaZrZF.js';
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-let e;function r(r){return (n,o)=>e$1(n,o,{get(){return (this.renderRoot??(e??=document.createDocumentFragment())).querySelectorAll(r)}})}
+import './base-Cl6v8-BZ.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -18,13 +12,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   --item-container-color: transparent;
   --item-height: 3rem;
@@ -46,6 +62,7 @@ var css_248z = i`* {
   gap: var(--item-spacing, 1rem);
   padding-block: 0.625rem;
   padding-inline: var(--item-padding-inline, 1rem);
+  padding-inline-start: var(--item-padding-inline-start, var(--item-padding-inline, 1rem));
   overflow: hidden;
   color: var(--item-label-text-color);
   --icon-color: var(--item-label-text-color);
@@ -122,7 +139,21 @@ var css_248z = i`* {
  * @tag wc-item
  * @rawTag item
  *
- * @summary A primitive element used to build higher-level item components such as menu-item, navigation-item, and list-item. Provides start, text, and end slots for flexible content composition.
+ * @summary The layout that list items and menu items are built on, with start, text and end areas.
+ *
+ * @overview
+ * <p>Not used on its own: <code>wc-list-item</code> and <code>wc-menu-item</code> render it.</p>
+ * <p>Content goes in named slots: <code>start</code> before the text; <code>overline</code>, the
+ * default slot, <code>headline</code> and <code>supporting-text</code> in the text column;
+ * <code>trailing-supporting-text</code> and <code>end</code> after it; and <code>container</code>
+ * behind the item. The start, trailing supporting text and end areas are hidden while they are
+ * empty.</p>
+ * <p>When more than one text slot has content the item sets <code>multiline</code>, which gives it a
+ * taller minimum height. Set <code>multiline</code> yourself only for server-side rendering of a
+ * two-line item, to avoid a flash of unstyled content.</p>
+ *
+ * @internal Not part of the public API: use `wc-list-item` or `wc-menu-item`. It stays
+ * registered because those components render it.
  *
  * @example
  * ```html

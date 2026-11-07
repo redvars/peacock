@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement, nothing, type PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -15,36 +15,63 @@ import styles from './tab.scss';
 import type { Tabs } from './tabs.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
+/** An element that can point at the elements it controls (ARIA element reflection). */
+type AriaControlsElement = HTMLElement & {
+  ariaControlsElements?: Element[] | null;
+};
+
 /**
  * @label Tab
  * @tag wc-tab
  * @rawTag tab
  *
- * @summary A tab component for use within tabs.
+ * @summary One tab in a row of tabs, with an optional icon and badge; with a link address it navigates instead.
  * @overview
- * <p>Tab represents an individual tab in a tabs component.</p>
+ * <p>A tab in a <code>wc-tabs</code> list renders a control with
+ * <code>role="tab"</code> and <code>aria-selected</code>; inside a <code>wc-tab-group</code> the
+ * control also points at its panel.</p>
+ * <p>A tab with <code>href</code> is a link, not a tab: it renders a plain <code>&lt;a&gt;</code>
+ * with <code>aria-current="page"</code> when selected. Tabs that navigate between pages are
+ * navigation, so put link tabs in a <code>&lt;nav&gt;</code>.</p>
+ *
+ * @slot - The tab label.
+ * @slot icon - An icon shown with the label.
+ * @slot badge - A badge shown with the label.
  *
  * @example
  * ```html
- * <wc-tab>Tab Label</wc-tab>
+ * <wc-tab selected>Tab Label</wc-tab>
  * ```
  * @tags navigation
  */
 @IndividualComponent
 export class Tab extends LitElement {
-  #id = crypto.randomUUID();
+  // ── Static
+
+  /** @nocollapse */ // eslint-disable-next-line
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   static styles = [styles];
 
-  @property({ type: Boolean, reflect: true }) active = false;
+  // ── Properties
+
+  /** Whether this is the chosen tab. Reflects to `aria-selected` (or `aria-current` on a link tab). */
+  @property({ type: Boolean, reflect: true }) selected = false;
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @property({ type: String }) disabledReason = '';
+  /** Why the tab is disabled; read to screen reader users. */
+  @property({ type: String, attribute: 'disabled-reason' })
+  disabledReason = '';
 
+  /** Links the tab to the `wc-tab-panel` with the same `value`, and is sent in `change`. */
   @property({ type: String }) value?: string;
 
-  @property({ reflect: true })
+  /** ARIA attributes spread onto the inner control. */
+  @property({ type: Object })
   configAria?: { [key: string]: any };
 
   /**
@@ -55,11 +82,15 @@ export class Tab extends LitElement {
   @property({ type: String, reflect: true }) href?: string;
 
   /**
-   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
+   * Sets the delay for throttle in milliseconds. When unset (default), no throttle is applied.
    */
-  @property() throttleDelay?: number;
+  @property({ type: Number, attribute: 'throttle-delay' })
+  throttleDelay?: number;
 
-  @state() hasFocus = false;
+  /** The panel this tab controls; set by `wc-tab-group`. */
+  @property({ attribute: false }) panel?: HTMLElement | null;
+
+  // ── State
 
   @state() slotHasContent = false;
 
@@ -67,21 +98,18 @@ export class Tab extends LitElement {
 
   @state() slotHasBadge = false;
 
-  private _tabindex = 0;
+  // ── Queries
 
   @query('.tab-element') readonly tabElement!: HTMLElement | null;
 
-  override focus() {
-    this.tabElement?.focus();
-  }
+  // ── Private fields
 
-  override blur() {
-    this.tabElement?.blur();
-  }
+  #id = crypto.randomUUID();
+
+  // ── Lifecycle
 
   constructor() {
     super();
-    this._tabindex = 0;
     this.addEventListener('click', this.__dispatchClickWithThrottle);
   }
 
@@ -96,7 +124,6 @@ export class Tab extends LitElement {
       this.renderRoot.querySelector('slot:not([name])'),
       hasContent => {
         this.slotHasContent = hasContent;
-        this.requestUpdate();
       },
     );
 
@@ -104,7 +131,6 @@ export class Tab extends LitElement {
       this.renderRoot.querySelector('slot[name="icon"]'),
       hasContent => {
         this.slotHasIcon = hasContent;
-        this.requestUpdate();
       },
     );
 
@@ -112,10 +138,32 @@ export class Tab extends LitElement {
       this.renderRoot.querySelector('slot[name="badge"]'),
       hasContent => {
         this.slotHasBadge = hasContent;
-        this.requestUpdate();
       },
     );
   }
+
+  override updated(changed: PropertyValues) {
+    super.updated(changed);
+    // The panel is in the light DOM and the control in this shadow root, so an id reference
+    // cannot reach it; element reflection can (where the browser supports it).
+    const control = this.tabElement as AriaControlsElement | null;
+    if (control && 'ariaControlsElements' in control) {
+      control.ariaControlsElements =
+        this.panel && !isLink(this) ? [this.panel] : null;
+    }
+  }
+
+  // ── Public
+
+  override focus(options?: Parameters<HTMLElement['focus']>[0]) {
+    this.tabElement?.focus(options);
+  }
+
+  override blur() {
+    this.tabElement?.blur();
+  }
+
+  // ── Private
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
@@ -123,9 +171,7 @@ export class Tab extends LitElement {
     };
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
+    // A disabled link must not navigate, and its click must not reach other listeners.
     if (this.disabled && this.href) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -144,57 +190,13 @@ export class Tab extends LitElement {
     return (this.closest('wc-tabs') as Tabs | null)?.variant ?? 'primary';
   }
 
-  // private handleKeyDown(evt: KeyboardEvent) {
-  //   if (this.disabled || this.showLoader) return;
-  //   if (evt.key === 'Enter' || evt.key === ' ') {
-  //     evt.preventDefault();
-  //     this.isActive = true;
-  //     this.dispatchTabClick();
-  //   }
-  // }
-
-  render() {
-    const variant = this.__getParentTabsVariant();
-
-    const cssClasses = {
-      tab: true,
-      'tab-element': true,
-      disabled: this.disabled,
-      active: this.active,
-      [`variant-${variant}`]: true,
-      'has-content': this.slotHasContent,
-      'has-icon': this.slotHasIcon,
-      'has-badge': this.slotHasBadge,
-    };
-
-    if (!isLink(this)) {
-      return html`<button
-        id="button"
-        class=${classMap(cssClasses)}
-        tabindex="0"
-        ?aria-describedby=${this.__getDisabledReasonID()}
-        aria-disabled=${`${this.disabled}`}
-        ?disabled=${this.disabled}
-        ${spread(this.configAria)}
-      >
-        ${this.renderTabContent(variant)}
-      </button>`;
-    }
-
-    return html`<a
-      class=${classMap(cssClasses)}
-      id="button"
-      tabindex="0"
-      href=${this.href}
-      target=${this.target}
-      role="button"
-      ?aria-describedby=${this.__getDisabledReasonID()}
-      aria-disabled=${`${this.disabled}`}
-      ${spread(this.configAria)}
-    >
-      ${this.renderTabContent(variant)}
-    </a>`;
+  __getDisabledReasonID() {
+    return this.disabled && this.disabledReason
+      ? `disabled-reason-${this.#id}`
+      : nothing;
   }
+
+  // ── Render helpers
 
   renderTabContent(variant: Tabs['variant']) {
     switch (variant) {
@@ -288,23 +290,62 @@ export class Tab extends LitElement {
     `;
   }
 
-  __getDisabledReasonID() {
-    return this.disabled && this.disabledReason
-      ? `disabled-reason-${this.#id}`
-      : nothing;
-  }
-
   __renderDisabledReason() {
-    const disabledReasonID = this.__getDisabledReasonID();
-    if (disabledReasonID)
+    if (this.disabled && this.disabledReason)
       return html`<div
         id="disabled-reason-${this.#id}"
         role="tooltip"
         aria-label=${this.disabledReason}
         class="screen-reader-only"
       >
-        {this.disabledReason}
+        ${this.disabledReason}
       </div>`;
     return nothing;
+  }
+
+  // ── Render
+
+  render() {
+    const variant = this.__getParentTabsVariant();
+
+    const cssClasses = {
+      tab: true,
+      'tab-element': true,
+      disabled: this.disabled,
+      active: this.selected,
+      [`variant-${variant}`]: true,
+      'has-content': this.slotHasContent,
+      'has-icon': this.slotHasIcon,
+      'has-badge': this.slotHasBadge,
+    };
+
+    if (!isLink(this)) {
+      return html`<button
+        id="button"
+        class=${classMap(cssClasses)}
+        role="tab"
+        aria-selected=${this.selected ? 'true' : 'false'}
+        aria-describedby=${this.__getDisabledReasonID()}
+        aria-disabled=${`${this.disabled}`}
+        ?disabled=${this.disabled}
+        ${spread(this.configAria)}
+      >
+        ${this.renderTabContent(variant)}
+      </button>`;
+    }
+
+    // A link tab navigates: it is a plain link, marked as the current page when selected.
+    return html`<a
+      class=${classMap(cssClasses)}
+      id="button"
+      href=${this.href}
+      target=${this.target}
+      aria-current=${this.selected ? 'page' : nothing}
+      aria-describedby=${this.__getDisabledReasonID()}
+      aria-disabled=${`${this.disabled}`}
+      ${spread(this.configAria)}
+    >
+      ${this.renderTabContent(variant)}
+    </a>`;
   }
 }

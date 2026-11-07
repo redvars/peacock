@@ -1,0 +1,52 @@
+---
+export const title = 'In a conversation';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  In a <code>wc-chat-message</code>, put the view in the default slot, below the text, with
+  <code>hide-badge</code>: the message already marks the answer as the assistant's. Handle
+  <code>action</code> as a request, not a command: open a list, or answer with a
+  <code>wc-draft-card</code> the person confirms. A button in a generated view never writes anything
+  by itself.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem; inline-size: 100%; max-inline-size: 36rem;'>
+    <wc-chat-message from='user' value='How many of my requests are still open?'></wc-chat-message>
+    <wc-chat-message value='You have **4** open requests; two are waiting on Ada Lovelace.'>
+      <wc-generative-view
+        id='generative-chat'
+        hide-badge
+        value={JSON.stringify({
+          type: 'list',
+          children: [
+            { type: 'list-item', action: 'open', payload: { id: 'LV-7' }, children: [
+              { type: 'text', slot: 'headline', children: ['Leave on 13 November'] },
+              { type: 'text', slot: 'supporting-text', children: ['Waiting on Ada Lovelace · 6 days'] },
+              { type: 'tag', slot: 'end', props: { intent: 'warning', size: 'sm' }, children: ['Waiting'] },
+            ] },
+            { type: 'list-item', action: 'open', payload: { id: 'EXP-1182' }, children: [
+              { type: 'text', slot: 'headline', children: ['Pune trip, taxi and hotel'] },
+              { type: 'text', slot: 'supporting-text', children: ['Waiting on Ada Lovelace · 2 days'] },
+              { type: 'tag', slot: 'end', props: { intent: 'warning', size: 'sm' }, children: ['Waiting'] },
+            ] },
+            { type: 'list-item', action: 'open', payload: { id: 'RITM-0418' }, children: [
+              { type: 'text', slot: 'headline', children: ['New monitor'] },
+              { type: 'text', slot: 'supporting-text', children: ['Ordered · arrives Tuesday'] },
+              { type: 'tag', slot: 'end', props: { intent: 'info', size: 'sm' }, children: ['Ordered'] },
+            ] },
+          ],
+        })}
+      ></wc-generative-view>
+    </wc-chat-message>
+  </div>
+  <script is:inline>
+    (function () {
+      document.querySelector('#generative-chat').addEventListener('action', function (event) {
+        myConsole.log('action: ' + JSON.stringify(event.detail));
+      });
+    })();
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,74 @@
+---
+export const title = 'Gallery';
+export const order = 200;
+
+const illustrations = [
+  ['empty', 'Nothing here yet: a list, table or dashboard with no data.'],
+  ['no-results', 'A search or filter found nothing.'],
+  ['empty-inbox', 'Inbox zero: every item handled.'],
+  ['no-notifications', 'No notifications.'],
+  ['no-messages', 'No messages or comments yet.'],
+  ['no-files', 'An empty folder.'],
+  ['upload', 'A drop zone: drag files here.'],
+  ['not-found', 'Page not found (404).'],
+  ['server-error', 'Something broke on our side (500).'],
+  ['error', 'Something went wrong, for inline errors.'],
+  ['no-access', 'No permission (403) or locked content.'],
+  ['offline', 'No connection.'],
+  ['maintenance', 'Scheduled maintenance or downtime.'],
+  ['success', 'Done, all set, payment complete.'],
+  ['welcome', 'Onboarding: welcome, get started.'],
+  ['empty-cart', 'An empty shopping cart.'],
+  ['no-team', 'No teammates yet: invite people.'],
+  ['coming-soon', 'A feature that is not ready yet.'],
+];
+---
+
+<p>
+  Peacock ships eighteen illustrations in one style, drawn with the theme's color tokens so they
+  follow the theme and dark mode. Switch the theme to see them change.
+</p>
+
+<div class='illustration-gallery'>
+  {
+    illustrations.map(([name, use]) => (
+      <figure>
+        <wc-illustration name={name}></wc-illustration>
+        <figcaption>
+          <code>{name}</code>
+          <span>{use}</span>
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>
+
+<style>
+  .illustration-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: var(--spacing-200);
+    margin-block: var(--spacing-200);
+  }
+
+  .illustration-gallery figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin: 0;
+    padding: var(--spacing-200);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--shape-corner-medium);
+    background: var(--color-surface);
+  }
+
+  .illustration-gallery figcaption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-050);
+    text-align: center;
+    color: var(--color-on-surface-variant);
+  }
+</style>

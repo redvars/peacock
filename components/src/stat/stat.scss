@@ -1,0 +1,170 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  // The value scales to the tile's width (cqi units), so the tile is a size container: it fills
+  // the width it is given and does not grow to fit its content.
+  container-type: inline-size;
+  --_stat-padding: var(
+    --stat-padding,
+    calc(1rem + var(--density, 0) * 0.25rem)
+  );
+  --_stat-shape: var(--stat-container-shape, var(--shape-corner-medium));
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  block-size: 100%;
+  padding: var(--_stat-padding);
+  border-radius: var(--_stat-shape);
+  color: var(--color-on-surface);
+
+  &.outlined {
+    border: 1px solid var(--color-outline-variant, currentColor);
+  }
+
+  &.filled {
+    background: var(--stat-container-color, var(--color-surface-container));
+    // Keeps the tile's edge visible when forced colors drop the fill.
+    border: 1px solid transparent;
+  }
+
+  &.plain {
+    padding: 0;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-block-size: 1.5rem;
+}
+
+.label {
+  @include mixin.get-typography-not-important(title-small);
+  color: var(--color-on-surface-variant);
+  overflow-wrap: anywhere;
+}
+
+.help {
+  margin-block: -0.25rem;
+}
+
+.main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.value {
+  @include mixin.get-typography-not-important(headline-medium);
+  font-variant-numeric: tabular-nums;
+  min-inline-size: 0;
+  // A number never breaks ("18," / "200") or hides digits: in a narrow tile it gets smaller
+  // instead, down to title-large size, measured against the tile's own width.
+  white-space: nowrap;
+  font-size: clamp(1.25rem, 20cqi, var(--_stat-value-size, 1.75rem));
+
+  &.empty {
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.trend {
+  display: inline-flex;
+  flex: none;
+  padding-block-end: 0.375rem;
+}
+
+.change {
+  @include mixin.get-typography-not-important(label-large);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.25rem;
+  color: var(--color-on-surface-variant);
+
+  &.success {
+    color: var(--color-success);
+  }
+
+  &.danger {
+    color: var(--color-error);
+  }
+}
+
+.arrow {
+  --icon-size: 1rem;
+  // The arrow takes the change's color (success, danger or neutral).
+  --icon-color: currentColor;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.change-text {
+  font-variant-numeric: tabular-nums;
+}
+
+.comparison {
+  color: var(--color-on-surface-variant);
+}
+
+.skeleton {
+  display: block;
+  border-radius: var(--shape-corner-extra-small);
+  background: var(--color-surface-container-highest);
+}
+
+.skeleton-value {
+  inline-size: 8rem;
+  max-inline-size: 100%;
+  block-size: 2.25rem;
+}
+
+.skeleton-change {
+  inline-size: 5rem;
+  max-inline-size: 100%;
+  block-size: 1.25rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton {
+    animation: stat-pulse 1.5s var(--easing-standard, ease-in-out) infinite;
+  }
+}
+
+@keyframes stat-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (forced-colors: active) {
+  .stat.outlined,
+  .stat.filled {
+    border-color: CanvasText;
+  }
+
+  .change.success,
+  .change.danger,
+  .label,
+  .comparison {
+    color: CanvasText;
+  }
+
+  .skeleton {
+    background: GrayText;
+  }
+}
+
+// A line that explains the number (ADR-030002).
+::slotted([slot='insight']) {
+  display: block;
+  margin-block-start: var(--spacing-100);
+}

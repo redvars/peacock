@@ -1,0 +1,58 @@
+---
+export const title = 'Export';
+export const order = 530;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<p>
+  <code>exportCsv(options)</code> returns the rows as CSV text (RFC 4180: fields with a comma, quote
+  or line break are quoted, lines end in CRLF). The first line holds the column labels. By default
+  it exports the visible columns in display order and the rows on the current page, in the current
+  sort and grouping. Options:
+</p>
+<ul>
+  <li><code>allRows</code>: every row, not only the current page.</li>
+  <li><code>columns</code>: column names to export, in that order, hidden columns included.</li>
+  <li><code>filename</code>: the file name for <code>downloadCsv()</code> (default <code>table.csv</code>).</li>
+</ul>
+<p>
+  A cell holds the column's <code>exportValue(row)</code> when it has one, else the raw field value
+  (dates as ISO strings, objects as JSON). <code>downloadCsv(options)</code> saves the same text as
+  a UTF-8 file through a Blob URL. A managed table exports the <code>data</code> it has. Values are
+  written as they are: if the file is opened in a spreadsheet and values come from users, guard
+  against formulas (text starting with <code>=</code>, <code>+</code>, <code>-</code> or
+  <code>@</code>) in <code>exportValue</code>.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 20rem;'>
+    <wc-table id='table-export' key-field='_id' label='People'>
+      <wc-pagination slot='footer' page-size='5' page-sizes='[5, 10]'></wc-pagination>
+    </wc-table>
+  </div>
+  <wc-button id='export-download' variant='outlined' size='sm'>
+    <wc-icon slot='icon' name='download'></wc-icon>
+    Download all rows
+  </wc-button>
+  <pre id='export-output' class='text-body-small'></pre>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-export');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'company', label: 'Company', width: 12 },
+      { name: 'balance', label: 'Balance', width: 10, exportValue: row => row.balance.replace(/[$,]/g, '') },
+    ];
+    $table.data = dataSource;
+    const show = () => {
+      document.getElementById('export-output').textContent = $table.exportCsv();
+    };
+    customElements.whenDefined('wc-table').then(() => requestAnimationFrame(show));
+    $table.addEventListener('page', () => requestAnimationFrame(show));
+    document
+      .getElementById('export-download')
+      .addEventListener('click', () => $table.downloadCsv({ allRows: true, filename: 'people.csv' }));
+  </script>
+</DemoComponentCard>

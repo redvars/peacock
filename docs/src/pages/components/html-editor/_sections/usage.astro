@@ -1,8 +1,21 @@
 ---
 export const title = 'Usage';
 export const order = 100;
-import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+
+<p>
+  <code>wc-html-editor</code> is the same editor as
+  <code>wc-markdown-editor</code>, for fields whose value has to be HTML, such
+  as an email body. It has the same toolbar, selection bubble, slash menu,
+  block handle, link editor and mentions. HTML can store underline and
+  resizable table columns, so the HTML editor offers them; <strong>View
+  source</strong> shows the HTML.
+</p>
+<p>
+  Only what the editor supports is kept: other tags, attributes and scripts in
+  a value are dropped when it loads.
+</p>
 
 <wc-checkbox id="disableEditor">Disable editor</wc-checkbox>
 <wc-checkbox id="readonlyEditor">Read-only editor</wc-checkbox>
@@ -11,21 +24,27 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
   <wc-html-editor
     id="html-editor"
     label="Message"
-    helper-text="Use Visual mode for formatting and HTML mode for source edits"
-    style="display:block;"
+    helper-text="Format text, type @ to mention, or view the HTML source."
+    style="display:block; width: 100%;"
   ></wc-html-editor>
   <script is:inline>
     const editor = document.getElementById('html-editor');
 
     editor.value = `<p>Hi everyone! <strong>Don't forget the daily stand-up at 8 AM.</strong></p>
-<p>Please review the tasks assigned to you before the meeting.</p>
-<p>Ping @Alex if you need help.</p>`;
+<p>Please <u>review the tasks</u> assigned to you before the meeting.</p>`;
 
-    editor.mentions = [
-      { label: 'Alex', value: 'alex' },
-      { label: 'Pat', value: 'pat' },
-      { label: 'Jordan', value: 'jordan' },
+    const people = [
+      { id: 'alex', label: 'Alex Morgan', description: 'Design' },
+      { id: 'pat', label: 'Pat Kim', description: 'Engineering' },
+      { id: 'jordan', label: 'Jordan Lee', description: 'Support' },
     ];
+    // Answer each `search` by setting `suggestions`, now or after a request.
+    editor.addEventListener('search', event => {
+      const query = event.detail.query.toLowerCase();
+      editor.suggestions = people.filter(person =>
+        person.label.toLowerCase().includes(query),
+      );
+    });
 
     document.querySelector('#disableEditor').addEventListener('change', function (evt) {
       editor.disabled = evt.target.value;
@@ -35,40 +54,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
       editor.readonly = evt.target.value;
     });
 
-    editor.addEventListener('change', () => {
-      console.log('html-editor value changed:', editor.value);
+    // `input` fires while editing; `change` when focus leaves with a different value.
+    editor.addEventListener('input', event => {
+      console.log('html-editor input:', event.detail.value);
     });
-  </script>
-</DemoComponentCard>
-
-<p>
-  The editor includes a segmented switch for <strong>Visual</strong> and
-  <strong>HTML</strong> modes. Both modes stay in sync through the <code>value</code> property.
-</p>
-
-<DemoComponentCard lang={'html'}>
-  <wc-html-editor
-    id="html-editor-managed"
-    label="Managed Mentions"
-    mentions-search="managed"
-    placeholder="Type @ to search managed mentions"
-    style="display:block;"
-  ></wc-html-editor>
-  <script is:inline>
-    const managedEditor = document.getElementById('html-editor-managed');
-
-    managedEditor.addEventListener('search', event => {
-      const query = (event.detail?.query || '').toLowerCase();
-      const callback = event.detail?.callback;
-      const directory = [
-        { label: 'Alex Morgan', value: 'alex.morgan' },
-        { label: 'Alicia Torres', value: 'alicia.torres' },
-        { label: 'Jordan Lee', value: 'jordan.lee' },
-        { label: 'Pat Kim', value: 'pat.kim' },
-      ];
-
-      const results = directory.filter(item => item.label.toLowerCase().includes(query));
-      callback?.(results);
+    editor.addEventListener('change', event => {
+      console.log('html-editor change:', event.detail.value);
     });
   </script>
 </DemoComponentCard>

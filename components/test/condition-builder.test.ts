@@ -9,6 +9,7 @@ import {
   CbRule,
   ConditionBuilder,
 } from '../src/condition-builder/index.js';
+import { setActiveRule } from '../src/condition-builder/cb-drag.js';
 
 if (!customElements.get('wc-condition-builder')) {
   customElements.define('wc-condition-builder', ConditionBuilder);
@@ -72,6 +73,40 @@ describe('Condition builder', () => {
     group.append(document.createElement('wc-cb-rule'));
     await settle(group);
     expect(group.shadowRoot?.querySelector('.operator-pill')).to.exist;
+  });
+
+  it('tracks its operator menu with open and close, ignoring bubbled ones', async () => {
+    const { el } = await renderBuilder();
+    const menu = el.shadowRoot!.querySelector('wc-menu')!;
+    const expanded = () =>
+      el
+        .shadowRoot!.querySelector('.operator-pill')!
+        .getAttribute('aria-expanded');
+    expect(expanded()).to.equal('false');
+    const outside: Event[] = [];
+    el.addEventListener('open', e => outside.push(e));
+    el.addEventListener('close', e => outside.push(e));
+
+    const inner = document.createElement('span');
+    menu.append(inner);
+    inner.dispatchEvent(new CustomEvent('open', { bubbles: true }));
+    await el.updateComplete;
+    expect(expanded()).to.equal('false');
+
+    menu.dispatchEvent(new CustomEvent('open', { bubbles: true }));
+    await el.updateComplete;
+    expect(expanded()).to.equal('true');
+
+    inner.dispatchEvent(new CustomEvent('close', { bubbles: true }));
+    await el.updateComplete;
+    expect(expanded()).to.equal('true');
+
+    menu.dispatchEvent(
+      new CustomEvent('close', { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(expanded()).to.equal('false');
+    expect(outside).to.be.empty;
   });
 
   it('switches the operator from the menu and fires operator-change', async () => {
@@ -221,10 +256,173 @@ describe('Condition builder', () => {
     addGroup?.click();
     group.shadowRoot?.querySelector<HTMLElement>('.add-condition')?.click();
 
+    group.shadowRoot?.querySelector<HTMLElement>('.add-group')?.click();
+
     expect(events).to.deep.equal([
       ['add-rule', el],
       ['add-group', el],
       ['add-rule', group],
+      ['add-group', group],
     ]);
+  });
+
+  it('returns the query tree as value', async () => {
+    const el = await fixture<ConditionBuilder>(html`
+      <wc-condition-builder id="root" operator="or" data-source="orders">
+        <wc-cb-rule id="named">
+          <input name="field" value="status" />
+          <input name="value" value="open" />
+        </wc-cb-rule>
+        <wc-cb-group id="g">
+          <wc-cb-rule id="plain"
+            ><input value="x" /><input value="y"
+          /></wc-cb-rule>
+          <wc-cb-rule id="own" data-kind="custom"></wc-cb-rule>
+        </wc-cb-group>
+      </wc-condition-builder>
+    `);
+    const own = byId<CbRule>(el, 'own');
+    own.value = { field: 'total', operator: '>', value: 10 };
+
+    const { value } = el;
+    expect(JSON.parse(JSON.stringify(value))).to.deep.equal({
+      type: 'group',
+      id: 'root',
+      operator: 'or',
+      data: { source: 'orders' },
+      children: [
+        {
+          type: 'rule',
+          id: 'named',
+          value: { field: 'status', value: 'open' },
+          data: {},
+        },
+        {
+          type: 'group',
+          id: 'g',
+          operator: 'and',
+          data: {},
+          children: [
+            { type: 'rule', id: 'plain', value: ['x', 'y'], data: {} },
+            {
+              type: 'rule',
+              id: 'own',
+              value: { field: 'total', operator: '>', value: 10 },
+              data: { kind: 'custom' },
+            },
+          ],
+        },
+      ],
+    });
+    expect(value.element).to.equal(el);
+    expect(value.children[0].element).to.equal(byId(el, 'named'));
+    expect(value.children[1].element).to.equal(byId(el, 'g'));
+  });
+
+  it('moves a rule into and out of a group with ArrowRight and ArrowLeft, and announces it', async () => {
+    const { el, group } = await renderBuilder();
+    const b = byId<CbRule>(el, 'b');
+    const handle = () =>
+      b.shadowRoot?.querySelector('.handle') as HTMLElement | null;
+
+    handle()?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight' }),
+    );
+    expect(ids(group)).to.deep.equal(['b', 'c']);
+    expect(ids(el)).to.deep.equal(['a', 'g']);
+    await nextFrame();
+    await el.updateComplete;
+    expect(
+      el.shadowRoot?.querySelector('[aria-live="polite"]')?.textContent,
+    ).to.equal('Moved into group, position 1 of 2');
+
+    await b.updateComplete;
+    handle()?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
+    expect(ids(group)).to.deep.equal(['c']);
+    expect(ids(el)).to.deep.equal(['a', 'g', 'b']);
+    await nextFrame();
+    await el.updateComplete;
+    expect(
+      el.shadowRoot?.querySelector('[aria-live="polite"]')?.textContent,
+    ).to.equal('Moved out of group, position 3 of 3');
+  });
+
+  it('announces moves within a group', async () => {
+    const { el } = await renderBuilder();
+    const handle = byId<CbRule>(el, 'a').shadowRoot?.querySelector('.handle');
+
+    handle?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    await nextFrame();
+    await el.updateComplete;
+    expect(
+      el.shadowRoot?.querySelector('[aria-live="polite"]')?.textContent,
+    ).to.equal('Moved to position 2 of 3');
+  });
+
+  it('passes disabled and readonly down and hides the editing controls', async () => {
+    const { el, group } = await renderBuilder();
+    const rule = byId<CbRule>(el, 'c');
+
+    el.readonly = true;
+    await el.updateComplete;
+    await group.updateComplete;
+    await rule.updateComplete;
+
+    expect(group.locked).to.be.true;
+    expect(rule.locked).to.be.true;
+    expect(rule.shadowRoot?.querySelector('.handle')).to.not.exist;
+    expect(rule.shadowRoot?.querySelector('.remove')).to.not.exist;
+    expect(el.shadowRoot?.querySelector('.actions slot[name="actions"]')).to.not
+      .exist;
+    expect(el.shadowRoot?.querySelector('wc-menu')).to.not.exist;
+    expect(group.shadowRoot?.querySelector('.footer')).to.not.exist;
+
+    el.readonly = false;
+    el.disabled = true;
+    await el.updateComplete;
+    await rule.updateComplete;
+    expect(rule.locked).to.be.true;
+    expect(
+      el.shadowRoot?.querySelector<HTMLButtonElement>('.operator-pill')
+        ?.disabled,
+    ).to.be.true;
+    expect(
+      rule.shadowRoot?.querySelector('.rule')?.getAttribute('aria-disabled'),
+    ).to.equal('true');
+
+    el.disabled = false;
+    await el.updateComplete;
+    await rule.updateComplete;
+    expect(rule.locked).to.be.false;
+    expect(rule.shadowRoot?.querySelector('.handle')).to.exist;
+  });
+
+  it('passes the state down to items added later', async () => {
+    const { el } = await renderBuilder();
+    el.disabled = true;
+    await el.updateComplete;
+
+    const added = document.createElement('wc-cb-rule') as CbRule;
+    el.append(added);
+    await settle(el, added);
+    await added.updateComplete;
+    expect(added.locked).to.be.true;
+  });
+
+  it('ignores drags while locked', async () => {
+    const { el, group } = await renderBuilder();
+    el.readonly = true;
+    await el.updateComplete;
+    await group.updateComplete;
+
+    const dragOver = new DragEvent('dragover', {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+    setActiveRule(byId<CbRule>(el, 'a'));
+    group.dispatchEvent(dragOver);
+    setActiveRule(null);
+    expect(dragOver.defaultPrevented).to.be.false;
   });
 });

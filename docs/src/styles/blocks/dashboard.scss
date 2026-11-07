@@ -1,157 +1,143 @@
 @charset "utf-8";
-@use '../mixin';
 
 // Dashboard block (pages/blocks/dashboard/). The outer frame is .block-demo
-// from styles/pages/blocks.scss.
+// from styles/pages/blocks.scss; inside it a wc-app-shell lays out the app
+// bar, the navigation drawer and the content.
 
-.block-demo-shell {
-  display: flex;
-  min-height: 44rem;
+.dashboard-block {
+  container-type: inline-size;
   background: var(--color-surface-container-lowest);
 }
 
-.block-demo-sidebar {
-  display: none;
-  width: 15rem;
-  flex-shrink: 0;
-  overflow-y: auto;
-  border-inline-end: 1px solid var(--color-outline-variant);
-  background: var(--color-surface-container);
+.dashboard-shell {
+  // The shell is viewport-tall by default; in the docs it grows with its
+  // content so the whole dashboard shows without a nested scroll area.
+  block-size: auto;
+  --app-shell-background: var(--color-surface-container-lowest);
+  --app-shell-header-color: var(--color-surface);
 
-  @include mixin.for-tablet-landscape-up {
-    display: block;
-  }
-
-  .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    padding: var(--spacing-200) var(--spacing-150);
-    margin-block-end: var(--spacing-050);
+  // The border goes on the header region so it also runs under the menu
+  // button the shell adds on narrow widths.
+  &::part(header) {
     border-block-end: 1px solid var(--color-outline-variant);
+  }
 
-    wc-icon {
-      color: var(--color-primary);
-    }
+  &::part(navigation) {
+    border-inline-end: 1px solid var(--color-outline-variant);
   }
 }
 
-.block-demo-main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
+.dashboard-app-bar {
+  --app-bar-container-color: var(--color-surface);
 }
 
-.block-demo-topbar {
-  display: flex;
-  flex-wrap: wrap;
+.dashboard-brand {
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-150);
-  padding: var(--spacing-100) var(--spacing-300);
-  border-block-end: 1px solid var(--color-outline-variant);
-  background: var(--color-surface);
+  gap: var(--spacing-100);
+  white-space: nowrap;
 
-  .topbar-search {
-    flex: 1 1 12rem;
-    max-width: 20rem;
-  }
-
-  .topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-075);
-    margin-inline-start: auto;
+  wc-icon {
+    --icon-size: 1.5rem;
+    color: var(--color-primary);
   }
 }
 
-.block-demo-content {
+.dashboard-search {
+  inline-size: 16rem;
+  margin-inline-end: var(--spacing-100);
+
+  @container (max-width: 52rem) {
+    display: none;
+  }
+}
+
+.dashboard-nav {
+  block-size: 100%;
+  --navigation-drawer-width: 15rem;
+  --navigation-drawer-container-color: var(--color-surface-container-low);
+  --navigation-drawer-item-height: 3rem;
+
+  wc-divider {
+    margin-block: var(--spacing-100);
+  }
+}
+
+.dashboard-content {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: var(--spacing-300);
-  padding: var(--spacing-300);
+  padding: 0 var(--spacing-300) var(--spacing-300);
 
-  @include mixin.for-phone-only {
-    padding: var(--spacing-200);
+  @container (max-width: 40rem) {
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-200) var(--spacing-200);
   }
 }
 
-.stats-row {
+.dashboard-header {
+  --page-header-padding-inline: 0;
+  // The content gap already separates the header from the stats.
+  margin-block-end: calc(-1 * var(--spacing-200));
+}
+
+.dashboard-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  // One column on phones, a 2 x 2 grid in the docs frame, one row when wide.
+  grid-template-columns: 1fr;
+
+  @container (min-width: 32rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @container (min-width: 76rem) {
+    grid-template-columns: repeat(4, 1fr);
+  }
   gap: var(--spacing-200);
-}
 
-.stat-card {
-  .stat-card-inner {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-050);
-    padding: var(--spacing-200);
+  wc-stat {
+    --stat-container-color: var(--color-surface);
   }
 
-  .stat-label {
-    color: var(--color-on-surface-variant);
-  }
-
-  .stat-trend {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-025);
-
-    wc-icon {
-      --icon-size: 1rem;
-    }
-
-    &.up {
-      color: var(--color-success);
-    }
-
-    &.down {
-      color: var(--color-error);
-    }
+  wc-sparkline {
+    inline-size: 100%;
+    block-size: 2.5rem;
   }
 }
 
-.charts-row {
+.dashboard-charts {
   display: grid;
   // Charts fill their card; the cards sit side by side once each has 22rem.
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
   gap: var(--spacing-200);
 }
 
-.chart-card,
-.activity-card {
-  .chart-card-inner,
-  .activity-card-inner {
+.dashboard-card {
+  min-width: 0;
+
+  .dashboard-card-inner {
     padding: var(--spacing-200);
   }
 
-  .chart-title,
-  .activity-title {
+  .dashboard-card-title {
     margin: 0 0 var(--spacing-200);
   }
 }
 
-.activity-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.activity-item {
+.dashboard-card-heading {
   display: flex;
   align-items: center;
-  gap: var(--spacing-150);
-  padding-block: var(--spacing-100);
-  border-block-end: 1px solid var(--color-outline-variant);
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  margin-block-end: var(--spacing-100);
 
-  &:last-child {
-    border-block-end: none;
+  .dashboard-card-title {
+    margin: 0;
   }
+}
 
-  .activity-text {
-    flex: 1;
-    min-width: 0;
-  }
+.dashboard-orders {
+  width: 100%;
+  // Wide columns scroll inside the table on narrow screens.
+  contain: inline-size;
 }

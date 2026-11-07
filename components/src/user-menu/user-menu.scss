@@ -1,0 +1,96 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Avatar button */
+.trigger-wrapper {
+  border-radius: var(--shape-corner-full);
+  position: relative;
+}
+
+.focus-ring {
+  --focus-ring-container-shape-start-start: var(--shape-corner-full);
+  --focus-ring-container-shape-start-end: var(--shape-corner-full);
+  --focus-ring-container-shape-end-start: var(--shape-corner-full);
+  --focus-ring-container-shape-end-end: var(--shape-corner-full);
+}
+
+.trigger {
+  @include mixin.reset-button-styles;
+  align-items: center;
+  block-size: 2.5rem;
+  border-radius: var(--shape-corner-full);
+  cursor: pointer;
+  display: flex;
+  inline-size: 2.5rem;
+  justify-content: center;
+}
+
+.avatar {
+  --avatar-container-shape: var(--shape-corner-full);
+}
+
+/* Menu */
+.menu {
+  --menu-min-width: 16rem;
+}
+
+.header {
+  align-items: center;
+  background: var(--user-menu-header-color, transparent);
+  display: flex;
+  gap: var(--spacing-150, 0.75rem);
+  padding: var(--spacing-150, 0.75rem) var(--spacing-200, 1rem);
+}
+
+.header-avatar {
+  --avatar-container-shape: var(--shape-corner-full);
+  flex: none;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025, 0.125rem);
+  min-inline-size: 0;
+}
+
+.name {
+  @include mixin.get-typography-not-important(title-small);
+  color: var(--color-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email {
+  @include mixin.get-typography-not-important(body-small);
+  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  @include mixin.get-typography-not-important(body-small);
+  color: var(--color-on-surface-variant);
+  margin-block-start: var(--spacing-025, 0.125rem);
+}
+
+.section-heading {
+  @include mixin.get-typography-not-important(label-medium);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-100, 0.5rem) var(--spacing-200, 1rem)
+    var(--spacing-050, 0.25rem);
+}
+
+@media (forced-colors: active) {
+  .trigger {
+    border: 1px solid ButtonText;
+  }
+}

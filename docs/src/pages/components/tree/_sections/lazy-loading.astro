@@ -1,0 +1,42 @@
+---
+export const title = 'Lazy loading';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  For children that load on demand, give the item <code>has-children</code> and no child items.
+  It shows an expander; when the person expands it, it fires <code>expand</code> and shows
+  <code>loading</code> until child items are added, which clears it. If the load fails, remove
+  <code>loading</code> (and <code>has-children</code> when the item turned out empty).
+  <code>expand</code> and <code>collapse</code> bubble from the item, with
+  <code>detail.item</code> and <code>detail.value</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tree id='tree-lazy-demo' label='Remote files' style='width: min(100%, 22rem);'>
+    <wc-tree-item value='photos' label='Photos' has-children>
+      <wc-icon slot='start' name='folder'></wc-icon>
+    </wc-tree-item>
+    <wc-tree-item value='documents' label='Documents' has-children>
+      <wc-icon slot='start' name='folder'></wc-icon>
+    </wc-tree-item>
+  </wc-tree>
+  <script is:inline>
+    document.querySelector('#tree-lazy-demo').addEventListener('expand', function (event) {
+      const item = event.detail.item;
+      if (item.childItems.length > 0) return;
+      myConsole.log('expand', event.detail.value);
+      // Stands in for a request to the server.
+      setTimeout(function () {
+        for (let n = 1; n <= 3; n += 1) {
+          const child = document.createElement('wc-tree-item');
+          child.value = event.detail.value + '/' + n;
+          child.label = event.detail.value + ' ' + n;
+          if (n === 1) child.hasChildren = true;
+          item.append(child);
+        }
+      }, 1000);
+    });
+  </script>
+</DemoComponentCard>

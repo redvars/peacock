@@ -4,29 +4,25 @@ export const order = 300;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>URL Field emits a debounced <code>value-change</code> event as the user types and an <code>input-invalid</code> event when blur validation fails.</p>
+<p>URL Field emits <code>input</code> with <code>{'{ value }'}</code> as the user types and <code>change</code> when the value is committed. Check <code>validity</code> or call <code>checkValidity()</code> to know whether the URL is valid.</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-url-field
     id='url-field-events-demo'
     label='Project URL'
-    editing
     placeholder='https://example.com'
   ></wc-url-field>
 
   <script is:inline>
     const urlField = document.querySelector('#url-field-events-demo');
 
-    urlField.addEventListener('value-change', function(event) {
-      myConsole.log('value-change :: ' + event.detail);
-    });
-
-    urlField.addEventListener('input-invalid', function(event) {
-      myConsole.warn('input-invalid :: ' + event.detail);
+    urlField.addEventListener('input', function(event) {
+      myConsole.log('input :: ' + event.detail.value);
     });
 
     urlField.addEventListener('change', function(event) {
-      myConsole.log('change :: ' + event.target.value);
+      myConsole.log('change :: ' + event.detail.value);
+      if (!urlField.checkValidity()) myConsole.warn('invalid URL');
     });
   </script>
 </DemoComponentCard>

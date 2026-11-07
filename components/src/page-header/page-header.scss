@@ -1,0 +1,115 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  container-type: inline-size;
+  color: var(--color-on-surface);
+}
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding-block: var(--page-header-padding-block, var(--spacing-300));
+  padding-inline: var(--page-header-padding-inline, var(--spacing-300));
+  background: var(--page-header-background, transparent);
+
+  // Tabs sit on the bottom edge, so the bottom padding goes.
+  &.has-tabs {
+    padding-block-end: 0;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+}
+
+.title-row {
+  display: flex;
+  flex: 1 1 20rem;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  min-inline-size: 0;
+}
+
+.back {
+  flex: none;
+  --icon-color: currentColor;
+
+  // Back points to the start edge.
+  &:dir(rtl) wc-icon {
+    transform: scaleX(-1);
+  }
+}
+
+.start {
+  display: flex;
+  flex: none;
+  align-items: center;
+  min-block-size: var(--typography-headline-medium-line-height, 2.25rem);
+}
+
+.titles {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  min-inline-size: 0;
+}
+
+.headline {
+  @include mixin.get-typography(headline-medium);
+
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-on-surface);
+}
+
+.supporting-text {
+  @include mixin.get-typography(body-medium);
+
+  margin: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
+  margin-block-start: var(--spacing-050);
+  color: var(--color-on-surface-variant);
+}
+
+.actions {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+}
+
+.tabs {
+  margin-inline: calc(
+    -1 * var(--page-header-padding-inline, var(--spacing-300))
+  );
+}
+
+// Narrow containers: the actions take their own row and the headline steps down.
+@container (max-width: 37.5rem) {
+  .actions {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+
+  .headline {
+    @include mixin.get-typography(headline-small);
+  }
+}

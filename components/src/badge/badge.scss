@@ -5,12 +5,32 @@
 :host {
   display: inline-block;
   --badge-color: var(--global-badge-color);
+  --badge-text-color: var(--color-on-error);
   z-index: var(--z-index-badge);
+}
+
+:host([intent=info]) {
+  --badge-color: var(--color-primary);
+  --badge-text-color: var(--color-on-primary);
+}
+
+:host([intent=success]) {
+  --badge-color: var(--color-success);
+  --badge-text-color: var(--color-on-success);
+}
+
+:host([intent=warning]) {
+  --badge-color: var(--color-warning);
+  --badge-text-color: var(--color-on-warning);
+}
+
+:host([intent=danger]) {
+  --badge-color: var(--color-error);
+  --badge-text-color: var(--color-on-error);
 }
 
 .badge {
   pointer-events: none;
-  color: var(--color-white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +42,7 @@
     min-width: 1rem;
     padding-inline: var(--spacing-050);
     @include mixin.get-typography('label-small');
-    color: var(--color-on-error);
+    color: var(--badge-text-color);
   }
 
   &:not(.has-value) {

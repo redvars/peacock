@@ -1,0 +1,497 @@
+---
+// Wireframes for components added in 4.0 (layout, data, overlays, people) on the Components
+// overview. Rendered by ComponentPreview.astro; styles in styles/component-previews-v4b.scss.
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+
+/** A small icon in the wireframe ink. */
+const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim() });
+---
+
+{/* ── Layout ──────────────────────────────────────────────── */}
+
+{name === 'app-shell' && (
+  <div class='bp cp-frame cp4b-shell'>
+    <span class='cp4b-shell-head'>
+      <wc-icon {...icon('menu')}></wc-icon>
+      <span class='cp4b-logo'></span>
+      <span class='bp-line cp-strong cp4b-shell-title'></span>
+      <span class='cp-avatar cp-avatar-initials cp4b-av-xs'></span>
+    </span>
+    <span class='cp4b-shell-body'>
+      <span class='cp4b-shell-nav'>
+        <span class='cp4b-shell-link cp4b-on'><i></i><span class='bp-line'></span></span>
+        <span class='cp4b-shell-link'><i></i><span class='bp-line'></span></span>
+        <span class='cp4b-shell-link'><i></i><span class='bp-line'></span></span>
+      </span>
+      <span class='cp4b-shell-main'>
+        <span class='bp-line cp-strong cp-w1'></span>
+        <span class='bp-line cp-w0'></span>
+        <span class='bp-line cp-w2'></span>
+        <span class='cp4b-shell-block'></span>
+      </span>
+      <span class='cp4b-shell-aside'>
+        <span class='bp-line'></span>
+        <span class='bp-line cp-w2'></span>
+      </span>
+    </span>
+    <span class='cp4b-shell-foot'><span class='bp-line cp-w3'></span></span>
+  </div>
+)}
+
+{name === 'grid' && (
+  <div class='bp cp-center'>
+    <span class='cp4b-grid'>
+      <span class='cp4b-cell cp4b-span2 cp4b-cell-on'></span>
+      <span class='cp4b-cell'></span>
+      <span class='cp4b-cell'></span>
+      <span class='cp4b-cell'></span>
+      <span class='cp4b-cell'></span>
+      <span class='cp4b-cell'></span>
+      <span class='cp4b-cell cp4b-span2'></span>
+    </span>
+  </div>
+)}
+
+{name === 'stack' && (
+  <div class='bp cp-center cp4b-stacks'>
+    <span class='cp4b-vstack'>
+      <span class='cp4b-stack-item'><span class='bp-line cp-w1'></span></span>
+      <span class='cp4b-gap-mark'></span>
+      <span class='cp4b-stack-item'><span class='bp-line cp-w2'></span></span>
+      <span class='cp4b-gap-mark'></span>
+      <span class='cp4b-stack-item'><span class='bp-line cp-w3'></span></span>
+    </span>
+    <span class='cp4b-hstack'>
+      <span class='cp4b-stack-box'></span>
+      <span class='cp4b-gap-mark cp4b-gap-h'></span>
+      <span class='cp4b-stack-box'></span>
+      <span class='cp4b-gap-mark cp4b-gap-h'></span>
+      <span class='cp4b-stack-box'></span>
+    </span>
+  </div>
+)}
+
+{name === 'resizable-panels' && (
+  <div class='bp cp-frame cp4b-split'>
+    <span class='cp4b-panel cp4b-panel-start'>
+      <span class='bp-line cp-strong cp-w2'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-w2'></span>
+    </span>
+    <span class='cp4b-divider'><i></i></span>
+    <span class='cp4b-panel'>
+      <span class='bp-line cp-strong cp-w1'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w3'></span>
+    </span>
+  </div>
+)}
+
+{name === 'scroll-area' && (
+  <div class='bp cp-frame cp4b-scroll'>
+    <span class='cp4b-scroll-content'>
+      <span class='bp-line cp-strong cp-w3'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-strong cp-w3'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-strong cp-w3'></span>
+      <span class='bp-line cp-w0'></span>
+    </span>
+    <span class='cp4b-scroll-fade'></span>
+    <span class='cp4b-scrollbar'><i></i></span>
+  </div>
+)}
+
+{name === 'virtual-list' && (
+  <div class='bp cp-frame cp4b-virtual'>
+    <span class='cp4b-vrow cp4b-vrow-ghost'></span>
+    <span class='cp4b-vrow cp4b-vrow-ghost'></span>
+    <span class='cp4b-viewport'>
+      {[0, 1, 2, 3].map(i => (
+        <span class:list={['cp4b-vrow', { 'cp4b-vrow-on': i === 1 }]}>
+          <span class='cp-avatar cp-avatar-initials cp4b-av-xs'></span>
+          <span class='bp-line cp-strong'></span>
+          <span class='cp-meta'></span>
+        </span>
+      ))}
+    </span>
+    <span class='cp4b-vrow cp4b-vrow-ghost'></span>
+    <span class='cp4b-vrow cp4b-vrow-ghost'></span>
+    <span class='cp4b-scrollbar cp4b-scrollbar-long'><i></i></span>
+  </div>
+)}
+
+{name === 'page-header' && (
+  <div class='bp cp-frame cp4b-pagehead'>
+    <span class='cp4b-crumbs'>
+      <span class='cp-link'></span>
+      <wc-icon {...icon('chevron_right')}></wc-icon>
+      <span class='cp-link'></span>
+      <wc-icon {...icon('chevron_right')}></wc-icon>
+      <span class='bp-line cp-w3'></span>
+    </span>
+    <span class='cp4b-pagehead-row'>
+      <span class='cp4b-pagehead-text'>
+        <span class='cp4b-title-row'><span class='cp4b-title'></span><span class='cp-tag cp-tag-success cp4b-tag-sm'></span></span>
+        <span class='bp-line cp-w2'></span>
+        <span class='cp4b-pagehead-meta'>
+          <wc-icon {...icon('person')}></wc-icon><span class='bp-line'></span>
+          <wc-icon {...icon('schedule')}></wc-icon><span class='bp-line'></span>
+        </span>
+      </span>
+      <span class='cp4b-pagehead-actions'>
+        <span class='cp-btn cp-btn-xs cp-outline'></span>
+        <span class='cp-btn cp-btn-xs'></span>
+      </span>
+    </span>
+    <span class='cp-tabs cp4b-tabs'>
+      <span class='cp-tab cp-tab-on'><span class='bp-line'></span></span>
+      <span class='cp-tab'><span class='bp-line'></span></span>
+      <span class='cp-tab'><span class='bp-line'></span></span>
+    </span>
+  </div>
+)}
+
+{/* ── Data display ────────────────────────────────────────── */}
+
+{name === 'description-list' && (
+  <div class='bp cp-frame cp4b-dl'>
+    <span class='cp4b-dl-row'><span class='bp-line cp4b-dt'></span><span class='bp-line cp-strong cp4b-dd'></span></span>
+    <span class='cp4b-dl-row'><span class='bp-line cp4b-dt'></span><span class='cp-tag cp-tag-success cp4b-tag-sm'></span></span>
+    <span class='cp4b-dl-row'><span class='bp-line cp4b-dt'></span><span class='cp4b-dd-person'><span class='cp-avatar cp-avatar-tertiary cp4b-av-xs'></span><span class='bp-line cp-strong'></span></span></span>
+    <span class='cp4b-dl-row'><span class='bp-line cp4b-dt'></span><span class='cp-link'></span><wc-icon {...icon('content_copy')}></wc-icon></span>
+  </div>
+)}
+
+{name === 'diff-viewer' && (
+  <div class='bp cp-frame cp4b-diff'>
+    <span class='cp4b-diff-head'>
+      <wc-icon {...icon('description')}></wc-icon>
+      <span class='bp-line cp-strong cp4b-diff-file'></span>
+      <span class='cp4b-count cp4b-count-add'></span>
+      <span class='cp4b-count cp4b-count-del'></span>
+    </span>
+    <span class='cp4b-diff-body'>
+      {[
+        ['', ''],
+        ['del', 'add'],
+        ['', ''],
+        ['del', 'add'],
+        ['', 'add'],
+        ['', ''],
+      ].map(([left, right], i) => (
+        <span class='cp4b-diff-row'>
+          <span class:list={['cp4b-diff-cell', left && `cp4b-${left}`]}><b></b><i style={`width: ${[60, 45, 70, 35, 0, 55][i]}%`}></i></span>
+          <span class:list={['cp4b-diff-cell', right && `cp4b-${right}`]}><b></b><i style={`width: ${[60, 55, 70, 50, 40, 55][i]}%`}></i></span>
+        </span>
+      ))}
+    </span>
+  </div>
+)}
+
+{name === 'json-viewer' && (
+  <div class='bp cp-frame cp4b-json'>
+    <span class='cp4b-json-row'><wc-icon {...icon('keyboard_arrow_down')}></wc-icon><em class='cp4b-brace'></em></span>
+    <span class='cp4b-json-row cp4b-json-in'><i class='cp4b-key'></i><em class='cp4b-colon'></em><i class='cp4b-str'></i></span>
+    <span class='cp4b-json-row cp4b-json-in'><i class='cp4b-key cp4b-key-short'></i><em class='cp4b-colon'></em><i class='cp4b-num'></i></span>
+    <span class='cp4b-json-row cp4b-json-in cp4b-json-sel'><wc-icon {...icon('keyboard_arrow_down')}></wc-icon><i class='cp4b-key'></i><em class='cp4b-colon'></em><em class='cp4b-brace'></em></span>
+    <span class='cp4b-json-row cp4b-json-in2'><i class='cp4b-key cp4b-key-short'></i><em class='cp4b-colon'></em><i class='cp4b-bool'></i></span>
+    <span class='cp4b-json-row cp4b-json-in2'><i class='cp4b-key'></i><em class='cp4b-colon'></em><i class='cp4b-str cp4b-str-long'></i></span>
+    <span class='cp4b-json-row cp4b-json-in'><wc-icon {...icon('chevron_right')}></wc-icon><i class='cp4b-key'></i><em class='cp4b-colon'></em><span class='cp4b-collapsed'></span></span>
+  </div>
+)}
+
+{name === 'kanban' && (
+  <div class='bp cp4b-kanban'>
+    {[3, 2, 1].map((cards, col) => (
+      <span class='cp4b-kcol'>
+        <span class='cp4b-khead'><i class:list={['cp4b-kdot', `cp4b-kdot-${col}`]}></i><span class='bp-line cp-strong'></span><span class='cp4b-kcount'></span></span>
+        {Array.from({ length: cards }, (_, i) => (
+          <span class:list={['cp4b-kcard', { 'cp4b-kcard-drag': col === 1 && i === 0 }]}>
+            <span class='bp-line'></span>
+            <span class='bp-line cp-w2'></span>
+            {i === 0 && <span class='cp-pill cp4b-kpill'></span>}
+          </span>
+        ))}
+        {col === 2 && <span class='cp4b-kdrop'></span>}
+      </span>
+    ))}
+  </div>
+)}
+
+{name === 'sparkline' && (
+  <div class='bp cp-center cp-col cp4b-sparks'>
+    {[
+      ['M0 22 L12 18 L24 20 L36 12 L48 14 L60 6 L72 8 L84 2', 'up'],
+      ['M0 6 L12 10 L24 8 L36 14 L48 12 L60 18 L72 16 L84 22', 'down'],
+      ['M0 14 L12 8 L24 16 L36 10 L48 18 L60 9 L72 13 L84 11', 'flat'],
+    ].map(([d, kind]) => (
+      <span class='cp4b-spark-row'>
+        <span class='bp-line cp4b-spark-label'></span>
+        <svg class:list={['cp4b-spark', `cp4b-spark-${kind}`]} viewBox='0 0 84 24' preserveAspectRatio='none' aria-hidden='true'>
+          {kind === 'up' && <path class='cp4b-spark-area' d={`${d} L84 24 L0 24 Z`} />}
+          <path d={d} />
+        </svg>
+        <span class='bp-line cp-strong cp4b-spark-value'></span>
+      </span>
+    ))}
+  </div>
+)}
+
+{name === 'stat' && (
+  <div class='bp cp-center cp4b-stats'>
+    <span class='cp4b-stat'>
+      <span class='bp-line cp4b-stat-label'></span>
+      <span class='cp4b-stat-value'></span>
+      <span class='cp4b-delta cp4b-delta-up'><wc-icon {...icon('arrow_upward')}></wc-icon><i></i></span>
+      <svg class='cp4b-stat-trend' viewBox='0 0 60 20' preserveAspectRatio='none' aria-hidden='true'>
+        <path class='cp4b-spark-area' d='M0 16 L12 13 L24 14 L36 8 L48 9 L60 3 L60 20 L0 20 Z' />
+        <path d='M0 16 L12 13 L24 14 L36 8 L48 9 L60 3' />
+      </svg>
+    </span>
+    <span class='cp4b-stat'>
+      <span class='bp-line cp4b-stat-label'></span>
+      <span class='cp4b-stat-value cp4b-stat-value-short'></span>
+      <span class='cp4b-delta cp4b-delta-down'><wc-icon {...icon('arrow_downward')}></wc-icon><i></i></span>
+      <span class='bp-line cp4b-stat-compare'></span>
+    </span>
+  </div>
+)}
+
+{name === 'status-indicator' && (
+  <div class='bp cp-center cp-col cp-left cp4b-statuses'>
+    {['success', 'warning', 'danger', 'info', 'neutral'].map((kind, i) => (
+      <span class='cp4b-status'>
+        <i class:list={['cp4b-shape', `cp4b-shape-${kind}`, { 'cp4b-pulse': kind === 'info' }]}></i>
+        <span class:list={['bp-line', ['cp-w2', 'cp-w1', 'cp-w3', 'cp-w1', 'cp-w2'][i]]}></span>
+      </span>
+    ))}
+  </div>
+)}
+
+{/* ── People ──────────────────────────────────────────────── */}
+
+{name === 'avatar-group' && (
+  <div class='bp cp-center cp-col cp4b-groups'>
+    <span class='cp4b-avatars'>
+      <span class='cp-avatar cp-avatar-initials'><i></i></span>
+      <span class='cp-avatar cp-avatar-tertiary'><i></i></span>
+      <span class='cp-avatar cp-avatar-person'><wc-icon {...icon('person')}></wc-icon></span>
+      <span class='cp-avatar cp4b-av-secondary'><i></i></span>
+      <span class='cp-avatar cp4b-av-more'><i></i></span>
+    </span>
+    <span class='cp4b-avatars cp4b-avatars-sm'>
+      <span class='cp-avatar cp-avatar-tertiary'></span>
+      <span class='cp-avatar cp-avatar-initials'></span>
+      <span class='cp-avatar cp4b-av-secondary'></span>
+      <span class='cp-avatar cp4b-av-more'><i></i></span>
+    </span>
+  </div>
+)}
+
+{name === 'presence-indicator' && (
+  <div class='bp cp-center cp4b-presence'>
+    {['online', 'away', 'busy', 'offline'].map((status, i) => (
+      <span class='cp4b-present'>
+        <span class:list={['cp-avatar', { 'cp-avatar-initials': i === 0, 'cp-avatar-tertiary': i === 1, 'cp4b-av-secondary': i === 2 }]}>
+          {i === 3 ? <wc-icon {...icon('person')}></wc-icon> : <i></i>}
+        </span>
+        <b class:list={['cp4b-dot', `cp4b-dot-${status}`]}></b>
+      </span>
+    ))}
+  </div>
+)}
+
+{name === 'discussion' && (
+  <div class='bp cp-frame cp4b-thread'>
+    <span class='cp4b-comment'>
+      <span class='cp-avatar cp-avatar-initials cp4b-av-xs'></span>
+      <span class='cp4b-comment-body'>
+        <span class='cp4b-comment-meta'><span class='bp-line cp-strong'></span><span class='cp-meta'></span></span>
+        <span class='bp-line cp-w0'></span>
+        <span class='bp-line cp-w2'></span>
+      </span>
+    </span>
+    <span class='cp4b-comment cp4b-reply'>
+      <span class='cp-avatar cp-avatar-tertiary cp4b-av-xs'></span>
+      <span class='cp4b-comment-body'>
+        <span class='cp4b-comment-meta'><span class='bp-line cp-strong'></span><span class='cp-meta'></span></span>
+        <span class='bp-line cp-w2'></span>
+      </span>
+    </span>
+    <span class='cp4b-composer'><span class='bp-line cp-w1'></span><wc-icon {...icon('send', 'cp-i-primary')}></wc-icon></span>
+  </div>
+)}
+
+{name === 'comment-composer' && (
+  <div class='bp cp-frame cp-center cp4b-thread'>
+    <span class='cp4b-composer'><span class='bp-line cp-w2'></span><wc-icon {...icon('send', 'cp-i-primary')}></wc-icon></span>
+  </div>
+)}
+
+{name === 'hover-card' && (
+  <div class='bp cp-center cp-col cp4b-hover'>
+    <span class='cp4b-hovercard'>
+      <span class='cp4b-hovercard-head'>
+        <span class='cp-avatar cp-avatar-initials'><i></i></span>
+        <span class='cp-item-text'><span class='bp-line cp-strong'></span><span class='bp-line cp-w2'></span></span>
+      </span>
+      <span class='bp-line cp-w0'></span>
+      <span class='cp4b-hovercard-foot'><span class='cp-meta'></span><span class='cp-meta'></span><span class='cp-btn cp-btn-xs'></span></span>
+    </span>
+    <span class='cp-text-row cp4b-hover-text'><span class='bp-line cp-w3'></span><span class='cp-link cp4b-hover-link'></span><span class='bp-line cp-w3'></span></span>
+  </div>
+)}
+
+{name === 'user-menu' && (
+  <div class='bp cp-frame cp-page cp4b-usermenu'>
+    <span class='cp-appbar'>
+      <span class='cp4b-logo'></span>
+      <span class='bp-line cp-strong cp-appbar-title'></span>
+      <span class='cp4b-avatar-ring'><span class='cp-avatar cp-avatar-initials cp4b-av-xs'></span></span>
+    </span>
+    <span class='cp-page-body cp4b-page-body cp4b-um-body'>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w1'></span>
+    </span>
+    <span class='cp-menu cp4b-um-menu'>
+      <span class='cp4b-um-head'>
+        <span class='cp-avatar cp-avatar-initials cp4b-av-xs'></span>
+        <span class='cp-item-text'><span class='bp-line cp-strong'></span><span class='bp-line cp-w2'></span></span>
+      </span>
+      <span class='cp-menu-sep'></span>
+      <span class='cp-menu-item'><wc-icon {...icon('account_circle')}></wc-icon><span class='bp-line'></span></span>
+      <span class='cp-menu-item cp-menu-on'><wc-icon {...icon('settings')}></wc-icon><span class='bp-line'></span></span>
+      <span class='cp-menu-sep'></span>
+      <span class='cp-menu-item'><wc-icon {...icon('logout')}></wc-icon><span class='bp-line'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'workspace-switcher' && (
+  <div class='bp cp-center cp-col cp4b-ws'>
+    <span class='cp4b-ws-trigger'>
+      <span class='cp4b-ws-logo'><i></i></span>
+      <span class='cp-item-text'><span class='bp-line cp-strong'></span><span class='bp-line cp-w2'></span></span>
+      <wc-icon {...icon('unfold_more')}></wc-icon>
+    </span>
+    <span class='cp-menu cp-menu-full cp4b-ws-menu'>
+      <span class='cp4b-ws-search'><wc-icon {...icon('search')}></wc-icon><span class='bp-line'></span></span>
+      <span class='cp-menu-item cp-menu-on'><span class='cp4b-ws-logo cp4b-ws-logo-sm'></span><span class='bp-line'></span><wc-icon {...icon('check', 'cp-i-primary')}></wc-icon></span>
+      <span class='cp-menu-item'><span class='cp4b-ws-logo cp4b-ws-logo-sm cp4b-ws-logo-alt'></span><span class='bp-line'></span></span>
+      <span class='cp-menu-item'><wc-icon {...icon('add', 'cp-i-primary')}></wc-icon><span class='cp-link cp4b-ws-create'></span></span>
+    </span>
+  </div>
+)}
+
+{/* ── Overlays and feedback ───────────────────────────────── */}
+
+{name === 'banner' && (
+  <div class='bp cp-frame cp-page cp4b-banner-frame'>
+    <span class='cp4b-banner'>
+      <wc-icon {...icon('campaign', 'cp4b-i-banner')}></wc-icon>
+      <span class='bp-line cp4b-banner-text'></span>
+      <span class='cp4b-banner-action'></span>
+      <wc-icon {...icon('close', 'cp4b-i-banner')}></wc-icon>
+    </span>
+    <span class='cp-appbar'>
+      <span class='cp4b-logo'></span>
+      <span class='bp-line cp-strong cp-appbar-title'></span>
+      <wc-icon {...icon('search')}></wc-icon>
+    </span>
+    <span class='cp-page-body cp4b-page-body'>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w1'></span>
+    </span>
+  </div>
+)}
+
+{name === 'command-palette' && (
+  <div class='bp cp-frame cp-overlay cp4b-palette-frame'>
+    <div class='cp-behind'>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-w3'></span>
+      <span class='bp-line cp-w2'></span>
+    </div>
+    <div class='cp-scrim'></div>
+    <span class='cp4b-palette'>
+      <span class='cp4b-palette-search'><wc-icon {...icon('search')}></wc-icon><span class='bp-line cp-strong'></span><span class='cp4b-caret'></span><span class='cp4b-kbd'></span></span>
+      <span class='bp-line cp4b-palette-group'></span>
+      <span class='cp-menu-item cp-menu-on'><wc-icon {...icon('add')}></wc-icon><span class='bp-line'></span><wc-icon {...icon('keyboard_return')}></wc-icon></span>
+      <span class='cp-menu-item'><wc-icon {...icon('settings')}></wc-icon><span class='bp-line'></span><span class='cp4b-kbd'></span></span>
+      <span class='cp-menu-item'><wc-icon {...icon('person')}></wc-icon><span class='bp-line'></span><span class='cp4b-kbd'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'confirm-dialog' && (
+  <div class='bp cp-frame cp-overlay cp4b-confirm-frame'>
+    <div class='cp-behind'>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-w3'></span>
+      <span class='bp-line cp-w2'></span>
+    </div>
+    <div class='cp-scrim'></div>
+    <span class='cp4b-confirm'>
+      <span class='cp4b-confirm-icon'><wc-icon {...icon('warning')}></wc-icon></span>
+      <span class='bp-line cp4b-confirm-title'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='cp4b-confirm-actions'>
+        <span class='cp-btn cp-btn-xs cp-outline'></span>
+        <span class='cp-btn cp-btn-xs cp4b-btn-danger'></span>
+      </span>
+    </span>
+  </div>
+)}
+
+{name === 'notification-center' && (
+  <div class='bp cp-col cp4b-notify'>
+    <span class='cp4b-notify-trigger'>
+      <span class='cp-badged'><wc-icon {...icon('notifications')}></wc-icon><i class='cp-badge-count'></i></span>
+    </span>
+    <span class='cp-menu cp-menu-full cp4b-notify-panel'>
+      <span class='cp4b-notify-head'><span class='bp-line cp-strong'></span><wc-icon {...icon('done_all', 'cp-i-primary')}></wc-icon></span>
+      {[0, 1, 2].map(i => (
+        <span class:list={['cp4b-notice', { 'cp4b-notice-unread': i < 2 }]}>
+          <span class:list={['cp-avatar', 'cp4b-av-xs', i === 1 ? 'cp-avatar-tertiary' : 'cp-avatar-initials']}></span>
+          <span class='cp-item-text'><span class='bp-line cp-strong'></span><span class='bp-line cp-w2'></span></span>
+          <i class='cp4b-unread'></i>
+        </span>
+      ))}
+    </span>
+  </div>
+)}
+
+{name === 'tour' && (
+  <div class='bp cp-frame cp-page cp4b-tour'>
+    <span class='cp-appbar'>
+      <span class='cp4b-logo'></span>
+      <span class='bp-line cp-strong cp-appbar-title'></span>
+      <span class='cp4b-spot'><span class='cp-btn cp-btn-xs'></span></span>
+    </span>
+    <span class='cp-page-body cp4b-page-body'>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w1'></span>
+    </span>
+    <span class='cp4b-tour-pop'>
+      <span class='bp-line cp-strong cp-w1'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='cp4b-tour-foot'>
+        <span class='cp4b-steps'><i class='cp4b-step-on'></i><i></i><i></i></span>
+        <span class='cp-btn cp-btn-xs'></span>
+      </span>
+    </span>
+  </div>
+)}

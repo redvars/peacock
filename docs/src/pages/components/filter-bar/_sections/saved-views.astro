@@ -1,0 +1,48 @@
+---
+export const title = 'Saved views';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>views</code> lists named filter sets, <code>{'{ id, label, value }'}</code>, in a views menu
+  with "All". Picking one sets <code>view</code> to its id (<code>''</code> for "All"), replaces
+  <code>value</code> with the view's value and fires <code>view-change</code> with
+  <code>{'{ value }'}</code> (the view's id), then <code>change</code>. With <code>saveable</code> the menu also has
+  "Save view", which fires <code>view-save</code> with the current <code>{'{ value }'}</code>: store
+  it and add it to <code>views</code>. <code>view</code> stays as it is when the person edits the
+  filters afterwards; clear it yourself if your app shows edited views differently.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-filter-bar id='filter-bar-views' saveable search></wc-filter-bar>
+
+  <script is:inline>
+    const $views = document.getElementById('filter-bar-views');
+    $views.filters = [
+      {
+        key: 'status',
+        label: 'Status',
+        type: 'select',
+        options: [
+          { label: 'Open', value: 'open' },
+          { label: 'Closed', value: 'closed' },
+        ],
+      },
+      { key: 'owner', label: 'Owner', type: 'text' },
+      { key: 'archived', label: 'Archived', type: 'boolean' },
+    ];
+    $views.views = [
+      { id: 'mine', label: 'My open issues', value: { status: 'open', owner: 'Ada' } },
+      { id: 'archive', label: 'Archive', value: { archived: true } },
+    ];
+    $views.addEventListener('view-change', event => console.log('view-change', event.detail.value));
+    $views.addEventListener('view-save', event => {
+      const label = window.prompt('Name this view');
+      if (!label) return;
+      const id = `view-${Date.now()}`;
+      $views.views = [...$views.views, { id, label, value: event.detail.value }];
+      $views.view = id;
+    });
+  </script>
+</DemoComponentCard>

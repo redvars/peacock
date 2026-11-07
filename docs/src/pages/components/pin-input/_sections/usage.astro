@@ -1,0 +1,53 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-pin-input</code> takes a verification code or PIN, one character per cell. Its
+  <code>value</code> is the whole code as one string. Typing moves to the next cell, and pasting a
+  code fills every cell from the one it lands in. On phones, the first cell offers the code from a
+  text message (<code>autocomplete="one-time-code"</code>).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-pin-input
+    id='pin-input-demo'
+    label='Verification code'
+    helper-text='We sent a 6-digit code to your phone'
+    required
+  ></wc-pin-input>
+  <script is:inline>
+    const pinInput = document.querySelector('#pin-input-demo');
+    pinInput.addEventListener('change', function (event) {
+      myConsole.log('change: ' + event.detail.value);
+    });
+    pinInput.addEventListener('complete', function (event) {
+      myConsole.log('complete: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Keyboard</h3>
+<ul>
+  <li>Typing fills the cell and moves to the next one; typing over a filled cell replaces it.</li>
+  <li>Backspace clears the cell; in an empty cell it clears the one before and moves there. Delete clears the cell.</li>
+  <li>Left, Right, Home and End move between cells. Tab leaves the row, which is one tab stop.</li>
+</ul>
+<p>
+  The code always fills from the start, so focus never lands on a cell after the first empty one.
+  The cells run left to right also on right-to-left pages, as codes are written.
+</p>
+
+<h3>Events</h3>
+<p>
+  <code>input</code> fires on every change. <code>complete</code> fires when the last empty cell is
+  filled, which is the moment to verify the code. <code>change</code> fires when the code is
+  committed: when it becomes complete, and when focus leaves the cells after a change. All three
+  carry <code>detail.value</code>.
+</p>
+<p>
+  <code>focus()</code> moves to the first empty cell and <code>clear()</code> empties the cells, for
+  example after a wrong code.
+</p>

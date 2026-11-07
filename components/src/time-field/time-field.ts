@@ -2,13 +2,13 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import PickerField from '@/__internal/picker-field.js';
+import PickerField, { type ValueProblem } from '@/__internal/picker-field.js';
 import {
   type HourCycle,
   formatTime,
-  localeHourCycle,
   parseIsoTime,
   parseTimeText,
+  resolveHourCycle,
 } from '@/__internal/utils/date.js';
 import styles from './time-field.scss';
 
@@ -40,7 +40,7 @@ function compareTime(a: string, b: string): number {
  *
  * @example
  * ```html
- * <wc-time-field label="Start time" value="09:30" step="15"></wc-time-field>
+ * <wc-time-field label="Start time" value="09:30" minute-step="15"></wc-time-field>
  * ```
  * @tags input, form
  */
@@ -53,9 +53,9 @@ export class TimeField extends PickerField {
   // ── Properties ───────────────────────────────────────────────────────────
 
   /** Minutes between entries in the picker's minute column. */
-  @property({ type: Number }) step = 1;
+  @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
 
-  /** Includes seconds in the value and the picker. */
+  /** The value's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
   @property({ type: Boolean }) seconds = false;
 
   /** `h12` or `h23`; defaults to the locale's. */
@@ -71,7 +71,9 @@ export class TimeField extends PickerField {
 
   protected readonly pickerIcon = 'schedule';
 
-  protected readonly pickerLabel = 'Choose time';
+  protected get pickerLabel(): string {
+    return this.i18n.t('chooseTime');
+  }
 
   // ── Protected methods ────────────────────────────────────────────────────
 
@@ -100,15 +102,25 @@ export class TimeField extends PickerField {
     return h12 ? `${base} AM` : base;
   }
 
-  protected validateValue(value: string): string {
+  protected validateValue(value: string): ValueProblem | null {
     const locale = this.resolvedLocale;
     if (this.min && compareTime(value, this.min) < 0) {
-      return `Pick a time at or after ${formatTime(this.min, locale, this.resolvedHourCycle)}`;
+      return {
+        flag: 'rangeUnderflow',
+        message: this.i18n.t('pickTimeAtOrAfter')(
+          formatTime(this.min, locale, this.resolvedHourCycle),
+        ),
+      };
     }
     if (this.max && compareTime(value, this.max) > 0) {
-      return `Pick a time at or before ${formatTime(this.max, locale, this.resolvedHourCycle)}`;
+      return {
+        flag: 'rangeOverflow',
+        message: this.i18n.t('pickTimeAtOrBefore')(
+          formatTime(this.max, locale, this.resolvedHourCycle),
+        ),
+      };
     }
-    return '';
+    return null;
   }
 
   protected renderPicker() {
@@ -116,7 +128,7 @@ export class TimeField extends PickerField {
       <wc-time-picker
         class="picker"
         .value=${this.value}
-        step=${this.step}
+        minute-step=${this.minuteStep}
         ?seconds=${this.seconds}
         .hourCycle=${this.hourCycle}
         min=${this.min}
@@ -133,6 +145,6 @@ export class TimeField extends PickerField {
   // ── Private getters ──────────────────────────────────────────────────────
 
   private get resolvedHourCycle(): HourCycle {
-    return this.hourCycle ?? localeHourCycle(this.resolvedLocale);
+    return resolveHourCycle(this.hourCycle, this.resolvedLocale);
   }
 }

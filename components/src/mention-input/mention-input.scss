@@ -1,0 +1,151 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+
+  /**
+   * @prop --mention-input-list-max-height: Maximum height of the suggestion list
+   */
+  --mention-input-list-max-height: 16rem;
+
+  /**
+   * @prop --mention-input-list-width: Width of the suggestion list
+   */
+  --mention-input-list-width: 18rem;
+
+  --_option-height: calc(2.75rem + var(--density, 0) * 0.25rem);
+}
+
+.field {
+  height: 100%;
+  position: relative;
+  align-items: flex-start;
+  --field-height: auto;
+  --field-padding-block: var(--spacing-100);
+}
+
+.control {
+  flex: 1;
+  position: relative;
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+
+.input-element {
+  display: block;
+  inline-size: 100%;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: inherit;
+  resize: vertical;
+}
+
+:host([auto-grow]) .input-element {
+  resize: none;
+  overflow-y: hidden;
+}
+
+.caret-anchor {
+  position: absolute;
+  inline-size: 1px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.suggestions {
+  /* Reset the UA popover styles; floating-ui positions the list in the top layer. */
+  margin: 0;
+  border: 0;
+  inset: auto;
+  position: fixed;
+  top: 0;
+  // floating-ui positions the list with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
+  left: 0;
+  box-sizing: border-box;
+  inline-size: var(--mention-input-list-width);
+  max-inline-size: calc(100vw - 2 * var(--spacing-100, 0.5rem));
+  max-block-size: min(
+    var(--mention-input-list-max-height),
+    var(--floating-available-height, 100vh)
+  );
+  overflow-y: auto;
+  padding: var(--spacing-050, 0.25rem);
+  background-color: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border-radius: var(--shape-corner-small);
+  box-shadow: var(--elevation-level2);
+}
+
+.option {
+  align-items: center;
+  border-radius: var(--shape-corner-extra-small);
+  cursor: pointer;
+  display: flex;
+  gap: var(--spacing-100, 0.5rem);
+  min-block-size: var(--_option-height);
+  padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+
+  &.active {
+    background-color: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+}
+
+.option-avatar {
+  flex: none;
+}
+
+.option-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.option-label {
+  @include mixin.get-typography-not-important(body-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.option-description {
+  @include mixin.get-typography-not-important(body-small);
+  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loading-row {
+  @include mixin.get-typography-not-important(body-medium);
+  align-items: center;
+  color: var(--color-on-surface-variant);
+  display: flex;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-100, 0.5rem);
+}
+
+.loading-indicator {
+  --progress-height: 1.25rem;
+}
+
+@media (forced-colors: active) {
+  .suggestions {
+    border: 1px solid CanvasText;
+  }
+
+  .option.active {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

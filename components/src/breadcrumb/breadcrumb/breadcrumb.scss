@@ -24,8 +24,7 @@ ol {
 // This will work with any tag name (breadcrumb-item, base-breadcrumb-item, etc.)
 ::slotted(:not(:last-child))::after {
   display: inline-block;
-  padding-right: var(--spacing-100);
-  padding-left: var(--spacing-100);
+  padding-inline: var(--spacing-100);
   color: var(--color-outline);
   content: "/";
   user-select: none;

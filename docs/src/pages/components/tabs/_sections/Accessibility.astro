@@ -1,0 +1,37 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Tabs follow the WAI-ARIA tabs pattern. <code>wc-tabs</code> is the
+  <code>tablist</code>, each tab is a <code>tab</code> with
+  <code>aria-selected</code>, and inside a <code>wc-tab-group</code> each panel
+  is a <code>tabpanel</code> labelled by its tab. The tab list is one tab stop,
+  on the selected tab. Left and Right (mirrored in right-to-left layouts) move
+  to the previous and next tab, Home and End to the first and last. Moving to a
+  tab selects it. Disabled tabs are skipped.
+</p>
+<p>
+  Each tab fires <code>change</code> on <code>wc-tabs</code> with
+  <code>detail.index</code> and <code>detail.value</code>. With
+  <code>managed</code> the tabs do not change the selection themselves: set
+  <code>selected</code> on the chosen tab from the <code>change</code> listener.
+</p>
+<p>
+  Tabs that go to other pages are navigation, not tabs. Give each one an
+  <code>href</code>: it renders a plain link with <code>aria-current="page"</code>
+  when selected, the list drops its <code>tablist</code> role, and you wrap it in
+  a <code>&lt;nav&gt;</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <nav aria-label='Account'>
+    <wc-tabs variant='secondary'>
+      <wc-tab href='#profile' selected>Profile</wc-tab>
+      <wc-tab href='#security'>Security</wc-tab>
+      <wc-tab href='#billing'>Billing</wc-tab>
+    </wc-tabs>
+  </nav>
+</DemoComponentCard>

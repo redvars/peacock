@@ -9,8 +9,8 @@ import type {
   ThemeRegistration,
 } from 'shiki';
 import IndividualComponent from '@/IndividualComponent.js';
-import { copyToClipboard } from '@/__internal/utils/copy-to-clipboard.js';
-import { locale } from './local.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { TOKEN_DEFAULTS } from './token-colors.js';
 import {
   buildLineVariants,
@@ -134,7 +134,31 @@ const hasFontFlag = (fontStyle: number, flag: number) =>
  * @tag wc-code-highlighter
  * @rawTag code-highlighter
  *
- * @summary Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.
+ * @summary A read-only block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.
+ *
+ * @overview
+ * <p>Give the code as <code>value</code>, or as a <code>&lt;pre&gt;&lt;code&gt;</code> in the light
+ * DOM, and its <code>language</code>; unknown languages render as plain text. JavaScript, HTML and
+ * CSS are formatted with Prettier first unless <code>format="false"</code>. The code is shown as
+ * written for people to read and copy; to let them edit it use <code>wc-code-editor</code>. Several
+ * blocks shown as tabs go in a <code>wc-code-group</code>.</p>
+ * <ul>
+ * <li><code>label</code> or the <code>title</code> slot shows a header, with an optional
+ * <code>icon</code> slot and the actions.</li>
+ * <li><code>line-numbers</code> and <code>start-line</code> number the lines;
+ * <code>highlight-lines</code>, <code>added-lines</code> and <code>removed-lines</code> mark lines
+ * by number or range, such as <code>"1, 3-5"</code>, counted after formatting.</li>
+ * <li><code>wrap</code> wraps long lines, and <code>wrap-toggle</code> adds a button to turn wrapping
+ * on and off.</li>
+ * <li><code>collapsible</code> caps the height and adds a show more button, with
+ * <code>aria-expanded</code>, when the code is taller; it fires <code>expanded-change</code>.</li>
+ * <li>The copy button copies the code, or <code>copy-value</code>, and fires <code>copied</code>
+ * or <code>copy-error</code>; <code>hide-copy</code> removes it. More buttons go in the
+ * <code>actions</code> slot.</li>
+ * <li><code>inline</code> renders the code as a compact chip within text; <code>size="sm"</code>
+ * suits dense layouts and <code>variant="error"</code> tints the block for failure output.</li>
+ * </ul>
+ * <p>The code area is always left to right and is focusable, so keyboard users can scroll it.</p>
  *
  * @example
  * ```html
@@ -170,7 +194,8 @@ const hasFontFlag = (fontStyle: number, flag: number) =>
  * @cssprop --code-highlighter-token-comment - Comment color. Defaults to `--color-on-surface-variant`.
  * @cssprop --code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.
  *
- * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the code.
+ * @fires {CustomEvent<{value: string}>} copied - Dispatched by the copy button (`wc-copy-button`) after it copies the code.
+ * @fires {CustomEvent<{value: string, error: unknown}>} copy-error - Dispatched by the copy button when the code could not be copied.
  * @fires {CustomEvent<{expanded: boolean}>} expanded-change - Dispatched when a collapsible block is expanded or collapsed.
  *
  * @tags display
@@ -180,8 +205,6 @@ export class CodeHighlighter extends LitElement {
   // ── Static ────────────────────────────────────────────────────────────────
 
   static styles = [styles];
-
-  private static readonly COPY_FEEDBACK_DURATION = 2000;
 
   // ── Properties ────────────────────────────────────────────────────────────
 
@@ -269,14 +292,14 @@ export class CodeHighlighter extends LitElement {
   @property({ type: Boolean, reflect: true })
   grouped: boolean = false;
 
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   /** The code as displayed, after formatting, without a trailing newline. */
   @state() private _code: string = '';
 
   /** Tokens per line, or `null` until highlighting finishes. */
   @state() private _tokens: ThemedToken[][] | null = null;
-
-  /** Whether the copy button shows its copied feedback. */
-  @state() private _copied = false;
 
   /** Whether the collapsed code is taller than the collapsed height. */
   @state() private _overflowing = false;
@@ -298,8 +321,8 @@ export class CodeHighlighter extends LitElement {
   /** Increments per highlight run so stale async results are dropped. */
   private __run = 0;
 
-  /** Timer that resets the copy feedback. */
-  private __copyFeedbackTimeout: number | null = null;
+  /** Peacock's strings for the toolbar and footer. */
+  private readonly __i18n = new I18nController(this);
 
   /** Measures whether collapsed code overflows. */
   private __resizeObserver?: ResizeObserver;
@@ -324,10 +347,6 @@ export class CodeHighlighter extends LitElement {
   }
 
   disconnectedCallback() {
-    if (this.__copyFeedbackTimeout !== null) {
-      window.clearTimeout(this.__copyFeedbackTimeout);
-      this.__copyFeedbackTimeout = null;
-    }
     this.__childObserver?.disconnect();
     this.__resizeObserver?.disconnect();
     this.__observedContent = undefined;
@@ -437,27 +456,6 @@ export class CodeHighlighter extends LitElement {
     );
   }
 
-  private async __handleCopyClick() {
-    const value = this.copyValue ?? this._code;
-    await copyToClipboard(value);
-    this._copied = true;
-    this.dispatchEvent(
-      new CustomEvent('copied', {
-        detail: { value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-
-    if (this.__copyFeedbackTimeout !== null) {
-      window.clearTimeout(this.__copyFeedbackTimeout);
-    }
-    this.__copyFeedbackTimeout = window.setTimeout(() => {
-      this._copied = false;
-      this.__copyFeedbackTimeout = null;
-    }, CodeHighlighter.COPY_FEEDBACK_DURATION);
-  }
-
   private __handleWrapClick() {
     this.wrap = !this.wrap;
   }
@@ -508,6 +506,7 @@ export class CodeHighlighter extends LitElement {
   }
 
   private __renderActions(floating: boolean) {
+    const wrapLabel = this.__i18n.t(this.wrap ? 'unwrapLines' : 'wrapLines');
     return html`
       <div class=${classMap({ actions: true, floating })} part="actions">
         <slot name="actions"></slot>
@@ -520,8 +519,8 @@ export class CodeHighlighter extends LitElement {
               color="surface"
               toggle
               ?selected=${this.wrap}
-              aria-label=${this.wrap ? locale.unwrapLines : locale.wrapLines}
-              tooltip=${this.wrap ? locale.unwrapLines : locale.wrapLines}
+              aria-label=${wrapLabel}
+              tooltip=${wrapLabel}
               @click=${this.__handleWrapClick}
             >
               <wc-icon name="wrap_text"></wc-icon>
@@ -529,22 +528,12 @@ export class CodeHighlighter extends LitElement {
           : nothing}
         ${this.hideCopy
           ? nothing
-          : html`<wc-icon-button
+          : html`<wc-copy-button
               class="copy-button"
-              variant="text"
               size="xs"
-              shape="round"
-              color=${this._copied ? 'success' : 'surface'}
-              aria-label=${this._copied
-                ? locale.copied
-                : locale.copyToClipboard}
-              tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
-              @click=${this.__handleCopyClick}
-            >
-              <wc-icon
-                name=${this._copied ? 'check' : 'content_copy'}
-              ></wc-icon>
-            </wc-icon-button>`}
+              label=${this.__i18n.t('copyToClipboard')}
+              .value=${this.copyValue ?? this._code}
+            ></wc-copy-button>`}
       </div>
     `;
   }
@@ -577,7 +566,7 @@ export class CodeHighlighter extends LitElement {
             class=${classMap({ 'expand-icon': true, flipped: this.expanded })}
             name="keyboard_arrow_down"
           ></wc-icon>
-          ${this.expanded ? locale.showLess : locale.showMore}
+          ${this.__i18n.t(this.expanded ? 'showLess' : 'showMore')}
         </wc-button>
       </div>
     `;
@@ -635,9 +624,6 @@ export class CodeHighlighter extends LitElement {
           this.__renderLine(line, index),
         )}</code></pre>
         ${showFooter ? this.__renderFooter() : nothing}
-        <span class="sr-only" aria-live="polite"
-          >${this._copied ? locale.copiedCode : ''}</span
-        >
       </div>
     `;
   }

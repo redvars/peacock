@@ -47,7 +47,7 @@
     </wc-accordion>
 
     <h3>Multi (allow multiple panels open)</h3>
-    <wc-accordion multi>
+    <wc-accordion multiple>
       <wc-accordion-item>
         <span slot="heading">Panel A</span>
         <p>Content for panel A.</p>
@@ -63,12 +63,12 @@
     </wc-accordion>
 
     <h3>Toggle position: before</h3>
-    <wc-accordion>
-      <wc-accordion-item toggle-position="before">
+    <wc-accordion leading-toggle>
+      <wc-accordion-item>
         <span slot="heading">Panel 1</span>
         <p>Icon appears at the leading start.</p>
       </wc-accordion-item>
-      <wc-accordion-item toggle-position="before">
+      <wc-accordion-item>
         <span slot="heading">Panel 2</span>
         <p>Icon appears at the leading start.</p>
       </wc-accordion-item>
@@ -87,7 +87,7 @@
     </wc-accordion>
 
     <h3>Flat display mode</h3>
-    <wc-accordion display-mode="flat">
+    <wc-accordion variant="flat">
       <wc-accordion-item>
         <span slot="heading">Flat Panel 1</span>
         <p>No borders between panels. Suitable inside cards.</p>

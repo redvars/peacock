@@ -7,14 +7,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p>
   <code>wc-list-item</code> has <code>start</code>, default and
   <code>end</code> slots, plus <code>overline</code>,
-  <code>supporting-text</code> and <code>trailing-supporting-text</code>. The
-  older <code>leading</code> and <code>trailing</code> slot names still work
-  but are deprecated.
+  <code>supporting-text</code> and <code>trailing-supporting-text</code>.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <wc-list style='width: min(100%, 28rem);'>
-    <wc-list-item selected>
+    <wc-list-item>
       <wc-icon slot='start' name='inbox'></wc-icon>
       Inbox
       <span slot='trailing-supporting-text'>24</span>

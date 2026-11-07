@@ -1,0 +1,46 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-signature-pad</code> records a signature drawn with a mouse, finger or pen. Strokes are
+  smoothed, a pen draws thicker the harder it presses, and the round buttons undo the last stroke or
+  clear the pad. <code>change</code> fires after each stroke with <code>detail.value</code>, the
+  signature as a PNG data URL (<code>''</code> while empty).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-signature-pad id='signature-pad-demo' label='Signature' helper-text='Sign above the line'
+    ></wc-signature-pad>
+  </div>
+  <script is:inline>
+    document.querySelector('#signature-pad-demo').addEventListener('change', function (event) {
+      myConsole.log('change: ' + (event.detail.value ? event.detail.value.length + ' characters' : 'empty'));
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Typing instead of drawing</h3>
+<p>
+  A signature cannot be drawn with a keyboard, so the keyboard button switches the pad to a name field:
+  the typed name is drawn on the pad in a script font (<code>--signature-pad-font-family</code>) and
+  becomes the value. Each way keeps its own content, and the value follows the one shown. The drawing
+  is announced as "Signature, empty" or "Signature, signed".
+</p>
+
+<h3>Resizing and exports</h3>
+<p>
+  Strokes are stored as points, so the pad redraws them sharply at any size and pixel density; they
+  scale with the pad's width. <code>toDataURL(type, quality)</code> and
+  <code>toBlob(type, quality)</code> export the signature at the pad's size times the device pixel
+  ratio, with a transparent background. <code>fromDataURL(url)</code> loads an image onto the pad;
+  setting <code>value</code> does the same.
+</p>
+<p>
+  On screen the ink follows the theme (<code>--signature-pad-ink-color</code>, which is light in dark
+  mode). Exports always use <code>--signature-pad-export-ink-color</code>, black by default, so a
+  signature drawn in dark mode does not come out white.
+</p>

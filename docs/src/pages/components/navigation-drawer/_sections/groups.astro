@@ -1,0 +1,46 @@
+---
+export const title = 'Groups';
+export const order = 150;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-navigation-drawer-group</code> gathers items under a header that shows and hides them.
+  It follows the disclosure navigation pattern: the header is a button with
+  <code>aria-expanded</code> and <code>aria-controls</code>, and the items of an expanded group
+  follow in the Tab order. Put the header's text in the <code>label</code> slot and its icon in the
+  <code>icon</code> slot. A group that holds the <code>current</code> item expands on its own, and
+  groups can nest.
+</p>
+<p>
+  The group fires <code>open</code> and <code>close</code> on itself when the user toggles it.
+  They do not bubble, so a listener for the drawer's own <code>close</code> never sees them.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='height: 420px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: auto;'>
+    <wc-navigation-drawer id='drawer-groups-demo' open headline='Admin' style='--navigation-drawer-width: 280px;'>
+      <wc-navigation-drawer-item value='dashboard' href='#'>
+        <wc-icon slot='icon' name='dashboard'></wc-icon>
+        Dashboard
+      </wc-navigation-drawer-item>
+      <wc-navigation-drawer-group>
+        <wc-icon slot='icon' name='bar_chart'></wc-icon>
+        <span slot='label'>Analytics</span>
+        <wc-navigation-drawer-item value='overview' href='#' current>Overview</wc-navigation-drawer-item>
+        <wc-navigation-drawer-item value='reports' href='#'>Reports</wc-navigation-drawer-item>
+      </wc-navigation-drawer-group>
+      <wc-navigation-drawer-group>
+        <wc-icon slot='icon' name='settings'></wc-icon>
+        <span slot='label'>Settings</span>
+        <wc-navigation-drawer-item value='profile' href='#'>Profile</wc-navigation-drawer-item>
+        <wc-navigation-drawer-item value='billing' href='#'>Billing</wc-navigation-drawer-item>
+      </wc-navigation-drawer-group>
+    </wc-navigation-drawer>
+  </div>
+  <script is:inline>
+    document.querySelector('#drawer-groups-demo').addEventListener('change', function (event) {
+      myConsole.log('Navigated to :: ' + event.detail.value + ' (index ' + event.detail.index + ')');
+    });
+  </script>
+</DemoComponentCard>

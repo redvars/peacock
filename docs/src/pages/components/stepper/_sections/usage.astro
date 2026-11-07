@@ -1,0 +1,68 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-stepper</code> shows where the person is in a multi-step flow, such as checkout or
+  onboarding. It only shows progress: the app renders each step's content itself and moves the
+  stepper by setting <code>current</code> to a step's <code>value</code>. Steps before the current
+  one show a check, later ones their number.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-stepper current='shipping' label='Checkout'>
+      <wc-step value='cart' label='Cart'></wc-step>
+      <wc-step value='shipping' label='Shipping'></wc-step>
+      <wc-step value='payment' label='Payment'></wc-step>
+      <wc-step value='review' label='Review'></wc-step>
+    </wc-stepper>
+  </div>
+</DemoComponentCard>
+
+<p>
+  A step without a <code>value</code> is named by its zero-based index, so
+  <code>current="1"</code> is the second step. An empty or unknown <code>current</code> means the
+  first step.
+</p>
+
+<h3>Wizard</h3>
+<p>
+  <code>next()</code> and <code>previous()</code> move to the next or previous step that is not
+  disabled. They do not fire <code>change</code>, which is only for the person's own choice.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: flex; flex-direction: column; gap: 1.5rem;'>
+    <wc-stepper id='stepper-wizard' current='account' label='Sign up'>
+      <wc-step value='account' label='Account'></wc-step>
+      <wc-step value='team' label='Team' optional></wc-step>
+      <wc-step value='billing' label='Billing'></wc-step>
+      <wc-step value='done' label='Done'></wc-step>
+    </wc-stepper>
+    <p id='stepper-wizard-content' style='margin: 0;'>Step content: account</p>
+    <div style='display: flex; gap: 0.5rem; justify-content: flex-end;'>
+      <wc-button id='stepper-wizard-back' variant='outlined'>Back</wc-button>
+      <wc-button id='stepper-wizard-next'>Next</wc-button>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      var stepper = document.querySelector('#stepper-wizard');
+      var content = document.querySelector('#stepper-wizard-content');
+      function show() {
+        content.textContent = 'Step content: ' + stepper.current;
+      }
+      document.querySelector('#stepper-wizard-back').addEventListener('click', function () {
+        stepper.previous();
+        show();
+      });
+      document.querySelector('#stepper-wizard-next').addEventListener('click', function () {
+        stepper.next();
+        show();
+      });
+    })();
+  </script>
+</DemoComponentCard>

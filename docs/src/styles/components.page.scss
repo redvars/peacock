@@ -3,6 +3,8 @@
 @use "wireframe";
 @use "component-previews";
 @use "component-previews-controls";
+@use "component-previews-v4a";
+@use "component-previews-v4b";
 
 // Components overview (pages/components.astro) and its cards (components/WebComponentCard.astro).
 // The page uses the doc-page frame and the cards match the Charts and Blocks overview cards.
@@ -30,6 +32,8 @@
 
   .component-group {
     margin-bottom: var(--spacing-600);
+    // Clear of the search bar, which is pinned to the top once the page scrolls.
+    scroll-margin-top: 5rem;
 
     .group-title {
       margin: 0 0 var(--spacing-200);

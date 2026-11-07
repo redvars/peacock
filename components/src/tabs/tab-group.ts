@@ -1,28 +1,45 @@
 import { html, LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
 import styles from './tab-group.scss';
-import { Tabs } from './tabs.js';
+import { Tabs, type TabsChangeDetail } from './tabs.js';
 import { TabPanel } from './tab-panel.js';
+import type { Tab } from './tab.js';
 import IndividualComponent from '@/IndividualComponent.js';
+
+/** The key that links a tab to its panel: the tab's `value`. */
+function tabKey(tab: HTMLElement): string | null {
+  return tab.getAttribute('value') || (tab as Tab).value || null;
+}
+
+/** Gives `element` an id if it has none, so ARIA attributes can point at it. */
+function ensureId(element: HTMLElement, prefix: string): string {
+  if (!element.id) {
+    // eslint-disable-next-line no-param-reassign
+    element.id = `${prefix}-${crypto.randomUUID()}`;
+  }
+  return element.id;
+}
 
 /**
  * @label Tab Group
  * @tag wc-tab-group
  * @rawTag tab-group
  *
- * @summary The tab group component is used to display multiple panels of content in a container.
+ * @summary Pairs a row of tabs with their panels and shows the panel of the selected tab.
  * @overview
- * <p>The tab group component allows users to switch between different views or content sections.</p>
+ * <p>Tabs and panels are matched by <code>value</code> (<code>&lt;wc-tab value="billing"&gt;</code> shows
+ * <code>&lt;wc-tab-panel value="billing"&gt;</code>), or by position when no tab has a value.</p>
+ * <p>The group wires the tabs pattern: each panel is labelled by its tab, and each tab points at
+ * its panel. Tabs and panels added later are wired too. When the <code>wc-tabs</code> is
+ * <code>managed</code>, the group leaves the selection to the consumer.</p>
  *
  * @example
  * ```html
  * <wc-tab-group>
- * 
- *   <wc-tabs>
- *    <wc-tab selected >Tab 1</wc-tab>
+ *   <wc-tabs aria-label="Sections">
+ *    <wc-tab selected>Tab 1</wc-tab>
  *    <wc-tab>Tab 2</wc-tab>
  *   </wc-tabs>
- * 
+ *
  *   <wc-tab-panel>Panel 1</wc-tab-panel>
  *   <wc-tab-panel>Panel 2</wc-tab-panel>
  * </wc-tab-group>
@@ -31,141 +48,143 @@ import IndividualComponent from '@/IndividualComponent.js';
  */
 @IndividualComponent
 export class TabGroup extends LitElement {
+  // ── Static
+
   static styles = [styles];
 
   static Tabs = Tabs;
 
   static TabPanel = TabPanel;
 
+  // ── Private fields
+
+  /** Re-wires when tabs or panels are added or removed, including tabs inside `wc-tabs`. */
+  private readonly __observer = new MutationObserver(records => {
+    const relevant = records.some(
+      record =>
+        record.target === this ||
+        (record.target instanceof Element &&
+          record.target.localName === 'wc-tabs'),
+    );
+    if (relevant) this.__sync();
+  });
+
+  // ── Lifecycle
+
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('tab-click', this.onTabClick);
+    this.addEventListener('change', this.__handleChange);
+    this.__observer.observe(this, { childList: true, subtree: true });
   }
 
   disconnectedCallback() {
-    this.removeEventListener('tab-click', this.onTabClick);
+    this.removeEventListener('change', this.__handleChange);
+    this.__observer.disconnect();
     super.disconnectedCallback();
   }
 
   firstUpdated() {
-    this.initializeTabs();
+    this.__sync();
   }
 
-  private onTabClick = (event: Event) => {
-    const custom = event as CustomEvent;
-    event.stopPropagation();
-    const targetValue = custom.detail?.target || custom.detail?.value;
-    if (targetValue) {
-      this.selectTab(targetValue);
-    } else if (typeof custom.detail?.index === 'number') {
-      this.selectTabByIndex(custom.detail.index);
-    }
-  };
+  // ── Public
 
+  /** Selects the tab whose key (`value`) is `target`, and shows its panel. */
   selectTab(target: string) {
-    const tabs = this.getTabs();
-    for (const tab of tabs) {
-      (tab as any).active = false;
-      (tab as any).selected = false;
-      tab.classList.remove('previous-tab', 'next-tab');
-    }
+    const index = this.getTabs().findIndex(tab => tabKey(tab) === target);
+    this.__select(index, target);
+  }
 
-    let selectedIndex = -1;
-    tabs.forEach((tab: HTMLElement, index: number) => {
-      const t = tab.getAttribute('target') || tab.getAttribute('value');
-      if (t === target) {
-        selectedIndex = index;
+  /** Selects the tab at `index`, and shows the panel at the same position. */
+  selectTabByIndex(index: number) {
+    this.__select(index, null);
+  }
+
+  // ── Private
+
+  private getTabs(): Tab[] {
+    return Array.from(this.querySelectorAll<Tab>(':scope > wc-tabs wc-tab'));
+  }
+
+  private getTabPanels(): TabPanel[] {
+    return Array.from(this.querySelectorAll<TabPanel>(':scope > wc-tab-panel'));
+  }
+
+  private getTabList(): Tabs | null {
+    return this.querySelector<Tabs>(':scope > wc-tabs');
+  }
+
+  private tabsHaveKey(): boolean {
+    return this.getTabs().some(tab => tabKey(tab) !== null);
+  }
+
+  /** The panel for the tab at `index`: by key when tabs have keys, else by position. */
+  private __panelFor(tab: Tab, index: number, keyed: boolean) {
+    const panels = this.getTabPanels();
+    if (!keyed) return panels[index] ?? null;
+    const key = tabKey(tab);
+    return key === null
+      ? null
+      : (panels.find(panel => panel.getAttribute('value') === key) ?? null);
+  }
+
+  private __select(index: number, key: string | null) {
+    const tabs = this.getTabs();
+    const keyed = key !== null;
+    tabs.forEach((tab, i) => {
+      /* eslint-disable no-param-reassign */
+      tab.selected = i === index;
+      /* eslint-enable no-param-reassign */
+      tab.classList.toggle('previous-tab', index >= 0 && i === index - 1);
+      tab.classList.toggle('next-tab', index >= 0 && i === index + 1);
+    });
+
+    this.getTabPanels().forEach((panel, i) => {
+      // eslint-disable-next-line no-param-reassign
+      panel.active = keyed ? panel.getAttribute('value') === key : i === index;
+    });
+  }
+
+  /** Links each tab and its panel, and makes sure one tab is selected. */
+  private __sync() {
+    const tabs = this.getTabs();
+    const keyed = this.tabsHaveKey();
+
+    tabs.forEach((tab, index) => {
+      const panel = this.__panelFor(tab, index, keyed);
+      // eslint-disable-next-line no-param-reassign
+      tab.panel = panel;
+      if (panel) {
+        panel.setAttribute('aria-labelledby', ensureId(tab, 'wc-tab'));
+        ensureId(panel, 'wc-tab-panel');
       }
     });
 
-    if (selectedIndex >= 0) {
-      const selectedTab = tabs[selectedIndex];
-      (selectedTab as any).active = true;
-      (selectedTab as any).selected = true;
-      if (tabs[selectedIndex - 1]) {
-        tabs[selectedIndex - 1].classList.add('previous-tab');
-      }
-      if (tabs[selectedIndex + 1]) {
-        tabs[selectedIndex + 1].classList.add('next-tab');
-      }
-    }
-
-    const panels = this.getTabPanels();
-    for (const panel of panels) {
-      const panelValue = panel.getAttribute('value');
-      (panel as any).active = panelValue === target;
-    }
-  }
-
-  selectTabByIndex(index: number) {
-    const tabs = this.getTabs();
-    for (const tab of tabs) {
-      (tab as any).active = false;
-      (tab as any).selected = false;
-      tab.classList.remove('previous-tab', 'next-tab');
-    }
-
-    if (index >= 0 && index < tabs.length) {
-      (tabs[index] as any).active = true;
-      (tabs[index] as any).selected = true;
-      if (tabs[index - 1]) tabs[index - 1].classList.add('previous-tab');
-      if (tabs[index + 1]) tabs[index + 1].classList.add('next-tab');
-    }
-
-    const panels = this.getTabPanels();
-    for (let i = 0; i < panels.length; i += 1) {
-      const panel = panels[i];
-      (panel as any).active = i === index;
-    }
-  }
-
-  private getTabs(): HTMLElement[] {
-    return Array.from(this.querySelectorAll(':scope > wc-tabs wc-tab'));
-  }
-
-  private getTabPanels(): HTMLElement[] {
-    return Array.from(this.querySelectorAll(':scope > wc-tab-panel'));
-  }
-
-  private getTabList(): HTMLElement | null {
-    return this.querySelector(':scope > wc-tabs');
-  }
-
-  private tabsHaveTarget(): boolean {
-    return !!this.querySelector(':scope > wc-tabs wc-tab[target]');
-  }
-
-  private initializeTabs() {
-    const tabs = Array.from(this.getTabs());
-    if (!this.tabsHaveTarget()) {
-      // No target/value attributes — use index-based activation
-      const selectedIndex = tabs.findIndex(
-        tab =>
-          tab.hasAttribute('active') ||
-          (tab as any).active ||
-          tab.hasAttribute('selected') ||
-          (tab as any).selected,
-      );
-      this.selectTabByIndex(selectedIndex >= 0 ? selectedIndex : 0);
+    const selected = tabs.findIndex(tab => tab.selected);
+    const index = selected >= 0 ? selected : 0;
+    if (tabs.length === 0) return;
+    if (keyed) {
+      const key = tabKey(tabs[index]);
+      if (key !== null) this.__select(index, key);
     } else {
-      const selectedTab = tabs.find(
-        tab =>
-          tab.hasAttribute('active') ||
-          (tab as any).active ||
-          tab.hasAttribute('selected') ||
-          (tab as any).selected,
-      );
-      if (selectedTab) {
-        const selectedTarget = selectedTab.getAttribute('target');
-        if (selectedTarget) this.selectTab(selectedTarget);
-      } else if (tabs.length > 0) {
-        const firstTarget = tabs[0].getAttribute('target');
-        if (firstTarget) this.selectTab(firstTarget);
-      }
+      this.__select(index, null);
     }
   }
+
+  private __handleChange = (event: Event) => {
+    // Only the group's own tab list; a `change` from a field inside a panel is not a tab change.
+    const tabList = this.getTabList();
+    if (!tabList || event.target !== tabList || tabList.managed) return;
+    const { detail } = event as CustomEvent<TabsChangeDetail>;
+    const tab = this.getTabs()[detail.index];
+    const key = tab ? tabKey(tab) : null;
+    if (key !== null && this.tabsHaveKey()) this.selectTab(key);
+    else this.selectTabByIndex(detail.index);
+  };
+
+  // ── Render
 
   render() {
-    return html`<slot></slot>`;
+    return html`<slot @slotchange=${() => this.__sync()}></slot>`;
   }
 }

@@ -11,10 +11,12 @@ import {
 import { Icon } from '../src/icon/index.js';
 import { Button, IconButton } from '../src/button/index.js';
 import { Tab, Tabs } from '../src/tabs/index.js';
+import { CopyButton } from '../src/copy-button/index.js';
 
 for (const [tag, element] of [
   ['wc-icon', Icon],
   ['wc-icon-button', IconButton],
+  ['wc-copy-button', CopyButton],
   ['wc-button', Button],
   ['wc-tabs', Tabs],
   ['wc-tab', Tab],
@@ -26,6 +28,41 @@ for (const [tag, element] of [
 
 function root(el: CodeHighlighter): ShadowRoot {
   return el.shadowRoot as ShadowRoot;
+}
+
+/**
+ * Replaces `navigator.clipboard.writeText` for one test: background test pages are not focused,
+ * so the real one rejects (and the execCommand fallback copies nothing).
+ */
+function stubClipboard(succeed: boolean) {
+  const original = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
+  const writes: string[] = [];
+  Object.defineProperty(navigator, 'clipboard', {
+    configurable: true,
+    value: {
+      writeText: async (text: string) => {
+        writes.push(text);
+        if (!succeed) throw new Error('denied');
+      },
+    },
+  });
+  const originalExec = document.execCommand;
+  document.execCommand = (() => succeed) as typeof document.execCommand;
+  return {
+    writes,
+    restore() {
+      if (original) Object.defineProperty(navigator, 'clipboard', original);
+      else delete (navigator as { clipboard?: unknown }).clipboard;
+      document.execCommand = originalExec;
+    },
+  };
+}
+
+/** The button inside the highlighter's wc-copy-button, where a real click lands. */
+async function copyControl(el: CodeHighlighter): Promise<HTMLElement> {
+  const copy = root(el).querySelector('.copy-button') as CopyButton;
+  await copy.updateComplete;
+  return copy.shadowRoot!.querySelector('wc-icon-button') as HTMLElement;
 }
 
 function lines(el: CodeHighlighter): HTMLElement[] {
@@ -189,12 +226,40 @@ describe('CodeHighlighter', () => {
         .value=${'npm i\nnpm test\n'}
       ></wc-code-highlighter>
     `);
-    const button = root(el).querySelector('.copy-button') as HTMLElement;
-    setTimeout(() => button.click());
-    const event = (await oneEvent(el, 'copied')) as CustomEvent<{
-      value: string;
-    }>;
-    expect(event.detail.value).to.equal('npm i\nnpm test');
+    const button = await copyControl(el);
+    const clipboard = stubClipboard(true);
+    try {
+      setTimeout(() => button.click());
+      const event = (await oneEvent(el, 'copied')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(event.detail.value).to.equal('npm i\nnpm test');
+      expect(clipboard.writes).to.deep.equal(['npm i\nnpm test']);
+    } finally {
+      clipboard.restore();
+    }
+  });
+
+  it('fires copy-error, not copied, when nothing could be copied', async () => {
+    const el = await fixture<CodeHighlighter>(html`
+      <wc-code-highlighter language="text" .value=${'a'}></wc-code-highlighter>
+    `);
+    const button = await copyControl(el);
+    let copied = false;
+    el.addEventListener('copied', () => {
+      copied = true;
+    });
+    const clipboard = stubClipboard(false);
+    try {
+      setTimeout(() => button.click());
+      const error = (await oneEvent(el, 'copy-error')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(error.detail.value).to.equal('a');
+      expect(copied).to.be.false;
+    } finally {
+      clipboard.restore();
+    }
   });
 
   it('copies copy-value instead of the code when set', async () => {
@@ -205,12 +270,17 @@ describe('CodeHighlighter', () => {
         .value=${'$ npm i\nadded 1 package'}
       ></wc-code-highlighter>
     `);
-    const button = root(el).querySelector('.copy-button') as HTMLElement;
-    setTimeout(() => button.click());
-    const event = (await oneEvent(el, 'copied')) as CustomEvent<{
-      value: string;
-    }>;
-    expect(event.detail.value).to.equal('npm i');
+    const button = await copyControl(el);
+    const clipboard = stubClipboard(true);
+    try {
+      setTimeout(() => button.click());
+      const event = (await oneEvent(el, 'copied')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(event.detail.value).to.equal('npm i');
+    } finally {
+      clipboard.restore();
+    }
   });
 
   it('toggles wrapping from the wrap button', async () => {
@@ -272,6 +342,50 @@ describe('CodeHighlighter', () => {
     expect(button.ariaExpanded).to.equal('true');
     expect(root(tall).querySelector('.code-block.collapsed')).to.not.exist;
     expect(button.textContent).to.contain('Show less');
+  });
+
+  it('settles on one state for code just over the collapsed height (no footer loop)', async () => {
+    const el = await fixture<CodeHighlighter>(html`
+      <wc-code-highlighter
+        language="text"
+        collapsible
+        style="--spacing-200: 16px; --spacing-100: 8px"
+        .value=${'one\ntwo\nthree\nfour'}
+      ></wc-code-highlighter>
+    `);
+    await el.updateComplete;
+    const content = root(el).querySelector('.content') as HTMLElement;
+    const code = root(el).querySelector('.code') as HTMLElement;
+    const style = getComputedStyle(content);
+    const room =
+      code.offsetHeight +
+      parseFloat(style.paddingTop) +
+      parseFloat(style.paddingBottom);
+    // 3px short of fitting with the full bottom padding, but it would fit with the footer's
+    // smaller one: the footer used to shrink the padding, then go away, forever.
+    el.style.setProperty(
+      '--code-highlighter-collapsed-height',
+      `${room - 3}px`,
+    );
+    await waitUntil(
+      () => root(el).querySelector('.footer'),
+      'footer did not appear',
+    );
+    const footerChanges: boolean[] = [];
+    const observer = new MutationObserver(() =>
+      footerChanges.push(!!root(el).querySelector('.footer')),
+    );
+    observer.observe(root(el), { childList: true, subtree: true });
+    for (let frame = 0; frame < 10; frame += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      });
+    }
+    observer.disconnect();
+    expect(footerChanges.filter(shown => !shown)).to.deep.equal([]);
+    // Collapsed, the footer keeps the full bottom padding.
+    expect(getComputedStyle(content).paddingBottom).to.equal(style.paddingTop);
   });
 
   it('renders inline code without block chrome', async () => {
@@ -361,7 +475,7 @@ describe('CodeGroup', () => {
       'greeting.ts',
       'greeting.css',
     ]);
-    expect(tabs(el)[0].active).to.equal(true);
+    expect(tabs(el)[0].selected).to.equal(true);
   });
 
   it('shows only the selected block, framed by the group', async () => {

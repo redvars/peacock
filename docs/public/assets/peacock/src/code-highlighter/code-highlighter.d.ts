@@ -1,5 +1,6 @@
 import { LitElement, PropertyValues } from 'lit';
 import type { BundledLanguage, SpecialLanguage } from 'shiki';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 export type CodeHighlighterLanguage = BundledLanguage | SpecialLanguage;
 export type CodeHighlighterSize = 'sm' | 'md';
 export type CodeHighlighterVariant = 'default' | 'error';
@@ -8,7 +9,31 @@ export type CodeHighlighterVariant = 'default' | 'error';
  * @tag wc-code-highlighter
  * @rawTag code-highlighter
  *
- * @summary Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.
+ * @summary A read-only block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.
+ *
+ * @overview
+ * <p>Give the code as <code>value</code>, or as a <code>&lt;pre&gt;&lt;code&gt;</code> in the light
+ * DOM, and its <code>language</code>; unknown languages render as plain text. JavaScript, HTML and
+ * CSS are formatted with Prettier first unless <code>format="false"</code>. The code is shown as
+ * written for people to read and copy; to let them edit it use <code>wc-code-editor</code>. Several
+ * blocks shown as tabs go in a <code>wc-code-group</code>.</p>
+ * <ul>
+ * <li><code>label</code> or the <code>title</code> slot shows a header, with an optional
+ * <code>icon</code> slot and the actions.</li>
+ * <li><code>line-numbers</code> and <code>start-line</code> number the lines;
+ * <code>highlight-lines</code>, <code>added-lines</code> and <code>removed-lines</code> mark lines
+ * by number or range, such as <code>"1, 3-5"</code>, counted after formatting.</li>
+ * <li><code>wrap</code> wraps long lines, and <code>wrap-toggle</code> adds a button to turn wrapping
+ * on and off.</li>
+ * <li><code>collapsible</code> caps the height and adds a show more button, with
+ * <code>aria-expanded</code>, when the code is taller; it fires <code>expanded-change</code>.</li>
+ * <li>The copy button copies the code, or <code>copy-value</code>, and fires <code>copied</code>
+ * or <code>copy-error</code>; <code>hide-copy</code> removes it. More buttons go in the
+ * <code>actions</code> slot.</li>
+ * <li><code>inline</code> renders the code as a compact chip within text; <code>size="sm"</code>
+ * suits dense layouts and <code>variant="error"</code> tints the block for failure output.</li>
+ * </ul>
+ * <p>The code area is always left to right and is focusable, so keyboard users can scroll it.</p>
  *
  * @example
  * ```html
@@ -44,14 +69,14 @@ export type CodeHighlighterVariant = 'default' | 'error';
  * @cssprop --code-highlighter-token-comment - Comment color. Defaults to `--color-on-surface-variant`.
  * @cssprop --code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.
  *
- * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the code.
+ * @fires {CustomEvent<{value: string}>} copied - Dispatched by the copy button (`wc-copy-button`) after it copies the code.
+ * @fires {CustomEvent<{value: string, error: unknown}>} copy-error - Dispatched by the copy button when the code could not be copied.
  * @fires {CustomEvent<{expanded: boolean}>} expanded-change - Dispatched when a collapsible block is expanded or collapsed.
  *
  * @tags display
  */
 export declare class CodeHighlighter extends LitElement {
     static styles: import("lit").CSSResultGroup[];
-    private static readonly COPY_FEEDBACK_DURATION;
     /** Language of the code. Unknown languages render as plain text. */
     language: CodeHighlighterLanguage;
     /** Code to display. When empty, the code is read from a light-DOM `<pre><code>`. */
@@ -96,12 +121,12 @@ export declare class CodeHighlighter extends LitElement {
      * tab, so the block drops its border and header.
      */
     grouped: boolean;
+    /** Overrides Peacock's strings for this instance only. */
+    strings?: Partial<PeacockStrings>;
     /** The code as displayed, after formatting, without a trailing newline. */
     private _code;
     /** Tokens per line, or `null` until highlighting finishes. */
     private _tokens;
-    /** Whether the copy button shows its copied feedback. */
-    private _copied;
     /** Whether the collapsed code is taller than the collapsed height. */
     private _overflowing;
     private __content?;
@@ -112,8 +137,8 @@ export declare class CodeHighlighter extends LitElement {
     private __lineVariants;
     /** Increments per highlight run so stale async results are dropped. */
     private __run;
-    /** Timer that resets the copy feedback. */
-    private __copyFeedbackTimeout;
+    /** Peacock's strings for the toolbar and footer. */
+    private readonly __i18n;
     /** Measures whether collapsed code overflows. */
     private __resizeObserver?;
     /** Element currently measured by the resize observer. */
@@ -134,7 +159,6 @@ export declare class CodeHighlighter extends LitElement {
     private __measure;
     /** Whether light-DOM children are assigned to the named slot. */
     private __hasSlotted;
-    private __handleCopyClick;
     private __handleWrapClick;
     private __handleExpandClick;
     private __renderToken;

@@ -14,18 +14,7 @@
   padding: 0;
 }
 
-
-.input-wrapper {
-  .input {
-    flex: 1;
-    width: 100%;
-    background: none;
-    cursor: inherit;
-  }
-}
-
-
-.textarea {
+.field {
   height: 100%;
   position: relative;
   align-items: flex-start;
@@ -33,8 +22,63 @@
   --field-padding-block: var(--spacing-100);
 
   .input {
+    flex: 1;
+    width: 100%;
     height: 100%;
+    background: none;
+    cursor: inherit;
     resize: vertical;
   }
 }
 
+:host([resize='none']) .field .input,
+:host([auto-grow]) .field .input {
+  resize: none;
+}
+
+:host([resize='both']) .field .input {
+  resize: both;
+}
+
+:host([auto-grow]) .field .input {
+  overflow-y: hidden;
+}
+
+// ── Ghost text (ai-completion, ADR-030002) ─────────────────────────────────
+
+.ghost-wrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+// Laid over the textarea with its text metrics, so the suggestion wraps like real text.
+.ghost-mirror {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  color: transparent;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  pointer-events: none;
+}
+
+.ghost-before {
+  visibility: hidden;
+}
+
+.ghost-text {
+  color: var(--color-on-surface-variant);
+  opacity: 0.7;
+}
+
+@media (forced-colors: active) {
+  .ghost-text {
+    color: GrayText;
+    opacity: 1;
+  }
+}

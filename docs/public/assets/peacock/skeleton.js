@@ -1,5 +1,5 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -7,13 +7,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   position: relative;
   inset: 0;
@@ -93,7 +115,16 @@ var css_248z = i`* {
  * @label Skeleton
  * @tag wc-skeleton
  * @rawTag skeleton
- * @summary Adds a skeleton effect to an element.
+ * @summary A placeholder shape that stands in for content that has not arrived yet.
+ *
+ * @overview
+ * <p>A skeleton fills the size you give it and, while <code>visible</code> is set, shows a
+ * sweeping animation. Size it to match the content it replaces, and match its corners with the
+ * <code>--skeleton-container-shape</code> properties, for example round for an avatar. It ignores
+ * pointer events.</p>
+ * <p>A skeleton is a look, not a busy state: a component working on something uses
+ * <code>loading</code>. Chips, list items and buttons have their own <code>skeleton</code>
+ * attribute for this placeholder look.</p>
  * @tags display
  *
  * @example
@@ -104,7 +135,12 @@ var css_248z = i`* {
 let Skeleton = class Skeleton extends i$1 {
     constructor() {
         super(...arguments);
-        /** When true, the skeleton animation is shown. */
+        /**
+         * When true, the skeleton animation is shown. A skeleton is the placeholder look of content
+         * that has not arrived yet, not a busy state: components that are working on something use
+         * `loading` (ADR-030001), and `skeleton` on a component (chip, list item, button) asks for
+         * this placeholder look.
+         */
         this.visible = false;
     }
     render() {

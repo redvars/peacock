@@ -13,9 +13,10 @@ export const COMPLEX_PREVIEWS = [
   'condition-builder',
   'flow',
   'focus-ring',
-  'footer',
   'html-editor',
   'image',
+  'document-editor',
+  'markdown',
   'markdown-editor',
   'modal',
   'navigation-drawer',
@@ -49,7 +50,8 @@ export const CONTROL_PREVIEWS = [
   'divider',
   'dropdown-button',
   'elevation',
-  'empty-state',
+  'illustration',
+  'redvars-loader',
   'fab',
   'field',
   'icon',
@@ -61,10 +63,7 @@ export const CONTROL_PREVIEWS = [
   'list',
   'menu',
   'navigation-bar',
-  'navigation-bar-item',
-  'navigation-drawer-item',
   'navigation-rail',
-  'notification',
   'number-counter',
   'number-field',
   'pagination',
@@ -74,10 +73,8 @@ export const CONTROL_PREVIEWS = [
   'search',
   'segmented-button-group',
   'select',
-  'sidebar-menu',
   'slider',
   'snackbar',
-  'spinner',
   'split-button',
   'switch',
   'tabs',
@@ -88,6 +85,7 @@ export const CONTROL_PREVIEWS = [
   'timeline',
   'toolbar',
   'tooltip',
+  'tree',
   'url-field',
 ] as const;
 
@@ -99,4 +97,70 @@ export function isComplexPreview(rawTag: string): rawTag is ComplexPreview {
 
 export function isControlPreview(rawTag: string): boolean {
   return (CONTROL_PREVIEWS as readonly string[]).includes(rawTag);
+}
+
+/** Components added in 4.0, drawn in ComponentPreviewV4A.astro (inputs, forms, small controls). */
+export const V4_PREVIEWS_A = [
+  'anchor-nav',
+  'checkbox-group',
+  'chip-set',
+  'copy-button',
+  'currency-field',
+  'date-range-field',
+  'fieldset',
+  'file-upload',
+  'filter-bar',
+  'form',
+  'inline-edit',
+  'kbd',
+  'link-button',
+  'listbox',
+  'mention-input',
+  'password-field',
+  'password-rules',
+  'phone-field',
+  'pin-input',
+  'rating',
+  'relative-time',
+  'signature-pad',
+  'stepper',
+  'transfer-list',
+] as const;
+
+/** Components added in 4.0, drawn in ComponentPreviewV4B.astro (layout, data, overlays, people). */
+export const V4_PREVIEWS_B = [
+  'app-shell',
+  'avatar-group',
+  'banner',
+  'command-palette',
+  'discussion',
+  'comment-composer',
+  'confirm-dialog',
+  'description-list',
+  'diff-viewer',
+  'grid',
+  'hover-card',
+  'json-viewer',
+  'kanban',
+  'notification-center',
+  'page-header',
+  'presence-indicator',
+  'resizable-panels',
+  'scroll-area',
+  'sparkline',
+  'stack',
+  'stat',
+  'status-indicator',
+  'tour',
+  'user-menu',
+  'virtual-list',
+  'workspace-switcher',
+] as const;
+
+export function isV4PreviewA(rawTag: string): boolean {
+  return (V4_PREVIEWS_A as readonly string[]).includes(rawTag);
+}
+
+export function isV4PreviewB(rawTag: string): boolean {
+  return (V4_PREVIEWS_B as readonly string[]).includes(rawTag);
 }

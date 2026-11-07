@@ -1,6 +1,6 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { e } from './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`* {
@@ -9,13 +9,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
 }
@@ -24,27 +46,28 @@ var css_248z = i`* {
   container: containerwrapper/inline-size;
 }
 .container-wrapper.size-max .container {
-  max-width: var(--container-max);
+  max-width: var(--container-max-width, var(--container-max));
 }
 .container-wrapper.size-xl .container {
-  max-width: var(--container-xl);
+  max-width: var(--container-max-width, var(--container-xl));
 }
 .container-wrapper.size-sm .container {
-  max-width: var(--container-sm);
+  max-width: var(--container-max-width, var(--container-sm));
 }
 .container-wrapper.size-md .container {
-  max-width: var(--container-md);
+  max-width: var(--container-max-width, var(--container-md));
 }
 .container-wrapper.size-lg .container {
-  max-width: var(--container-lg);
+  max-width: var(--container-max-width, var(--container-lg));
 }
 
 .container {
   margin: auto;
   width: 100%;
+  max-width: var(--container-max-width, none);
 }
 .container .content {
-  padding: var(--spacing-200);
+  padding: var(--container-padding, var(--spacing-200));
 }
 
 :host(.debug) {
@@ -95,7 +118,16 @@ var css_248z = i`* {
  * @label Container
  * @tag wc-container
  * @rawTag container
- * @summary A responsive container component for layout.
+ * @summary A centred block that caps the width of page content at a breakpoint size and pads it.
+ *
+ * @overview
+ * <p><code>size</code> sets the maximum width: <code>sm</code>, <code>md</code>, <code>lg</code>,
+ * <code>xl</code> or <code>max</code>, from the matching <code>--container-*</code> tokens, or
+ * <code>full</code> (the default) for no maximum. <code>--container-max-width</code> overrides the
+ * width for any size. The content is centred and padded with <code>--container-padding</code>,
+ * and gains side margins once the container is 672px wide or more (measured with a container
+ * query, not the viewport).</p>
+ * <p>It is layout only, with no behaviour or events.</p>
  * @cssprop --container-max-width - Controls the maximum width of the container.
  * @cssprop --container-padding - Controls the padding of the container.
  * @tags layout

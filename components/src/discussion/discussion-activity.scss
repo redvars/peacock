@@ -1,0 +1,51 @@
+@use '../../scss/mixin';
+@use './discussion-entry';
+
+@include mixin.base-styles;
+@include discussion-entry.styles;
+
+.activity {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  padding-block: calc(var(--_gap) / 3);
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-medium);
+}
+
+// The icon sits in the avatar column, so entries line up with the comments.
+.icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.5rem;
+  block-size: 1.5rem;
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.text {
+  flex: 1;
+  min-inline-size: 0;
+  line-height: 1.5rem;
+}
+
+.author {
+  margin-inline-end: 0.25em;
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+
+.time {
+  margin-inline-start: 0.5em;
+  @include mixin.get-typography-not-important(body-small);
+
+  &::before {
+    content: '·';
+    margin-inline-end: 0.5em;
+  }
+}
+
+a.time {
+  text-decoration: none;
+}

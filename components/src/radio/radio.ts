@@ -1,30 +1,27 @@
-﻿import { html, LitElement } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+﻿import { html, type PropertyValues } from 'lit';
+import { state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { spread } from '@/__internal/directive/spread.js';
-import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
-import {
-  type FormRestoreState,
-  type FormValue,
-  getFormState,
-  getFormValue,
-  mixinFormAssociated,
-} from '@/__internal/mixins/form-associated.js';
+import { peacockString } from '@/__internal/i18n/strings.js';
+import ToggleBase from '@/__internal/toggle-base.js';
+import type { ControlValidity } from '@/input/BaseInput.js';
 
 import styles from './radio.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+
+type RadioDirection = 1 | -1;
 
 /**
  * @label Radio
  * @tag wc-radio
  * @rawTag radio
- * @summary Allows selection of a single option from a set.
+ * @summary A round button for choosing one option from a set; radios that share a name form a group.
  * @overview
- * <p>Radio buttons follow the specifications with clear focus, hover, and selected states.</p>
  * <p>Radios that share a <code>name</code> form a group. Wrap them in <code>wc-radio-group</code> to get a
  * group label and a single <code>change</code> event for the whole set.</p>
- * <p>The radio is form-associated: the checked radio submits its <code>value</code> under its <code>name</code>.</p>
+ * <p>The radio is form-associated: the checked radio submits its <code>value</code> under its <code>name</code>.
+ * When any radio of a group is <code>required</code>, the group blocks form submission until one is checked.</p>
  *
  * @cssprop --radio-size: Size of the outer radio circle.
  * @cssprop --radio-dot-size: Size of the inner dot when selected.
@@ -33,9 +30,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @cssprop --radio-state-layer-size: Size of the state layer for touch target.
  * @cssprop --radio-disabled-opacity: Opacity applied when the radio is disabled.
  *
- * @fires {CustomEvent} change - Dispatched when the radio selection changes.
- * @fires {CustomEvent} blur - Dispatched when the radio loses focus.
- * @fires {CustomEvent} focus - Dispatched when the radio receives focus.
+ * @fires {CustomEvent<{checked: boolean, value: string, originalEvent?: Event}>} change - Dispatched when the radio is selected.
  *
  * @example
  * ```html
@@ -43,12 +38,8 @@ import IndividualComponent from '@/IndividualComponent.js';
  * ```
  * @tags input, form
  */
-type RadioDirection = 1 | -1;
-
 @IndividualComponent
-export class Radio extends mixinFormAssociated(
-  mixinElementInternals(LitElement),
-) {
+export class Radio extends ToggleBase {
   // ── Static ───────────────────────────────────────────────────────────────
 
   private static readonly DIRECTION_NEXT: RadioDirection = 1;
@@ -58,250 +49,98 @@ export class Radio extends mixinFormAssociated(
   static styles = [styles];
 
   // ── Properties ───────────────────────────────────────────────────────────
-  // `name` (which groups radios) and `disabled` come from mixinFormAssociated.
-
-  /**
-   * The submitted value when this radio is selected.
-   */
-  @property({ type: String })
-  value: string = '';
-
-  /**
-   * The radio label.
-   */
-  @property({ type: String })
-  label: string = '';
-
-  /**
-   * Whether the radio is selected.
-   */
-  @property({ type: Boolean, reflect: true })
-  checked: boolean = false;
-
-  /**
-   * If true, required icon is shown. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  required: boolean = false;
-
-  /**
-   * If true, the radio is readonly. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly: boolean = false;
-
-  /**
-   * Configuration object for aria attributes.
-   */
-  @property({ type: Object })
-  configAria: Record<string, string> = {};
+  // `name` (which groups radios), `disabled`, `required`, `readonly`, `label`, `checked`, `value`
+  // and `configAria` are inherited.
 
   // ── State ────────────────────────────────────────────────────────────────
-
-  /** True while the radio container has keyboard focus. */
-  @state()
-  private hasFocus = false;
-
-  /** True while the user is actively pressing the radio (mouse/keyboard). */
-  @state()
-  private isActive = false;
-
-  /** True when slotted label content or `label` property is present. */
-  @state()
-  private slotHasContent = false;
 
   /** True for the one radio in the group that should receive tab focus (roving tabindex). */
   @state()
   private isGroupFocusTarget = false;
 
-  // ── Queries ──────────────────────────────────────────────────────────────
-
-  @query('.container')
-  private containerElement?: HTMLElement;
-
-  // ── Private fields ───────────────────────────────────────────────────────
-
-  /** Captured `tabindex` attribute value forwarded to the inner container. */
-  private tabindex?: number;
-
-  /** `checked` when first connected; `form.reset()` returns to it. */
-  private defaultChecked?: boolean;
-
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.defaultChecked ??= this.checked;
-    this.handleInitialAttributes();
-    window.addEventListener('mouseup', this.windowMouseUp);
-    window.addEventListener('keyup', this.windowKeyUp);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('mouseup', this.windowMouseUp);
-    window.removeEventListener('keyup', this.windowKeyUp);
-  }
-
-  firstUpdated() {
-    this.slotHasContent = this.hasChildNodes() || !!this.label;
+  protected override firstUpdated() {
     this.updateGroupFocusTarget();
   }
 
-  updated(changedProps: Map<string, unknown>) {
-    if (changedProps.has('label')) {
-      this.slotHasContent = this.hasChildNodes() || !!this.label;
-    }
+  protected override updated(changed: PropertyValues<this>) {
+    super.updated(changed);
 
-    if (changedProps.has('checked') && this.checked) {
+    if (changed.has('checked') && this.checked) {
       this.uncheckSiblings();
     }
 
-    if (changedProps.has('checked') || changedProps.has('name')) {
+    if (changed.has('checked') || changed.has('name')) {
       this.updateGroupFocusTarget();
+    }
+
+    if (changed.has('checked') || changed.has('required')) {
+      // Group validity depends on every radio; let the others recompute theirs.
+      for (const radio of this.getGroupRadios()) {
+        if (radio !== this) radio.requestUpdate();
+      }
     }
   }
 
-  // ── Public methods ───────────────────────────────────────────────────────
+  // ── Protected methods ────────────────────────────────────────────────────
 
-  /**
-   * Sets focus on the radio.
-   */
-  focus() {
-    this.containerElement?.focus();
+  /** A radio submits nothing but its `value`; there is no `"on"` default to show. */
+  protected override get defaultToggleValue(): string {
+    return '';
   }
 
-  /**
-   * Removes focus from the radio.
-   */
-  blur() {
-    this.containerElement?.blur();
-  }
-
-  // ── Form association ─────────────────────────────────────────────────────
-
-  override [getFormValue](): FormValue | null {
-    return this.checked ? this.value || 'on' : null;
-  }
-
-  override [getFormState](): FormValue | null {
-    return String(this.checked);
-  }
-
-  formResetCallback() {
-    this.checked = this.defaultChecked ?? false;
-  }
-
-  formStateRestoreCallback(state: FormRestoreState | null) {
-    this.checked = state === 'true';
+  /** Invalid while any radio of the group is required and none is checked. */
+  protected override computeValidity(): ControlValidity {
+    const group = this.getGroupRadios();
+    const required = group.some(radio => radio.required);
+    const checked = group.some(radio => radio.checked);
+    if (required && !checked && !this.disabled) {
+      return {
+        flags: { valueMissing: true },
+        message: peacockString('valueMissingRadio'),
+      };
+    }
+    return { flags: {}, message: '' };
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private handleInitialAttributes() {
-    if (this.hasAttribute('tabindex')) {
-      const attrValue = this.getAttribute('tabindex');
-      if (attrValue !== null) {
-        this.tabindex = parseInt(attrValue, 10);
-      }
-      this.removeAttribute('tabindex');
-    }
-
-    Array.from(this.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-')) {
-        this.configAria[attr.name] = attr.value;
-        this.removeAttribute(attr.name);
-      }
-    });
-  }
-
-  private windowMouseUp = () => {
-    if (this.isActive) {
-      this.isActive = false;
-    }
-  };
-
-  private windowKeyUp = (evt: KeyboardEvent) => {
-    if (this.isActive && evt.key === ' ') {
-      evt.preventDefault();
-      this.isActive = false;
-    }
-  };
-
-  private mouseDownHandler = () => {
-    this.isActive = true;
-  };
-
-  private keyDownHandler = (evt: KeyboardEvent) => {
-    if (evt.key === ' ') {
-      evt.preventDefault();
+  private keyDownHandler = (event: KeyboardEvent) => {
+    if (event.key === ' ') {
+      event.preventDefault();
       this.isActive = true;
-      this.selectRadio(evt);
-    } else if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') {
-      evt.preventDefault();
+      this.selectRadio(event);
+    } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
       this.navigateGroup(Radio.DIRECTION_NEXT);
-    } else if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') {
-      evt.preventDefault();
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
       this.navigateGroup(Radio.DIRECTION_PREVIOUS);
     }
   };
 
-  private clickHandler = (ev: MouseEvent | KeyboardEvent) => {
-    this.selectRadio(ev);
+  private clickHandler = (event: MouseEvent) => {
+    this.selectRadio(event);
   };
 
-  private blurHandler = (ev: FocusEvent) => {
-    this.hasFocus = false;
-    this.dispatchEvent(
-      new CustomEvent('blur', {
-        detail: ev,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private focusHandler = (ev: FocusEvent) => {
-    this.hasFocus = true;
-    this.dispatchEvent(
-      new CustomEvent('focus', {
-        detail: ev,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private selectRadio(ev?: Event) {
+  private selectRadio(event?: Event) {
     if (this.disabled || this.readonly) return;
 
     if (!this.checked) {
       this.checked = true;
       this.uncheckSiblings();
-      this.dispatchChange(ev);
+      this.dispatchChange(event);
     }
 
     this.containerElement?.focus();
   }
 
-  private dispatchChange(ev?: Event) {
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: this.value, checked: this.checked, originalEvent: ev },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   private uncheckSiblings() {
     if (!this.name || !this.checked) return;
-    const radios = this.getGroupRadios();
-
-    radios.forEach(radio => {
-      if (radio === this) return;
-      radio.checked = false;
-    });
+    for (const radio of this.getGroupRadios()) {
+      if (radio !== this) radio.checked = false;
+    }
   }
 
   private getGroupRadios(): Radio[] {
@@ -317,7 +156,7 @@ export class Radio extends mixinFormAssociated(
     );
   }
 
-  private isRadioEnabled(radio: Radio) {
+  private static isRadioEnabled(radio: Radio) {
     return !radio.disabled && !radio.readonly;
   }
 
@@ -325,7 +164,7 @@ export class Radio extends mixinFormAssociated(
     const group = this.getGroupRadios();
     if (!group.length) return;
 
-    const enabledGroup = group.filter(radio => this.isRadioEnabled(radio));
+    const enabledGroup = group.filter(radio => Radio.isRadioEnabled(radio));
     if (!enabledGroup.length) {
       group.forEach(radio => {
         radio.isGroupFocusTarget = false;
@@ -342,7 +181,7 @@ export class Radio extends mixinFormAssociated(
 
   private navigateGroup(direction: RadioDirection) {
     const group = this.getGroupRadios().filter(radio =>
-      this.isRadioEnabled(radio),
+      Radio.isRadioEnabled(radio),
     );
     if (!group.length) return;
 
@@ -369,25 +208,21 @@ export class Radio extends mixinFormAssociated(
       'has-content': this.slotHasContent,
     };
 
+    const attributes = this.controlAttributes();
+    if (!this.isGroupFocusTarget) attributes.tabindex = '-1';
+
     return html`
       <label class=${classMap(cssClasses)}>
         <div
           class="container"
-          tabindex=${this.isGroupFocusTarget
-            ? this.tabindex !== undefined
-              ? this.tabindex
-              : 0
-            : -1}
           role="radio"
-          aria-disabled=${this.disabled}
-          aria-required=${this.required}
-          aria-checked=${this.checked}
+          aria-checked=${String(this.checked)}
           @click=${this.clickHandler}
-          @mousedown=${this.mouseDownHandler}
+          @mousedown=${this.handleMouseDown}
           @keydown=${this.keyDownHandler}
-          @blur=${this.blurHandler}
-          @focus=${this.focusHandler}
-          ${spread(this.configAria)}
+          @focus=${this.handleFocusChange}
+          @blur=${this.handleFocusChange}
+          ${spread(attributes)}
         >
           <div class="state-layer"></div>
           <div class="outer-circle"></div>
@@ -397,18 +232,14 @@ export class Radio extends mixinFormAssociated(
         <input
           type="radio"
           class="input-native"
-          name=${this.name}
           .value=${this.value}
           .checked=${this.checked}
           aria-hidden="true"
-          ?required=${this.required}
           ?disabled=${this.disabled}
           tabindex="-1"
         />
 
-        ${this.label
-          ? html`<div class="label">${this.label}</div>`
-          : html`<div class="label slot-container"><slot></slot></div>`}
+        ${this.renderLabel()}
       </label>
     `;
   }

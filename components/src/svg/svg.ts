@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
@@ -7,20 +7,33 @@ import { fetchSVG } from '../icon/datasource.js';
 
 import styles from './svg.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label SVG
  * @tag wc-svg
  * @rawTag svg
- * @summary An SVG component with lazy loading and optional preview support.
- * @overview Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an optional click-to-preview lightbox.
+ * @summary An SVG image from a URL, drawn inline so it takes the text color, loaded once it scrolls into view.
+ * @overview
+ * <p>Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an
+ * optional click-to-preview lightbox.</p>
+ * <ul>
+ * <li><code>src</code> is the URL of the SVG. It is fetched when the element enters the viewport,
+ * sanitized, and rendered inline; a placeholder shows until then.</li>
+ * <li><code>alt</code> is the text alternative, as on a native <code>&lt;img&gt;</code>: with it
+ * the SVG is <code>role="img"</code>; without it, it is decorative.</li>
+ * <li><code>preview</code> opens the SVG enlarged in a modal lightbox on click. Focus moves to its
+ * close button, Escape closes it, and focus returns to the SVG.</li>
+ * <li><code>--svg-color</code>, or the inherited <code>color</code>, tints the SVG;
+ * <code>--svg-size</code> sets its size.</li>
+ * </ul>
  *
  * @cssprop --svg-color - Controls the fill color of the SVG.
  * @cssprop [--svg-size=1rem] - Controls the size of the SVG. Defaults to "1rem"
  *
  * @example
  * ```html
- * <wc-svg src="/icons/my-icon.svg" image-title="My icon"></wc-svg>
+ * <wc-svg src="/icons/my-icon.svg" alt="My icon"></wc-svg>
  * ```
  */
 @IndividualComponent
@@ -30,8 +43,11 @@ export class Svg extends LitElement {
   /** URL of the SVG asset to fetch and render inline. */
   @property({ type: String, reflect: true }) src = '';
 
-  /** Accessible title / alt text for the SVG. */
-  @property({ attribute: 'image-title' }) imageTitle = '';
+  /**
+   * Text alternative for the SVG, as `alt` on a native `<img>`. With it the SVG is `role="img"`
+   * named by it; leave it empty for a decorative SVG.
+   */
+  @property() alt = '';
 
   /** Enable click-to-preview lightbox. */
   @property({ type: Boolean, reflect: true }) preview = false;
@@ -53,6 +69,9 @@ export class Svg extends LitElement {
   /** IntersectionObserver that triggers the SVG fetch when the element enters the viewport. */
   private _intersectionObserver: IntersectionObserver | null = null;
 
+  /** Peacock's strings for the preview dialog labels. */
+  private readonly i18n = new I18nController(this);
+
   disconnectedCallback() {
     super.disconnectedCallback();
     this._intersectionObserver?.disconnect();
@@ -62,7 +81,7 @@ export class Svg extends LitElement {
     this._setupIntersectionObserver();
   }
 
-  updated(changedProperties: Map<string, unknown>) {
+  updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('src')) {
       // Reset lazy-load state so the new src is fetched when visible
       this._loaded = false;
@@ -139,8 +158,8 @@ export class Svg extends LitElement {
         ${this._loaded && this._svgContent
           ? html`<div
               class="svg-content ${this.preview ? 'clickable' : ''}"
-              role=${this.imageTitle ? 'img' : 'presentation'}
-              aria-label=${this.imageTitle || ''}
+              role=${this.alt ? 'img' : 'presentation'}
+              aria-label=${this.alt || nothing}
               @click=${this._handleClick}
             >
               ${unsafeSVG(this._svgContent)}
@@ -152,16 +171,16 @@ export class Svg extends LitElement {
         class="preview-overlay ${this._previewOpen ? 'open' : ''}"
         role="dialog"
         aria-modal="true"
-        aria-label=${this.imageTitle
-          ? `Preview: ${this.imageTitle}`
-          : 'SVG preview'}
+        aria-label=${this.alt
+          ? this.i18n.t('previewTitle')(this.alt)
+          : this.i18n.t('svgPreview')}
         @click=${this._closePreview}
         @keydown=${(e: KeyboardEvent) =>
           e.key === 'Escape' && this._closePreview(e)}
       >
         <button
           class="preview-close"
-          aria-label="Close preview"
+          aria-label=${this.i18n.t('closePreview')}
           @click=${this._closePreview}
         >
           &#x2715;

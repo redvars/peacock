@@ -1,0 +1,220 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/record-detail.scss';
+
+interface Contact {
+  name: string;
+  role: string;
+  email: string;
+}
+
+interface Activity {
+  title: string;
+  detail: string;
+  when: string;
+  icon: string;
+}
+
+interface FileItem {
+  name: string;
+  meta: string;
+  icon: string;
+}
+
+const contacts: Contact[] = [
+  { name: 'Priya Raman', role: 'Head of operations · primary contact', email: 'priya.raman@brightline.co' },
+  { name: 'Tomás Ferreira', role: 'Finance lead · billing contact', email: 'tomas.ferreira@brightline.co' },
+  { name: 'Hannah Okafor', role: 'IT administrator', email: 'hannah.okafor@brightline.co' },
+];
+
+const activity: Activity[] = [
+  { title: 'Seats increased from 72 to 86', detail: 'Hannah Okafor added 14 seats for the Rotterdam depot team.', when: 'Today, 09:42', icon: 'group_add' },
+  { title: 'Quarterly business review held', detail: 'Daniel Moreau logged notes: expansion to the Lisbon hub planned for Q1.', when: 'Yesterday, 15:10', icon: 'event_available' },
+  { title: 'Invoice INV-2291 paid', detail: '$12,150.00 by bank transfer, two days before the due date.', when: 'Nov 2, 2026', icon: 'receipt_long' },
+  { title: 'Support ticket resolved', detail: 'SSO login loop for contractors, closed by Mei Tanaka after a config change.', when: 'Oct 28, 2026', icon: 'support_agent' },
+  { title: 'Upgraded to the Business plan', detail: 'Moved from Team to Business to enable SAML single sign-on.', when: 'Sep 14, 2026', icon: 'upgrade' },
+];
+
+const files: FileItem[] = [
+  { name: 'Master services agreement 2026.pdf', meta: 'PDF · 1.8 MB · uploaded by Daniel Moreau, Sep 12', icon: 'description' },
+  { name: 'Security questionnaire.xlsx', meta: 'Spreadsheet · 342 KB · uploaded by Hannah Okafor, Sep 3', icon: 'table_chart' },
+  { name: 'QBR deck, November.pptx', meta: 'Presentation · 6.4 MB · uploaded by Daniel Moreau, yesterday', icon: 'slideshow' },
+  { name: 'Data processing addendum.pdf', meta: 'PDF · 410 KB · uploaded by Tomás Ferreira, Aug 21', icon: 'description' },
+];
+---
+
+<Layout
+  title='Record detail'
+  description='A customer record built from Peacock components: a page header with breadcrumb, status and actions, tabs, an overview of stats and a description list, an activity timeline and a file list.'
+>
+  <div class='block-demo record-demo'>
+    <wc-page-header
+      class='record-header'
+      headline='Brightline Logistics'
+      supporting-text='Freight and warehousing · Rotterdam, Netherlands'
+    >
+      <wc-breadcrumb slot='breadcrumb' label='Breadcrumb'>
+        <wc-breadcrumb-item href='#'>Customers</wc-breadcrumb-item>
+        <wc-breadcrumb-item href='#'>Accounts</wc-breadcrumb-item>
+        <wc-breadcrumb-item current>Brightline Logistics</wc-breadcrumb-item>
+      </wc-breadcrumb>
+      <wc-avatar slot='start' name='Brightline Logistics' size='lg'></wc-avatar>
+      <wc-tag slot='meta' intent='success'>Active</wc-tag>
+      <wc-tag slot='meta' accent='blue'>Business plan</wc-tag>
+      <span slot='meta' class='text-body-small block-muted'>Customer since March 2024</span>
+      <wc-button slot='actions' variant='outlined'>
+        <wc-icon slot='icon' name='mail'></wc-icon>
+        Email
+      </wc-button>
+      <wc-button slot='actions' level='primary'>
+        <wc-icon slot='icon' name='edit'></wc-icon>
+        Edit
+      </wc-button>
+      <wc-dropdown-button slot='actions' variant='outlined' placement='bottom-end'>
+        More
+        <wc-menu-item slot='menu'>
+          <wc-icon slot='start' name='merge'></wc-icon>
+          Merge with another account
+        </wc-menu-item>
+        <wc-menu-item slot='menu'>
+          <wc-icon slot='start' name='download'></wc-icon>
+          Export as CSV
+        </wc-menu-item>
+        <wc-menu-item slot='menu'>
+          <wc-icon slot='start' name='archive'></wc-icon>
+          Archive account
+        </wc-menu-item>
+      </wc-dropdown-button>
+      <wc-tabs slot='tabs' id='record-tabs' aria-label='Account sections'>
+        <wc-tab value='overview' selected>Overview</wc-tab>
+        <wc-tab value='activity'>Activity</wc-tab>
+        <wc-tab value='files'>Files</wc-tab>
+      </wc-tabs>
+    </wc-page-header>
+
+    <div class='record-body'>
+      <wc-tab-panel value='overview' active class='record-panel'>
+        <div class='record-stats'>
+          <wc-stat
+            label='Annual recurring revenue'
+            value='48600'
+            previous='40500'
+            format='{"style": "currency", "currency": "USD", "maximumFractionDigits": 0}'
+            comparison='vs last year'
+          ></wc-stat>
+          <wc-stat label='Seats in use' value='86' previous='72' delta-format='absolute' comparison='vs last quarter'></wc-stat>
+          <wc-stat label='Open tickets' value='3' previous='7' delta-format='absolute' positive='down' comparison='vs last month'></wc-stat>
+          <wc-stat
+            label='Weekly active members'
+            value='0.91'
+            delta='0.04'
+            delta-format='absolute'
+            format='{"style": "percent", "maximumFractionDigits": 0}'
+            comparison='vs last month'
+          ></wc-stat>
+        </div>
+
+        <div class='record-columns'>
+          <wc-card variant='outlined' class='record-card'>
+            <wc-card-content class='record-card-inner'>
+              <h2 class='text-title-medium'>Account details</h2>
+              <wc-description-list columns='2'>
+                <wc-description-item label='Account owner'>Daniel Moreau</wc-description-item>
+                <wc-description-item label='Account ID'>ACC-10482</wc-description-item>
+                <wc-description-item label='Plan'>Business, billed yearly</wc-description-item>
+                <wc-description-item label='Renewal date'>March 14, 2027</wc-description-item>
+                <wc-description-item label='Website'><wc-link href='#'>brightline.co</wc-link></wc-description-item>
+                <wc-description-item label='Phone'>+31 10 555 0142</wc-description-item>
+                <wc-description-item label='Billing address' span>Waalhaven Zuidzijde 21, 3089 JH Rotterdam, Netherlands</wc-description-item>
+                <wc-description-item label='Notes' span>Expanding to the Lisbon hub in Q1. Prefers invoices in EUR from next renewal.</wc-description-item>
+              </wc-description-list>
+            </wc-card-content>
+          </wc-card>
+
+          <wc-card variant='outlined' class='record-card'>
+            <wc-card-content class='record-card-inner'>
+              <h2 class='text-title-medium'>Contacts</h2>
+              <ul class='record-list'>
+                {contacts.map(contact => (
+                  <li class='record-list-item'>
+                    <wc-avatar name={contact.name} size='sm'></wc-avatar>
+                    <div class='record-list-text'>
+                      <div class='text-body-medium'>{contact.name}</div>
+                      <div class='text-body-small block-muted'>{contact.role}</div>
+                    </div>
+                    <wc-icon-button variant='text' aria-label={`Email ${contact.name}`}>
+                      <wc-icon name='mail'></wc-icon>
+                    </wc-icon-button>
+                  </li>
+                ))}
+              </ul>
+            </wc-card-content>
+          </wc-card>
+        </div>
+      </wc-tab-panel>
+
+      <wc-tab-panel value='activity' class='record-panel'>
+        <wc-card variant='outlined' class='record-card'>
+          <wc-card-content class='record-card-inner'>
+            <h2 class='text-title-medium'>Activity</h2>
+            <wc-timeline>
+              {activity.map(item => (
+                <wc-timeline-item>
+                  <span>{item.title}</span>
+                  <span slot='content' class='record-timeline-content'>
+                    <span>{item.detail}</span>
+                    <span class='text-body-small block-muted'>{item.when}</span>
+                  </span>
+                  <wc-icon slot='dot' name={item.icon}></wc-icon>
+                </wc-timeline-item>
+              ))}
+            </wc-timeline>
+          </wc-card-content>
+        </wc-card>
+      </wc-tab-panel>
+
+      <wc-tab-panel value='files' class='record-panel'>
+        <wc-card variant='outlined' class='record-card'>
+          <wc-card-content class='record-card-inner'>
+            <div class='record-card-title'>
+              <h2 class='text-title-medium'>Files</h2>
+              <wc-button variant='outlined' size='sm'>
+                <wc-icon slot='icon' name='upload'></wc-icon>
+                Upload
+              </wc-button>
+            </div>
+            <ul class='record-list'>
+              {files.map(file => (
+                <li class='record-list-item'>
+                  <span class='record-file-icon'><wc-icon name={file.icon}></wc-icon></span>
+                  <div class='record-list-text'>
+                    <div class='text-body-medium record-ellipsis'>{file.name}</div>
+                    <div class='text-body-small block-muted'>{file.meta}</div>
+                  </div>
+                  <wc-icon-button variant='text' aria-label={`Download ${file.name}`}>
+                    <wc-icon name='download'></wc-icon>
+                  </wc-icon-button>
+                </li>
+              ))}
+            </ul>
+          </wc-card-content>
+        </wc-card>
+      </wc-tab-panel>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      // The tabs sit in the page header's tabs slot, outside a wc-tab-group, so the panels are
+      // switched here by value.
+      const tabs = document.getElementById('record-tabs');
+      const panels = document.querySelectorAll('.record-body > wc-tab-panel');
+      tabs.addEventListener('change', event => {
+        const { value } = event.detail;
+        panels.forEach(panel => {
+          panel.active = panel.getAttribute('value') === value;
+        });
+      });
+    })();
+  </script>
+</Layout>

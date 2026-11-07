@@ -4,7 +4,28 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  The avatar shows the image at <code>src</code>. Without one, or when the image fails to load, it
+  shows the initials of <code>name</code> (the first letters of its first and last words), and without
+  a name a person icon. It is named by <code>label</code>, or else <code>name</code>.
+</p>
+
 <DemoComponentCard lang={'html'} inline>
   <wc-avatar name='Ada Lovelace' src='/assets/img/avatar.xs.webp'></wc-avatar>
+  <wc-avatar name='Grace Brewster Hopper'></wc-avatar>
+  <wc-avatar name='Ada Lovelace' src='/does-not-exist.webp'></wc-avatar>
+  <wc-avatar label='Unknown user'></wc-avatar>
+</DemoComponentCard>
+
+<h3>Sizes</h3>
+
+<p>
+  <code>size</code> is <code>sm</code> (1.5rem), <code>md</code> (2rem, default) or <code>lg</code>
+  (3rem). Setting <code>--avatar-size</code> directly still wins.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-avatar name='Ada Lovelace' size='sm'></wc-avatar>
   <wc-avatar name='Ada Lovelace'></wc-avatar>
+  <wc-avatar name='Ada Lovelace' size='lg'></wc-avatar>
 </DemoComponentCard>

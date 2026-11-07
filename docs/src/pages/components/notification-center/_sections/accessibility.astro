@@ -1,0 +1,30 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 300;
+---
+
+<p>
+  The bell is a button named "Notifications, 3 unread" (<code>label</code> replaces "Notifications"), with
+  <code>aria-haspopup="dialog"</code> and <code>aria-expanded</code>; the badge on it is hidden from
+  assistive technology because the button's name already carries the count.
+</p>
+<p>
+  The panel is a non-modal dialog named by its headline. Focus moves into it when it opens and back to the
+  bell when it closes; Escape, a press outside, the close button or the bell close it. Each day is a list
+  labelled by its day heading, and an unread notification is read with "Unread" before its title. The All
+  and Unread filters are toggle buttons (<code>aria-pressed</code>).
+</p>
+<p>
+  When unread notifications arrive while the panel is closed, a polite live region announces them, for
+  example "2 new notifications". Changes to existing notifications are not announced.
+</p>
+<p>
+  The strings are translated with <code>setPeacockStrings()</code>: <code>notificationCenterLabel</code>,
+  <code>notificationCenterBell</code>, <code>notificationCenterNew</code>,
+  <code>notificationCenterFilter</code>, <code>notificationCenterAll</code>,
+  <code>notificationCenterUnread</code>, <code>notificationCenterMarkAllRead</code>,
+  <code>notificationCenterMarkRead</code>, <code>notificationCenterMarkUnread</code>,
+  <code>notificationCenterYesterday</code>, <code>notificationCenterEmpty</code>,
+  <code>notificationCenterEmptyUnread</code>, <code>notificationCenterLoadMore</code> and the shared
+  <code>today</code>, <code>close</code>, <code>loading</code> and <code>dismissNotification</code>.
+</p>

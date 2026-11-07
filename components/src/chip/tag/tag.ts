@@ -6,19 +6,33 @@ import styles from './tag.scss';
 import colorStyles from './tag-colors.scss';
 import sizeStyles from './tag-sizes.scss';
 
+/** What a tag means; it picks the matching color role. */
+export type TagIntent = 'info' | 'success' | 'warning' | 'danger';
+
+/** Decorative hues for tags that carry no meaning, such as categories. */
+export type TagAccent =
+  | 'blue'
+  | 'green'
+  | 'red'
+  | 'yellow'
+  | 'orange'
+  | 'purple';
+
 /**
  * @label Tag
  * @tag wc-tag
  * @rawTag tag
- * @summary Tag component for displaying labels or values with optional dismiss functionality.
- * @tags display
- *
- * @fires {CustomEvent} dismiss - Dispatched when the dismiss button is clicked.
- * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
+ * @summary A read-only label for a status or a value.
+ * @overview
+ * <p>A tag shows a status or a value; it has no action of its own. Use <code>intent</code>
+ * (<code>info</code>, <code>success</code>, <code>warning</code>, <code>danger</code>) when the
+ * tag means something, and <code>accent</code> for a decorative hue (categories, labels). For a
+ * removable or selectable item use <code>wc-chip</code>.</p>
  *
  * @example
  * ```html
- * <wc-tag color="red">Tag</wc-tag>
+ * <wc-tag intent="danger">Failed</wc-tag>
+ * <wc-tag accent="purple">Design</wc-tag>
  * ```
  */
 @IndividualComponent
@@ -29,56 +43,31 @@ export class Tag extends LitElement {
 
   // ── Properties ───────────────────────────────────────────────────────────
 
-  /** If true, the tag will have a close icon. */
-  @property({ type: Boolean }) dismissible = false;
+  /** Visual style. */
+  @property({ reflect: true }) variant:
+    | 'elevated'
+    | 'filled'
+    | 'tonal'
+    | 'outlined' = 'tonal';
 
-  @property() variant: 'elevated' | 'filled' | 'tonal' | 'outlined' = 'tonal';
+  /** What the tag means: `info`, `success`, `warning` or `danger`. Takes precedence over `accent`. */
+  @property({ type: String, reflect: true }) intent?: TagIntent;
 
-  /** Tag color. */
-  @property({ type: String, reflect: true }) color?:
-    | 'default'
-    | 'blue'
-    | 'green'
-    | 'red'
-    | 'yellow' = 'default';
+  /** A decorative hue for tags without meaning: `blue`, `green`, `red`, `yellow`, `orange`, `purple`. */
+  @property({ type: String, reflect: true }) accent?: TagAccent;
 
   /** Tag size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. */
   @property({ reflect: true }) size?: 'sm' | 'md' | 'lg' = 'md';
 
-  // ── Private methods ──────────────────────────────────────────────────────
-
-  private _dismissClickHandler(e: MouseEvent) {
-    e.stopPropagation();
-
-    this.dispatchEvent(new CustomEvent('dismiss', { bubbles: true }));
-    // Deprecated: kept for listeners written before `dismiss`.
-    this.dispatchEvent(new CustomEvent('tag--dismiss', { bubbles: true }));
-  }
-
-  // ── Render helpers ───────────────────────────────────────────────────────
-
-  private __renderDismissButton() {
-    if (!this.dismissible) return null;
-
-    return html`
-      <button
-        class="dismiss-button"
-        @click=${this._dismissClickHandler}
-        aria-label="Dismiss"
-      >
-        <wc-ripple class="ripple"></wc-ripple>
-        <wc-icon class="dismiss-button-icon" name="close"></wc-icon>
-      </button>
-    `;
-  }
-
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
+    const { intent } = this;
+    const accent = intent ? undefined : this.accent;
     const classes = {
       tag: true,
-      dismissible: this.dismissible,
-      [`color-${this.color}`]: true,
+      [`intent-${intent}`]: !!intent,
+      [`accent-${accent}`]: !!accent,
       [`variant-${this.variant}`]: true,
       [`size-${this.size}`]: true,
     };
@@ -95,7 +84,6 @@ export class Tag extends LitElement {
           <div class="slot-content">
             <slot></slot>
           </div>
-          ${this.__renderDismissButton()}
         </div>
       </div>
     `;

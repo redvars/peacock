@@ -1,0 +1,53 @@
+@use '../mixin';
+
+// The "On this page" column (components/OnThisPageNavigation.astro). It leaves the ad at least
+// 300px (a 300x250 or 300x600 unit), so it only shows on desktop widths; below that the page
+// uses the full width.
+
+$on-this-page-width: 22rem;
+$on-this-page-gap: 2rem;
+
+.on-this-page {
+  display: none;
+  position: fixed;
+  inset-inline-end: 0;
+  top: 0;
+  width: $on-this-page-width;
+  max-height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-block: 4rem var(--spacing-400);
+  padding-inline: var(--spacing-100) var(--spacing-200);
+
+  @include mixin.for-desktop-up {
+    display: block;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.on-this-page-eyebrow {
+  color: var(--color-on-surface-variant);
+}
+
+.on-this-page-title {
+  margin-block: var(--spacing-050) var(--spacing-200);
+}
+
+.on-this-page-nav {
+  margin-block-end: var(--spacing-400);
+}
+
+.on-this-page-ad {
+  display: block;
+  width: 100%;
+}
+
+// Content next to the column leaves room for it.
+.with-on-this-page {
+  @include mixin.for-desktop-up {
+    margin-inline-end: $on-this-page-width + $on-this-page-gap;
+  }
+}

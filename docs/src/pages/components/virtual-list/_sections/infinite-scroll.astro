@@ -1,0 +1,37 @@
+---
+export const title = 'Infinite scroll';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>end-reached</code> fires when the last visible item comes within <code>threshold</code>
+  items (5 by default) of the end, once for each length of <code>items</code>, with
+  <code>detail.count</code>. Append the next page by replacing <code>items</code> with a longer
+  array: the scroll position is kept. While the page loads, set <code>loading</code>, which shows a
+  progress indicator after the last item, sets <code>aria-busy</code> and holds back
+  <code>end-reached</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-virtual-list
+    id='virtual-list-infinite'
+    label='Log entries'
+    item-height='40'
+    style='width: 100%; max-width: 360px; height: 16rem; border: 1px solid var(--color-outline-variant);'
+  ></wc-virtual-list>
+  <script is:inline>
+    const $log = document.getElementById('virtual-list-infinite');
+    const page = start => Array.from({ length: 50 }, (_, index) => `Entry ${start + index + 1}`);
+    $log.items = page(0);
+    $log.renderItem = entry => entry;
+    $log.addEventListener('end-reached', event => {
+      myConsole.log(`end-reached at ${event.detail.count} items`);
+      $log.loading = true;
+      setTimeout(() => {
+        $log.items = [...$log.items, ...page($log.items.length)];
+        $log.loading = false;
+      }, 600);
+    });
+  </script>
+</DemoComponentCard>

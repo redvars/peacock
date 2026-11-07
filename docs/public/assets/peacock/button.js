@@ -1,21 +1,20 @@
-import { i, A, b, _ as __decorate, I as IndividualComponent, a as i$1 } from './IndividualComponent-Bdwyrvd6.js';
-import { n as n$1 } from './property-B49QQ8pS.js';
+import { i, A, b, _ as __decorate, I as IndividualComponent, a as i$1 } from './IndividualComponent-BK7XZjE2.js';
+import { n as n$1 } from './property-B2TG3KEE.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
-import { o } from './if-defined-BXZpRQ4P.js';
+import { e } from './class-map-NDIkZErE.js';
+import { o } from './if-defined-D9DEJR_6.js';
 import { n } from './when-DEJm_QN9.js';
-import { i as isLink } from './is-link-Dk2OV3PM.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
-import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
+import { i as isActivationClick, d as dispatchActivationClick } from './throttle-SQ9t-HL7.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
-import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
-import { m as mixinFormSubmitter } from './form-submitter-DPI4L6gj.js';
+import { m as mixinDelegatesAria } from './delegate-Bw2wdPFP.js';
+import { m as mixinFormSubmitter } from './form-submitter-DWwv6K9-.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
-import { m as mixinFormAssociated } from './form-associated-Bhwwr6dT.js';
+import { m as mixinButtonLevel, a as mixinBaseButton, t as toggleButtonSelected } from './base-button-Do2TUy8M.js';
+import { m as mixinFormAssociated } from './form-associated-D3Tn33s_.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './throttle-C7ZAPqtu.js';
+import './warn-once-BNxX1Y98.js';
 
 var css_248z = i`.button {
   transition-property: inset, width, height, transform, opacity;
@@ -174,13 +173,35 @@ var css_248z = i`.button {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   --button-icon-size: unset;
   --button-container-padding: unset;
@@ -290,6 +311,32 @@ var css_248z = i`.button {
 }
 :host([skeleton]) .ripple {
   display: none;
+}
+
+/*
+ * Loading: a spinner takes the icon's place (or sits before the label).
+ */
+.loading-indicator {
+  flex-shrink: 0;
+  inline-size: var(--button-icon-size, var(--_button-icon-size));
+  pointer-events: none;
+  --progress-height: var(--button-icon-size, var(--_button-icon-size));
+  --progress-container-color: var(--_button-label-text-color);
+  --progress-track-color: transparent;
+}
+
+:host([loading]) {
+  --_button-cursor: progress;
+}
+:host([loading]) .icon-slot {
+  display: none;
+}
+:host([loading]) .ripple {
+  display: none;
+}
+
+:host([loading][has-label]) .button {
+  gap: var(--_button-icon-label-spacing);
 }
 
 /**
@@ -455,22 +502,22 @@ var css_248z = i`.button {
 :host([shape=square]:not([selected])):host {
   --button-container-shape-variant: squircle;
 }
-:host([shape=square]:not([selected])):host([size=xs]), :host([shape=square]:not([selected])):host([size=extra-small]), :host([shape=square]:not([selected])):host([size=sm]), :host([shape=square]:not([selected])):host([size=small]) {
+:host([shape=square]:not([selected])):host([size=xs]), :host([shape=square]:not([selected])):host([size=sm]) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=square]:not([selected])):host([size=xs]:active), :host([shape=square]:not([selected])):host([size=extra-small]:active), :host([shape=square]:not([selected])):host([size=sm]:active), :host([shape=square]:not([selected])):host([size=small]:active) {
+:host([shape=square]:not([selected])):host([size=xs]:active), :host([shape=square]:not([selected])):host([size=sm]:active) {
   --button-container-shape: var(--shape-corner-small);
 }
-:host([shape=square]:not([selected])):host([size=md]), :host([shape=square]:not([selected])):host([size=medium]), :host([shape=square]:not([selected])):host([size=lg]), :host([shape=square]:not([selected])):host([size=large]) {
+:host([shape=square]:not([selected])):host([size=md]), :host([shape=square]:not([selected])):host([size=lg]) {
   --button-container-shape: var(--shape-corner-large);
 }
-:host([shape=square]:not([selected])):host([size=md]:active), :host([shape=square]:not([selected])):host([size=medium]:active), :host([shape=square]:not([selected])):host([size=lg]:active), :host([shape=square]:not([selected])):host([size=large]:active) {
+:host([shape=square]:not([selected])):host([size=md]:active), :host([shape=square]:not([selected])):host([size=lg]:active) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=square]:not([selected])):host([size=xl]), :host([shape=square]:not([selected])):host([size=extra-large]) {
+:host([shape=square]:not([selected])):host([size=xl]) {
   --button-container-shape: var(--shape-corner-extra-large);
 }
-:host([shape=square]:not([selected])):host([size=xl]:active), :host([shape=square]:not([selected])):host([size=extra-large]:active) {
+:host([shape=square]:not([selected])):host([size=xl]:active) {
   --button-container-shape: var(--shape-corner-large);
 }
 
@@ -496,62 +543,42 @@ var css_248z = i`.button {
 :host([shape=wide][selected]):host {
   --button-container-shape-variant: squircle;
 }
-:host([shape=round][selected]):host([size=xs]), :host([shape=round][selected]):host([size=extra-small]), :host([shape=round][selected]):host([size=sm]), :host([shape=round][selected]):host([size=small]),
+:host([shape=round][selected]):host([size=xs]), :host([shape=round][selected]):host([size=sm]),
 :host([shape=narrow][selected]):host([size=xs]),
-:host([shape=narrow][selected]):host([size=extra-small]),
 :host([shape=narrow][selected]):host([size=sm]),
-:host([shape=narrow][selected]):host([size=small]),
 :host([shape=wide][selected]):host([size=xs]),
-:host([shape=wide][selected]):host([size=extra-small]),
-:host([shape=wide][selected]):host([size=sm]),
-:host([shape=wide][selected]):host([size=small]) {
+:host([shape=wide][selected]):host([size=sm]) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=round][selected]):host([size=xs]:active), :host([shape=round][selected]):host([size=extra-small]:active), :host([shape=round][selected]):host([size=sm]:active), :host([shape=round][selected]):host([size=small]:active),
+:host([shape=round][selected]):host([size=xs]:active), :host([shape=round][selected]):host([size=sm]:active),
 :host([shape=narrow][selected]):host([size=xs]:active),
-:host([shape=narrow][selected]):host([size=extra-small]:active),
 :host([shape=narrow][selected]):host([size=sm]:active),
-:host([shape=narrow][selected]):host([size=small]:active),
 :host([shape=wide][selected]):host([size=xs]:active),
-:host([shape=wide][selected]):host([size=extra-small]:active),
-:host([shape=wide][selected]):host([size=sm]:active),
-:host([shape=wide][selected]):host([size=small]:active) {
+:host([shape=wide][selected]):host([size=sm]:active) {
   --button-container-shape: var(--shape-corner-small);
 }
-:host([shape=round][selected]):host([size=md]), :host([shape=round][selected]):host([size=medium]), :host([shape=round][selected]):host([size=lg]), :host([shape=round][selected]):host([size=large]),
+:host([shape=round][selected]):host([size=md]), :host([shape=round][selected]):host([size=lg]),
 :host([shape=narrow][selected]):host([size=md]),
-:host([shape=narrow][selected]):host([size=medium]),
 :host([shape=narrow][selected]):host([size=lg]),
-:host([shape=narrow][selected]):host([size=large]),
 :host([shape=wide][selected]):host([size=md]),
-:host([shape=wide][selected]):host([size=medium]),
-:host([shape=wide][selected]):host([size=lg]),
-:host([shape=wide][selected]):host([size=large]) {
+:host([shape=wide][selected]):host([size=lg]) {
   --button-container-shape: var(--shape-corner-large);
 }
-:host([shape=round][selected]):host([size=md]:active), :host([shape=round][selected]):host([size=medium]:active), :host([shape=round][selected]):host([size=lg]:active), :host([shape=round][selected]):host([size=large]:active),
+:host([shape=round][selected]):host([size=md]:active), :host([shape=round][selected]):host([size=lg]:active),
 :host([shape=narrow][selected]):host([size=md]:active),
-:host([shape=narrow][selected]):host([size=medium]:active),
 :host([shape=narrow][selected]):host([size=lg]:active),
-:host([shape=narrow][selected]):host([size=large]:active),
 :host([shape=wide][selected]):host([size=md]:active),
-:host([shape=wide][selected]):host([size=medium]:active),
-:host([shape=wide][selected]):host([size=lg]:active),
-:host([shape=wide][selected]):host([size=large]:active) {
+:host([shape=wide][selected]):host([size=lg]:active) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=round][selected]):host([size=xl]), :host([shape=round][selected]):host([size=extra-large]),
+:host([shape=round][selected]):host([size=xl]),
 :host([shape=narrow][selected]):host([size=xl]),
-:host([shape=narrow][selected]):host([size=extra-large]),
-:host([shape=wide][selected]):host([size=xl]),
-:host([shape=wide][selected]):host([size=extra-large]) {
+:host([shape=wide][selected]):host([size=xl]) {
   --button-container-shape: var(--shape-corner-extra-large);
 }
-:host([shape=round][selected]):host([size=xl]:active), :host([shape=round][selected]):host([size=extra-large]:active),
+:host([shape=round][selected]):host([size=xl]:active),
 :host([shape=narrow][selected]):host([size=xl]:active),
-:host([shape=narrow][selected]):host([size=extra-large]:active),
-:host([shape=wide][selected]):host([size=xl]:active),
-:host([shape=wide][selected]):host([size=extra-large]:active) {
+:host([shape=wide][selected]):host([size=xl]:active) {
   --button-container-shape: var(--shape-corner-large);
 }
 
@@ -805,9 +832,8 @@ var css_248z = i`.button {
   --neo-button-label-text-color: var(--color-on-surface);
 }
 
-:host([size=xs]),
-:host([size=extra-small]) {
-  --button-height: 2rem;
+:host([size=xs]) {
+  --button-height: calc(2rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1rem;
   --_button-container-padding: 0.75rem;
   --_button-icon-label-spacing: 0.5rem;
@@ -817,9 +843,8 @@ var css_248z = i`.button {
   --_button-letter-spacing: 0.1px !important;
 }
 
-:host([size=sm]),
-:host([size=small]) {
-  --button-height: 2.5rem;
+:host([size=sm]) {
+  --button-height: calc(2.5rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.25rem;
   --_button-container-padding: 1rem;
   --_button-icon-label-spacing: 0.5rem;
@@ -829,9 +854,8 @@ var css_248z = i`.button {
   --_button-letter-spacing: 0.1px !important;
 }
 
-:host([size=md]),
-:host([size=medium]) {
-  --button-height: 3.5rem;
+:host([size=md]) {
+  --button-height: calc(3.5rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.5rem;
   --_button-container-padding: 1.5rem;
   --_button-icon-label-spacing: 0.5rem;
@@ -841,8 +865,7 @@ var css_248z = i`.button {
   --_button-letter-spacing: 0.15px !important;
 }
 
-:host([size=lg]),
-:host([size=large]) {
+:host([size=lg]) {
   --button-height: 6rem;
   --_button-icon-size: 2rem;
   --_button-container-padding: 3rem;
@@ -853,8 +876,7 @@ var css_248z = i`.button {
   --_button-letter-spacing: 0 !important;
 }
 
-:host([size=xl]),
-:host([size=extra-large]) {
+:host([size=xl]) {
   --button-height: 8.5rem;
   --_button-icon-size: 2.5rem;
   --_button-container-padding: 4rem;
@@ -883,9 +905,11 @@ var css_248z = i`.button {
  * @tag wc-button
  * @rawTag button
  *
- * @summary Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+ * @summary A button with a text label that runs an action, such as saving a form or sending a message; it can also toggle.
  * @overview
- * <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+ * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>: <code>primary</code> (primary, filled), <code>secondary</code> (surface, tonal), <code>tertiary</code> (primary, text) and <code>danger</code> (danger, filled). A <code>color</code> or <code>variant</code> you set wins over it.</p>
+ * <p>Set <code>toggle</code> to make a toggle button: it renders <code>aria-pressed</code>, flips <code>selected</code> on each click and fires <code>change</code>. <code>selected</code> does nothing without <code>toggle</code>.</p>
+ * <p>For a link that looks like a button, use <code>wc-link-button</code>.</p>
  *
  * @cssprop --button-container-shape - Defines the border radius of the button container shape.
  *
@@ -912,7 +936,8 @@ var css_248z = i`.button {
  * @cssprop --neo-button-container-color - Color of the neo button container.
  * @cssprop --neo-button-label-text-color - Text color of the neo button label.
  *
- * @fires {MouseEvent} click - Dispatched when the button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the button is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` button after a click flips `selected`.
  *
  * @example
  * ```html
@@ -920,14 +945,14 @@ var css_248z = i`.button {
  * ```
  * @tags display
  */
-let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(i$1)))))) {
+let Button = class Button extends mixinButtonLevel(mixinBaseButton(mixinDelegatesAria(mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(i$1)))))) {
     // ── Constructor ───────────────────────────────────────────────────────────
     constructor() {
         super();
         // ── Properties ───────────────────────────────────────────────────────────
         /**
-         * When `true` (default), the icon is placed after the label (trailing).
-         * When `false`, the icon is placed before the label (leading).
+         * When `true`, the icon is placed after the label (trailing).
+         * When `false` (default), the icon is placed before the label (leading).
          */
         this.trailingIcon = false;
         /**
@@ -937,41 +962,38 @@ let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesA
         this.size = 'sm';
         /** Shape of the button container. */
         this.shape = 'square';
-        /**
-         * The visual style of the button.
-         *
-         *  Possible variant values:
-         * `"filled"` is a filled button.
-         * `"outlined"` is an outlined button.
-         * `"text"` is a transparent button.
-         * `"tonal"` is a light color button.
-         * `"elevated"` is elevated button
-         */
-        this.variant = 'filled';
-        /**
-         * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-         */
-        this.color = 'primary';
-        /** When true, renders the button in a loading skeleton state. */
+        /** When true, renders the button as a placeholder skeleton while the page loads. */
         this.skeleton = false;
-        /** When true, the button acts as a toggle. Use with `selected`. */
+        /**
+         * When true, the button is busy: it shows a spinner in place of its icon (or before the label),
+         * sets `aria-busy="true"` and ignores clicks, like `soft-disabled`.
+         */
+        this.loading = false;
+        /**
+         * When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click
+         * and fires `change`.
+         */
         this.toggle = false;
-        /** When true (and `toggle` is set), the button is in the selected/pressed state. */
+        /** The pressed state of a `toggle` button. Has no effect without `toggle`. */
         this.selected = false;
         // ── Private fields ────────────────────────────────────────────────────────
         /** Cleanup returned by observerSlotChangesWithCallback for the icon slot. */
         this.__iconSlotCleanup = null;
         /** Cleanup returned by observerSlotChangesWithCallback for the label slot. */
         this.__labelSlotCleanup = null;
+        // ── Private methods ───────────────────────────────────────────────────────
         this.__dispatchClick = (event) => {
-            // If the button is soft-disabled or a disabled link, we need to explicitly
-            // prevent the click from propagating to other event listeners as well as
-            // prevent the default action.
-            if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+            // If the button is soft-disabled or loading, we need to explicitly prevent
+            // the click from propagating to other event listeners as well as prevent
+            // the default action.
+            if (this.softDisabled || this.loading || this.skeleton) {
                 event.stopImmediatePropagation();
                 event.preventDefault();
                 return;
             }
+            // Each activation reaches this listener once: either the inner button's
+            // click bubbling out, or a click fired at the host and forwarded below.
+            toggleButtonSelected(this);
             if (!isActivationClick(event) || !this.buttonElement) {
                 return;
             }
@@ -999,7 +1021,6 @@ let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesA
     }
     firstUpdated(changedProperties) {
         super.firstUpdated(changedProperties);
-        this.__convertTypeToVariantAndColor();
         // Initialize slot presence tracking for smooth transitions when label/icon are added/removed
         const iconSlot = this.renderRoot.querySelector('slot[name="icon"]');
         const labelSlot = this.renderRoot.querySelector('slot.label');
@@ -1022,71 +1043,46 @@ let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesA
     blur() {
         this.buttonElement?.blur();
     }
-    // ── Private methods ───────────────────────────────────────────────────────
-    __convertTypeToVariantAndColor() {
-        if (this.level === 'primary') {
-            this.color = 'primary';
-            this.variant = 'filled';
-        }
-        else if (this.level === 'secondary') {
-            this.color = 'surface';
-            this.variant = 'tonal';
-        }
-        else if (this.level === 'tertiary') {
-            this.color = 'primary';
-            this.variant = 'text';
-        }
-        else if (this.level === 'danger') {
-            this.color = 'danger';
-            this.variant = 'filled';
-        }
-    }
     // ── Render helpers ────────────────────────────────────────────────────────
     renderButtonElement() {
-        const isElementLink = isLink(this);
         const cssClasses = {
             button: true,
-            'native-button': !isElementLink,
-            'native-link': isElementLink,
+            'native-button': true,
             'trailing-icon': this.trailingIcon,
         };
         // Needed for closure conformance
         const { ariaLabel, ariaHasPopup, ariaExpanded } = this;
-        if (isElementLink) {
-            return b `<a
-        class=${e(cssClasses)}
-        id="link"
-        href=${this.href}
-        target=${this.target}
-        tabindex=${this.disabled ? '-1' : '0'}
-        aria-label="${ariaLabel || A}"
-        aria-haspopup="${ariaHasPopup || A}"
-        aria-expanded="${ariaExpanded || A}"
-        aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-        ?aria-disabled=${this.softDisabled}
-      >
-        ${this.renderButtonContent()}
-      </a>`;
-        }
         return b `<button
-        class=${e(cssClasses)}
-        id="button"
-        aria-label="${ariaLabel || A}"
-        aria-haspopup="${ariaHasPopup || A}"
-        aria-expanded="${ariaExpanded || A}"
-        aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-        ?aria-disabled=${this.softDisabled}
-        ?disabled=${this.disabled}
-      >
-        ${this.renderButtonContent()}
-      </button>`;
+      class=${e(cssClasses)}
+      id="button"
+      aria-label="${ariaLabel || A}"
+      aria-haspopup="${ariaHasPopup || A}"
+      aria-expanded="${ariaExpanded || A}"
+      aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
+      aria-disabled=${this.softDisabled ? 'true' : A}
+      aria-pressed=${this.toggle ? String(this.selected) : A}
+      aria-busy=${this.loading ? 'true' : A}
+      ?disabled=${this.disabled}
+    >
+      ${this.renderButtonContent()}
+    </button>`;
     }
     renderButtonContent() {
-        return b ` <slot class="icon-slot" name="icon"></slot>
+        return b `${this.renderLoadingIndicator()}
+      <slot class="icon-slot" name="icon"></slot>
       <slot class="label"></slot>
       <div class="touch"></div>
 
       ${this.renderDisabledReason(this.softDisabled)}`;
+    }
+    renderLoadingIndicator() {
+        if (!this.loading)
+            return A;
+        return b `<wc-circular-progress
+      class="loading-indicator"
+      indeterminate
+      aria-hidden="true"
+    ></wc-circular-progress>`;
     }
     renderDisabledReason(softDisabled) {
         if (softDisabled)
@@ -1102,8 +1098,7 @@ let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesA
     }
     renderTooltip() {
         if (this.tooltip) {
-            const buttonId = isLink(this) ? 'link' : 'button';
-            return b `<wc-tooltip class="tooltip" for=${buttonId}
+            return b `<wc-tooltip class="tooltip" for="button"
         >${this.tooltip}</wc-tooltip
       >`;
         }
@@ -1111,14 +1106,13 @@ let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesA
     }
     // ── Render ────────────────────────────────────────────────────────────────
     render() {
-        const buttonId = isLink(this) ? 'link' : 'button';
         return b `
-      <wc-focus-ring class="focus-ring" for=${buttonId}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       ${n(this.variant === 'neo', () => b `<div class="neo-background"></div>`)}
       <div class="background"></div>
       ${n(this.variant === 'outlined' || this.variant === 'neo', () => b `<div class="outline"></div>`)}
-      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
+      <wc-ripple class="ripple" for="button"></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.renderButtonElement()} ${this.renderTooltip()}
@@ -1139,20 +1133,14 @@ __decorate([
     n$1({ reflect: true })
 ], Button.prototype, "size", void 0);
 __decorate([
-    n$1({ type: String })
-], Button.prototype, "level", void 0);
-__decorate([
     n$1({ type: String, reflect: true })
 ], Button.prototype, "shape", void 0);
 __decorate([
-    n$1({ reflect: true })
-], Button.prototype, "variant", void 0);
-__decorate([
-    n$1({ reflect: true })
-], Button.prototype, "color", void 0);
-__decorate([
     n$1({ type: Boolean, reflect: true })
 ], Button.prototype, "skeleton", void 0);
+__decorate([
+    n$1({ type: Boolean, reflect: true })
+], Button.prototype, "loading", void 0);
 __decorate([
     n$1({ type: Boolean, reflect: true })
 ], Button.prototype, "toggle", void 0);

@@ -1,7 +1,7 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
+import { e } from './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`* {
@@ -10,13 +10,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: contents;
   --_segmented-button-height: 2.5rem;
@@ -34,7 +56,7 @@ var css_248z = i`* {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--segmented-button-height, var(--_segmented-button-height));
+  height: var(--segmented-button-height, var(--_segmented-button-group-height, var(--_segmented-button-height)));
   padding: 0 1.5rem;
   cursor: pointer;
   flex: 1;
@@ -84,7 +106,7 @@ var css_248z = i`* {
 .segment .segment-outline {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   width: 1px;
   height: 100%;
   background: var(--segmented-button-outline-color, var(--_segmented-button-outline-color));
@@ -128,9 +150,9 @@ var css_248z = i`* {
  * @label Segmented Button
  * @tag wc-segmented-button
  * @rawTag segmented-button
- * @summary An individual segment within a segmented button group.
+ * @summary One option of a segmented button group.
  * @overview
- * <p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>
+ * <p>Use it inside a <code>wc-segmented-button-group</code>, which manages the selection.</p>
  *
  * @cssprop --segmented-button-height: Height of the segmented button.
  * @cssprop --segmented-button-selected-container-color: Background color when the segment is selected.
@@ -139,8 +161,9 @@ var css_248z = i`* {
  * @cssprop --segmented-button-outline-color: Outline / border color.
  * @cssprop --segmented-button-disabled-opacity: Opacity when the segment is disabled.
  *
- * @fires {CustomEvent} change - Dispatched when the segment is activated. Detail: `{ value, selected, originalEvent }`, where `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead.
- * @fires {CustomEvent} segmented-button--change - Deprecated alias of `change`, fired alongside it.
+ * @fires {CustomEvent<{value: string, selected: boolean, originalEvent: MouseEvent | KeyboardEvent}>} change - Dispatched when the segment is activated; `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead.
+ * @fires {CustomEvent<FocusEvent>} focus - Dispatched when the segment gains focus. Bubbles; `detail` is the native focus event.
+ * @fires {CustomEvent<FocusEvent>} blur - Dispatched when the segment loses focus. Bubbles; `detail` is the native blur event.
  *
  * @example
  * ```html
@@ -168,6 +191,11 @@ let SegmentedButton = class SegmentedButton extends i$1 {
          * If true, the user cannot interact with this segment.
          */
         this.disabled = false;
+        /**
+         * How the segment is exposed: `radio` (with `aria-checked`) in a single-select group, `button`
+         * (with `aria-pressed`) otherwise. Set by `wc-segmented-button-group`.
+         */
+        this.groupRole = 'button';
         /** True while the segment has keyboard focus. */
         this.hasFocus = false;
         /** True while the user is actively pressing the segment. */
@@ -216,12 +244,6 @@ let SegmentedButton = class SegmentedButton extends i$1 {
             originalEvent: ev,
         };
         this.dispatchEvent(new CustomEvent('change', { detail, bubbles: true, composed: true }));
-        // Deprecated name, still what wc-segmented-button-group listens for.
-        this.dispatchEvent(new CustomEvent('segmented-button--change', {
-            detail,
-            bubbles: true,
-            composed: true,
-        }));
     }
     /** Sets focus on the segment. */
     focus() {
@@ -243,10 +265,15 @@ let SegmentedButton = class SegmentedButton extends i$1 {
         return b `
       <div
         class=${e(cssClasses)}
-        role="button"
-        tabindex=${this.disabled ? -1 : 0}
-        aria-pressed=${this.selected}
-        aria-disabled=${this.disabled}
+        role=${this.groupRole}
+        tabindex=${this.disabled ? -1 : (this.groupTabIndex ?? 0)}
+        aria-pressed=${this.groupRole === 'button'
+            ? String(this.selected)
+            : A}
+        aria-checked=${this.groupRole === 'radio'
+            ? String(this.selected)
+            : A}
+        aria-disabled=${this.disabled ? 'true' : A}
         @click=${this._clickHandler}
         @mousedown=${this._mouseDownHandler}
         @keydown=${this._keyDownHandler}
@@ -280,6 +307,12 @@ __decorate([
 __decorate([
     n({ type: String })
 ], SegmentedButton.prototype, "icon", void 0);
+__decorate([
+    n({ attribute: false })
+], SegmentedButton.prototype, "groupRole", void 0);
+__decorate([
+    n({ attribute: false })
+], SegmentedButton.prototype, "groupTabIndex", void 0);
 __decorate([
     r()
 ], SegmentedButton.prototype, "hasFocus", void 0);

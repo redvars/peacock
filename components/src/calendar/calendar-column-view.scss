@@ -72,6 +72,11 @@
         &:hover {
           background: var(--color-primary-90);
         }
+
+        &:focus-visible {
+          outline: 2px solid var(--color-primary);
+          outline-offset: 2px;
+        }
       }
 
       .day {
@@ -160,7 +165,7 @@
     position: relative;
 
     .scale {
-      border-right: 1px solid var(--calendar-scale-color);
+      border-inline-end: 1px solid var(--calendar-scale-color);
 
       .background {
         border-inline-start: 1rem;
@@ -231,7 +236,7 @@
       .events-container {
         position: absolute;
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 100%;
         display: flex;
@@ -272,7 +277,7 @@
 
       .dash-line {
         position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         border-bottom: 1px dashed var(--color-primary);
       }
 
@@ -321,6 +326,11 @@
       .event-title {
         color: var(--calendar-event-text-color--hover);
       }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
     }
   }
 }

@@ -1,7 +1,13 @@
 ---
+// The Blocks section frame. A block page gets a viewer around its demo (Preview and Code tabs,
+// with the markup captured before the components upgrade), the components it uses, and
+// previous/next cards. The sidebar and pager follow BLOCK_GROUPS order.
 import Layout from './WithSidebar.astro';
 import Footer from '../components/Footer.astro';
-import { BLOCKS, BLOCKS_OVERVIEW } from '../_data/blocks';
+import DocPager from '../components/DocPager.astro';
+import { BLOCKS, BLOCK_GROUPS, BLOCKS_OVERVIEW } from '../_data/blocks';
+import { CHARTS } from '../_data/charts';
+import { getGroupedComponents } from '../_data/componentGroups.ts';
 import '../styles/layout/doc-page.scss';
 import '../styles/pages/blocks.scss';
 
@@ -14,42 +20,130 @@ const { title, description } = Astro.props;
 const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 const isOverview = pathname === BLOCKS_OVERVIEW.href;
 
-const sidebarItems = [
-  { label: BLOCKS_OVERVIEW.label, href: BLOCKS_OVERVIEW.href },
-  ...BLOCKS.map(block => ({ label: block.label, href: block.href })),
-];
+const ordered = BLOCK_GROUPS.flatMap(group => BLOCKS.filter(block => block.group === group));
+const sidebarItems = [{ label: BLOCKS_OVERVIEW.label, href: BLOCKS_OVERVIEW.href }];
+const sidebarGroups = BLOCK_GROUPS.map(group => ({
+  label: group,
+  items: ordered.filter(block => block.group === group).map(block => ({ label: block.label, href: block.href })),
+})).filter(group => group.items.length > 0);
 
-const index = BLOCKS.findIndex(block => block.href === pathname);
-const previous = index > 0 ? BLOCKS[index - 1] : undefined;
-const next = index >= 0 ? BLOCKS[index + 1] : undefined;
+const index = ordered.findIndex(block => block.href === pathname);
+const previous = index > 0 ? ordered[index - 1] : undefined;
+const next = index >= 0 ? ordered[index + 1] : undefined;
+const block = index >= 0 ? ordered[index] : undefined;
+
+// Documented tags and their pages, for the "Components used" list.
+const componentPages: Record<string, { label: string; href: string }> = {};
+for (const group of getGroupedComponents()) {
+  for (const entry of group.entries) {
+    componentPages[`wc-${entry.rawTag}`] = { label: entry.label ?? entry.rawTag, href: `/components/${entry.rawTag}/` };
+  }
+}
+for (const chart of CHARTS) componentPages[`wc-${chart.rawTag}`] = { label: chart.label, href: chart.href };
 ---
 
-<Layout title={isOverview ? title : `${title} · Blocks`} description={description} sidebarItems={sidebarItems}>
+<Layout title={isOverview ? title : `${title} · Blocks`} description={description} sidebarItems={sidebarItems} sidebarGroups={sidebarGroups}>
   <article class='doc-page blocks-page'>
     <header class='doc-header'>
-      {!isOverview && <a class='text-label-large doc-eyebrow' href={BLOCKS_OVERVIEW.href}>Blocks</a>}
+      {!isOverview && (
+        <div class='text-label-large block-eyebrow'>
+          <a class='doc-eyebrow' href={BLOCKS_OVERVIEW.href}>Blocks</a>
+          {block && (
+            <>
+              <wc-icon name='chevron_right' aria-hidden='true'></wc-icon>
+              <span>{block.group}</span>
+            </>
+          )}
+        </div>
+      )}
       <h1 class='text-display-small'>{title}</h1>
       <p class='text-body-large doc-muted'>{description}</p>
     </header>
 
-    <slot />
+    {isOverview ? (
+      <slot />
+    ) : (
+      <>
+        <div class='block-viewer'>
+          <div class='block-viewer-bar' data-pagefind-ignore='all'>
+            <wc-segmented-button-group class='block-viewer-mode' label='View' value='preview' size='sm'>
+              <wc-segmented-button value='preview'>Preview</wc-segmented-button>
+              <wc-segmented-button value='code'>Code</wc-segmented-button>
+            </wc-segmented-button-group>
+            <span class='text-body-small doc-muted block-viewer-hint'>
+              Copy the markup and adapt it: the data in charts and tables is set by a short script.
+            </span>
+          </div>
+          <div class='block-viewer-preview'>
+            <slot />
+          </div>
+          <script is:inline>
+            // Runs before the components upgrade, so the markup is as written.
+            (function () {
+              const preview = document.currentScript.previousElementSibling;
+              const demo = preview.querySelector('.block-demo');
+              if (!demo) return;
+              const copy = demo.cloneNode(true);
+              copy.querySelectorAll('*').forEach(function (el) {
+                [...el.attributes].forEach(function (attr) {
+                  if (attr.name.startsWith('data-astro-')) el.removeAttribute(attr.name);
+                });
+              });
+              [...copy.attributes].forEach(function (attr) {
+                if (attr.name.startsWith('data-astro-')) copy.removeAttribute(attr.name);
+              });
+              // Boolean attributes as written: `required`, not `required="true"`.
+              preview.dataset.markup = copy.outerHTML.replace(/ ([a-z-]+)="(?:true)?"(?=[\s>\/])/g, ' $1');
+              preview.dataset.tags = JSON.stringify(
+                [...new Set([...demo.querySelectorAll('*')].map(el => el.localName).filter(n => n.startsWith('wc-')))],
+              );
+            })();
+          </script>
+          <div class='block-viewer-code' hidden>
+            <wc-code-highlighter class='block-viewer-highlighter' language='html' label={`${title}.html`}></wc-code-highlighter>
+          </div>
+        </div>
 
-    {(previous || next) && (
-      <nav class='doc-pager' aria-label='Blocks'>
-        {previous && (
-          <a class='doc-pager-link' href={previous.href} rel='prev'>
-            <span class='text-label-medium doc-muted'>Previous</span>
-            <span class='text-title-medium'>{previous.label}</span>
-          </a>
-        )}
-        {next && (
-          <a class='doc-pager-link doc-pager-next' href={next.href} rel='next'>
-            <span class='text-label-medium doc-muted'>Next</span>
-            <span class='text-title-medium'>{next.label}</span>
-          </a>
-        )}
-      </nav>
+        <section class='doc-section block-components' aria-labelledby='components-used' data-pagefind-ignore='all'>
+          <h2 class='text-title-large' id='components-used'>Components used</h2>
+          <div class='block-components-list'></div>
+        </section>
+
+        <script is:inline define:vars={{ componentPages }}>
+          (function () {
+            const preview = document.querySelector('.block-viewer-preview');
+            const code = document.querySelector('.block-viewer-code');
+            const highlighter = code.querySelector('wc-code-highlighter');
+            highlighter.value = preview.dataset.markup || '';
+
+            document.querySelector('.block-viewer-mode').addEventListener('change', function (event) {
+              const showCode = event.detail.value === 'code';
+              preview.hidden = showCode;
+              code.hidden = !showCode;
+            });
+
+            const list = document.querySelector('.block-components-list');
+            JSON.parse(preview.dataset.tags || '[]')
+              .filter(tag => componentPages[tag])
+              .sort((a, b) => componentPages[a].label.localeCompare(componentPages[b].label))
+              .forEach(function (tag) {
+                const link = document.createElement('a');
+                link.className = 'block-component-chip text-label-large';
+                link.href = componentPages[tag].href;
+                link.textContent = componentPages[tag].label;
+                list.appendChild(link);
+              });
+            if (!list.children.length) list.closest('section').hidden = true;
+          })();
+        </script>
+      </>
     )}
+
+    <DocPager
+      label='Blocks'
+      previous={previous && { label: previous.label, href: previous.href, description: previous.summary }}
+      next={next && { label: next.label, href: next.href, description: next.summary }}
+    />
   </article>
 
   <Footer />

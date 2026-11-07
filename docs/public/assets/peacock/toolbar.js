@@ -1,6 +1,7 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { e } from './class-map-NDIkZErE.js';
+import { R as RovingFocusController } from './roving-focus-controller-fm95JkZJ.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z$1 = i`* {
@@ -9,13 +10,35 @@ var css_248z$1 = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline-block;
   vertical-align: middle;
@@ -130,7 +153,7 @@ const SEPARATOR_SELECTOR = 'wc-divider, hr, [role="separator"]';
  * card or editor header. Both variants lay their actions out horizontally or vertically.</p>
  *
  * <p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of
- * actions; in a horizontal toolbar give it the <code>vertical</code> attribute.</p>
+ * actions; in a horizontal toolbar give it <code>orientation="vertical"</code>.</p>
  *
  * <p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow
  * keys along its orientation move focus between actions (Home and End jump to the first and last).
@@ -149,7 +172,7 @@ const SEPARATOR_SELECTOR = 'wc-divider, hr, [role="separator"]';
  * <wc-toolbar aria-label="Formatting">
  *   <wc-icon-button variant="text" color="surface" aria-label="Undo"><wc-icon name="undo"></wc-icon></wc-icon-button>
  *   <wc-icon-button variant="text" color="surface" aria-label="Redo"><wc-icon name="redo"></wc-icon></wc-icon-button>
- *   <wc-divider vertical></wc-divider>
+ *   <wc-divider orientation="vertical"></wc-divider>
  *   <wc-icon-button variant="tonal" aria-label="Bold"><wc-icon name="format_bold"></wc-icon></wc-icon-button>
  *   <wc-icon-button variant="text" color="surface" aria-label="Italic"><wc-icon name="format_italic"></wc-icon></wc-icon-button>
  * </wc-toolbar>
@@ -195,53 +218,13 @@ let Toolbar = class Toolbar extends i$1 {
          */
         this.elevated = false;
         // ── Private fields
-        /** The item that holds the toolbar's single tab stop. */
-        this.__activeItem = null;
+        /** The toolbar's single tab stop, moved with the arrow keys along its orientation. */
+        this.roving = new RovingFocusController(this, {
+            items: () => this.__getItems(),
+            orientation: () => this.orientation,
+        });
         this.__handleSlotChange = () => {
-            this.__syncTabStops();
-        };
-        this.__handleFocusIn = (event) => {
-            const item = this.__itemFromEvent(event, this.__getItems());
-            if (item && item !== this.__activeItem) {
-                this.__activeItem = item;
-                this.__syncTabStops();
-            }
-        };
-        this.__handleKeyDown = (event) => {
-            const items = this.__getItems();
-            if (items.length === 0)
-                return;
-            const current = this.__itemFromEvent(event, items);
-            if (!current)
-                return;
-            const index = items.indexOf(current);
-            let nextKey = 'ArrowDown';
-            let prevKey = 'ArrowUp';
-            if (this.orientation === 'horizontal') {
-                const rtl = getComputedStyle(this).direction === 'rtl';
-                nextKey = rtl ? 'ArrowLeft' : 'ArrowRight';
-                prevKey = rtl ? 'ArrowRight' : 'ArrowLeft';
-            }
-            let target;
-            switch (event.key) {
-                case nextKey:
-                    target = items[(index + 1) % items.length];
-                    break;
-                case prevKey:
-                    target = items[(index - 1 + items.length) % items.length];
-                    break;
-                case 'Home':
-                    [target] = items;
-                    break;
-                case 'End':
-                    target = items[items.length - 1];
-                    break;
-                default:
-                    return;
-            }
-            event.preventDefault();
-            if (target)
-                this.__focusItem(target);
+            this.roving.sync();
         };
     }
     // ── Lifecycle
@@ -249,9 +232,6 @@ let Toolbar = class Toolbar extends i$1 {
         super.connectedCallback();
         // The role lives on the host so the host's aria-label names the toolbar.
         this.setAttribute('role', 'toolbar');
-    }
-    firstUpdated() {
-        this.__syncTabStops();
     }
     updated(changed) {
         if (changed.has('orientation')) {
@@ -272,28 +252,6 @@ let Toolbar = class Toolbar extends i$1 {
             el.getAttribute('aria-disabled') !== 'true' &&
             !el.hidden);
     }
-    /** Gives the active item `tabindex="0"` and every other item `tabindex="-1"`. */
-    __syncTabStops() {
-        const items = this.__getItems();
-        if (!this.__activeItem || !items.includes(this.__activeItem)) {
-            this.__activeItem = items[0] ?? null;
-        }
-        for (const item of items) {
-            item.tabIndex = item === this.__activeItem ? 0 : -1;
-        }
-    }
-    /** Makes `item` the tab stop and focuses it. */
-    __focusItem(item) {
-        this.__activeItem = item;
-        this.__syncTabStops();
-        item.focus();
-    }
-    /** Finds the toolbar item an event came from. */
-    __itemFromEvent(event, items) {
-        return (event
-            .composedPath()
-            .find((node) => items.includes(node)) ?? null);
-    }
     // ── Render
     render() {
         const floating = this.variant === 'floating';
@@ -306,8 +264,8 @@ let Toolbar = class Toolbar extends i$1 {
         return b `
       <div
         class=${e(cssClasses)}
-        @keydown=${this.__handleKeyDown}
-        @focusin=${this.__handleFocusIn}
+        @keydown=${this.roving.handleKeyDown}
+        @focusin=${this.roving.handleFocusIn}
       >
         ${floating
             ? b `<wc-elevation class="elevation"></wc-elevation>`

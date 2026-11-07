@@ -1,0 +1,324 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+
+  --notification-center-panel-width: 24rem;
+  --notification-center-panel-max-height: 32rem;
+  --notification-center-unread-color: var(--color-primary);
+}
+
+// ── Bell ─────────────────────────────────────────────────────────────────────
+
+.anchor {
+  display: inline-flex;
+  position: relative;
+}
+
+.badge {
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(25%, -10%);
+  z-index: var(--z-index-badge, 1);
+}
+
+:host(:dir(rtl)) .badge {
+  transform: translate(-25%, -10%);
+}
+
+// ── Panel ────────────────────────────────────────────────────────────────────
+
+.panel {
+  // Reset the UA popover box; floating-ui positions the panel in the top layer.
+  background: var(--color-surface-container);
+  border: 0;
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level2);
+  color: var(--color-on-surface);
+  display: flex;
+  flex-direction: column;
+  inline-size: min(var(--notification-center-panel-width), calc(100vw - 1rem));
+  inset: auto;
+  margin: 0;
+  max-block-size: min(
+    var(--notification-center-panel-max-height),
+    var(--floating-available-height, 100vh)
+  );
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  // floating-ui positions the panel with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
+  left: 0;
+}
+
+.panel:not(:popover-open) {
+  display: none;
+}
+
+// The panel takes focus when it opens only as a starting point for keyboard and screen-reader
+// users, like a modal; it is not a control, so it shows no focus ring.
+.panel:focus-visible {
+  outline: none;
+}
+
+// Phone width: a full-height side sheet at the inline end instead of an anchored panel.
+.panel.sheet {
+  block-size: 100dvh;
+  border-radius: 0;
+  inline-size: min(var(--notification-center-panel-width), 100vw);
+  inset-block: 0;
+  inset-inline: auto 0;
+  max-block-size: none;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  gap: var(--spacing-100);
+  padding-block: var(--spacing-150) var(--spacing-050);
+  padding-inline: var(--spacing-200) var(--spacing-100);
+}
+
+.headline {
+  @include mixin.get-typography(title-small);
+  flex: 1;
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  gap: var(--spacing-100);
+  padding-block: var(--spacing-050) var(--spacing-100);
+  padding-inline: var(--spacing-200);
+}
+
+.filter {
+  @include mixin.reset-button-styles;
+  @include mixin.get-typography(label-large);
+  align-items: center;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-small);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  display: inline-flex;
+  gap: var(--spacing-050);
+  padding-block: var(--spacing-050);
+  padding-inline: var(--spacing-150);
+
+  &:hover {
+    background: var(--color-surface-container-high);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &.active {
+    background: var(--color-secondary-container);
+    border-color: transparent;
+    color: var(--color-on-secondary-container);
+  }
+}
+
+.filter-count {
+  @include mixin.get-typography(label-small);
+}
+
+.content {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-block-end: var(--spacing-100);
+}
+
+.group-heading {
+  @include mixin.get-typography(label-medium);
+  color: var(--color-on-surface-variant);
+  margin: 0;
+  padding-block: var(--spacing-150) var(--spacing-050);
+  padding-inline: var(--spacing-200);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Item ─────────────────────────────────────────────────────────────────────
+
+.item {
+  align-items: flex-start;
+  display: flex;
+  position: relative;
+
+  &:hover {
+    background: var(--color-surface-container-high);
+  }
+
+  &.unread {
+    background: color-mix(
+      in srgb,
+      var(--notification-center-unread-color) 6%,
+      transparent
+    );
+  }
+}
+
+.main {
+  @include mixin.reset-button-styles;
+  @include mixin.reset-link-styles;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  gap: var(--spacing-150);
+  min-inline-size: 0;
+  padding-block: var(--spacing-150);
+  padding-inline: var(--spacing-200) 0;
+  text-align: start;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+.leading {
+  flex: none;
+}
+
+.leading-icon {
+  align-items: center;
+  background: var(--color-surface-container-highest);
+  border-radius: 50%;
+  block-size: 2rem;
+  display: inline-flex;
+  inline-size: 2rem;
+  justify-content: center;
+  --icon-color: var(--color-on-surface-variant);
+  --icon-size: 1.25rem;
+
+  &.info {
+    background: var(--color-primary-container);
+    --icon-color: var(--color-on-primary-container);
+  }
+
+  &.success {
+    background: var(--color-success-container);
+    --icon-color: var(--color-on-success-container);
+  }
+
+  &.warning {
+    background: var(--color-warning-container);
+    --icon-color: var(--color-on-warning-container);
+  }
+
+  &.danger {
+    background: var(--color-error-container);
+    --icon-color: var(--color-on-error-container);
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025, 0.125rem);
+  min-inline-size: 0;
+}
+
+.title {
+  @include mixin.get-typography(body-medium);
+  overflow-wrap: anywhere;
+}
+
+.unread .title {
+  font-weight: 600;
+}
+
+.body {
+  @include mixin.get-typography(body-small);
+  color: var(--color-on-surface-variant);
+  overflow-wrap: anywhere;
+}
+
+.time {
+  @include mixin.get-typography(label-small);
+  color: var(--color-on-surface-variant);
+}
+
+.item-actions {
+  display: flex;
+  flex: none;
+  gap: var(--spacing-025, 0.125rem);
+  padding-block: var(--spacing-100);
+  padding-inline: var(--spacing-050) var(--spacing-150);
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.unread-dot {
+  background: var(--notification-center-unread-color);
+  block-size: 0.5rem;
+  border-radius: 50%;
+  inline-size: 0.5rem;
+  inset-block-start: calc(var(--spacing-150) + 0.75rem);
+  inset-inline-start: var(--spacing-075, 0.375rem);
+  position: absolute;
+}
+
+.empty {
+  align-items: center;
+  color: var(--color-on-surface-variant);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  padding: var(--spacing-400) var(--spacing-200);
+  text-align: center;
+  --icon-color: var(--color-on-surface-variant);
+  --icon-size: 2.5rem;
+
+  p {
+    @include mixin.get-typography(body-medium);
+    margin: 0;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--spacing-100);
+  padding-inline: var(--spacing-200);
+}
+
+.progress {
+  inline-size: 100%;
+}
+
+// Forced colors drop fills: mark unread items and the active filter with system colors.
+@media (forced-colors: active) {
+  .panel {
+    border: 1px solid CanvasText;
+  }
+
+  .item.unread {
+    border-inline-start: 3px solid Highlight;
+  }
+
+  .unread-dot {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  .filter.active {
+    border-color: Highlight;
+    outline: 2px solid Highlight;
+  }
+}

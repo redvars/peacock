@@ -11,6 +11,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   out and see its value and share. Keep it to about five slices; beyond that a bar chart reads better.
 </p>
 
+<p>
+  Set <code>legend="hide"</code> to hide the legend. A pie has no hole: for one, with a centre label, use
+  <code>wc-chart-doughnut</code> and its <code>inner-radius</code>.
+</p>
+
 <DemoComponentCard lang='html'>
   <wc-chart-pie id='pie-usage' label='Visitors by browser'></wc-chart-pie>
   <wc-button id='pie-usage-randomize' variant='tonal'>Randomize</wc-button>

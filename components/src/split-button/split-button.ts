@@ -1,7 +1,10 @@
 import { html, LitElement } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { MenuTriggerController } from '@/__internal/menu-trigger-controller.js';
+import type { OverlayPlacement } from '@/__internal/utils/placement.js';
 import styles from './split-button.scss';
 import colorStyles from './split-button-colors.scss';
 import sizeStyles from './split-button-sizes.scss';
@@ -12,9 +15,9 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @tag wc-split-button
  * @rawTag split-button
  *
- * @summary A split button lets users perform a default action or choose from a set of related actions via a dropdown menu.
+ * @summary A button for a default action joined to an arrow that opens a menu of related actions.
  * @overview
- * <p>A split button combines a primary action button with a dropdown arrow that opens a menu. Following M3 Material Design, the split button provides a default action alongside a set of secondary options, reducing clutter while keeping alternative actions accessible.</p>
+ * <p>The main button runs the default action; the arrow beside it opens a menu of related actions.</p>
  *
  * @cssprop --split-button-container-shape: Defines the border radius of the split button container shape.
  *
@@ -28,7 +31,8 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @cssprop --tonal-split-button-label-text-color: Text color of the tonal split button label.
  *
  * @fires {MouseEvent} click - Dispatched when the primary action button is clicked.
- * @fires {CustomEvent} toggle-menu - Dispatched when the dropdown menu is opened or closed.
+ * @fires {CustomEvent} open - Dispatched after the menu opens.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` or the primary action `api`.
  *
  * @example
  * ```html
@@ -84,16 +88,38 @@ export class SplitButton extends LitElement {
     | 'standard'
     | 'expressive' = 'standard';
 
-  @state() private _menuOpen = false;
+  /**
+   * Where the menu opens relative to the button: `top`, `bottom`, `start` or `end`, optionally
+   * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
+   * Defaults to `"bottom-end"`.
+   */
+  @property({ reflect: true }) placement: OverlayPlacement = 'bottom-end';
 
   @query('wc-menu') private readonly _menu?: Menu;
 
-  private _menuId = `split-menu-${Math.random().toString(36).slice(2, 9)}`;
+  /** Peacock's strings for the menu trigger label. */
+  private readonly i18n = new I18nController(this);
+
+  /** Opens and closes the menu and fires `open` / `close`. */
+  private readonly _trigger = new MenuTriggerController(this, {
+    menu: () => this._menu,
+    disabled: () => this.disabled,
+    idPrefix: 'split-menu',
+  });
 
   override focus() {
-    const btn =
-      this.shadowRoot?.querySelector<HTMLElement>('.action-button');
+    const btn = this.shadowRoot?.querySelector<HTMLElement>('.action-button');
     btn?.focus();
+  }
+
+  /** Opens the menu and focuses its first (or last) item. */
+  show(focusTarget: MenuFocusTarget = 'first') {
+    this._trigger.show(focusTarget);
+  }
+
+  /** Closes the menu. */
+  close() {
+    this._trigger.close();
   }
 
   private _onActionClick(event: MouseEvent) {
@@ -103,67 +129,11 @@ export class SplitButton extends LitElement {
       return;
     }
 
-    // Close menu if open
+    // The primary action closes the menu if it is open.
     if (this._menu?.open) {
-      this._menu.close();
+      this._trigger.close();
     }
   }
-
-  /** Opens the menu and focuses its first (or last) item. */
-  show(focusTarget: MenuFocusTarget = 'first') {
-    const menu = this._menu;
-    if (this.disabled || !menu) return;
-    menu.anchorElement = this;
-    menu.show(focusTarget);
-  }
-
-  /** Closes the menu. */
-  close() {
-    this._menu?.close();
-  }
-
-  private _onDropdownClick(event: MouseEvent) {
-    event.stopPropagation();
-    if (this.disabled) return;
-
-    if (this._menu?.open) {
-      this.close();
-    } else {
-      this.show();
-    }
-  }
-
-  /** Arrow keys on the menu trigger open the menu on the first or last item. */
-  private _onTriggerKeyDown(event: KeyboardEvent) {
-    if (this.disabled) return;
-
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      this.show(event.key === 'ArrowDown' ? 'first' : 'last');
-    }
-  }
-
-  private _onMenuOpened = () => {
-    this._menuOpen = true;
-    this.dispatchEvent(
-      new CustomEvent('toggle-menu', {
-        detail: { open: true },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private _onMenuClosed = () => {
-    this._menuOpen = false;
-    this.dispatchEvent(
-      new CustomEvent('toggle-menu', {
-        detail: { open: false },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
 
   override render() {
     const actionClasses = {
@@ -173,7 +143,7 @@ export class SplitButton extends LitElement {
 
     const dropdownClasses = {
       'dropdown-trigger': true,
-      active: this._menuOpen,
+      active: this._trigger.open,
       disabled: this.disabled,
     };
 
@@ -201,24 +171,26 @@ export class SplitButton extends LitElement {
           variant=${this.variant}
           ?disabled=${this.disabled}
           .configAria=${{
-            'aria-haspopup': 'menu',
-            'aria-expanded': String(this._menuOpen),
-            'aria-controls': this._menuId,
-            'aria-label': 'Open split button menu',
+            ...this._trigger.triggerAria,
+            'aria-label': this.i18n.t('openSplitButtonMenu'),
           }}
-          @click=${this._onDropdownClick}
-          @keydown=${this._onTriggerKeyDown}
+          @click=${this._trigger.handleTriggerClick}
+          @keydown=${this._trigger.handleTriggerKeyDown}
         >
-          <wc-icon class="dropdown-icon" name="arrow_drop_down" aria-hidden="true"></wc-icon>
+          <wc-icon
+            class="dropdown-icon"
+            name="arrow_drop_down"
+            aria-hidden="true"
+          ></wc-icon>
         </wc-icon-button>
       </div>
 
       <wc-menu
-        id=${this._menuId}
-        placement="bottom-end"
+        id=${this._trigger.menuId}
+        .placement=${this.placement}
         variant=${this.menuVariant}
-        @opened=${this._onMenuOpened}
-        @closed=${this._onMenuClosed}
+        @open=${this._trigger.handleMenuOpen}
+        @close=${this._trigger.handleMenuClose}
       >
         <slot name="menu"></slot>
       </wc-menu>

@@ -7,16 +7,134 @@
     flex: 1;
 
     @include mixin.for-tablet-landscape-up {
-      margin-inline-end: 15rem;
       margin-block-start: 4rem;
     }
 
+    .article-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-150);
+      padding-block-end: var(--spacing-400);
+      margin-block-end: var(--spacing-500);
+      border-block-end: 1px solid var(--color-outline-variant);
+    }
+
+    .article-eyebrow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacing-050);
+      color: var(--color-on-surface-variant);
+
+      wc-icon {
+        --icon-size: 1rem;
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
     .article-title {
-      margin-block-end: 1rem;
+      margin: 0;
     }
 
     .article-description {
-      margin-block-end: 2rem;
+      max-width: 48rem;
+      color: var(--color-on-surface-variant);
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .article-meta {
+      margin-block-start: var(--spacing-100);
+    }
+
+    // components/ComponentMeta.astro
+    .component-meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-150);
+    }
+
+    .component-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacing-100) var(--spacing-200);
+    }
+
+    .component-meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-050);
+      padding-inline: var(--spacing-150) var(--spacing-050);
+      border-radius: var(--shape-corner-full);
+      background: var(--color-surface-container-high);
+
+      code {
+        font-family: var(--font-family-monospace);
+        color: var(--color-on-surface);
+      }
+    }
+
+    .component-meta-link,
+    .component-meta-usage > summary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-050);
+      color: var(--color-primary);
+      text-decoration: none;
+      cursor: pointer;
+
+      wc-icon {
+        --icon-size: 1.125rem;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .component-meta-usage {
+      > summary {
+        list-style: none;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+      }
+
+      &[open] > summary {
+        margin-block-end: var(--spacing-150);
+      }
+    }
+
+    .component-meta-usage-body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-100);
+      max-width: 48rem;
+
+      wc-code-highlighter {
+        contain: inline-size;
+      }
+
+      p {
+        margin: 0;
+        color: var(--color-on-surface-variant);
+      }
+
+      a {
+        color: var(--color-primary);
+      }
     }
 
     .section {
@@ -53,71 +171,5 @@
         vertical-align: middle;
       }
     }
-  }
-}
-
-.on-this-page {
-  display: none;
-
-  @include mixin.for-tablet-landscape-up {
-    display: block;
-  }
-
-  width: 12rem;
-  margin-inline-end: 2rem;
-  margin-block-start: 4rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-
-  .section-nav {
-    display: flex;
-    flex-direction: column;
-    margin-block: 0.5rem 2rem;
-    margin-inline-start: -0.5rem;
-    margin-inline-end: -0.5rem;
-
-    wc-sidebar-menu-item[level='1'] {
-      position: relative;
-      --typography-label-large-font-size: 0.8rem;
-      --sidebar-menu-item-height: 2.25rem;
-      --sidebar-menu-item-content-padding: 1.75rem 0.75rem;
-
-      &::before {
-        content: '';
-        position: absolute;
-        inset-inline-start: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        border: 1.5px solid currentColor;
-        opacity: 0.5;
-        z-index: 3;
-        pointer-events: none;
-      }
-    }
-  }
-
-  .sub-section-nav-links {
-    list-style: circle;
-    padding-inline-start: 1rem;
-    margin-block-start: 0.25rem;
-
-    li {
-      margin-block: 0.25rem;
-
-      wc-link {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-        font-size: 0.85em;
-      }
-    }
-  }
-
-  .sponser-icon {
-    --icon-color: var(--color-red);
   }
 }

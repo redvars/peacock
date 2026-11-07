@@ -1,14 +1,27 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { e } from './query-CHb9Ft_d.js';
+import { _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { MenuItem } from './menu-item.js';
+import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
+import './if-defined-D9DEJR_6.js';
+import './class-map-NDIkZErE.js';
+import './directive-ZPhl09Yt.js';
+import './base-button-Do2TUy8M.js';
+import './throttle-SQ9t-HL7.js';
+import './warn-once-BNxX1Y98.js';
+import './hyperlink-DhE9RlVS.js';
+import './element-internals-QME0yEz4.js';
+import './is-link-Dk2OV3PM.js';
 
 /**
  * @label Select Option
  * @tag wc-option
  * @rawTag option
  *
- * @summary A declarative option element for use inside wc-select.
+ * @summary One option in a select dropdown, with an optional icon before its label.
+ * @overview
+ * <p>Options are menu items with the <code>option</code> role. The selected option of a single select
+ * shows a check mark at the end; in a multi-select every option shows a checkbox at the start.</p>
  *
  * @example
  * ```html
@@ -18,118 +31,67 @@ import './base-Cl6v8-BZ.js';
  * </wc-select>
  * ```
  */
-let SelectOptionElement = class SelectOptionElement extends i$1 {
+let SelectOptionElement = class SelectOptionElement extends MenuItem {
     constructor() {
         super(...arguments);
-        /**
-         * The option's submitted value.
-         */
-        this.value = '';
         /**
          * Optional Material Symbol icon name shown before the label.
          */
         this.icon = '';
-        /**
-         * Disables the option so it cannot be selected.
-         */
-        this.disabled = false;
         // ── Managed by wc-select ──────────────────────────────────────────────────
-        /** Reflects whether this option is currently selected. Set by wc-select. */
-        this.selected = false;
+        /** Whether the option belongs to a multi-select, which shows a checkbox. Set by wc-select. */
+        this.multiple = false;
         /**
-         * When true the menu stays open after selection (used for multi-select).
-         * Set by wc-select.
-         */
-        this.keepOpen = false;
-        /**
-         * When true the option is hidden and excluded from keyboard navigation
-         * because it does not match the current typeahead search query.
-         * Set by wc-select.
+         * When true the option is hidden and skipped by keyboard navigation because it does not
+         * match the current typeahead search query. Set by wc-select.
          */
         this.filtered = false;
     }
-    /**
-     * Returns the inner `wc-menu-item` element.
-     * `wc-menu` discovers this via its `items` getter which checks `el.item`
-     * as a `MenuItem` proxy, so keyboard navigation and activation work
-     * without `wc-option` extending `MenuItem` directly.
-     */
-    get item() {
-        const el = this._menuItemEl;
-        // Narrow to MenuItem — the shadow DOM only ever contains a wc-menu-item
-        // (a MenuItem subclass), so this cast is safe by construction.
-        return el != null ? el : null;
+    willUpdate(changed) {
+        super.willUpdate(changed);
+        if (changed.has('filtered')) {
+            this.hidden = this.filtered;
+        }
+        if (changed.has('multiple')) {
+            this.keepOpen = this.multiple;
+        }
     }
-    render() {
-        return b `
-      <wc-menu-item
-        value=${this.value}
-        ?disabled=${this.disabled || this.filtered}
-        ?selected=${this.selected}
-        ?keep-open=${this.keepOpen}
-      >
-        ${this.icon
-            ? b `<wc-icon name=${this.icon} slot="start"></wc-icon>`
-            : A}
-        <slot>${this.value === '' ? 'None' : ''}</slot>
-        ${this.selected && this.keepOpen
+    get itemRole() {
+        return 'option';
+    }
+    get itemAriaSelected() {
+        return String(this.selected);
+    }
+    renderStart() {
+        const checkbox = this.multiple
             ? b `<wc-icon
-              name="check"
-              slot="trailing-supporting-text"
-            ></wc-icon>`
-            : A}
-      </wc-menu-item>
-    `;
+          class="indicator checkbox-indicator"
+          name=${this.selected ? 'check_box' : 'check_box_outline_blank'}
+          aria-hidden="true"
+        ></wc-icon>`
+            : A;
+        const icon = this.icon
+            ? b `<wc-icon name=${this.icon} aria-hidden="true"></wc-icon>`
+            : A;
+        if (checkbox === A && icon === A) {
+            return A;
+        }
+        return b `${checkbox}${icon}`;
+    }
+    renderEnd() {
+        // A multi-select shows its state in the leading checkbox instead of a trailing check.
+        return this.multiple ? A : super.renderEnd();
     }
 };
-SelectOptionElement.styles = [
-    i `
-      :host {
-        display: contents;
-        --menu-item-backdrop-container-shape-start-start: none;
-        --menu-item-backdrop-container-shape-start-end: none;
-        --menu-item-backdrop-container-shape-end-start: none;
-        --menu-item-backdrop-container-shape-end-end: none;
-
-        --menu-item-backdrop-elevation-level-block-start: none;
-        --menu-item-backdrop-elevation-level-block-end: none;
-      }
-      :host([filtered]) {
-        display: none;
-      }
-      /* Forward the position styles wc-menu sets on this wrapper to the inner item */
-      wc-menu-item {
-        --menu-item-backdrop-container-shape-start-start: inherit;
-        --menu-item-backdrop-container-shape-start-end: inherit;
-        --menu-item-backdrop-container-shape-end-start: inherit;
-        --menu-item-backdrop-container-shape-end-end: inherit;
-
-        --menu-item-backdrop-elevation-level-block-start: inherit;
-        --menu-item-backdrop-elevation-level-block-end: inherit;
-      }
-    `,
-];
-__decorate([
-    n({ type: String, reflect: true })
-], SelectOptionElement.prototype, "value", void 0);
 __decorate([
     n({ type: String, reflect: true })
 ], SelectOptionElement.prototype, "icon", void 0);
 __decorate([
     n({ type: Boolean, reflect: true })
-], SelectOptionElement.prototype, "disabled", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], SelectOptionElement.prototype, "selected", void 0);
-__decorate([
-    n({ type: Boolean, attribute: 'keep-open' })
-], SelectOptionElement.prototype, "keepOpen", void 0);
+], SelectOptionElement.prototype, "multiple", void 0);
 __decorate([
     n({ type: Boolean, reflect: true })
 ], SelectOptionElement.prototype, "filtered", void 0);
-__decorate([
-    e('wc-menu-item')
-], SelectOptionElement.prototype, "_menuItemEl", void 0);
 SelectOptionElement = __decorate([
     IndividualComponent
 ], SelectOptionElement);

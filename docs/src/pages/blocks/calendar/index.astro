@@ -1,0 +1,274 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/calendar.scss';
+
+interface TeamCalendar {
+  value: string;
+  label: string;
+  color: string;
+}
+
+const calendars: TeamCalendar[] = [
+  { value: 'product', label: 'Product', color: 'blue' },
+  { value: 'marketing', label: 'Marketing', color: 'orange' },
+  { value: 'customers', label: 'Customer calls', color: 'green' },
+  { value: 'company', label: 'Company', color: 'red' },
+];
+---
+
+<Layout
+  title='Calendar'
+  description='A team scheduling screen built from Peacock components: a month calendar with day and week views, an agenda of the selected day, calendar filters and a dialog to create an event.'
+>
+  <div class='block-demo block-demo-calendar'>
+    <wc-page-header
+      class='calendar-page-header'
+      headline='Calendar'
+      supporting-text='Fernbrook Labs · Team schedule'
+    >
+      <wc-button slot='actions' variant='outlined'>
+        <wc-icon slot='icon' name='ios_share'></wc-icon>
+        Share
+      </wc-button>
+      <wc-button slot='actions' level='primary' id='calendar-new-event'>
+        <wc-icon slot='icon' name='add'></wc-icon>
+        New event
+      </wc-button>
+    </wc-page-header>
+
+    <div class='calendar-layout'>
+      <div class='calendar-main'>
+        <wc-calendar id='calendar-block' class='calendar-view' view='month'></wc-calendar>
+      </div>
+
+      <aside class='calendar-panel' aria-labelledby='calendar-agenda-heading'>
+        <section class='calendar-agenda'>
+          <div class='calendar-agenda-head'>
+            <div>
+              <h2 id='calendar-agenda-heading' class='text-title-medium'>Today</h2>
+              <p id='calendar-agenda-count' class='text-body-small block-muted'></p>
+            </div>
+            <wc-icon-button
+              id='calendar-agenda-add'
+              variant='text'
+              shape='round'
+              aria-label='Add an event on this day'
+            >
+              <wc-icon name='add'></wc-icon>
+            </wc-icon-button>
+          </div>
+          <wc-timeline id='calendar-agenda-list' class='calendar-agenda-list'></wc-timeline>
+          <div id='calendar-agenda-empty' class='calendar-agenda-empty' hidden>
+            <wc-icon name='event_available'></wc-icon>
+            <p class='text-body-medium'>Nothing scheduled. Enjoy the focus time.</p>
+          </div>
+        </section>
+
+        <section class='calendar-filters'>
+          <h2 class='text-title-small'>Calendars</h2>
+          {calendars.map(calendar => (
+            <wc-checkbox
+              label={calendar.label}
+              value={calendar.value}
+              checked
+              style={`--checkbox-selected-color: var(--color-${calendar.color})`}
+            ></wc-checkbox>
+          ))}
+        </section>
+      </aside>
+    </div>
+
+    <wc-modal id='calendar-event-modal' heading='New event'>
+      <div class='calendar-modal-fields'>
+        <wc-input id='calendar-event-title' label='Title' placeholder='Design review'></wc-input>
+        <wc-select id='calendar-event-time' label='Starts' value='10'>
+          <wc-option value='9'>9:00 AM</wc-option>
+          <wc-option value='10'>10:00 AM</wc-option>
+          <wc-option value='11'>11:00 AM</wc-option>
+          <wc-option value='13'>1:00 PM</wc-option>
+          <wc-option value='14'>2:00 PM</wc-option>
+          <wc-option value='15'>3:00 PM</wc-option>
+          <wc-option value='16'>4:00 PM</wc-option>
+        </wc-select>
+        <wc-select id='calendar-event-calendar' label='Calendar' value='product'>
+          {calendars.map(calendar => <wc-option value={calendar.value}>{calendar.label}</wc-option>)}
+        </wc-select>
+      </div>
+      <wc-button slot='footer' variant='text' id='calendar-event-cancel'>Cancel</wc-button>
+      <wc-button slot='footer' level='primary' id='calendar-event-create'>Create event</wc-button>
+    </wc-modal>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const calendar = document.getElementById('calendar-block');
+      const heading = document.getElementById('calendar-agenda-heading');
+      const count = document.getElementById('calendar-agenda-count');
+      const list = document.getElementById('calendar-agenda-list');
+      const empty = document.getElementById('calendar-agenda-empty');
+      const modal = document.getElementById('calendar-event-modal');
+      const titleField = document.getElementById('calendar-event-title');
+      const timeField = document.getElementById('calendar-event-time');
+      const calendarField = document.getElementById('calendar-event-calendar');
+
+      const CALENDARS = {
+        product: { color: 'blue', icon: 'rocket_launch' },
+        marketing: { color: 'orange', icon: 'campaign' },
+        customers: { color: 'green', icon: 'call' },
+        company: { color: 'red', icon: 'apartment' },
+      };
+
+      // Events are placed around the current week, so the calendar is never empty.
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const monday = new Date(today);
+      monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+      const at = (day, hour, minute, minutes) => {
+        const start = new Date(monday);
+        start.setDate(monday.getDate() + day);
+        start.setHours(hour, minute, 0, 0);
+        return { start, end: new Date(start.getTime() + minutes * 60000) };
+      };
+      const allDay = (day, days) => {
+        const start = new Date(monday);
+        start.setDate(monday.getDate() + day);
+        const end = new Date(start);
+        end.setDate(start.getDate() + days);
+        end.setMilliseconds(-1);
+        return { start, end };
+      };
+      const event = (title, calendarKey, time, location) => ({
+        title,
+        calendar: calendarKey,
+        color: CALENDARS[calendarKey].color,
+        location,
+        ...time,
+      });
+
+      let allEvents = [
+        event('Sprint planning', 'product', at(-7, 9, 30, 60), 'Room Aspen'),
+        event('Newsletter send', 'marketing', at(-6, 11, 0, 30), 'Remote'),
+        event('Northwind onboarding call', 'customers', at(-5, 14, 0, 45), 'Video call'),
+        event('All hands', 'company', at(-3, 16, 0, 60), 'Main hall'),
+        event('Design offsite', 'product', allDay(-2, 2), 'Lisbon studio'),
+        event('Daily stand-up', 'product', at(0, 9, 15, 15), 'Video call'),
+        event('Roadmap review', 'product', at(0, 11, 0, 60), 'Room Aspen'),
+        event('Launch campaign kickoff', 'marketing', at(1, 10, 0, 45), 'Room Birch'),
+        event('Acme renewal call', 'customers', at(1, 15, 30, 30), 'Video call'),
+        event('Daily stand-up', 'product', at(2, 9, 15, 15), 'Video call'),
+        event('Pricing page review', 'marketing', at(2, 13, 0, 60), 'Room Birch'),
+        event('Lunch and learn: accessibility', 'company', at(2, 12, 0, 60), 'Kitchen'),
+        event('Globex quarterly review', 'customers', at(3, 10, 30, 60), 'Globex HQ'),
+        event('Sprint demo', 'product', at(4, 15, 0, 60), 'Main hall'),
+        event('Team dinner', 'company', at(4, 19, 0, 120), 'Casa Lume'),
+        event('Weekend support rota', 'customers', at(5, 10, 0, 30), 'Remote'),
+        event('Release freeze', 'product', allDay(7, 3), 'Engineering'),
+        event('Webinar: what is new in Orbit', 'marketing', at(8, 16, 0, 60), 'Online'),
+        event('Board meeting', 'company', at(9, 9, 0, 120), 'Boardroom'),
+        event('Initech discovery call', 'customers', at(10, 11, 0, 45), 'Video call'),
+        event('Sprint retrospective', 'product', at(11, 14, 0, 60), 'Room Aspen'),
+        event('Sprint planning', 'product', at(14, 9, 30, 60), 'Room Aspen'),
+        event('Brand photo shoot', 'marketing', at(15, 10, 0, 240), 'Studio 4'),
+        event('Umbrella Corp check-in', 'customers', at(16, 14, 0, 30), 'Video call'),
+        event('Holiday party planning', 'company', at(17, 13, 0, 30), 'Room Birch'),
+        event('Case study interview', 'marketing', at(18, 11, 0, 45), 'Video call'),
+        event('Security review', 'product', at(21, 10, 0, 90), 'Room Aspen'),
+        event('Hooli pilot kickoff', 'customers', at(22, 15, 0, 60), 'Hooli office'),
+        event('Quarterly planning', 'company', allDay(24, 2), 'Main hall'),
+        event('Social media calendar', 'marketing', at(28, 10, 0, 30), 'Room Birch'),
+        event('Sprint retrospective', 'product', at(25, 14, 0, 60), 'Room Aspen'),
+      ];
+
+      const visibleCalendars = new Set(Object.keys(CALENDARS));
+      let selected = new Date(today);
+
+      const dayHeading = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+      const time = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
+      const sameDay = (a, b) => a.toDateString() === b.toDateString();
+      const isAllDay = item => item.end - item.start >= 86400000 - 1;
+      const onDay = (item, day) => {
+        const start = new Date(day);
+        const end = new Date(day);
+        end.setDate(end.getDate() + 1);
+        return item.start < end && item.end >= start;
+      };
+
+      const renderAgenda = () => {
+        heading.textContent = dayHeading.format(selected);
+        const items = calendar.events
+          .filter(item => onDay(item, selected))
+          .sort((a, b) => Number(isAllDay(b)) - Number(isAllDay(a)) || a.start - b.start);
+        const events = items.length === 1 ? '1 event' : `${items.length} events`;
+        count.textContent = sameDay(selected, today) ? `Today · ${events}` : events;
+        empty.hidden = items.length > 0;
+        list.hidden = items.length === 0;
+        list.replaceChildren(
+          ...items.map(item => {
+            const entry = document.createElement('wc-timeline-item');
+            entry.style.setProperty('--timeline-dot-bg', `var(--color-${item.color}-container)`);
+            entry.style.setProperty('--timeline-dot-color', `var(--color-on-${item.color}-container)`);
+            const title = document.createElement('span');
+            title.textContent = item.title;
+            const details = document.createElement('span');
+            details.slot = 'content';
+            const when = isAllDay(item) ? 'All day' : `${time.format(item.start)} – ${time.format(item.end)}`;
+            details.textContent = `${when} · ${item.location}`;
+            const dot = document.createElement('wc-icon');
+            dot.slot = 'dot';
+            dot.setAttribute('name', CALENDARS[item.calendar].icon);
+            entry.append(title, details, dot);
+            return entry;
+          }),
+        );
+      };
+
+      const update = () => {
+        calendar.events = allEvents.filter(item => visibleCalendars.has(item.calendar));
+        renderAgenda();
+      };
+      update();
+
+      // The month view has no day selection: an event chosen in any view, or the date the
+      // calendar moves to, picks the day the agenda shows.
+      calendar.addEventListener('event-click', e => {
+        selected = new Date(e.detail.event.start);
+        selected.setHours(0, 0, 0, 0);
+        renderAgenda();
+      });
+      calendar.addEventListener('date-change', e => {
+        selected = new Date(e.detail.date);
+        selected.setHours(0, 0, 0, 0);
+        renderAgenda();
+      });
+
+      document.querySelectorAll('.calendar-filters wc-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', e => {
+          if (e.detail.checked) visibleCalendars.add(checkbox.value);
+          else visibleCalendars.delete(checkbox.value);
+          update();
+        });
+      });
+
+      const openModal = () => {
+        titleField.value = '';
+        modal.show();
+      };
+      document.getElementById('calendar-new-event').addEventListener('click', openModal);
+      document.getElementById('calendar-agenda-add').addEventListener('click', openModal);
+      document.getElementById('calendar-event-cancel').addEventListener('click', () => modal.hide());
+      document.getElementById('calendar-event-create').addEventListener('click', () => {
+        const key = calendarField.value || 'product';
+        const start = new Date(selected);
+        start.setHours(Number(timeField.value || 10), 0, 0, 0);
+        allEvents = [
+          ...allEvents,
+          event(titleField.value.trim() || 'New event', key, { start, end: new Date(start.getTime() + 3600000) }, 'Room Aspen'),
+        ];
+        visibleCalendars.add(key);
+        document.querySelector(`.calendar-filters wc-checkbox[value='${key}']`).checked = true;
+        update();
+        modal.hide();
+      });
+    })();
+  </script>
+</Layout>

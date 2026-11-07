@@ -1,0 +1,52 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  block-size: 20rem;
+  overflow: auto;
+  // Rows are positioned absolutely; anchoring would fight the list's own scroll offset.
+  overflow-anchor: none;
+  // At either end, keep the wheel in the list: the page lurching while the pointer is still over
+  // the list read as a flicker. Like wc-scroll-area.
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+:host(:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.content {
+  position: relative;
+  inline-size: 100%;
+}
+
+::slotted([role='listitem']) {
+  position: absolute;
+  inset-inline: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  outline: none;
+}
+
+::slotted([role='listitem']:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--spacing-100);
+}
+
+@media (forced-colors: active) {
+  :host(:focus-visible),
+  ::slotted([role='listitem']:focus-visible) {
+    outline-color: Highlight;
+  }
+}

@@ -1,0 +1,101 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-mention-input</code> is a multiline text field in which typing <code>@</code> opens a
+  list of people to mention. The app supplies the list: on <code>search</code> it sets
+  <code>suggestions</code> to the matches for <code>event.detail.query</code>. Arrow Up and Down
+  move the highlight, Enter or Tab inserts it, Escape closes the list. Backspace right after a
+  mention removes all of it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-mention-input
+      id='mention-input-demo'
+      label='Note'
+      placeholder='Type @ to mention someone'
+      auto-grow
+    ></wc-mention-input>
+  </div>
+  <script is:inline>
+    (function () {
+      const people = [
+        { id: '42', label: 'Ana Lima', description: 'Product design', avatar: '' },
+        { id: '7', label: 'Bo Chen', description: 'Engineering', avatar: '' },
+        { id: '13', label: 'Carla Duarte', description: 'Support', avatar: '' },
+      ];
+      const field = document.querySelector('#mention-input-demo');
+      field.addEventListener('search', function (event) {
+        const query = event.detail.query.toLowerCase();
+        field.suggestions = people.filter(function (person) {
+          return person.label.toLowerCase().includes(query);
+        });
+      });
+      field.addEventListener('mention', function (event) {
+        myConsole.log('mention', event.detail.mention);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Value and mentions</h3>
+<p>
+  <code>value</code> is the plain text the person sees, such as <code>Thanks @Ana Lima!</code>,
+  and it is what the field submits with a form. <code>mentions</code> lists the mentions in it as
+  <code>{'{id, label, trigger, start, end}'}</code>, kept in step as the text changes; editing
+  inside a mention turns it back into plain text. Read both from <code>input</code> and
+  <code>change</code> (<code>event.detail.value</code>, <code>event.detail.mentions</code>), and
+  store the ids with the text. To edit saved text, set <code>value</code> and then
+  <code>mentions</code>.
+</p>
+
+<h3>Fetching suggestions</h3>
+<p>
+  Set <code>loading</code> while a request is in flight; the list shows a progress row and is
+  marked busy. <code>triggers</code> takes several characters, for example
+  <code>triggers="@#"</code> for people and tags; <code>event.detail.trigger</code> says which one
+  was typed.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-mention-input
+      id='mention-input-fetch-demo'
+      label='Issue description'
+      triggers='@#'
+      helper-text='@ for people, # for labels'
+    ></wc-mention-input>
+  </div>
+  <script is:inline>
+    (function () {
+      const data = {
+        '@': [
+          { id: 'u1', label: 'Ana Lima' },
+          { id: 'u2', label: 'Bo Chen' },
+        ],
+        '#': [
+          { id: 'l1', label: 'bug', description: 'Something is broken' },
+          { id: 'l2', label: 'design', description: 'Needs design input' },
+        ],
+      };
+      const field = document.querySelector('#mention-input-fetch-demo');
+      let request = 0;
+      field.addEventListener('search', function (event) {
+        const { trigger, query } = event.detail;
+        const id = (request += 1);
+        field.loading = true;
+        setTimeout(function () {
+          if (id !== request) return;
+          field.loading = false;
+          field.suggestions = data[trigger].filter(function (item) {
+            return item.label.toLowerCase().includes(query.toLowerCase());
+          });
+        }, 400);
+      });
+    })();
+  </script>
+</DemoComponentCard>

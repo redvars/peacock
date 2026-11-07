@@ -15,9 +15,7 @@ if (!customElements.get('wc-list-item')) {
 /** Text of the first element assigned to a named slot, following nested slots. */
 function slotText(root: ShadowRoot | null | undefined, name: string) {
   const slot = root?.querySelector<HTMLSlotElement>(`slot[name="${name}"]`);
-  return slot
-    ?.assignedElements({ flatten: true })[0]
-    ?.textContent?.trim();
+  return slot?.assignedElements({ flatten: true })[0]?.textContent?.trim();
 }
 
 describe('Item', () => {
@@ -64,30 +62,32 @@ describe('Item', () => {
       'slot[name="end"]',
     ) as HTMLSlotElement | null;
 
-    expect(startSlot?.assignedElements()[0].textContent?.trim()).to.equal('Start');
+    expect(startSlot?.assignedElements()[0].textContent?.trim()).to.equal(
+      'Start',
+    );
     expect(endSlot?.assignedElements()[0].textContent?.trim()).to.equal('End');
   });
 
-  it('does not change the legacy list-item API', async () => {
+  it('passes the list-item start, default and end content through', async () => {
     const el = await fixture<ListItem>(html`
       <wc-list-item>
-        <span slot="leading">Leading</span>
+        <span slot="start">Start</span>
         Profile
-        <span slot="trailing">Trailing</span>
+        <span slot="end">End</span>
       </wc-list-item>
     `);
 
     await el.updateComplete;
 
-    const leadingSlot = el.shadowRoot?.querySelector(
-      'slot[name="leading"]',
+    const startSlot = el.shadowRoot?.querySelector(
+      'slot[name="start"]',
     ) as HTMLSlotElement | null;
-    const trailingSlot = el.shadowRoot?.querySelector(
-      'slot[name="trailing"]',
+    const endSlot = el.shadowRoot?.querySelector(
+      'slot[name="end"]',
     ) as HTMLSlotElement | null;
 
-    expect(leadingSlot?.assignedElements()[0].textContent?.trim()).to.equal(
-      'Leading',
+    expect(startSlot?.assignedElements()[0].textContent?.trim()).to.equal(
+      'Start',
     );
     const defaultSlot = el.shadowRoot?.querySelector<HTMLSlotElement>(
       'wc-item > slot:not([name])',
@@ -98,8 +98,6 @@ describe('Item', () => {
         .map(node => node.textContent)
         .join(''),
     ).to.contain('Profile');
-    expect(trailingSlot?.assignedElements()[0].textContent?.trim()).to.equal(
-      'Trailing',
-    );
+    expect(endSlot?.assignedElements()[0].textContent?.trim()).to.equal('End');
   });
 });

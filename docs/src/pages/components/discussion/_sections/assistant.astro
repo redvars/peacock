@@ -1,0 +1,35 @@
+---
+export const title = 'With the assistant';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A long thread can start with a <code>wc-ai-summary</code> in the <code>summary</code> slot.
+  <code>suggestReply(text, reason)</code> drafts a reply in the composer, marked "Suggested reply"
+  until the person edits or sends it; its clear button empties the composer again (ADR-030002). A
+  comment the person posted through the assistant is still theirs: mark it in the comment's
+  <code>badge</code> slot.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-discussion id='discussion-ai' style='display: block; inline-size: 100%; max-inline-size: 44rem;'>
+    <wc-ai-summary slot='summary' headline='Summary' value='Fixed in 4.2.1 by raising the retry limit to 5. Waiting on Mei to confirm the exports resumed.' hide-actions></wc-ai-summary>
+    <wc-discussion-comment comment-id='a1' author='Ravi Kumar' datetime='2026-10-30T14:00:00Z' value='Raised the retry limit to **5** and redeployed.'></wc-discussion-comment>
+    <wc-discussion-comment comment-id='a2' author='Alan Turing' datetime='2026-10-30T14:05:00Z' value='Linked 2 similar incidents: INC-2290, INC-2301.'>
+      <wc-ai-badge slot='badge' kind='generated'>Through the assistant</wc-ai-badge>
+    </wc-discussion-comment>
+  </wc-discussion>
+  <wc-button id='discussion-ai-suggest' variant='text' size='sm' style='margin-top: 0.75rem;'>Suggest a reply</wc-button>
+  <script is:inline>
+    (function () {
+      var discussion = document.querySelector('#discussion-ai');
+      document.querySelector('#discussion-ai-suggest').addEventListener('click', function () {
+        discussion.suggestReply('Thanks Ravi. Mei, can you confirm the Q3 exports arrived?', 'Ravi asked for a check before closing.');
+      });
+      discussion.addEventListener('submit', function (event) {
+        myConsole.log('submit: ' + event.detail.value);
+      });
+    })();
+  </script>
+</DemoComponentCard>

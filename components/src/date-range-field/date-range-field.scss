@@ -1,0 +1,54 @@
+@use '../__internal/picker-field';
+@use '../../scss/mixin';
+
+.range-panel {
+  display: flex;
+  align-items: flex-start;
+}
+
+.presets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  margin: 0;
+  padding-block: var(--spacing-200);
+  padding-inline: var(--spacing-100);
+  list-style: none;
+  border-inline-end: 1px solid var(--color-outline-variant);
+  align-self: stretch;
+}
+
+.preset {
+  @include mixin.get-typography-not-important(label-large);
+
+  display: block;
+  inline-size: 100%;
+  padding-block: var(--spacing-100);
+  padding-inline: var(--spacing-200);
+  border: none;
+  border-radius: var(--shape-corner-full);
+  background: transparent;
+  color: var(--color-on-surface);
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  &[aria-pressed='true'] {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+
+  &:disabled {
+    color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
+    cursor: default;
+  }
+}

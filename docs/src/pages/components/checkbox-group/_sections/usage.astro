@@ -1,0 +1,55 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-checkbox-group</code> puts <code>wc-checkbox</code> options under one label and one
+  name. Its <code>values</code> lists the values of the checked checkboxes, in checkbox order;
+  <code>value</code> is the same list comma-separated, as on <code>wc-listbox multiple</code>. Give
+  every checkbox its own <code>value</code>, without commas.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-checkbox-group
+    id='checkbox-group-demo'
+    label='Toppings'
+    name='toppings'
+    value='cheese,olives'
+    helper-text='Pick as many as you like'
+  >
+    <wc-checkbox value='cheese' label='Cheese'></wc-checkbox>
+    <wc-checkbox value='olives' label='Olives'></wc-checkbox>
+    <wc-checkbox value='peppers' label='Peppers'></wc-checkbox>
+  </wc-checkbox-group>
+  <script is:inline>
+    document.querySelector('#checkbox-group-demo').addEventListener('change', function (event) {
+      myConsole.log('change: ' + JSON.stringify(event.detail.values));
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Select all</h3>
+<p>
+  <code>select-all</code> adds a parent checkbox that checks every enabled option, or clears them
+  when all are checked. While only some are checked it shows the mixed state.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-checkbox-group label='Notify me about' name='notify' select-all value='mentions'>
+    <wc-checkbox value='comments' label='Comments'></wc-checkbox>
+    <wc-checkbox value='mentions' label='Mentions'></wc-checkbox>
+    <wc-checkbox value='releases' label='Releases'></wc-checkbox>
+  </wc-checkbox-group>
+</DemoComponentCard>
+
+<h3>Forms</h3>
+<p>
+  The group is the form control: it submits one entry per checked value under its
+  <code>name</code>, like native checkboxes sharing a name, and <code>form.reset()</code> returns
+  it to its first value. The checkboxes inside do not submit on their own; the group removes their
+  <code>name</code> while they are in it. <code>required</code> blocks submission until at least
+  one is checked. The group fires one <code>change</code> with <code>value</code> and
+  <code>values</code>, and swallows the checkboxes' own <code>change</code> events.
+</p>

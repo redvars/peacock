@@ -1,19 +1,22 @@
 ---
-export const title = 'Variants';
+export const title = 'Intents';
 export const order = 200;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Alert variants map semantic intent to Material color roles.</p>
+<p>
+  <code>intent</code> sets the meaning, with a matching icon, label and color role: <code>note</code> (neutral,
+  the default), <code>info</code>, <code>success</code>, <code>warning</code> and <code>danger</code>.
+</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-alert variant='note' description='General guidance for a non-blocking context.'></wc-alert>
+  <wc-alert intent='note' description='General guidance for a non-blocking context.'></wc-alert>
 
-  <wc-alert variant='info' description='A neutral informational message for users.'></wc-alert>
+  <wc-alert intent='info' description='A neutral informational message for users.'></wc-alert>
 
-  <wc-alert variant='success' description='Your settings were saved successfully.'></wc-alert>
+  <wc-alert intent='success' description='Your settings were saved successfully.'></wc-alert>
 
-  <wc-alert variant='warning' description='Check this value before continuing.'></wc-alert>
+  <wc-alert intent='warning' description='Check this value before continuing.'></wc-alert>
 
-  <wc-alert variant='error' description='We could not complete your request.'></wc-alert>
+  <wc-alert intent='danger' description='We could not complete your request.'></wc-alert>
 </DemoComponentCard>

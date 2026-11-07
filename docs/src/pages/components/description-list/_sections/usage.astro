@@ -1,0 +1,45 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-description-list</code> shows the details of a record as labels and values. Each
+  <code>wc-description-item</code> has a <code>label</code> and its value in the default slot. An
+  item without a value shows a dash, which screen readers read as "Not set".
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-description-list>
+      <wc-description-item label='Status'>Active</wc-description-item>
+      <wc-description-item label='Owner'>Ana Lima</wc-description-item>
+      <wc-description-item label='Due date'></wc-description-item>
+    </wc-description-list>
+  </div>
+</DemoComponentCard>
+
+<h3>Actions</h3>
+<p>
+  The <code>actions</code> slot puts small controls next to a value, such as a copy or edit button.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-description-list layout='inline' divided>
+      <wc-description-item label='Order ID'>
+        ORD-10042
+        <wc-icon-button slot='actions' variant='text' size='xs' shape='round' aria-label='Copy order ID' tooltip='Copy'>
+          <wc-icon name='content_copy'></wc-icon>
+        </wc-icon-button>
+      </wc-description-item>
+      <wc-description-item label='Customer'>
+        Ana Lima
+        <wc-icon-button slot='actions' variant='text' size='xs' shape='round' aria-label='Edit customer' tooltip='Edit'>
+          <wc-icon name='edit'></wc-icon>
+        </wc-icon-button>
+      </wc-description-item>
+    </wc-description-list>
+  </div>
+</DemoComponentCard>

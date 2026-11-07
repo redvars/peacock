@@ -1,0 +1,211 @@
+@use '../../scss/mixin';
+
+/*
+ * The top-layer dialog, scrim and animations come from modal.scss (imported first in the
+ * component's styles); these rules map the public props onto it, move the palette towards the
+ * top of the viewport and add the search field and the result list.
+ */
+:host {
+  --modal-container-color: var(
+    --command-palette-container-color,
+    var(--color-surface-container-high)
+  );
+  --modal-scrim-color: var(
+    --command-palette-scrim-color,
+    color-mix(in srgb, var(--color-scrim), transparent 32%)
+  );
+  --modal-shape: var(--command-palette-shape, var(--shape-corner-extra-large));
+  --modal-max-width: var(--command-palette-max-width, 640px);
+  --_highlight-color: var(
+    --command-palette-highlight-color,
+    var(--color-secondary-container)
+  );
+  --_option-height: calc(3rem + var(--density, 0) * 0.25rem);
+}
+
+/* Near the top, so the list grows downwards without moving the field as results change. */
+.dialog-wrapper {
+  align-items: flex-start;
+  padding-block-start: 12dvh;
+}
+
+.search {
+  align-items: center;
+  border-block-end: 1px solid var(--color-outline-variant);
+  display: flex;
+  gap: var(--spacing-150, 0.75rem);
+  padding-inline: var(--spacing-250, 1.25rem);
+}
+
+.search-icon {
+  --icon-color: var(--color-on-surface-variant);
+  --icon-size: 1.5rem;
+  flex: none;
+}
+
+.search-input {
+  @include mixin.get-typography-not-important(body-large);
+  background: transparent;
+  block-size: calc(3.5rem + var(--density, 0) * 0.25rem);
+  border: 0;
+  color: var(--color-on-surface);
+  flex: 1;
+  margin: 0;
+  min-inline-size: 0;
+  outline: none;
+  padding: 0;
+
+  &::placeholder {
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.results {
+  max-block-size: var(--command-palette-max-height, 24rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-100, 0.5rem);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.group + .group,
+.group + [role='presentation'],
+[role='presentation'] + .group {
+  margin-block-start: var(--spacing-100, 0.5rem);
+}
+
+.group-heading {
+  @include mixin.get-typography-not-important(label-medium);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem)
+    var(--spacing-050, 0.25rem);
+}
+
+.option {
+  align-items: center;
+  border-radius: var(--shape-corner-medium);
+  color: var(--color-on-surface);
+  cursor: pointer;
+  display: flex;
+  gap: var(--spacing-150, 0.75rem);
+  min-block-size: var(--_option-height);
+  padding: var(--spacing-050, 0.25rem) var(--spacing-150, 0.75rem);
+  scroll-margin-block: var(--spacing-100, 0.5rem);
+
+  &.active {
+    background-color: var(--_highlight-color);
+    color: var(--color-on-secondary-container);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+}
+
+.option-icon {
+  --icon-color: currentColor;
+  --icon-size: 1.25rem;
+  flex: none;
+}
+
+// The Ask row's sparkle (ADR-030002).
+.ask-icon {
+  display: inline-grid;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  place-items: center;
+  color: var(--color-primary);
+
+  .sparkle {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    fill: currentColor;
+  }
+}
+
+.option-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.option-label {
+  @include mixin.get-typography-not-important(body-large);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.option-description {
+  @include mixin.get-typography-not-important(body-medium);
+  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+mark {
+  background: transparent;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary);
+  text-underline-offset: 0.15em;
+}
+
+.shortcut {
+  flex: none;
+}
+
+.empty {
+  @include mixin.get-typography-not-important(body-medium);
+  align-items: center;
+  color: var(--color-on-surface-variant);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-400, 2rem) var(--spacing-300, 1.5rem);
+  text-align: center;
+}
+
+.empty-icon {
+  --icon-color: currentColor;
+  --icon-size: 2rem;
+}
+
+.loading-row {
+  @include mixin.get-typography-not-important(body-medium);
+  align-items: center;
+  color: var(--color-on-surface-variant);
+  display: flex;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-150, 0.75rem) var(--spacing-250, 1.25rem);
+}
+
+.loading-indicator {
+  --progress-height: 1.25rem;
+}
+
+@media (forced-colors: active) {
+  .dialog {
+    border: 1px solid CanvasText;
+  }
+
+  .option.active {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .option.disabled {
+    color: GrayText;
+  }
+
+  mark {
+    color: Highlight;
+  }
+}

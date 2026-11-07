@@ -1,0 +1,33 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-date-range-field</code> is a text field for a start and an end date. Type two dates joined
+  by a dash, such as <code>11/3/2026 - 11/9/2026</code>, or open the calendar from the button or
+  with Alt + Arrow Down, pick the start, then the end. The calendar shows two months
+  (<code>months</code>) and closes once the end is picked.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-date-range-field id='date-range-field-demo' label='Trip' value='2026-11-03/2026-11-09'></wc-date-range-field>
+  </div>
+  <script is:inline>
+    const rangeField = document.querySelector('#date-range-field-demo');
+    rangeField.addEventListener('input', function (event) {
+      myConsole.log('input :: ' + event.detail.value);
+    });
+    rangeField.addEventListener('change', function (event) {
+      myConsole.log('change :: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  The value is two ISO dates joined by a slash: <code>2026-11-03/2026-11-09</code>. Picking the start
+  fires <code>input</code> with <code>2026-11-10/</code>; picking the end fires <code>change</code>
+  with the whole range. A typed range that ends before it starts is put in order.
+</p>

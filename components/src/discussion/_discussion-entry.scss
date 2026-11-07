@@ -1,0 +1,67 @@
+@use '../../scss/mixin';
+
+// What a discussion comment and an activity entry share: the focus ring the feed's Page Up / Page
+// Down shows, and the header line with author, time and markers.
+
+@mixin styles {
+  :host {
+    display: block;
+    outline: none;
+    border-radius: var(--shape-corner-small);
+    color: var(--color-on-surface);
+    --_gap: calc(var(--spacing-150) + var(--density, 0) * 0.125rem);
+  }
+
+  :host(:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--spacing-100);
+    min-block-size: 1.5rem;
+    color: var(--color-on-surface-variant);
+    @include mixin.get-typography-not-important(body-small);
+  }
+
+  .author {
+    color: var(--color-on-surface);
+    @include mixin.get-typography-not-important(title-small);
+  }
+
+  .time {
+    color: inherit;
+  }
+
+  a.time {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: var(--shape-corner-extra-small);
+    }
+  }
+
+  .edited::before {
+    content: '·';
+    margin-inline-end: var(--spacing-100);
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  @media (forced-colors: active) {
+    :host(:focus-visible) {
+      outline-color: Highlight;
+    }
+  }
+}

@@ -1,8 +1,10 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { g as getTimePercent, c as calculateDateRange, B as BaseEvent, s as startOfDay, e as endOfDay, d as differenceInDays, a as addDays, f as formatDate, h as addHours, L as LONG_EVENT_PADDING } from './calendar-event-BrQ_SEKD.js';
-import { E as EventManager } from './event-manager-DTyX2uYD.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
+import { g as getTimePercent, c as calculateDateRange, d as startOfDay, e as endOfDay, h as differenceInDays, a as addDays, f as formatDate, o as onActivateKey, i as addHours, j as formatEventLabel, L as LONG_EVENT_PADDING } from './utils-D92ldd1V.js';
+import { B as BaseEvent } from './calendar-event-_OYdAT3c.js';
+import { E as EventManager } from './event-manager-CWAWPOUE.js';
+import { r as resolveLocale } from './locale-DEsJZCQG.js';
 
 var css_248z = i`@charset "UTF-8";
 * {
@@ -11,13 +13,35 @@ var css_248z = i`@charset "UTF-8";
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   height: 100%;
@@ -83,6 +107,10 @@ var css_248z = i`@charset "UTF-8";
 }
 .view-header .columns .column .date:hover {
   background: var(--color-primary-90);
+}
+.view-header .columns .column .date:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 .view-header .columns .column .day {
   font-size: 0.875rem;
@@ -155,7 +183,7 @@ var css_248z = i`@charset "UTF-8";
   position: relative;
 }
 .view-body .view-body-scroll .scale {
-  border-right: 1px solid var(--calendar-scale-color);
+  border-inline-end: 1px solid var(--calendar-scale-color);
 }
 .view-body .view-body-scroll .scale .background {
   border-inline-start: 1rem;
@@ -213,7 +241,7 @@ var css_248z = i`@charset "UTF-8";
 .view-body .view-body-scroll .drawing-area .events-container {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -254,7 +282,7 @@ var css_248z = i`@charset "UTF-8";
 }
 .view-body .view-body-scroll .current-time-line .dash-line {
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   border-bottom: 1px dashed var(--color-primary);
 }
 .view-body .view-body-scroll .current-time-line .dot {
@@ -296,38 +324,67 @@ var css_248z = i`@charset "UTF-8";
 }
 .event.clickable:hover .event-title {
   color: var(--calendar-event-text-color--hover);
+}
+.event.clickable:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }`;
 
 /**
+ * @internal
+ *
  * @label Calendar Column View
  * @tag wc-calendar-column-view
  * @rawTag calendar-column-view
- * @summary Internal column view component for the calendar (day/week views).
+ * @summary The calendar's day and week view, with one column of timed events per day.
+ *
+ * @overview
+ * <p>Rendered by <code>wc-calendar</code>; not meant to be used on its own.</p>
+ * <p>The view is a region labelled with the dates it shows. Day numbers in the header are buttons
+ * that open the day; events are buttons labelled with their title and time, or notes that cannot
+ * be focused when <code>events-readonly</code> is set. Events lasting a day or more are shown in a
+ * row above the hours.</p>
+ *
+ * @fires date-click - Internal, does not bubble; a day number was chosen. Detail contains `{ date }`.
+ * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
  */
 let CalendarColumnView = class CalendarColumnView extends i$1 {
     constructor() {
+        // ── Static
         super(...arguments);
+        // ── Properties
+        /** Events to lay out. */
         this.events = [];
+        /** The view's name; `week` aligns the range to the week start. */
         this.view = 'week';
+        /** Number of day columns. */
         this.days = 7;
-        this.eventClickable = true;
+        /** Events are shown but cannot be clicked or focused. */
+        this.eventsReadonly = false;
+        /** Now, which places the current-time line and marks today. */
         this.currentTime = new Date();
+        /** A date in the range to show. */
         this.contextDate = new Date();
-        this.dateRange = {};
+        /** First day of the week, 0 (Sunday) to 6, for the `week` view. */
+        this.weekStartsOn = 1;
+        /** Locale for day names and times. Defaults to the nearest `lang`, then the browser language. */
+        this.locale = '';
+        // ── State
+        /** First and last day shown. */
+        this.dateRange = {
+            startDate: new Date(),
+            endDate: new Date(),
+            totalDays: 7,
+        };
+        /** Timed events per day, keyed by `dd-MM-yyyy`. */
         this.singleDayEvents = {};
+        /** Rows of events lasting a day or more. */
         this.multiDayEvents = [];
     }
+    // ── Lifecycle
     connectedCallback() {
         super.connectedCallback();
         this._processEvents();
-    }
-    willUpdate(changedProperties) {
-        if (changedProperties.has('events') ||
-            changedProperties.has('contextDate') ||
-            changedProperties.has('view') ||
-            changedProperties.has('days')) {
-            this._processEvents();
-        }
     }
     firstUpdated() {
         const viewBody = this.renderRoot.querySelector('.view-body');
@@ -338,8 +395,26 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
             });
         }
     }
+    willUpdate(changed) {
+        super.willUpdate(changed);
+        if (changed.has('events') ||
+            changed.has('contextDate') ||
+            changed.has('view') ||
+            changed.has('days') ||
+            changed.has('weekStartsOn')) {
+            this._processEvents();
+        }
+    }
+    // ── Private methods
+    get _interactive() {
+        return !this.eventsReadonly;
+    }
+    /** The locale dates and times are formatted in. */
+    get _locale() {
+        return resolveLocale(this.locale, this);
+    }
     _processEvents() {
-        this.dateRange = calculateDateRange(this.view, this.contextDate, this.days);
+        this.dateRange = calculateDateRange(this.view, this.contextDate, this.days, this.weekStartsOn);
         this.singleDayEvents = {};
         this._forEachDayInRange(i => {
             const manager = new EventManager();
@@ -378,40 +453,65 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
             return 'column past';
         return 'column future';
     }
-    _populateColorVars(styles, color) {
-        styles['--calendar-event-bg-color'] = `var(--color-${color}-container)`;
-        styles['--calendar-event-bg-color--hover'] = `var(--color-inverse-${color})`;
-        styles['--calendar-event-border-color'] = `var(--color-${color})`;
-        styles['--calendar-event-text-color'] = `var(--color-on-${color}-container)`;
-        styles['--calendar-event-text-color--hover'] = `var(--color-on-${color})`;
+    /** Custom properties that colour an event with a palette `color`. */
+    _colorVars(color) {
+        return {
+            '--calendar-event-bg-color': `var(--color-${color}-container)`,
+            '--calendar-event-bg-color--hover': `var(--color-inverse-${color})`,
+            '--calendar-event-border-color': `var(--color-${color})`,
+            '--calendar-event-text-color': `var(--color-on-${color}-container)`,
+            '--calendar-event-text-color--hover': `var(--color-on-${color})`,
+        };
     }
     _emitDateClick(date) {
-        this.dispatchEvent(new CustomEvent('column-view-date-click', {
-            detail: { date },
-            bubbles: true,
-            composed: true,
-        }));
+        this.dispatchEvent(new CustomEvent('date-click', { detail: { date } }));
     }
     _emitEventClick(event) {
-        this.dispatchEvent(new CustomEvent('column-view-event-click', {
-            detail: { event },
-            bubbles: true,
-            composed: true,
-        }));
+        this.dispatchEvent(new CustomEvent('event-click', { detail: { event } }));
     }
+    /** Accessible name of the view: the dates it shows. */
+    _rangeLabel() {
+        const { startDate, endDate } = this.dateRange;
+        const format = new Intl.DateTimeFormat(this._locale, { dateStyle: 'long' });
+        if (differenceInDays(endDate, startDate) <= 0)
+            return format.format(startDate);
+        try {
+            return format.formatRange(startDate, endDate);
+        }
+        catch {
+            return `${format.format(startDate)} – ${format.format(endDate)}`;
+        }
+    }
+    _styleMap(declarations) {
+        return Object.entries(declarations)
+            .map(([k, v]) => `${k}:${v}`)
+            .join(';');
+    }
+    // ── Render helpers
     _renderHeader() {
+        const locale = this._locale;
+        const long = new Intl.DateTimeFormat(locale, { dateStyle: 'full' });
         const columns = [];
         this._forEachDayInRange(i => {
+            const today = this._getDayClass(i).includes('today');
+            const open = () => this._emitDateClick(i);
             columns.push(b `
         <div class=${this._getDayClass(i)}>
           <div class="column-content">
             <div
               class="date"
-              @click=${() => this._emitDateClick(i)}
+              role="button"
+              tabindex="0"
+              aria-label=${long.format(i)}
+              aria-current=${today ? 'date' : A}
+              @click=${open}
+              @keydown=${onActivateKey(open)}
             >
-              ${formatDate(i, 'dd')}
+              ${formatDate(i, 'dd', locale)}
             </div>
-            <div class="day">${formatDate(i, 'E')}</div>
+            <div class="day" aria-hidden="true">
+              ${formatDate(i, 'E', locale)}
+            </div>
           </div>
         </div>
       `);
@@ -426,23 +526,26 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         return columns;
     }
     _renderScale() {
+        const locale = this._locale;
         const rows = [];
-        for (let i = 0; i < 48; i++) {
+        for (let i = 0; i < 48; i += 1) {
             const cls = i % 2 ? 'row hour' : 'row';
             const sd = startOfDay(new Date());
             rows.push(b `
         <div class=${cls}>
           ${i % 2 === 0 && i
-                ? b `<div class="time">${formatDate(addHours(sd, i / 2), 'hh a')}</div>`
+                ? b `<div class="time">
+                ${formatDate(addHours(sd, i / 2), 'hh a', locale)}
+              </div>`
                 : A}
         </div>
       `);
         }
-        return b `<div class="background">${rows}</div>`;
+        return b `<div class="background" aria-hidden="true">${rows}</div>`;
     }
     _renderBackgroundGrid() {
         const rows = [];
-        for (let i = 0; i < 48; i++) {
+        for (let i = 0; i < 48; i += 1) {
             const cls = i % 2 ? 'row hour' : 'row';
             const columns = [];
             this._forEachDayInRange(d => {
@@ -450,7 +553,33 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
             });
             rows.push(b `<div class=${cls}>${columns}</div>`);
         }
-        return b `<div class="background">${rows}</div>`;
+        return b `<div class="background" aria-hidden="true">${rows}</div>`;
+    }
+    /** One event block; `allDay` marks events lasting a day or more. */
+    _renderEvent(node, position, allDay) {
+        const interactive = this._interactive;
+        const declarations = node.color
+            ? { ...position, ...this._colorVars(node.color) }
+            : position;
+        const activate = () => this._emitEventClick(node.data);
+        return b `
+      <div
+        class=${interactive ? 'event clickable' : 'event'}
+        style=${this._styleMap(declarations)}
+        role=${interactive ? 'button' : 'note'}
+        tabindex=${interactive ? '0' : A}
+        aria-label=${formatEventLabel(node.title, node.start, node.end, this._locale, allDay)}
+        @click=${() => {
+            if (interactive)
+                activate();
+        }}
+        @keydown=${interactive ? onActivateKey(activate) : A}
+      >
+        <div class="event-title" aria-hidden="true">
+          ${node.title || '(no title)'}
+        </div>
+      </div>
+    `;
     }
     _renderEvents() {
         const columns = [];
@@ -461,34 +590,12 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         <div class=${cls}>
           <div class="column-content">
             ${eventDay
-                ? eventDay.map((nodes, columnIndex) => nodes.map(node => {
-                    const evtCls = this.eventClickable
-                        ? 'event clickable'
-                        : 'event';
-                    const evtStyles = {
-                        top: `${getTimePercent(node.start, startOfDay(i))}%`,
-                        height: `${getTimePercent(node.end, startOfDay(i)) - getTimePercent(node.start, startOfDay(i))}%`,
-                        left: `${(columnIndex / eventDay.length) * 100}%`,
-                        width: `calc(${((1 * node.width) / eventDay.length) * 100}% - 1px)`,
-                    };
-                    if (node.color) {
-                        this._populateColorVars(evtStyles, node.color);
-                    }
-                    return b `
-                      <div
-                        class=${evtCls}
-                        style=${this._styleMap(evtStyles)}
-                        @click=${() => {
-                        if (this.eventClickable)
-                            this._emitEventClick(node.data);
-                    }}
-                      >
-                        <div class="event-title">
-                          ${node.title || '(no title)'}
-                        </div>
-                      </div>
-                    `;
-                }))
+                ? eventDay.map((nodes, columnIndex) => nodes.map(node => this._renderEvent(node, {
+                    top: `${getTimePercent(node.start, startOfDay(i))}%`,
+                    height: `${getTimePercent(node.end, startOfDay(i)) - getTimePercent(node.start, startOfDay(i))}%`,
+                    left: `${(columnIndex / eventDay.length) * 100}%`,
+                    width: `calc(${((1 * node.width) / eventDay.length) * 100}% - 1px)`,
+                }, false)))
                 : A}
           </div>
         </div>
@@ -503,32 +610,10 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
       <div class="row-content">
         ${this.multiDayEvents.map(nodes => b `
             <div class="row">
-              ${nodes.map(node => {
-            const evtCls = this.eventClickable
-                ? 'event clickable'
-                : 'event';
-            const evtStyles = {
-                left: `${this._getDatePercent(node.start) + LONG_EVENT_PADDING}%`,
-                width: `${this._getDatePercent(addDays(node.end, 1)) - this._getDatePercent(node.start) - 2 * LONG_EVENT_PADDING}%`,
-            };
-            if (node.color) {
-                this._populateColorVars(evtStyles, node.color);
-            }
-            return b `
-                  <div
-                    class=${evtCls}
-                    style=${this._styleMap(evtStyles)}
-                    @click=${() => {
-                if (this.eventClickable)
-                    this._emitEventClick(node.data);
-            }}
-                  >
-                    <div class="event-title">
-                      ${node.title || '(no title)'}
-                    </div>
-                  </div>
-                `;
-        })}
+              ${nodes.map(node => this._renderEvent(node, {
+            left: `${this._getDatePercent(node.start) + LONG_EVENT_PADDING}%`,
+            width: `${this._getDatePercent(addDays(node.end, 1)) - this._getDatePercent(node.start) - 2 * LONG_EVENT_PADDING}%`,
+        }, true))}
             </div>
           `)}
         <div class="row-spacer"></div>
@@ -536,16 +621,19 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
     `;
     }
     _renderCurrentTime() {
-        if (this.currentTime.valueOf() < this.dateRange.startDate?.valueOf() - 1 ||
-            this.currentTime.valueOf() > this.dateRange.endDate?.valueOf() + 1) {
+        if (this.currentTime.valueOf() < this.dateRange.startDate.valueOf() - 1 ||
+            this.currentTime.valueOf() > this.dateRange.endDate.valueOf() + 1) {
             return A;
         }
         return b `
       <div
         class="current-time-line"
+        aria-hidden="true"
         style="top: calc(${getTimePercent(this.currentTime)}% - 1px)"
       >
-        <div class="time">${formatDate(this.currentTime, 'hh:mm a')}</div>
+        <div class="time">
+          ${formatDate(this.currentTime, 'hh:mm a', this._locale)}
+        </div>
         <div
           class="dash-line"
           style="width: ${this._getDatePercent(this.currentTime)}%"
@@ -556,19 +644,21 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         ></div>
         <div
           class="line"
-          style="left: ${this._getDatePercent(this.currentTime)}%; width: ${(1 / this.dateRange.totalDays) * 100}%"
+          style="left: ${this._getDatePercent(this.currentTime)}%; width: ${(1 /
+            this.dateRange.totalDays) *
+            100}%"
         ></div>
       </div>
     `;
     }
-    _styleMap(styles) {
-        return Object.entries(styles)
-            .map(([k, v]) => `${k}:${v}`)
-            .join(';');
-    }
+    // ── Render
     render() {
         return b `
-      <div class="calendar-column-view">
+      <div
+        class="calendar-column-view"
+        role="region"
+        aria-label=${this._rangeLabel()}
+      >
         <div class="view-header">
           <div class="scale"></div>
           <div class="columns">${this._renderHeader()}</div>
@@ -577,15 +667,11 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         <div class="multi-day-section-wrapper">
           <div class="multi-day-section-scroll">
             <div class="multi-day-section">
-              <div class="multi-day-background">
+              <div class="multi-day-background" aria-hidden="true">
                 <div class="scale"></div>
-                <div class="columns">
-                  ${this._renderMultiDayBackground()}
-                </div>
+                <div class="columns">${this._renderMultiDayBackground()}</div>
               </div>
-              <div class="multi-events">
-                ${this._renderMultiDayEvents()}
-              </div>
+              <div class="multi-events">${this._renderMultiDayEvents()}</div>
             </div>
           </div>
         </div>
@@ -613,14 +699,20 @@ __decorate([
     n({ type: Number })
 ], CalendarColumnView.prototype, "days", void 0);
 __decorate([
-    n({ type: Boolean, attribute: 'event-clickable' })
-], CalendarColumnView.prototype, "eventClickable", void 0);
+    n({ type: Boolean, attribute: 'events-readonly' })
+], CalendarColumnView.prototype, "eventsReadonly", void 0);
 __decorate([
     n({ type: Object, attribute: false })
 ], CalendarColumnView.prototype, "currentTime", void 0);
 __decorate([
     n({ type: Object, attribute: false })
 ], CalendarColumnView.prototype, "contextDate", void 0);
+__decorate([
+    n({ type: Number, attribute: false })
+], CalendarColumnView.prototype, "weekStartsOn", void 0);
+__decorate([
+    n({ type: String })
+], CalendarColumnView.prototype, "locale", void 0);
 __decorate([
     r()
 ], CalendarColumnView.prototype, "dateRange", void 0);

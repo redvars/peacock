@@ -1,7 +1,9 @@
+@use '../../scss/mixin';
+
 :host {
-  --_track-height: 4px;
-  --_thumb-size: 20px;
-  --thumb-half: 10px;
+  --_track-height: 0.25rem;
+  --_thumb-size: 1.25rem;
+  --thumb-half: calc(var(--_thumb-size) / 2);
   --_active-track-color: var(--color-primary);
   --_inactive-track-color: var(--color-secondary-container);
   --_thumb-color: var(--color-primary);
@@ -13,6 +15,53 @@
   min-width: 200px;
   vertical-align: middle;
   touch-action: none; // Prevent scrolling while dragging
+}
+
+:host([size='md']) {
+  --_track-height: 0.5rem;
+  --_thumb-size: 1.5rem;
+}
+
+:host([size='lg']) {
+  --_track-height: 0.75rem;
+  --_thumb-size: 1.75rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  width: 100%;
+
+  .label {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+  }
+
+  .helper {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+  }
+
+  &.error {
+    .label,
+    .helper {
+      color: var(--color-error);
+    }
+  }
+
+  &.disabled .label,
+  &.disabled .helper {
+    opacity: 0.38;
+  }
+
+  &.readonly .slider-container {
+    cursor: default;
+  }
+
+  &.readonly .thumb {
+    cursor: default;
+  }
 }
 
 .slider {
@@ -89,6 +138,8 @@
     content: '';
     position: absolute;
     top: 50%;
+    // Centering: physical on purpose, paired with the physical translate.
+    // stylelint-disable-next-line property-disallowed-list
     left: 50%;
     width: 40px;
     height: 40px;
@@ -133,6 +184,7 @@
     content: '';
     position: absolute;
     top: 100%;
+    // stylelint-disable-next-line property-disallowed-list
     left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
@@ -145,4 +197,11 @@
 .thumb:focus-visible .value-label {
   opacity: 1;
   transform: translateY(0);
+}
+// The label with the Suggested badge beside it (ADR-030002).
+.label-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
 }

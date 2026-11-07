@@ -32,19 +32,20 @@ type CategoryScale = ScaleBand<string> | ScalePoint<string>;
 
 /**
  * Base for charts with a category axis and a value axis (bar, line, area). Data is an array of
- * rows; `index` names the category field and `config` names the series fields.
+ * rows; `categoryKey` names the category field and `config` names the series fields.
  */
 export abstract class CartesianChart extends ChartBase {
   // ── Properties
 
-  /** Rows to plot. Each row holds the category field (`index`) and a number per series. */
+  /** Rows to plot. Each row holds the category field (`category-key`) and a number per series. */
   @property({ type: Array }) data: ChartDatum[] = [];
 
   /** Series to plot, keyed by data field, with optional label and color. Defaults to every numeric field. */
   @property({ type: Object }) config: ChartConfig = {};
 
   /** Data field that holds the category label, for example `month`. */
-  @property({ type: String }) index: string = '';
+  @property({ type: String, attribute: 'category-key' }) categoryKey: string =
+    '';
 
   /** Hides the gridlines. */
   @property({ type: Boolean, attribute: 'hide-grid' }) hideGrid: boolean =
@@ -92,7 +93,7 @@ export abstract class CartesianChart extends ChartBase {
       ...super.drawProperties(),
       'data',
       'config',
-      'index',
+      'categoryKey',
       'hideGrid',
       'hideCategoryAxis',
       'hideValueAxis',
@@ -201,7 +202,9 @@ export abstract class CartesianChart extends ChartBase {
     const series = this.getSeries();
     return html`<thead>
         <tr>
-          <th scope="col">${this.index || 'Category'}</th>
+          <th scope="col">
+            ${this.categoryField() || this.i18n.t('category')}
+          </th>
           ${series.map(s => html`<th scope="col">${s.label}</th>`)}
         </tr>
       </thead>
@@ -223,14 +226,20 @@ export abstract class CartesianChart extends ChartBase {
 
   // ── Helpers for subclasses
 
-  /** Series keys from `config`, or every numeric field of the first row except `index`. */
+  /** The category field (`categoryKey`). */
+  protected categoryField(): string {
+    return this.categoryKey;
+  }
+
+  /** Series keys from `config`, or every numeric field of the first row except the category field. */
   protected seriesKeys(): string[] {
     const configured = Object.keys(this.config ?? {});
     if (configured.length) return configured;
     const first = this.data[0];
     if (!first) return [];
+    const category = this.categoryField();
     return Object.keys(first).filter(
-      key => key !== this.index && typeof first[key] === 'number',
+      key => key !== category && typeof first[key] === 'number',
     );
   }
 
@@ -249,7 +258,8 @@ export abstract class CartesianChart extends ChartBase {
   protected categoryLabel(index: number): string {
     const datum = this.data[index];
     if (!datum) return '';
-    return this.index ? String(datum[this.index] ?? '') : String(index + 1);
+    const field = this.categoryField();
+    return field ? String(datum[field] ?? '') : String(index + 1);
   }
 
   /** Category domain: row positions, so repeated labels stay distinct. */

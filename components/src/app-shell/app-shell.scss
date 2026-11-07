@@ -1,0 +1,186 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  block-size: 100dvh;
+  overflow: hidden;
+  background-color: var(--app-shell-background, var(--color-surface));
+  color: var(--color-on-surface);
+}
+
+// ── Skip link ─────────────────────────────────────────────────────────────
+
+.skip-link {
+  @include mixin.get-typography(label-large);
+
+  position: absolute;
+  inset-block-start: var(--spacing-100);
+  inset-inline-start: var(--spacing-100);
+  z-index: 1;
+  padding: var(--spacing-100) var(--spacing-200);
+  border-radius: var(--shape-corner-full);
+  background-color: var(--color-inverse-surface);
+  color: var(--color-inverse-on-surface);
+  text-decoration: none;
+
+  // Out of sight until it has keyboard focus.
+  &:not(:focus) {
+    clip-path: inset(50%);
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ── Frame ─────────────────────────────────────────────────────────────────
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+}
+
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-050);
+  background-color: var(
+    --app-shell-header-color,
+    var(--app-bar-container-color, var(--color-surface))
+  );
+}
+
+.menu-button {
+  flex: none;
+  margin-inline-start: var(--spacing-100);
+  --icon-color: currentColor;
+}
+
+.header-content {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-block-size: 0;
+}
+
+.navigation {
+  display: flex;
+  flex: none;
+  overflow: hidden auto;
+
+  &.clipped {
+    inline-size: var(--app-shell-rail-width, 6rem);
+    overflow-x: hidden;
+  }
+}
+
+.drawer-slot,
+.rail-slot {
+  block-size: 100%;
+}
+
+.main {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: auto;
+  outline: none;
+}
+
+.aside {
+  flex: none;
+  inline-size: var(--app-shell-aside-width, auto);
+  overflow-y: auto;
+  border-inline-start: 1px solid var(--color-outline-variant);
+}
+
+.footer {
+  flex: none;
+}
+
+// ── Modal navigation (narrow screens) ─────────────────────────────────────
+
+.modal-navigation {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  inline-size: min(
+    var(--app-shell-modal-navigation-width, 22.5rem),
+    calc(100vw - 3.5rem)
+  );
+  max-inline-size: none;
+  block-size: 100dvh;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-start-end-radius: var(--shape-corner-large);
+  border-end-end-radius: var(--shape-corner-large);
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  box-shadow: var(--elevation-level1);
+  overflow-y: auto;
+
+  // A slotted drawer fills the modal instead of keeping its own width.
+  --navigation-drawer-width: 100%;
+
+  &[open] {
+    animation: app-shell-slide-in var(--duration-medium2, 300ms)
+      var(--easing-emphasized-decelerate, ease-out);
+  }
+
+  &:dir(rtl)[open] {
+    animation-name: app-shell-slide-in-rtl;
+  }
+
+  &::backdrop {
+    background: color-mix(in srgb, var(--color-scrim, black) 32%, transparent);
+  }
+}
+
+.modal-content {
+  block-size: 100%;
+}
+
+@keyframes app-shell-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes app-shell-slide-in-rtl {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-navigation[open] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .modal-navigation {
+    border-inline-end: 1px solid CanvasText;
+  }
+
+  .skip-link:focus {
+    outline: 2px solid Highlight;
+  }
+}

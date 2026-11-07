@@ -354,8 +354,8 @@ const customColors = [
 
       // ── Actions
 
-      function notify(title, variant = 'success') {
-        window.dispatchEvent(new CustomEvent('notification', { detail: { target: 'global', title, variant } }));
+      function notify(title, intent = 'success') {
+        window.dispatchEvent(new CustomEvent('peacock-toast', { detail: { target: 'global', title, intent } }));
       }
 
       // The async Clipboard API can be blocked (permissions, embedded

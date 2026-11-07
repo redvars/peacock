@@ -1,0 +1,34 @@
+---
+export const title = 'Keyboard, events and forms';
+export const order = 300;
+---
+
+<p>
+  The listbox follows the WAI-ARIA listbox pattern: <code>role="listbox"</code>
+  (with <code>aria-multiselectable</code>), options with
+  <code>role="option"</code> and <code>aria-selected</code>. It is one tab
+  stop. <kbd>Up</kbd> and <kbd>Down</kbd> move between options,
+  <kbd>Home</kbd> and <kbd>End</kbd> to the first and last, and typing a
+  letter moves to the next option starting with it. Disabled options are
+  skipped.
+</p>
+<ul>
+  <li>In a single listbox the selection follows focus.</li>
+  <li>
+    With <code>multiple</code>, moving does not select: <kbd>Space</kbd> or a
+    click toggles the focused option, and <kbd>Ctrl</kbd>+<kbd>A</kbd>
+    (<kbd>Cmd</kbd>+<kbd>A</kbd>) selects all options, or clears them when all
+    are selected.
+  </li>
+</ul>
+<p>
+  Every change by the person fires <code>change</code>, which bubbles, with
+  <code>detail.value</code> (and <code>detail.values</code> with
+  <code>multiple</code>). Setting <code>value</code> from code fires nothing.
+</p>
+<p>
+  The listbox is a form control: it submits under <code>name</code>,
+  <code>required</code> blocks submission until an option is chosen,
+  <code>disabled</code> and <code>readonly</code> stop the person from changing
+  it, and <code>form.reset()</code> restores the starting value.
+</p>

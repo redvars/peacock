@@ -1,11 +1,19 @@
 import { html, LitElement, nothing, PropertyValues } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import {
+  SuggestionController,
+  type SuggestionAcceptCause,
+} from '@/__internal/ai/suggestion-controller.js';
+import type { AiSuggestion } from '@/__internal/ai/types.js';
 import type { Radio } from './radio.js';
 import styles from './radio-group.scss';
 
 let radioGroupCount = 0;
+
+/** The radio states a group can push down, each tracked so it only undoes what it set. */
+type GroupFlag = 'disabled' | 'required' | 'readonly';
 
 /**
  * @label Radio Group
@@ -16,15 +24,25 @@ let radioGroupCount = 0;
  * <p>Radio group gives its <code>wc-radio</code> children a shared <code>name</code> (its own, or a
  * generated one), so only one can be checked. Its <code>value</code> is the value of the checked radio,
  * and setting it checks the matching radio.</p>
- * <p>The radios stay form-associated, so the group submits once, through the checked radio.</p>
+ * <p>The radios stay form-associated, so the group submits once, through the checked radio.
+ * <code>disabled</code>, <code>readonly</code> and <code>required</code> are passed to every radio;
+ * a required group blocks form submission until a radio is checked.</p>
+ * <p>Below the radios the group shows <code>helper-text</code>, or <code>error-text</code> while
+ * <code>error</code> is set, or the radios' validation message after a failed check
+ * (<code>reportValidity()</code> or a form submission).</p>
+ * <p>Like Peacock's fields, it can hold a value the assistant suggested: <code>suggestion</code>
+ * checks that radio and shows a Suggested badge and the reason until the person picks a radio, the
+ * form is submitted, or the badge clears it (ADR-030002).</p>
  *
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the user checks a different radio. The group swallows the radios' own `change` events.
+ * @fires {CustomEvent<SuggestionAcceptDetail>} accept - Fired when a suggested value is accepted: the person picked a radio (`cause: 'edit'`), the form was submitted (`'submit'`) or `acceptSuggestion()` was called (`'action'`).
+ * @fires {CustomEvent<SuggestionDismissDetail>} dismiss - Fired when the person clears a suggestion, before `change` with the restored value.
  *
  * @cssprop --radio-group-gap - Space between radios. Defaults to `--spacing-100`.
  *
  * @example
  * ```html
- * <wc-radio-group label="Size" name="size" value="md">
+ * <wc-radio-group label="Size" name="size" value="md" required helper-text="Pick one">
  *   <wc-radio value="sm" label="Small"></wc-radio>
  *   <wc-radio value="md" label="Medium"></wc-radio>
  *   <wc-radio value="lg" label="Large"></wc-radio>
@@ -60,25 +78,126 @@ export class RadioGroup extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
-  /** Marks the group as required. */
+  /** Requires a radio to be checked; passed to every radio, which validate as a group. */
   @property({ type: Boolean, reflect: true })
   required: boolean = false;
+
+  /** Makes every radio read-only: focusable, but the choice cannot change. */
+  @property({ type: Boolean, reflect: true })
+  readonly: boolean = false;
+
+  /** Help text shown below the radios. */
+  @property({ type: String, attribute: 'helper-text' })
+  helperText = '';
+
+  /** Shows the group in its error state with `error-text`. */
+  @property({ type: Boolean, reflect: true })
+  error = false;
+
+  @property({ type: String, attribute: 'error-text' })
+  errorText = '';
+
+  /** Holds data that must never reach a model: the group takes no suggestions. */
+  @property({ type: Boolean, reflect: true })
+  sensitive = false;
+
+  /**
+   * A value the assistant suggests, with why. The group checks that radio and shows a Suggested
+   * badge and the reason until the person picks a radio, the form is submitted, or the badge clears
+   * it, which checks the previous radio again. Ignored while AI is off and on `sensitive` groups.
+   */
+  @property({ attribute: false })
+  get suggestion(): AiSuggestion | null {
+    return this.suggestions.suggestion;
+  }
+
+  set suggestion(suggestion: AiSuggestion | null) {
+    const old = this.suggestions.suggestion;
+    this.suggestions.set(suggestion);
+    this.requestUpdate('suggestion', old);
+  }
+
+  // ── State ────────────────────────────────────────────────────────────────
+
+  /** Whether to show the radios' validation message: after a failed check. */
+  @state()
+  private showValidity = false;
 
   // ── Private fields ───────────────────────────────────────────────────────
 
   private readonly generatedName = `wc-radio-group-${(radioGroupCount += 1)}`;
+
+  private readonly labelId = `${this.generatedName}-label`;
+
+  private readonly descriptionId = `${this.generatedName}-description`;
+
+  /** Radios the group changed, so turning a flag off leaves radios that set it on their own alone. */
+  private readonly setByGroup: Record<GroupFlag, WeakSet<Radio>> = {
+    disabled: new WeakSet(),
+    required: new WeakSet(),
+    readonly: new WeakSet(),
+  };
+
+  /** Whether the group has looked at its radios once, to adopt a radio checked in markup. */
+  private hasAdopted = false;
+
+  /** The form the group was connected in, whose `reset` hides the message again. */
+  private form: HTMLFormElement | null = null;
+
+  private readonly suggestions = new SuggestionController(this, {
+    read: () => this.value,
+    write: value => {
+      this.value = value == null ? '' : String(value);
+    },
+    emit: () =>
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: { value: this.value },
+          bubbles: true,
+          composed: true,
+        }),
+      ),
+  });
+
+  // ── Public methods ───────────────────────────────────────────────────────
+
+  /** Whether the group holds a suggestion the person hasn't accepted or cleared. */
+  get suggested(): boolean {
+    return !!this.suggestions.suggestion;
+  }
+
+  /** Accepts the suggestion: the radio stays checked and the marker goes. Fires `accept`. */
+  acceptSuggestion(cause: SuggestionAcceptCause = 'action'): void {
+    this.suggestions.accept(cause);
+  }
+
+  /** Clears the suggestion and checks the previous radio again. Fires `dismiss` and `change`. */
+  dismissSuggestion(): void {
+    this.suggestions.dismiss();
+  }
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener('change', this.handleRadioChange, { capture: true });
+    // `invalid` does not bubble; the capture phase still passes the group.
+    this.addEventListener('invalid', this.handleRadioInvalid, {
+      capture: true,
+    });
+    this.form = this.closest('form');
+    this.form?.addEventListener('reset', this.handleFormReset);
   }
 
   override disconnectedCallback() {
     this.removeEventListener('change', this.handleRadioChange, {
       capture: true,
     });
+    this.removeEventListener('invalid', this.handleRadioInvalid, {
+      capture: true,
+    });
+    this.form?.removeEventListener('reset', this.handleFormReset);
+    this.form = null;
     super.disconnectedCallback();
   }
 
@@ -86,9 +205,13 @@ export class RadioGroup extends LitElement {
     if (
       changed.has('name') ||
       changed.has('value') ||
-      changed.has('disabled')
+      changed.has('disabled') ||
+      changed.has('required') ||
+      changed.has('readonly')
     ) {
       this.syncRadios();
+      // The message reads the radios' validity, which the sync just changed.
+      if (this.showValidity && changed.has('value')) this.requestUpdate();
     }
   }
 
@@ -98,23 +221,48 @@ export class RadioGroup extends LitElement {
     return Array.from(this.querySelectorAll<Radio>('wc-radio'));
   }
 
-  /** Pushes the group's name, value and disabled state down to its radios. */
+  /** Pushes the group's name, value, disabled, required and read-only state down to its radios. */
   private syncRadios = () => {
     const radios = this.getRadios();
     const name = this.name || this.generatedName;
 
     for (const radio of radios) {
       if (radio.name !== name) radio.name = name;
-      if (this.disabled) radio.disabled = true;
     }
+    this.syncFlag(radios, 'disabled');
+    this.syncFlag(radios, 'required');
+    this.syncFlag(radios, 'readonly');
 
-    if (this.value) {
-      for (const radio of radios) radio.checked = radio.value === this.value;
-    } else {
-      // No value set: adopt the radio that was checked in markup.
+    if (!this.value && !this.hasAdopted) {
+      // First look with no value set: adopt the radio that was checked in markup.
       this.value = radios.find(radio => radio.checked)?.value ?? '';
+    } else {
+      // An empty value clears the selection.
+      for (const radio of radios) radio.checked = radio.value === this.value;
     }
+    if (radios.length > 0) this.hasAdopted = true;
   };
+
+  private syncFlag(radios: Radio[], flag: GroupFlag) {
+    const byGroup = this.setByGroup[flag];
+    for (const radio of radios) {
+      if (this[flag] && !radio[flag]) {
+        radio[flag] = true;
+        byGroup.add(radio);
+      } else if (!this[flag] && byGroup.has(radio)) {
+        radio[flag] = false;
+        byGroup.delete(radio);
+      }
+    }
+  }
+
+  /** The text under the radios: the consumer's error, else the validation message once shown. */
+  private get errorMessage(): string {
+    if (this.error) return this.errorText;
+    if (!this.showValidity) return '';
+    const [radio] = this.getRadios();
+    return radio && !radio.validity.valid ? radio.validationMessage : '';
+  }
 
   private handleRadioChange = (event: Event) => {
     if (event.target === this) return;
@@ -136,31 +284,62 @@ export class RadioGroup extends LitElement {
     );
   };
 
+  private handleRadioInvalid = (event: Event) => {
+    if (event.target !== this) this.showValidity = true;
+  };
+
+  private handleFormReset = () => {
+    this.suggestions.set(null);
+    this.showValidity = false;
+  };
+
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
+    const { errorMessage } = this;
+    const invalid = this.error || !!errorMessage;
+    const description =
+      errorMessage || this.suggestions.reason || this.helperText;
+    const label = this.label
+      ? html`<div class="label" id=${this.labelId}>
+          ${this.label}${this.required
+            ? html`<span class="required" aria-hidden="true">*</span>`
+            : nothing}
+        </div>`
+      : nothing;
+    // The badge sits beside the label, not in it, so it is not part of the group's name.
+    const header = this.suggestions.visible
+      ? html`<div class="label-row">${label}${this.suggestions.badge()}</div>`
+      : label;
+
     return html`
       <div
         class=${classMap({
           'radio-group': true,
           [`orientation-${this.orientation}`]: true,
           disabled: this.disabled,
+          error: invalid,
         })}
         role="radiogroup"
-        aria-label=${this.label || nothing}
+        aria-labelledby=${this.label ? this.labelId : nothing}
+        aria-describedby=${description ? this.descriptionId : nothing}
         aria-required=${this.required ? 'true' : nothing}
         aria-disabled=${this.disabled ? 'true' : nothing}
+        aria-readonly=${this.readonly ? 'true' : nothing}
+        aria-invalid=${invalid ? 'true' : nothing}
       >
-        ${this.label
-          ? html`<div class="label" aria-hidden="true">
-              ${this.label}${this.required
-                ? html`<span class="required">*</span>`
-                : nothing}
-            </div>`
-          : nothing}
+        ${header}
         <div class="radios">
           <slot @slotchange=${this.syncRadios}></slot>
         </div>
+        ${description
+          ? html`<div
+              class=${errorMessage ? 'helper error-text' : 'helper'}
+              id=${this.descriptionId}
+            >
+              ${description}
+            </div>`
+          : nothing}
       </div>
     `;
   }

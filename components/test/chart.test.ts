@@ -82,7 +82,7 @@ describe('wc-chart-bar', () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -97,7 +97,7 @@ describe('wc-chart-bar', () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -116,7 +116,7 @@ describe('wc-chart-bar', () => {
       html`<wc-chart-bar
         disable-animation
         stacked
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -137,7 +137,7 @@ describe('wc-chart-bar', () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -152,7 +152,7 @@ describe('wc-chart-bar', () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -169,27 +169,74 @@ describe('wc-chart-bar', () => {
     expect(root(el).querySelectorAll('path.bar').length).to.equal(4);
   });
 
-  it('hides the legend for a single series unless show-legend is set', async () => {
+  it('hides the legend for a single series unless legend="show"', async () => {
     const single = { desktop: { label: 'Desktop' } };
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
+        category-key="month"
+        .config=${single}
+        .data=${data}
+      ></wc-chart-bar>`,
+    );
+    expect(el.legend).to.equal('auto');
+    expect(root(el).querySelector('.legend')).to.equal(null);
+    el.legend = 'show';
+    await settle(el);
+    expect(root(el).querySelector('.legend')).to.not.equal(null);
+    el.legend = 'hide';
+    el.config = config;
+    await settle(el);
+    expect(root(el).querySelector('.legend')).to.equal(null);
+  });
+
+  it('ignores the removed show-legend, hide-legend and index attributes', async () => {
+    const single = { desktop: { label: 'Desktop' } };
+    const el = await mount<ChartBar>(
+      html`<wc-chart-bar
+        disable-animation
+        show-legend
         index="month"
         .config=${single}
         .data=${data}
       ></wc-chart-bar>`,
     );
     expect(root(el).querySelector('.legend')).to.equal(null);
-    el.showLegend = true;
-    await settle(el);
-    expect(root(el).querySelector('.legend')).to.not.equal(null);
+    const categories = [
+      ...root(el).querySelectorAll('.category-axis text'),
+    ].map(t => t.textContent);
+    expect(categories).to.not.include('Jan');
+  });
+
+  it('mirrors Left and Right in RTL', async () => {
+    const el = await mount<ChartBar>(
+      html`<wc-chart-bar
+        dir="rtl"
+        disable-animation
+        category-key="month"
+        .config=${config}
+        .data=${data}
+      ></wc-chart-bar>`,
+    );
+    await press(el, 'ArrowLeft');
+    expect(root(el).querySelector('.tooltip-title')?.textContent).to.equal(
+      'Jan',
+    );
+    await press(el, 'ArrowLeft');
+    expect(root(el).querySelector('.tooltip-title')?.textContent).to.equal(
+      'Feb',
+    );
+    await press(el, 'ArrowRight');
+    expect(root(el).querySelector('.tooltip-title')?.textContent).to.equal(
+      'Jan',
+    );
   });
 
   it('shows a tooltip and announces values on arrow keys', async () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -214,11 +261,11 @@ describe('wc-chart-bar', () => {
     expect(root(el).querySelector('.tooltip')).to.equal(null);
   });
 
-  it('fires chart-select on Enter', async () => {
+  it('fires select on Enter', async () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -230,8 +277,10 @@ describe('wc-chart-bar', () => {
     );
     const event = (await oneEvent(
       el,
-      'chart-select',
+      'select',
     )) as CustomEvent<ChartSelectDetail>;
+    expect(event.bubbles).to.equal(true);
+    expect(event.composed).to.equal(true);
     expect(event.detail.index).to.equal(1);
     expect(event.detail.datum).to.equal(data[1]);
   });
@@ -242,7 +291,7 @@ describe('wc-chart-bar', () => {
         disable-animation
         orientation="horizontal"
         show-values
-        index="month"
+        category-key="month"
         .config=${{ desktop: {} }}
         .data=${data}
       ></wc-chart-bar>`,
@@ -262,7 +311,7 @@ describe('wc-chart-bar', () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
         .valueFormatter=${(v: number) => `$${v}`}
@@ -288,7 +337,7 @@ describe('wc-chart-bar', () => {
     await settle(el);
     expect(root(el).querySelector('.skeleton')).to.not.equal(null);
     el.loading = false;
-    el.index = 'month';
+    el.categoryKey = 'month';
     el.config = config;
     el.data = data;
     await settle(el);
@@ -300,7 +349,7 @@ describe('wc-chart-bar', () => {
       html`<wc-chart-bar
         disable-animation
         label="Visitors"
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-bar>`,
@@ -317,7 +366,7 @@ describe('wc-chart-line', () => {
     const el = await mount<ChartLine>(
       html`<wc-chart-line
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-line>`,
@@ -333,7 +382,7 @@ describe('wc-chart-line', () => {
     const el = await mount<ChartLine>(
       html`<wc-chart-line
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-line>`,
@@ -349,7 +398,7 @@ describe('wc-chart-line', () => {
     const el = await mount<ChartLine>(
       html`<wc-chart-line
         disable-animation
-        index="month"
+        category-key="month"
         .data=${data}
       ></wc-chart-line>`,
     );
@@ -362,7 +411,7 @@ describe('wc-chart-area', () => {
     const el = await mount<ChartArea>(
       html`<wc-chart-area
         disable-animation
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-area>`,
@@ -377,7 +426,7 @@ describe('wc-chart-area', () => {
       html`<wc-chart-area
         disable-animation
         stacked
-        index="month"
+        category-key="month"
         .config=${config}
         .data=${data}
       ></wc-chart-area>`,
@@ -417,6 +466,24 @@ describe('wc-chart-pie', () => {
     expect(labels[0]).to.contain('45.8');
   });
 
+  it('hides the legend with legend="hide"', async () => {
+    const el = await mount<ChartPie>(
+      html`<wc-chart-pie
+        disable-animation
+        legend="hide"
+        .data=${slices}
+      ></wc-chart-pie>`,
+    );
+    expect(root(el).querySelector('.legend')).to.equal(null);
+  });
+
+  it('has no inner-radius: a pie has no hole', async () => {
+    const el = await mount<ChartPie>(
+      html`<wc-chart-pie disable-animation .data=${slices}></wc-chart-pie>`,
+    );
+    expect('innerRadius' in el).to.equal(false);
+  });
+
   it('shows value and share in the tooltip', async () => {
     const el = await mount<ChartPie>(
       html`<wc-chart-pie disable-animation .data=${slices}></wc-chart-pie>`,
@@ -453,6 +520,21 @@ describe('wc-chart-doughnut', () => {
     expect(root(el).querySelector('.center-label')?.textContent).to.equal(
       'Chrome',
     );
+  });
+
+  it('owns inner-radius and drops the centre at 0', async () => {
+    const el = await mount<ChartDoughnut>(
+      html`<wc-chart-doughnut
+        disable-animation
+        inner-radius="0.5"
+        .data=${slices}
+      ></wc-chart-doughnut>`,
+    );
+    expect(el.innerRadius).to.equal(0.5);
+    expect(root(el).querySelector('.center')).to.not.equal(null);
+    el.innerRadius = 0;
+    await settle(el);
+    expect(root(el).querySelector('.center')).to.equal(null);
   });
 
   it('drops a hidden slice from the total', async () => {

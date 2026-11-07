@@ -1,0 +1,70 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-comment-composer</code> is the box where people write a comment: at
+  the bottom of a ticket, under a document, in a reply. It starts as a one-line
+  box and opens to an editor with formatting tools when focused. Comments are
+  Markdown: bold, italic, strikethrough, code, links, lists, checklists, quotes
+  and code blocks, plus mentions.
+</p>
+<p>
+  <strong>Send</strong> or <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Enter</kbd> fires
+  a cancelable <code>submit</code> with
+  <code>{'{ value, mentions }'}</code>; unless the event is cancelled the
+  composer empties. Set <code>loading</code> while the comment saves, and
+  cancel <code>submit</code> to keep the text when it fails.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="width:100%; max-width: 40rem;">
+    <wc-comment-composer id="composer-usage"></wc-comment-composer>
+    <p id="composer-sent" class="text-body-small" style="margin: 8px 0 0;"></p>
+  </div>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
+  <script is:inline>
+    const composer = document.getElementById('composer-usage');
+    const sent = document.getElementById('composer-sent');
+    // Answers `search` with people (@) and tickets (#), so mentions list suggestions.
+    window.peacockMentionDemo(composer);
+    composer.addEventListener('submit', event => {
+      // Pretend to save for a moment.
+      composer.loading = true;
+      setTimeout(() => {
+        composer.loading = false;
+      }, 600);
+      sent.textContent = `Sent: ${event.detail.value}`;
+    });
+  </script>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Avatar and footer controls</h3>
+
+<p>
+  The <code>avatar</code> slot shows something before the box, usually the
+  current person's avatar. The <code>start</code> slot adds controls to the
+  footer after the formatting tools, such as a choice between a public comment
+  and an internal work note, or an attach button.
+  <code>submit-label</code> renames Send.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-comment-composer
+    submit-label="Post"
+    placeholder="Add a comment or work note"
+    expanded
+    style="display:block; width:100%; max-width: 40rem;"
+  >
+    <wc-avatar slot="avatar" name="Shiva Varma" size="md"></wc-avatar>
+    <wc-select slot="start" size="sm" value="comment" aria-label="Visibility">
+      <wc-option value="comment">Comment</wc-option>
+      <wc-option value="work">Work note</wc-option>
+    </wc-select>
+    <wc-icon-button slot="start" variant="text" shape="round" size="sm" aria-label="Attach a file">
+      <wc-icon name="attach_file"></wc-icon>
+    </wc-icon-button>
+  </wc-comment-composer>
+</DemoComponentCard>

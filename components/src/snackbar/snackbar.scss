@@ -33,6 +33,7 @@
   --snackbar-label-text-color: var(--color-inverse-on-surface);
   --snackbar-action-text-color: var(--color-inverse-primary);
   --snackbar-close-icon-color: var(--color-inverse-on-surface);
+  --snackbar-icon-color: var(--color-inverse-on-surface);
   --snackbar-border-radius: var(--shape-corner-extra-small);
 }
 
@@ -103,6 +104,62 @@
 
   .label {
     height: 100%;
+  }
+
+  .intent-icon {
+    margin-block-start: var(--spacing-050);
+  }
+}
+
+.intent-icon {
+  color: var(--snackbar-icon-color);
+  flex: none;
+  --icon-size: 1.25rem;
+  --icon-color: var(--snackbar-icon-color);
+}
+
+.snackbar.intent-info {
+  --snackbar-icon-color: var(--color-inverse-primary);
+}
+
+.snackbar.intent-success {
+  --snackbar-icon-color: var(--color-inverse-success);
+}
+
+.snackbar.intent-warning {
+  --snackbar-icon-color: var(--color-inverse-warning);
+}
+
+.snackbar.intent-danger {
+  --snackbar-icon-color: var(--color-inverse-error);
+}
+
+.sr-only {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+// Inside wc-notification-manager: the manager's region is in the top layer and places the
+// snackbar, so it renders in place.
+:host([managed]) {
+  display: block;
+
+  .layer {
+    inset: auto;
+    position: relative;
+    z-index: auto;
+  }
+
+  .snackbar {
+    flex: 1 1 auto;
+    max-width: 100%;
   }
 }
 

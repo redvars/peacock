@@ -1,0 +1,23 @@
+---
+export const title = 'Variants and states';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The field takes the same <code>variant</code>, <code>size</code>, helper, error, warning and
+  <code>clearable</code> options as the other fields. It is form-associated: inside a
+  <code>&lt;form&gt;</code> it submits the decimal string under its <code>name</code>, and
+  <code>form.reset()</code> restores its first value and currency.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-currency-field label='Outlined' variant='outlined' currency='USD' value='99.90'></wc-currency-field>
+    <wc-currency-field label='Filled' variant='filled' currency='USD' value='99.90'></wc-currency-field>
+    <wc-currency-field label='Clearable' clearable currency='USD' value='99.90'></wc-currency-field>
+    <wc-currency-field label='Error' error error-text='Over budget' currency='USD' value='99.90'></wc-currency-field>
+    <wc-currency-field label='Disabled' disabled currency='USD' value='99.90'></wc-currency-field>
+    <wc-currency-field label='Read only' readonly currency='USD' value='99.90'></wc-currency-field>
+  </div>
+</DemoComponentCard>

@@ -1,0 +1,21 @@
+---
+export const title = 'Spans, gaps and alignment';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  An item spans columns or rows with plain CSS on the item: <code>grid-column: span 2</code>, or
+  <code>grid-column: 1 / -1</code> for a full-width row. <code>row-gap</code> and
+  <code>column-gap</code> override <code>gap</code> on their axis. <code>align</code> sets
+  <code>align-items</code> and <code>justify</code> sets <code>justify-items</code>
+  (<code>start</code>, <code>center</code>, <code>end</code>, <code>stretch</code>).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-grid columns='3' row-gap='100' column-gap='300' style='width: 100%;'>
+    <wc-card style='grid-column: 1 / -1;'>Full width</wc-card>
+    <wc-card style='grid-column: span 2;'>Two columns</wc-card>
+    <wc-card>One</wc-card>
+  </wc-grid>
+</DemoComponentCard>

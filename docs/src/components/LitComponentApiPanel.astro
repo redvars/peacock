@@ -23,7 +23,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
 {propertiesData.length > 0 && (
   <Fragment>
     <h3>Properties</h3>
-    <wc-table id='comp-properties' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <wc-table id='comp-properties' class='table-auto-height' layer='01'></wc-table>
     <script is:inline define:vars={{ propertiesData }}>
       const $compProperties = document.getElementById('comp-properties');
       $compProperties.columns = [{
@@ -56,7 +56,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
           }
           if (value && value.includes('|')) {
             const types = value.split('|');
-            const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
+            const typesHtml = types.map(type => `<wc-tag>${type}</wc-tag>`).join('');
             return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
           }
           return `<div class='col-text'>${row[column.name]?.text}</div>`;
@@ -73,7 +73,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
 {eventsData.length > 0 && (
   <Fragment>
     <h3>Events</h3>
-    <wc-table id='comp-events' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <wc-table id='comp-events' class='table-auto-height' layer='01'></wc-table>
     <script is:inline define:vars={{ eventsData }}>
       const $compEvents = document.getElementById('comp-events');
       $compEvents.columns = [{
@@ -88,7 +88,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
           const value = row[column.name]?.text;
           if (value && value.includes('|')) {
             const types = value.split('|');
-            const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
+            const typesHtml = types.map(type => `<wc-tag>${type}</wc-tag>`).join('');
             return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
           }
           return `<div class='col-text'>${row[column.name]?.text}</div>`;
@@ -102,7 +102,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
 {methodsData.length > 0 && (
   <Fragment>
     <h3>Methods</h3>
-    <wc-table id='comp-methods' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <wc-table id='comp-methods' class='table-auto-height' layer='01'></wc-table>
     <script is:inline define:vars={{ methodsData }}>
       const $compMethods = document.getElementById('comp-methods');
       $compMethods.columns = [{
@@ -121,7 +121,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
 {cssData.length > 0 && (
   <Fragment>
     <h3>CSS Custom Properties</h3>
-    <wc-table id='comp-css-custom-properties' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <wc-table id='comp-css-custom-properties' class='table-auto-height' layer='01'></wc-table>
     <script is:inline define:vars={{ cssData }}>
       const $compCssCustomProperties = document.getElementById('comp-css-custom-properties');
       $compCssCustomProperties.columns = [{

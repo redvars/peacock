@@ -14,32 +14,50 @@
   padding: 0;
 }
 
-.input-wrapper {
+.field {
   .input {
     flex: 1;
     width: 100%;
     background: none;
     cursor: inherit;
   }
-
-  .password-toggle {
-    --button-container-shape: var(--shape-corner-full);
-  }
-
-
 }
 
-.stepper {
+/* With `format`: the formatted text lies over the input while it is not focused. */
+.format-control {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-inline-size: 0;
+}
+
+.formatted {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.show-formatted {
+  color: transparent;
+}
+
+/* With the stepper buttons, hide the native spin buttons. */
+.no-spin-buttons {
   /* Chrome, Safari, Edge, Opera */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
   /* Firefox */
-  input[type=number] {
+  &[type='number'] {
     -moz-appearance: textfield;
   }
 }
-

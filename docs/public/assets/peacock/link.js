@@ -1,8 +1,8 @@
-import { i, b, _ as __decorate, I as IndividualComponent, a as i$1 } from './IndividualComponent-Bdwyrvd6.js';
-import { e } from './class-map-DG7CA1et.js';
-import { N as NativeHyperlinkMixin } from './NativeHyperlinkMixin-D9J4aBTy.js';
+import { i, A, b, _ as __decorate, I as IndividualComponent, a as i$1 } from './IndividualComponent-BK7XZjE2.js';
+import { e } from './class-map-NDIkZErE.js';
+import { N as NativeHyperlinkMixin } from './NativeHyperlinkMixin-WdY0fM-H.js';
 import './directive-ZPhl09Yt.js';
-import './property-B49QQ8pS.js';
+import './property-B2TG3KEE.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -10,13 +10,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline;
   color: var(--color-primary);
@@ -42,7 +64,14 @@ var css_248z = i`* {
  * @label Link
  * @tag wc-link
  * @rawTag link
- * @summary The link component is used to navigate to a new page or section within the current page.
+ * @summary A text link to another page, or to a section of the current one.
+ *
+ * @overview
+ * <p>Renders a native <code>&lt;a&gt;</code> around its content, so it behaves and is announced
+ * like any link. Set <code>href</code>, and <code>target</code>, <code>rel</code> and
+ * <code>download</code> as on a native anchor. Its color is set with <code>--link-color</code>.</p>
+ * <p>Use a link to go somewhere. For an action that does something on the page use
+ * <code>wc-button</code>, and for a link styled as a button use <code>wc-link-button</code>.</p>
  * @cssprop --link-color - Controls the color of the link.
  * @tags navigation
  *
@@ -58,10 +87,9 @@ let Link = class Link extends NativeHyperlinkMixin(i$1) {
             link: true,
         })}
       href=${this.href}
-      ?download=${this.download}
+      download=${this.download || A}
       target=${this.target}
-      ?rel=${this.rel}
-      ?tabindex=${this.parentElement?.tabIndex}
+      rel=${this.rel || A}
     >
       <slot></slot>
     </a>`;

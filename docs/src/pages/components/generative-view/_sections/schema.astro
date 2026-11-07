@@ -1,0 +1,35 @@
+---
+export const title = 'The catalog and its schema';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The catalog is generated from the component manifest and a hand-kept allow-list
+  (<code>components/bin/generative-catalog/allow-list.mjs</code>): each allowed prop gets its JSON
+  kind, its enum values and its description from the component's own documentation, so the schema
+  follows the components. A test fails when the committed catalog is out of date or allows a prop
+  that could navigate or load an address.
+</p>
+<p>
+  <code>generativeViewSchema()</code>, exported by the package and the loader, returns the catalog as
+  a JSON Schema. Give it to the model service as the answer's structured-output schema, or describe it
+  in the prompt; the view checks every answer against the same catalog either way.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-json-viewer id='generative-schema' root-label='generativeViewSchema()' expand-depth='2' style='inline-size: 100%; max-block-size: 28rem; overflow: auto;'></wc-json-viewer>
+  <script type='module'>
+    const script = document.querySelector('script[src*="loader"][type="module"]');
+    if (script) {
+      const { generativeViewSchema } = await import(script.src);
+      document.querySelector('#generative-schema').value = generativeViewSchema();
+    }
+  </script>
+</DemoComponentCard>
+
+<h3>When AI is off</h3>
+<p>
+  The view renders nothing, like every marker of the assistant. A page that shows generated answers
+  must also work without them: the list, the report and the record are still there.
+</p>

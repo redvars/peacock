@@ -1,9 +1,13 @@
 ---
-// A chart's page: its demo sections, then the API reference, under the Charts sidebar.
+// A chart's page: eyebrow, title, summary and meta row; its demo sections and the API
+// reference; then previous/next cards in sidebar order. Same structure as LitComponent.astro.
 import Layout from './WithChartsSidebar.astro';
 import Article from '../components/Article.astro';
+import ComponentMeta from '../components/ComponentMeta.astro';
+import DocPager from '../components/DocPager.astro';
 import LitComponentApiPanel from '../components/LitComponentApiPanel.astro';
 import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
+import { CHARTS, CHART_NAV } from '../_data/charts';
 import type { Section } from '../_data/getSections.ts';
 
 interface Props {
@@ -15,6 +19,16 @@ const { componentName, sections } = Astro.props;
 const componentDetails = getComponentDetails(componentName);
 const title: string = getTextTag(componentDetails, 'label') ?? componentName;
 const summary = getMarkdown(componentDetails, 'summary');
+const tagName: string = getTextTag(componentDetails, 'tag') ?? `wc-${componentName}`;
+
+const chart = CHARTS.find(item => item.rawTag === componentName);
+const index = chart ? CHART_NAV.findIndex(item => item.href === chart.href) : -1;
+const describe = (href: string) => CHARTS.find(item => item.href === href)?.useFor;
+const previous = index > 0 ? { ...CHART_NAV[index - 1], description: describe(CHART_NAV[index - 1].href) } : undefined;
+const next =
+  index >= 0 && index < CHART_NAV.length - 1
+    ? { ...CHART_NAV[index + 1], description: describe(CHART_NAV[index + 1].href) }
+    : undefined;
 
 const allSections: Section[] = [
   ...sections,
@@ -28,5 +42,9 @@ const allSections: Section[] = [
 ---
 
 <Layout title={`${title} · Charts`} description={summary}>
-  <Article title={title} description={summary} sections={allSections} />
+  <Article title={title} description={summary} sections={allSections}>
+    <a slot='eyebrow' href='/charts/'>Charts</a>
+    <ComponentMeta slot='meta' tagName={tagName} pageFolder={`charts/${chart?.slug ?? componentName}`} />
+    <DocPager slot='footer' label='Charts' previous={previous} next={next} />
+  </Article>
 </Layout>

@@ -33,7 +33,7 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
 
 {name === 'dropdown-button' && (
   <div class='bp cp-center cp-col'>
-    <span class='cp-btn cp-btn-caret'><span class='bp-line'></span><wc-icon {...icon('expand_more', 'cp-i-on')}></wc-icon></span>
+    <span class='cp-btn cp-btn-caret'><span class='bp-line'></span><wc-icon {...icon('keyboard_arrow_down', 'cp-i-on')}></wc-icon></span>
     <span class='cp-menu'>
       <span class='cp-menu-item cp-menu-on'><span class='bp-line'></span></span>
       <span class='cp-menu-item'><span class='bp-line'></span></span>
@@ -62,7 +62,7 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
   <div class='bp cp-center'>
     <span class='cp-split'>
       <span class='cp-btn cp-split-main'><span class='bp-line'></span></span>
-      <span class='cp-btn cp-split-menu'><wc-icon {...icon('expand_more', 'cp-i-on')}></wc-icon></span>
+      <span class='cp-btn cp-split-menu'><wc-icon {...icon('keyboard_arrow_down', 'cp-i-on')}></wc-icon></span>
     </span>
   </div>
 )}
@@ -95,7 +95,7 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
       {name === 'url-field' && <wc-icon {...icon('link')}></wc-icon>}
       <span class:list={['bp-line', 'cp-value', { 'cp-value-link': name === 'url-field' }]}></span>
       {name === 'input' && <span class='cp-caret'></span>}
-      {name === 'number-field' && <span class='cp-stepper'><wc-icon {...icon('expand_less')}></wc-icon><wc-icon {...icon('expand_more')}></wc-icon></span>}
+      {name === 'number-field' && <span class='cp-stepper'><wc-icon {...icon('keyboard_arrow_up')}></wc-icon><wc-icon {...icon('keyboard_arrow_down')}></wc-icon></span>}
       {name === 'url-field' && <wc-icon {...icon('edit')}></wc-icon>}
       {name === 'date-field' && <wc-icon {...icon('calendar_today')}></wc-icon>}
       {name === 'time-field' && <wc-icon {...icon('schedule')}></wc-icon>}
@@ -208,10 +208,10 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
 
 {name === 'accordion' && (
   <div class='bp cp-frame cp-accordion'>
-    <span class='cp-acc'><span class='bp-line cp-w1'></span><wc-icon {...icon('expand_less')}></wc-icon></span>
+    <span class='cp-acc'><span class='bp-line cp-w1'></span><wc-icon {...icon('keyboard_arrow_up')}></wc-icon></span>
     <span class='cp-acc-body'><span class='bp-line cp-w0'></span><span class='bp-line cp-w2'></span></span>
-    <span class='cp-acc'><span class='bp-line cp-w3'></span><wc-icon {...icon('expand_more')}></wc-icon></span>
-    <span class='cp-acc'><span class='bp-line cp-w2'></span><wc-icon {...icon('expand_more')}></wc-icon></span>
+    <span class='cp-acc'><span class='bp-line cp-w3'></span><wc-icon {...icon('keyboard_arrow_down')}></wc-icon></span>
+    <span class='cp-acc'><span class='bp-line cp-w2'></span><wc-icon {...icon('keyboard_arrow_down')}></wc-icon></span>
   </div>
 )}
 
@@ -294,7 +294,18 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
   </div>
 )}
 
-{name === 'empty-state' && (
+{name === 'redvars-loader' && (
+  <div class='bp cp-center'>
+    <svg class='cp-rv-loader' viewBox='-40 -40 336 336' aria-hidden='true'>
+      <path class='cp-rv-track' d='M128 -20H276V276H-20V-20Z'></path>
+      <path class='cp-rv-runner' pathLength='1' d='M128 -20H276V276H-20V-20Z'></path>
+      <rect class='cp-rv-tile' width='256' height='256'></rect>
+      <path class='cp-rv-mark' d='M90 84H118L125.5 108C129 98 146 83 162 82H180L178 118H158C144 120 128 130 128 146V224H90Z'></path>
+    </svg>
+  </div>
+)}
+
+{name === 'illustration' && (
   <div class='bp cp-center cp-col'>
     <span class='cp-empty-art'><wc-icon {...icon('inbox')}></wc-icon></span>
     <span class='bp-line cp-strong cp-empty-title'></span>
@@ -395,21 +406,6 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
   </div>
 )}
 
-{name === 'spinner' && (
-  <div class='bp cp-center'>
-    <span class='cp-spinner'>{Array.from({ length: 8 }, (_, i) => <i style={`--_i: ${i}`}></i>)}</span>
-  </div>
-)}
-
-{name === 'notification' && (
-  <div class='bp cp-center cp-col'>
-    <span class='cp-notice'>
-      <wc-icon {...icon('check_circle', 'cp-i-success')}></wc-icon>
-      <span class='cp-alert-text'><span class='bp-line cp-strong cp-w1'></span><span class='bp-line cp-w0'></span><span class='cp-btn cp-btn-xs cp-outline'></span></span>
-      <wc-icon {...icon('close')}></wc-icon>
-    </span>
-  </div>
-)}
 
 {name === 'snackbar' && (
   <div class='bp cp-frame cp-snack-frame'>
@@ -486,9 +482,9 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
   </div>
 )}
 
-{name === 'sidebar-menu' && (
+{name === 'tree' && (
   <div class='bp cp-frame cp-tree'>
-    <span class='cp-tree-row'><wc-icon {...icon('expand_more')}></wc-icon><span class='bp-line cp-strong cp-w1'></span></span>
+    <span class='cp-tree-row'><wc-icon {...icon('keyboard_arrow_down')}></wc-icon><span class='bp-line cp-strong cp-w1'></span></span>
     <span class='cp-tree-row cp-tree-child cp-tree-on'><span class='bp-line cp-w2'></span></span>
     <span class='cp-tree-row cp-tree-child'><span class='bp-line cp-w1'></span></span>
     <span class='cp-tree-row'><wc-icon {...icon('chevron_right')}></wc-icon><span class='bp-line cp-strong cp-w3'></span></span>
@@ -516,20 +512,6 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
         <span class='cp-dest'><span class:list={['cp-dest-icon', { 'cp-dest-on': i === 0 }]}><wc-icon {...icon(n)}></wc-icon></span><span class='bp-line'></span></span>
       ))}
     </span>
-  </div>
-)}
-
-{name === 'navigation-bar-item' && (
-  <div class='bp cp-center'>
-    <span class='cp-dest cp-dest-lg'><span class='cp-dest-icon cp-dest-on'><wc-icon {...icon('home')}></wc-icon></span><span class='bp-line'></span></span>
-    <span class='cp-dest cp-dest-lg'><span class='cp-dest-icon cp-badged'><wc-icon {...icon('mail')}></wc-icon><i class='cp-badge-count'></i></span><span class='bp-line'></span></span>
-  </div>
-)}
-
-{name === 'navigation-drawer-item' && (
-  <div class='bp cp-center cp-col'>
-    <span class='cp-nav cp-nav-on cp-nav-wide'><wc-icon {...icon('inbox')}></wc-icon><span class='bp-line'></span><b></b></span>
-    <span class='cp-nav cp-nav-wide'><wc-icon {...icon('send')}></wc-icon><span class='bp-line'></span></span>
   </div>
 )}
 

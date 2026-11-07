@@ -1,13 +1,16 @@
-import { i, a as i$1, w, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, w, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { e } from './class-map-NDIkZErE.js';
 import { s as spread } from './spread-B5cgadZl.js';
-import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { m as mixinFormAssociated, g as getFormValue, a as getFormState } from './form-associated-Bhwwr6dT.js';
-import './base-Cl6v8-BZ.js';
+import { p as peacockString } from './strings-WY90FZfd.js';
+import { T as ToggleBase } from './toggle-base-Cq6DEEgq.js';
 import './directive-ZPhl09Yt.js';
+import './state-BCeDVCI9.js';
+import './query-CHb9Ft_d.js';
+import './base-Cl6v8-BZ.js';
+import './form-associated-D3Tn33s_.js';
+import './element-internals-QME0yEz4.js';
+import './BaseInput-DJ7w21-i.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -15,13 +18,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline-block;
   --checkbox-size: 18px;
@@ -230,25 +255,49 @@ var css_248z = i`* {
 }
 .checkbox.disabled .state-layer {
   display: none;
+}
+
+@media (forced-colors: active) {
+  .outline {
+    border-color: CanvasText;
+  }
+  .checkbox.state-checked .background,
+  .checkbox.state-indeterminate .background {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .checkbox.state-checked .icon,
+  .checkbox.state-indeterminate .icon {
+    forced-color-adjust: none;
+    fill: HighlightText;
+    stroke: HighlightText;
+  }
+  .checkbox.disabled .outline {
+    border-color: GrayText;
+  }
+  .checkbox.disabled.state-checked .background,
+  .checkbox.disabled.state-indeterminate .background {
+    background: GrayText;
+  }
 }`;
 
 /**
  * @label Checkbox
  * @tag wc-checkbox
  * @rawTag checkbox
- * @summary Captures boolean input with an optional indeterminate mode.
+ * @summary A box the person checks to turn an option on or off, with a mixed state for a partly checked group.
  * @overview
- * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
- * <p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
- * <p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
+ * <p>Set <code>indeterminate</code> for the mixed state, such as on a checkbox for a group whose
+ * items are only partly checked.</p>
+ * <p>The checkbox is form-associated: when <code>checked</code>, it submits its <code>value</code>
+ * (<code>on</code> by default) under its <code>name</code>. With <code>required</code> it blocks form
+ * submission until it is checked.</p>
  * @cssprop --checkbox-size: Size of the checkbox container.
  * @cssprop --checkbox-selected-color: Color of the checkbox when selected.
  * @cssprop --checkbox-unselected-color: Color of the checkbox border when unselected.
  * @cssprop --checkbox-checkmark-color: Color of the checkmark icon.
  * @cssprop --checkbox-state-layer-size: Size of the state layer for touch target.
- * @fires {CustomEvent} change - Dispatched when the checkbox is toggled. Detail: `{ checked, value, originalEvent }`.
- * @fires {CustomEvent} blur - Dispatched when the checkbox loses focus.
- * @fires {CustomEvent} focus - Dispatched when the checkbox receives focus.
+ * @fires {CustomEvent<{checked: boolean, value: string, originalEvent?: Event}>} change - Dispatched when the checkbox is toggled.
  * @tags input, form
  *
  * @example
@@ -256,20 +305,13 @@ var css_248z = i`* {
  * <wc-checkbox label="Accept terms" checked></wc-checkbox>
  * ```
  */
-let Checkbox = class Checkbox extends mixinFormAssociated(mixinElementInternals(i$1)) {
+let Checkbox = class Checkbox extends ToggleBase {
     constructor() {
         // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
         // ── Properties ───────────────────────────────────────────────────────────
-        // `name` and `disabled` come from mixinFormAssociated.
-        /**
-         * The checkbox label.
-         */
-        this.label = '';
-        /**
-         * Whether the checkbox is checked.
-         */
-        this.checked = false;
+        // `name`, `disabled`, `required`, `readonly`, `label`, `checked`, `value` and `configAria` are
+        // inherited.
         /**
          * If true, displays the checkbox in an indeterminate state.
          */
@@ -283,147 +325,29 @@ let Checkbox = class Checkbox extends mixinFormAssociated(mixinElementInternals(
          * Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         this.size = 'md';
-        /**
-         * If true, required icon is shown. Defaults to `false`.
-         */
-        this.required = false;
-        /**
-         * If true, the checkbox is readonly. Defaults to `false`.
-         */
-        this.readonly = false;
-        /**
-         * Configuration object for aria attributes.
-         */
-        this.configAria = {};
-        // ── State ────────────────────────────────────────────────────────────────
-        /** True while the checkbox container has keyboard focus. */
-        this.hasFocus = false;
-        /** True while the user is actively pressing the checkbox (mouse/keyboard). */
-        this.isActive = false;
-        /** True when slotted label content is present. */
-        this.slotHasContent = false;
-        this.windowMouseUp = () => {
-            if (this.isActive) {
-                this.isActive = false;
-            }
-        };
-        this.windowKeyUp = (evt) => {
-            if (this.isActive && evt.key === ' ') {
-                this.isActive = false;
-            }
-        };
-        this.mouseDownHandler = () => {
-            this.isActive = true;
-        };
-        this.keyDownHandler = (evt) => {
-            if (evt.key === ' ') {
-                evt.preventDefault();
+        // ── Private methods ──────────────────────────────────────────────────────
+        this.keyDownHandler = (event) => {
+            if (event.key === ' ') {
+                event.preventDefault();
                 this.isActive = true;
-                this.clickHandler(evt);
+                this.toggleChecked(event);
             }
         };
-        this.clickHandler = (ev) => {
-            if (!this.disabled && !this.readonly) {
-                this.checked = !this.checked;
-                this.indeterminate = false;
-                this.dispatchEvent(new CustomEvent('change', {
-                    detail: {
-                        checked: this.checked,
-                        value: this.checked,
-                        originalEvent: ev,
-                    },
-                    bubbles: true,
-                    composed: true,
-                }));
-                this.containerElement?.focus();
-            }
+        this.clickHandler = (event) => {
+            this.toggleChecked(event);
         };
-        this.blurHandler = (ev) => {
-            this.hasFocus = false;
-            this.dispatchEvent(new CustomEvent('blur', {
-                detail: ev,
-                bubbles: true,
-                composed: true,
-            }));
-        };
-        this.focusHandler = (ev) => {
-            this.hasFocus = true;
-            this.dispatchEvent(new CustomEvent('focus', {
-                detail: ev,
-                bubbles: true,
-                composed: true,
-            }));
-        };
-        this.handleKeyUp = (evt) => {
-            if (evt.key === 'Enter') {
-                this.clickHandler(evt);
-            }
-        };
-    }
-    /**
-     * @deprecated Use `checked`. Kept as an alias of `checked`.
-     */
-    get value() {
-        return this.checked;
-    }
-    set value(value) {
-        this.checked = Boolean(value);
-    }
-    // ── Lifecycle ────────────────────────────────────────────────────────────
-    connectedCallback() {
-        super.connectedCallback();
-        this.defaultChecked ??= this.checked;
-        this.handleInitialAttributes();
-        window.addEventListener('mouseup', this.windowMouseUp);
-        window.addEventListener('keyup', this.windowKeyUp);
-    }
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        window.removeEventListener('mouseup', this.windowMouseUp);
-        window.removeEventListener('keyup', this.windowKeyUp);
-    }
-    firstUpdated() {
-        this.slotHasContent = this.hasChildNodes();
-    }
-    // ── Public methods ───────────────────────────────────────────────────────
-    /**
-     * Sets focus on the checkbox.
-     */
-    focus() {
-        this.containerElement?.focus();
-    }
-    /**
-     * Removes focus from the checkbox.
-     */
-    blur() {
-        this.containerElement?.blur();
     }
     // ── Form association ─────────────────────────────────────────────────────
-    [getFormValue]() {
-        return this.checked ? 'on' : null;
-    }
-    [getFormState]() {
-        return String(this.checked);
-    }
     formResetCallback() {
-        this.checked = this.defaultChecked ?? false;
+        super.formResetCallback();
         this.indeterminate = false;
     }
-    formStateRestoreCallback(state) {
-        this.checked = state === 'true';
+    // ── Protected methods ────────────────────────────────────────────────────
+    valueMissingText() {
+        return peacockString('valueMissingCheckbox');
     }
-    // ── Private methods ──────────────────────────────────────────────────────
-    handleInitialAttributes() {
-        if (this.hasAttribute('tabindex')) {
-            this.tabindex = this.getAttribute('tabindex') || undefined;
-            this.removeAttribute('tabindex');
-        }
-        Array.from(this.attributes).forEach(attr => {
-            if (attr.name.startsWith('aria-')) {
-                this.configAria[attr.name] = attr.value;
-                this.removeAttribute(attr.name);
-            }
-        });
+    afterToggle() {
+        this.indeterminate = false;
     }
     // ── Render ───────────────────────────────────────────────────────────────
     render() {
@@ -445,21 +369,17 @@ let Checkbox = class Checkbox extends mixinFormAssociated(mixinElementInternals(
         <div
           id="container"
           class="container"
-          tabindex=${this.tabindex || 0}
-          @keyup=${this.handleKeyUp}
-          @mousedown=${this.mouseDownHandler}
-          @keydown=${this.keyDownHandler}
-          @blur=${this.blurHandler}
-          @focus=${this.focusHandler}
           role="checkbox"
-          aria-disabled=${this.disabled}
-          aria-required=${this.required}
           aria-checked=${this.checked
             ? 'true'
             : this.indeterminate
                 ? 'mixed'
                 : 'false'}
-          ${spread(this.configAria)}
+          @mousedown=${this.handleMouseDown}
+          @keydown=${this.keyDownHandler}
+          @focus=${this.handleFocusChange}
+          @blur=${this.handleFocusChange}
+          ${spread(this.controlAttributes())}
         >
           <wc-ripple class="ripple"></wc-ripple>
           <wc-focus-ring class="focus-ring" for="container"></wc-focus-ring>
@@ -488,32 +408,19 @@ let Checkbox = class Checkbox extends mixinFormAssociated(mixinElementInternals(
         <input
           type="checkbox"
           class="input-native"
-          name=${this.name}
           .checked=${this.checked}
           .indeterminate=${this.indeterminate}
           aria-hidden="true"
-          ?required=${this.required}
           tabindex="-1"
           @click=${this.clickHandler}
         />
 
-        ${this.label
-            ? b `<div class="label">${this.label}</div>`
-            : b `<div class="label slot-container"><slot></slot></div>`}
+        ${this.renderLabel()}
       </label>
     `;
     }
 };
 Checkbox.styles = [css_248z];
-__decorate([
-    n({ type: String })
-], Checkbox.prototype, "label", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Checkbox.prototype, "checked", void 0);
-__decorate([
-    n({ type: Boolean })
-], Checkbox.prototype, "value", null);
 __decorate([
     n({ type: Boolean, reflect: true })
 ], Checkbox.prototype, "indeterminate", void 0);
@@ -523,27 +430,6 @@ __decorate([
 __decorate([
     n({ type: String })
 ], Checkbox.prototype, "size", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Checkbox.prototype, "required", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Checkbox.prototype, "readonly", void 0);
-__decorate([
-    n({ type: Object })
-], Checkbox.prototype, "configAria", void 0);
-__decorate([
-    r()
-], Checkbox.prototype, "hasFocus", void 0);
-__decorate([
-    r()
-], Checkbox.prototype, "isActive", void 0);
-__decorate([
-    r()
-], Checkbox.prototype, "slotHasContent", void 0);
-__decorate([
-    e$1('.container')
-], Checkbox.prototype, "containerElement", void 0);
 Checkbox = __decorate([
     IndividualComponent
 ], Checkbox);

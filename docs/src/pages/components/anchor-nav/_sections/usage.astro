@@ -1,0 +1,61 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-anchor-nav</code> is the "On this page" list of a long settings or documentation page.
+  Point <code>for</code> at the element holding the content: it lists its <code>h2</code> and
+  <code>h3</code> headings and marks the section being read with
+  <code>aria-current="location"</code>. Pressing a link scrolls to the section (smoothly, unless
+  reduced motion is on) and moves focus to its heading.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; gap: 1.5rem; inline-size: 100%;'>
+    <wc-anchor-nav for='anchor-nav-demo' headline='On this page' style='flex: none; inline-size: 10rem;'></wc-anchor-nav>
+    <wc-scroll-area style='block-size: 16rem; flex: 1;'>
+      <article id='anchor-nav-demo' style='padding-inline-end: 1rem;'>
+        <h2 id='anchor-profile'>Profile</h2>
+        <p style='min-block-size: 10rem;'>Name, photo and the email people see.</p>
+        <h3 id='anchor-photo'>Photo</h3>
+        <p style='min-block-size: 8rem;'>A square image of at least 256 pixels.</p>
+        <h2 id='anchor-notifications'>Notifications</h2>
+        <p style='min-block-size: 10rem;'>Email, push and in-app notifications.</p>
+        <h2 id='anchor-security'>Security</h2>
+        <p style='min-block-size: 10rem;'>Password, passkeys and sessions.</p>
+        <h2 id='anchor-danger'>Delete account</h2>
+        <p>Short last sections are current at the end.</p>
+      </article>
+    </wc-scroll-area>
+  </div>
+</DemoComponentCard>
+
+<h3>Items</h3>
+<p>
+  For sections that are not headings, or labels that differ from them, set <code>items</code> to
+  <code>{'{ id, label, level? }'}</code> objects (<code>level</code> 2 nests under the item
+  before). <code>items</code> wins over <code>for</code>.
+</p>
+
+<h3>Scroll containers, sticky and the address bar</h3>
+<ul>
+  <li>
+    The sections may scroll inside an element, such as a <code>wc-scroll-area</code>: the nav uses
+    their nearest scrolling ancestor, or the element <code>scroll-container</code> selects.
+  </li>
+  <li>
+    The nav does not stick in place by itself. In a sidebar, give it <code>position: sticky</code>
+    and a <code>top</code>. When a sticky header covers the content, set
+    <code>scroll-margin-top</code> on the headings.
+  </li>
+  <li>
+    <code>update-hash</code> puts the section in the address bar with
+    <code>history.replaceState()</code> when a link is pressed, without adding history entries.
+  </li>
+  <li>
+    The nav is a <code>nav</code> landmark named "On this page", or by <code>headline</code> when
+    there is one, or by <code>label</code>.
+  </li>
+</ul>

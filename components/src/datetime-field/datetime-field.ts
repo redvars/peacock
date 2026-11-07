@@ -2,17 +2,17 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import PickerField from '@/__internal/picker-field.js';
+import PickerField, { type ValueProblem } from '@/__internal/picker-field.js';
 import {
   type HourCycle,
   type WeekDay,
   formatDate,
   formatTime,
   localeDatePattern,
-  localeHourCycle,
   parseDateText,
   parseIsoDateTime,
   parseTimeText,
+  resolveHourCycle,
   todayIso,
 } from '@/__internal/utils/date.js';
 import styles from './datetime-field.scss';
@@ -35,7 +35,7 @@ import styles from './datetime-field.scss';
  *
  * @example
  * ```html
- * <wc-datetime-field label="Meeting" value="2026-11-06T09:30" step="15"></wc-datetime-field>
+ * <wc-datetime-field label="Meeting" value="2026-11-06T09:30" minute-step="15"></wc-datetime-field>
  * ```
  * @tags input, form
  */
@@ -54,7 +54,10 @@ export class DatetimeField extends PickerField {
   @property({ type: String }) max = '';
 
   /** Minutes between entries in the minute column. */
-  @property({ type: Number }) step = 1;
+  @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
+
+  /** The time's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
+  @property({ type: Boolean }) seconds = false;
 
   /** `h12` or `h23`; defaults to the locale's. */
   @property({ type: String, attribute: 'hour-cycle' }) hourCycle?: HourCycle;
@@ -63,11 +66,19 @@ export class DatetimeField extends PickerField {
   @property({ type: Number, attribute: 'first-day-of-week' })
   firstDayOfWeek?: WeekDay;
 
+  /** Shows Today and Clear buttons in the calendar. */
+  @property({ type: Boolean, attribute: 'show-actions' }) showActions = false;
+
+  /** Return true for dates that cannot be picked, such as holidays. */
+  @property({ attribute: false }) isDateDisabled?: (iso: string) => boolean;
+
   // ── Protected fields ─────────────────────────────────────────────────────
 
   protected readonly pickerIcon = 'calendar_clock';
 
-  protected readonly pickerLabel = 'Choose date and time';
+  protected get pickerLabel(): string {
+    return this.i18n.t('chooseDateAndTime');
+  }
 
   // ── Protected methods ────────────────────────────────────────────────────
 
@@ -94,7 +105,7 @@ export class DatetimeField extends PickerField {
       timePart = trimmed.slice(at + 1);
     }
     const date = parseDateText(datePart, this.resolvedLocale);
-    const time = parseTimeText(timePart);
+    const time = parseTimeText(timePart, this.seconds);
     return date && time ? `${date}T${time}` : null;
   }
 
@@ -102,22 +113,48 @@ export class DatetimeField extends PickerField {
     const parts = parseIsoDateTime(value);
     if (!parts) return '';
     const locale = this.resolvedLocale;
-    return `${formatDate(parts.date, locale)}, ${formatTime(parts.time, locale, this.resolvedHourCycle)}`;
+    const time = formatTime(
+      parts.time,
+      locale,
+      this.resolvedHourCycle,
+      this.seconds,
+    );
+    return `${formatDate(parts.date, locale)}, ${time}`;
   }
 
   protected formatHint(): string {
-    const time = this.resolvedHourCycle === 'h12' ? 'hh:mm AM' : 'hh:mm';
+    const base = this.seconds ? 'hh:mm:ss' : 'hh:mm';
+    const time = this.resolvedHourCycle === 'h12' ? `${base} AM` : base;
     return `${localeDatePattern(this.resolvedLocale)}, ${time}`;
   }
 
-  protected validateValue(value: string): string {
+  protected validateValue(value: string): ValueProblem | null {
+    const date = parseIsoDateTime(value)?.date ?? '';
+    if (date && this.isDateDisabled?.(date)) {
+      return {
+        flag: 'badInput',
+        message: this.i18n.t('dateUnavailable')(
+          formatDate(date, this.resolvedLocale),
+        ),
+      };
+    }
     if (this.min && value < this.min) {
-      return `Pick a time on or after ${this.formatValue(this.min)}`;
+      return {
+        flag: 'rangeUnderflow',
+        message: this.i18n.t('pickDateTimeOnOrAfter')(
+          this.formatValue(this.min),
+        ),
+      };
     }
     if (this.max && value > this.max) {
-      return `Pick a time on or before ${this.formatValue(this.max)}`;
+      return {
+        flag: 'rangeOverflow',
+        message: this.i18n.t('pickDateTimeOnOrBefore')(
+          this.formatValue(this.max),
+        ),
+      };
     }
-    return '';
+    return null;
   }
 
   protected renderPicker() {
@@ -138,6 +175,8 @@ export class DatetimeField extends PickerField {
           max=${maxParts?.date ?? ''}
           locale=${this.locale}
           .firstDayOfWeek=${this.firstDayOfWeek}
+          ?show-actions=${this.showActions}
+          .isDateDisabled=${this.isDateDisabled}
           ?disabled=${this.disabled}
           ?readonly=${this.readonly}
           @change=${this.handleDateChange}
@@ -145,7 +184,8 @@ export class DatetimeField extends PickerField {
         <wc-time-picker
           class="time-picker"
           .value=${parts?.time ?? ''}
-          step=${this.step}
+          minute-step=${this.minuteStep}
+          ?seconds=${this.seconds}
           .hourCycle=${this.hourCycle}
           min=${timeMin}
           max=${timeMax}
@@ -162,20 +202,27 @@ export class DatetimeField extends PickerField {
   // ── Private getters ──────────────────────────────────────────────────────
 
   private get resolvedHourCycle(): HourCycle {
-    return this.hourCycle ?? localeHourCycle(this.resolvedLocale);
+    return resolveHourCycle(this.hourCycle, this.resolvedLocale);
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
 
   private handleDateChange(event: CustomEvent<{ value: string }>) {
     event.stopPropagation();
-    if (!event.detail.value) return;
-    const time = parseIsoDateTime(this.value)?.time ?? '00:00';
+    // The calendar's Clear button clears the whole value.
+    if (!event.detail.value) {
+      if (this.value) this.preview('');
+      return;
+    }
+    const time =
+      parseIsoDateTime(this.value)?.time ??
+      (this.seconds ? '00:00:00' : '00:00');
     this.preview(this.clamp(`${event.detail.value}T${time}`));
   }
 
   private handleTimeChange(event: CustomEvent<{ value: string }>) {
     event.stopPropagation();
+    if (!event.detail.value) return;
     const date = parseIsoDateTime(this.value)?.date ?? todayIso();
     this.preview(this.clamp(`${date}T${event.detail.value}`));
   }

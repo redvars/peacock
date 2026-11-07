@@ -1,0 +1,45 @@
+---
+export const title = 'Layout';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>layout="stacked"</code> (the default) puts each label above its value;
+  <code>layout="inline"</code> puts it beside, in a label column of the same width for every item
+  (<code>--description-list-label-width</code>, 12rem by default). <code>divided</code> draws a line
+  under every item.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 560px;'>
+    <wc-description-list layout='inline' divided>
+      <wc-description-item label='Status'>Active</wc-description-item>
+      <wc-description-item label='Plan'>Enterprise, billed yearly</wc-description-item>
+      <wc-description-item label='Renewal'>1 March 2027</wc-description-item>
+    </wc-description-list>
+  </div>
+</DemoComponentCard>
+
+<h3>Columns</h3>
+<p>
+  <code>columns</code> (1 to 4) puts the items in a grid. The grid follows the list's own width, not
+  the window's: below 40rem it shows at most two columns, and below 24rem one, where inline items
+  stack too. <code>span</code> makes an item take a whole row.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-description-list columns='3'>
+      <wc-description-item label='Status'>Active</wc-description-item>
+      <wc-description-item label='Owner'>Ana Lima</wc-description-item>
+      <wc-description-item label='Priority'>High</wc-description-item>
+      <wc-description-item label='Created'>12 March 2026</wc-description-item>
+      <wc-description-item label='Updated'>2 November 2026</wc-description-item>
+      <wc-description-item label='Due date'></wc-description-item>
+      <wc-description-item label='Description' span>
+        Replace the lobby lights with LED panels and add motion sensors on every floor.
+      </wc-description-item>
+    </wc-description-list>
+  </div>
+</DemoComponentCard>

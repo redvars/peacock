@@ -55,6 +55,10 @@
   }
 
   &.indeterminate {
+    .circular-progress-container {
+      animation: rotate-container 2s linear infinite;
+    }
+
     .active-indicator {
       animation: arc-indeterminate 1.5s ease-in-out infinite;
     }
@@ -88,17 +92,29 @@
   100% { transform: rotate(360deg); }
 }
 
+// Sized for the r=6 circle the component draws (circumference ≈ 37.7): the arc grows to about
+// three quarters, then shrinks as it runs around. (The old values were for r=20, so the arc spent
+// most of the cycle in the gap and the spinner looked empty.)
 @keyframes arc-indeterminate {
   0% {
-    stroke-dasharray: 1, 150;
+    stroke-dasharray: 0.5, 38;
     stroke-dashoffset: 0;
   }
   50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
+    stroke-dasharray: 28, 38;
+    stroke-dashoffset: -9;
   }
   100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
+    stroke-dasharray: 28, 38;
+    stroke-dashoffset: -37.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circular-progress.indeterminate {
+    .circular-progress-container,
+    .active-indicator {
+      animation-duration: 6s;
+    }
   }
 }

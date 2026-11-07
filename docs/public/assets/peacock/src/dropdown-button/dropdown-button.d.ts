@@ -1,16 +1,19 @@
 import { LitElement } from 'lit';
+import type { OverlayPlacement } from '@/__internal/utils/placement.js';
+import type { MenuFocusTarget } from '../menu/menu/menu.js';
 /**
  * @label Dropdown Button
  * @tag wc-dropdown-button
  * @rawTag dropdown-button
  *
- * @summary A button that opens a dropdown menu when clicked.
+ * @summary A button that opens a menu of actions or options.
  * @overview
- * <p>The dropdown button combines a single button with a dropdown menu. Clicking the button toggles a menu of actions or options. It follows M3 Material Design, keeping a compact control while exposing related actions on demand.</p>
+ * <p>Clicking the button opens its menu, and clicking it again closes it.</p>
  *
  * @cssprop --dropdown-button-container-shape: Defines the border radius of the dropdown button container shape.
  *
- * @fires {CustomEvent} toggle-menu - Dispatched when the dropdown menu is opened or closed.
+ * @fires {CustomEvent} open - Dispatched after the menu opens.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` `api`.
  *
  * @example
  * ```html
@@ -49,20 +52,21 @@ export declare class DropdownButton extends LitElement {
      */
     disabled: boolean;
     /**
-     * Menu placement relative to the button.
-     * Possible values are `"bottom-start"`, `"bottom-end"`, `"top-start"`, `"top-end"`. Defaults to `"bottom-start"`.
+     * Where the menu opens relative to the button: `top`, `bottom`, `start` or `end`, optionally
+     * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
+     * Defaults to `"bottom-start"`.
      */
-    placement: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
-    private _menuOpen;
-    private readonly _triggerButton;
-    private readonly _menu;
-    private _menuId;
+    placement: OverlayPlacement;
+    /** Visual variant of the menu: one surface (`"standard"`) or segmented groups (`"expressive"`). */
+    menuVariant: 'standard' | 'expressive';
+    private readonly _triggerButton?;
+    private readonly _menu?;
+    /** Opens and closes the menu and fires `open` / `close`. */
+    private readonly _trigger;
     focus(): void;
-    private _onButtonClick;
-    private _onMenuOpened;
-    private _onMenuClosed;
-    private _onKeyDown;
-    connectedCallback(): void;
-    disconnectedCallback(): void;
+    /** Opens the menu and focuses its first (or last) item. */
+    show(focusTarget?: MenuFocusTarget): void;
+    /** Closes the menu. */
+    close(): void;
     render(): import("lit-html").TemplateResult<1>;
 }

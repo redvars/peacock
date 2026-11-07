@@ -25,10 +25,10 @@
 
   &.connect-start .line-start {
     width: var(--cb-divider-arm-length, 1rem);
-    margin-left: var(--cb-divider-arm-length, 1rem);
+    margin-inline-start: var(--cb-divider-arm-length, 1rem);
     border-inline-start: 1px solid var(--cb-divider-line-color);
     border-top: 1px solid var(--cb-divider-line-color);
-    border-radius: var(--shape-corner-extra-small) 0 0 0;
+    border-start-start-radius: var(--shape-corner-extra-small);
   }
 
   &:not(.connect-start) .line-start {
@@ -37,10 +37,10 @@
 
   &.connect-end .line-end {
     width: var(--cb-divider-arm-length, 1rem);
-    margin-left: var(--cb-divider-arm-length, 1rem);
+    margin-inline-start: var(--cb-divider-arm-length, 1rem);
     border-inline-start: 1px solid var(--cb-divider-line-color);
     border-bottom: 1px solid var(--cb-divider-line-color);
-    border-radius: 0 0 0 var(--shape-corner-extra-small);
+    border-end-start-radius: var(--shape-corner-extra-small);
   }
 
   &:not(.connect-end) .line-end {
@@ -66,8 +66,8 @@
     height: 1rem;
     margin-top: 1rem;
     border-top: 1px solid var(--cb-divider-line-color);
-    border-left: 1px solid var(--cb-divider-line-color);
-    border-radius: var(--shape-corner-extra-small) 0 0 0;
+    border-inline-start: 1px solid var(--cb-divider-line-color);
+    border-start-start-radius: var(--shape-corner-extra-small);
   }
 
   &:not(.connect-start) .line-start {
@@ -78,8 +78,8 @@
     height: 1rem;
     margin-top: 1rem;
     border-top: 1px solid var(--cb-divider-line-color);
-    border-right: 1px solid var(--cb-divider-line-color);
-    border-radius: 0 var(--shape-corner-extra-small) 0 0;
+    border-inline-end: 1px solid var(--cb-divider-line-color);
+    border-start-end-radius: var(--shape-corner-extra-small);
   }
 
   &:not(.connect-end) .line-end {

@@ -1,0 +1,509 @@
+@use '../../scss/mixin';
+@use '../__internal/rich-text/editor-chrome';
+
+@include mixin.base-styles;
+@include editor-chrome.styles;
+
+:host {
+  display: block;
+  block-size: var(--document-editor-height, 40rem);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  overflow: hidden;
+  background: var(--color-surface);
+  // Pagination takes the page gaps out to measure and puts them back on every change, and the
+  // comment threads move as the text does. Scroll anchoring would follow those moves and scroll
+  // the page around the editor while someone types, so nothing in the editor is an anchor.
+  overflow-anchor: none;
+}
+
+.document {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.toolbar {
+  flex: none;
+  padding-inline: var(--spacing-100, 0.5rem);
+  background: var(--color-surface);
+}
+
+// ── Workspace: outline and pages ────────────────────────────────────────────
+
+.workspace {
+  display: flex;
+  flex: 1;
+  min-block-size: 0;
+}
+
+.outline {
+  flex: none;
+  inline-size: 15rem;
+  overflow-y: auto;
+  padding: var(--spacing-200, 1rem) var(--spacing-100, 0.5rem);
+  border-inline-end: 1px solid var(--color-outline-variant);
+  border-radius: 0;
+  background: var(--color-surface);
+  @include mixin.get-typography-not-important(body-medium);
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    @include mixin.reset-button-styles;
+
+    display: block;
+    inline-size: 100%;
+    padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+    border-radius: var(--shape-corner-small);
+    color: var(--color-on-surface-variant);
+    text-align: start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--color-surface-container-high);
+      color: var(--color-on-surface);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -2px;
+    }
+
+    &.current {
+      background: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+    }
+  }
+
+  .level-1 button {
+    font-weight: 500;
+  }
+
+  .level-2 button {
+    padding-inline-start: var(--spacing-200, 1rem);
+  }
+
+  .level-3 button {
+    padding-inline-start: var(--spacing-300, 1.5rem);
+  }
+}
+
+.outline-title {
+  padding: 0 var(--spacing-100, 0.5rem) var(--spacing-100, 0.5rem);
+  color: var(--color-on-surface);
+  @include mixin.get-typography-not-important(title-small);
+}
+
+.outline-empty {
+  margin: 0;
+  padding: 0 var(--spacing-100, 0.5rem);
+  color: var(--color-on-surface-variant);
+}
+
+@media (max-width: 47.99rem) {
+  .outline {
+    display: none;
+  }
+}
+
+.workspace {
+  container-type: inline-size;
+}
+
+.canvas {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: auto;
+  // A scrollbar coming and going would change the fit-width zoom, and with it the height.
+  scrollbar-gutter: stable;
+  // The editor keeps its own scroll position (zoom, pagination), so the canvas does not anchor.
+  overflow-anchor: none;
+  padding: var(--spacing-300, 1.5rem);
+  background: var(--document-editor-canvas, var(--color-surface-container));
+}
+
+// Narrow editors (phones, a docs column) give the page the room the padding would take.
+@container (max-width: 40rem) {
+  .canvas {
+    padding: var(--spacing-100, 0.5rem);
+  }
+}
+
+// Takes the zoomed size of the sheet, so the canvas scrolls over what is shown.
+.zoom-frame {
+  margin-inline: auto;
+}
+
+// The pages at their real size; the zoom scales them from the top-left corner.
+.sheet {
+  position: relative;
+  inline-size: var(--_page-width);
+  transform-origin: 0 0;
+}
+
+.pages {
+  position: relative;
+}
+
+// The comments column: a panel beside the pages that stays in view however narrow the editor is.
+// Its track moves with the canvas's scroll, so each thread stays beside its text.
+.comments {
+  position: relative;
+  flex: none;
+  inline-size: min(var(--document-editor-comments-width, 20rem), 45%);
+  overflow: hidden;
+  border-inline-start: 1px solid var(--color-outline-variant);
+  border-radius: 0;
+  background: var(--document-editor-canvas, var(--color-surface-container));
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.comments-track {
+  position: relative;
+  margin-inline: var(--spacing-150, 0.75rem);
+  will-change: transform;
+}
+
+::slotted([slot='comments']) {
+  position: absolute;
+  inset-inline: 0;
+  display: block;
+  box-sizing: border-box;
+  padding: var(--spacing-150, 0.75rem);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-level1);
+  transition: top 0.15s ease;
+}
+
+::slotted([data-active]) {
+  outline: 2px solid var(--color-tertiary, var(--color-primary));
+  box-shadow: var(--elevation-level2);
+}
+
+::slotted([data-orphan]) {
+  opacity: 0.7;
+}
+
+// Other people's carets and names in a shared document; the color comes inline from each person.
+.collaboration-carets__caret {
+  position: relative;
+  margin-inline: -1px;
+  border-inline: 1px solid;
+  border-radius: 0;
+  pointer-events: none;
+  word-break: normal;
+}
+
+.collaboration-carets__label {
+  position: absolute;
+  inset-block-start: -1.35em;
+  inset-inline-start: -1px;
+  padding: 0.05rem 0.3rem;
+  border-radius: var(--shape-corner-extra-small);
+  color: var(--color-on-primary, #fff);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.people {
+  margin-inline-end: var(--spacing-100, 0.5rem);
+}
+
+.printing .collaboration-carets__caret,
+.printing .collaboration-carets__label {
+  display: none;
+}
+
+// Commented text, and the text of the active thread.
+.ProseMirror .comment-mark {
+  background: var(--document-editor-comment, var(--color-tertiary-container));
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.ProseMirror .comment-active {
+  background: var(
+    --document-editor-comment-active,
+    color-mix(in srgb, var(--color-tertiary, var(--color-primary)) 30%, transparent)
+  );
+  border-block-end: 2px solid var(--color-tertiary, var(--color-primary));
+  border-radius: 0;
+}
+
+.printing .comment-mark,
+.printing .comment-active {
+  background: none;
+  border: 0;
+}
+
+.page {
+  position: absolute;
+  inset-inline: 0;
+  background: var(--document-editor-page, var(--color-surface-container-lowest));
+  box-shadow: var(--elevation-level1);
+  border-radius: var(--shape-corner-extra-small);
+}
+
+// Covers each page boundary (bottom margin, gap, next top margin) above the body, so nothing
+// that crosses it, such as the borders of a table row moved to the next page, shows there. Body
+// content never sits in the margins, so the mask hides nothing that belongs.
+.page-mask {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.mask-sheet {
+  background: var(--document-editor-page, var(--color-surface-container-lowest));
+
+  &.bottom {
+    block-size: var(--_bottom);
+  }
+
+  &.top {
+    block-size: var(--_top);
+  }
+}
+
+.mask-gap {
+  block-size: var(--_gap);
+  background: var(--document-editor-canvas, var(--color-surface-container));
+}
+
+.printing .mask-gap {
+  display: none;
+}
+
+// ── Header and footer ───────────────────────────────────────────────────────
+
+.marginal-copy,
+.marginal-live {
+  position: absolute;
+  z-index: 3;
+  overflow: hidden;
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+
+  p {
+    margin: 0;
+  }
+
+  .page-number {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.marginal-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: var(--shape-corner-extra-small);
+  cursor: default;
+
+  &:hover {
+    outline: 1px dashed var(--color-outline);
+    outline-offset: 2px;
+  }
+
+  &.hidden {
+    visibility: hidden;
+  }
+}
+
+:host([readonly]) .marginal-copy:hover,
+:host([disabled]) .marginal-copy:hover {
+  outline: none;
+}
+
+.marginal-live {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  overflow: visible;
+  outline: 1px dashed var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--shape-corner-extra-small);
+
+  &.active {
+    display: flex;
+  }
+
+  .ProseMirror {
+    min-block-size: 1lh;
+  }
+
+  .page-number {
+    padding: 0 0.25em;
+    border-radius: var(--shape-corner-extra-small);
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+}
+
+.marginal-tag {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: calc(100% + 4px);
+  padding: 0 var(--spacing-050, 0.25rem);
+  border-radius: var(--shape-corner-extra-small);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  @include mixin.get-typography-not-important(label-small);
+}
+
+.marginal-live.footer .marginal-tag {
+  inset-block-end: auto;
+  inset-block-start: calc(100% + 4px);
+}
+
+// ── Body ────────────────────────────────────────────────────────────────────
+
+.body {
+  position: absolute;
+  z-index: 1;
+  color: var(--color-on-surface);
+  @include mixin.get-typography-not-important(body-large);
+
+  .ProseMirror {
+    min-block-size: 2lh;
+  }
+
+  img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  .ProseMirror-selectednode img,
+  img.ProseMirror-selectednode {
+    outline: 2px solid var(--color-primary);
+  }
+
+  // Tiptap's resizable image.
+  [data-resize-handle] {
+    background: var(--color-primary);
+    border-radius: var(--shape-corner-full);
+  }
+}
+
+// Pushes content to the next page; never selected or edited.
+.page-spacer {
+  display: block;
+  inline-size: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+// A table row moved to the next page: its cells get the gap as extra top padding, and a block in
+// the page color covers that padding, borders included, so no empty cells show at the bottom of
+// the page. Its bottom edge is the row's top border on the new page.
+.ProseMirror td.page-gap,
+.ProseMirror th.page-gap {
+  position: relative;
+  padding-block-start: calc(0.35em + var(--page-gap-before, 0px));
+
+  &::before {
+    content: '';
+    position: absolute;
+    // Below the row above's bottom border, which closes the table on the page before.
+    inset-inline: -1px;
+    inset-block-start: 1px;
+    block-size: calc(var(--page-gap-before, 0px) - 1px);
+    background: var(--document-editor-page, var(--color-surface-container-lowest));
+    border-block-end: 1px solid var(--color-outline-variant);
+    border-radius: 0;
+    pointer-events: none;
+  }
+}
+
+.page-break {
+  position: relative;
+  block-size: 1.5rem;
+  margin: 0.5rem 0;
+  border-block-start: 1px dashed var(--color-outline);
+  border-radius: 0;
+  cursor: default;
+
+  &::after {
+    content: attr(data-label);
+    position: absolute;
+    inset-block-start: -0.7rem;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    padding: 0 var(--spacing-100, 0.5rem);
+    background: var(--document-editor-page, var(--color-surface-container-lowest));
+    color: var(--color-on-surface-variant);
+    @include mixin.get-typography-not-important(label-small);
+  }
+
+  &.ProseMirror-selectednode {
+    border-block-start-color: var(--color-primary);
+  }
+}
+
+// ── Toolbar extras ──────────────────────────────────────────────────────────
+
+.swatch {
+  display: inline-block;
+  inline-size: 1rem;
+  block-size: 1rem;
+  border-radius: var(--shape-corner-full);
+}
+
+// ── Status bar ──────────────────────────────────────────────────────────────
+
+.status-bar {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem) var(--spacing-150, 0.75rem);
+  padding: var(--spacing-025, 0.125rem) var(--spacing-150, 0.75rem);
+  border-block-start: 1px solid var(--color-outline-variant);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+.status-spacer {
+  flex: 1;
+}
+
+.status-text {
+  white-space: nowrap;
+}
+
+// ── Printing: no gaps, no chrome ────────────────────────────────────────────
+
+.printing .canvas {
+  padding: 0;
+}
+
+.printing .page {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+:host([disabled]) .pages {
+  opacity: 0.6;
+}

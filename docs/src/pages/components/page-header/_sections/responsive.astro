@@ -1,0 +1,24 @@
+---
+export const title = 'Heading level and narrow widths';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A header inside a section of the page takes another level with <code>heading-level</code>
+  (1 to 6). The header responds to its own width, not the viewport's: in a container narrower than
+  600px the actions wrap onto their own row under the title and the headline steps down a size.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 360px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'>
+    <wc-page-header
+      headline='Team members'
+      heading-level='2'
+      supporting-text='12 people'
+    >
+      <wc-button slot='actions' variant='outlined'>Export</wc-button>
+      <wc-button slot='actions'>Invite</wc-button>
+    </wc-page-header>
+  </div>
+</DemoComponentCard>

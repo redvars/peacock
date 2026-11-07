@@ -22,6 +22,24 @@ function isD3CircularDependencyWarning(warning) {
   );
 }
 
+/**
+ * Monaco's language modes keep a fallback `new Worker(new URL('ts.worker.js', import.meta.url))`.
+ * wc-code-editor never uses it (it sets `MonacoEnvironment.getWorker`), but an app's bundler
+ * follows the URL and fails, since the workers are built into `monaco/`. Point it there.
+ */
+function monacoWorkerUrls() {
+  return {
+    name: 'monaco-worker-urls',
+    renderChunk(code) {
+      const fixed = code.replace(
+        /new URL\((['"])((?:editor|ts|json)\.worker\.js)\1, import\.meta\.url\)/g,
+        (_, quote, file) => `new URL(${quote}./monaco/${file}${quote}, import.meta.url)`,
+      );
+      return fixed === code ? null : { code: fixed, map: null };
+    },
+  };
+}
+
 export default async function () {
   rmSync('dist', { recursive: true, force: true });
 
@@ -31,6 +49,9 @@ export default async function () {
       // shipped-icons is an entry of its own so loader-full.js runs it before loader.js; inlined, it
       // would run after.
       input: ['src/index.ts', 'src/loader.ts', 'src/loader-full.ts', 'src/shipped-icons.ts', ...files], // Your main TypeScript entry file
+      // Yjs is a peer dependency: the app's collaboration provider and the document editor must
+      // share one copy, or Yjs's type checks fail. It loads only when collaboration is turned on.
+      external: id => id === 'yjs' || id.startsWith('yjs/'),
       output: {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
@@ -60,6 +81,7 @@ export default async function () {
           include: 'src/**/*.scss',
           silenceDeprecations: ['legacy-js-api'],
         }),
+        monacoWorkerUrls(),
 
         copy({
           targets: [

@@ -5,10 +5,16 @@ import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <p>
   <code>menu-item-activate</code> bubbles from the menu with the activated item.
-  <code>opened</code> and <code>closed</code> fire on the menu itself and do not bubble, so a submenu
-  opening or closing does not reach a listener on its parent menu. <code>closed</code> carries the reason:
-  <code>click-selection</code>, <code>keydown</code> (with the key), <code>outside-click</code> or
-  <code>programmatic</code>.
+  <code>open</code> and <code>close</code> fire after the menu opens and closes. Like every Peacock overlay,
+  <code>close</code> carries <code>detail.reason</code>: <code>action</code> (an item was picked),
+  <code>escape</code>, <code>light-dismiss</code> (a press outside, or Tab moving focus out) or
+  <code>api</code> (<code>close()</code> or <code>open = false</code>). <code>detail.cause</code> keeps the
+  menu's detailed reason: <code>click-selection</code>, <code>keydown</code> (with the key),
+  <code>outside-click</code> or <code>programmatic</code>.
+</p>
+<p>
+  Both events bubble and cross shadow roots, so a submenu's events reach a listener on its parent menu.
+  Check <code>event.target</code> to handle only the menu's own.
 </p>
 <Highlighter lang={'javascript'} is:raw>const menu = document.querySelector('wc-menu');
 
@@ -16,6 +22,7 @@ menu.addEventListener('menu-item-activate', event => {
   console.log('Activated', event.detail.item.value);
 });
 
-menu.addEventListener('closed', event => {
-  console.log('Closed by', event.detail.reason.kind);
+menu.addEventListener('close', event => {
+  if (event.target !== menu) return;
+  console.log('Closed by', event.detail.reason, event.detail.cause.kind);
 });</Highlighter>

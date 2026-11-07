@@ -19,43 +19,43 @@
   --_line-border: var(--divider-line-thickness) solid var(--divider-color);
 
   &:not(.vertical) {
-    width: 100%;
-    padding: var(--divider-spacing) 0;
+    inline-size: 100%;
+    padding-block: var(--divider-spacing);
     align-items: center;
     justify-content: center;
 
     .line {
-      width: 100%;
-      border-top: var(--_line-border);
+      inline-size: 100%;
+      border-block-start: var(--_line-border);
     }
 
     &.slot-has-content .slot-container {
-      padding: 0 var(--spacing-200);
+      padding-inline: var(--spacing-200);
     }
   }
 
   &.vertical {
-    height: 100%;
-    padding: 0 var(--divider-spacing);
+    block-size: 100%;
+    padding-inline: var(--divider-spacing);
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
     .line {
-      height: 100%;
-      border-right: var(--_line-border);
+      block-size: 100%;
+      border-inline-end: var(--_line-border);
     }
 
     &.slot-has-content .slot-container {
-      padding: var(--spacing-200) 0;
+      padding-block: var(--spacing-200);
     }
   }
 }
 
-:host(:not([vertical])) {
-  width: auto;
+:host(:not([orientation='vertical'])) {
+  inline-size: auto;
 }
 
-:host([vertical]) {
-  height: auto;
+:host([orientation='vertical']) {
+  block-size: auto;
 }

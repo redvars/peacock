@@ -74,6 +74,179 @@ const { name, icon } = Astro.props;
   </div>
 )}
 
-{!['dashboard', 'login', 'signup', 'settings', 'data-table'].includes(name) && (
+{name === 'two-factor' && (
+  <div class='bp bp-auth bp-two-factor'>
+    <div class='bp-card'>
+      <span class='bp-dot'></span>
+      <span class='bp-line bp-short'></span>
+      <div class='bp-cells'><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <span class='bp-button'></span>
+      <span class='bp-line bp-short'></span>
+    </div>
+  </div>
+)}
+
+{name === 'onboarding' && (
+  <div class='bp bp-onboarding'>
+    <div class='bp-steps'>
+      <span class='bp-step bp-active'></span><i></i><span class='bp-step'></span><i></i><span class='bp-step'></span><i></i><span class='bp-step'></span>
+    </div>
+    <span class='bp-line bp-title'></span>
+    <div class='bp-row'><span class='bp-field'></span><span class='bp-field'></span></div>
+    <span class='bp-field bp-tall bp-drop'></span>
+    <div class='bp-row bp-end'><span class='bp-button bp-ghost'></span><span class='bp-button'></span></div>
+  </div>
+)}
+
+{name === 'pricing' && (
+  <div class='bp bp-pricing'>
+    <span class='bp-toggle'><i class='bp-active'></i><i></i></span>
+    <div class='bp-row bp-grow'>
+      {[0, 1, 2].map(plan => (
+        <div class={plan === 1 ? 'bp-plan bp-featured' : 'bp-plan'}>
+          <span class='bp-line bp-price'></span>
+          <span class='bp-line'></span>
+          <span class='bp-line'></span>
+          <span class='bp-line'></span>
+          <span class={plan === 1 ? 'bp-button' : 'bp-button bp-ghost'}></span>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+{name === 'record-detail' && (
+  <div class='bp bp-record'>
+    <div class='bp-record-head'>
+      <span class='bp-avatar'></span>
+      <div class='bp-record-title'><span class='bp-line'></span><span class='bp-pill'></span></div>
+      <span class='bp-button bp-ghost'></span><span class='bp-button'></span>
+    </div>
+    <div class='bp-tabs'><span class='bp-tab bp-active'></span><span class='bp-tab'></span><span class='bp-tab'></span></div>
+    <div class='bp-row'><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span></div>
+    <div class='bp-pairs'><span></span><span></span><span></span><span></span></div>
+  </div>
+)}
+
+{name === 'app-shell' && (
+  <div class='bp bp-app'>
+    <div class='bp-appbar'>
+      <span class='bp-logo'></span>
+      <span class='bp-line'></span>
+      <span class='bp-field bp-search'></span>
+      <span class='bp-avatar'></span>
+    </div>
+    <div class='bp-app-body'>
+      <div class='bp-side'>
+        <span class='bp-field bp-workspace'></span>
+        <span class='bp-line bp-accent'></span>
+        <span class='bp-line'></span>
+        <span class='bp-line'></span>
+        <span class='bp-line'></span>
+      </div>
+      <div class='bp-main'>
+        <span class='bp-line bp-title'></span>
+        <div class='bp-row'>
+          <span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span>
+        </div>
+        <div class='bp-row bp-grow'>
+          <span class='bp-panel'></span><span class='bp-panel'></span>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{name === 'kanban' && (
+  <div class='bp bp-kanban'>
+    <div class='bp-row bp-head'>
+      <span class='bp-line'></span><span class='bp-button'></span>
+    </div>
+    <div class='bp-columns'>
+      {[3, 2, 2, 1].map((count, column) => (
+        <div class='bp-column'>
+          <span class='bp-line bp-column-title'></span>
+          {Array.from({ length: count }, (_, card) => (
+            <span class={`bp-task bp-label-${(column + card) % 3}`}></span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+{name === 'calendar' && (
+  <div class='bp bp-calendar'>
+    <div class='bp-row bp-head'>
+      <span class='bp-line'></span><span class='bp-button'></span>
+    </div>
+    <div class='bp-calendar-body'>
+      <div class='bp-month'>
+        {Array.from({ length: 35 }, (_, day) => (
+          <span
+            class={
+              [3, 8, 9, 10, 16, 22, 25, 30].includes(day) ? 'bp-day bp-busy' : day === 12 ? 'bp-day bp-today' : 'bp-day'
+            }
+          ></span>
+        ))}
+      </div>
+      <div class='bp-agenda'>
+        <span class='bp-line bp-accent'></span>
+        <span class='bp-line'></span>
+        <span class='bp-line'></span>
+        <span class='bp-line'></span>
+      </div>
+    </div>
+  </div>
+)}
+
+{name === 'ticket' && (
+  <div class='bp bp-ticket'>
+    <div class='bp-ticket-main'>
+      <span class='bp-line bp-title'></span>
+      <span class='bp-line'></span>
+      <span class='bp-line'></span>
+      <div class='bp-comment'><span class='bp-avatar'></span><span class='bp-bubble'></span></div>
+      <div class='bp-comment'><span class='bp-avatar'></span><span class='bp-bubble bp-note'></span></div>
+      <span class='bp-field'></span>
+    </div>
+    <div class='bp-ticket-side'>
+      <span class='bp-field'></span>
+      <span class='bp-field'></span>
+      <span class='bp-field'></span>
+    </div>
+  </div>
+)}
+
+{name === 'assistant' && (
+  <div class='bp bp-assistant'>
+    <div class='bp-assistant-page'>
+      <span class='bp-line bp-title'></span>
+      <span class='bp-line'></span>
+      <div class='bp-assistant-tiles'><span></span><span></span><span></span></div>
+    </div>
+    <div class='bp-assistant-panel'>
+      <span class='bp-assistant-ask'></span>
+      <span class='bp-assistant-answer'></span>
+      <span class='bp-assistant-draft'></span>
+      <span class='bp-assistant-draft'></span>
+      <span class='bp-assistant-composer'></span>
+    </div>
+  </div>
+)}
+
+{name === 'home-ai' && (
+  <div class='bp bp-home-ai'>
+    <span class='bp-home-ai-search'></span>
+    <span class='bp-line bp-title'></span>
+    <div class='bp-home-ai-row'>
+      <span class='bp-home-ai-summary'></span>
+      <span class='bp-home-ai-stat'></span>
+    </div>
+    <div class='bp-assistant-tiles'><span></span><span></span><span></span></div>
+  </div>
+)}
+
+{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket', 'assistant', 'home-ai'].includes(name) && (
   <wc-icon class='bp-fallback' name={icon}></wc-icon>
 )}

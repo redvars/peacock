@@ -1,0 +1,47 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-stack</code> lays its children out in a column, or in a row with
+  <code>direction="horizontal"</code>. The element itself is the flex container, so the children
+  are its flex items with nothing in between. <code>gap</code> takes a step of the spacing scale:
+  <code>gap="200"</code> is <code>var(--spacing-200)</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stack gap='200' style='width: 100%; max-width: 320px;'>
+    <wc-card variant='outlined'><wc-card-content>First item</wc-card-content></wc-card>
+    <wc-card variant='outlined'><wc-card-content>Second item</wc-card-content></wc-card>
+    <wc-card variant='outlined'><wc-card-content>Third item</wc-card-content></wc-card>
+  </wc-stack>
+</DemoComponentCard>
+
+<h3>Rows</h3>
+<p>
+  A horizontal stack follows the writing direction, so it runs right to left in RTL.
+  <code>align</code> sets <code>align-items</code> (<code>start</code>, <code>center</code>,
+  <code>end</code>, <code>stretch</code>, <code>baseline</code>) and <code>justify</code> sets
+  <code>justify-content</code> (<code>start</code>, <code>center</code>, <code>end</code>,
+  <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>).
+  <code>wrap</code> lets the items wrap.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stack direction='horizontal' gap='100' align='center' justify='space-between' style='width: 100%;'>
+    <wc-avatar name='Ada Lovelace'></wc-avatar>
+    <span>Ada Lovelace</span>
+    <wc-button>Follow</wc-button>
+  </wc-stack>
+</DemoComponentCard>
+
+<h3>Spacing steps</h3>
+<p>
+  The steps are <code>000</code>, <code>025</code>, <code>050</code>, <code>075</code>,
+  <code>100</code>, <code>150</code>, <code>200</code>, <code>250</code>, <code>300</code>,
+  <code>400</code>, <code>500</code>, <code>600</code>, <code>800</code>, <code>1000</code>,
+  <code>1200</code> and <code>2000</code>. Without <code>gap</code> there is none; a
+  <code>style="gap: …"</code> on the element still wins.
+</p>

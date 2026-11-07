@@ -59,7 +59,7 @@
 .preview-close {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  inset-inline-end: 1rem;
   background: transparent;
   border: none;
   color: var(--color-white);

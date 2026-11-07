@@ -6,7 +6,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p>
   Anchor a menu to a button with <code>anchor</code> and toggle <code>open</code>. The menu opens in the
   browser's top layer and moves focus to the selected item, or the first one. A selected item shows a
-  check mark, an item with a <code>wc-sub-menu</code> shows a chevron, and a disabled item is dimmed and
+  check mark (give it <code>type="checkbox"</code> or <code>type="radio"</code> so the state is announced,
+  see Choices), an item with a <code>wc-sub-menu</code> shows a chevron, and a disabled item is dimmed and
   skipped by the keyboard.
 </p>
 <DemoComponentCard lang={'html'}>
@@ -21,7 +22,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       <wc-icon name='settings' slot='start'></wc-icon>
       Account settings
     </wc-menu-item>
-    <wc-menu-item value='notifications' selected>Notifications</wc-menu-item>
+    <wc-menu-item value='notifications' type='checkbox' selected>Notifications</wc-menu-item>
     <wc-divider></wc-divider>
     <wc-sub-menu>
       <wc-menu-item slot='item' value='appearance'>
@@ -29,9 +30,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         Appearance
       </wc-menu-item>
       <wc-menu slot='menu' aria-label='Appearance'>
-        <wc-menu-item value='theme-light'>Light</wc-menu-item>
-        <wc-menu-item value='theme-dark'>Dark</wc-menu-item>
-        <wc-menu-item value='theme-system' selected>System</wc-menu-item>
+        <wc-menu-item value='theme-light' type='radio'>Light</wc-menu-item>
+        <wc-menu-item value='theme-dark' type='radio'>Dark</wc-menu-item>
+        <wc-menu-item value='theme-system' type='radio' selected>System</wc-menu-item>
       </wc-menu>
     </wc-sub-menu>
     <wc-menu-item disabled>Billing (disabled)</wc-menu-item>

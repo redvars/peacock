@@ -1,0 +1,96 @@
+<wc-command-palette
+  id="site-search"
+  search="managed"
+  shortcut="mod+k"
+  label="Search docs"
+  placeholder="Search components, foundations and the blog"
+></wc-command-palette>
+
+<script type="module" is:inline>
+  // Site search: the Pagefind index, built by astro-pagefind, searched through wc-command-palette.
+  const MAX_RESULTS = 10;
+  // A variable, so the bundler leaves the runtime import of the generated index alone.
+  const PAGEFIND_URL = '/pagefind/pagefind.js';
+
+  const SECTIONS = [
+    ['/components/', 'Components'],
+    ['/charts/', 'Charts'],
+    ['/foundations/', 'Foundations'],
+    ['/frameworks/', 'Frameworks'],
+    ['/blog/', 'Blog'],
+  ];
+
+  /** The heading a page is listed under, from its URL. */
+  function sectionOf(url) {
+    const path = new URL(url, location.origin).pathname;
+    const match = SECTIONS.find(([prefix]) => path.startsWith(prefix));
+    return match ? match[1] : 'Pages';
+  }
+
+  /** Pagefind excerpts are HTML with <mark>; the palette highlights matches itself. */
+  function toText(html) {
+    return new DOMParser().parseFromString(html ?? '', 'text/html').body.textContent?.trim() ?? '';
+  }
+
+  let pagefindPromise;
+  function loadPagefind() {
+    pagefindPromise ??= import(PAGEFIND_URL).then(async pagefind => {
+      await pagefind.init();
+      return pagefind;
+    });
+    return pagefindPromise;
+  }
+
+  await customElements.whenDefined('wc-command-palette');
+  const palette = document.getElementById('site-search');
+  let latest = 0;
+
+  palette.addEventListener('open', () => {
+    loadPagefind().catch(() => {});
+  });
+
+  palette.addEventListener('search', async event => {
+    const query = event.detail.value.trim();
+    const ticket = ++latest;
+    if (!query) {
+      palette.loading = false;
+      palette.commands = [];
+      return;
+    }
+    palette.loading = true;
+    try {
+      const pagefind = await loadPagefind();
+      const search = await pagefind.debouncedSearch(query);
+      // null: a newer query replaced this one.
+      if (search === null || ticket !== latest) return;
+      const pages = await Promise.all(
+        search.results.slice(0, MAX_RESULTS).map(result => result.data()),
+      );
+      if (ticket !== latest) return;
+      palette.commands = pages.map(page => ({
+        id: page.url,
+        label: page.meta?.title || page.url,
+        description: toText(page.excerpt),
+        icon: 'description',
+        group: sectionOf(page.url),
+      }));
+    } catch (error) {
+      // No index yet (the dev server before a build) or a failed fetch: show no results.
+      if (ticket !== latest) return;
+      console.warn('Site search is unavailable.', error);
+      palette.commands = [];
+    }
+    palette.loading = false;
+  });
+
+  palette.addEventListener('select', event => {
+    location.href = event.detail.command.id;
+  });
+
+  document.querySelectorAll('.search-button').forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      palette.show();
+    });
+  });
+</script>

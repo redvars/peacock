@@ -1,22 +1,15 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
-import { o } from './style-map-BQD5Et1D.js';
-import { c as copyToClipboard, T as TOKEN_DEFAULTS } from './token-colors-0TFHWbcq.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
+import { o } from './style-map-CHOg6N_R.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { T as TOKEN_DEFAULTS } from './token-colors-DEO6rvEu.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-
-const locale = {
-    copyToClipboard: 'Copy to clipboard',
-    copied: 'Copied',
-    copiedCode: 'Copied code to clipboard',
-    wrapLines: 'Wrap lines',
-    unwrapLines: 'Turn off line wrap',
-    showMore: 'Show more',
-    showLess: 'Show less',
-};
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 /**
  * Parses a line range list such as `"1, 3-5"` into 1-based line numbers.
@@ -100,13 +93,35 @@ var css_248z = i`@charset "UTF-8";
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 .code-block {
   --_pad-block: var(--spacing-200);
   --_pad-inline: var(--spacing-200);
@@ -441,7 +456,6 @@ var css_248z = i`@charset "UTF-8";
   -webkit-box-decoration-break: clone;
 }`;
 
-var CodeHighlighter_1;
 /** Runs a loader once and returns the same promise on every later call. */
 function once(load) {
     let promise = null;
@@ -535,7 +549,31 @@ const hasFontFlag = (fontStyle, flag) => fontStyle > 0 && Math.floor(fontStyle /
  * @tag wc-code-highlighter
  * @rawTag code-highlighter
  *
- * @summary Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.
+ * @summary A read-only block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.
+ *
+ * @overview
+ * <p>Give the code as <code>value</code>, or as a <code>&lt;pre&gt;&lt;code&gt;</code> in the light
+ * DOM, and its <code>language</code>; unknown languages render as plain text. JavaScript, HTML and
+ * CSS are formatted with Prettier first unless <code>format="false"</code>. The code is shown as
+ * written for people to read and copy; to let them edit it use <code>wc-code-editor</code>. Several
+ * blocks shown as tabs go in a <code>wc-code-group</code>.</p>
+ * <ul>
+ * <li><code>label</code> or the <code>title</code> slot shows a header, with an optional
+ * <code>icon</code> slot and the actions.</li>
+ * <li><code>line-numbers</code> and <code>start-line</code> number the lines;
+ * <code>highlight-lines</code>, <code>added-lines</code> and <code>removed-lines</code> mark lines
+ * by number or range, such as <code>"1, 3-5"</code>, counted after formatting.</li>
+ * <li><code>wrap</code> wraps long lines, and <code>wrap-toggle</code> adds a button to turn wrapping
+ * on and off.</li>
+ * <li><code>collapsible</code> caps the height and adds a show more button, with
+ * <code>aria-expanded</code>, when the code is taller; it fires <code>expanded-change</code>.</li>
+ * <li>The copy button copies the code, or <code>copy-value</code>, and fires <code>copied</code>
+ * or <code>copy-error</code>; <code>hide-copy</code> removes it. More buttons go in the
+ * <code>actions</code> slot.</li>
+ * <li><code>inline</code> renders the code as a compact chip within text; <code>size="sm"</code>
+ * suits dense layouts and <code>variant="error"</code> tints the block for failure output.</li>
+ * </ul>
+ * <p>The code area is always left to right and is focusable, so keyboard users can scroll it.</p>
  *
  * @example
  * ```html
@@ -571,12 +609,13 @@ const hasFontFlag = (fontStyle, flag) => fontStyle > 0 && Math.floor(fontStyle /
  * @cssprop --code-highlighter-token-comment - Comment color. Defaults to `--color-on-surface-variant`.
  * @cssprop --code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.
  *
- * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the code.
+ * @fires {CustomEvent<{value: string}>} copied - Dispatched by the copy button (`wc-copy-button`) after it copies the code.
+ * @fires {CustomEvent<{value: string, error: unknown}>} copy-error - Dispatched by the copy button when the code could not be copied.
  * @fires {CustomEvent<{expanded: boolean}>} expanded-change - Dispatched when a collapsible block is expanded or collapsed.
  *
  * @tags display
  */
-let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
+let CodeHighlighter = class CodeHighlighter extends i$1 {
     constructor() {
         // ── Static ────────────────────────────────────────────────────────────────
         super(...arguments);
@@ -627,8 +666,6 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
         this._code = '';
         /** Tokens per line, or `null` until highlighting finishes. */
         this._tokens = null;
-        /** Whether the copy button shows its copied feedback. */
-        this._copied = false;
         /** Whether the collapsed code is taller than the collapsed height. */
         this._overflowing = false;
         // ── Private fields ────────────────────────────────────────────────────────
@@ -638,8 +675,8 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
         this.__lineVariants = new Map();
         /** Increments per highlight run so stale async results are dropped. */
         this.__run = 0;
-        /** Timer that resets the copy feedback. */
-        this.__copyFeedbackTimeout = null;
+        /** Peacock's strings for the toolbar and footer. */
+        this.__i18n = new I18nController(this);
     }
     // ── Lifecycle ─────────────────────────────────────────────────────────────
     connectedCallback() {
@@ -653,10 +690,6 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
         });
     }
     disconnectedCallback() {
-        if (this.__copyFeedbackTimeout !== null) {
-            window.clearTimeout(this.__copyFeedbackTimeout);
-            this.__copyFeedbackTimeout = null;
-        }
         this.__childObserver?.disconnect();
         this.__resizeObserver?.disconnect();
         this.__observedContent = undefined;
@@ -757,23 +790,6 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
     __hasSlotted(name) {
         return Array.from(this.children).some(child => child.getAttribute('slot') === name);
     }
-    async __handleCopyClick() {
-        const value = this.copyValue ?? this._code;
-        await copyToClipboard(value);
-        this._copied = true;
-        this.dispatchEvent(new CustomEvent('copied', {
-            detail: { value },
-            bubbles: true,
-            composed: true,
-        }));
-        if (this.__copyFeedbackTimeout !== null) {
-            window.clearTimeout(this.__copyFeedbackTimeout);
-        }
-        this.__copyFeedbackTimeout = window.setTimeout(() => {
-            this._copied = false;
-            this.__copyFeedbackTimeout = null;
-        }, CodeHighlighter_1.COPY_FEEDBACK_DURATION);
-    }
     __handleWrapClick() {
         this.wrap = !this.wrap;
     }
@@ -821,6 +837,7 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
     >`;
     }
     __renderActions(floating) {
+        const wrapLabel = this.__i18n.t(this.wrap ? 'unwrapLines' : 'wrapLines');
         return b `
       <div class=${e$1({ actions: true, floating })} part="actions">
         <slot name="actions"></slot>
@@ -833,8 +850,8 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
               color="surface"
               toggle
               ?selected=${this.wrap}
-              aria-label=${this.wrap ? locale.unwrapLines : locale.wrapLines}
-              tooltip=${this.wrap ? locale.unwrapLines : locale.wrapLines}
+              aria-label=${wrapLabel}
+              tooltip=${wrapLabel}
               @click=${this.__handleWrapClick}
             >
               <wc-icon name="wrap_text"></wc-icon>
@@ -842,22 +859,12 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
             : A}
         ${this.hideCopy
             ? A
-            : b `<wc-icon-button
+            : b `<wc-copy-button
               class="copy-button"
-              variant="text"
               size="xs"
-              shape="round"
-              color=${this._copied ? 'success' : 'surface'}
-              aria-label=${this._copied
-                ? locale.copied
-                : locale.copyToClipboard}
-              tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
-              @click=${this.__handleCopyClick}
-            >
-              <wc-icon
-                name=${this._copied ? 'check' : 'content_copy'}
-              ></wc-icon>
-            </wc-icon-button>`}
+              label=${this.__i18n.t('copyToClipboard')}
+              .value=${this.copyValue ?? this._code}
+            ></wc-copy-button>`}
       </div>
     `;
     }
@@ -888,7 +895,7 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
             class=${e$1({ 'expand-icon': true, flipped: this.expanded })}
             name="keyboard_arrow_down"
           ></wc-icon>
-          ${this.expanded ? locale.showLess : locale.showMore}
+          ${this.__i18n.t(this.expanded ? 'showLess' : 'showMore')}
         </wc-button>
       </div>
     `;
@@ -938,15 +945,11 @@ let CodeHighlighter = CodeHighlighter_1 = class CodeHighlighter extends i$1 {
             counterReset: `line ${this.startLine - 1}`,
         })}>${lines.map((line, index) => this.__renderLine(line, index))}</code></pre>
         ${showFooter ? this.__renderFooter() : A}
-        <span class="sr-only" aria-live="polite"
-          >${this._copied ? locale.copiedCode : ''}</span
-        >
       </div>
     `;
     }
 };
 CodeHighlighter.styles = [css_248z];
-CodeHighlighter.COPY_FEEDBACK_DURATION = 2000;
 __decorate([
     n({ type: String, reflect: true })
 ], CodeHighlighter.prototype, "language", void 0);
@@ -1007,14 +1010,14 @@ __decorate([
     n({ type: Boolean, reflect: true })
 ], CodeHighlighter.prototype, "grouped", void 0);
 __decorate([
+    n({ attribute: false })
+], CodeHighlighter.prototype, "strings", void 0);
+__decorate([
     r()
 ], CodeHighlighter.prototype, "_code", void 0);
 __decorate([
     r()
 ], CodeHighlighter.prototype, "_tokens", void 0);
-__decorate([
-    r()
-], CodeHighlighter.prototype, "_copied", void 0);
 __decorate([
     r()
 ], CodeHighlighter.prototype, "_overflowing", void 0);
@@ -1024,7 +1027,7 @@ __decorate([
 __decorate([
     e('.code')
 ], CodeHighlighter.prototype, "__codeElement", void 0);
-CodeHighlighter = CodeHighlighter_1 = __decorate([
+CodeHighlighter = __decorate([
     IndividualComponent
 ], CodeHighlighter);
 

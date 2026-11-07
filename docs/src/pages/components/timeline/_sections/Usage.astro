@@ -4,6 +4,12 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  Each <code>wc-timeline-item</code> takes its title in the default slot, its details (a timestamp, a
+  comment, a card) in the <code>content</code> slot, and its marker icon in the <code>dot</code> slot.
+  There is no <code>description</code> attribute: put that text in the <code>content</code> slot.
+</p>
+
 <h4>Vertical Timeline</h4>
 <DemoComponentCard lang="html">
   <wc-timeline>
@@ -46,6 +52,27 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       <span>Approved by Oliver Brown</span>
       <span slot="content" style="color: var(--color-on-surface-variant); font-size: 0.875rem;">just now</span>
       <wc-icon slot="dot" name="check_circle"></wc-icon>
+    </wc-timeline-item>
+  </wc-timeline>
+</DemoComponentCard>
+
+<h4>In progress</h4>
+<p>
+  Set <code>loading</code> on the step that is in progress: its marker becomes a spinner, labelled for
+  screen readers. This is the busy state; to show a placeholder while the timeline's data loads, use
+  <code>wc-skeleton</code>.
+</p>
+
+<DemoComponentCard lang="html">
+  <wc-timeline>
+    <wc-timeline-item>
+      <span>Uploaded</span>
+      <span slot="content">2 min ago</span>
+      <wc-icon slot="dot" name="check_circle"></wc-icon>
+    </wc-timeline-item>
+    <wc-timeline-item loading>
+      <span>Processing</span>
+      <span slot="content">Started just now</span>
     </wc-timeline-item>
   </wc-timeline>
 </DemoComponentCard>

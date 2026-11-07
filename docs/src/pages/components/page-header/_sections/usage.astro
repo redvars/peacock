@@ -1,0 +1,55 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-page-header</code> is the top of a page. <code>headline</code> names the page as an
+  <code>&lt;h1&gt;</code>; <code>supporting-text</code> goes under it. Buttons in the
+  <code>actions</code> slot sit at the end.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-page-header
+    style='width: 100%;'
+    headline='Invoices'
+    supporting-text='Every invoice sent this year'
+  >
+    <wc-button slot='actions' variant='outlined'>Export</wc-button>
+    <wc-button slot='actions'>New invoice</wc-button>
+  </wc-page-header>
+</DemoComponentCard>
+
+<h3>Breadcrumb, back link, metadata and tabs</h3>
+<p>
+  The <code>breadcrumb</code> slot goes above the title, <code>start</code> before it (an avatar or
+  icon) and <code>meta</code> under it (tags, a status, timestamps). <code>back-href</code> adds a
+  round back link before the title, named by <code>back-label</code> (<em>Back</em> by default).
+  A <code>wc-tabs</code> in the <code>tabs</code> slot runs along the bottom edge.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-page-header
+    style='width: 100%;'
+    headline='Invoice INV-0042'
+    supporting-text='Acme Corporation'
+    back-href='#invoices'
+    back-label='All invoices'
+  >
+    <wc-breadcrumb slot='breadcrumb'>
+      <wc-breadcrumb-item href='#'>Billing</wc-breadcrumb-item>
+      <wc-breadcrumb-item href='#invoices'>Invoices</wc-breadcrumb-item>
+      <wc-breadcrumb-item current>INV-0042</wc-breadcrumb-item>
+    </wc-breadcrumb>
+    <wc-tag slot='meta'>Draft</wc-tag>
+    <span slot='meta'>Updated 2 hours ago</span>
+    <wc-button slot='actions' variant='outlined'>Share</wc-button>
+    <wc-button slot='actions'>Send</wc-button>
+    <wc-tabs slot='tabs'>
+      <wc-tab href='#details' selected>Details</wc-tab>
+      <wc-tab href='#payments'>Payments</wc-tab>
+      <wc-tab href='#history'>History</wc-tab>
+    </wc-tabs>
+  </wc-page-header>
+</DemoComponentCard>

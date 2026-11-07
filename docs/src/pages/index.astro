@@ -1,179 +1,179 @@
 ---
+// The home page: hero with a live demo and install tabs, numbers computed at build time, the
+// sections of the site, the component groups, frameworks, theming, getting started and the
+// latest post. Styles: styles/pages/index.scss.
 import Layout from '../layouts/Default.astro';
 import '../styles/pages/index.scss';
 import Footer from '../components/Footer.astro';
-import BuildBySection from '../components/BuildBySection.astro';
 import { getScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
-import { SITE_TITLE, GITHUB_USERNAME, AUTHOR, VERSION } from '../siteconfig';
+import { getGroupedComponents } from '../_data/componentGroups.ts';
+import { CHARTS } from '../_data/charts';
+import { BLOCKS } from '../_data/blocks';
+import { getPosts } from '../_data/blog';
+import { SITE_TITLE, SITE_DESCRIPTION, GITHUB_USERNAME, AUTHOR, VERSION, NPM_PACKAGE } from '../siteconfig';
 
-const isProd = import.meta.env.PROD;
+const groups = getGroupedComponents();
+const componentCount = groups.reduce((total, group) => total + group.entries.length, 0);
+const latestPost = getPosts()[0];
 
-function jumpingSentence(sentence: string) {
-  let len = sentence.length;
-  return sentence.split(' ').map((word) => {
-    return `<div class='jumping-word'>${word.split('').map((char, index) => {
-      if (char === ' ')
-        return char;
-      return `<h1 style='z-index:${len--};' class='jumping-text'>${char}</h1>`;
-    }).join('')}</div>`;
-  }).join(' ');
-}
+const stats = [
+  { value: `${componentCount}`, label: 'Components' },
+  { value: `${CHARTS.length}`, label: 'Chart types' },
+  { value: `${BLOCKS.length}`, label: 'Page blocks' },
+  { value: '3', label: 'Framework packages' },
+  { value: 'MIT', label: 'License' },
+];
 
-const keywords = 'web components, button, input, grid, ui library, calendar, table, accordion, select, search, notifications, modal, card, breadcrumb, tree view, tabs, pagination, tooltip, popover, dropdown, menu, slider, toggle, switch, progress bar, spinner, loader, toast, alert, badge, tag, avatar, chip, divider, list, icon, text, heading, paragraph, label, link, image, checkbox, radio, form, form group, form field';
----
+const explore = [
+  {
+    href: '/components/',
+    icon: 'widgets',
+    title: 'Components',
+    text: `${componentCount} elements for fields, data, navigation, overlays and feedback.`,
+  },
+  {
+    href: '/charts/',
+    icon: 'bar_chart',
+    title: 'Charts',
+    text: 'Bar, line, area, pie and doughnut charts that follow your theme.',
+  },
+  {
+    href: '/blocks/',
+    icon: 'dashboard',
+    title: 'Blocks',
+    text: 'Whole screens such as dashboards, sign-in and settings, ready to copy.',
+  },
+  {
+    href: '/foundations/',
+    icon: 'palette',
+    title: 'Foundations',
+    text: 'The color, shape, type, motion and spacing tokens behind every component.',
+  },
+  {
+    href: '/frameworks/',
+    icon: 'code',
+    title: 'Frameworks',
+    text: 'Typed React, Vue and Angular components with two-way binding.',
+  },
+  {
+    href: '/theme-builder',
+    icon: 'format_paint',
+    title: 'Theme builder',
+    text: 'Pick a color, shape and fonts, and get a theme for your brand.',
+  },
+];
 
-<Layout keywords={keywords}>
+const install = [
+  {
+    label: 'HTML',
+    language: 'html',
+    value: `<link rel="stylesheet" href="${getThemeCssUrl()}" />\n<script type="module" src="${getScriptUrl()}"></script>\n\n<wc-button>Click me</wc-button>`,
+  },
+  { label: 'npm', language: 'bash', value: `npm install ${NPM_PACKAGE}` },
+  { label: 'React', language: 'bash', value: `npm install ${NPM_PACKAGE} ${NPM_PACKAGE}-react` },
+  { label: 'Vue', language: 'bash', value: `npm install ${NPM_PACKAGE} ${NPM_PACKAGE}-vue` },
+  { label: 'Angular', language: 'bash', value: `npm install ${NPM_PACKAGE} ${NPM_PACKAGE}-angular` },
+];
 
-  <div class='banner'>
+const frameworkExamples = [
+  {
+    label: 'React',
+    language: 'tsx',
+    value: `import { useState } from 'react';
+import { Button, Input } from '@redvars/peacock-react';
 
+export function Invite() {
+  const [email, setEmail] = useState('');
+  return (
+    <>
+      <Input label="Email" value={email} onInput={e => setEmail(e.detail.value)} />
+      <Button onClick={() => send(email)}>Send invite</Button>
+    </>
+  );
+}`,
+  },
+  {
+    label: 'Vue',
+    language: 'vue',
+    value: `<script setup lang="ts">
+import { ref } from 'vue';
+import { WcButton, WcInput } from '@redvars/peacock-vue';
 
-    <div class='banner-content'>
+const email = ref('');
+</script>
 
-      <div class="logo-card-container">
-        <div class="logo-card">
-          <img alt="Peacock LOGO" src="/assets/img/logo-plain.webp">
-          <div class="title"><Fragment set:html={jumpingSentence('Peacock')} /></div>
-        </div>
-      </div>
+<template>
+  <WcInput label="Email" v-model="email" />
+  <WcButton @click="send(email)">Send invite</WcButton>
+</template>`,
+  },
+  {
+    label: 'Angular',
+    language: 'typescript',
+    value: `import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PEACOCK_COMPONENTS } from '@redvars/peacock-angular';
 
-      <h1 class='banner-title text-display'>
-        The foundation for beautiful user interfaces.
-      </h1>
-      <p class='text-headline'>A light weight customisable web component + css library</p>
+@Component({
+  selector: 'app-invite',
+  imports: [FormsModule, ...PEACOCK_COMPONENTS],
+  template: \`
+    <wc-input label="Email" [(ngModel)]="email"></wc-input>
+    <wc-button (click)="send(email)">Send invite</wc-button>
+  \`,
+})
+export class Invite {
+  email = '';
+}`,
+  },
+];
 
-      <div class='banner-actions '>
-        <wc-button href='#getting-started' size='md' type='primary' icon='arrow--right'>Get
-          Started
-        </wc-button>
-        <wc-button href='/components/' size='md' type='secondary' variant='tonal'>Browse Components</wc-button>
-      </div>
-    </div>
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap';
 
+const gettingStarted = [
+  {
+    label: 'Whole library',
+    language: 'html',
+    value: `<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="${fonts}">
 
-    <wc-toolbar class='social-icons' aria-label='Social links'>
-      <wc-icon-button
-        variant="text"
-        size="xs"
-        color="surface"
-        class='social-icon'
-        aria-label='Github'
-        target='_blank'
-        href={`https://www.github.com/${GITHUB_USERNAME}`}>
-        <wc-icon name="logo--github" provider='carbon'></wc-icon>
-      </wc-icon-button>
-      <wc-icon-button
-        variant="text"
-        size="xs"
-        color="surface"
-        class='social-icon'
-        aria-label='Twitter'
-        target='_blank'
-        href={`https://x.com/${AUTHOR.twitter}`}>
-        <wc-icon name="logo--x" provider='carbon'></wc-icon>
-      </wc-icon-button>
-    </wc-toolbar>
+  <!-- The default theme. Replace it with one from the theme builder. -->
+  <link rel="stylesheet" href="${getThemeCssUrl()}">
+  <!-- Registers each Peacock tag the page uses, loading only those components. -->
+  <script type="module" src="${getScriptUrl()}"></script>
+</head>
 
-    <BuildBySection />
+<body>
+  <wc-button size="lg" color="primary">Click me</wc-button>
+</body>`,
+  },
+  {
+    label: 'One component',
+    language: 'html',
+    value: `<head>
+  <link rel="stylesheet" href="${getThemeCssUrl()}">
 
-
-
-
-  </div>
-
-
-  <div class='intro-section sections-wrapper'>
-    <wc-container size='max'>
-      <div class='section'>
-        <h2 class='text-headline-large heading-scrollable' id='introduction'>Introduction</h2>
-        <p class='text-large'>{SITE_TITLE} contains most used web components built using Stencil. So you don't need to
-          include any additional framework dependencies, You can simply import required
-          component js, and right away start using it.
-        </p>
-        <p class='text-large'>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</p>
-        <br />
-        <p class='text-large'>{SITE_TITLE} components are beautiful Open Source web components under MIT license. They are maintained by
-          <a class='link' href='https://redvars.com'>Redvars</a>
-          . Do not miss any updates and announcements, stay tuned on our social pages. You can contribute to the project
-          by creating pull requests or issues.
-        </p>
-      </div>
-
-      <div class='section'>
-        <h3 class='text-title-large heading-scrollable' id='getting-started'>Getting Started</h3>
-        <ul style='padding-inline-start: 1.5rem'>
-          <li class='text-body-large'>
-              Put a script tag similar to this
-              <code class='text-code-block'>&lt;script type="module" src="{getScriptUrl()}"&gt;&lt;/script&gt;</code>
-              in the head of your index.html
-          </li>
-          <li class='text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</li>
-          <li class='text-body-large'>
-            Custom theme: pick your colors, shape and fonts in the <wc-link href='/theme-builder'>theme builder</wc-link>,
-            then load the CSS it generates after <code class='text-code-block'>styles.css</code>, or apply the theme at
-            runtime with <code class='text-code-block'>applyTheme()</code> from
-            <code class='text-code-block'>@redvars/peacock/theme</code> (see the Custom theme tab). The
-            <wc-link href='/foundations/'>Foundations</wc-link> pages list every token a theme sets.
-          </li>
-        </ul>
-        <div class='container-code'>
-          <wc-code-group>
-            <wc-code-highlighter label='Usage' language='html' id='get-started-code'></wc-code-highlighter>
-            <wc-code-highlighter label='Load single component' language='html' id='load-single-component-code'></wc-code-highlighter>
-            <wc-code-highlighter label='Custom theme' language='javascript' id='custom-theme-code'></wc-code-highlighter>
-          </wc-code-group>
-
-              <script is:inline define:vars={{ title: SITE_TITLE, scriptUrl: getScriptUrl(), themeCss:  getThemeCssUrl()}}>
-                document.getElementById('get-started-code').value = `
-                 <head>
-
-                  <link rel="preconnect" href="https://fonts.googleapis.com">
-                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-                  <!-- include your custom theme variable values, view variable names at ${themeCss} -->
-                  <link rel="stylesheet" href='${themeCss}'/>
-                  <script type='module' src='${scriptUrl}'><\/script>
-
-
-                 </head>
-
-                 <body>
-
-                  <wc-button size='lg' color='primary'>Click me</wc-button>
-
-                 </body>`;
-              </script>
-
-              <script is:inline define:vars={{ title: SITE_TITLE, version: VERSION, themeCss:  getThemeCssUrl()}}>
-                document.getElementById('load-single-component-code').value = `<head>
-
-                  <link rel="preconnect" href="https://fonts.googleapis.com">
-                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-                  <!-- include your custom theme variable values, view variable names at ${themeCss} -->
-                  <link rel="stylesheet" href='${themeCss}' />
-
-                  <script type='module'>
-    import {Button} from "https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/button.js";
+  <script type="module">
+    import { Button } from 'https://cdn.jsdelivr.net/npm/${NPM_PACKAGE}@${VERSION}/dist/button.js';
+    // The class is not registered: define it under the tag you want.
     customElements.define('my-button', Button);
- <\/script>
+  </script>
+</head>
 
-
-                 </head>
-
-                <body>
-
-                  <my-button size='lg' color='primary'>Click me</my-button>
-
-                 </body>`;
-              </script>
-
-              <script is:inline define:vars={{ version: VERSION }}>
-                document.getElementById('custom-theme-code').value = `// With a bundler: npm install @redvars/peacock
-import { applyTheme } from '@redvars/peacock/theme';
+<body>
+  <my-button size="lg" color="primary">Click me</my-button>
+</body>`,
+  },
+  {
+    label: 'Custom theme',
+    language: 'javascript',
+    value: `// With a bundler: npm install ${NPM_PACKAGE}
+import { applyTheme } from '${NPM_PACKAGE}/theme';
 // Without one, import it from the CDN instead:
-// import { applyTheme } from 'https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/assets/theme.js';
+// import { applyTheme } from 'https://cdn.jsdelivr.net/npm/${NPM_PACKAGE}@${VERSION}/dist/assets/theme.js';
 
 // Settings you leave out keep their defaults.
 await applyTheme({
@@ -182,64 +182,232 @@ await applyTheme({
   contrast: 'standard',
   shape: 'rounded',
   font: { brand: 'Poppins', plain: 'Inter' },
-});`;
-              </script>
+});`,
+  },
+];
+
+const keywords = 'web components, design system, lit, react components, vue components, angular components, ui library, button, input, select, table, data grid, calendar, date picker, modal, tabs, menu, charts, dashboard, theme builder, accessibility, right-to-left';
+---
+
+<Layout keywords={keywords}>
+  <div class='home'>
+
+    <!-- Hero -->
+    <section class='home-hero'>
+      <div class='home-hero-text'>
+        <a class='home-announcement text-label-large' href={latestPost?.href ?? '/blog/'}>
+          <span class='home-announcement-badge'>New</span>
+          {latestPost?.title ?? 'Read the blog'}
+          <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+        </a>
+
+        <h1 class='home-title text-display-large'>
+          Build product interfaces <span class='home-title-accent'>with web components.</span>
+        </h1>
+        <p class='home-lede text-title-large'>{SITE_DESCRIPTION}</p>
+
+        <div class='home-actions'>
+          <wc-link-button href='#getting-started' level='primary'>Get started</wc-link-button>
+          <wc-link-button href='/components/' level='secondary' variant='tonal'>Browse components</wc-link-button>
+        </div>
+
+        <div class='home-install'>
+          <wc-code-group>
+            {install.map(tab => (
+              <wc-code-highlighter label={tab.label} language={tab.language} value={tab.value} format='false'></wc-code-highlighter>
+            ))}
+          </wc-code-group>
         </div>
       </div>
 
-    </wc-container>
+      <div class='home-hero-demo' aria-label='A live example built with Peacock components'>
+        <wc-card class='home-demo-card' variant='elevated'>
+          <wc-card-content class='home-demo-body'>
+            <div class='home-demo-header'>
+              <div>
+                <div class='text-title-large'>Invite to workspace</div>
+                <div class='text-body-medium home-muted'>They get an email with a sign-in link.</div>
+              </div>
+              <wc-avatar-group>
+                <wc-avatar name='Ada Lovelace'></wc-avatar>
+                <wc-avatar name='Grace Hopper'></wc-avatar>
+                <wc-avatar name='Alan Turing'></wc-avatar>
+              </wc-avatar-group>
+            </div>
+            <wc-input label='Email' type='email' placeholder='name@company.com' value='grace@example.com'></wc-input>
+            <wc-select label='Role' value='editor'>
+              <wc-option value='viewer'>Viewer</wc-option>
+              <wc-option value='editor'>Editor</wc-option>
+              <wc-option value='admin'>Admin</wc-option>
+            </wc-select>
+            <wc-switch checked>Send a welcome email</wc-switch>
+            <div class='home-demo-actions'>
+              <wc-button variant='text'>Cancel</wc-button>
+              <wc-button level='primary'>Send invite</wc-button>
+            </div>
+          </wc-card-content>
+        </wc-card>
+        <div class='home-demo-stats'>
+          <wc-stat variant='filled' label='Seats used' value='42' previous='37'></wc-stat>
+          <wc-stat variant='filled' label='Pending invites' value='5' previous='8'></wc-stat>
+        </div>
+      </div>
+    </section>
+
+    <!-- Numbers -->
+    <section class='home-stats' aria-label='Peacock in numbers'>
+      {stats.map(stat => (
+        <div class='home-stat'>
+          <span class='home-stat-value text-display-small'>{stat.value}</span>
+          <span class='home-stat-label text-label-large'>{stat.label}</span>
+        </div>
+      ))}
+    </section>
+
+    <!-- Explore -->
+    <section class='home-section' aria-labelledby='explore'>
+      <header class='home-section-header'>
+        <h2 id='explore' class='text-headline-large'>Everything you need for an app</h2>
+        <p class='text-body-large home-muted'>Components, charts and whole screens, all built on one set of tokens.</p>
+      </header>
+      <div class='home-explore'>
+        {explore.map(card => (
+          <a class='home-explore-card' href={card.href}>
+            <span class='home-explore-icon'><wc-icon name={card.icon} aria-hidden='true'></wc-icon></span>
+            <span class='text-title-large'>{card.title}</span>
+            <span class='text-body-medium home-muted'>{card.text}</span>
+            <span class='home-explore-more text-label-large'>
+              Explore <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Component groups -->
+    <section class='home-section' aria-labelledby='component-groups'>
+      <header class='home-section-header'>
+        <h2 id='component-groups' class='text-headline-large'>Components by purpose</h2>
+        <p class='text-body-large home-muted'>
+          The same events, sizes and words on every component, with form validation, keyboard support,
+          right-to-left layouts and translatable text.
+        </p>
+      </header>
+      <div class='home-groups'>
+        {groups.map(group => (
+          <a class='home-group' href={`/components/#${group.id}`}>
+            <span class='text-label-large'>{group.name}</span>
+            <span class='home-group-count text-label-medium'>{group.entries.length}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Frameworks -->
+    <section class='home-section home-split' aria-labelledby='frameworks'>
+      <header class='home-section-header'>
+        <h2 id='frameworks' class='text-headline-large'>Use it with your framework</h2>
+        <p class='text-body-large home-muted'>
+          The tags work anywhere HTML does. For React, Vue and Angular, the bindings packages add typed
+          props and events, <code>v-model</code> and <code>ngModel</code>, and register each component for you.
+          They are generated from the components, so they never fall behind.
+        </p>
+        <div class='home-links'>
+          <wc-link href='/frameworks/react/'>React</wc-link>
+          <wc-link href='/frameworks/vue/'>Vue</wc-link>
+          <wc-link href='/frameworks/angular/'>Angular</wc-link>
+        </div>
+        <p class='text-body-small home-muted'>The bindings packages need Peacock 4.0 or later.</p>
+      </header>
+      <div class='home-code'>
+        <wc-code-group>
+          {frameworkExamples.map(tab => (
+            <wc-code-highlighter label={tab.label} language={tab.language} value={tab.value} format='false'></wc-code-highlighter>
+          ))}
+        </wc-code-group>
+      </div>
+    </section>
+
+    <!-- Theming -->
+    <section class='home-section home-split home-theme' aria-labelledby='theming'>
+      <header class='home-section-header'>
+        <h2 id='theming' class='text-headline-large'>Make it yours</h2>
+        <p class='text-body-large home-muted'>
+          One source color sets the whole palette, in light and dark. Shape, fonts and contrast are a
+          setting each. Build a theme in the <wc-link href='/theme-builder'>theme builder</wc-link>, or apply
+          one at runtime with <code>applyTheme()</code>. The <wc-link href='/foundations/'>Foundations</wc-link>
+          pages list every token a theme sets.
+        </p>
+        <div class='home-actions'>
+          <wc-link-button href='/theme-builder' level='primary' variant='tonal'>Open the theme builder</wc-link-button>
+        </div>
+      </header>
+      <div class='home-swatches' aria-hidden='true'>
+        {['primary', 'secondary', 'tertiary', 'error'].map(role => (
+          <div class='home-swatch' style={`--swatch: var(--color-${role}); --on-swatch: var(--color-on-${role})`}>
+            <span class='text-label-large'>{role}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Getting started -->
+    <section class='home-section' aria-labelledby='getting-started'>
+      <header class='home-section-header'>
+        <h2 id='getting-started' class='text-headline-large heading-scrollable'>Getting started</h2>
+        <p class='text-body-large home-muted'>
+          Add the stylesheet and the loader script to your page, then use the tags in HTML, JSX or any
+          template. The loader registers only the components the page uses.
+        </p>
+      </header>
+      <ol class='home-steps'>
+        <li>
+          <span class='home-step-number text-title-medium'>1</span>
+          <div>
+            <div class='text-title-medium'>Load Peacock</div>
+            <p class='text-body-medium home-muted'>From the CDN, or install <code>{NPM_PACKAGE}</code> with npm.</p>
+          </div>
+        </li>
+        <li>
+          <span class='home-step-number text-title-medium'>2</span>
+          <div>
+            <div class='text-title-medium'>Use the tags</div>
+            <p class='text-body-medium home-muted'>Each component page has live demos and its full API.</p>
+          </div>
+        </li>
+        <li>
+          <span class='home-step-number text-title-medium'>3</span>
+          <div>
+            <div class='text-title-medium'>Theme it</div>
+            <p class='text-body-medium home-muted'>Load a generated theme after <code>styles.css</code>, or call <code>applyTheme()</code>.</p>
+          </div>
+        </li>
+      </ol>
+      <div class='home-code'>
+        <wc-code-group>
+          {gettingStarted.map(tab => (
+            <wc-code-highlighter label={tab.label} language={tab.language} value={tab.value} format='false'></wc-code-highlighter>
+          ))}
+        </wc-code-group>
+      </div>
+    </section>
+
+    <!-- Credits -->
+    <section class='home-credits text-body-medium'>
+      <span>
+        {SITE_TITLE} is open source under the MIT license, maintained by
+        <a href={AUTHOR.url}>{AUTHOR.name}</a>. Made in India.
+      </span>
+      <wc-toolbar aria-label='Social links'>
+        <wc-icon-button variant='text' size='sm' aria-label='GitHub' target='_blank' href={`https://www.github.com/${GITHUB_USERNAME}`}>
+          <wc-icon name='logo--github' provider='carbon'></wc-icon>
+        </wc-icon-button>
+        <wc-icon-button variant='text' size='sm' aria-label='X' target='_blank' href={`https://x.com/${AUTHOR.twitter}`}>
+          <wc-icon name='logo--x' provider='carbon'></wc-icon>
+        </wc-icon-button>
+      </wc-toolbar>
+    </section>
   </div>
 
   <Footer />
-
-  <script
-    src='https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js'
-    integrity='sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=='
-    crossorigin='anonymous'
-    referrerpolicy='no-referrer'
-  ></script>
-
-  <script is:inline>
-    document.addEventListener('DOMContentLoaded', function() {
-
-      document.querySelectorAll('.jumping-text').forEach((elm, index) => {
-
-        setTimeout(() => {
-          elm.classList.add('hover');
-          setTimeout(function() {
-            elm.classList.remove('hover');
-          }, 1800);
-        }, 1000 + (20 * index));
-
-
-        elm.addEventListener('mouseover', () => {
-          if (!elm.classList.contains('hover')) {
-            elm.classList.add('hover');
-            setTimeout(function() {
-              elm.classList.remove('hover');
-            }, 1800);
-          }
-        });
-
-
-      });
-
-      document.querySelector('.title').addEventListener('touchmove', (evt) => {
-        // get the touch element
-        const touch = evt.touches[0];
-
-        // get the DOM element
-        const elm = document.elementFromPoint(touch.clientX, touch.clientY);
-
-
-        if (!elm.classList.contains('hover')) {
-          elm.classList.add('hover');
-          setTimeout(function() {
-            elm.classList.remove('hover');
-          }, 1800);
-        }
-      }, { passive: true });
-    });
-  </script>
-
 </Layout>

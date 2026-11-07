@@ -23,6 +23,7 @@
 .content {
   flex: 1 1 auto;
   min-height: 0;
+  box-sizing: border-box;
   max-height: var(--code-highlighter-max-height, none);
   margin: 0;
   padding-block: var(--_pad-block);
@@ -41,7 +42,10 @@
   padding-block-start: var(--_pad-near);
 }
 
-.has-footer .content {
+// Collapsed, the bottom padding stays the same with or without the footer: the footer depends
+// on whether the code overflows, so a padding it changed could flip it on and off forever for
+// code near the collapsed height. The bottom fades out under the mask there anyway.
+.has-footer:not(.collapsed) .content {
   padding-block-end: var(--_pad-near);
 }
 

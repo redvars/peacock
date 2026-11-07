@@ -17,19 +17,28 @@
     </style>
   </head>
   <body>
-    <wc-tabs variant="primary">
-      <wc-tab icon="home">Home</wc-tab>
-      <wc-tab active="true" badge="3">Updates</wc-tab>
+    <wc-tabs variant="primary" aria-label="Primary">
+      <wc-tab>
+        Home
+        <wc-icon slot="icon" name="home"></wc-icon>
+      </wc-tab>
+      <wc-tab selected>
+        Updates
+        <wc-badge slot="badge" value="3"></wc-badge>
+      </wc-tab>
       <wc-tab>
         Inbox
         <wc-icon slot="icon" name="mail"></wc-icon>
         <wc-badge slot="badge" value="99+"></wc-badge>
       </wc-tab>
-      <wc-tab disabled="true" icon="block" badge="!">Disabled</wc-tab>
+      <wc-tab disabled disabled-reason="You do not have access">
+        Disabled
+        <wc-icon slot="icon" name="block"></wc-icon>
+      </wc-tab>
     </wc-tabs>
 
-    <wc-tabs variant="secondary">
-      <wc-tab active="true">Overview</wc-tab>
+    <wc-tabs variant="secondary" aria-label="Secondary">
+      <wc-tab selected>Overview</wc-tab>
       <wc-tab>
         Activity
         <wc-icon slot="icon" name="timeline"></wc-icon>
@@ -37,18 +46,18 @@
       <wc-tab>Settings</wc-tab>
     </wc-tabs>
 
-    <wc-tabs variant="filled">
-      <wc-tab active="true">Daily</wc-tab>
+    <wc-tabs variant="filled" aria-label="Filled">
+      <wc-tab selected>Daily</wc-tab>
       <wc-tab>Weekly</wc-tab>
       <wc-tab>
         Monthly
         <wc-badge slot="badge" value="3"></wc-badge>
       </wc-tab>
-      <wc-tab disabled="true">Archived</wc-tab>
+      <wc-tab disabled>Archived</wc-tab>
     </wc-tabs>
 
-    <wc-tabs variant="contained">
-      <wc-tab active="true">Summary</wc-tab>
+    <wc-tabs variant="contained" aria-label="Contained">
+      <wc-tab selected>Summary</wc-tab>
       <wc-tab>
         Reports
         <wc-icon slot="icon" name="bar_chart"></wc-icon>
@@ -57,33 +66,38 @@
     </wc-tabs>
 
     <wc-tab-group>
-      <wc-tabs>
-        <wc-tab icon="home">Home</wc-tab>
-        <wc-tab active="true" badge="3">Updates</wc-tab>
-        <wc-tab>
+      <wc-tabs aria-label="Mailbox">
+        <wc-tab value="home">
+          Home
+          <wc-icon slot="icon" name="home"></wc-icon>
+        </wc-tab>
+        <wc-tab value="updates" selected>
+          Updates
+          <wc-badge slot="badge" value="3"></wc-badge>
+        </wc-tab>
+        <wc-tab value="inbox">
           Inbox
           <wc-icon slot="icon" name="mail"></wc-icon>
           <wc-badge slot="badge" value="99+"></wc-badge>
         </wc-tab>
-        <wc-tab disabled="true" icon="block" badge="!">Disabled</wc-tab>
+        <wc-tab value="disabled" disabled>
+          Disabled
+          <wc-icon slot="icon" name="block"></wc-icon>
+        </wc-tab>
       </wc-tabs>
 
-      <wc-tab-panel>
-        <pc-text type="heading"> Home content </pc-text>
-      </wc-tab-panel>
-
-      <wc-tab-panel>
-        <pc-text type="heading"> Updates content </pc-text>
-      </wc-tab-panel>
-
-      <wc-tab-panel>
-        <pc-text type="heading"> Inbox content </pc-text>
-      </wc-tab-panel>
-
-      <wc-tab-panel>
-        <pc-text type="heading"> Disabled content </pc-text>
-      </wc-tab-panel>
+      <wc-tab-panel value="home">Home content</wc-tab-panel>
+      <wc-tab-panel value="updates">Updates content</wc-tab-panel>
+      <wc-tab-panel value="inbox">Inbox content</wc-tab-panel>
+      <wc-tab-panel value="disabled">Disabled content</wc-tab-panel>
     </wc-tab-group>
+
+    <nav aria-label="Account">
+      <wc-tabs variant="secondary">
+        <wc-tab href="#profile" selected>Profile</wc-tab>
+        <wc-tab href="#security">Security</wc-tab>
+      </wc-tabs>
+    </nav>
 
     <script type="module" src="/dist/loader.js"></script>
   </body>

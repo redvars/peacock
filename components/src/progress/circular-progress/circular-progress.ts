@@ -1,7 +1,7 @@
-import { html } from 'lit';
-import IndividualComponent from '@/IndividualComponent.js';
+import { html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './circular-progress.scss';
 import { BaseProgress } from '../base-progress.js';
 
@@ -9,7 +9,13 @@ import { BaseProgress } from '../base-progress.js';
  * @label Circular Progress
  * @tag wc-circular-progress
  * @rawTag circular-progress
- * @summary A circular progress indicator is a visual representation of progress toward a specific goal.
+ * @summary A ring that fills to show how much of a task is done, or spins when the length of the wait is unknown.
+ * @overview
+ * <p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that
+ * range. The visible <code>label</code> names the indicator through
+ * <code>aria-labelledby</code>; without one, an <code>aria-label</code> on the element names it,
+ * else it is named "Loading". With
+ * <code>indeterminate</code> it spins, for a wait of unknown length.</p>
  * @tags display
  *
  * @example
@@ -36,11 +42,14 @@ export class CircularProgress extends BaseProgress {
           indeterminate: this.indeterminate,
           inline: this.inline,
         })}"
-        title=${this.label}
         role="progressbar"
-        aria-valuenow="${this.indeterminate ? undefined : percentage}"
+        aria-labelledby=${this.label ? 'label' : nothing}
+        aria-label=${this.label ? nothing : this.__fallbackLabel}
+        aria-valuenow=${this.indeterminate
+          ? nothing
+          : String(this.__clampedValue)}
         aria-valuemin="0"
-        aria-valuemax="100"
+        aria-valuemax=${String(this.__max)}
       >
         <div class="circular-progress-container">
           <svg viewBox="0 0 16 16">
@@ -60,7 +69,7 @@ export class CircularProgress extends BaseProgress {
 
         <div class="progress-footer">
           ${this.label
-            ? html`<div class="progress-label">${this.label}</div>`
+            ? html`<div class="progress-label" id="label">${this.label}</div>`
             : ''}
           ${this.helperText
             ? html`<div class="progress-helper">${this.helperText}</div>`

@@ -4,6 +4,15 @@ export const order = 600;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  <code>click</code> fires when the primary action is pressed. <code>open</code> fires when the menu opens
+  and <code>close</code> when it closes, with <code>detail.reason</code>: <code>action</code> for an item
+  pick, <code>escape</code>, <code>light-dismiss</code> for a press outside or Tab, and <code>api</code> for
+  <code>close()</code> or the primary action. Both are fired by the split button itself; the inner menu's
+  events stay inside. Selection state of <code>type="checkbox"</code>
+  and <code>type="radio"</code> menu items works here as in <code>wc-menu</code>.
+</p>
+
 <DemoComponentCard lang='html'>
   <wc-split-button id='split-button-events'>
     Save
@@ -18,11 +27,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         myConsole.log('Primary action clicked', '<wc-split-button>');
       });
 
-      splitButton.addEventListener('toggle-menu', event => {
-        myConsole.log(
-          `Menu state: ${event.detail.open ? 'open' : 'closed'}`,
-          'toggle-menu',
-        );
+      splitButton.addEventListener('open', () => {
+        myConsole.log('Menu opened', 'open');
+      });
+
+      splitButton.addEventListener('close', event => {
+        myConsole.log(`Menu closed: ${event.detail.reason}`, 'close');
       });
     }
   </script>

@@ -1,10 +1,13 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
 import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { M as MenuTriggerController } from './menu-trigger-controller-DyLpTxM7.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z$2 = i`@charset "UTF-8";
 * {
@@ -13,13 +16,35 @@ var css_248z$2 = i`@charset "UTF-8";
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline-flex;
   position: relative;
@@ -154,28 +179,23 @@ var css_248z$1 = i`:host([color=primary]) {
   --outlined-split-button-label-text-color: var(--color-on-surface);
 }`;
 
-var css_248z = i`:host([size=xs]),
-:host([size=extra-small]) {
+var css_248z = i`:host([size=xs]) {
   --split-button-icon-size: 1rem;
 }
 
-:host([size=sm]),
-:host([size=small]) {
+:host([size=sm]) {
   --split-button-icon-size: 1.125rem;
 }
 
-:host([size=md]),
-:host([size=medium]) {
+:host([size=md]) {
   --split-button-icon-size: 1.25rem;
 }
 
-:host([size=lg]),
-:host([size=large]) {
+:host([size=lg]) {
   --split-button-icon-size: 1.5rem;
 }
 
-:host([size=xl]),
-:host([size=extra-large]) {
+:host([size=xl]) {
   --split-button-icon-size: 2rem;
 }`;
 
@@ -184,9 +204,9 @@ var css_248z = i`:host([size=xs]),
  * @tag wc-split-button
  * @rawTag split-button
  *
- * @summary A split button lets users perform a default action or choose from a set of related actions via a dropdown menu.
+ * @summary A button for a default action joined to an arrow that opens a menu of related actions.
  * @overview
- * <p>A split button combines a primary action button with a dropdown arrow that opens a menu. Following M3 Material Design, the split button provides a default action alongside a set of secondary options, reducing clutter while keeping alternative actions accessible.</p>
+ * <p>The main button runs the default action; the arrow beside it opens a menu of related actions.</p>
  *
  * @cssprop --split-button-container-shape: Defines the border radius of the split button container shape.
  *
@@ -200,7 +220,8 @@ var css_248z = i`:host([size=xs]),
  * @cssprop --tonal-split-button-label-text-color: Text color of the tonal split button label.
  *
  * @fires {MouseEvent} click - Dispatched when the primary action button is clicked.
- * @fires {CustomEvent} toggle-menu - Dispatched when the dropdown menu is opened or closed.
+ * @fires {CustomEvent} open - Dispatched after the menu opens.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` or the primary action `api`.
  *
  * @example
  * ```html
@@ -237,46 +258,34 @@ let SplitButton = class SplitButton extends i$1 {
          * Whether the split button is disabled.
          */
         this.disabled = false;
-        this._menuOpen = false;
-        this._menuId = `split-menu-${Math.random().toString(36).slice(2, 9)}`;
-        this._onMenuOpened = () => {
-            this._menuOpen = true;
-            this.dispatchEvent(new CustomEvent('toggle-menu', {
-                detail: { open: true },
-                bubbles: true,
-                composed: true,
-            }));
-        };
-        this._onMenuClosed = () => {
-            this._menuOpen = false;
-            this.dispatchEvent(new CustomEvent('toggle-menu', {
-                detail: { open: false },
-                bubbles: true,
-                composed: true,
-            }));
-        };
-        this._onKeyDown = (event) => {
-            if (this.disabled)
-                return;
-            if (event.key === 'ArrowDown' &&
-                event.target === this._dropdownButton) {
-                event.preventDefault();
-                if (!this._menuOpen) {
-                    this._menu.anchorElement = this;
-                    this._menu?.show();
-                }
-                // Focus the menu so keyboard nav works
-                requestAnimationFrame(() => this._menu?.focus());
-            }
-            if (event.key === 'Escape' && this._menuOpen) {
-                this._menu?.close();
-                this._dropdownButton?.focus();
-            }
-        };
+        /** Visual variant of the menu: one surface (`"standard"`) or segmented groups (`"expressive"`). */
+        this.menuVariant = 'standard';
+        /**
+         * Where the menu opens relative to the button: `top`, `bottom`, `start` or `end`, optionally
+         * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
+         * Defaults to `"bottom-end"`.
+         */
+        this.placement = 'bottom-end';
+        /** Peacock's strings for the menu trigger label. */
+        this.i18n = new I18nController(this);
+        /** Opens and closes the menu and fires `open` / `close`. */
+        this._trigger = new MenuTriggerController(this, {
+            menu: () => this._menu,
+            disabled: () => this.disabled,
+            idPrefix: 'split-menu',
+        });
     }
     focus() {
         const btn = this.shadowRoot?.querySelector('.action-button');
         btn?.focus();
+    }
+    /** Opens the menu and focuses its first (or last) item. */
+    show(focusTarget = 'first') {
+        this._trigger.show(focusTarget);
+    }
+    /** Closes the menu. */
+    close() {
+        this._trigger.close();
     }
     _onActionClick(event) {
         if (this.disabled) {
@@ -284,30 +293,10 @@ let SplitButton = class SplitButton extends i$1 {
             event.preventDefault();
             return;
         }
-        // Close menu if open
-        if (this._menuOpen) {
-            this._menu?.close();
+        // The primary action closes the menu if it is open.
+        if (this._menu?.open) {
+            this._trigger.close();
         }
-    }
-    _onDropdownClick(event) {
-        event.stopPropagation();
-        if (this.disabled)
-            return;
-        if (this._menuOpen) {
-            this._menu?.close();
-        }
-        else {
-            this._menu.anchorElement = this;
-            this._menu?.show();
-        }
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        this.addEventListener('keydown', this._onKeyDown);
-    }
-    disconnectedCallback() {
-        this.removeEventListener('keydown', this._onKeyDown);
-        super.disconnectedCallback();
     }
     render() {
         const actionClasses = {
@@ -316,7 +305,7 @@ let SplitButton = class SplitButton extends i$1 {
         };
         const dropdownClasses = {
             'dropdown-trigger': true,
-            active: this._menuOpen,
+            active: this._trigger.open,
             disabled: this.disabled,
         };
         const containerClasses = {
@@ -342,22 +331,26 @@ let SplitButton = class SplitButton extends i$1 {
           variant=${this.variant}
           ?disabled=${this.disabled}
           .configAria=${{
-            'aria-haspopup': 'menu',
-            'aria-expanded': String(this._menuOpen),
-            'aria-controls': this._menuId,
-            'aria-label': 'Open split button menu',
+            ...this._trigger.triggerAria,
+            'aria-label': this.i18n.t('openSplitButtonMenu'),
         }}
-          @click=${this._onDropdownClick}
+          @click=${this._trigger.handleTriggerClick}
+          @keydown=${this._trigger.handleTriggerKeyDown}
         >
-          <wc-icon class="dropdown-icon" name="arrow_drop_down" aria-hidden="true"></wc-icon>
+          <wc-icon
+            class="dropdown-icon"
+            name="arrow_drop_down"
+            aria-hidden="true"
+          ></wc-icon>
         </wc-icon-button>
       </div>
 
       <wc-menu
-        id=${this._menuId}
-        placement="bottom-end"
-        @opened=${this._onMenuOpened}
-        @closed=${this._onMenuClosed}
+        id=${this._trigger.menuId}
+        .placement=${this.placement}
+        variant=${this.menuVariant}
+        @open=${this._trigger.handleMenuOpen}
+        @close=${this._trigger.handleMenuClose}
       >
         <slot name="menu"></slot>
       </wc-menu>
@@ -378,11 +371,11 @@ __decorate([
     n({ type: Boolean, reflect: true })
 ], SplitButton.prototype, "disabled", void 0);
 __decorate([
-    r()
-], SplitButton.prototype, "_menuOpen", void 0);
+    n({ attribute: 'menu-variant' })
+], SplitButton.prototype, "menuVariant", void 0);
 __decorate([
-    e('.dropdown-trigger')
-], SplitButton.prototype, "_dropdownButton", void 0);
+    n({ reflect: true })
+], SplitButton.prototype, "placement", void 0);
 __decorate([
     e('wc-menu')
 ], SplitButton.prototype, "_menu", void 0);

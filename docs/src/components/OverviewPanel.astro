@@ -6,13 +6,22 @@ interface Props {
 }
 
 const { sections, title } = Astro.props;
+
+function sectionId(sectionTitle: string) {
+  return `section-${sectionTitle.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-')}`;
+}
+
+const navItems = sections.map((section: any) => ({
+  id: sectionId(section.title),
+  label: section.title,
+}));
 ---
 <div class='component-overview-tab'>
-  <div class='component-content'>
+  <div class='component-content with-on-this-page'>
 
     {
       sections.map((section) => (
-        <div id={`section-${section.title.toLowerCase().replaceAll(" ", "-").replaceAll("/", "-")}`}
+        <div id={sectionId(section.title)}
              class='component-section'>
           <h3 class='heading-scrollable text-headline-large'>{section.title}</h3>
 
@@ -20,5 +29,5 @@ const { sections, title } = Astro.props;
         </div>))
     }
   </div>
-  <OnThisPageNavigation sections={sections.map(function(section: any){return section?.title;})} title={title} />
+  <OnThisPageNavigation items={navItems} title={title} />
 </div>

@@ -1,0 +1,20 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.content {
+  block-size: 100%;
+
+  &.hidden {
+    visibility: hidden;
+  }
+}

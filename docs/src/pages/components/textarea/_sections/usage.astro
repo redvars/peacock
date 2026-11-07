@@ -7,3 +7,18 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'}>
   <wc-textarea label='Textarea' helper-text='Optional helper text' clearable placeholder="Person Name" clearable></wc-textarea>
 </DemoComponentCard>
+
+<p>
+  <code>rows</code> sets the starting height. With <code>maxlength</code> a character counter shows
+  under the field. <code>auto-grow</code> makes the height follow the content, up to
+  <code>max-rows</code>; <code>resize</code> (<code>none</code>, <code>vertical</code> by default, or
+  <code>both</code>) controls dragging the corner, and is off while <code>auto-grow</code> is set.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-textarea label='Bio' rows='2' maxlength='280' auto-grow max-rows='8'></wc-textarea>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-textarea label='Notes' resize='none'></wc-textarea>
+</DemoComponentCard>

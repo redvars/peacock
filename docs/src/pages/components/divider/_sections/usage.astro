@@ -5,7 +5,11 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Here are several predefined checkbox styles, each serving its own semantic purpose.</p>
+<p>
+  A divider separates groups of content. It is <code>role="separator"</code> with an
+  <code>aria-orientation</code> that follows <code>orientation</code>: <code>horizontal</code> (the
+  default) or <code>vertical</code>.
+</p>
 
 <p>Horizontal Divider Usage</p>
 
@@ -58,13 +62,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <div class='container-vertical'>
     <p>Content A</p>
-    <wc-divider vertical></wc-divider>
+    <wc-divider orientation='vertical'></wc-divider>
     <p>Content B</p>
   </div>
 
   <div class='container-vertical'>
     <p>Content A</p>
-    <wc-divider vertical> or</wc-divider>
+    <wc-divider orientation='vertical'> or</wc-divider>
     <p>Content B</p>
   </div>
 </DemoComponentCard>

@@ -1,0 +1,51 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+// The steps read these through inheritance; each size scales with density.
+:host {
+  display: block;
+  --_stepper-indicator-size: var(
+    --stepper-indicator-size,
+    calc(1.5rem + var(--density, 0) * 0.125rem)
+  );
+  --_stepper-step-padding: calc(0.5rem + var(--density, 0) * 0.125rem);
+}
+
+:host([size='sm']) {
+  --_stepper-indicator-size: var(
+    --stepper-indicator-size,
+    calc(1.25rem + var(--density, 0) * 0.125rem)
+  );
+  --_stepper-step-padding: calc(0.375rem + var(--density, 0) * 0.125rem);
+}
+
+:host([size='lg']) {
+  --_stepper-indicator-size: var(
+    --stepper-indicator-size,
+    calc(2rem + var(--density, 0) * 0.125rem)
+  );
+  --_stepper-step-padding: calc(0.75rem + var(--density, 0) * 0.125rem);
+}
+
+.stepper {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  // Steps collapse their labels when this row gets narrow (see step.scss).
+  container: stepper / inline-size;
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.stepper.horizontal ::slotted(wc-step) {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+.stepper.horizontal ::slotted(wc-step:last-child) {
+  flex: none;
+}

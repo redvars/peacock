@@ -1,0 +1,236 @@
+@use '../../scss/mixin';
+@use '../../scss/code-block';
+
+@include mixin.base-styles;
+@include code-block.chrome(json-viewer);
+
+// Syntax colors are the code highlighter's, so one override restyles both (see token-colors.ts).
+:host {
+  --_indent: var(--json-viewer-indent, 1.25rem);
+  --_key: var(--code-highlighter-token-keyword, var(--color-purple));
+  --_string: var(--code-highlighter-token-string, var(--color-green));
+  --_number: var(--code-highlighter-token-constant, var(--color-orange));
+  --_boolean: var(--code-highlighter-token-function, var(--color-blue));
+  --_muted: var(
+    --code-highlighter-token-comment,
+    var(--color-on-surface-variant)
+  );
+  --_punctuation: var(
+    --code-highlighter-token-punctuation,
+    var(--color-on-surface-variant)
+  );
+
+  display: block;
+  min-width: 0;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+// ── Tree ───────────────────────────────────────────────────────────────────
+
+.tree {
+  max-height: var(--json-viewer-max-height, none);
+  padding-block: var(--_pad-near);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
+
+  @include mixin.get-typography(code-medium);
+}
+
+.item {
+  outline: none;
+}
+
+.group {
+  display: block;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-width: max-content;
+  min-height: calc(1.75rem + var(--density, 0) * 0.25rem);
+  padding-block: var(--spacing-025);
+  padding-inline: calc(
+      var(--spacing-100) + (var(--_level, 1) - 1) * var(--_indent)
+    )
+    var(--_pad-inline);
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 6%, transparent);
+  }
+}
+
+.close {
+  cursor: default;
+
+  &:hover {
+    background: none;
+  }
+}
+
+.item:focus-visible > .row {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+  border-radius: var(--shape-corner-extra-small);
+}
+
+.expander {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.25rem;
+  block-size: 1lh;
+  color: var(--color-on-surface-variant);
+
+  wc-icon {
+    --icon-size: 1.125rem;
+    --icon-color: currentColor;
+  }
+
+  &[data-leaf] {
+    visibility: hidden;
+  }
+}
+
+.expander-icon {
+  transition: transform var(--duration-short4) var(--easing-standard);
+}
+
+// The collapsed arrow points to the end side: mirrored in right-to-left.
+:host(:dir(rtl)) .expander-icon {
+  transform: scaleX(-1);
+}
+
+.item[data-expanded] > .row .expander-icon {
+  transform: rotate(90deg);
+}
+
+// ── Values ─────────────────────────────────────────────────────────────────
+
+.key {
+  color: var(--_key);
+}
+
+.index,
+.size,
+.null,
+.undefined,
+.other {
+  color: var(--_muted);
+}
+
+.size {
+  font-style: italic;
+}
+
+.punctuation {
+  color: var(--_punctuation);
+}
+
+.expander,
+.key + .punctuation,
+.index + .punctuation {
+  margin-inline-end: var(--spacing-100);
+}
+
+.string {
+  color: var(--_string);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.number {
+  color: var(--_number);
+}
+
+.boolean {
+  color: var(--_boolean);
+}
+
+.more {
+  margin-inline-start: var(--spacing-100);
+  color: var(--color-primary);
+  text-decoration: underline;
+  white-space: nowrap;
+
+  @include mixin.get-typography(label-medium);
+}
+
+.more-item .more {
+  margin-inline-start: 0;
+}
+
+// Long strings wrap within the tree instead of widening every row.
+.item[data-kind='string'] > .row {
+  min-width: 0;
+  white-space: normal;
+}
+
+// ── Actions ────────────────────────────────────────────────────────────────
+
+.row .actions {
+  position: sticky;
+  inset-inline-end: 0;
+  gap: 0;
+  margin-block: calc(-1 * var(--spacing-050));
+  padding-inline-start: var(--spacing-100);
+}
+
+// ── Error ──────────────────────────────────────────────────────────────────
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: var(--_pad-block) var(--_pad-inline);
+  color: var(--color-error);
+
+  @include mixin.get-typography(code-medium);
+
+  wc-icon {
+    --icon-size: 1.125rem;
+    --icon-color: currentColor;
+
+    flex: none;
+  }
+}
+
+.invalid {
+  --_background: var(
+    --json-viewer-background,
+    color-mix(
+      in srgb,
+      var(--color-error-container) 40%,
+      var(--color-surface-container-low)
+    )
+  );
+  --_border-color: var(
+    --json-viewer-border-color,
+    color-mix(in srgb, var(--color-error) 40%, transparent)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expander-icon {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .item:focus-visible > .row {
+    outline-color: Highlight;
+  }
+
+  .more {
+    color: LinkText;
+  }
+}

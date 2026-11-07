@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Frameworks.astro';
+import Highlighter from '../../components/Highlighter.astro';
+
+const install = `npm install @redvars/peacock @redvars/peacock-react`;
+
+const usage = `import { useState } from 'react';
+import '@redvars/peacock/styles.css';
+import { Button, Input, Select, Switch } from '@redvars/peacock-react';
+import type { SwitchElement } from '@redvars/peacock-react';
+
+const options = [
+  { label: 'Alpha', value: 'alpha' },
+  { label: 'Beta', value: 'beta' },
+];
+
+export function Settings() {
+  const [name, setName] = useState('Ada');
+  const [enabled, setEnabled] = useState(false);
+  const [choice, setChoice] = useState('alpha');
+
+  return (
+    <>
+      <Input label="Name" value={name} onInput={event => setName(event.detail.value)} />
+      <Switch
+        label="Enabled"
+        checked={enabled}
+        onChange={event => setEnabled((event.currentTarget as SwitchElement).checked)}
+      />
+      <Select
+        label="Choice"
+        options={options}
+        value={choice}
+        onChange={event => setChoice(event.detail.value)}
+      />
+      <Button onClick={() => save({ name, enabled, choice })}>Save</Button>
+    </>
+  );
+}`;
+
+const refs = `import { useRef } from 'react';
+import { Modal } from '@redvars/peacock-react';
+import type { ModalElement } from '@redvars/peacock-react';
+
+const modal = useRef<ModalElement>(null);
+// modal.current is the <wc-modal> element, with its own methods and properties.`;
+---
+
+<Layout
+  title='React'
+  description='@redvars/peacock-react wraps every Peacock element in a React component, built with @lit/react. It works with React 18 and 19.'
+>
+  <section class='foundation-section' aria-labelledby='install-title'>
+    <h2 class='text-headline-small' id='install-title'>Install</h2>
+    <Highlighter lang='bash'><Fragment set:text={install} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='usage-title'>
+    <h2 class='text-headline-small' id='usage-title'>Use</h2>
+    <p class='text-body-large'>
+      Components are named after the tag without its prefix: <code class='text-code-block'>wc-button</code>
+      is <code class='text-code-block'>Button</code>, <code class='text-code-block'>wc-date-picker</code> is
+      <code class='text-code-block'>DatePicker</code>. Props are set as element properties, so arrays,
+      objects and booleans reach the element as they are.
+    </p>
+    <Highlighter lang='tsx'><Fragment set:text={usage} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='events-title'>
+    <h2 class='text-headline-small' id='events-title'>Events</h2>
+    <p class='text-body-large'>
+      Every Peacock event has an <code class='text-code-block'>onX</code> prop named after it:
+      <code class='text-code-block'>change</code> is <code class='text-code-block'>onChange</code> and
+      <code class='text-code-block'>menu-item-activate</code> is
+      <code class='text-code-block'>onMenuItemActivate</code>. The handler gets the event with its
+      typed <code class='text-code-block'>detail</code>, also on React 18, which does not pass custom
+      events to custom elements by itself. Native events such as <code class='text-code-block'>onClick</code>
+      work as on any element.
+    </p>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='refs-title'>
+    <h2 class='text-headline-small' id='refs-title'>Refs</h2>
+    <p class='text-body-large'>
+      Each component exports its element type as <code class='text-code-block'>&lt;Name&gt;Element</code>
+      and its props as <code class='text-code-block'>&lt;Name&gt;Props</code>.
+    </p>
+    <Highlighter lang='tsx'><Fragment set:text={refs} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='next-title'>
+    <h2 class='text-headline-small' id='next-title'>Next.js</h2>
+    <p class='text-body-large'>
+      The package is marked <code class='text-code-block'>'use client'</code>. Render the components on
+      the client only, for example through <code class='text-code-block'>next/dynamic</code> with
+      <code class='text-code-block'>ssr: false</code>.
+    </p>
+  </section>
+</Layout>

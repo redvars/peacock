@@ -168,4 +168,30 @@ describe('SubMenu', () => {
     expect(subMenu.menu!.variant).to.equal('expressive');
     expect(subMenu.item!.submenuOpen).to.be.true;
   });
+
+  it('opens the nested menu on the logical end side, without deprecation warnings', async () => {
+    const warnings: string[] = [];
+    const originalWarn = console.warn;
+    console.warn = (message: string) => warnings.push(message);
+    try {
+      const el = await fixture<Menu>(html`
+        <wc-menu open>
+          <wc-sub-menu>
+            <wc-menu-item slot="item">Parent</wc-menu-item>
+            <wc-menu slot="menu">
+              <wc-menu-item>Child</wc-menu-item>
+            </wc-menu>
+          </wc-sub-menu>
+        </wc-menu>
+      `);
+      const subMenu = el.querySelector<SubMenu>('wc-sub-menu')!;
+      await subMenu.show();
+      await subMenu.menu!.updateComplete;
+
+      expect(subMenu.menu!.placement).to.equal('end-start');
+      expect(warnings.filter(w => w.includes('wc-menu'))).to.deep.equal([]);
+    } finally {
+      console.warn = originalWarn;
+    }
+  });
 });

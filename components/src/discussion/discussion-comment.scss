@@ -1,0 +1,71 @@
+@use '../../scss/mixin';
+@use './discussion-entry';
+
+@include mixin.base-styles;
+@include discussion-entry.styles;
+
+.comment {
+  display: flex;
+  gap: var(--spacing-150);
+  padding-block: calc(var(--_gap) / 2);
+}
+
+.avatar {
+  flex: none;
+}
+
+.main {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.menu-button {
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.body {
+  margin-block-start: var(--spacing-050);
+  overflow-wrap: anywhere;
+}
+
+.markdown {
+  display: block;
+}
+
+.edit-composer {
+  display: block;
+  margin-block-start: var(--spacing-050);
+}
+
+::slotted([slot='badge']) {
+  flex: none;
+}
+
+::slotted([slot='footer']) {
+  display: block;
+  margin-block-start: var(--spacing-100);
+}
+
+.actions {
+  margin-block-start: var(--spacing-025);
+  margin-inline-start: calc(-1 * var(--spacing-100));
+}
+
+// One level of replies, indented under the comment's text.
+.replies {
+  margin-block-start: var(--spacing-100);
+  padding-inline-start: var(--spacing-150);
+  border-inline-start: 2px solid var(--color-outline-variant);
+  border-radius: 0;
+}
+
+.reply-composer {
+  display: block;
+  margin-block-start: var(--spacing-100);
+}
+
+@media (forced-colors: active) {
+  .replies {
+    border-inline-start-color: CanvasText;
+  }
+}

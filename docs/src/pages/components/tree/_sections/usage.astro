@@ -1,0 +1,91 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A tree shows a hierarchy the person expands and moves through: files, org charts, nested
+  categories. Put <code>wc-tree-item</code> elements inside <code>wc-tree</code> and nest items to
+  give them children. Each item's text is its <code>label</code>; its <code>value</code> is what
+  the tree reports, and defaults to the label. <code>expanded</code> shows an item's children and
+  <code>disabled</code> takes an item out of reach. Name the tree with <code>label</code>.
+</p>
+<p>
+  The <code>start</code> slot takes an icon and the <code>end</code> slot a badge or a round icon
+  button. With <code>selection="single"</code> the selection follows focus and
+  <code>value</code> is the chosen item. Enter or a double-click fires <code>activate</code>, for
+  "open this item"; on an item with children it also toggles it, unless the listener calls
+  <code>preventDefault()</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tree
+    id='tree-files-demo'
+    label='Files'
+    selection='single'
+    value='src/tree/tree.ts'
+    style='width: min(100%, 22rem);'
+  >
+    <wc-tree-item value='src' label='src' expanded>
+      <wc-icon slot='start' name='folder'></wc-icon>
+      <wc-tree-item value='src/tree' label='tree' expanded>
+        <wc-icon slot='start' name='folder'></wc-icon>
+        <wc-tree-item value='src/tree/tree.ts' label='tree.ts'>
+          <wc-icon slot='start' name='description'></wc-icon>
+        </wc-tree-item>
+        <wc-tree-item value='src/tree/tree-item.ts' label='tree-item.ts'>
+          <wc-icon slot='start' name='description'></wc-icon>
+          <wc-badge slot='end' value='M'></wc-badge>
+        </wc-tree-item>
+      </wc-tree-item>
+      <wc-tree-item value='src/index.ts' label='index.ts'>
+        <wc-icon slot='start' name='description'></wc-icon>
+      </wc-tree-item>
+    </wc-tree-item>
+    <wc-tree-item value='test' label='test'>
+      <wc-icon slot='start' name='folder'></wc-icon>
+      <wc-tree-item value='test/tree.test.ts' label='tree.test.ts'>
+        <wc-icon slot='start' name='description'></wc-icon>
+      </wc-tree-item>
+    </wc-tree-item>
+    <wc-tree-item value='package.json' label='package.json'>
+      <wc-icon slot='start' name='data_object'></wc-icon>
+    </wc-tree-item>
+    <wc-tree-item value='.env' label='.env' disabled>
+      <wc-icon slot='start' name='lock'></wc-icon>
+    </wc-tree-item>
+  </wc-tree>
+  <script is:inline>
+    const filesTree = document.querySelector('#tree-files-demo');
+    filesTree.addEventListener('change', function (event) {
+      myConsole.log('change', event.detail.value);
+    });
+    filesTree.addEventListener('activate', function (event) {
+      myConsole.log('activate', event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Navigation only</h3>
+<p>
+  The default, <code>selection="none"</code>, has no selected state: items are only navigated and
+  activated, as in a table of contents that opens a page on <code>activate</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tree label='Organization' style='width: min(100%, 22rem);'>
+    <wc-tree-item label='Chief executive' expanded>
+      <wc-icon slot='start' name='person'></wc-icon>
+      <wc-tree-item label='Engineering' expanded>
+        <wc-icon slot='start' name='groups'></wc-icon>
+        <wc-tree-item label='Platform'></wc-tree-item>
+        <wc-tree-item label='Design systems'></wc-tree-item>
+      </wc-tree-item>
+      <wc-tree-item label='Sales'>
+        <wc-icon slot='start' name='groups'></wc-icon>
+        <wc-tree-item label='Enterprise'></wc-tree-item>
+      </wc-tree-item>
+    </wc-tree-item>
+  </wc-tree>
+</DemoComponentCard>

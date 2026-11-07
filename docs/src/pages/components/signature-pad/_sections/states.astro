@@ -1,0 +1,32 @@
+---
+export const title = 'Forms and states';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The pad is form-associated. Inside a <code>&lt;form&gt;</code> the signature is submitted under
+  <code>name</code> as a PNG file (<code>&lt;name&gt;.png</code>), like a file input, so the server
+  receives an ordinary upload instead of a base64 string a third larger.
+  <code>required</code> blocks submission until the person signs, and <code>form.reset()</code>
+  clears the pad. <code>readonly</code> shows the signature without the buttons;
+  <code>disabled</code> also dims it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form id='signature-pad-form' style='width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-signature-pad name='signature' label='Required' required></wc-signature-pad>
+    <wc-signature-pad label='Disabled' disabled></wc-signature-pad>
+    <div style='display: flex; gap: 0.5rem;'>
+      <wc-button type='submit'>Submit</wc-button>
+      <wc-button type='reset' variant='outlined'>Reset</wc-button>
+    </div>
+  </form>
+  <script is:inline>
+    document.querySelector('#signature-pad-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var file = new FormData(event.target).get('signature');
+      myConsole.log('submitted ' + file.name + ', ' + file.size + ' bytes');
+    });
+  </script>
+</DemoComponentCard>

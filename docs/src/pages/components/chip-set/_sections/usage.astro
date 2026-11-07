@@ -1,0 +1,64 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>Without options a chip set only lays its chips out, wrapping them onto new lines.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chip-set>
+    <wc-chip>Design</wc-chip>
+    <wc-chip>Engineering</wc-chip>
+    <wc-chip dismissible value="Product">Product</wc-chip>
+  </wc-chip-set>
+</DemoComponentCard>
+
+<h3>Filter chips</h3>
+
+<p>
+  With <code>selectable</code> the set becomes a filter-chip group: a click, Space or Enter on a chip
+  selects it (and again clears it), <code>value</code> holds the chip's <code>value</code> (or its
+  text), and each change fires <code>change</code> with <code>detail.value</code>. The set is one tab
+  stop; the arrow keys move between chips, Home and End jump to the ends. Name it with
+  <code>label</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chip-set selectable label="Sort by" value="newest">
+    <wc-chip value="newest">Newest</wc-chip>
+    <wc-chip value="oldest">Oldest</wc-chip>
+    <wc-chip value="popular">Most popular</wc-chip>
+  </wc-chip-set>
+</DemoComponentCard>
+
+<p>
+  Add <code>multiple</code> to select several chips: <code>value</code> becomes a comma-separated list
+  and <code>values</code> the array, and <code>change</code> carries both.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chip-set multiple label="Status" value="open,draft">
+    <wc-chip value="open">Open</wc-chip>
+    <wc-chip value="closed">Closed</wc-chip>
+    <wc-chip value="draft">Draft</wc-chip>
+  </wc-chip-set>
+</DemoComponentCard>
+
+<h3>In a form</h3>
+
+<p>
+  A selecting chip set is a form control: it submits <code>value</code> under <code>name</code> (one
+  entry per value with <code>multiple</code>), and <code>required</code> blocks submission until a
+  chip is selected.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form>
+    <wc-chip-set name="size" selectable required label="Size">
+      <wc-chip value="s">S</wc-chip>
+      <wc-chip value="m">M</wc-chip>
+      <wc-chip value="l">L</wc-chip>
+    </wc-chip-set>
+  </form>
+</DemoComponentCard>

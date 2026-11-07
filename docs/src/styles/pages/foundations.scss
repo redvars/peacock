@@ -101,34 +101,6 @@
   }
 }
 
-.foundation-pager {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  margin-block-start: var(--spacing-800);
-}
-
-.foundation-pager-link {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-025);
-  flex: 1 1 12rem;
-  padding: var(--spacing-200) var(--spacing-300);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--shape-corner-medium);
-  color: var(--color-on-surface);
-  text-decoration: none;
-
-  &:hover,
-  &:focus-visible {
-    background: var(--color-surface-container);
-  }
-}
-
-.foundation-pager-next {
-  text-align: end;
-}
-
 // ── Token tables ──────────────────────────────────────────────────────────
 
 .token-table {

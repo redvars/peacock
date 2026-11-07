@@ -1,0 +1,23 @@
+---
+export const title = 'Variants and states';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The field takes the same <code>variant</code>, helper, error and warning options as the other
+  fields, and <code>min</code>, <code>max</code> and <code>isDateDisabled</code> like
+  <code>wc-date-field</code>. It is form-associated: inside a <code>&lt;form&gt;</code> it submits
+  its value under its <code>name</code>, and <code>form.reset()</code> restores its first value.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-date-range-field label='Outlined' variant='outlined' value='2026-11-03/2026-11-09'></wc-date-range-field>
+    <wc-date-range-field label='Filled' variant='filled' value='2026-11-03/2026-11-09'></wc-date-range-field>
+    <wc-date-range-field label='One month' months='1' value='2026-11-03/2026-11-09'></wc-date-range-field>
+    <wc-date-range-field label='Error' error error-text='Pick a shorter range' value='2026-11-03/2026-11-09'></wc-date-range-field>
+    <wc-date-range-field label='Disabled' disabled value='2026-11-03/2026-11-09'></wc-date-range-field>
+    <wc-date-range-field label='Read only' readonly value='2026-11-03/2026-11-09'></wc-date-range-field>
+  </div>
+</DemoComponentCard>

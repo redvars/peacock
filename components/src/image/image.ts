@@ -6,12 +6,22 @@ import { observeThemeChange } from '@/__internal/utils/observe-theme-change.js';
 
 import styles from './image.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Image
  * @tag wc-image
  * @rawTag image
- * @summary An image component with lazy loading and theme support.
+ * @summary An image that loads as it nears the viewport, with an optional dark-theme source and a click-to-enlarge preview.
+ *
+ * @overview
+ * <p>Until the image is within 200px of the viewport a placeholder is shown in its place; then
+ * the <code>&lt;img&gt;</code> is rendered. Set <code>alt</code> as on a native image, or leave it
+ * empty for a decorative one.</p>
+ * <p><code>dark-src</code> is used instead of <code>src</code> while the theme is dark; when the
+ * theme changes the image loads again from the matching source.</p>
+ * <p>With <code>preview</code>, clicking the image opens it in a modal dialog labelled from
+ * Peacock's strings. Clicking the backdrop closes it.</p>
  * @tags media
  *
  * @example
@@ -29,8 +39,8 @@ export class Image extends LitElement {
   /** Optional dark-mode image source */
   @property({ reflect: true, attribute: 'dark-src' }) darkSrc = '';
 
-  /** Alt text / title for the image */
-  @property({ attribute: 'image-title' }) imageTitle = '';
+  /** Text alternative for the image, as on a native `<img>`. Leave empty for a decorative image. */
+  @property() alt = '';
 
   /** Enable click-to-preview lightbox */
   @property({ type: Boolean, reflect: true }) preview = false;
@@ -50,6 +60,9 @@ export class Image extends LitElement {
 
   /** Cleanup function returned by `observeThemeChange`. */
   private _themeCleanup: (() => void) | null = null;
+
+  /** Peacock's strings for the preview dialog label. */
+  private readonly i18n = new I18nController(this);
 
   connectedCallback() {
     super.connectedCallback();
@@ -115,7 +128,7 @@ export class Image extends LitElement {
         ${this._loaded
           ? html`<img
               src=${this._activeSrc}
-              alt=${this.imageTitle}
+              alt=${this.alt}
               class=${this.preview ? 'clickable' : ''}
               @click=${this._handleClick}
             />`
@@ -125,12 +138,12 @@ export class Image extends LitElement {
       <!-- Lightbox preview dialog — uses native top-layer to avoid stacking context issues -->
       <dialog
         class="preview-dialog"
-        aria-label="Image preview"
+        aria-label=${this.i18n.t('imagePreview')}
         @click=${this._handleDialogClick}
       >
         <img
           src=${this._activeSrc}
-          alt=${this.imageTitle}
+          alt=${this.alt}
           @click=${(e: Event) => e.stopPropagation()}
         />
       </dialog>

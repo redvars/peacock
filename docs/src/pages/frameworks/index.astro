@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Frameworks.astro';
+import { FRAMEWORK_PAGES } from '../../_data/frameworks.ts';
+---
+
+<Layout
+  title='Frameworks'
+  description='Peacock components are custom elements, so they work in any framework. The framework packages add what each framework needs on top: typed props and events, two-way binding for fields, and registration that works with any bundler.'
+>
+  <section class='foundation-section' aria-labelledby='packages-title'>
+    <h2 class='text-headline-small' id='packages-title'>Packages</h2>
+    <p class='text-body-large'>
+      Each package is generated from <code class='text-code-block'>custom-elements.json</code>, so it
+      always matches the components of the same Peacock version. Install it next to
+      <code class='text-code-block'>@redvars/peacock</code>.
+    </p>
+    <ul class='text-body-large'>
+      {FRAMEWORK_PAGES.slice(1).map(page => (
+        <li><a href={page.href}>{page.label}</a>: {page.description}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='registration-title'>
+    <h2 class='text-headline-small' id='registration-title'>Registration</h2>
+    <p class='text-body-large'>
+      Importing a component from a framework package defines its element, along with every
+      Peacock element it renders, such as <code class='text-code-block'>wc-option</code> and
+      <code class='text-code-block'>wc-icon</code> for a select. You do not need
+      <code class='text-code-block'>loader.js</code>, and with React and Vue only the components
+      you import end up in your bundle. Load the styles once, for example
+      <code class='text-code-block'>import '@redvars/peacock/styles.css'</code>.
+    </p>
+    <p class='text-body-large'>
+      Use one copy of Peacock per page. If <code class='text-code-block'>loader.js</code> or another
+      copy has already defined a tag, the existing definition stays and Peacock warns once in the
+      console.
+    </p>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='ssr-title'>
+    <h2 class='text-headline-small' id='ssr-title'>Server rendering</h2>
+    <p class='text-body-large'>
+      The components need a browser. With server rendering (Next.js, Nuxt, Angular SSR), render
+      Peacock components on the client only.
+    </p>
+  </section>
+</Layout>

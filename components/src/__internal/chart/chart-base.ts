@@ -10,7 +10,11 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { BaseType, easeCubicOut, Selection } from 'd3';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { isRtl } from '@/__internal/i18n/locale.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import type {
+  ChartLegendMode,
   ChartSelectDetail,
   ChartSeries,
   ChartTooltipModel,
@@ -31,11 +35,6 @@ export function chartColor(index: number): string {
   return `var(--color-chart-${(index % CHART_PALETTE_SIZE) + 1})`;
 }
 
-const compactFormat = new Intl.NumberFormat(undefined, {
-  notation: 'compact',
-  maximumFractionDigits: 1,
-});
-
 /**
  * Shared behaviour for every Peacock chart: container sizing, palette, value formatting,
  * tooltip, legend, keyboard navigation, the accessible data table, and loading and empty states.
@@ -53,13 +52,11 @@ export abstract class ChartBase extends LitElement {
   /** Shows a skeleton while data loads. */
   @property({ type: Boolean, reflect: true }) loading: boolean = false;
 
-  /** Shows the legend even for a single series. */
-  @property({ type: Boolean, attribute: 'show-legend' }) showLegend: boolean =
-    false;
-
-  /** Hides the legend. */
-  @property({ type: Boolean, attribute: 'hide-legend' }) hideLegend: boolean =
-    false;
+  /**
+   * When the legend shows: `auto` shows it for more than one series (always for pie and
+   * doughnut slices), `show` always, `hide` never.
+   */
+  @property({ type: String, reflect: true }) legend: ChartLegendMode = 'auto';
 
   /** Hides the tooltip. */
   @property({ type: Boolean, attribute: 'hide-tooltip' }) hideTooltip: boolean =
@@ -71,6 +68,9 @@ export abstract class ChartBase extends LitElement {
 
   /** Formats values in tooltips, value labels and axis ticks. Defaults to the locale number format, compact on axes. */
   @property({ attribute: false }) valueFormatter?: ChartValueFormatter;
+
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
   // ── State
 
@@ -105,6 +105,16 @@ export abstract class ChartBase extends LitElement {
 
   /** Whether the marks have been drawn once. */
   private hasDrawn = false;
+
+  /** Number formats for the locale they were made for, rebuilt when the locale changes. */
+  private numberFormats?: {
+    locale: string;
+    standard: Intl.NumberFormat;
+    compact: Intl.NumberFormat;
+  };
+
+  /** Peacock's strings and the locale values are formatted in. */
+  protected readonly i18n = new I18nController(this);
 
   // ── Lifecycle
 
@@ -165,7 +175,7 @@ export abstract class ChartBase extends LitElement {
   /** Tooltip content and default anchor for an item. */
   protected abstract getTooltip(index: number): ChartTooltipModel | undefined;
 
-  /** Detail of `chart-select` for an item. */
+  /** Detail of `select` for an item. */
   protected abstract getSelectDetail(index: number): ChartSelectDetail;
 
   /** The static SVG layers d3 draws into. */
@@ -179,10 +189,23 @@ export abstract class ChartBase extends LitElement {
     return ['height', 'plotWidth', 'hiddenKeys', 'loading', 'valueFormatter'];
   }
 
+  /** The legend mode in effect: unknown values count as `auto`. */
+  protected legendMode(): ChartLegendMode {
+    return this.legend === 'show' || this.legend === 'hide'
+      ? this.legend
+      : 'auto';
+  }
+
+  /** Whether the legend shows when `legend` is `auto`. */
+  protected legendAuto(): boolean {
+    return this.getSeries().length > 1;
+  }
+
   /** Whether the legend shows. */
   protected legendVisible(): boolean {
-    if (this.hideLegend) return false;
-    return this.showLegend || this.getSeries().length > 1;
+    const mode = this.legendMode();
+    if (mode === 'auto') return this.legendAuto();
+    return mode === 'show';
   }
 
   /** Width and height of the SVG. */
@@ -218,14 +241,14 @@ export abstract class ChartBase extends LitElement {
   protected formatValue(value: number): string {
     return this.valueFormatter
       ? this.valueFormatter(value)
-      : value.toLocaleString();
+      : this.getNumberFormats().standard.format(value);
   }
 
   /** Formats an axis tick. */
   protected formatTick(value: number): string {
     return this.valueFormatter
       ? this.valueFormatter(value)
-      : compactFormat.format(value);
+      : this.getNumberFormats().compact.format(value);
   }
 
   /** Whether a series or slice is switched off in the legend. */
@@ -254,6 +277,22 @@ export abstract class ChartBase extends LitElement {
 
   // ── Private methods
 
+  /** The number formats for the resolved locale, cached per instance. */
+  private getNumberFormats() {
+    const { locale } = this.i18n;
+    if (this.numberFormats?.locale !== locale) {
+      this.numberFormats = {
+        locale,
+        standard: new Intl.NumberFormat(locale),
+        compact: new Intl.NumberFormat(locale, {
+          notation: 'compact',
+          maximumFractionDigits: 1,
+        }),
+      };
+    }
+    return this.numberFormats;
+  }
+
   private pointFromEvent(event: PointerEvent | MouseEvent) {
     const rect = this.plotElement?.getBoundingClientRect();
     if (!rect) return undefined;
@@ -277,14 +316,19 @@ export abstract class ChartBase extends LitElement {
     const point = this.pointFromEvent(event);
     if (!point) return;
     const index = this.itemAtPoint(point.x, point.y);
-    if (index >= 0) this.select(index);
+    if (index >= 0) this.selectItem(index);
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
     const count = this.getItemCount();
     if (!count) return;
     let next = this.activeIndex;
-    switch (event.key) {
+    // Left and Right follow the reading direction: in RTL, Left moves forward.
+    let { key } = event;
+    if (isRtl(this) && (key === 'ArrowLeft' || key === 'ArrowRight')) {
+      key = key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
+    }
+    switch (key) {
       case 'ArrowRight':
       case 'ArrowDown':
         next = next < 0 ? 0 : Math.min(next + 1, count - 1);
@@ -306,7 +350,7 @@ export abstract class ChartBase extends LitElement {
       case ' ':
         if (this.activeIndex >= 0) {
           event.preventDefault();
-          this.select(this.activeIndex);
+          this.selectItem(this.activeIndex);
         }
         return;
       default:
@@ -330,9 +374,10 @@ export abstract class ChartBase extends LitElement {
       : '';
   }
 
-  private select(index: number) {
+  /** Fires `select` for the item at `index`. */
+  private selectItem(index: number) {
     this.dispatchEvent(
-      new CustomEvent<ChartSelectDetail>('chart-select', {
+      new CustomEvent<ChartSelectDetail>('select', {
         bubbles: true,
         composed: true,
         detail: this.getSelectDetail(index),
@@ -414,15 +459,15 @@ export abstract class ChartBase extends LitElement {
 
   private renderPlot() {
     const { width, height } = this.svgSize();
-    const name = this.label || 'Chart';
+    const name = this.label || this.i18n.t('chart');
     return html`<div
       class="plot"
       part="plot"
       style=${styleMap({ height: `${this.height}px` })}
       tabindex="0"
       role="group"
-      aria-roledescription="chart"
-      aria-label="${name}. Use the arrow keys to explore the data."
+      aria-roledescription=${this.i18n.t('chartRole')}
+      aria-label=${this.i18n.t('chartInstructions')(name)}
       @pointermove=${this.handlePointerMove}
       @pointerleave=${this.handlePointerLeave}
       @click=${this.handleClick}
@@ -447,7 +492,7 @@ export abstract class ChartBase extends LitElement {
         class="empty"
         style=${styleMap({ height: `${this.height}px` })}
       >
-        <slot name="empty">No data</slot>
+        <slot name="empty">${this.i18n.t('noData')}</slot>
       </div>`;
     } else {
       body = this.renderPlot();
@@ -460,10 +505,11 @@ export abstract class ChartBase extends LitElement {
       aria-busy=${this.loading ? 'true' : 'false'}
     >
       ${body} ${hasContent ? this.renderLegend() : nothing}
+      <slot name="insight" class="insight"></slot>
       ${hasContent
         ? html`<table class="sr-only">
             <caption>
-              ${this.label || 'Chart data'}
+              ${this.label || this.i18n.t('chartData')}
             </caption>
             ${this.renderTable()}
           </table>`

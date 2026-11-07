@@ -1,6 +1,6 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixture, expect, oneEvent } from '@open-wc/testing';
+import { aTimeout, fixture, expect, oneEvent } from '@open-wc/testing';
 import { Table } from '../src/table/index.js';
 import type { TableColumn, TableRow } from '../src/table/table.js';
 import { Pagination } from '../src/pagination/index.js';
@@ -56,6 +56,9 @@ async function render(
   el.columns = cols;
   el.data = data;
   await el.updateComplete;
+  // A slotted wc-pagination is picked up on slotchange.
+  await aTimeout(0);
+  await el.updateComplete;
   return el;
 }
 
@@ -81,7 +84,11 @@ describe('Table', () => {
 
       setTimeout(() => button().click());
       const event = await oneEvent(el, 'sort');
-      expect(event.detail).to.deep.equal({ sortBy: '', sortOrder: 'asc' });
+      expect(event.detail).to.deep.equal({
+        sortBy: '',
+        sortOrder: 'asc',
+        sorts: [],
+      });
     });
 
     it('sorts text in natural number order', async () => {
@@ -110,7 +117,7 @@ describe('Table', () => {
   describe('selection', () => {
     it('shows the header checkbox as mixed when some rows are selected', async () => {
       const el = await render(
-        html`<wc-table selection-type="checkbox"></wc-table>`,
+        html`<wc-table selection="multiple"></wc-table>`,
         people(3),
       );
       el.selectedRowKeys = ['p-1'];
@@ -126,11 +133,13 @@ describe('Table', () => {
 
     it('selects and clears the current page from the header checkbox', async () => {
       const el = await render(
-        html`<wc-table
-          selection-type="checkbox"
-          paginate
-          page-size="2"
-        ></wc-table>`,
+        html`<wc-table selection="multiple">
+          <wc-pagination
+            slot="footer"
+            page-size="2"
+            .pageSizes=${[2]}
+          ></wc-pagination>
+        </wc-table>`,
         people(5),
       );
       setTimeout(() =>
@@ -149,7 +158,7 @@ describe('Table', () => {
 
     it('marks selected rows and shows the selection bar', async () => {
       const el = await render(
-        html`<wc-table selection-type="checkbox"></wc-table>`,
+        html`<wc-table selection="multiple"></wc-table>`,
         people(3),
       );
       el.selectedRowKeys = ['p-2'];
@@ -166,11 +175,13 @@ describe('Table', () => {
 
     it('offers to select every item across pages', async () => {
       const el = await render(
-        html`<wc-table
-          selection-type="checkbox"
-          paginate
-          page-size="2"
-        ></wc-table>`,
+        html`<wc-table selection="multiple">
+          <wc-pagination
+            slot="footer"
+            page-size="2"
+            .pageSizes=${[2]}
+          ></wc-pagination>
+        </wc-table>`,
         people(5),
       );
       el.selectedRowKeys = ['p-1', 'p-2'];
@@ -225,7 +236,7 @@ describe('Table', () => {
 
     it('toggles the row selection with Space', async () => {
       const el = await render(
-        html`<wc-table selection-type="checkbox"></wc-table>`,
+        html`<wc-table selection="multiple"></wc-table>`,
         people(3),
       );
       const cell = root(el).querySelector(
@@ -310,7 +321,14 @@ describe('Table', () => {
 
     it('moves back to the last page when the data shrinks', async () => {
       const el = await render(
-        html`<wc-table paginate page-size="2" page="3"></wc-table>`,
+        html`<wc-table>
+          <wc-pagination
+            slot="footer"
+            page-size="2"
+            page="3"
+            .pageSizes=${[2]}
+          ></wc-pagination>
+        </wc-table>`,
         people(6),
       );
       expect(el.page).to.equal(3);
@@ -322,7 +340,14 @@ describe('Table', () => {
 
     it('reports the full row count under pagination', async () => {
       const el = await render(
-        html`<wc-table paginate page-size="2" page="2"></wc-table>`,
+        html`<wc-table>
+          <wc-pagination
+            slot="footer"
+            page-size="2"
+            page="2"
+            .pageSizes=${[2]}
+          ></wc-pagination>
+        </wc-table>`,
         people(6),
       );
       const grid = root(el).querySelector('[role="grid"]');

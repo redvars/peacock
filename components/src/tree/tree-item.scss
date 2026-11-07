@@ -1,0 +1,186 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_indent: var(--tree-indent, 1.5rem);
+  --_row-height: var(
+    --tree-item-height,
+    calc(2.5rem + var(--density, 0) * 0.25rem)
+  );
+  --_container-color: transparent;
+  --_label-text-color: var(--color-on-surface);
+  --_label-text-opacity: 1;
+
+  display: block;
+  outline: none;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: var(--_row-height);
+  padding-inline: calc(
+      var(--spacing-100) + (var(--_level, 1) - 1) * var(--_indent)
+    )
+    var(--spacing-100);
+  border-radius: var(--shape-corner-small);
+  color: var(--_label-text-color);
+  cursor: pointer;
+  --ripple-pressed-color: var(--_label-text-color);
+}
+
+:host([selected]) {
+  --_container-color: var(
+    --tree-item-selected-container-color,
+    var(--color-secondary-container)
+  );
+  --_label-text-color: var(
+    --tree-item-selected-label-text-color,
+    var(--color-on-secondary-container)
+  );
+}
+
+// A checked item in a multi-select tree shows its checkbox; only the single selection is filled.
+:host([aria-checked]) {
+  --_container-color: transparent;
+  --_label-text-color: var(--color-on-surface);
+}
+
+:host([disabled]) {
+  --_label-text-opacity: 0.38;
+
+  .row {
+    cursor: not-allowed;
+  }
+
+  .ripple {
+    display: none;
+  }
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--_container-color);
+  pointer-events: none;
+}
+
+.focus-ring {
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.ripple {
+  border-radius: inherit;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--spacing-100);
+  min-inline-size: 0;
+  opacity: var(--_label-text-opacity);
+}
+
+.expander {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  color: var(--color-on-surface-variant);
+
+  &[data-leaf] {
+    visibility: hidden;
+  }
+}
+
+.expander-icon {
+  --icon-size: 1.25rem;
+  --icon-color: currentColor;
+
+  transition: transform 150ms ease;
+}
+
+// The collapsed arrow points to the end side: mirrored in right-to-left.
+:host(:dir(rtl)) .expander-icon {
+  transform: scaleX(-1);
+}
+
+:host([expanded]) .expander-icon {
+  transform: rotate(90deg);
+}
+
+.progress {
+  --progress-height: 1rem;
+  --progress-line-thickness: 2px;
+}
+
+.checkbox {
+  flex: none;
+  --icon-size: 1.25rem;
+  --icon-color: var(--color-on-surface-variant);
+}
+
+:host([selected]) .checkbox,
+:host([aria-checked='mixed']) .checkbox {
+  --icon-color: var(--color-primary);
+}
+
+.label {
+  @include mixin.get-typography('body-large');
+
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+::slotted([slot='start']),
+::slotted([slot='end']) {
+  flex: none;
+  --icon-color: currentColor;
+}
+
+.loading {
+  @include mixin.get-typography('body-medium');
+
+  display: flex;
+  align-items: center;
+  min-block-size: var(--_row-height);
+  padding-inline-start: calc(
+    var(--spacing-100) + (var(--_level, 1) - 1) * var(--_indent) + 1.5rem +
+      var(--spacing-100)
+  );
+  color: var(--color-on-surface-variant);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expander-icon {
+    transition: none;
+  }
+}
+
+// Forced colors drop the selected fill: outline the selected row and grey out disabled ones.
+@media (forced-colors: active) {
+  :host([aria-selected='true']) .row,
+  :host([aria-checked='true']) .row {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  :host([disabled]) .content {
+    color: GrayText;
+  }
+}

@@ -7,11 +7,11 @@ import {
   type HourCycle,
   type TimeParts,
   dayPeriodNames,
-  localeHourCycle,
   parseIsoTime,
-  resolveLocale,
+  resolveHourCycle,
   toIsoTime,
 } from '@/__internal/utils/date.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './time-picker.scss';
 
 type Column = 'hour' | 'minute' | 'second' | 'period';
@@ -40,6 +40,8 @@ const toSeconds = ({ hour, minute, second }: TimeParts) =>
  * <code>wc-time-field</code> and can also be placed inline.</p>
  * <p>Values are 24-hour ISO times (<code>09:30</code>, or <code>09:30:15</code> with
  * <code>seconds</code>), whatever the display.</p>
+ * <p>It is a building block, not a form control: it has no <code>name</code> and is not submitted
+ * with a form. In a form, use <code>wc-time-field</code> or <code>wc-datetime-field</code>.</p>
  *
  * @cssprop --time-picker-height - Height of the columns. Defaults to 14rem.
  *
@@ -48,7 +50,7 @@ const toSeconds = ({ hour, minute, second }: TimeParts) =>
  *
  * @example
  * ```html
- * <wc-time-picker value="09:30" step="15"></wc-time-picker>
+ * <wc-time-picker value="09:30" minute-step="15"></wc-time-picker>
  * ```
  * @tags input
  */
@@ -61,12 +63,12 @@ export class TimePicker extends LitElement {
   // ── Properties ───────────────────────────────────────────────────────────
 
   /** The time as `HH:mm` (or `HH:mm:ss` with `seconds`), 24-hour. Empty when none is picked. */
-  @property({ type: String, reflect: true }) value = '';
+  @property({ type: String }) value = '';
 
   /** Minutes between entries in the minute column, such as 15 for 00, 15, 30 and 45. */
-  @property({ type: Number }) step = 1;
+  @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
 
-  /** Adds a seconds column. */
+  /** The value's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
   @property({ type: Boolean }) seconds = false;
 
   /** `h12` shows 1–12 with AM/PM, `h23` shows 0–23; defaults to the locale's. */
@@ -89,6 +91,11 @@ export class TimePicker extends LitElement {
 
   /** The column holding the tab stop. */
   @state() private activeColumn: Column = 'hour';
+
+  // ── Private fields ───────────────────────────────────────────────────────
+
+  /** Peacock's strings for the column labels, and the resolved locale. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -125,7 +132,7 @@ export class TimePicker extends LitElement {
   }
 
   private get resolvedHourCycle(): HourCycle {
-    return this.hourCycle ?? localeHourCycle(resolveLocale(this.locale));
+    return resolveHourCycle(this.hourCycle, this.i18n.locale);
   }
 
   private get columns(): Column[] {
@@ -140,7 +147,7 @@ export class TimePicker extends LitElement {
     const parsed = parseIsoTime(this.value);
     if (parsed) return parsed;
     const now = new Date();
-    const step = Math.max(1, this.step);
+    const step = Math.max(1, this.minuteStep);
     return {
       hour: now.getHours(),
       minute: Math.floor(now.getMinutes() / step) * step,
@@ -206,14 +213,14 @@ export class TimePicker extends LitElement {
         ? [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => [h % 12, String(h)])
         : Array.from({ length: 24 }, (_, h) => [h, pad(h)]);
     } else if (column === 'period') {
-      const [am, pm] = dayPeriodNames(resolveLocale(this.locale));
+      const [am, pm] = dayPeriodNames(this.i18n.locale);
       values = [
         [0, am],
         [1, pm],
       ];
     } else {
       const step =
-        column === 'minute' ? Math.max(1, Math.min(60, this.step)) : 1;
+        column === 'minute' ? Math.max(1, Math.min(60, this.minuteStep)) : 1;
       values = Array.from({ length: Math.ceil(60 / step) }, (_, i) => [
         i * step,
         pad(i * step),
@@ -305,12 +312,12 @@ export class TimePicker extends LitElement {
   // ── Render ───────────────────────────────────────────────────────────────
 
   private renderColumn(column: Column): TemplateResult {
-    const labels = {
-      hour: 'Hours',
-      minute: 'Minutes',
-      second: 'Seconds',
-      period: 'AM/PM',
-    };
+    const labelKeys = {
+      hour: 'hours',
+      minute: 'minutes',
+      second: 'seconds',
+      period: 'dayPeriod',
+    } as const;
     const selected = this.selectedValue(column);
     // The entry each column scrolls to: the picked one, or the current time's.
     const anchor = selected ?? this.columnValue(column, this.parts);
@@ -320,7 +327,7 @@ export class TimePicker extends LitElement {
         class=${classMap({ column: true, [`column-${column}`]: true })}
         data-column=${column}
         role="listbox"
-        aria-label=${labels[column]}
+        aria-label=${this.i18n.t(labelKeys[column])}
         aria-activedescendant=${selected === null ? nothing : id(selected)}
         aria-disabled=${this.disabled ? 'true' : nothing}
         tabindex=${!this.disabled && column === this.activeColumn ? 0 : -1}

@@ -1,0 +1,51 @@
+---
+export const title = 'Navigation';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  By default (<code>navigation="none"</code>) the steps are not buttons. To let the person move
+  between steps:
+</p>
+<ul>
+  <li>
+    <code>navigation="linear"</code>: steps up to the first unfinished required step are buttons, so
+    the person can go back to any earlier step but not skip ahead. Optional and disabled steps do
+    not block, and an earlier step with <code>error</code> does.
+  </li>
+  <li><code>navigation="free"</code>: every step that is not disabled is a button.</li>
+</ul>
+<p>
+  Activating a step fires <code>change</code> with <code>detail.value</code> and
+  <code>detail.index</code>, then moves <code>current</code>. The event is cancelable: call
+  <code>preventDefault()</code> to keep the current step, for example while the current step's form
+  is invalid.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-stepper id='stepper-linear' navigation='linear' current='shipping' label='Checkout'>
+      <wc-step value='cart' label='Cart'></wc-step>
+      <wc-step value='shipping' label='Shipping'></wc-step>
+      <wc-step value='payment' label='Payment'></wc-step>
+      <wc-step value='review' label='Review'></wc-step>
+    </wc-stepper>
+  </div>
+  <script is:inline>
+    document.querySelector('#stepper-linear').addEventListener('change', function (event) {
+      myConsole.log('change: ' + event.detail.value + ' (' + event.detail.index + ')');
+    });
+  </script>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-stepper navigation='free' current='profile' label='Settings'>
+      <wc-step value='profile' label='Profile'></wc-step>
+      <wc-step value='security' label='Security'></wc-step>
+      <wc-step value='billing' label='Billing' disabled></wc-step>
+      <wc-step value='notifications' label='Notifications'></wc-step>
+    </wc-stepper>
+  </div>
+</DemoComponentCard>

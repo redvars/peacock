@@ -11,7 +11,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang='html'>
-  <wc-chart-bar id='bar-format' show-values index='month' label='Revenue by month'></wc-chart-bar>
+  <wc-chart-bar id='bar-format' show-values category-key='month' label='Revenue by month'></wc-chart-bar>
 
   <script is:inline>
     const barFormat = document.getElementById('bar-format');

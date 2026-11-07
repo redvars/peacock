@@ -11,7 +11,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang='html'>
-  <wc-chart-bar id='bar-stacked' stacked index='quarter' label='Revenue by channel'></wc-chart-bar>
+  <wc-chart-bar id='bar-stacked' stacked category-key='quarter' label='Revenue by channel'></wc-chart-bar>
 
   <script is:inline>
     const barStacked = document.getElementById('bar-stacked');

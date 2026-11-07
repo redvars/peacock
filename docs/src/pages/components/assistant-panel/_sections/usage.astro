@@ -1,0 +1,60 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-assistant-panel</code> is the frame of a conversation with the assistant (ADR-030002): a
+  header that says whose access it uses, a <code>wc-chat-thread</code>, a
+  <code>wc-prompt-input</code>, and a reminder to check drafts. Writes appear only as
+  <code>wc-draft-card</code>s that the person confirms. Ask the demo below about a cracked laptop
+  screen; its answers are scripted.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='block-size: 44rem; inline-size: 100%; max-inline-size: 30rem; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-large); overflow: hidden;'>
+    <wc-assistant-panel id='panel-demo' supporting-text='Acting as Alan Turing, with your access'>
+      <wc-chat-thread id='panel-demo-thread'>
+        <p slot='empty'>What can I help with? I use your access: I can read and do only what you can, and I ask before I change anything.</p>
+      </wc-chat-thread>
+      <wc-prompt-input id='panel-demo-prompt' slot='composer' placeholder='Ask for something'></wc-prompt-input>
+    </wc-assistant-panel>
+  </div>
+  <script is:inline src='/assets/js/assistant-demo.js'></script>
+  <script is:inline>
+    window.peacockAssistantDemo(
+      document.querySelector('#panel-demo'),
+      document.querySelector('#panel-demo-thread'),
+      document.querySelector('#panel-demo-prompt'),
+    );
+  </script>
+</DemoComponentCard>
+
+<h3>Placement</h3>
+<p>
+  With <code>variant="standard"</code> (default) the panel fills its container: put it in
+  <code>wc-app-shell</code>'s <code>aside</code> slot, beside the page it helps with. On small
+  screens use <code>variant="modal"</code>: it opens as a sheet from the end edge with
+  <code>open</code>, <code>show()</code>, <code>hide()</code> and <code>toggle()</code>, and closes on
+  Escape or a press outside, firing <code>close</code> with the reason.
+</p>
+
+<h3>The rules it follows</h3>
+<ul>
+  <li><strong>The assistant acts as the person.</strong> Say so in <code>supporting-text</code>; steps
+    their access did not allow show as <em>Not allowed</em> in <code>wc-assistant-steps</code>.</li>
+  <li><strong>Writes are drafts.</strong> Show them as <code>wc-draft-card</code>s; nothing is saved
+    until the person presses its confirm button, and Edit in form opens the app's own form.</li>
+  <li><strong>Facts come from the platform.</strong> Cite the records an answer used with
+    <code>[1](cite:id)</code> links and the message's <code>citations</code>.</li>
+  <li><strong>Turning AI off removes it.</strong> With AI off for the page, the panel, steps and
+    draft cards render nothing.</li>
+</ul>
+
+<h3>Accessibility</h3>
+<p>
+  The panel is a labelled region named by its headline. The thread is a log that announces each
+  answer once it is complete, rather than word by word, and keeps the latest message in view until
+  the person scrolls up.
+</p>

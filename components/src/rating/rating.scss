@@ -1,0 +1,140 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_star-size: calc(1.5rem + var(--density, 0) * 0.125rem);
+  --_filled-color: var(--rating-filled-color, var(--color-primary));
+  --_empty-color: var(--rating-empty-color, var(--color-on-surface-variant));
+
+  display: inline-block;
+}
+
+:host([size='md']) {
+  --_star-size: calc(2rem + var(--density, 0) * 0.125rem);
+}
+
+:host([size='lg']) {
+  --_star-size: calc(2.5rem + var(--density, 0) * 0.125rem);
+}
+
+.rating {
+  --_label-text-color: var(--color-primary);
+  --_helper-text-color: var(--color-on-surface-variant);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+
+  &.has-error {
+    --_label-text-color: var(--color-error);
+    --_helper-text-color: var(--color-error);
+  }
+}
+
+.label {
+  @include mixin.get-typography(body-small);
+
+  color: var(--_label-text-color);
+
+  .required {
+    color: var(--color-error);
+    padding-inline-start: var(--spacing-025);
+  }
+}
+
+.helper {
+  @include mixin.get-typography(body-small);
+
+  color: var(--_helper-text-color);
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--spacing-025);
+  border-radius: var(--shape-corner-small);
+  outline: none;
+  touch-action: manipulation;
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: 0.125rem;
+  }
+}
+
+.star {
+  position: relative;
+  display: inline-flex;
+  inline-size: var(--rating-icon-size, var(--_star-size));
+  block-size: var(--rating-icon-size, var(--_star-size));
+  cursor: pointer;
+
+  wc-icon {
+    --icon-size: var(--rating-icon-size, var(--_star-size));
+  }
+
+  .empty-icon {
+    --icon-color: var(--_empty-color);
+  }
+
+  // The filled star sits on the empty one, cut to the filled part from the start side, so it
+  // mirrors in right-to-left layouts.
+  .fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: var(--_fill, 0%);
+    overflow: hidden;
+
+    .filled-icon {
+      --icon-color: var(--_filled-color);
+    }
+  }
+}
+
+.readonly .star {
+  cursor: default;
+}
+
+.disabled {
+  .star {
+    cursor: not-allowed;
+  }
+
+  .stars,
+  .label,
+  .helper {
+    opacity: 0.38;
+  }
+}
+
+@media (forced-colors: active) {
+  .star {
+    .empty-icon {
+      --icon-color: CanvasText;
+    }
+
+    .fill .filled-icon {
+      --icon-color: Highlight;
+    }
+  }
+
+  .disabled .star .empty-icon,
+  .disabled .star .fill .filled-icon {
+    --icon-color: GrayText;
+  }
+
+  .stars:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+// The label with the Suggested badge beside it (ADR-030002).
+.label-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
+}

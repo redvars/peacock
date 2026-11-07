@@ -1,0 +1,73 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+// The items read the layout through these inherited properties (see description-item.scss).
+:host {
+  display: block;
+  --_description-list-stacked: minmax(0, 1fr);
+  --_description-list-inline: minmax(
+      0,
+      var(--description-list-label-width, 12rem)
+    )
+    minmax(0, 1fr);
+  --_description-item-columns: var(--_description-list-stacked);
+  --_description-item-border: none;
+  --_description-item-padding-block: 0;
+}
+
+:host([layout='inline']) {
+  --_description-item-columns: var(--_description-list-inline);
+}
+
+:host([divided]) {
+  --_description-item-border: 1px solid
+    var(--color-outline-variant, currentColor);
+  --_description-item-padding-block: calc(
+    0.75rem + var(--density, 0) * 0.125rem
+  );
+}
+
+.container {
+  container: description-list / inline-size;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(var(--_columns, 1), minmax(0, 1fr));
+  column-gap: var(--description-list-column-gap, 1.5rem);
+  row-gap: var(
+    --description-list-row-gap,
+    calc(1rem + var(--density, 0) * 0.25rem)
+  );
+}
+
+:host([divided]) .list {
+  row-gap: var(--description-list-row-gap, 0);
+}
+
+.columns-2 {
+  --_columns: 2;
+}
+
+.columns-3 {
+  --_columns: 3;
+}
+
+.columns-4 {
+  --_columns: 4;
+}
+
+@container description-list (max-width: 40rem) {
+  .columns-3,
+  .columns-4 {
+    --_columns: 2;
+  }
+}
+
+@container description-list (max-width: 24rem) {
+  .list {
+    --_columns: 1;
+    --_description-item-columns: var(--_description-list-stacked);
+  }
+}

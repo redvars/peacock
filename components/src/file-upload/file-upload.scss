@@ -1,0 +1,230 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.file-upload {
+  --_drop-zone-color: var(
+    --file-upload-drop-zone-color,
+    var(--color-surface-container-low)
+  );
+  --_drop-zone-border-color: var(
+    --file-upload-drop-zone-border-color,
+    var(--color-outline)
+  );
+  --_drop-zone-shape: var(
+    --file-upload-drop-zone-shape,
+    var(--shape-corner-medium)
+  );
+  --_label-text-color: var(--color-primary);
+  --_helper-text-color: var(--color-on-surface-variant);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  &.has-error {
+    --_label-text-color: var(--color-error);
+    --_helper-text-color: var(--color-error);
+    --_drop-zone-border-color: var(--color-error);
+  }
+}
+
+.label {
+  @include mixin.get-typography(body-small);
+
+  color: var(--_label-text-color);
+
+  .required {
+    color: var(--color-error);
+    padding-inline-start: var(--spacing-025);
+  }
+}
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-100);
+  min-block-size: var(--file-upload-drop-zone-min-block-size, 8rem);
+  padding: var(--spacing-300) var(--spacing-200);
+  border: 0.0625rem dashed var(--_drop-zone-border-color);
+  border-radius: var(--_drop-zone-shape);
+  background-color: var(--_drop-zone-color);
+  color: var(--color-on-surface);
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+
+  @include mixin.get-typography-not-important(body-medium);
+
+  .drop-icon {
+    --icon-size: 2rem;
+    --icon-color: var(--color-on-surface-variant);
+  }
+
+  .browse {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  &:hover {
+    --_drop-zone-border-color: var(--color-primary);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: 0.125rem;
+  }
+
+  &.dragging {
+    --_drop-zone-border-color: var(--color-primary);
+
+    border-style: solid;
+    background-color: var(--color-primary-container);
+  }
+}
+
+.disabled .drop-zone {
+  cursor: not-allowed;
+  opacity: 0.38;
+
+  &:hover {
+    --_drop-zone-border-color: var(--color-outline);
+  }
+}
+
+.disabled .label,
+.disabled .helper {
+  opacity: 0.38;
+}
+
+.helper,
+.rejections {
+  @include mixin.get-typography(body-small);
+
+  margin: 0;
+  padding-inline: var(--spacing-200);
+  color: var(--_helper-text-color);
+}
+
+.rejections {
+  padding-inline-start: var(--spacing-400);
+  color: var(--color-error);
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: var(--spacing-100) var(--spacing-100) var(--spacing-100)
+    var(--spacing-200);
+  border: 0.0625rem solid var(--color-outline-variant, var(--color-outline));
+  border-radius: var(--shape-corner-small);
+  color: var(--color-on-surface);
+
+  .file-icon {
+    --icon-size: 1.5rem;
+    --icon-color: var(--color-on-surface-variant);
+
+    flex: none;
+  }
+
+  &.error .file-icon {
+    --icon-color: var(--color-error);
+  }
+
+  &.done .file-icon {
+    --icon-color: var(--color-success);
+  }
+}
+
+.file-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  min-inline-size: 0;
+}
+
+.file-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-100);
+}
+
+.file-name {
+  @include mixin.get-typography(body-medium);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.file-size,
+.file-status,
+.percent {
+  @include mixin.get-typography(body-small);
+
+  flex: none;
+  color: var(--color-on-surface-variant);
+}
+
+.file-error {
+  @include mixin.get-typography(body-small);
+
+  color: var(--color-error);
+}
+
+.file-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+
+  .progress-bar {
+    flex: 1;
+  }
+}
+
+.remove-button {
+  flex: none;
+}
+
+// Forced colors drop the fills; keep the zone's border and the drag state visible.
+@media (forced-colors: active) {
+  .drop-zone {
+    border-color: ButtonText;
+
+    &.dragging,
+    &:focus-visible {
+      border-color: Highlight;
+      outline-color: Highlight;
+    }
+  }
+
+  .disabled .drop-zone {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  .file-item {
+    border-color: CanvasText;
+  }
+}

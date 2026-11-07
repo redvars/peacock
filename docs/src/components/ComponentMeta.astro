@@ -1,0 +1,80 @@
+---
+// The row under a component page's title: the tag (with a copy button), a "How to use" panel
+// with the CDN and framework snippets, and links to the source and to this docs page on GitHub.
+// Styles: styles/layout/article.scss (.component-meta).
+import { getScriptUrl } from '../_data/utils.ts';
+import { getComponentSourceUrl, getDocsEditUrl } from '../_data/componentSource.ts';
+
+interface Props {
+  /** Full tag name, such as `wc-button`. */
+  tagName: string;
+  /** Folder of the docs page under src/pages, such as `components/button`. */
+  pageFolder: string;
+}
+
+const { tagName, pageFolder } = Astro.props;
+const rawTag = tagName.replace(/^wc-/, '');
+const pascal = rawTag
+  .split('-')
+  .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+  .join('');
+
+const snippets = [
+  {
+    label: 'HTML',
+    language: 'html',
+    value: `<script type="module" src="${getScriptUrl()}"></script>\n\n<${tagName}></${tagName}>`,
+  },
+  {
+    label: 'React',
+    language: 'tsx',
+    value: `import { ${pascal} } from '@redvars/peacock-react';\n\n<${pascal} />`,
+  },
+  {
+    label: 'Vue',
+    language: 'vue',
+    value: `<script setup lang="ts">\nimport { Wc${pascal} } from '@redvars/peacock-vue';\n</script>\n\n<template>\n  <Wc${pascal} />\n</template>`,
+  },
+  {
+    label: 'Angular',
+    language: 'typescript',
+    value: `import { Wc${pascal} } from '@redvars/peacock-angular';\n\n@Component({\n  imports: [Wc${pascal}],\n  template: \`<${tagName}></${tagName}>\`,\n})`,
+  },
+];
+---
+
+<div class='component-meta'>
+  <div class='component-meta-row'>
+    <span class='component-meta-tag'>
+      <code class='text-label-large'>{`<${tagName}>`}</code>
+      <wc-copy-button value={tagName} label={`Copy ${tagName}`} size='xs'></wc-copy-button>
+    </span>
+
+    <a class='component-meta-link text-label-large' href={getComponentSourceUrl(tagName)} target='_blank' rel='noopener'>
+      <wc-icon name='code' aria-hidden='true'></wc-icon>
+      Source
+    </a>
+    <a class='component-meta-link text-label-large' href={getDocsEditUrl(pageFolder)} target='_blank' rel='noopener'>
+      <wc-icon name='edit' aria-hidden='true'></wc-icon>
+      Edit this page
+    </a>
+  </div>
+
+  <details class='component-meta-usage'>
+    <summary class='text-label-large'>
+      <wc-icon name='download' aria-hidden='true'></wc-icon>
+      How to use
+    </summary>
+    <div class='component-meta-usage-body'>
+      <wc-code-group>
+        {snippets.map(snippet => (
+          <wc-code-highlighter label={snippet.label} language={snippet.language} value={snippet.value} format='false'></wc-code-highlighter>
+        ))}
+      </wc-code-group>
+      <p class='text-body-small'>
+        The script registers every Peacock tag the page uses. The framework packages register the
+        component and the tags it renders; see <a href='/frameworks/'>Frameworks</a>.
+      </p>
+    </div>
+  </details>
+</div>

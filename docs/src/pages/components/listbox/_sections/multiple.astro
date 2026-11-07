@@ -1,0 +1,21 @@
+---
+export const title = 'Multiple';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>multiple</code> the person can choose several options; each shows
+  a checkbox. <code>value</code> is a comma-separated list and
+  <code>values</code> the same as an array, so option values must not contain
+  commas. The form gets one entry per value.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-listbox label='Toppings' name='toppings' multiple value='cheese,olives' style='width: min(100%, 20rem);'>
+    <wc-listbox-option value='cheese'>Cheese</wc-listbox-option>
+    <wc-listbox-option value='olives'>Olives</wc-listbox-option>
+    <wc-listbox-option value='peppers'>Peppers</wc-listbox-option>
+    <wc-listbox-option value='onion' disabled>Onion</wc-listbox-option>
+  </wc-listbox>
+</DemoComponentCard>

@@ -1,0 +1,36 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-avatar-group</code> shows <code>wc-avatar</code> elements overlapping, each separated
+  from the next by a ring in the surface color. It is a group named "Members" by default; set
+  <code>label</code> for a better name.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-avatar-group label='Project members'>
+    <wc-avatar name='Ada Lovelace' src='https://peacock.redvars.com/assets/img/avatar.xs.webp'></wc-avatar>
+    <wc-avatar name='Grace Hopper'></wc-avatar>
+    <wc-avatar name='Alan Turing'></wc-avatar>
+  </wc-avatar-group>
+</DemoComponentCard>
+
+<h3>Showing a few</h3>
+<p>
+  With <code>max</code>, the group shows that many avatars and then a <em>+N</em> button named
+  "N more". Pressing it opens a popover that lists the hidden avatars by name.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-avatar-group max='3'>
+    <wc-avatar name='Ada Lovelace'></wc-avatar>
+    <wc-avatar name='Grace Hopper'></wc-avatar>
+    <wc-avatar name='Alan Turing'></wc-avatar>
+    <wc-avatar name='Katherine Johnson'></wc-avatar>
+    <wc-avatar name='Edsger Dijkstra'></wc-avatar>
+    <wc-avatar name='Barbara Liskov'></wc-avatar>
+  </wc-avatar-group>
+</DemoComponentCard>

@@ -1,0 +1,362 @@
+---
+// Wireframes for components added in 4.0 (inputs, forms, small controls) on the Components
+// overview. Rendered by ComponentPreview.astro; styles in styles/component-previews-v4a.scss.
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+
+/** A small icon in the wireframe ink. */
+const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim() });
+---
+
+{/* ── Actions ─────────────────────────────────────────────── */}
+
+{name === 'copy-button' && (
+  <div class='bp cp-center cp-col'>
+    <span class='cp-tooltip cp4a-copied'><wc-icon {...icon('check', 'cp4a-i-inverse')}></wc-icon><span class='bp-line'></span></span>
+    <span class='cp4a-snippet'>
+      <span class='cp4a-mono'><i class='cp4a-prompt'></i><i></i><i></i><i></i></span>
+      <span class='cp-ib cp-ib-tonal cp-ib-sm'><wc-icon {...icon('content_copy')}></wc-icon></span>
+    </span>
+  </div>
+)}
+
+{name === 'link-button' && (
+  <div class='bp cp-center cp-col'>
+    <span class='cp-btn cp4a-link-btn'><span class='bp-line'></span><wc-icon {...icon('open_in_new', 'cp-i-on')}></wc-icon></span>
+    <span class='cp-btn cp-outline cp4a-link-btn'><wc-icon {...icon('download', 'cp-i-primary')}></wc-icon><span class='bp-line cp4a-line-primary'></span></span>
+    <span class='cp4a-url'><wc-icon {...icon('link')}></wc-icon><span class='bp-line'></span></span>
+  </div>
+)}
+
+{name === 'kbd' && (
+  <div class='bp cp-center cp-col'>
+    <span class='cp4a-keys'>
+      <span class='cp4a-key cp4a-key-wide'><span class='bp-line'></span></span>
+      <wc-icon {...icon('add', 'cp4a-plus')}></wc-icon>
+      <span class='cp4a-key'><span class='bp-line cp4a-glyph'></span></span>
+    </span>
+    <span class='cp4a-keys'>
+      <span class='cp4a-key'><wc-icon {...icon('keyboard_command_key')}></wc-icon></span>
+      <span class='cp4a-key'><wc-icon {...icon('keyboard_option_key')}></wc-icon></span>
+      <span class='cp4a-key cp4a-key-on'><span class='bp-line cp4a-glyph'></span></span>
+    </span>
+  </div>
+)}
+
+{/* ── Inputs ──────────────────────────────────────────────── */}
+
+{name === 'currency-field' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-label'></span>
+    <span class='cp-input cp-input-focus'>
+      <wc-icon {...icon('attach_money', 'cp-i-primary')}></wc-icon>
+      <span class='cp4a-amount'><i></i><i></i><em></em><i></i><i></i><b></b><i></i><i></i></span>
+      <span class='cp4a-suffix'><span class='bp-line'></span><wc-icon {...icon('keyboard_arrow_down')}></wc-icon></span>
+    </span>
+    <span class='bp-line cp-help'></span>
+  </div>
+)}
+
+{name === 'phone-field' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-label'></span>
+    <span class='cp-input'>
+      <span class='cp4a-country'><span class='cp4a-flag'><i></i><i></i><i></i></span><wc-icon {...icon('keyboard_arrow_down')}></wc-icon></span>
+      <span class='cp4a-vsep'></span>
+      <span class='cp4a-digits'><i class='cp4a-dial'></i><i></i><i></i><i></i></span>
+      <wc-icon {...icon('call')}></wc-icon>
+    </span>
+    <span class='cp-menu cp-menu-full cp4a-countries'>
+      <span class='cp-menu-item cp-menu-on'><span class='cp4a-flag'><i></i><i></i><i></i></span><span class='bp-line'></span></span>
+      <span class='cp-menu-item'><span class='cp4a-flag cp4a-flag-alt'><i></i><i></i><i></i></span><span class='bp-line'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'password-field' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-label'></span>
+    <span class='cp-input cp-input-focus'>
+      <span class='cp4a-dots'>{Array.from({ length: 8 }, () => <i></i>)}</span>
+      <span class='cp-caret'></span>
+      <wc-icon {...icon('visibility_off')}></wc-icon>
+    </span>
+    <span class='bp-line cp-help'></span>
+  </div>
+)}
+
+{name === 'password-rules' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp4a-strength'><i class='cp4a-on'></i><i class='cp4a-on'></i><i class='cp4a-on'></i><i></i></span>
+    <span class='cp4a-rule'><wc-icon {...icon('check_circle', 'cp-i-success')}></wc-icon><span class='bp-line cp-w2'></span></span>
+    <span class='cp4a-rule'><wc-icon {...icon('check_circle', 'cp-i-success')}></wc-icon><span class='bp-line cp-w1'></span></span>
+    <span class='cp4a-rule'><wc-icon {...icon('check_circle', 'cp-i-success')}></wc-icon><span class='bp-line cp-w0'></span></span>
+    <span class='cp4a-rule'><wc-icon {...icon('cancel', 'cp4a-i-error')}></wc-icon><span class='bp-line cp-w1'></span></span>
+  </div>
+)}
+
+{name === 'pin-input' && (
+  <div class='bp cp-center cp-col'>
+    <span class='cp4a-pins'>
+      {Array.from({ length: 6 }, (_, i) => (
+        <span class:list={['cp4a-pin', { 'cp4a-pin-filled': i < 3, 'cp4a-pin-focus': i === 3 }]}>
+          {i < 3 && <i class='cp4a-pin-dot'></i>}
+          {i === 3 && <i class='cp4a-pin-caret'></i>}
+        </span>
+      ))}
+    </span>
+    <span class='bp-line cp4a-pin-help'></span>
+  </div>
+)}
+
+{name === 'date-range-field' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-label'></span>
+    <span class='cp-input cp-input-focus'>
+      <span class='bp-line cp4a-range-value'></span>
+      <wc-icon {...icon('arrow_forward')}></wc-icon>
+      <span class='bp-line cp4a-range-value'></span>
+      <wc-icon {...icon('calendar_today')}></wc-icon>
+    </span>
+    <span class='cp-popup cp-mini-month cp4a-range-month'>
+      {Array.from({ length: 21 }, (_, d) => (
+        <i class:list={{ 'cp-on': d === 8 || d === 12, 'cp4a-in-range': d > 8 && d < 12 }}></i>
+      ))}
+    </span>
+  </div>
+)}
+
+{name === 'inline-edit' && (
+  <div class='bp cp-center cp-col cp-form cp4a-inline'>
+    <span class='cp4a-inline-row'>
+      <span class='bp-line cp-strong cp4a-inline-text'></span>
+      <wc-icon {...icon('edit')}></wc-icon>
+    </span>
+    <span class='cp4a-inline-row'>
+      <span class='cp-input cp-input-focus cp4a-inline-input'><span class='bp-line cp-value'></span><span class='cp-caret'></span></span>
+      <span class='cp-ib cp-ib-filled cp-ib-sm'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span>
+      <span class='cp-ib cp-ib-outline cp-ib-sm'><wc-icon {...icon('close')}></wc-icon></span>
+    </span>
+    <span class='cp4a-inline-row'>
+      <span class='bp-line cp4a-inline-text cp4a-inline-dim'></span>
+    </span>
+  </div>
+)}
+
+{name === 'mention-input' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-input cp-input-focus cp4a-mention'>
+      <span class='bp-line cp4a-mention-text'></span>
+      <span class='cp4a-mention-at'><i></i></span>
+      <span class='cp-caret'></span>
+    </span>
+    <span class='cp-menu cp4a-people'>
+      <span class='cp-menu-item cp-menu-on'><span class='cp-avatar cp-avatar-initials cp4a-avatar-xs'></span><span class='bp-line'></span></span>
+      <span class='cp-menu-item'><span class='cp-avatar cp-avatar-tertiary cp4a-avatar-xs'></span><span class='bp-line'></span></span>
+      <span class='cp-menu-item'><span class='cp-avatar cp4a-avatar-xs'></span><span class='bp-line'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'checkbox-group' && (
+  <div class='bp cp-center cp-col cp-left cp4a-group'>
+    <span class='cp-label'></span>
+    <span class='cp4a-option-grid'>
+      <span class='cp-option'><span class='cp-box cp-box-on'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span><span class='bp-line cp4a-opt'></span></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp4a-opt'></span></span>
+      <span class='cp-option'><span class='cp-box cp-box-on'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span><span class='bp-line cp4a-opt'></span></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp4a-opt'></span></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp4a-opt'></span></span>
+      <span class='cp-option'><span class='cp-box cp-box-on'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span><span class='bp-line cp4a-opt'></span></span>
+    </span>
+    <span class='bp-line cp-help'></span>
+  </div>
+)}
+
+{name === 'chip-set' && (
+  <div class='bp cp-center cp-wrap cp4a-chips'>
+    <span class='cp-chip cp-chip-on'><wc-icon {...icon('check')}></wc-icon><span class='bp-line'></span></span>
+    <span class='cp-chip'><span class='bp-line cp4a-chip-short'></span></span>
+    <span class='cp-chip cp-chip-on'><wc-icon {...icon('check')}></wc-icon><span class='bp-line cp4a-chip-short'></span></span>
+    <span class='cp-chip'><span class='bp-line'></span></span>
+    <span class='cp-chip'><span class='bp-line cp4a-chip-long'></span></span>
+    <span class='cp-chip'><span class='bp-line cp4a-chip-short'></span></span>
+  </div>
+)}
+
+{name === 'listbox' && (
+  <div class='bp cp-center'>
+    <span class='cp4a-listbox'>
+      <span class='cp-menu-item'><span class='bp-line'></span></span>
+      <span class='cp-menu-item cp-menu-on'><span class='bp-line'></span><wc-icon {...icon('check', 'cp-i-primary')}></wc-icon></span>
+      <span class='cp-menu-item cp4a-focused'><span class='bp-line'></span></span>
+      <span class='cp-menu-item cp-menu-on'><span class='bp-line'></span><wc-icon {...icon('check', 'cp-i-primary')}></wc-icon></span>
+      <span class='cp-menu-item'><span class='bp-line'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'rating' && (
+  <div class='bp cp-center cp-col'>
+    <span class='cp4a-stars'>
+      <i class='cp4a-star-on'></i><i class='cp4a-star-on'></i><i class='cp4a-star-on'></i><i class='cp4a-star-half'></i><i></i>
+    </span>
+    <span class='cp4a-stars cp4a-stars-sm'>
+      <i class='cp4a-star-on'></i><i class='cp4a-star-on'></i><i class='cp4a-star-on'></i><i class='cp4a-star-on'></i><i></i>
+      <span class='bp-line cp4a-rating-count'></span>
+    </span>
+  </div>
+)}
+
+{name === 'signature-pad' && (
+  <div class='bp cp-frame cp4a-signature'>
+    <svg class='cp4a-sig' viewBox='0 0 160 60' preserveAspectRatio='none' aria-hidden='true'>
+      <path d='M8 42 C 18 10, 26 10, 24 34 S 34 52, 42 30 C 46 18, 52 22, 50 36 C 49 44, 58 40, 64 28 C 70 16, 76 30, 74 38 C 72 46, 84 42, 92 26 C 98 14, 104 34, 112 34 C 122 34, 128 20, 140 22 C 146 23, 150 28, 154 26' />
+    </svg>
+    <span class='cp4a-sig-base'><wc-icon {...icon('close')}></wc-icon><i></i></span>
+    <span class='cp4a-actions cp4a-sig-actions'>
+      <span class='cp-ib cp-ib-outline cp-ib-sm'><wc-icon {...icon('undo')}></wc-icon></span>
+      <span class='cp-ib cp-ib-outline cp-ib-sm'><wc-icon {...icon('ink_eraser')}></wc-icon></span>
+    </span>
+  </div>
+)}
+
+{name === 'file-upload' && (
+  <div class='bp cp-center cp-col cp4a-upload'>
+    <span class='cp4a-drop'>
+      <wc-icon {...icon('cloud_upload', 'cp-i-primary cp4a-drop-icon')}></wc-icon>
+      <span class='cp4a-drop-text'><span class='cp-link'></span><span class='bp-line'></span></span>
+    </span>
+    <span class='cp4a-file'>
+      <wc-icon {...icon('description')}></wc-icon>
+      <span class='cp4a-file-text'><span class='bp-line cp-strong'></span><span class='cp-bar cp4a-file-bar'><i style='width: 60%'></i></span></span>
+      <wc-icon {...icon('close')}></wc-icon>
+    </span>
+  </div>
+)}
+
+{name === 'transfer-list' && (
+  <div class='bp cp-center cp4a-transfer'>
+    <span class='cp4a-pane'>
+      <span class='bp-line cp-strong cp4a-pane-title'></span>
+      <span class='cp-option'><span class='cp-box cp-box-on'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span><span class='bp-line cp-w2'></span></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp-w1'></span></span>
+      <span class='cp-option'><span class='cp-box cp-box-on'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span><span class='bp-line cp-w2'></span></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp-w1'></span></span>
+    </span>
+    <span class='cp4a-moves'>
+      <span class='cp-ib cp-ib-filled cp-ib-sm'><wc-icon {...icon('chevron_right', 'cp-i-on')}></wc-icon></span>
+      <span class='cp-ib cp-ib-outline cp-ib-sm'><wc-icon {...icon('chevron_left')}></wc-icon></span>
+    </span>
+    <span class='cp4a-pane'>
+      <span class='bp-line cp-strong cp4a-pane-title'></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp-w1'></span></span>
+      <span class='cp-option'><span class='cp-box'></span><span class='bp-line cp-w2'></span></span>
+    </span>
+  </div>
+)}
+
+{/* ── Forms ───────────────────────────────────────────────── */}
+
+{name === 'fieldset' && (
+  <div class='bp cp-center'>
+    <span class='cp4a-fieldset'>
+      <span class='cp4a-legend'><span class='bp-line cp-strong'></span></span>
+      <span class='bp-line cp4a-support'></span>
+      <span class='cp-input'><span class='bp-line cp-value'></span></span>
+      <span class='cp4a-pair'>
+        <span class='cp-input'><span class='bp-line cp-value'></span></span>
+        <span class='cp-input'><span class='bp-line cp-value'></span></span>
+      </span>
+    </span>
+  </div>
+)}
+
+{name === 'form' && (
+  <div class='bp cp-frame cp4a-form'>
+    <span class='cp-label'></span>
+    <span class='cp-input'><span class='bp-line cp-value'></span></span>
+    <span class='cp-label'></span>
+    <span class='cp-input cp-input-focus'><span class='bp-line cp-value'></span><span class='cp-caret'></span></span>
+    <span class='cp-option'><span class='cp-box cp-box-on'><wc-icon {...icon('check', 'cp-i-on')}></wc-icon></span><span class='bp-line cp-w1'></span></span>
+    <span class='cp4a-actions'>
+      <span class='cp-btn cp-text cp-btn-sm'><span class='bp-line'></span></span>
+      <span class='cp-btn cp-btn-sm'><span class='bp-line'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'filter-bar' && (
+  <div class='bp cp-frame cp4a-filters'>
+    <span class='cp4a-filter-row'>
+      <span class='cp-search cp4a-filter-search'><wc-icon {...icon('search')}></wc-icon><span class='bp-line cp-value'></span></span>
+      <span class='cp-chip cp-chip-on cp4a-filter-chip'><span class='bp-line'></span><i class='cp4a-count'></i><wc-icon {...icon('close')}></wc-icon></span>
+      <span class='cp-chip cp4a-filter-chip'><wc-icon {...icon('add')}></wc-icon><span class='bp-line'></span></span>
+      <wc-icon {...icon('bookmark', 'cp4a-filter-save')}></wc-icon>
+    </span>
+    {[0, 1, 2].map(i => (
+      <span class='cp4a-result'><span class='bp-line cp-strong'></span><span class='bp-line'></span><span class:list={['cp4a-result-pill', { 'cp4a-result-pill-alt': i === 1 }]}></span></span>
+    ))}
+  </div>
+)}
+
+{/* ── Navigation and display ──────────────────────────────── */}
+
+{name === 'anchor-nav' && (
+  <div class='bp cp-frame cp4a-anchors'>
+    <span class='cp4a-toc'>
+      <span class='bp-line cp-strong cp4a-toc-title'></span>
+      <span class='cp4a-toc-links'>
+        <span class='cp4a-toc-link'><span class='bp-line cp-w2'></span></span>
+        <span class='cp4a-toc-link cp4a-toc-on'><span class='bp-line cp-w0'></span></span>
+        <span class='cp4a-toc-link cp4a-toc-sub'><span class='bp-line cp-w2'></span></span>
+        <span class='cp4a-toc-link'><span class='bp-line cp-w1'></span></span>
+      </span>
+    </span>
+    <span class='cp4a-anchor-content'>
+      <span class='bp-line cp-strong cp-w1'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-strong cp-w3 cp4a-anchor-target'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w1'></span>
+    </span>
+  </div>
+)}
+
+{name === 'stepper' && (
+  <div class='bp cp-frame cp4a-stepper'>
+    <span class='cp4a-steps'>
+      {[0, 1, 2, 3].map(i => (
+        <span class:list={['cp4a-step', { 'cp4a-step-done': i < 2, 'cp4a-step-current': i === 2 }]}>
+          <span class='cp4a-step-dot'>
+            {i < 2 && <wc-icon {...icon('check', 'cp-i-on')}></wc-icon>}
+            {i >= 2 && <i></i>}
+          </span>
+          <span class='bp-line cp4a-step-label'></span>
+        </span>
+      ))}
+    </span>
+    <span class='cp4a-step-body'>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+    </span>
+    <span class='cp4a-actions'>
+      <span class='cp-btn cp-outline cp-btn-xs'></span>
+      <span class='cp-btn cp-btn-xs'></span>
+    </span>
+  </div>
+)}
+
+{name === 'relative-time' && (
+  <div class='bp cp-center cp-col'>
+    <span class='cp-tooltip cp4a-time-tip'><wc-icon {...icon('calendar_today', 'cp4a-i-inverse')}></wc-icon><span class='bp-line'></span></span>
+    <span class='cp4a-time'><wc-icon {...icon('schedule', 'cp-i-primary')}></wc-icon><span class='cp4a-time-text'><i></i><i></i><i></i></span></span>
+    <span class='cp4a-time-list'>
+      <span class='cp4a-time-row'><span class='bp-line cp-w2'></span><span class='cp4a-time-meta'></span></span>
+      <span class='cp4a-time-row'><span class='bp-line cp-w1'></span><span class='cp4a-time-meta cp4a-time-meta-long'></span></span>
+    </span>
+  </div>
+)}

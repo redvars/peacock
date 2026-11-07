@@ -1,0 +1,29 @@
+---
+export const title = 'Read-only and states';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>readonly</code> turns the rating into a display, such as a product's average review: any
+  value is drawn, with a partly filled star, and it is one image named "Rated 4.3 out of 5" that is
+  not in the tab order.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-rating readonly value='4.3'></wc-rating>
+</DemoComponentCard>
+
+<p>
+  The rating is form-associated: inside a <code>&lt;form&gt;</code> the score is submitted under
+  <code>name</code>, no score submits nothing, <code>required</code> blocks submission until one is
+  picked, and <code>form.reset()</code> restores the first value.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-rating label='Required' required helper-text='Pick at least one star'></wc-rating>
+    <wc-rating label='Error' error error-text='Rate the delivery too' value='2'></wc-rating>
+    <wc-rating label='Disabled' disabled value='3'></wc-rating>
+  </div>
+</DemoComponentCard>

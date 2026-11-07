@@ -1,0 +1,21 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 400;
+---
+
+<p>
+  The stepper is a list, named by <code>label</code> ("Progress" when unset), and each step is a list
+  item. A screen reader reads each step as its position, label and state, for example "Step 2 of 4,
+  Shipping, Completed"; the current step has <code>aria-current="step"</code>. Error text, the
+  Optional caption and Disabled are read too.
+</p>
+<p>
+  With navigation on, the steps are one tab stop, on the current step. Left and Right (mirrored in
+  right-to-left layouts; Up and Down when vertical), Home and End move focus between the steps that
+  can be activated, without activating them; Enter or Space activates the focused step.
+</p>
+<p>
+  The strings are translated with <code>setPeacockStrings()</code>: <code>stepperLabel</code>,
+  <code>stepPosition</code>, <code>stepCompleted</code>, <code>stepNotStarted</code>,
+  <code>stepError</code>, <code>stepOptional</code> and the shared <code>disabled</code>.
+</p>

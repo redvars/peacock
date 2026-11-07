@@ -1,0 +1,50 @@
+---
+export const title = 'Multiple selection';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>selection="multiple"</code> every item shows a checkbox that <kbd>Space</kbd> or a
+  click toggles. Checking an item checks its descendants; an item is checked when all its children
+  are, and indeterminate (<code>aria-checked="mixed"</code>) when only some are. Disabled items
+  keep their state and are skipped by the cascade.
+</p>
+<p>
+  As on <code>wc-listbox</code> and <code>wc-select</code>, <code>value</code> is a
+  comma-separated list and <code>values</code> the same as an array, so item values must not
+  contain commas. They list every checked item, parents included. A value set from code is
+  normalized: listing a parent checks its children.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tree
+    id='tree-permissions-demo'
+    label='Permissions'
+    selection='multiple'
+    value='users.read,billing'
+    style='width: min(100%, 22rem);'
+  >
+    <wc-tree-item value='users' label='Users' expanded>
+      <wc-icon slot='start' name='group'></wc-icon>
+      <wc-tree-item value='users.read' label='View users'></wc-tree-item>
+      <wc-tree-item value='users.invite' label='Invite users'></wc-tree-item>
+      <wc-tree-item value='users.remove' label='Remove users'></wc-tree-item>
+    </wc-tree-item>
+    <wc-tree-item value='billing' label='Billing' expanded>
+      <wc-icon slot='start' name='payments'></wc-icon>
+      <wc-tree-item value='billing.invoices' label='View invoices'></wc-tree-item>
+      <wc-tree-item value='billing.plan' label='Change plan'></wc-tree-item>
+    </wc-tree-item>
+    <wc-tree-item value='admin' label='Administration'>
+      <wc-icon slot='start' name='shield'></wc-icon>
+      <wc-tree-item value='admin.audit' label='Audit log'></wc-tree-item>
+      <wc-tree-item value='admin.sso' label='Single sign-on' disabled></wc-tree-item>
+    </wc-tree-item>
+  </wc-tree>
+  <script is:inline>
+    document.querySelector('#tree-permissions-demo').addEventListener('change', function (event) {
+      myConsole.log('change', event.detail.values.join(', '));
+    });
+  </script>
+</DemoComponentCard>

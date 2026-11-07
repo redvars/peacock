@@ -38,19 +38,19 @@ const previewTags: Record<string, string> = {
           <div class='charts-card'>
             <div class='charts-card-preview' inert aria-hidden='true'>
               {chart.slug === 'bar' && (
-                <wc-chart-bar class='chart-preview' data-kind='cartesian' height='150' index='month' hide-legend hide-value-axis disable-animation></wc-chart-bar>
+                <wc-chart-bar class='chart-preview' data-kind='cartesian' height='150' category-key='month' legend='hide' hide-value-axis disable-animation></wc-chart-bar>
               )}
               {chart.slug === 'line' && (
-                <wc-chart-line class='chart-preview' data-kind='cartesian' height='150' index='month' hide-legend hide-value-axis disable-animation></wc-chart-line>
+                <wc-chart-line class='chart-preview' data-kind='cartesian' height='150' category-key='month' legend='hide' hide-value-axis disable-animation></wc-chart-line>
               )}
               {chart.slug === 'area' && (
-                <wc-chart-area class='chart-preview' data-kind='cartesian' stacked height='150' index='month' hide-legend hide-value-axis disable-animation></wc-chart-area>
+                <wc-chart-area class='chart-preview' data-kind='cartesian' stacked height='150' category-key='month' legend='hide' hide-value-axis disable-animation></wc-chart-area>
               )}
               {chart.slug === 'pie' && (
-                <wc-chart-pie class='chart-preview' data-kind='slices' height='150' hide-legend disable-animation></wc-chart-pie>
+                <wc-chart-pie class='chart-preview' data-kind='slices' height='150' legend='hide' disable-animation></wc-chart-pie>
               )}
               {chart.slug === 'doughnut' && (
-                <wc-chart-doughnut class='chart-preview' data-kind='slices' height='150' hide-legend center-label='Visitors' disable-animation></wc-chart-doughnut>
+                <wc-chart-doughnut class='chart-preview' data-kind='slices' height='150' legend='hide' center-label='Visitors' disable-animation></wc-chart-doughnut>
               )}
             </div>
             <div class='charts-card-body'>
@@ -69,12 +69,12 @@ const previewTags: Record<string, string> = {
     <section class='doc-section' aria-labelledby='charts-data'>
       <h2 class='text-headline-small' id='charts-data'>One data shape</h2>
       <p class='text-body-large'>
-        Bar, line and area charts share one shape. <code>data</code> is an array of rows, <code>index</code> names
+        Bar, line and area charts share one shape. <code>data</code> is an array of rows, <code>category-key</code> names
         the field that holds each row's category, and <code>config</code> lists the series to plot with a label and,
         optionally, a color. Switching chart type is a change of tag.
       </p>
       <Highlighter lang='html'>
-        {`<wc-chart-bar index="month" label="Visitors by month"></wc-chart-bar>
+        {`<wc-chart-bar category-key="month" label="Visitors by month"></wc-chart-bar>
 
 <script>
   const chart = document.querySelector('wc-chart-bar');

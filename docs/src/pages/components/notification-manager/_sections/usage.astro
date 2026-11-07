@@ -3,87 +3,44 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<style is:inline>
 
-  .demo-area-content {
-    position: relative;
-  }
-  .application {
-    height: 20rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+<p>
+  The notification manager is a toast queue. It shows each toast as a
+  <a href='/components/snackbar'><code>wc-snackbar</code></a> in a stack fixed to the viewport at
+  <code>placement</code> (<code>top-start</code>, <code>top-center</code>, <code>top-end</code>,
+  <code>bottom-start</code>, <code>bottom-center</code> or <code>bottom-end</code>, the default), in the
+  browser's top layer, above sticky headers and open modals. A toast is removed from the page once its exit
+  animation ends.
+</p>
 
-  .application::before {
-    content: 'application container';
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  .sub-container {
-    position: relative;
-    height: 13rem;
-    border: 1px dashed var(--color-outline);
-    width: 40rem;
-    padding: 1rem;
-  }
-
-  .sub-container::before {
-    content: 'sub container';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--layer-01);
-  }
-
-  #clear-btn {
-    margin-top: 3rem;
-  }
-</style>
-
-
+<p>
+  Every toast hides itself after its <code>duration</code> (5000 ms by default; the timer pauses while the
+  pointer or focus is on it), dismissible or not, unless it has an <code>action</code> or
+  <code>duration: 0</code>.
+</p>
 
 <DemoComponentCard lang='html' cssClasses='demo-container'>
+  <wc-notification-manager name='application-manager' placement='bottom-end'></wc-notification-manager>
+  <wc-notification-manager name='secondary-manager' placement='top-end'></wc-notification-manager>
 
-  <wc-button color=danger id='clear-btn'>Clear</wc-button>
-
-  <div class='application'>
-    <wc-notification-manager name='application-manager' position='bottom-right'></wc-notification-manager>
-
-    <div class='sub-container'>
-
-      <wc-notification-manager name='sub-container-manager' position='top-right'></wc-notification-manager>
-      <wc-button id='notification-btn'>Notification</wc-button>
-      <br /><br />
-      <wc-button id='notification-btn-dismissible'>Dismissible notification</wc-button>
-    </div>
-  </div>
+  <wc-button id='notification-btn'>Toast</wc-button>
+  <wc-button id='notification-btn-dismissible' variant='outlined'>Toast with action, top</wc-button>
+  <wc-button id='clear-btn' variant='text'>Clear</wc-button>
 
   <script is:inline>
     let count = 1;
-    let notifications = [];
+    let toasts = [];
     document.getElementById('notification-btn').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('notification', {
-          bubbles: true,
+        new CustomEvent('peacock-toast', {
           detail: {
             target: 'application-manager',
-            title: 'This is automatic closing notification ' + count++,
-            variant: 'success',
-            subtitle: `This is a subtitle for the notification message ${count - 1}`,
-            callback: function(notificationId) {
-              notifications.push(notificationId);
-            }
+            title: 'Saved ' + count++,
+            intent: 'success',
+            subtitle: `This toast hides itself after 5 seconds.`,
+            callback: function(id) {
+              toasts.push(id);
+            },
           },
         }),
       );
@@ -91,32 +48,52 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
     document.getElementById('clear-btn').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('notification-dismiss', {
-          bubbles: true,
-          detail: {
-            target: 'application-manager',
-            notifications: notifications,
-          },
+        new CustomEvent('peacock-toast-dismiss', {
+          detail: { notifications: toasts },
         }),
       );
-
-      notifications = [];
+      toasts = [];
     });
 
     document.getElementById('notification-btn-dismissible').addEventListener('click', () => {
-      window.dispatchEvent(
-        new CustomEvent('notification', {
-          bubbles: true,
-          detail: {
-            target: 'sub-container-manager',
-            title: 'This is dismissible notification ' + count++,
-            variant: 'warning',
-            dismissible: true,
-            subtitle: `This is a subtitle for the notification message ${count - 1}`,
-            action: 'Action',
-          },
-        }),
-      );
+      document.querySelector('wc-notification-manager[name="secondary-manager"]').show({
+        title: 'Connection lost ' + count++,
+        intent: 'warning',
+        dismissible: true,
+        subtitle: 'This toast has an action, so it stays until it is closed.',
+        action: 'Retry',
+      });
     });
   </script>
 </DemoComponentCard>
+
+<h3>Showing and hiding toasts</h3>
+
+<p>
+  Call <code>manager.show(options)</code>, which returns the toast's id, or dispatch a
+  <code>peacock-toast</code> event on <code>window</code> from anywhere, with the options in
+  <code>detail</code>. The options are <code>title</code>, <code>subtitle</code>, <code>intent</code>
+  (<code>info</code>, the default, <code>success</code>, <code>warning</code>, <code>danger</code>),
+  <code>action</code>, <code>dismissible</code>, <code>duration</code> and <code>width</code>; the window
+  event also takes <code>target</code> (the manager's <code>name</code>; without it the toast goes to the
+  manager named <code>global</code>) and <code>callback(id)</code>.
+</p>
+
+<p>
+  Hide toasts with <code>manager.hide(id)</code>, or a <code>peacock-toast-dismiss</code> window event with
+  <code>detail.notifications</code>, an array of ids.
+</p>
+
+<h3>Events</h3>
+
+<p>
+  <code>close</code> fires when a toast starts to close, with <code>detail.id</code> and
+  <code>detail.reason</code> (<code>'timeout'</code>, <code>'action'</code>, <code>'escape'</code> or
+  <code>'api'</code>). <code>action</code> fires with <code>detail.id</code> when a toast's action button is
+  pressed.
+</p>
+
+<p>
+  Toasts render in the top layer, fixed to the viewport, not inside a positioned container. To show
+  toasts in another corner, add a separately named manager with its own <code>placement</code>.
+</p>

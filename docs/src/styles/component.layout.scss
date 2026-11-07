@@ -78,16 +78,6 @@ pre[class*='language-'] {
   .component-content {
     flex: 1;
   }
-
-  .section-nav {
-    width: 23rem;
-    position: relative;
-    height: auto !important;
-
-    .link {
-      width: 100%;
-    }
-  }
 }
 
 .component-section {
@@ -230,17 +220,9 @@ pre[class*='language-'] {
   .main-content.m-hide {
     display: none;
   }
-  .section-nav {
-    display: none;
-  }
   .component-content {
     width: 100%;
   }
-}
-
-.section-nav-content {
-  position: sticky;
-  top: 60px;
 }
 
 .adsbygoogle {

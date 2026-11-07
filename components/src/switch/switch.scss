@@ -142,3 +142,38 @@
     }
   }
 }
+
+// Forced colors drop the track and handle fills, so draw them with system colors.
+@media (forced-colors: active) {
+  .switch .track {
+    border-color: CanvasText;
+
+    .handle {
+      forced-color-adjust: none;
+      background: CanvasText;
+    }
+  }
+
+  .switch.state-checked .track {
+    forced-color-adjust: none;
+    background: Highlight;
+    border-color: Highlight;
+
+    .handle {
+      background: HighlightText;
+    }
+  }
+
+  .switch.disabled .track {
+    border-color: GrayText;
+
+    .handle {
+      background: GrayText !important;
+    }
+  }
+}
+
+// The Suggested badge after the label (ADR-030002).
+.suggestion-badge {
+  margin-inline-start: var(--spacing-100);
+}

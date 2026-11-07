@@ -1,0 +1,31 @@
+---
+export const title = 'Theming';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The art reads the theme's color tokens, so it follows your theme and dark mode with no extra work.
+  To recolor every illustration at once, for example in brand colors, set the
+  <code>--illustration-*-color</code> custom properties on <code>:root</code> or on a container:
+  <code>--illustration-primary-color</code>, <code>--illustration-primary-container-color</code>,
+  <code>--illustration-accent-color</code>, <code>--illustration-accent-alt-color</code>,
+  <code>--illustration-surface-color</code>, <code>--illustration-inset-color</code>,
+  <code>--illustration-backdrop-color</code>, <code>--illustration-outline-color</code> and
+  <code>--illustration-detail-color</code>.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <div
+    style='display: flex; gap: var(--spacing-200); --illustration-primary-color: var(--color-tertiary); --illustration-primary-container-color: var(--color-tertiary-container); --illustration-accent-color: var(--color-primary-container);'
+  >
+    <wc-illustration name='welcome'></wc-illustration>
+    <wc-illustration name='empty-cart'></wc-illustration>
+    <wc-illustration name='no-team'></wc-illustration>
+  </div>
+</DemoComponentCard>
+
+<p>
+  In high-contrast mode the soft fills drop out and every shape is outlined in the system text
+  color, so the illustration still reads as line art.
+</p>

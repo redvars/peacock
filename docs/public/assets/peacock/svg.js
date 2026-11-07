@@ -1,10 +1,13 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { s as sanitizeSvg, o } from './sanitize-svg-_VNFLm82.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
+import { s as sanitizeSvg, o } from './sanitize-svg-zWrzQaZj.js';
 import { f as fetchSVG } from './datasource-OwvH7SVq.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
 import './directive-ZPhl09Yt.js';
-import './unsafe-html-Ct0N2_UU.js';
+import './unsafe-html-Cy_JqoPT.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -12,13 +15,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline-flex;
   vertical-align: middle;
@@ -75,7 +100,7 @@ var css_248z = i`* {
 .preview-close {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  inset-inline-end: 1rem;
   background: transparent;
   border: none;
   color: var(--color-white);
@@ -108,15 +133,27 @@ var css_248z = i`* {
  * @label SVG
  * @tag wc-svg
  * @rawTag svg
- * @summary An SVG component with lazy loading and optional preview support.
- * @overview Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an optional click-to-preview lightbox.
+ * @summary An SVG image from a URL, drawn inline so it takes the text color, loaded once it scrolls into view.
+ * @overview
+ * <p>Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an
+ * optional click-to-preview lightbox.</p>
+ * <ul>
+ * <li><code>src</code> is the URL of the SVG. It is fetched when the element enters the viewport,
+ * sanitized, and rendered inline; a placeholder shows until then.</li>
+ * <li><code>alt</code> is the text alternative, as on a native <code>&lt;img&gt;</code>: with it
+ * the SVG is <code>role="img"</code>; without it, it is decorative.</li>
+ * <li><code>preview</code> opens the SVG enlarged in a modal lightbox on click. Focus moves to its
+ * close button, Escape closes it, and focus returns to the SVG.</li>
+ * <li><code>--svg-color</code>, or the inherited <code>color</code>, tints the SVG;
+ * <code>--svg-size</code> sets its size.</li>
+ * </ul>
  *
  * @cssprop --svg-color - Controls the fill color of the SVG.
  * @cssprop [--svg-size=1rem] - Controls the size of the SVG. Defaults to "1rem"
  *
  * @example
  * ```html
- * <wc-svg src="/icons/my-icon.svg" image-title="My icon"></wc-svg>
+ * <wc-svg src="/icons/my-icon.svg" alt="My icon"></wc-svg>
  * ```
  */
 let Svg = class Svg extends i$1 {
@@ -124,8 +161,11 @@ let Svg = class Svg extends i$1 {
         super(...arguments);
         /** URL of the SVG asset to fetch and render inline. */
         this.src = '';
-        /** Accessible title / alt text for the SVG. */
-        this.imageTitle = '';
+        /**
+         * Text alternative for the SVG, as `alt` on a native `<img>`. With it the SVG is `role="img"`
+         * named by it; leave it empty for a decorative SVG.
+         */
+        this.alt = '';
         /** Enable click-to-preview lightbox. */
         this.preview = false;
         /** True once the element has entered the viewport and the SVG fetch has been initiated. */
@@ -139,6 +179,8 @@ let Svg = class Svg extends i$1 {
         this._fetchId = 0;
         /** IntersectionObserver that triggers the SVG fetch when the element enters the viewport. */
         this._intersectionObserver = null;
+        /** Peacock's strings for the preview dialog labels. */
+        this.i18n = new I18nController(this);
     }
     disconnectedCallback() {
         super.disconnectedCallback();
@@ -212,8 +254,8 @@ let Svg = class Svg extends i$1 {
         ${this._loaded && this._svgContent
             ? b `<div
               class="svg-content ${this.preview ? 'clickable' : ''}"
-              role=${this.imageTitle ? 'img' : 'presentation'}
-              aria-label=${this.imageTitle || ''}
+              role=${this.alt ? 'img' : 'presentation'}
+              aria-label=${this.alt || A}
               @click=${this._handleClick}
             >
               ${o(this._svgContent)}
@@ -225,15 +267,15 @@ let Svg = class Svg extends i$1 {
         class="preview-overlay ${this._previewOpen ? 'open' : ''}"
         role="dialog"
         aria-modal="true"
-        aria-label=${this.imageTitle
-            ? `Preview: ${this.imageTitle}`
-            : 'SVG preview'}
+        aria-label=${this.alt
+            ? this.i18n.t('previewTitle')(this.alt)
+            : this.i18n.t('svgPreview')}
         @click=${this._closePreview}
         @keydown=${(e) => e.key === 'Escape' && this._closePreview(e)}
       >
         <button
           class="preview-close"
-          aria-label="Close preview"
+          aria-label=${this.i18n.t('closePreview')}
           @click=${this._closePreview}
         >
           &#x2715;
@@ -253,8 +295,8 @@ __decorate([
     n({ type: String, reflect: true })
 ], Svg.prototype, "src", void 0);
 __decorate([
-    n({ attribute: 'image-title' })
-], Svg.prototype, "imageTitle", void 0);
+    n()
+], Svg.prototype, "alt", void 0);
 __decorate([
     n({ type: Boolean, reflect: true })
 ], Svg.prototype, "preview", void 0);

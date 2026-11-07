@@ -6,23 +6,35 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <p>
   The top app bar provides content and actions related to the current screen. Use the
-  <code>leading</code> slot for a navigation icon, the default slot for the headline, and the
-  <code>trailing</code> slot for action icon buttons.
+  <code>start</code> slot for a navigation icon, the default slot for the headline, and the
+  <code>end</code> slot for action icon buttons.
+</p>
+<p>
+  The app bar is not a landmark, so it fits in cards, panes and dialogs without adding extra
+  banners. When it is the page's header, wrap it in a <code>&lt;header&gt;</code> element to make
+  it the banner landmark.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
-    <wc-app-bar>
-      <wc-icon-button slot='leading' variant='text'>
-        <wc-icon name='menu'></wc-icon>
-      </wc-icon-button>
-      Page Title
-      <wc-icon-button slot='trailing' variant='text'>
-        <wc-icon name='search'></wc-icon>
-      </wc-icon-button>
-      <wc-icon-button slot='trailing' variant='text'>
-        <wc-icon name='more_vert'></wc-icon>
-      </wc-icon-button>
-    </wc-app-bar>
+    <header>
+      <wc-app-bar>
+        <wc-icon-button slot='start' variant='text' aria-label='Menu'>
+          <wc-icon name='menu'></wc-icon>
+        </wc-icon-button>
+        Page Title
+        <wc-icon-button slot='end' variant='text' aria-label='Search'>
+          <wc-icon name='search'></wc-icon>
+        </wc-icon-button>
+        <wc-icon-button slot='end' variant='text' aria-label='More'>
+          <wc-icon name='more_vert'></wc-icon>
+        </wc-icon-button>
+      </wc-app-bar>
+    </header>
   </div>
 </DemoComponentCard>
+
+<p>
+  The app bar does not set <code>role="banner"</code> on itself. Put it in a
+  <code>&lt;header&gt;</code> where it is the page banner.
+</p>

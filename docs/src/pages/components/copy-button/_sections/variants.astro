@@ -1,0 +1,21 @@
+---
+export const title = 'Sizes and variants';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The button is a round <code>wc-icon-button</code>: it takes the same <code>size</code>
+  (default <code>sm</code>) and <code>variant</code> (default <code>text</code>), and
+  <code>disabled</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stack direction='horizontal' gap='200' align='center'>
+    <wc-copy-button value='xs' size='xs'></wc-copy-button>
+    <wc-copy-button value='sm'></wc-copy-button>
+    <wc-copy-button value='md' size='md' variant='tonal'></wc-copy-button>
+    <wc-copy-button value='lg' size='lg' variant='outlined'></wc-copy-button>
+    <wc-copy-button value='disabled' disabled></wc-copy-button>
+  </wc-stack>
+</DemoComponentCard>

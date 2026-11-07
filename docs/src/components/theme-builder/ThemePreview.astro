@@ -27,14 +27,14 @@ const roles = [
 
 <div class='theme-preview' id={id} data-theme={mode} aria-label={`${mode} theme preview`}>
   <wc-app-bar variant='small'>
-    <wc-icon-button slot='leading' variant='text' aria-label='Menu'>
+    <wc-icon-button slot='start' variant='text' aria-label='Menu'>
       <wc-icon name='menu'></wc-icon>
     </wc-icon-button>
     Wayfarer
-    <wc-icon-button slot='trailing' variant='text' aria-label='Notifications'>
+    <wc-icon-button slot='end' variant='text' aria-label='Notifications'>
       <wc-icon name='notifications'></wc-icon>
     </wc-icon-button>
-    <wc-avatar slot='trailing' name='Ada Lovelace'></wc-avatar>
+    <wc-avatar slot='end' name='Ada Lovelace'></wc-avatar>
   </wc-app-bar>
 
   <div class='preview-body'>
@@ -56,7 +56,7 @@ const roles = [
     </section>
 
     <wc-tabs class='preview-tabs'>
-      <wc-tab active>Flights</wc-tab>
+      <wc-tab selected>Flights</wc-tab>
       <wc-tab>Hotels</wc-tab>
       <wc-tab>Cars</wc-tab>
     </wc-tabs>
@@ -80,11 +80,11 @@ const roles = [
           <div class='text-title-medium'>Upcoming</div>
           <wc-list>
             <wc-list-item>
-              <wc-avatar slot='leading' name='Lisbon'></wc-avatar>
+              <wc-avatar slot='start' name='Lisbon'></wc-avatar>
               Lisbon · 12 – 18 May
             </wc-list-item>
             <wc-list-item>
-              <wc-avatar slot='leading' name='Kyoto'></wc-avatar>
+              <wc-avatar slot='start' name='Kyoto'></wc-avatar>
               Kyoto · 2 – 14 Jun
             </wc-list-item>
           </wc-list>
@@ -104,8 +104,8 @@ const roles = [
           <wc-radio name={`${id}-class`} value='economy' label='Economy' checked></wc-radio>
           <wc-radio name={`${id}-class`} value='premium' label='Premium economy'></wc-radio>
           <wc-radio name={`${id}-class`} value='business' label='Business'></wc-radio>
-          <wc-alert variant='success' description='Seats are confirmed.'></wc-alert>
-          <wc-alert variant='error' description='Payment failed. Try another card.'></wc-alert>
+          <wc-alert intent='success' description='Seats are confirmed.'></wc-alert>
+          <wc-alert intent='danger' description='Payment failed. Try another card.'></wc-alert>
         </wc-card-content>
       </wc-card>
     </div>

@@ -12,9 +12,12 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-field
  * @rawTag field
  *
- * @summary Wrapper for form fields with label and help text.
+ * @summary The box around a form control, with its label, required mark, helper, error or warning text and a character count.
  * @overview
- * <p>Field provides consistent styling and behavior for form inputs.</p>
+ * <p>The field draws the frame of a form control: the label with a required mark, the bordered
+ * box with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,
+ * error or warning text and a character count. Wrap a custom control in it to match the
+ * built-in fields.</p>
  *
  * @example
  * ```html
@@ -36,10 +39,6 @@ export class Field extends LitElement {
   /** Label text shown above the field input. */
   @property({ type: String })
   label: string = '';
-
-  /** Help text (deprecated — prefer `helperText`). */
-  @property({ type: String })
-  help: string = '';
 
   /** When true, marks the field as required and shows a required indicator. */
   @property({ type: Boolean })
@@ -92,6 +91,13 @@ export class Field extends LitElement {
   /** Visual variant of the field container. */
   @property({ type: String })
   variant: 'filled' | 'outlined' | 'default' = 'default';
+
+  /**
+   * Height of the field box: `sm` (2.5rem, the default, the same as a default button), `md`
+   * (3.5rem) or `lg` (4rem). `data-density` on an ancestor shortens it further.
+   */
+  @property({ type: String, reflect: true })
+  size: 'sm' | 'md' | 'lg' = 'sm';
 
   /** Reference to the host input element; used to forward click-on-label focus. */
   @property({ type: Object })

@@ -1,0 +1,30 @@
+---
+export const title = 'Theme switch';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>theme</code> to <code>light</code>, <code>dark</code> or <code>system</code> to add a
+  theme section with the three choices. Picking one updates <code>theme</code> and fires
+  <code>theme-change</code> with <code>detail.value</code>. The component does not change the page:
+  the app applies the theme, usually with <code>data-theme</code> on <code>&lt;html&gt;</code>
+  (removed for <code>system</code>, which follows the operating system), and stores the choice.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-user-menu id='user-menu-theme' name='Grace Hopper' email='grace@example.com' theme='system'>
+    <wc-menu-item><wc-icon slot='start' name='settings'></wc-icon>Settings</wc-menu-item>
+    <wc-menu-item slot='footer'><wc-icon slot='start' name='logout'></wc-icon>Sign out</wc-menu-item>
+  </wc-user-menu>
+  <script is:inline>
+    (function () {
+      document.querySelector('#user-menu-theme').addEventListener('theme-change', event => {
+        const { value } = event.detail;
+        if (value === 'system') delete document.documentElement.dataset.theme;
+        else document.documentElement.dataset.theme = value;
+        myConsole.log(`theme-change: ${value}`);
+      });
+    })();
+  </script>
+</DemoComponentCard>

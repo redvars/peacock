@@ -21,7 +21,7 @@ describe('TimePicker', () => {
       html`<wc-time-picker
         value="09:30"
         hour-cycle="h23"
-        step="15"
+        minute-step="15"
       ></wc-time-picker>`,
     );
     expect(column(el, 'period')).to.be.null;
@@ -88,5 +88,44 @@ describe('TimePicker', () => {
     hours.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
     await el.updateComplete;
     expect(el.value).to.equal('08:00');
+  });
+
+  it('spaces the minute column by minute-step', async () => {
+    const el = await fixture<TimePicker>(
+      html`<wc-time-picker
+        value="09:30"
+        hour-cycle="h23"
+        minute-step="20"
+      ></wc-time-picker>`,
+    );
+    const labels = Array.from(
+      column(el, 'minute').querySelectorAll('[role="option"]'),
+    ).map(o => o.textContent!.trim());
+    expect(labels).to.deep.equal(['00', '20', '40']);
+  });
+
+  it('shows seconds in the value only with seconds', async () => {
+    const el = await fixture<TimePicker>(
+      html`<wc-time-picker
+        value="09:30"
+        hour-cycle="h23"
+        seconds
+      ></wc-time-picker>`,
+    );
+    expect(column(el, 'second')).to.exist;
+    setTimeout(() => option(el, 'second', '15').click());
+    const event = (await oneEvent(el, 'change')) as CustomEvent<{
+      value: string;
+    }>;
+    expect(event.detail.value).to.equal('09:30:15');
+  });
+
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<TimePicker>(
+      html`<wc-time-picker></wc-time-picker>`,
+    );
+    el.value = '09:30';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
   });
 });

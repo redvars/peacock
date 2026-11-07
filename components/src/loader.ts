@@ -12,18 +12,21 @@ import { Divider } from '@/divider/divider.js';
 import { Button } from '@/button/button/button.js';
 import ButtonGroup from '@/button/button-group/button-group.js';
 import { IconButton } from '@/button/icon-button/icon-button.js';
+import { LinkButton } from '@/button/link-button/link-button.js';
 import { Fab } from '@/button/fab/fab.js';
 import { SegmentedButton } from '@/segmented-button/segmented-button.js';
 import { SegmentedButtonGroup } from '@/segmented-button/segmented-button-group.js';
 import { SplitButton } from '@/split-button/split-button.js';
 import { DropdownButton } from '@/dropdown-button/dropdown-button.js';
 import { Input } from '@/input/input.js';
+import { PasswordField } from '@/password-field/password-field.js';
 import { UrlField } from '@/url-field/url-field.js';
 import { Field } from '@/field/field.js';
 import { NumberField } from '@/number-field/number-field.js';
 import { DatePicker } from '@/date-picker/date-picker.js';
 import { TimePicker } from '@/time-picker/time-picker.js';
 import { DateField } from '@/date-field/date-field.js';
+import { DateRangeField } from '@/date-range-field/date-range-field.js';
 import { TimeField } from '@/time-field/time-field.js';
 import { DatetimeField } from '@/datetime-field/datetime-field.js';
 import { Textarea } from '@/textarea/textarea.js';
@@ -55,9 +58,7 @@ import { PopoverContent } from '@/popover/popover-content.js';
 import { Breadcrumb, BreadcrumbItem } from '@/breadcrumb/index.js';
 
 import { Skeleton } from '@/skeleton/skeleton.js';
-import { Spinner } from '@/spinner/spinner.js';
 
-import { EmptyState } from '@/empty-state/empty-state.js';
 import { Container } from '@/container/container.js';
 import { Image } from '@/image/image.js';
 import { Svg } from '@/svg/svg.js';
@@ -71,21 +72,75 @@ import { ColorPicker } from '@/color-picker/color-picker.js';
 import { ColorField } from '@/color-field/color-field.js';
 import { Table } from '@/table/table.js';
 import { Pagination } from '@/pagination/pagination.js';
-import { SidebarMenu } from '@/sidebar-menu/sidebar-menu.js';
-import { SidebarMenuItem } from '@/sidebar-menu/sidebar-menu-item.js';
-import { SidebarSubMenu } from '@/sidebar-menu/sidebar-sub-menu.js';
 import { Card } from '@/card/card.js';
 import { CardContent } from '@/card/card-content.js';
 import { Alert } from '@/alert/alert.js';
-import { Notification } from '@/notification/notification.js';
 import { NotificationManager } from '@/notification-manager/notification-manager.js';
 import { Snackbar } from '@/snackbar/snackbar.js';
 import { BottomSheet } from '@/bottom-sheet/bottom-sheet.js';
 import { SideSheet } from '@/side-sheet/side-sheet.js';
 import { Modal } from '@/modal/modal.js';
 import { Select } from '@/select/select.js';
+import { Listbox, ListboxOption } from '@/listbox/index.js';
 import { SelectOptionElement } from '@/select/option.js';
 import { Search } from '@/search/search.js';
+import { FilterBar } from '@/filter-bar/filter-bar.js';
+import { PinInput } from '@/pin-input/pin-input.js';
+import { FileUpload } from '@/file-upload/file-upload.js';
+import { Stepper, Step } from '@/stepper/index.js';
+import { ConfirmDialog } from '@/confirm-dialog/confirm-dialog.js';
+import { Tree, TreeItem } from '@/tree/index.js';
+import { CheckboxGroup } from '@/checkbox-group/checkbox-group.js';
+import { Fieldset } from '@/fieldset/fieldset.js';
+import { Form } from '@/form/form.js';
+import { PhoneField } from '@/phone-field/phone-field.js';
+import { CurrencyField } from '@/currency-field/currency-field.js';
+import { DescriptionList, DescriptionItem } from '@/description-list/index.js';
+import { Stat } from '@/stat/stat.js';
+import { Sparkline } from '@/sparkline/sparkline.js';
+import { TransferList } from '@/transfer-list/transfer-list.js';
+import { StatusIndicator } from '@/status-indicator/status-indicator.js';
+import { AppShell } from '@/app-shell/app-shell.js';
+import { PageHeader } from '@/page-header/page-header.js';
+import { ResizablePanels, Panel } from '@/resizable-panels/index.js';
+import { Stack } from '@/stack/stack.js';
+import { Grid } from '@/grid/grid.js';
+import { AvatarGroup } from '@/avatar-group/avatar-group.js';
+import { CopyButton } from '@/copy-button/copy-button.js';
+import { CommandPalette } from '@/command-palette/command-palette.js';
+import { WorkspaceSwitcher } from '@/workspace-switcher/workspace-switcher.js';
+import { UserMenu } from '@/user-menu/user-menu.js';
+import { Banner } from '@/banner/banner.js';
+import { NotificationCenter } from '@/notification-center/notification-center.js';
+import { Tour } from '@/tour/tour.js';
+import { InlineEdit } from '@/inline-edit/inline-edit.js';
+import { PasswordRules } from '@/password-rules/password-rules.js';
+import { Rating } from '@/rating/rating.js';
+import { SignaturePad } from '@/signature-pad/signature-pad.js';
+import { MentionInput } from '@/mention-input/mention-input.js';
+import { Kbd } from '@/kbd/kbd.js';
+import { AiBadge } from '@/ai-badge/ai-badge.js';
+import { TypingIndicator } from '@/typing-indicator/typing-indicator.js';
+import { Citation } from '@/citation/citation.js';
+import { ChatMessage } from '@/chat-message/chat-message.js';
+import { ChatThread } from '@/chat-thread/chat-thread.js';
+import { AssistantSteps } from '@/assistant-steps/assistant-steps.js';
+import { AssistantStep } from '@/assistant-steps/assistant-step.js';
+import { DraftCard } from '@/draft-card/draft-card.js';
+import { AssistantPanel } from '@/assistant-panel/assistant-panel.js';
+import { AiSummary } from '@/ai-summary/ai-summary.js';
+import { GenerativeView } from '@/generative-view/generative-view.js';
+import { HoverCard } from '@/hover-card/hover-card.js';
+import { Kanban } from '@/kanban/kanban.js';
+import { VirtualList } from '@/virtual-list/virtual-list.js';
+import { JsonViewer } from '@/json-viewer/json-viewer.js';
+import { DiffViewer } from '@/diff-viewer/diff-viewer.js';
+import { AnchorNav } from '@/anchor-nav/anchor-nav.js';
+import { ScrollArea } from '@/scroll-area/scroll-area.js';
+import { PresenceIndicator } from '@/presence-indicator/presence-indicator.js';
+import { RelativeTime } from '@/relative-time/relative-time.js';
+import { RedvarsLoader } from '@/redvars-loader/redvars-loader.js';
+import { Illustration } from '@/illustration/illustration.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -94,6 +149,7 @@ import { NavigationBar } from '@/navigation-bar/navigation-bar.js';
 import { NavigationBarItem } from '@/navigation-bar/navigation-bar-item.js';
 import { NavigationDrawer } from '@/navigation-drawer/navigation-drawer.js';
 import { NavigationDrawerItem } from '@/navigation-drawer/navigation-drawer-item.js';
+import { NavigationDrawerGroup } from '@/navigation-drawer/navigation-drawer-group.js';
 
 // Resolve the folder this script was served from. `new URL('.', …)` drops the file name and any
 // query string, so `loader.js?styles` still yields `…/dist` (no trailing slash).
@@ -108,26 +164,6 @@ const includeStyles = params.has('styles');
 if (includeStyles) {
   await loadCSS(`${distDirectory}/assets/styles.css`);
 }
-
-/*
-import tooltipStyles from './popover/tooltip.css-component.scss';
-
-function buildSheet(styleSheet: any) {
-  const sheet = new CSSStyleSheet();
-  // Add rules
-  sheet.replaceSync(styleSheet.toString());
-  return sheet;
-}
-
-const styleSheets = [
-// buildSheet(cssComponentsStyleSheet),
-// buildSheet(linkStyles),
-// buildSheet(textStylesheet),
-  buildSheet(tooltipStyles),
-];
-
-document.adoptedStyleSheets = styleSheets;
-*/
 
 const loaderConfig: LoaderConfig = {
   components: {
@@ -149,6 +185,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-icon-button': {
       CustomElementClass: IconButton,
+    },
+    'wc-link-button': {
+      CustomElementClass: LinkButton,
     },
     'wc-fab': {
       CustomElementClass: Fab,
@@ -216,9 +255,6 @@ const loaderConfig: LoaderConfig = {
     'wc-alert': {
       CustomElementClass: Alert,
     },
-    'wc-notification': {
-      CustomElementClass: Notification,
-    },
     'wc-notification-manager': {
       CustomElementClass: NotificationManager,
     },
@@ -241,6 +277,9 @@ const loaderConfig: LoaderConfig = {
     'wc-input': {
       CustomElementClass: Input,
     },
+    'wc-password-field': {
+      CustomElementClass: PasswordField,
+    },
     'wc-url-field': {
       CustomElementClass: UrlField,
     },
@@ -258,6 +297,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-date-field': {
       CustomElementClass: DateField,
+    },
+    'wc-date-range-field': {
+      CustomElementClass: DateRangeField,
     },
     'wc-time-field': {
       CustomElementClass: TimeField,
@@ -282,11 +324,39 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-html-editor': {
       importPath: `${distDirectory}/html-editor.js`,
-      dependencies: ['wc-code-editor'],
+      dependencies: ['wc-code-editor', 'wc-markdown'],
     },
     'wc-markdown-editor': {
       importPath: `${distDirectory}/markdown-editor.js`,
-      dependencies: ['wc-code-editor'],
+      dependencies: ['wc-code-editor', 'wc-markdown'],
+    },
+    'wc-markdown': {
+      importPath: `${distDirectory}/markdown.js`,
+      dependencies: ['wc-code-highlighter', 'wc-citation'],
+    },
+    'wc-comment-composer': {
+      importPath: `${distDirectory}/comment-composer.js`,
+      dependencies: ['wc-markdown'],
+    },
+    'wc-document-editor': {
+      importPath: `${distDirectory}/document-editor.js`,
+      dependencies: ['wc-markdown'],
+    },
+    'wc-discussion': {
+      importPath: `${distDirectory}/discussion.js`,
+      dependencies: [
+        'wc-comment-composer',
+        'wc-discussion-comment',
+        'wc-discussion-activity',
+      ],
+    },
+    'wc-discussion-comment': {
+      importPath: `${distDirectory}/discussion-comment.js`,
+      dependencies: ['wc-markdown', 'wc-comment-composer'],
+    },
+    'wc-discussion-activity': {
+      importPath: `${distDirectory}/discussion-activity.js`,
+      dependencies: ['wc-markdown'],
     },
     'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
@@ -311,12 +381,6 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-radio-group': {
       CustomElementClass: RadioGroup,
-    },
-    'wc-spinner': {
-      CustomElementClass: Spinner,
-    },
-    'wc-empty-state': {
-      CustomElementClass: EmptyState,
     },
     'wc-menu': {
       CustomElementClass: Menu,
@@ -366,15 +430,6 @@ const loaderConfig: LoaderConfig = {
     'wc-pagination': {
       CustomElementClass: Pagination,
     },
-    'wc-sidebar-menu': {
-      CustomElementClass: SidebarMenu,
-    },
-    'wc-sidebar-menu-item': {
-      CustomElementClass: SidebarMenuItem,
-    },
-    'wc-sidebar-sub-menu': {
-      CustomElementClass: SidebarSubMenu,
-    },
     'wc-snackbar': {
       CustomElementClass: Snackbar,
     },
@@ -393,8 +448,200 @@ const loaderConfig: LoaderConfig = {
     'wc-option': {
       CustomElementClass: SelectOptionElement,
     },
+    'wc-listbox': {
+      CustomElementClass: Listbox,
+    },
+    'wc-listbox-option': {
+      CustomElementClass: ListboxOption,
+    },
     'wc-search': {
       CustomElementClass: Search,
+    },
+    'wc-filter-bar': {
+      CustomElementClass: FilterBar,
+    },
+    'wc-pin-input': {
+      CustomElementClass: PinInput,
+    },
+    'wc-file-upload': {
+      CustomElementClass: FileUpload,
+    },
+    'wc-stepper': {
+      CustomElementClass: Stepper,
+    },
+    'wc-step': {
+      CustomElementClass: Step,
+    },
+    'wc-confirm-dialog': {
+      CustomElementClass: ConfirmDialog,
+    },
+    'wc-tree': {
+      CustomElementClass: Tree,
+    },
+    'wc-tree-item': {
+      CustomElementClass: TreeItem,
+    },
+    'wc-checkbox-group': {
+      CustomElementClass: CheckboxGroup,
+    },
+    'wc-fieldset': {
+      CustomElementClass: Fieldset,
+    },
+    'wc-form': {
+      CustomElementClass: Form,
+    },
+    'wc-phone-field': {
+      CustomElementClass: PhoneField,
+    },
+    'wc-currency-field': {
+      CustomElementClass: CurrencyField,
+    },
+    'wc-description-list': {
+      CustomElementClass: DescriptionList,
+    },
+    'wc-description-item': {
+      CustomElementClass: DescriptionItem,
+    },
+    'wc-stat': {
+      CustomElementClass: Stat,
+    },
+    'wc-sparkline': {
+      CustomElementClass: Sparkline,
+    },
+    'wc-transfer-list': {
+      CustomElementClass: TransferList,
+    },
+    'wc-status-indicator': {
+      CustomElementClass: StatusIndicator,
+    },
+    'wc-app-shell': {
+      CustomElementClass: AppShell,
+    },
+    'wc-page-header': {
+      CustomElementClass: PageHeader,
+    },
+    'wc-resizable-panels': {
+      CustomElementClass: ResizablePanels,
+    },
+    'wc-panel': {
+      CustomElementClass: Panel,
+    },
+    'wc-stack': {
+      CustomElementClass: Stack,
+    },
+    'wc-grid': {
+      CustomElementClass: Grid,
+    },
+    'wc-avatar-group': {
+      CustomElementClass: AvatarGroup,
+    },
+    'wc-copy-button': {
+      CustomElementClass: CopyButton,
+    },
+    'wc-command-palette': {
+      CustomElementClass: CommandPalette,
+    },
+    'wc-workspace-switcher': {
+      CustomElementClass: WorkspaceSwitcher,
+    },
+    'wc-user-menu': {
+      CustomElementClass: UserMenu,
+    },
+    'wc-banner': {
+      CustomElementClass: Banner,
+    },
+    'wc-notification-center': {
+      CustomElementClass: NotificationCenter,
+    },
+    'wc-tour': {
+      CustomElementClass: Tour,
+    },
+    'wc-inline-edit': {
+      CustomElementClass: InlineEdit,
+    },
+    'wc-password-rules': {
+      CustomElementClass: PasswordRules,
+    },
+    'wc-rating': {
+      CustomElementClass: Rating,
+    },
+    'wc-signature-pad': {
+      CustomElementClass: SignaturePad,
+    },
+    'wc-mention-input': {
+      CustomElementClass: MentionInput,
+    },
+    'wc-kbd': {
+      CustomElementClass: Kbd,
+    },
+    'wc-ai-badge': {
+      CustomElementClass: AiBadge,
+    },
+    'wc-typing-indicator': {
+      CustomElementClass: TypingIndicator,
+    },
+    'wc-citation': {
+      CustomElementClass: Citation,
+    },
+    'wc-chat-message': {
+      CustomElementClass: ChatMessage,
+    },
+    'wc-chat-thread': {
+      CustomElementClass: ChatThread,
+    },
+    'wc-assistant-steps': {
+      CustomElementClass: AssistantSteps,
+    },
+    'wc-assistant-step': {
+      CustomElementClass: AssistantStep,
+    },
+    'wc-draft-card': {
+      CustomElementClass: DraftCard,
+    },
+    'wc-assistant-panel': {
+      CustomElementClass: AssistantPanel,
+    },
+    'wc-ai-summary': {
+      CustomElementClass: AiSummary,
+    },
+    'wc-generative-view': {
+      CustomElementClass: GenerativeView,
+    },
+    'wc-prompt-input': {
+      importPath: `${distDirectory}/prompt-input.js`,
+    },
+    'wc-hover-card': {
+      CustomElementClass: HoverCard,
+    },
+    'wc-kanban': {
+      CustomElementClass: Kanban,
+    },
+    'wc-virtual-list': {
+      CustomElementClass: VirtualList,
+    },
+    'wc-json-viewer': {
+      CustomElementClass: JsonViewer,
+    },
+    'wc-diff-viewer': {
+      CustomElementClass: DiffViewer,
+    },
+    'wc-anchor-nav': {
+      CustomElementClass: AnchorNav,
+    },
+    'wc-scroll-area': {
+      CustomElementClass: ScrollArea,
+    },
+    'wc-presence-indicator': {
+      CustomElementClass: PresenceIndicator,
+    },
+    'wc-illustration': {
+      CustomElementClass: Illustration,
+    },
+    'wc-redvars-loader': {
+      CustomElementClass: RedvarsLoader,
+    },
+    'wc-relative-time': {
+      CustomElementClass: RelativeTime,
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,
@@ -420,9 +667,16 @@ const loaderConfig: LoaderConfig = {
     'wc-navigation-drawer-item': {
       CustomElementClass: NavigationDrawerItem,
     },
+    'wc-navigation-drawer-group': {
+      CustomElementClass: NavigationDrawerGroup,
+    },
     'wc-calendar': {
       importPath: `${distDirectory}/calendar.js`,
-      dependencies: ['wc-calendar-column-view', 'wc-calendar-month-view'],
+      dependencies: [
+        'wc-calendar-column-view',
+        'wc-calendar-month-view',
+        'wc-linear-progress',
+      ],
     },
     'wc-calendar-column-view': {
       importPath: `${distDirectory}/calendar-column-view.js`,
@@ -465,4 +719,34 @@ const loaderConfig: LoaderConfig = {
   },
 };
 
-new LoaderUtils(loaderConfig).start();
+const loader = new LoaderUtils(loaderConfig);
+
+// Example: loader.js?no-shadow-watch leaves Element.prototype.attachShadow alone; the page then
+// calls loadComponents(shadowRoot) for shadow roots it creates that contain Peacock components.
+loader.start({ watchShadowRoots: !params.has('no-shadow-watch') });
+
+/**
+ * Loads the Peacock components in `root` (a shadow root, element or document) and those added to
+ * it later. Only needed with `loader.js?no-shadow-watch`.
+ */
+export function loadComponents(root: Document | Element | ShadowRoot): void {
+  loader.lazyLoadComponents(root);
+}
+
+export {
+  setPeacockStrings,
+  defaultStrings,
+} from '@/__internal/i18n/strings.js';
+export type { PeacockStrings } from '@/__internal/i18n/strings.js';
+export {
+  setPeacockAi,
+  peacockAi,
+  onPeacockAiChange,
+  isAiAvailable,
+} from '@/__internal/ai/config.js';
+export { readStream } from '@/__internal/ai/stream.js';
+export { generativeViewSchema } from '@/generative-view/schema.js';
+export type {
+  PeacockAiConfig,
+  PeacockAiProvider,
+} from '@/__internal/ai/types.js';

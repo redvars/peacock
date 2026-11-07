@@ -1,37 +1,54 @@
-import { E, A, i as i$1, _ as __decorate, I as IndividualComponent, a as i$2, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r as r$1 } from './state-DkTK9EGF.js';
-import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e as e$2 } from './class-map-DG7CA1et.js';
-import { e, i, t } from './directive-ZPhl09Yt.js';
-import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
+import { i, _ as __decorate, I as IndividualComponent, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
+import { e } from './query-CHb9Ft_d.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
+import { l } from './live-D_5OfuGD.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { B as BaseInput, n as nativeValidity } from './BaseInput-DJ7w21-i.js';
 import './base-Cl6v8-BZ.js';
+import './directive-ZPhl09Yt.js';
+import './directive-helpers-Bx3mu42O.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
+import './element-internals-QME0yEz4.js';
+import './form-associated-D3Tn33s_.js';
 
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */const r=o=>void 0===o.strings,m={},p=(o,t=m)=>o._$AH=t;
-
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */const l=e(class extends i{constructor(r$1){if(super(r$1),r$1.type!==t.PROPERTY&&r$1.type!==t.ATTRIBUTE&&r$1.type!==t.BOOLEAN_ATTRIBUTE)throw Error("The `live` directive is not allowed on child or event bindings");if(!r(r$1))throw Error("`live` bindings can only contain a single expression")}render(r){return r}update(i,[t$1]){if(t$1===E||t$1===A)return t$1;const o=i.element,l=i.name;if(i.type===t.PROPERTY){if(t$1===o[l])return E}else if(i.type===t.BOOLEAN_ATTRIBUTE){if(!!t$1===o.hasAttribute(l))return E}else if(i.type===t.ATTRIBUTE&&o.getAttribute(l)===t$1+"")return E;return p(i),t$1}});
-
-var css_248z$1 = i$1`* {
+var css_248z$1 = i`* {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   --search-container-shape: var(--shape-corner-full);
@@ -224,7 +241,7 @@ var css_248z$1 = i$1`* {
   cursor: not-allowed;
 }`;
 
-var css_248z = i$1`:host {
+var css_248z = i`:host {
   /* Filled variant tokens */
   --search-container-color: var(--color-surface-container-high);
   --search-input-text-color: var(--color-on-surface);
@@ -238,15 +255,33 @@ var css_248z = i$1`:host {
   --search-outline-color: var(--color-outline);
 }`;
 
+/** Reads `clearable="false"` as false, so the default-on button can be turned off in HTML. */
+const clearableConverter = {
+    fromAttribute: (value) => value !== null && value !== 'false',
+    toAttribute: (value) => (value ? '' : 'false'),
+};
 /**
  * @label Search
  * @tag wc-search
  * @rawTag search
  *
- * @summary A search bar for filtering and finding content.
+ * @summary A search box with a search icon and a clear button, for finding or filtering content.
  * @overview
- * <p>The search component provides a text input designed for search interactions.
- * It supports outlined and filled variants, an optional clear button, and leading/trailing icon slots.</p>
+ * <p>Search has the field variants (<code>default</code>, <code>filled</code>, <code>outlined</code>), a
+ * clear button, and <code>start</code>/<code>end</code> slots for icons and actions.</p>
+ * <p><code>label</code> is the accessible name of the search box (it is not shown); without it the
+ * placeholder names it.</p>
+ * <p>The clear button is on by default (<code>clearable</code> is <code>true</code>), unlike on
+ * fields, because a search box is cleared often; turn it off with <code>clearable="false"</code>
+ * or <code>.clearable=${false}</code>. Escape clears the value too; when there is nothing to clear,
+ * Escape is left to the page, so a dialog around the search still closes.</p>
+ * <p>Search is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is
+ * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.
+ * It shows no validation message, so use <code>wc-input</code> for a search term that must be
+ * validated.</p>
+ *
+ * @slot start - Leading content; replaces the search icon.
+ * @slot end - Trailing content, after the clear button.
  *
  * @cssprop --search-container-shape - Border radius of the search bar. Defaults to full (pill shape).
  * @cssprop --search-container-color - Background color of the search container.
@@ -256,39 +291,40 @@ var css_248z = i$1`:host {
  * @cssprop --search-outline-color - Border color for the outlined variant.
  * @cssprop --search-outline-width - Border width for the outlined variant.
  *
- * @fires {CustomEvent} input - Dispatched when the search value changes.
- * @fires {CustomEvent} change - Dispatched when the search input loses focus or Enter is pressed.
- * @fires {CustomEvent} clear - Dispatched when the clear button is activated.
- * @fires {CustomEvent} search - Dispatched when the user submits the search (presses Enter).
+ * @fires {CustomEvent<{value: string}>} input - Dispatched when the search value changes.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed: on blur, Enter, or when it is cleared.
+ * @fires {CustomEvent} clear - Dispatched when the value is cleared with the clear button or Escape.
+ * @fires {CustomEvent<{value: string}>} search - Dispatched when the user submits the search (presses Enter).
  *
  * @example
  * ```html
- * <wc-search placeholder="Search..."></wc-search>
+ * <wc-search label="Search products" placeholder="Search..."></wc-search>
  * ```
  * @tags form
  */
-let Search = class Search extends i$2 {
+let Search = class Search extends BaseInput {
     constructor() {
+        // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
+        // ── Properties ───────────────────────────────────────────────────────────
         /**
-         * Visual style variant.
-         * Possible values: `"outlined"`, `"filled"`. Defaults to `"filled"`.
+         * Visual style, as on fields: `default` (a filled container), `filled` or `outlined`.
+         * `default` and `filled` look the same.
          */
-        this.variant = 'filled';
+        this.variant = 'default';
+        /** Accessible name of the search box; the placeholder names it when it is empty. */
+        this.label = '';
         /**
-         * Placeholder text shown when the input is empty.
+         * Placeholder text shown when the input is empty. Defaults to Peacock's "Search".
          */
-        this.placeholder = 'Search';
+        this.placeholder = '';
         /**
          * Current search value.
          */
         this.value = '';
         /**
-         * Whether the search bar is disabled.
-         */
-        this.disabled = false;
-        /**
-         * Whether a clear button is shown when the input has a value.
+         * Whether a clear button is shown when the input has a value. On by default; set
+         * `clearable="false"` to hide it.
          */
         this.clearable = true;
         /**
@@ -296,57 +332,61 @@ let Search = class Search extends i$2 {
          * Possible values: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         this.size = 'md';
+        // ── State ────────────────────────────────────────────────────────────────
         this.focused = false;
-        this.leadingSlotHasContent = false;
+        // ── Private fields ───────────────────────────────────────────────────────
+        /** Peacock's strings for the placeholder and clear button. */
+        this.i18n = new I18nController(this);
         this.__handleFocusChange = (event) => {
             this.focused = event.type === 'focus';
         };
     }
-    firstUpdated() {
-        observerSlotChangesWithCallback(this.renderRoot.querySelector('slot[name="leading"]'), hasContent => {
-            this.leadingSlotHasContent = hasContent;
-            this.requestUpdate();
-        });
-    }
-    async focus() {
-        await Promise.all([
-            customElements.whenDefined('wc-input'),
-            customElements.whenDefined('wc-field'),
-        ]);
-        await this.updateComplete;
+    // ── Public methods ───────────────────────────────────────────────────────
+    focus() {
         this.inputElement?.focus();
+    }
+    blur() {
+        this.inputElement?.blur();
+    }
+    // ── Protected methods ────────────────────────────────────────────────────
+    computeValidity() {
+        return this.inputElement
+            ? nativeValidity(this.inputElement)
+            : super.computeValidity();
+    }
+    validityAnchor() {
+        return this.inputElement;
+    }
+    // ── Private methods ──────────────────────────────────────────────────────
+    __emit(type) {
+        this.dispatchEvent(new CustomEvent(type, {
+            detail: { value: this.value },
+            bubbles: true,
+            composed: true,
+        }));
     }
     __handleInput(event) {
         const input = event.target;
         this.value = input.value;
         // Prevent the native input event from escaping in addition to our API event.
         event.stopPropagation();
-        this.dispatchEvent(new CustomEvent('input', {
-            detail: { value: this.value },
-            bubbles: true,
-            composed: true,
-        }));
+        this.__emit('input');
     }
     __handleChange(event) {
         const input = event.target;
         this.value = input.value;
         // Prevent the native change event from escaping in addition to our API event.
         event.stopPropagation();
-        this.dispatchEvent(new CustomEvent('change', {
-            detail: { value: this.value },
-            bubbles: true,
-            composed: true,
-        }));
+        this.__emit('change');
     }
     __handleKeydown(event) {
         if (event.key === 'Enter') {
-            this.dispatchEvent(new CustomEvent('search', {
-                detail: { value: this.value },
-                bubbles: true,
-                composed: true,
-            }));
+            this.__emit('search');
         }
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && this.value && !this.readonly) {
+            // Only take Escape when there is something to clear; otherwise a dialog may want it.
+            event.preventDefault();
+            event.stopPropagation();
             this.__clearValue();
         }
     }
@@ -357,19 +397,17 @@ let Search = class Search extends i$2 {
             bubbles: true,
             composed: true,
         }));
-        this.dispatchEvent(new CustomEvent('input', {
-            detail: { value: '' },
-            bubbles: true,
-            composed: true,
-        }));
+        this.__emit('input');
+        this.__emit('change');
     }
+    // ── Render helpers ───────────────────────────────────────────────────────
     __renderClearButton() {
-        if (!this.clearable || !this.value)
+        if (!this.clearable || !this.value || this.readonly)
             return A;
         return b `
       <button
         class="clear-button"
-        aria-label="Clear search"
+        aria-label=${this.i18n.t('clearSearch')}
         tabindex="-1"
         @click=${this.__clearValue}
         ?disabled=${this.disabled}
@@ -380,24 +418,28 @@ let Search = class Search extends i$2 {
     }
     __renderLeadingIcon() {
         return b `
-      <div class="leading-icon ${this.leadingSlotHasContent ? 'has-slot' : ''}">
-        <slot name="leading">
+      <div class="leading-icon">
+        <slot name="start">
           <wc-icon name="search"></wc-icon>
         </slot>
       </div>
     `;
     }
+    // ── Render ───────────────────────────────────────────────────────────────
     render() {
+        // `default` keeps the filled look the search has always had.
+        const variant = this.variant === 'outlined' ? 'outlined' : 'filled';
         const cssClasses = {
             search: true,
-            [`variant-${this.variant}`]: true,
+            [`variant-${variant}`]: true,
             [`size-${this.size}`]: true,
             focused: this.focused,
             disabled: this.disabled,
             'has-value': !!this.value,
         };
+        const placeholder = this.placeholder || this.i18n.t('search');
         return b `
-      <div class=${e$2(cssClasses)} role="search">
+      <div class=${e$1(cssClasses)} role="search">
         <div class="background"></div>
         <div class="outline"></div>
 
@@ -408,9 +450,11 @@ let Search = class Search extends i$2 {
           type="search"
           role="searchbox"
           .value=${l(this.value)}
-          placeholder=${this.placeholder}
+          placeholder=${placeholder}
           ?disabled=${this.disabled}
-          aria-label=${this.placeholder}
+          ?readonly=${this.readonly}
+          ?required=${this.required}
+          aria-label=${this.label || placeholder}
           @input=${this.__handleInput}
           @change=${this.__handleChange}
           @keydown=${this.__handleKeydown}
@@ -420,7 +464,7 @@ let Search = class Search extends i$2 {
 
         <div class="trailing-actions">
           ${this.__renderClearButton()}
-          <slot name="trailing"></slot>
+          <slot name="end"></slot>
         </div>
       </div>
     `;
@@ -432,27 +476,24 @@ __decorate([
 ], Search.prototype, "variant", void 0);
 __decorate([
     n({ type: String })
+], Search.prototype, "label", void 0);
+__decorate([
+    n({ type: String })
 ], Search.prototype, "placeholder", void 0);
 __decorate([
     n({ type: String })
 ], Search.prototype, "value", void 0);
 __decorate([
-    n({ type: Boolean, reflect: true })
-], Search.prototype, "disabled", void 0);
-__decorate([
-    n({ type: Boolean })
+    n({ converter: clearableConverter })
 ], Search.prototype, "clearable", void 0);
 __decorate([
     n({ type: String, reflect: true })
 ], Search.prototype, "size", void 0);
 __decorate([
-    r$1()
+    r()
 ], Search.prototype, "focused", void 0);
 __decorate([
-    r$1()
-], Search.prototype, "leadingSlotHasContent", void 0);
-__decorate([
-    e$1('.search-input')
+    e('.search-input')
 ], Search.prototype, "inputElement", void 0);
 Search = __decorate([
     IndividualComponent

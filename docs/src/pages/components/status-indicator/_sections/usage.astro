@@ -1,0 +1,39 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-status-indicator</code> shows the state of a system or an entity: a dot and a short
+  label. <code>intent</code> (<code>info</code>, <code>success</code>, <code>warning</code>,
+  <code>danger</code>; unset is neutral) picks the color and the shape of the dot, so the status
+  never rests on color alone: a ring for neutral, a square for info, a circle for success, a
+  triangle for warning and a diamond for danger. In forced-colors mode the shapes stay.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 0.75rem;'>
+    <wc-status-indicator intent='success' label='Operational'></wc-status-indicator>
+    <wc-status-indicator intent='warning' label='Degraded'></wc-status-indicator>
+    <wc-status-indicator intent='danger' label='Offline'></wc-status-indicator>
+    <wc-status-indicator intent='info' label='Syncing' pulse></wc-status-indicator>
+    <wc-status-indicator label='Unknown'></wc-status-indicator>
+  </div>
+</DemoComponentCard>
+
+<h3>Badge, status indicator or tag</h3>
+<ul>
+  <li>
+    <code>wc-status-indicator</code>: the state of a thing, read next to its name ("API:
+    Operational").
+  </li>
+  <li>
+    <code>wc-badge</code>: a count or an unread dot attached to another element, such as an icon
+    button.
+  </li>
+  <li>
+    <code>wc-tag</code>: a label or a category in a filled container ("Draft", "Design"), often
+    several side by side.
+  </li>
+</ul>

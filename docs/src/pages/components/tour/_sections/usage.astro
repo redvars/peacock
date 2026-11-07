@@ -1,0 +1,68 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-tour</code> walks the person through a page: each step highlights a target with a spotlight cut
+  out of a dimmed scrim and shows a popup next to it with "Step 2 of 4", a headline, a body, Back and Next
+  (Done on the last step), and a close button that skips the tour. The target scrolls into view, and the
+  popup flips and shifts to stay in the viewport.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;'>
+    <wc-button id='tour-demo-start' variant='filled'>Start tour</wc-button>
+    <wc-search id='tour-demo-search' placeholder='Search' style='flex: 1; min-width: 12rem;'></wc-search>
+    <wc-button data-tour='new' variant='outlined'>New project</wc-button>
+    <wc-icon-button data-tour='settings' variant='text' shape='round' aria-label='Settings'>
+      <wc-icon name='settings'></wc-icon>
+    </wc-icon-button>
+    <wc-tour id='tour-demo'></wc-tour>
+  </div>
+  <script is:inline>
+    (function () {
+      var tour = document.querySelector('#tour-demo');
+      tour.steps = [
+        { headline: 'Welcome', body: 'A quick look at the main controls. It takes a minute.' },
+        { target: 'tour-demo-search', headline: 'Search', body: 'Find projects, people and files from here.' },
+        { target: '[data-tour=new]', headline: 'Create', body: 'Start a new project.', placement: 'top' },
+        { target: '[data-tour=settings]', headline: 'Settings', body: 'Change your preferences at any time.', placement: 'start' },
+      ];
+      tour.addEventListener('step-change', function (e) {
+        myConsole.log('step-change: ' + e.detail.index);
+      });
+      tour.addEventListener('close', function (e) {
+        myConsole.log('close: ' + e.detail.reason + (e.detail.completed ? ' (completed)' : ''));
+      });
+      document.querySelector('#tour-demo-start').addEventListener('click', function () {
+        tour.start();
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Steps</h3>
+<p>
+  <code>steps</code> is an array of <code>{'{'} target?, headline, body?, placement? {'}'}</code>.
+  <code>target</code> is an element id (<code>"search"</code>) or a CSS selector
+  (<code>"[data-tour=new]"</code>), looked up in the tour's own root and then the document. A step without
+  a target is centered on the page, for a welcome or a closing note. A step whose target is not on the
+  page is skipped in the direction of travel, with one console warning per target.
+  <code>placement</code> is <code>top</code>, <code>bottom</code> (the default), <code>start</code> or
+  <code>end</code>, optionally with <code>-start</code> or <code>-end</code>.
+</p>
+
+<h3>Methods and events</h3>
+<ul>
+  <li><code>start(index = 0)</code> opens the tour; <code>current</code> is the step shown.</li>
+  <li><code>next()</code> and <code>previous()</code> move; <code>next()</code> on the last step finishes.</li>
+  <li><code>end()</code> stops it early.</li>
+  <li><code>step-change</code> fires with <code>detail.index</code> and <code>detail.step</code> each time a step shows.</li>
+  <li>
+    <code>close</code> fires with <code>detail.reason</code> (<code>'escape'</code>, <code>'action'</code> for
+    Done or the close button, <code>'api'</code>) and <code>detail.completed</code>, true when the person
+    finished the last step. Store it so a finished tour is not shown again.
+  </li>
+</ul>

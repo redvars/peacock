@@ -1,0 +1,39 @@
+---
+export const title = 'In a navigation rail';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  In a collapsed <code>wc-navigation-rail</code>, put the switcher in the rail's
+  <code>header</code> slot and set <code>collapsed</code>: the trigger shows only the logo and the
+  name moves to a tooltip. <code>placement="end-start"</code> opens the menu beside the rail.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-navigation-rail mode='collapsed' style='height: 320px;'>
+    <wc-workspace-switcher
+      id='workspace-switcher-rail'
+      slot='header'
+      value='globex'
+      collapsed
+      placement='end-start'
+    ></wc-workspace-switcher>
+    <wc-navigation-rail-item current>
+      <wc-icon slot='icon' name='home'></wc-icon>
+      Home
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item>
+      <wc-icon slot='icon' name='inbox'></wc-icon>
+      Inbox
+    </wc-navigation-rail-item>
+  </wc-navigation-rail>
+  <script is:inline>
+    (function () {
+      document.querySelector('#workspace-switcher-rail').workspaces = [
+        { value: 'acme', label: 'Acme Inc', description: 'Enterprise' },
+        { value: 'globex', label: 'Globex', description: 'Team' },
+      ];
+    })();
+  </script>
+</DemoComponentCard>

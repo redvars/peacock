@@ -27,7 +27,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
    }
 </style>
 
-<p>Display the current local time with the default timezone.</p>
+<p>
+  Display the current local time with the default timezone. The time updates once a second, on the
+  second, and is formatted for <code>locale</code>; without one it follows the nearest
+  <code>lang</code>, then the document's, then the browser language (so 12- or 24-hour time follows the
+  locale).
+</p>
 
 <DemoComponentCard lang={'html'}>
    <wc-clock></wc-clock>
@@ -50,4 +55,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
          <wc-clock timezone='Asia/Tokyo'></wc-clock>
       </div>
    </div>
+</DemoComponentCard>
+
+<p>Set <code>locale</code> to format the time for a specific language and region.</p>
+
+<DemoComponentCard lang={'html'}>
+   <wc-clock locale='en-US'></wc-clock>
+   <wc-clock locale='de-DE'></wc-clock>
 </DemoComponentCard>

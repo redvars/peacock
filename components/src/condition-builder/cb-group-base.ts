@@ -1,4 +1,10 @@
-import { html, LitElement, nothing, type TemplateResult } from 'lit';
+import {
+  html,
+  LitElement,
+  nothing,
+  type PropertyValues,
+  type TemplateResult,
+} from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -7,12 +13,22 @@ import {
   getActiveRule,
   releaseDropTarget,
 } from './cb-drag.js';
-import type { CbRule } from './cb-rule.js';
-import type { CbOperator, CbRuleMoveDetail } from './cb-types.js';
+import { CbRule } from './cb-rule.js';
+import type {
+  CbGroupValue,
+  CbNodeValue,
+  CbOperator,
+  CbRuleMoveDetail,
+} from './cb-types.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 const ITEM_SELECTOR = 'wc-cb-rule, wc-cb-group';
 
-const OPERATOR_LABELS: Record<CbOperator, string> = { and: 'And', or: 'Or' };
+/** The string key of each operator's label. */
+const OPERATOR_LABEL_KEYS: Record<CbOperator, 'operatorAnd' | 'operatorOr'> = {
+  and: 'operatorAnd',
+  or: 'operatorOr',
+};
 
 type MenuElement = HTMLElement & {
   anchorElement: HTMLElement | null;
@@ -20,9 +36,16 @@ type MenuElement = HTMLElement & {
   close: () => void;
 };
 
+/** Adds the non-enumerable `element` to a node of the `value` tree. */
+function withElement<T extends object>(node: T, element: HTMLElement): T {
+  Object.defineProperty(node, 'element', { value: element, enumerable: false });
+  return node;
+}
+
 /**
  * Shared behaviour of `wc-condition-builder` and `wc-cb-group`: the And/Or
- * operator pill, the bracket joining the items, and dropping dragged rules.
+ * operator pill, the bracket joining the items, dropping dragged rules,
+ * `disabled`/`readonly` passed down to the items, and the `value` tree.
  */
 export class CbGroupBase extends LitElement {
   // ── Static ────────────────────────────────────────────────────────────────
@@ -40,6 +63,20 @@ export class CbGroupBase extends LitElement {
   @property({ type: String, reflect: true })
   operator: CbOperator = 'and';
 
+  /**
+   * Disables the group and everything in it: no adding, removing, moving or switching the
+   * operator. Slotted controls keep their own `disabled`; set it on them too.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
+   * Makes the group and everything in it read-only: it shows the query but hides the add,
+   * remove and drag controls and locks the operator.
+   */
+  @property({ type: Boolean, reflect: true })
+  readonly = false;
+
   // ── State ─────────────────────────────────────────────────────────────────
 
   /** Number of rules and groups in the default slot. */
@@ -53,6 +90,18 @@ export class CbGroupBase extends LitElement {
   /** Whether the operator menu is open. */
   @state()
   private _menuOpen = false;
+
+  /** `disabled` passed down by the enclosing group. */
+  @state()
+  private _inheritedDisabled = false;
+
+  /** `readonly` passed down by the enclosing group. */
+  @state()
+  private _inheritedReadonly = false;
+
+  /** Text of the polite live region, for keyboard moves. */
+  @state()
+  private _announcement = '';
 
   // ── Queries ───────────────────────────────────────────────────────────────
 
@@ -73,27 +122,41 @@ export class CbGroupBase extends LitElement {
   /** Id linking the operator pill to its menu. */
   private readonly _menuId = `cb-operator-menu-${Math.random().toString(36).slice(2, 9)}`;
 
-  /** Re-measures the bracket when any item changes size. */
-  private readonly _resizeObserver = new ResizeObserver(() =>
-    this._layoutConnector(),
-  );
+  /** Re-measures the bracket when any item changes size; exists while connected. */
+  private _resizeObserver?: ResizeObserver;
 
   /** Index the dragged rule would be inserted at, or -1. */
   private _dropIndex = -1;
+
+  /** Peacock's strings for the operator labels and the group actions. */
+  protected readonly i18n = new I18nController(this);
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   override connectedCallback() {
     super.connectedCallback();
-    this.items.forEach(item => this._resizeObserver.observe(item));
+    if (typeof ResizeObserver !== 'undefined') {
+      this._resizeObserver = new ResizeObserver(() => this._layoutConnector());
+      this.items.forEach(item => this._resizeObserver?.observe(item));
+    }
   }
 
   override disconnectedCallback() {
-    this._resizeObserver.disconnect();
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = undefined;
     super.disconnectedCallback();
   }
 
-  override updated() {
+  protected override updated(changed: PropertyValues) {
+    super.updated(changed);
+    if (
+      changed.has('disabled') ||
+      changed.has('readonly') ||
+      changed.has('_inheritedDisabled') ||
+      changed.has('_inheritedReadonly')
+    ) {
+      this._passStateDown();
+    }
     this._layoutConnector();
   }
 
@@ -104,6 +167,44 @@ export class CbGroupBase extends LitElement {
     return Array.from(this.children).filter(
       (el): el is HTMLElement => el.matches(ITEM_SELECTOR) && !el.slot,
     );
+  }
+
+  /**
+   * The query this group holds, as a tree of groups and rules (see `CbGroupValue` and
+   * `CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`
+   * is left out.
+   */
+  get value(): CbGroupValue {
+    const children: CbNodeValue[] = [];
+    for (const item of this.items) {
+      if (item instanceof CbGroupBase) children.push(item.value);
+      else if (item instanceof CbRule) children.push(item.toValue());
+    }
+    return withElement(
+      {
+        type: 'group' as const,
+        id: this.id,
+        operator: this.operator,
+        children,
+        data: { ...this.dataset } as Record<string, string>,
+      },
+      this,
+    ) as CbGroupValue;
+  }
+
+  /** Whether this group, or a group around it, is disabled. */
+  get effectiveDisabled(): boolean {
+    return this.disabled || this._inheritedDisabled;
+  }
+
+  /** Whether this group, or a group around it, is read-only. */
+  get effectiveReadonly(): boolean {
+    return this.readonly || this._inheritedReadonly;
+  }
+
+  /** Whether the group can be changed: neither disabled nor read-only. */
+  get locked(): boolean {
+    return this.effectiveDisabled || this.effectiveReadonly;
   }
 
   /**
@@ -141,14 +242,60 @@ export class CbGroupBase extends LitElement {
     return rect.top + rect.height / 2;
   }
 
+  /**
+   * Sets the `disabled` and `readonly` passed down by the enclosing group.
+   * @internal
+   */
+  inheritState(disabled: boolean, readonly: boolean) {
+    this._inheritedDisabled = disabled;
+    this._inheritedReadonly = readonly;
+  }
+
+  /**
+   * Reads `message` out through this group's polite live region.
+   * @internal
+   */
+  announce(message: string) {
+    // Clear first so the same message twice in a row is still read out.
+    this._announcement = '';
+    requestAnimationFrame(() => {
+      this._announcement = message;
+    });
+  }
+
+  // ── Protected methods ─────────────────────────────────────────────────────
+
+  /** Dispatches `add-rule` or `add-group` for this group. */
+  protected dispatchAdd(type: 'add-rule' | 'add-group') {
+    this.dispatchEvent(
+      new CustomEvent<{ group: HTMLElement }>(type, {
+        detail: { group: this },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   // ── Private methods ───────────────────────────────────────────────────────
 
   private _onSlotChange() {
     const { items } = this;
     this._itemCount = items.length;
-    this._resizeObserver.disconnect();
-    items.forEach(item => this._resizeObserver.observe(item));
+    this._resizeObserver?.disconnect();
+    items.forEach(item => this._resizeObserver?.observe(item));
+    this._passStateDown();
     this._layoutConnector();
+  }
+
+  /** Gives the items this group's effective `disabled` and `readonly`. */
+  private _passStateDown() {
+    const disabled = this.effectiveDisabled;
+    const readonly = this.effectiveReadonly;
+    for (const item of this.items) {
+      if (item instanceof CbGroupBase || item instanceof CbRule) {
+        item.inheritState(disabled, readonly);
+      }
+    }
   }
 
   /** Spans the bracket from the first to the last item's first row. */
@@ -166,7 +313,7 @@ export class CbGroupBase extends LitElement {
 
   private _onPillClick(event: MouseEvent) {
     event.stopPropagation();
-    if (!this._menuEl || !this._pillEl) return;
+    if (this.locked || !this._menuEl || !this._pillEl) return;
 
     if (this._menuOpen) {
       this._menuEl.close();
@@ -176,9 +323,19 @@ export class CbGroupBase extends LitElement {
     }
   }
 
+  /**
+   * The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them
+   * here. Only the menu's own (not a nested one's) changes the open state.
+   */
+  private _onMenuToggle(event: Event) {
+    event.stopPropagation();
+    if (event.target !== event.currentTarget) return;
+    this._menuOpen = event.type === 'open';
+  }
+
   private _onMenuActivate(event: CustomEvent<{ item: { value: string } }>) {
     const operator = event.detail.item.value as CbOperator;
-    if (operator === this.operator) return;
+    if (this.locked || operator === this.operator) return;
 
     this.operator = operator;
     this.dispatchEvent(
@@ -197,7 +354,7 @@ export class CbGroupBase extends LitElement {
 
   private _onDragOver(event: DragEvent) {
     const rule = getActiveRule();
-    if (!rule || !this._itemsEl) return;
+    if (!rule || !this._itemsEl || this.locked) return;
 
     // Cancel both dragenter and dragover to accept the drop; the innermost
     // group under the pointer takes it.
@@ -238,13 +395,19 @@ export class CbGroupBase extends LitElement {
 
   private _onDrop(event: DragEvent) {
     const rule = getActiveRule();
-    if (!rule || this._dropIndex < 0) return;
+    if (!rule || this._dropIndex < 0 || this.locked) return;
 
     event.preventDefault();
     event.stopPropagation();
     const index = this._dropIndex;
     claimDropTarget(null);
     this.moveRule(rule, index);
+  }
+
+  /** The translated label of `operator`, or the operator itself when it is unknown. */
+  private _operatorLabel(operator: CbOperator): string {
+    const key = OPERATOR_LABEL_KEYS[operator];
+    return key ? this.i18n.t(key) : operator;
   }
 
   // ── Render helpers ────────────────────────────────────────────────────────
@@ -257,21 +420,28 @@ export class CbGroupBase extends LitElement {
   private _renderConnector() {
     if (this._itemCount < 2) return nothing;
 
-    const label = OPERATOR_LABELS[this.operator] ?? this.operator;
+    const label = this._operatorLabel(this.operator);
     return html`
       <div class="connector">
         <wc-cb-divider connect-start connect-end>
           <button
             class="operator-pill"
-            aria-label=${`Match conditions with ${label}`}
-            aria-haspopup="menu"
-            aria-expanded=${String(this._menuOpen)}
-            aria-controls=${this._menuId}
+            aria-label=${this.i18n.t('matchConditionsWith')(label)}
+            aria-haspopup=${this.locked ? nothing : 'menu'}
+            aria-expanded=${this.locked ? nothing : String(this._menuOpen)}
+            aria-controls=${this.locked ? nothing : this._menuId}
+            ?disabled=${this.effectiveDisabled}
+            aria-readonly=${this.effectiveReadonly ? 'true' : nothing}
             @click=${this._onPillClick}
           >
             <wc-focus-ring></wc-focus-ring>
             <span class="operator-label">${label}</span>
-            <wc-icon name="arrow_drop_down" aria-hidden="true"></wc-icon>
+            ${this.locked
+              ? nothing
+              : html`<wc-icon
+                  name="arrow_drop_down"
+                  aria-hidden="true"
+                ></wc-icon>`}
           </button>
         </wc-cb-divider>
       </div>
@@ -279,24 +449,21 @@ export class CbGroupBase extends LitElement {
   }
 
   private _renderOperatorMenu() {
+    if (this.locked) return nothing;
     return html`
       <wc-menu
         id=${this._menuId}
-        @opened=${() => {
-          this._menuOpen = true;
-        }}
-        @closed=${() => {
-          this._menuOpen = false;
-        }}
+        @open=${this._onMenuToggle}
+        @close=${this._onMenuToggle}
         @menu-item-activate=${this._onMenuActivate}
       >
-        ${(Object.keys(OPERATOR_LABELS) as CbOperator[]).map(
+        ${(Object.keys(OPERATOR_LABEL_KEYS) as CbOperator[]).map(
           operator => html`
             <wc-menu-item
               value=${operator}
               ?selected=${operator === this.operator}
             >
-              ${OPERATOR_LABELS[operator]}
+              ${this._operatorLabel(operator)}
             </wc-menu-item>
           `,
         )}
@@ -309,7 +476,12 @@ export class CbGroupBase extends LitElement {
   override render() {
     return html`
       <div
-        class="group"
+        class=${classMap({
+          group: true,
+          disabled: this.effectiveDisabled,
+          readonly: this.effectiveReadonly,
+        })}
+        aria-disabled=${this.effectiveDisabled ? 'true' : nothing}
         @dragenter=${this._onDragOver}
         @dragover=${this._onDragOver}
         @dragleave=${this._onDragLeave}
@@ -330,6 +502,7 @@ export class CbGroupBase extends LitElement {
         ${this.renderFooter()}
       </div>
       ${this._renderOperatorMenu()}
+      <span class="sr-only" aria-live="polite">${this._announcement}</span>
     `;
   }
 }

@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -7,18 +7,27 @@ import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot
 import styles from './divider.scss';
 import IndividualComponent from '@/IndividualComponent.js';
 
+export type DividerOrientation = 'horizontal' | 'vertical';
+
 /**
  * @label Divider
  * @tag wc-divider
  * @rawTag divider
  *
- * @summary The divider component is used to visually separate content.
+ * @summary A horizontal or vertical line that separates groups of content, with an optional label such as "or".
  * @overview
- *  - Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented.
- *  - They can be oriented either vertically or horizontally, depending on the layout requirements.
+ * <ul>
+ * <li>Dividers are used to separate content into clear groups, making it easier for users to scan
+ * and understand the information presented.</li>
+ * <li>Set <code>orientation</code> to <code>horizontal</code> (the default) or
+ * <code>vertical</code>, depending on the layout.</li>
+ * <li>Content in the default slot, such as "or", shows in the middle of the line.</li>
+ * <li>The host is <code>role="separator"</code> with a matching <code>aria-orientation</code>.</li>
+ * </ul>
  *
  * @cssprop --divider-color - Controls the color of the divider.
- * @cssprop --divider-padding - Controls the padding of the divider.
+ * @cssprop --divider-spacing - Controls the space around the divider.
+ * @cssprop [--divider-line-thickness=1px] - Controls the thickness of the line.
  *
  * @example
  * ```html
@@ -30,28 +39,44 @@ import IndividualComponent from '@/IndividualComponent.js';
 export class Divider extends LitElement {
   static styles = [styles];
 
-  /** When true, renders the divider vertically. Defaults to horizontal. */
-  @property({ type: Boolean, reflect: true }) vertical = false;
+  /** Direction of the line. */
+  @property({ reflect: true }) orientation: DividerOrientation = 'horizontal';
 
   /** True when the default slot contains content, used to show the label variant. */
   @state()
   slotHasContent = false;
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', 'separator');
+    }
+  }
+
+  protected willUpdate(changed: PropertyValues<this>) {
+    if (changed.has('orientation')) {
+      this.setAttribute('aria-orientation', this.orientation);
+    }
+  }
 
   firstUpdated() {
     observerSlotChangesWithCallback(
       this.renderRoot.querySelector('slot'),
       hasContent => {
         this.slotHasContent = hasContent;
-        this.requestUpdate();
       },
     );
   }
+
+  // ── Render ────────────────────────────────────────────────────────────────
 
   render() {
     return html`<div
       class=${classMap({
         divider: true,
-        vertical: this.vertical,
+        vertical: this.orientation === 'vertical',
         'slot-has-content': this.slotHasContent,
       })}
     >

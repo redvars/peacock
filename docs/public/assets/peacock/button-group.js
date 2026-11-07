@@ -1,23 +1,24 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
 import { Button } from './button.js';
 import { IconButton } from './icon-button.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
-import './class-map-DG7CA1et.js';
+import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
-import './if-defined-BXZpRQ4P.js';
+import './if-defined-D9DEJR_6.js';
 import './when-DEJm_QN9.js';
-import './is-link-Dk2OV3PM.js';
 import './observe-slot-change-DPxaZrZF.js';
-import './dispatch-event-utils-CuEqjlPT.js';
+import './throttle-SQ9t-HL7.js';
 import './ButtonConstants-CahP2_NA.js';
-import './delegate-py-Ets8N.js';
-import './form-submitter-DPI4L6gj.js';
+import './delegate-Bw2wdPFP.js';
+import './form-submitter-DWwv6K9-.js';
 import './element-internals-QME0yEz4.js';
-import './hyperlink-DLvb6MXE.js';
-import './throttle-C7ZAPqtu.js';
-import './form-associated-Bhwwr6dT.js';
+import './base-button-Do2TUy8M.js';
+import './warn-once-BNxX1Y98.js';
+import './form-associated-D3Tn33s_.js';
+import './is-link-Dk2OV3PM.js';
+import './hyperlink-DhE9RlVS.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -25,35 +26,52 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   --button-group-spacing: unset;
   display: flex;
   gap: var(--button-group-spacing, var(--_button-group-spacing));
 }
 
-:host([size=xs]),
-:host([size=extra-small]) {
+:host([size=xs]) {
   --_button-group-spacing: var(--spacing-200);
 }
 
-:host([size=sm]),
-:host([size=small]) {
+:host([size=sm]) {
   --_button-group-spacing: var(--spacing-150);
 }
 
 :host([size=md]),
-:host([size=medium]),
 :host([size=lg]),
-:host([size=large]),
-:host([size=xl]),
-:host([size=extra-large]) {
+:host([size=xl]) {
   --_button-group-spacing: var(--spacing-100);
 }
 
@@ -98,8 +116,18 @@ var css_248z = i`* {
  * @tag wc-button-group
  * @rawTag button-group
  *
- * @summary Group a series of buttons together on a single line with the button group, and super-power.
-
+ * @summary A row of related buttons or icon buttons that share one size, color and style.
+ *
+ * @overview
+ * <p>Put <code>wc-button</code> or <code>wc-icon-button</code> elements inside. The group passes
+ * its <code>size</code> (<code>sm</code> by default), and its <code>color</code> and
+ * <code>variant</code> when set, to every button, overriding what the buttons set themselves.</p>
+ * <p>By default the buttons sit with a small gap between them. With <code>connected</code> they sit
+ * 2px apart with rounded outer corners, for a set such as bold, italic and underline toggles.</p>
+ * <p>The group is layout only: it adds no group role, keyboard handling or selection, so each
+ * button keeps its own focus stop and toggle state. For choosing one or several options from a
+ * set use <code>wc-segmented-button-group</code>.</p>
+ *
  * @example
  * ```html
  * <wc-button-group connected>
@@ -122,7 +150,7 @@ let ButtonGroup = class ButtonGroup extends i$1 {
         super(...arguments);
         /**
          * Button size.
-         * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
          */
         this.size = 'sm';
         /**

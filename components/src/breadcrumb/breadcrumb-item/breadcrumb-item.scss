@@ -1,9 +1,12 @@
-@use "../../../scss/mixin";
+@use '../../../scss/mixin';
 
 @include mixin.base-styles;
 
+// Not `display: contents`: the host carries `role="listitem"`, and some browsers drop the role of
+// an element without a box.
 :host {
-  display: contents;
+  display: inline-flex;
+  align-items: center;
 }
 
 .breadcrumb-item {
@@ -12,7 +15,7 @@
   @include mixin.get-typography('body-medium');
 }
 
-.breadcrumb-item.active {
+.breadcrumb-item.current {
   @include mixin.get-typography('body-medium-emphasized');
   color: var(--color-on-surface);
 }
@@ -43,7 +46,7 @@
 
 .separator {
   display: inline-block;
-  margin-left: var(--spacing-100);
+  margin-inline-start: var(--spacing-100);
   color: var(--color-outline);
   user-select: none;
   pointer-events: none;

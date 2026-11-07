@@ -1,0 +1,45 @@
+---
+export const title = 'Moving cards';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With a mouse or pen, drag a card; on touch, hold it for a moment first, so a swipe still scrolls.
+  A placeholder shows where it will land, and the board and the column scroll when the card nears
+  their edges. <kbd>Escape</kbd> cancels the drag. Buttons and links inside a card keep their own
+  clicks and do not start a drag.
+</p>
+<p>
+  Dropping a card in a new place fires the cancelable <code>card-move</code> event with
+  <code>{'{'} cardId, fromColumn, toColumn, fromIndex, toIndex {'}'}</code> (0-based,
+  <code>toIndex</code> is the card's index in <code>toColumn</code> after the move). Unless you
+  cancel it, the board applies the move and replaces <code>cards</code> with a new array, the moved
+  card a copy with its new <code>columnId</code>. To confirm a move with a server first, cancel
+  the event and apply it once the server agrees with <code>applyKanbanMove(cards, detail)</code>,
+  exported with the component.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-kanban id='kanban-cancel' label='Approvals' style='width: 100%; height: 20rem;'></wc-kanban>
+  <script is:inline>
+    const $approvals = document.getElementById('kanban-cancel');
+    $approvals.columns = [
+      { id: 'new', title: 'New' },
+      { id: 'approved', title: 'Approved' },
+      { id: 'locked', title: 'Locked' },
+    ];
+    $approvals.cards = [
+      { id: 'a', columnId: 'new', title: 'Expense report' },
+      { id: 'b', columnId: 'new', title: 'Travel request' },
+      { id: 'c', columnId: 'locked', title: 'Audit (cannot move)' },
+    ];
+    $approvals.addEventListener('card-move', event => {
+      const { cardId, toColumn } = event.detail;
+      if (cardId === 'c' || toColumn === 'locked') {
+        event.preventDefault();
+        myConsole.log('card-move canceled');
+      }
+    });
+  </script>
+</DemoComponentCard>

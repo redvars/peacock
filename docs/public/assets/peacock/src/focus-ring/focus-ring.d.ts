@@ -10,12 +10,22 @@ interface FocusRingEvent extends Event {
  * @tag wc-focus-ring
  * @rawTag focus-ring
  *
- * @summary Adds a focus ring to an element.
+ * @summary A ring drawn around a control while it has keyboard focus, so people can see where focus is.
  *
+ * @overview
+ * <p>Attach it to a control with <code>for</code> (the control's id), by setting
+ * <code>control</code>, or by calling <code>attach()</code>; otherwise it follows its parent. It
+ * shows when the control gains focus and matches <code>:focus-visible</code>, and hides on blur
+ * or a pointer press, so mouse and touch users do not see it. When several focus rings sit inside
+ * one component, only the first to handle a focus event reacts.</p>
+ * <p><code>inward</code> draws the ring inside the control's edge, for controls inside a
+ * container. <code>visible</code> reflects whether the ring shows and fires
+ * <code>visibility-changed</code> when it changes. The ring is hidden from assistive
+ * technology.</p>
  *
  * @tags display
  *
- * @fires visibility-changed {Event} Fired whenever `visible` changes.
+ * @fires {Event} visibility-changed - Dispatched whenever `visible` changes.
  */
 export declare class FocusRing extends LitElement implements Attachable {
     static styles: import("lit").CSSResultGroup[];

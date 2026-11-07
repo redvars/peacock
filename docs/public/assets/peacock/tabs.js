@@ -1,15 +1,15 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
 import { Tab } from './tab.js';
-import './state-DkTK9EGF.js';
+import { R as RovingFocusController } from './roving-focus-controller-fm95JkZJ.js';
+import { i as isLink } from './is-link-Dk2OV3PM.js';
+import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
-import './class-map-DG7CA1et.js';
+import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
-import './dispatch-event-utils-CuEqjlPT.js';
+import './throttle-SQ9t-HL7.js';
 import './observe-slot-change-DPxaZrZF.js';
-import './throttle-C7ZAPqtu.js';
-import './is-link-Dk2OV3PM.js';
 import './spread-B5cgadZl.js';
 
 var css_248z = i`* {
@@ -18,13 +18,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 .tabs {
   display: flex;
   position: relative;
@@ -75,17 +97,24 @@ var Tabs_1;
  * @tag wc-tabs
  * @rawTag tabs
  *
- * @summary Container for tab components.
+ * @summary The row of tabs, which the person moves between by clicking or with the arrow keys.
  * @overview
- * <p>Tabs holds the tab buttons and manages their layout.</p>
+ * <p>Tabs holds the tab buttons and manages their layout. It follows the WAI-ARIA tabs pattern:
+ * the host has <code>role="tablist"</code> (give it an <code>aria-label</code>), only the selected
+ * tab is a tab stop, and the Left and Right arrow keys (mirrored in right-to-left layouts), Home
+ * and End move between tabs. Moving to a tab selects it, so its panel shows at once. Disabled
+ * tabs are skipped.</p>
+ * <p>With <code>managed</code>, the tabs do not change the selection themselves: they fire
+ * <code>change</code> and the consumer sets <code>selected</code> on the chosen tab.</p>
+ * <p>When every tab is a link (<code>href</code>), the tabs are navigation rather than a tablist:
+ * the host gets no tablist role, so wrap it in a <code>&lt;nav&gt;</code>.</p>
  *
- * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user activates a tab.
- * @fires {CustomEvent<{index: number, value: string}>} tab-click - Deprecated alias of `change`, fired alongside it.
+ * @fires {CustomEvent<{index: number, value: string | undefined}>} change - Dispatched when the user selects a tab, by click or with the arrow keys.
  *
  * @example
  * ```html
- * <wc-tabs>
- *   <wc-tab active>Tab 1</wc-tab>
+ * <wc-tabs aria-label="Sections">
+ *   <wc-tab selected>Tab 1</wc-tab>
  *   <wc-tab>Tab 2</wc-tab>
  * </wc-tabs>
  * ```
@@ -93,53 +122,60 @@ var Tabs_1;
  */
 let Tabs = Tabs_1 = class Tabs extends i$1 {
     constructor() {
+        // ── Static
         super(...arguments);
+        // ── Properties
         this.variant = 'primary';
+        /** The consumer controls the selection: the tabs fire `change` but do not select a tab. */
         this.managed = false;
+        // ── Private fields
+        /** One tab stop, on the selected tab; the arrow keys move it and select the tab they reach. */
+        this.roving = new RovingFocusController(this, {
+            items: () => this.__getTabs(),
+            orientation: () => 'horizontal',
+            initialItem: items => items.find(tab => tab.selected) ?? items[0],
+            onMove: item => this.__selectFromUser(item),
+        });
+        /** Set while a click is handled, so a click on a link tab still selects it. */
+        this.__clicking = false;
         this.__handleTabClick = (event) => {
-            if (this.managed)
+            const clickedTab = event
+                .composedPath()
+                .find(node => node instanceof Element && node.localName === 'wc-tab');
+            if (!clickedTab || !this.__getTabs().includes(clickedTab))
                 return;
-            const detailEvent = event;
-            const path = detailEvent.composedPath();
-            const clickedTab = path.find(node => node instanceof Element && node.tagName.toLowerCase() === 'wc-tab');
-            if (!clickedTab)
-                return;
-            const previousActiveTab = this.__getActiveTab();
-            const tabs = this.__getTabs();
-            let clickedIndex = -1;
-            for (let index = 0; index < tabs.length; index += 1) {
-                const tab = tabs[index];
-                tab.active = false;
-                if (tab === clickedTab)
-                    clickedIndex = index;
+            this.__clicking = true;
+            try {
+                this.__selectFromUser(clickedTab);
             }
-            clickedTab.active = true;
-            this.__animateIndicatorTransition(previousActiveTab, clickedTab);
-            this.__lastActiveTab = clickedTab;
-            const detail = {
-                index: clickedIndex,
-                value: clickedTab.value,
-            };
-            this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail }));
-            // Deprecated name, still what wc-tab-group listens for.
-            this.dispatchEvent(new CustomEvent('tab-click', { bubbles: true, composed: true, detail }));
+            finally {
+                this.__clicking = false;
+            }
+        };
+        this.__handleSlotChange = () => {
+            this.roving.sync();
+            this.__syncRole();
         };
     }
+    // ── Lifecycle
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener('click', this.__handleTabClick);
+        this.__syncRole();
     }
     firstUpdated() {
         this.__mutationObserver = new MutationObserver(() => {
             this.__syncIndicatorsFromActiveState();
+            this.__syncRole();
         });
         this.__mutationObserver.observe(this, {
             subtree: true,
             childList: true,
             attributes: true,
-            attributeFilter: ['active', 'disabled'],
+            attributeFilter: ['selected', 'disabled', 'href'],
         });
         this.__lastActiveTab = this.__getActiveTab();
+        this.__syncRole();
     }
     updated(changedProperties) {
         if (changedProperties.has('variant')) {
@@ -151,11 +187,24 @@ let Tabs = Tabs_1 = class Tabs extends i$1 {
         this.removeEventListener('click', this.__handleTabClick);
         super.disconnectedCallback();
     }
+    // ── Private
     __getTabs() {
         return Array.from(this.querySelectorAll('wc-tab'));
     }
     __getActiveTab() {
-        return this.__getTabs().find(tab => tab.active && !tab.disabled);
+        return this.__getTabs().find(tab => tab.selected && !tab.disabled);
+    }
+    /** A tablist, unless every tab is a link: then the tabs are navigation. */
+    __syncRole() {
+        const tabs = this.__getTabs();
+        const navigation = tabs.length > 0 && tabs.every(tab => isLink(tab));
+        if (navigation) {
+            if (this.getAttribute('role') === 'tablist')
+                this.removeAttribute('role');
+        }
+        else if (!this.hasAttribute('role')) {
+            this.setAttribute('role', 'tablist');
+        }
     }
     static __getTabIndicator(tab) {
         if (!tab?.shadowRoot)
@@ -214,15 +263,47 @@ let Tabs = Tabs_1 = class Tabs extends i$1 {
     }
     __syncIndicatorsFromActiveState() {
         const activeTab = this.__getActiveTab();
-        if (this.__lastActiveTab && activeTab && this.__lastActiveTab !== activeTab) {
+        if (this.__lastActiveTab &&
+            activeTab &&
+            this.__lastActiveTab !== activeTab) {
             this.__animateIndicatorTransition(this.__lastActiveTab, activeTab);
         }
         this.__lastActiveTab = activeTab;
+        // The tab stop follows the selection, also when it is set from outside.
+        if (activeTab && this.roving.activeItem !== activeTab) {
+            this.roving.setActive(activeTab, false);
+        }
     }
+    /** Selects `tab` (unless managed) and tells the consumer, after a click or an arrow key. */
+    __selectFromUser(tab) {
+        if (tab.disabled)
+            return;
+        // Arrowing onto a link only moves focus; following it is the person's choice.
+        if (isLink(tab) && !this.__clicking)
+            return;
+        const tabs = this.__getTabs();
+        if (!this.managed) {
+            const previousActiveTab = this.__getActiveTab();
+            for (const other of tabs)
+                other.selected = other === tab;
+            this.__animateIndicatorTransition(previousActiveTab, tab);
+            this.__lastActiveTab = tab;
+        }
+        const detail = {
+            index: tabs.indexOf(tab),
+            value: tab.value,
+        };
+        this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail }));
+    }
+    // ── Render
     render() {
         return b `
-      <div class="tabs">
-        <slot></slot>
+      <div
+        class="tabs"
+        @keydown=${this.roving.handleKeyDown}
+        @focusin=${this.roving.handleFocusIn}
+      >
+        <slot @slotchange=${this.__handleSlotChange}></slot>
       </div>
     `;
     }

@@ -1,0 +1,15 @@
+---
+export const title = 'Accessibility';
+export const order = 300;
+---
+
+<p>
+  Each item renders a real <code>&lt;dl&gt;</code> with one <code>&lt;dt&gt;</code> (the label) and
+  one <code>&lt;dd&gt;</code> (the slotted value and actions). A <code>&lt;dl&gt;</code> cannot wrap
+  slotted children across a shadow root, so every pair is its own list, and screen readers pair each
+  label with its value. An empty value is a dash hidden from screen readers, with "Not set" read in
+  its place.
+</p>
+<p>
+  The string is translated with <code>setPeacockStrings()</code>: <code>notSet</code>.
+</p>

@@ -17,11 +17,15 @@
   align-items: center;
   gap: var(--spacing-150);
   width: 100%;
-  height: 3.5rem; // 56dp
-  padding-inline: var(--spacing-200) var(--spacing-300);
+  height: var(--navigation-drawer-item-height, 3.5rem); // 56dp
+  padding-inline: calc(
+      var(--spacing-200) + var(--navigation-drawer-item-indent, 0rem)
+    )
+    var(--spacing-300);
   border-radius: var(--shape-corner-full);
   color: inherit;
   cursor: pointer;
+  text-align: start; // a <button> item would centre its label
   text-decoration: none;
   box-sizing: border-box;
 
@@ -59,9 +63,13 @@
 
   .badge {
     @include mixin.get-typography(label-large);
+
+    &[hidden] {
+      display: none;
+    }
   }
 
-  &.active {
+  &.current {
     background-color: var(--color-secondary-container);
     color: var(--color-on-secondary-container);
 

@@ -1,28 +1,37 @@
 ---
-export const title = 'Selected';
+export const title = 'Current';
 export const order = 300;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  <code>selected</code> fills the row with the secondary container colour,
-  whether the row is actionable or not.
+  In a navigation list, mark the row of the page the person is on with
+  <code>current</code>. It fills the row with the secondary container colour
+  and sets <code>aria-current</code> (<code>"page"</code> on a link row,
+  <code>"true"</code> otherwise), so screen readers announce it too.
+</p>
+<p>
+  To let the person choose one or several items, use
+  <a href='../listbox/'><code>wc-listbox</code></a> instead: it has the
+  listbox role, keeps a value and works in forms.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-list style='width: min(100%, 28rem);'>
-    <wc-list-item actionable>
-      <wc-icon slot='start' name='inbox'></wc-icon>
-      Inbox
-    </wc-list-item>
-    <wc-list-item actionable selected>
-      <wc-icon slot='start' name='star'></wc-icon>
-      Starred
-      <span slot='trailing-supporting-text'>3</span>
-    </wc-list-item>
-    <wc-list-item selected>
-      <wc-icon slot='start' name='draft'></wc-icon>
-      Drafts (not actionable)
-    </wc-list-item>
-  </wc-list>
+  <nav aria-label='Mailbox'>
+    <wc-list style='width: min(100%, 28rem);'>
+      <wc-list-item href='#inbox'>
+        <wc-icon slot='start' name='inbox'></wc-icon>
+        Inbox
+      </wc-list-item>
+      <wc-list-item href='#starred' current>
+        <wc-icon slot='start' name='star'></wc-icon>
+        Starred
+        <span slot='trailing-supporting-text'>3</span>
+      </wc-list-item>
+      <wc-list-item href='#drafts'>
+        <wc-icon slot='start' name='draft'></wc-icon>
+        Drafts
+      </wc-list-item>
+    </wc-list>
+  </nav>
 </DemoComponentCard>

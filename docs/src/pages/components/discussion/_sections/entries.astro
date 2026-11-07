@@ -1,0 +1,51 @@
+---
+export const title = 'Comments and activity';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h3 class="text-title-medium">wc-discussion-comment</h3>
+<p>
+  A comment shows its <code>author</code> (an avatar from
+  <code>avatar-src</code>, or initials), its <code>datetime</code> relative to
+  now, and its <code>value</code> as Markdown. With <code>href</code> (the
+  comment's permalink) the time links to it and the menu offers
+  <strong>Copy link</strong>; <code>editable</code> and
+  <code>deletable</code> add <strong>Edit</strong> and
+  <strong>Delete</strong>. <code>edited</code> shows an "Edited" marker. The
+  <code>badge</code> slot holds a tag after the author, and the
+  <code>footer</code> slot holds reactions or attachments under the text.
+</p>
+<p>
+  Replies are comments with <code>slot="replies"</code> inside their comment,
+  one level deep.
+</p>
+
+<h3 class="text-title-medium">wc-discussion-activity</h3>
+<p>
+  An activity entry records a change between the comments: a status, an
+  assignee, a field. It shows an <code>icon</code>, the <code>author</code> and
+  the change as inline Markdown in <code>value</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-discussion readonly style="display:block; width:100%; max-width: 44rem;">
+    <wc-discussion-activity icon="person_add" author="Ana Lima" datetime="2026-11-05T10:00:00Z" value="assigned the ticket to [@Ravi Kumar](mention:usr_7)"></wc-discussion-activity>
+    <wc-discussion-comment
+      comment-id="e1"
+      author="Ravi Kumar"
+      datetime="2026-11-05T11:30:00Z"
+      href="#e1"
+      edited
+      deletable
+      value={'Root cause:\n\n- the retry limit was `0`\n- exports never resumed\n\n```yaml\nqueue:\n  retry:\n    max: 5\n```'}
+    >
+      <wc-tag slot="badge" intent="warning">Work note</wc-tag>
+      <div slot="footer" style="display:flex; gap:8px;">
+        <wc-chip>👍 3</wc-chip>
+        <wc-chip>🎉 1</wc-chip>
+      </div>
+    </wc-discussion-comment>
+    <wc-discussion-activity icon="check_circle" author="Ravi Kumar" datetime="2026-11-05T12:00:00Z" value="changed **State** from In progress to Resolved"></wc-discussion-activity>
+  </wc-discussion>
+</DemoComponentCard>

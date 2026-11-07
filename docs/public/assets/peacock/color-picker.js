@@ -1,10 +1,13 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { o } from './style-map-BQD5Et1D.js';
+import { o } from './style-map-CHOg6N_R.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`:host {
   --_sv-height: var(--color-picker-sv-height, 160px);
@@ -35,6 +38,11 @@ var css_248z = i`:host {
 .color-picker.disabled {
   opacity: 0.38;
   pointer-events: none;
+}
+
+:host([readonly]) .sv-panel,
+:host([readonly]) .slider-track {
+  cursor: default;
 }
 
 .sv-panel {
@@ -267,8 +275,23 @@ function hsvToRgb(h, s, v) {
         b: Math.round((b1 + m) * 255),
     };
 }
+/** Whether `s` is a hex color without `#`: 6 digits (`rrggbb`) or 8 with alpha (`rrggbbaa`). */
 function isValidHex(s) {
-    return /^[0-9a-fA-F]{6}$/.test(s);
+    return /^(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(s);
+}
+/** The opacity, 0–1, in an 8-digit hex color (without `#`); 1 for a 6-digit one. */
+function hexAlpha(hex) {
+    return hex.length === 8 ? parseInt(hex.slice(6), 16) / 255 : 1;
+}
+/** An opacity, 0–1, as the two hex digits of `#rrggbbaa`. */
+function alphaToHex(opacity) {
+    return Math.round(Math.max(0, Math.min(1, opacity)) * 255)
+        .toString(16)
+        .padStart(2, '0');
+}
+/** The fraction of `size` that `offset` is, clamped to 0–1; 0 when there is no size. */
+function fraction(offset, size) {
+    return size ? Math.max(0, Math.min(1, offset / size)) : 0;
 }
 // ── Component ─────────────────────────────────────────────────────────────────
 /**
@@ -276,12 +299,17 @@ function isValidHex(s) {
  * @tag wc-color-picker
  * @rawTag color-picker
  *
- * @summary A color picker component for selecting colors via a hue/saturation/value interface.
+ * @summary A panel for picking a color from a saturation and brightness square and a hue slider, with optional opacity and a hex field.
  *
  * @overview
  * <p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.
  * An optional alpha slider allows controlling opacity. The current hex value is displayed in
  * an editable text field.</p>
+ * <p>With <code>alpha</code> the value carries the opacity as an 8-digit hex color
+ * (<code>#rrggbbaa</code>); without it the value is <code>#rrggbb</code>. Events also give the
+ * opacity, 0–1, as <code>detail.alpha</code>.</p>
+ * <p>It is a building block, not a form control: it has no <code>name</code> and is not submitted
+ * with a form. In a form, use <code>wc-color-field</code>.</p>
  *
  * @cssprop --color-picker-width - Overall width of the component. Defaults to 240px.
  * @cssprop --color-picker-sv-height - Height of the saturation/brightness panel. Defaults to 160px.
@@ -305,17 +333,20 @@ let ColorPicker = class ColorPicker extends i$1 {
         super(...arguments);
         // ── Properties ───────────────────────────────────────────────────────────
         /**
-         * The current color as a 6-digit hex string (e.g. `"#ff5733"`).
+         * The current color as a hex string: `#rrggbb` (e.g. `"#ff5733"`), or `#rrggbbaa` with `alpha`.
          */
         this.value = '#2352d5';
         /**
-         * Whether to show the alpha (opacity) slider and input.
+         * Whether to show the alpha (opacity) slider and input. The value then carries the opacity
+         * as its last two hex digits.
          */
         this.alpha = false;
         /**
          * Whether the color picker is disabled.
          */
         this.disabled = false;
+        /** Shows the color but does not let it be changed by pointer or keyboard. */
+        this.readonly = false;
         // ── State ─────────────────────────────────────────────────────────────────
         /** Current hue, 0–360. */
         this._hue = 0;
@@ -332,6 +363,8 @@ let ColorPicker = class ColorPicker extends i$1 {
         this._dragging = null;
         /** The last `value` we set ourselves, used to skip redundant re-syncs in `updated`. */
         this._lastEmittedValue = '';
+        /** Peacock's strings for the slider and input labels. */
+        this.i18n = new I18nController(this);
     }
     // ── Lifecycle ─────────────────────────────────────────────────────────────
     connectedCallback() {
@@ -346,6 +379,10 @@ let ColorPicker = class ColorPicker extends i$1 {
         }
     }
     // ── Private methods ───────────────────────────────────────────────────────
+    /** Whether the color can be changed: not disabled and not read-only. */
+    get _locked() {
+        return this.disabled || this.readonly;
+    }
     _syncFromValue() {
         const clean = this.value.startsWith('#') ? this.value.slice(1) : this.value;
         if (!isValidHex(clean))
@@ -355,26 +392,33 @@ let ColorPicker = class ColorPicker extends i$1 {
         this._hue = h;
         this._sat = s;
         this._bri = v;
-        this._hexInput = clean.toUpperCase();
+        this._opacity = hexAlpha(clean);
+        this._hexInput = clean.slice(0, 6).toUpperCase();
     }
+    /** The color without opacity, as `#rrggbb`. */
     _computeHex() {
         const { r, g, b } = hsvToRgb(this._hue, this._sat, this._bri);
         return rgbToHex(r, g, b);
     }
-    _emitValue(type) {
+    /** The value to emit: `#rrggbb`, or `#rrggbbaa` with `alpha`. */
+    _computeValue() {
         const hex = this._computeHex();
-        this._lastEmittedValue = hex;
-        this.value = hex;
-        this._hexInput = hex.slice(1).toUpperCase();
+        return this.alpha ? `${hex}${alphaToHex(this._opacity)}` : hex;
+    }
+    _emitValue(type) {
+        const value = this._computeValue();
+        this._lastEmittedValue = value;
+        this.value = value;
+        this._hexInput = value.slice(1, 7).toUpperCase();
         this.dispatchEvent(new CustomEvent(type, {
-            detail: { value: hex, alpha: this._opacity },
+            detail: { value, alpha: this._opacity },
             bubbles: true,
             composed: true,
         }));
     }
     // SV panel
     _onSvPointerDown(e) {
-        if (this.disabled)
+        if (this._locked)
             return;
         e.preventDefault();
         this._dragging = 'sv';
@@ -395,12 +439,14 @@ let ColorPicker = class ColorPicker extends i$1 {
         this._emitValue('change');
     }
     _updateSv(e) {
-        const rect = this._svPanel.getBoundingClientRect();
-        this._sat = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-        this._bri = 1 - Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+        const rect = this._svPanel?.getBoundingClientRect();
+        if (!rect)
+            return;
+        this._sat = fraction(e.clientX - rect.left, rect.width);
+        this._bri = 1 - fraction(e.clientY - rect.top, rect.height);
     }
     _onSvKeyDown(e) {
-        if (this.disabled)
+        if (this._locked)
             return;
         const step = e.shiftKey ? 0.1 : 0.01;
         let changed = false;
@@ -428,7 +474,7 @@ let ColorPicker = class ColorPicker extends i$1 {
     }
     // Hue slider
     _onHuePointerDown(e) {
-        if (this.disabled)
+        if (this._locked)
             return;
         e.preventDefault();
         this._dragging = 'hue';
@@ -449,11 +495,13 @@ let ColorPicker = class ColorPicker extends i$1 {
         this._emitValue('change');
     }
     _updateHue(e) {
-        const rect = this._hueTrack.getBoundingClientRect();
-        this._hue = Math.round(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * 360);
+        const rect = this._hueTrack?.getBoundingClientRect();
+        if (!rect)
+            return;
+        this._hue = Math.round(fraction(e.clientX - rect.left, rect.width) * 360);
     }
     _onHueKeyDown(e) {
-        if (this.disabled)
+        if (this._locked)
             return;
         const step = e.shiftKey ? 10 : 1;
         let changed = false;
@@ -473,7 +521,7 @@ let ColorPicker = class ColorPicker extends i$1 {
     }
     // Alpha slider
     _onAlphaPointerDown(e) {
-        if (this.disabled)
+        if (this._locked)
             return;
         e.preventDefault();
         this._dragging = 'alpha';
@@ -494,11 +542,13 @@ let ColorPicker = class ColorPicker extends i$1 {
         this._emitValue('change');
     }
     _updateAlpha(e) {
-        const rect = this._alphaTrack.getBoundingClientRect();
-        this._opacity = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const rect = this._alphaTrack?.getBoundingClientRect();
+        if (!rect)
+            return;
+        this._opacity = fraction(e.clientX - rect.left, rect.width);
     }
     _onAlphaKeyDown(e) {
-        if (this.disabled)
+        if (this._locked)
             return;
         const step = e.shiftKey ? 0.1 : 0.01;
         let changed = false;
@@ -518,6 +568,11 @@ let ColorPicker = class ColorPicker extends i$1 {
     }
     // Hex input
     _onHexInput(e) {
+        // The native `input` is composed and would escape the shadow root next to the picker's own
+        // `input` CustomEvent, so stop it here.
+        e.stopPropagation();
+        if (this._locked)
+            return;
         const raw = e.target.value.toUpperCase().replace(/[^0-9A-F]/g, '');
         this._hexInput = raw;
         if (isValidHex(raw)) {
@@ -526,18 +581,29 @@ let ColorPicker = class ColorPicker extends i$1 {
             this._hue = h;
             this._sat = s;
             this._bri = v;
+            // Typed `rrggbbaa` sets the opacity too; typed `rrggbb` keeps it.
+            if (raw.length === 8)
+                this._opacity = hexAlpha(raw);
             this._emitValue('input');
+            this._hexInput = raw;
         }
     }
     _onHexChange() {
+        if (this._locked)
+            return;
         if (isValidHex(this._hexInput)) {
             this._emitValue('change');
         }
         else {
-            this._hexInput = this.value.slice(1).toUpperCase();
+            this._hexInput = this._computeHex().slice(1).toUpperCase();
         }
     }
+    _stopNativeInput(e) {
+        e.stopPropagation();
+    }
     _onAlphaNumberChange(e) {
+        if (this._locked)
+            return;
         const raw = parseInt(e.target.value, 10);
         this._opacity = Math.max(0, Math.min(100, isNaN(raw) ? 100 : raw)) / 100;
         this._emitValue('change');
@@ -564,8 +630,9 @@ let ColorPicker = class ColorPicker extends i$1 {
             class="sv-cursor"
             role="slider"
             tabindex=${this.disabled ? '-1' : '0'}
-            aria-label="Saturation and brightness"
-            aria-valuetext="Saturation ${Math.round(this._sat * 100)}%, Brightness ${Math.round(this._bri * 100)}%"
+            aria-label=${this.i18n.t('saturationAndBrightness')}
+            aria-readonly=${this.readonly ? 'true' : A}
+            aria-valuetext=${this.i18n.t('saturationBrightnessValue')(String(Math.round(this._sat * 100)), String(Math.round(this._bri * 100)))}
             style=${o({
             left: `${this._sat * 100}%`,
             top: `${(1 - this._bri) * 100}%`,
@@ -593,7 +660,8 @@ let ColorPicker = class ColorPicker extends i$1 {
                 class="slider-thumb"
                 role="slider"
                 tabindex=${this.disabled ? '-1' : '0'}
-                aria-label="Hue"
+                aria-label=${this.i18n.t('hue')}
+                aria-readonly=${this.readonly ? 'true' : A}
                 aria-valuemin="0"
                 aria-valuemax="360"
                 aria-valuenow=${this._hue}
@@ -616,7 +684,8 @@ let ColorPicker = class ColorPicker extends i$1 {
                   class="slider-thumb"
                   role="slider"
                   tabindex=${this.disabled ? '-1' : '0'}
-                  aria-label="Opacity"
+                  aria-label=${this.i18n.t('opacity')}
+                  aria-readonly=${this.readonly ? 'true' : A}
                   aria-valuemin="0"
                   aria-valuemax="100"
                   aria-valuenow=${Math.round(this._opacity * 100)}
@@ -631,18 +700,19 @@ let ColorPicker = class ColorPicker extends i$1 {
         <!-- Hex + alpha inputs -->
         <div class="inputs-row">
           <div class="hex-input-wrapper">
-            <span class="input-label">HEX</span>
+            <span class="input-label">${this.i18n.t('hexLabel')}</span>
             <span class="hex-prefix">#</span>
             <input
               class="hex-input"
               type="text"
               inputmode="text"
-              maxlength="6"
+              maxlength=${this.alpha ? 8 : 6}
               spellcheck="false"
               autocomplete="off"
               .value=${this._hexInput}
               ?disabled=${this.disabled}
-              aria-label="Hex color value"
+              ?readonly=${this.readonly}
+              aria-label=${this.i18n.t('hexColorValue')}
               @input=${this._onHexInput}
               @change=${this._onHexChange}
             />
@@ -658,7 +728,9 @@ let ColorPicker = class ColorPicker extends i$1 {
                 step="1"
                 .value=${String(Math.round(this._opacity * 100))}
                 ?disabled=${this.disabled}
-                aria-label="Opacity percentage"
+                ?readonly=${this.readonly}
+                aria-label=${this.i18n.t('opacityPercentage')}
+                @input=${this._stopNativeInput}
                 @change=${this._onAlphaNumberChange}
               />
               <span class="input-label">%</span>
@@ -672,7 +744,7 @@ let ColorPicker = class ColorPicker extends i$1 {
 };
 ColorPicker.styles = [css_248z];
 __decorate([
-    n({ type: String, reflect: true })
+    n({ type: String })
 ], ColorPicker.prototype, "value", void 0);
 __decorate([
     n({ type: Boolean })
@@ -680,6 +752,9 @@ __decorate([
 __decorate([
     n({ type: Boolean, reflect: true })
 ], ColorPicker.prototype, "disabled", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true })
+], ColorPicker.prototype, "readonly", void 0);
 __decorate([
     r()
 ], ColorPicker.prototype, "_hue", void 0);

@@ -301,7 +301,7 @@ describe('Select', () => {
         <wc-option value="a">A</wc-option>
       </wc-select>
     `);
-    const clear = el.shadowRoot!.querySelector<HTMLElement>('.clear-btn')!;
+    const clear = el.shadowRoot!.querySelector<HTMLElement>('.clear-button')!;
     expect(clear).to.exist;
 
     setTimeout(() => clear.click());
@@ -311,7 +311,127 @@ describe('Select', () => {
     await el.updateComplete;
 
     expect(event.detail.value).to.equal('');
-    expect(el.shadowRoot!.querySelector('.clear-btn')).to.not.exist;
+    expect(el.shadowRoot!.querySelector('.clear-button')).to.not.exist;
+  });
+
+  it('clears every value of a multi-select with the clear button', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select clearable multiple value="a,b">
+        <wc-option value="a">A</wc-option>
+        <wc-option value="b">B</wc-option>
+      </wc-select>
+    `);
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+    el.shadowRoot!.querySelector<HTMLElement>('.clear-button')!.click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal('');
+    expect(changes).to.deep.equal(['']);
+  });
+
+  it('names the combobox from its label and does not reflect value', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select label="Fruit" required>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    const combobox = trigger(el);
+    expect(combobox.getAttribute('role')).to.equal('combobox');
+    expect(combobox.getAttribute('aria-label')).to.equal('Fruit');
+    expect(combobox.getAttribute('aria-required')).to.equal('true');
+    expect(combobox.getAttribute('aria-controls')).to.not.be.null;
+    expect(combobox.getAttribute('tabindex')).to.equal('0');
+
+    el.value = 'a';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
+
+  it('defaults to the sm size', async () => {
+    const el = await fixture<Select>(html`<wc-select></wc-select>`);
+    expect(el.size).to.equal('sm');
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.size).to.equal(
+      'sm',
+    );
+  });
+
+  it('fires change with the value in detail and lets no native input event out', async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <wc-select search="contains">
+          <wc-option value="apple">Apple</wc-option>
+        </wc-select>
+      </div>
+    `);
+    const el = wrapper.querySelector<Select>('wc-select')!;
+    const events: Event[] = [];
+    wrapper.addEventListener('input', e => events.push(e));
+    wrapper.addEventListener('change', e => events.push(e));
+
+    trigger(el).click();
+    await settle(el);
+    const input =
+      el.shadowRoot!.querySelector<HTMLInputElement>('.search-input')!;
+    input.value = 'app';
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true }),
+    );
+    await settle(el);
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await settle(el);
+
+    expect(events.map(e => e.type)).to.deep.equal(['change']);
+    expect(events[0]).to.be.instanceOf(CustomEvent);
+    expect((events[0] as CustomEvent).detail.value).to.equal('apple');
+  });
+
+  it('blocks form submission while required and nothing is selected', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-select name="fruit" required>
+          <wc-option value="apple">Apple</wc-option>
+        </wc-select>
+      </form>
+    `);
+    const el = form.querySelector<Select>('wc-select')!;
+    await el.updateComplete;
+
+    expect(form.checkValidity()).to.be.false;
+    expect(el.validity.valueMissing).to.be.true;
+    expect(el.matches(':invalid')).to.be.true;
+    expect(el.validationMessage).to.equal('Please select an item in the list.');
+
+    el.value = 'apple';
+    await el.updateComplete;
+    expect(form.checkValidity()).to.be.true;
+  });
+
+  it('shows the message under the field after reportValidity()', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select label="Fruit" required>
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
+    expect(field.error).to.be.false;
+
+    el.reportValidity();
+    await el.updateComplete;
+
+    expect(field.error).to.be.true;
+    expect(field.errorText).to.equal('Please select an item in the list.');
+    const combobox =
+      el.shadowRoot!.querySelector<HTMLElement>('.select-trigger')!;
+    expect(combobox.getAttribute('aria-invalid')).to.equal('true');
   });
 
   it('filters options with search and shows a no-results row', async () => {
@@ -369,5 +489,212 @@ describe('Select', () => {
     await settle(el);
 
     expect(el.value).to.equal('banana');
+  });
+
+  function key(target: HTMLElement, name: string) {
+    target.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: name,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  async function typeSearch(el: Select, text: string) {
+    const input =
+      el.shadowRoot!.querySelector<HTMLInputElement>('.search-input')!;
+    input.value = text;
+    input.dispatchEvent(new InputEvent('input'));
+    await settle(el);
+    return input;
+  }
+
+  it('keeps values in sync with value and sends values in change', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select multiple>
+        <wc-option value="a">A</wc-option>
+        <wc-option value="b">B</wc-option>
+      </wc-select>
+    `);
+    el.values = ['a', 'b'];
+    expect(el.value).to.equal('a,b');
+    el.value = 'b';
+    expect(el.values).to.deep.equal(['b']);
+
+    setTimeout(() => activate(el, 'a'));
+    const event = await oneEvent(el, 'change');
+    expect(event.detail).to.deep.equal({ value: 'b,a', values: ['b', 'a'] });
+  });
+
+  it('keeps typed text as the value with allow-custom and fires create', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select allow-custom>
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    await typeSearch(el, 'Kiwi');
+
+    const create =
+      el.shadowRoot!.querySelector<SelectOptionElement>('.create-option')!;
+    expect(create.textContent?.trim()).to.equal('Create "Kiwi"');
+
+    const created: string[] = [];
+    el.addEventListener('create', e =>
+      created.push((e as CustomEvent).detail.value),
+    );
+    menuOf(el).dispatchEvent(
+      new CustomEvent('menu-item-activate', { detail: { item: create } }),
+    );
+    await settle(el);
+
+    expect(created).to.deep.equal(['Kiwi']);
+    expect(el.value).to.equal('Kiwi');
+    expect(
+      el.shadowRoot!.querySelector('.display-value')?.textContent,
+    ).to.equal('Kiwi');
+  });
+
+  it('hides the create row when the text matches an option, and picks it on Enter', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select allow-custom>
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    const input = await typeSearch(el, 'apple');
+    expect(el.shadowRoot!.querySelector('.create-option')).to.be.null;
+    key(input, 'Enter');
+    await settle(el);
+    expect(el.value).to.equal('apple');
+  });
+
+  it('adds custom values with Enter in multiple mode, unless create is cancelled', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select allow-custom multiple value="apple">
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    let input = await typeSearch(el, 'Kiwi');
+    key(input, 'Enter');
+    await settle(el);
+    expect(el.values).to.deep.equal(['apple', 'Kiwi']);
+
+    el.addEventListener('create', e => e.preventDefault(), { once: true });
+    input = await typeSearch(el, 'Lime');
+    key(input, 'Enter');
+    await settle(el);
+    expect(el.values).to.deep.equal(['apple', 'Kiwi']);
+  });
+
+  it('resets its open state when the list closes, not when a nested close bubbles', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    const outside: Event[] = [];
+    el.addEventListener('close', e => outside.push(e));
+    trigger(el).click();
+    await settle(el);
+    expect(trigger(el).getAttribute('aria-expanded')).to.equal('true');
+
+    el.querySelector('wc-option')!.dispatchEvent(
+      new CustomEvent('close', { bubbles: true, composed: true }),
+    );
+    await settle(el);
+    expect(trigger(el).getAttribute('aria-expanded')).to.equal('true');
+
+    menuOf(el).open = false;
+    await settle(el);
+    await el.updateComplete;
+    expect(trigger(el).getAttribute('aria-expanded')).to.equal('false');
+    expect(outside).to.be.empty;
+  });
+
+  it('fires search in managed mode', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select search="managed"></wc-select>
+    `);
+    const fired: string[] = [];
+    el.addEventListener('search', e =>
+      fired.push((e as CustomEvent).detail.value),
+    );
+    trigger(el).click();
+    await settle(el);
+    await typeSearch(el, 'ap');
+    expect(fired).to.deep.equal(['ap']);
+  });
+
+  it('shows a loading row, then no results once managed options come back empty', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select search="managed" loading>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    await typeSearch(el, 'zz');
+    expect(el.shadowRoot!.querySelector('.loading-row')).to.exist;
+    expect(el.shadowRoot!.querySelector('.no-results')).to.be.null;
+    expect(menuOf(el).getAttribute('aria-busy')).to.equal('true');
+
+    el.querySelector('wc-option')!.remove();
+    el.loading = false;
+    await settle(el);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.loading-row')).to.be.null;
+    expect(
+      el.shadowRoot!.querySelector('.no-results')?.textContent?.trim(),
+    ).to.equal('No results');
+  });
+
+  it('renders a start slot for a leading icon', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select label="Fruit">
+        <span slot="start" class="lead">*</span>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    const slot =
+      el.shadowRoot!.querySelector<HTMLSlotElement>('slot[name="start"]')!;
+    expect(slot.assignedElements()[0]).to.equal(el.querySelector('.lead'));
+  });
+
+  it('selects by typing a letter and with Home and End while closed', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select>
+        <wc-option value="apple">Apple</wc-option>
+        <wc-option value="banana">Banana</wc-option>
+        <wc-option value="blueberry">Blueberry</wc-option>
+        <wc-option value="cherry">Cherry</wc-option>
+      </wc-select>
+    `);
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+    trigger(el).focus();
+
+    key(trigger(el), 'b');
+    await settle(el);
+    expect(el.value).to.equal('banana');
+    key(trigger(el), 'b');
+    await settle(el);
+    expect(el.value).to.equal('blueberry');
+    expect(menuOf(el).open).to.be.false;
+
+    key(trigger(el), 'End');
+    await settle(el);
+    expect(el.value).to.equal('cherry');
+    key(trigger(el), 'Home');
+    await settle(el);
+    expect(el.value).to.equal('apple');
+    expect(changes).to.deep.equal(['banana', 'blueberry', 'cherry', 'apple']);
   });
 });

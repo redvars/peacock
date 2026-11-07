@@ -1,0 +1,36 @@
+---
+export const title = 'Ask the assistant';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>ask</code>, typing also offers "Ask the assistant: “…”" (ADR-030002). It comes first
+  when the query reads like a question or matches no command, and last otherwise. Choosing it fires a
+  cancelable <code>ask</code> with the query; open the assistant with it. With AI off for the page,
+  the row is not offered. Try "who approved the Pune trip claims?".
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='palette-ask-open'>Open with Ask</wc-button>
+  <wc-command-palette id='palette-ask' ask></wc-command-palette>
+  <script is:inline>
+    (function () {
+      var palette = document.querySelector('#palette-ask');
+      palette.commands = [
+        { id: 'expense', label: 'New expense claim', group: 'Commands', icon: 'add' },
+        { id: 'leave', label: 'Request leave', group: 'Commands', icon: 'beach_access' },
+        { id: 'exp-1182', label: 'EXP-1182 · Pune trip, taxi and hotel', description: 'Expenses · Approved', group: 'Records', icon: 'receipt_long' },
+      ];
+      document.querySelector('#palette-ask-open').addEventListener('click', function () {
+        palette.show();
+      });
+      palette.addEventListener('ask', function (event) {
+        myConsole.log('ask: ' + event.detail.value);
+      });
+      palette.addEventListener('select', function (event) {
+        myConsole.log('select: ' + event.detail.command.id);
+      });
+    })();
+  </script>
+</DemoComponentCard>

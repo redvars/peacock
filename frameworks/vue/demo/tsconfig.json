@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "preserve",
+    "types": ["vite/client"],
+    "paths": {
+      "@redvars/peacock-vue": ["../src/index.ts"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.vue", "../src"]
+}
