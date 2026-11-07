@@ -131,6 +131,33 @@ const drawn =
   </div>
 )}
 
+{name === 'markdown' && (
+  <div class='bp cp-frame cp-editor'>
+    <div class='cp-doc'>
+      <span class='bp-line cp-heading'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='cp-bullet'><i></i><span class='bp-line cp-w1'></span></span>
+      <span class='cp-bullet'><i></i><span class='bp-line cp-w3'></span></span>
+      <span class='bp-line cp-w2'></span>
+    </div>
+  </div>
+)}
+
+{name === 'document-editor' && (
+  <div class='bp cp-frame cp-editor'>
+    <div class='cp-toolbar'>
+      {Array.from({ length: 7 }, (_, i) => <span class:list={['cp-tool', { 'cp-tool-on': i === 1 }]}></span>)}
+    </div>
+    <div class='cp-doc'>
+      <span class='bp-line cp-w3'></span>
+      <span class='bp-line cp-heading'></span>
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='bp-line cp-w1'></span>
+    </div>
+  </div>
+)}
+
 {name === 'image' && (
   <div class='bp cp-center'>
     <span class='cp-picture'><i class='cp-sun'></i><i class='cp-hill'></i><i class='cp-hill cp-hill-back'></i></span>

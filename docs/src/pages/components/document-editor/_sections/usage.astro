@@ -1,0 +1,116 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-document-editor</code> is a word processor for long documents that
+  are read as pages: policies, contracts, reports and specifications. The text
+  flows over real pages; paragraphs continue on the next page at the line that
+  does not fit, tables break between rows, and
+  <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Enter</kbd> starts a new page.
+</p>
+<ul>
+  <li>
+    <strong>Header and footer</strong>: double-click the top or bottom margin
+    of any page. They repeat on every page; the toolbar inserts the page number
+    and page count.
+  </li>
+  <li>
+    <strong>Outline</strong>: the headings, for jumping around the document
+    (<code>outline-open</code>, or the toolbar button).
+  </li>
+  <li>
+    <strong>Page setup</strong>: page size, orientation and margins, from the
+    status bar.
+  </li>
+  <li>
+    <strong>Zoom</strong>: pages fit the editor's width by default, so narrow
+    screens show whole pages; the status bar picks a fixed zoom
+    (<code>zoom</code>).
+  </li>
+  <li>
+    <strong>Formatting</strong>: text styles, bold, italic, underline,
+    strikethrough, code, text color, alignment, lists, checklists, quotes, code
+    blocks, tables, images, links and mentions.
+  </li>
+  <li><strong>Print</strong>: prints the pages exactly as they look.</li>
+</ul>
+
+<DemoComponentCard lang={'html'}>
+  <wc-document-editor
+    id="document-demo"
+    label="Data retention policy"
+
+    style="width: 100%; --document-editor-height: 44rem;"
+  ></wc-document-editor>
+  <script is:inline>
+    const documentEditor = document.getElementById('document-demo');
+    customElements.whenDefined('wc-document-editor').then(async () => {
+      await documentEditor.updateComplete;
+      const pageNumbers = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            attrs: { textAlign: 'right' },
+            content: [
+              { type: 'text', text: 'Page ' },
+              { type: 'pageNumber', attrs: { kind: 'current' } },
+              { type: 'text', text: ' of ' },
+              { type: 'pageNumber', attrs: { kind: 'total' } },
+            ],
+          },
+        ],
+      };
+      const header = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              { type: 'text', marks: [{ type: 'bold' }], text: 'Acme Corp' },
+              { type: 'text', text: ' · Data retention policy · Internal' },
+            ],
+          },
+        ],
+      };
+      documentEditor.value = { ...documentEditor.value, header, footer: pageNumbers };
+      const section = (n, title) => [
+        `## ${n}. ${title}`,
+        '',
+        'Acme keeps personal data only for as long as it needs it to provide its services, meet its legal obligations and resolve disputes. This section explains what that means in practice for the teams that collect, store and process data, and who to ask when a case is not covered.',
+        '',
+        '- Customer records are kept for **seven years** after the end of the contract.',
+        '- Support tickets are kept for **two years** after they are closed.',
+        '- Logs that contain personal data are kept for **90 days**.',
+        '',
+        'When a retention period ends, the data is deleted or anonymised within 30 days. Backups expire on their own schedule and are never restored to recover deleted personal data.',
+        '',
+      ];
+      documentEditor.importMarkdown(
+        [
+          '# Data retention policy',
+          '',
+          'Owner: [@Ana Lima](mention:usr_142) · Last reviewed: November 2026',
+          '',
+          ...section(1, 'Purpose'),
+          ...section(2, 'Scope'),
+          '| Data | Kept for | Owner |',
+          '| --- | --- | --- |',
+          '| Customer records | 7 years | Legal |',
+          '| Support tickets | 2 years | Support |',
+          '| Application logs | 90 days | Platform |',
+          '| Marketing contacts | Until unsubscribed | Marketing |',
+          '',
+          ...section(3, 'Responsibilities'),
+          ...section(4, 'Deletion'),
+          ...section(5, 'Exceptions'),
+          '- [x] Reviewed by Legal',
+          '- [ ] Approved by the data protection officer',
+        ].join('\n'),
+      );
+    });
+  </script>
+</DemoComponentCard>

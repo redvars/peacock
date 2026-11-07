@@ -49,6 +49,9 @@ export default async function () {
       // shipped-icons is an entry of its own so loader-full.js runs it before loader.js; inlined, it
       // would run after.
       input: ['src/index.ts', 'src/loader.ts', 'src/loader-full.ts', 'src/shipped-icons.ts', ...files], // Your main TypeScript entry file
+      // Yjs is a peer dependency: the app's collaboration provider and the document editor must
+      // share one copy, or Yjs's type checks fail. It loads only when collaboration is turned on.
+      external: id => id === 'yjs' || id.startsWith('yjs/'),
       output: {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.

@@ -1,0 +1,53 @@
+// Tiptap's base CSS (@tiptap/core src/style.ts). Tiptap injects it into the document head, which
+// does not reach editors inside a shadow root, so each Peacock editor includes it. Without it,
+// for example, a widget at the end of a line (a collaborator's caret) adds an empty line.
+
+@mixin styles {
+  .ProseMirror {
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    white-space: break-spaces;
+    font-variant-ligatures: none;
+    font-feature-settings: 'liga' 0;
+  }
+
+  .ProseMirror [contenteditable='false'] {
+    white-space: normal;
+  }
+
+  .ProseMirror [contenteditable='false'] [contenteditable='true'] {
+    white-space: pre-wrap;
+  }
+
+  .ProseMirror pre {
+    white-space: pre-wrap;
+  }
+
+  img.ProseMirror-separator {
+    display: inline !important;
+    border: none !important;
+    margin: 0 !important;
+    inline-size: 0 !important;
+    block-size: 0 !important;
+  }
+
+  .ProseMirror-gapcursor {
+    display: none;
+    pointer-events: none;
+    position: absolute;
+    margin: 0;
+  }
+
+  .ProseMirror-focused .ProseMirror-gapcursor {
+    display: block;
+  }
+
+  .ProseMirror-hideselection *::selection {
+    background: transparent;
+  }
+
+  .ProseMirror-hideselection * {
+    caret-color: transparent;
+  }
+}

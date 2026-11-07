@@ -6,8 +6,8 @@ import { chromeLauncher } from '@web/test-runner-chrome';
 
 const filteredLogs = ['Running in dev mode', 'Lit is in dev mode'];
 
-// Tests import component modules directly rather than src/index.js: the index pulls in
-// html-editor, whose CommonJS dependency (js-beautify) the test server cannot load.
+// Tests import component modules directly rather than src/index.js, so each test loads only what
+// it needs (the index pulls in Monaco, charts and every editor).
 
 /**
  * Compiles .scss imports into Lit CSS, so tests see the real component styles. The compiled tests

@@ -1,6 +1,6 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixtureSync, expect, waitUntil } from '@open-wc/testing';
+import { fixtureSync, expect } from '@open-wc/testing';
 import { Field } from '../src/field/index.js';
 import { IconButton } from '../src/button/index.js';
 import {
@@ -323,40 +323,5 @@ describe('MentionInput', () => {
     expect(area.getAttribute('aria-autocomplete')).to.equal('list');
     expect(area.getAttribute('aria-controls')).to.equal(list(el).id);
     expect(list(el).getAttribute('role')).to.equal('listbox');
-  });
-
-  it('works as the composer of a comment thread', async () => {
-    await import('../src/comment-thread/index.js').then(module => {
-      if (!customElements.get('wc-comment-thread')) {
-        customElements.define('wc-comment-thread', module.CommentThread);
-      }
-    });
-    const thread = fixtureSync(
-      html`<wc-comment-thread>
-        <wc-mention-input slot="composer"></wc-mention-input>
-      </wc-comment-thread>`,
-    ) as HTMLElement & { updateComplete: Promise<unknown> };
-    await thread.updateComplete;
-    const el = thread.querySelector<MentionInput>('wc-mention-input')!;
-    await el.updateComplete;
-    let body = '';
-    thread.addEventListener('submit', event => {
-      body = (event as unknown as CustomEvent).detail.body;
-    });
-    textarea(el).focus();
-    el.value = '@Ana Lima ok';
-    el.mentions = [
-      { id: '42', label: 'Ana Lima', trigger: '@', start: 0, end: 9 },
-    ];
-    textarea(el).value = el.value;
-    textarea(el).dispatchEvent(
-      new Event('input', { bubbles: true, composed: true }),
-    );
-    await thread.updateComplete;
-    key(el, 'Enter', { ctrlKey: true });
-    await waitUntil(() => body !== '');
-    expect(body).to.equal('@Ana Lima ok');
-    expect(el.value).to.equal('');
-    expect(el.mentions).to.deep.equal([]);
   });
 });

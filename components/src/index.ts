@@ -68,8 +68,35 @@ export type {
   CodeEditorSize,
 } from './code-editor/index.js';
 export { HtmlEditor } from './html-editor/index.js';
-export type { HtmlEditorMention } from './html-editor/index.js';
 export { MarkdownEditor } from './markdown-editor/index.js';
+export {
+  Markdown,
+  extractMentions,
+  mentionToMarkdown,
+} from './markdown/index.js';
+export type { RichTextMention } from './markdown/index.js';
+export {
+  DocumentEditor,
+  emptyDocument,
+  normalizeDocument,
+} from './document-editor/index.js';
+export type {
+  AwarenessLike,
+  DocumentCollaboration,
+  DocumentCollaborator,
+  DocumentComment,
+  DocumentCommentAddDetail,
+  DocumentPresence,
+  DocumentImageUploadDetail,
+  DocumentValue,
+  DocumentValueDetail,
+  DocumentZoom,
+  DocumentZoomDetail,
+  PageMargins,
+  PageOrientation,
+  PageSetup,
+  PageSize,
+} from './document-editor/index.js';
 export { Image } from './image/index.js';
 export { Svg } from './svg/index.js';
 export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
@@ -243,7 +270,13 @@ export type {
   TourStepChangeDetail,
 } from './tour/index.js';
 export { InlineEdit } from './inline-edit/index.js';
-export { CommentThread, CommentElement } from './comment-thread/index.js';
+export { CommentComposer } from './comment-composer/index.js';
+export type { CommentComposerSubmitDetail } from './comment-composer/index.js';
+export {
+  Discussion,
+  DiscussionComment,
+  DiscussionActivity,
+} from './discussion/index.js';
 export { PasswordRules } from './password-rules/index.js';
 export type {
   BuiltInPasswordRuleId,
@@ -319,10 +352,11 @@ export type {
   IllustrationName,
 } from './illustration/index.js';
 export type {
-  CommentActionDetail,
-  CommentCopyLinkDetail,
-  CommentSubmitDetail,
-} from './comment-thread/index.js';
+  DiscussionCommentDetail,
+  DiscussionCopyLinkDetail,
+  DiscussionEditDetail,
+  DiscussionSubmitDetail,
+} from './discussion/index.js';
 export {
   Calendar,
   CalendarColumnView,

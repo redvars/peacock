@@ -46,7 +46,8 @@ export function getAllComponentsForShowcase() {
       'timeline-item',
       // Children documented on their parent's page.
       'radio',
-      'comment',
+      'discussion-comment',
+      'discussion-activity',
       'description-item',
       'navigation-bar-item',
       'navigation-drawer-item',

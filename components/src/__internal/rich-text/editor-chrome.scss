@@ -1,0 +1,378 @@
+@use '../../../scss/mixin';
+@use './prose';
+@use './mention-list';
+@use './tiptap-base';
+
+// The frame of the rich-text fields built on RichTextInput: toolbar, editing area, source view,
+// slash menu, selection bubble, link editor and block handle. A field's stylesheet includes it with
+// `@use '../__internal/rich-text/editor-chrome';` and `@include editor-chrome.styles;`.
+//
+// Public custom properties: `--rich-text-editor-background` (behind the text), and the
+// `--prose-*` and `--mention-list-*` ones of the included partials.
+
+@mixin popup-surface {
+  // Reset the UA popover styles; floating-ui positions it in the top layer.
+  margin: 0;
+  border: 0;
+  inset: auto;
+  position: fixed;
+  top: 0;
+  // floating-ui positions popups with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
+  left: 0;
+  box-sizing: border-box;
+  background-color: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border-radius: var(--shape-corner-small);
+  box-shadow: var(--elevation-level2);
+}
+
+@mixin anchor {
+  position: fixed;
+  inline-size: 1px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+@mixin styles {
+  @include tiptap-base.styles;
+  @include mention-list.styles;
+
+  :host {
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    position: relative;
+    --_line: var(--typography-body-large-line-height, 1.5rem);
+  }
+
+  :host([size='sm']) {
+    --_line: var(--typography-body-medium-line-height, 1.25rem);
+  }
+
+  .rich-text-field {
+    --field-height: auto;
+    --field-padding-block: 0;
+
+    inline-size: 100%;
+  }
+
+  .shell {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    position: relative;
+  }
+
+  // ── Toolbar ───────────────────────────────────────────────────────────────
+
+  .toolbar {
+    --toolbar-gap: var(--spacing-025, 0.125rem);
+    --toolbar-wrap: wrap;
+
+    display: block;
+    padding-block: var(--spacing-050, 0.25rem);
+    border-block-end: 1px solid var(--color-outline-variant);
+    border-radius: 0;
+  }
+
+  .toolbar wc-divider {
+    block-size: 1.25rem;
+    margin-inline: var(--spacing-050, 0.25rem);
+  }
+
+  .toolbar-spacer {
+    flex: 1;
+  }
+
+  // ── Editing area ──────────────────────────────────────────────────────────
+
+  .editor-area {
+    --_pad: var(--spacing-150, 0.75rem);
+
+    position: relative;
+    padding-block: var(--_pad);
+    min-block-size: calc(var(--_rows, 4) * var(--_line) + 2 * var(--_pad));
+    background: var(--rich-text-editor-background, transparent);
+    cursor: text;
+    @include mixin.get-typography-not-important(body-large);
+
+    &.hidden {
+      display: none;
+    }
+
+    // A gutter for the block handle.
+    &.with-handle {
+      padding-inline-start: 2.75rem;
+    }
+  }
+
+  // Touch screens cannot hover, so the block handle never shows; give its gutter back.
+  @media (hover: none) {
+    .editor-area.with-handle {
+      padding-inline-start: 0;
+    }
+
+    .block-handle {
+      display: none;
+    }
+  }
+
+  .max-rows .editor-area {
+    max-block-size: calc(var(--_max-rows) * var(--_line) + 2 * var(--_pad));
+    overflow-y: auto;
+  }
+
+  :host([size='sm']) .editor-area {
+    @include mixin.get-typography-not-important(body-medium);
+  }
+
+  .editor-root,
+  .ProseMirror {
+    outline: none;
+    min-block-size: calc(var(--_rows, 4) * var(--_line));
+  }
+
+  .ProseMirror {
+    @include prose.styles;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    // Tiptap's placeholder on the empty first line.
+    p.is-editor-empty:first-child::before {
+      content: attr(data-placeholder);
+      float: inline-start;
+      block-size: 0;
+      color: var(--color-on-surface-variant);
+      pointer-events: none;
+    }
+
+    // Task list checkboxes from Tiptap.
+    ul[data-type='taskList'] li > label input {
+      cursor: pointer;
+    }
+
+    // Selected table cells.
+    .selectedCell {
+      background: var(--color-secondary-container);
+    }
+
+    // A block chosen with the drag handle.
+    .ProseMirror-selectednode {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: -2px;
+      inline-size: 4px;
+      background: var(--color-primary);
+      pointer-events: none;
+    }
+
+    .tableWrapper {
+      overflow-x: auto;
+    }
+
+    &.resize-cursor {
+      cursor: col-resize;
+    }
+  }
+
+  .ProseMirror-dropcursor {
+    border-block-start: 2px solid var(--color-primary);
+    border-radius: 0;
+  }
+
+  .ProseMirror-gapcursor::after {
+    border-block-start: 1px solid var(--color-on-surface);
+    border-radius: 0;
+  }
+
+  :host([disabled]) .editor-area {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  :host([readonly]) .editor-area {
+    cursor: default;
+  }
+
+  // ── Source view ───────────────────────────────────────────────────────────
+
+  .source {
+    --code-editor-height: calc(
+      var(--_rows, 4) * var(--_line) + 2 * var(--spacing-150, 0.75rem) + 4rem
+    );
+
+    padding-block: var(--spacing-100, 0.5rem);
+  }
+
+  .state-tag {
+    position: absolute;
+    inset-block-start: var(--spacing-050, 0.25rem);
+    inset-inline-end: var(--spacing-050, 0.25rem);
+    z-index: 1;
+  }
+
+  // ── Anchors for popups ────────────────────────────────────────────────────
+
+  .slash-anchor,
+  .bubble-anchor,
+  .link-anchor {
+    @include anchor;
+  }
+
+  // ── Slash menu ────────────────────────────────────────────────────────────
+
+  .slash-menu {
+    @include popup-surface;
+
+    inline-size: 16rem;
+    max-block-size: min(20rem, var(--floating-available-height, 100vh));
+    overflow-y: auto;
+    padding: var(--spacing-050, 0.25rem);
+  }
+
+  .slash-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.5rem);
+    min-block-size: 2.25rem;
+    padding: 0 var(--spacing-100, 0.5rem);
+    border-radius: var(--shape-corner-extra-small);
+    cursor: pointer;
+    @include mixin.get-typography-not-important(body-medium);
+
+    &.active {
+      background-color: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+    }
+  }
+
+  .slash-item-label {
+    flex: 1;
+  }
+
+  .slash-item-hint {
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-family-monospace, monospace);
+    font-size: 0.75rem;
+  }
+
+  .slash-empty {
+    padding: var(--spacing-100, 0.5rem);
+    color: var(--color-on-surface-variant);
+    @include mixin.get-typography-not-important(body-medium);
+  }
+
+  // ── Selection bubble ──────────────────────────────────────────────────────
+
+  .bubble-menu {
+    @include popup-surface;
+
+    display: none;
+    gap: var(--spacing-025, 0.125rem);
+    padding: var(--spacing-050, 0.25rem);
+    border-radius: var(--shape-corner-full);
+
+    &:popover-open {
+      display: flex;
+    }
+  }
+
+  // ── Link editor ───────────────────────────────────────────────────────────
+
+  .link-editor {
+    @include popup-surface;
+
+    inline-size: min(22rem, calc(100vw - 2rem));
+    padding: var(--spacing-150, 0.75rem);
+  }
+
+  .link-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-100, 0.5rem);
+    margin-block-start: var(--spacing-100, 0.5rem);
+  }
+
+  // ── Block handle ──────────────────────────────────────────────────────────
+
+  .block-handle {
+    position: fixed;
+    z-index: 2;
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+
+    &.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  // Where a block dragged with the handle will land.
+  .drop-line {
+    position: fixed;
+    z-index: 3;
+    block-size: 2px;
+    background: var(--color-primary);
+    border-radius: var(--shape-corner-full);
+    pointer-events: none;
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  .block-handle-button {
+    @include mixin.reset-button-styles;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    border-radius: var(--shape-corner-extra-small);
+    color: var(--color-on-surface-variant);
+    cursor: pointer;
+
+    &:first-child {
+      cursor: grab;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--color-surface-container-high);
+      color: var(--color-on-surface);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .slash-menu,
+    .bubble-menu,
+    .link-editor {
+      border: 1px solid CanvasText;
+    }
+
+    .slash-item.active {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+  }
+}

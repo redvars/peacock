@@ -1,0 +1,27 @@
+---
+export const title = 'Mentions';
+export const order = 300;
+---
+
+<p>
+  Every composer in a discussion offers mentions: the main one and each reply
+  and edit composer. Typing a trigger (<code>@</code> by default) fires
+  <code>search</code> with <code>{'{ trigger, query }'}</code>, which bubbles to
+  the discussion. Answer it by setting <code>suggestions</code> (and
+  <code>suggestions-loading</code> while you look) on the discussion; it hands
+  them to the composer that asked.
+</p>
+<p>
+  <code>triggers</code> sets the trigger characters of every composer
+  (<code>"@#"</code> adds a second one, for tickets, say; <code>""</code> turns
+  mentions off). <code>mention-href</code>, such as
+  <code>"/users/{'{id}'}"</code>, turns mention chips in comments and activity
+  into links. <code>submit</code> and <code>edit</code> carry the mentioned
+  people in <code>detail.mentions</code>, ready for notifications.
+</p>
+
+<pre><code>discussion.addEventListener('search', async event =&gt; {'{'}
+  discussion.suggestionsLoading = true;
+  discussion.suggestions = await searchPeople(event.detail.query);
+  discussion.suggestionsLoading = false;
+{'}'});</code></pre>

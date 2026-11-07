@@ -1,40 +1,22 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixture, expect, aTimeout } from '@open-wc/testing';
-import type { HtmlEditor } from '../src/html-editor/index.js';
+import { fixture, expect, oneEvent } from '@open-wc/testing';
+import type { Editor } from '@tiptap/core';
+// wc-code-editor is left undefined so Monaco is not loaded.
+import { HtmlEditor } from '../src/html-editor/index.js';
 
-// wc-code-editor is left undefined so Monaco is not loaded; the tests talk to the source view
-// through the events the editor listens for.
-//
-// html-editor imports js-beautify, which is CommonJS; the test server cannot load it without a
-// CommonJS plugin (@rollup/plugin-commonjs through @web/dev-server-rollup). The module is loaded
-// dynamically so the suite is skipped, rather than failing the run, until the server can.
-let loaded = false;
+if (!customElements.get('wc-html-editor')) {
+  customElements.define('wc-html-editor', HtmlEditor);
+}
 
-before(async () => {
-  try {
-    const module = await import('../src/html-editor/index.js');
-    if (!customElements.get('wc-html-editor')) {
-      customElements.define('wc-html-editor', module.HtmlEditor);
-    }
-    loaded = true;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(`html-editor tests skipped: ${error}`);
-    loaded = false;
-  }
-});
+function tiptap(el: HtmlEditor): Editor {
+  return (el as unknown as { editor: Editor }).editor;
+}
 
-beforeEach(function skipUnlessLoaded() {
-  if (!loaded) this.skip();
-});
-
-type MentionRequester = {
-  _requestManagedMentions(query: string): Promise<string[]>;
-};
-
-function sourceEditor(el: HtmlEditor): HTMLElement {
-  return el.shadowRoot?.querySelector('wc-code-editor') as HTMLElement;
+function tool(el: HtmlEditor, label: string): HTMLElement | null {
+  return el.shadowRoot?.querySelector(
+    `.toolbar [aria-label="${label}"]`,
+  ) as HTMLElement | null;
 }
 
 describe('HtmlEditor', () => {
@@ -43,86 +25,60 @@ describe('HtmlEditor', () => {
       html`<wc-html-editor required></wc-html-editor>`,
     );
     expect(el.value).to.equal('');
-    expect(el.checkValidity()).to.equal(false);
     expect(el.validity.valueMissing).to.equal(true);
-
     el.value = '<p>Hello</p>';
     await el.updateComplete;
     expect(el.checkValidity()).to.equal(true);
+  });
 
-    // An empty paragraph is still empty.
-    el.value = '<p></p>';
+  it('reads and writes HTML, dropping what it does not support', async () => {
+    const el = await fixture<HtmlEditor>(
+      html`<wc-html-editor
+        .value=${'<p>Hi <u>there</u><script>alert(1)</script></p><p onclick="x()">Two</p>'}
+      ></wc-html-editor>`,
+    );
+    const prose = el.shadowRoot?.querySelector('.ProseMirror') as HTMLElement;
+    expect(prose.querySelector('script')).to.equal(null);
+    expect(prose.querySelector('[onclick]')).to.equal(null);
+    expect(prose.querySelector('u')?.textContent).to.equal('there');
+
+    const input = oneEvent(el, 'input');
+    el.debounce = 0;
+    tiptap(el).chain().focus('end').insertContent('!').run();
+    await input;
+    expect(el.value).to.equal('<p>Hi <u>there</u></p><p>Two!</p>');
+  });
+
+  it('offers underline, which HTML can store', async () => {
+    const el = await fixture<HtmlEditor>(
+      html`<wc-html-editor .value=${'<p>word</p>'}></wc-html-editor>`,
+    );
+    tiptap(el).chain().focus().selectAll().run();
+    tool(el, 'Underline')?.click();
+    expect(el.value).to.equal('<p><u>word</u></p>');
+  });
+
+  it('stores mentions as data attributes', async () => {
+    const el = await fixture<HtmlEditor>(
+      html`<wc-html-editor
+        .value=${'<p><span data-type="mention" data-id="usr_1" data-label="Ana Lima">@Ana Lima</span></p>'}
+      ></wc-html-editor>`,
+    );
+    const mention = el.shadowRoot?.querySelector('.ProseMirror .mention');
+    expect(mention?.textContent).to.equal('@Ana Lima');
+    expect(el.value).to.contain('data-id="usr_1"');
+  });
+
+  it('shows the HTML in the source view', async () => {
+    const el = await fixture<HtmlEditor>(
+      html`<wc-html-editor .value=${'<p>Hi</p>'}></wc-html-editor>`,
+    );
+    tool(el, 'View source')?.click();
     await el.updateComplete;
-    expect(el.checkValidity()).to.equal(false);
-  });
-
-  it('fires a debounced input, then change when focus leaves after an edit', async () => {
-    const el = await fixture<HtmlEditor>(
-      html`<wc-html-editor .debounce=${0}></wc-html-editor>`,
-    );
-    const events: [string, unknown][] = [];
-    for (const type of ['input', 'change']) {
-      el.addEventListener(type, event =>
-        events.push([type, (event as CustomEvent).detail]),
-      );
-    }
-
-    el.dispatchEvent(new FocusEvent('focusin'));
-    sourceEditor(el).dispatchEvent(
-      new CustomEvent('input', {
-        detail: { value: '<p>Hi</p>' },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    expect(el.value).to.equal('<p>Hi</p>');
-    await aTimeout(10);
-    expect(events).to.deep.equal([['input', { value: '<p>Hi</p>' }]]);
-
-    el.dispatchEvent(new FocusEvent('focusout'));
-    expect(events).to.deep.equal([
-      ['input', { value: '<p>Hi</p>' }],
-      ['change', { value: '<p>Hi</p>' }],
-    ]);
-  });
-
-  it('shows the toolbar unless hide-toolbar is set', async () => {
-    const el = await fixture<HtmlEditor>(
-      html`<wc-html-editor></wc-html-editor>`,
-    );
-    await el.updateComplete;
-    expect(el.shadowRoot?.querySelector('.html-editor-toolbar')).to.exist;
-
-    const hidden = await fixture<HtmlEditor>(
-      html`<wc-html-editor hide-toolbar></wc-html-editor>`,
-    );
-    await hidden.updateComplete;
-    expect(hidden.shadowRoot?.querySelector('.html-editor-toolbar')).to.not
-      .exist;
-  });
-
-  it('fires mention-search and resolves with the mentions set in response', async () => {
-    const el = await fixture<HtmlEditor>(
-      html`<wc-html-editor mentions-search="managed"></wc-html-editor>`,
-    );
-    let query = '';
-    el.addEventListener('mention-search', event => {
-      query = (event as CustomEvent<{ query: string }>).detail.query;
-      el.mentions = [{ label: 'Alex', value: 'alex' }];
-    });
-
-    const values = await (
-      el as unknown as MentionRequester
-    )._requestManagedMentions('al');
-    expect(query).to.equal('al');
-    expect(values).to.deep.equal(['alex']);
-  });
-
-  it('reflects size and passes it to the source editor', async () => {
-    const el = await fixture<HtmlEditor>(
-      html`<wc-html-editor size="sm"></wc-html-editor>`,
-    );
-    expect(el.getAttribute('size')).to.equal('sm');
-    expect(sourceEditor(el).getAttribute('size')).to.equal('sm');
+    const source = el.shadowRoot?.querySelector('wc-code-editor') as
+      | (HTMLElement & { value: string })
+      | null;
+    expect(source?.getAttribute('language')).to.equal('html');
+    expect(source?.value).to.equal('<p>Hi</p>');
   });
 });

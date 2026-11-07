@@ -1,0 +1,41 @@
+---
+export const title = 'States';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h3 class="text-title-medium">Loading</h3>
+<p><code>loading</code> shows placeholder rows while the entries load.</p>
+<DemoComponentCard lang={'html'}>
+  <wc-discussion loading style="display:block; width:100%; max-width: 44rem;"></wc-discussion>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Empty</h3>
+<p>
+  Without entries the discussion says "No comments yet". Replace it with the
+  <code>empty</code> slot.
+</p>
+<DemoComponentCard lang={'html'}>
+  <wc-discussion style="display:block; width:100%; max-width: 44rem;">
+    <span slot="empty">Be the first to comment on this order.</span>
+  </wc-discussion>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Read-only</h3>
+<p>
+  <code>readonly</code> hides the composer, Reply and Edit, for a closed
+  record or someone who can only read.
+</p>
+<DemoComponentCard lang={'html'}>
+  <wc-discussion readonly style="display:block; width:100%; max-width: 44rem;">
+    <wc-discussion-comment comment-id="r1" author="Mei Chen" datetime="2026-10-30T14:00:00Z" value="Closing: fixed in **4.2.1**." editable></wc-discussion-comment>
+  </wc-discussion>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Keyboard</h3>
+<p>
+  The entries sit in a <code>role="feed"</code> named by <code>label</code>.
+  <kbd>Page Down</kbd> and <kbd>Page Up</kbd> move between entries, and
+  <kbd>Ctrl</kbd>+<kbd>End</kbd> jumps to the composer. A comment added after
+  the discussion has loaded is announced to screen readers.
+</p>

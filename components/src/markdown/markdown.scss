@@ -1,0 +1,36 @@
+@use '../../scss/mixin';
+@use '../__internal/rich-text/prose';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  // A long code line or table scrolls inside its block instead of widening the host, also when
+  // the host is a flex or grid item.
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  @include mixin.get-typography-not-important(body-large);
+}
+
+:host([size='sm']) {
+  @include mixin.get-typography-not-important(body-medium);
+}
+
+:host([inline]) {
+  display: inline;
+}
+
+.prose {
+  @include prose.styles;
+}
+
+:host([inline]) .prose {
+  display: inline;
+}
+
+.code-block {
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin: 0 0 0.5em;
+}

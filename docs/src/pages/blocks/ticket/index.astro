@@ -1,0 +1,141 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/ticket.scss';
+
+const description = [
+  'Exports of last month\'s invoices stop after **500 rows** for EU customers.',
+  '',
+  '## Steps to reproduce',
+  '',
+  '1. Open **Billing → Invoices** as an admin',
+  '2. Filter by region *EU* and export as CSV',
+  '',
+  '- [x] Reproduced on staging',
+  '- [ ] Reproduced on production',
+].join('\n');
+---
+
+<Layout
+  title='Ticket'
+  description='A support ticket built from Peacock components: a Markdown description, record fields, and a discussion with comments, work notes, replies, mentions and activity.'
+>
+  <div class='block-demo ticket-shell'>
+    <div class='ticket-header'>
+      <div>
+        <div class='ticket-number text-label-large block-muted'>INC-2041</div>
+        <h2 class='text-headline-small'>Invoice export stops after 500 rows</h2>
+      </div>
+      <div class='ticket-header-actions'>
+        <wc-tag intent='warning'>In progress</wc-tag>
+        <wc-button variant='outlined' size='sm'>Resolve</wc-button>
+      </div>
+    </div>
+
+    <div class='ticket-layout'>
+      <main class='ticket-main'>
+        <wc-markdown-editor
+          id='ticket-description'
+          label='Description'
+          rows='4'
+          max-rows='16'
+          value={description}
+        ></wc-markdown-editor>
+
+        <wc-discussion id='ticket-discussion' label='Ticket activity'>
+          <div slot='header' class='ticket-section-title'>
+            <span class='text-title-medium'>Activity</span>
+            <span class='text-body-small block-muted' id='ticket-count'></span>
+          </div>
+          <wc-discussion-activity
+            icon='add_circle'
+            author='Ana Lima'
+            datetime='2026-11-06T08:12:00Z'
+            value='opened the ticket'
+          ></wc-discussion-activity>
+          <wc-discussion-activity
+            icon='person_add'
+            author='Ana Lima'
+            datetime='2026-11-06T08:13:00Z'
+            value='assigned it to [@Ravi Kumar](mention:usr_7)'
+          ></wc-discussion-activity>
+          <wc-discussion-comment
+            comment-id='c1'
+            author='Ravi Kumar'
+            datetime='2026-11-06T09:40:00Z'
+            href='#c1'
+            value={'The export job stops when it hits the retry limit:\n\n```yaml\nqueue:\n  retry:\n    max: 0\n```'}
+          >
+            <wc-tag slot='badge' intent='warning'>Work note</wc-tag>
+            <wc-discussion-comment
+              slot='replies'
+              comment-id='c2'
+              author='Mei Chen'
+              datetime='2026-11-06T10:05:00Z'
+              value='That was changed in [#CHG-310](mention:chg_310). I can raise it back to 5.'
+            ></wc-discussion-comment>
+          </wc-discussion-comment>
+          <wc-discussion-activity
+            icon='swap_horiz'
+            author='Ravi Kumar'
+            datetime='2026-11-06T10:20:00Z'
+            value='changed **State** from New to In progress'
+          ></wc-discussion-activity>
+          <wc-discussion-comment
+            comment-id='c3'
+            author='Ravi Kumar'
+            datetime='2026-11-06T10:22:00Z'
+            href='#c3'
+            value='Hi [@Ana Lima](mention:usr_142), we found the cause and a fix is on the way. Exports should work again today.'
+          ></wc-discussion-comment>
+
+          <wc-comment-composer slot='composer' placeholder='Add a comment or work note'>
+            <wc-avatar slot='avatar' name='Shiva Varma' size='md'></wc-avatar>
+            <wc-select slot='start' id='ticket-visibility' size='sm' value='comment' aria-label='Visibility'>
+              <wc-option value='comment'>Comment</wc-option>
+              <wc-option value='work'>Work note</wc-option>
+            </wc-select>
+          </wc-comment-composer>
+        </wc-discussion>
+      </main>
+
+      <aside class='ticket-side'>
+        <wc-select label='State' value='progress'>
+          <wc-option value='new'>New</wc-option>
+          <wc-option value='progress'>In progress</wc-option>
+          <wc-option value='hold'>On hold</wc-option>
+          <wc-option value='resolved'>Resolved</wc-option>
+        </wc-select>
+        <wc-select label='Priority' value='2'>
+          <wc-option value='1'>1 - Critical</wc-option>
+          <wc-option value='2'>2 - High</wc-option>
+          <wc-option value='3'>3 - Moderate</wc-option>
+          <wc-option value='4'>4 - Low</wc-option>
+        </wc-select>
+        <wc-input label='Assigned to' value='Ravi Kumar'></wc-input>
+        <wc-input label='Assignment group' value='Billing support'></wc-input>
+        <wc-description-list class='ticket-meta'>
+          <wc-description-item label='Caller'>Ana Lima</wc-description-item>
+          <wc-description-item label='Opened'><wc-relative-time datetime='2026-11-06T08:12:00Z'></wc-relative-time></wc-description-item>
+          <wc-description-item label='Category'>Billing</wc-description-item>
+        </wc-description-list>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline src='/assets/js/discussion-demo.js'></script>
+  <script is:inline>
+    const ticketDiscussion = document.getElementById('ticket-discussion');
+    const ticketVisibility = document.getElementById('ticket-visibility');
+    const ticketCount = document.getElementById('ticket-count');
+    const countComments = () => {
+      const count = ticketDiscussion.querySelectorAll('wc-discussion-comment').length;
+      ticketCount.textContent = `${count} comment${count === 1 ? '' : 's'}`;
+    };
+    countComments();
+    window.peacockDiscussionDemo(ticketDiscussion, {
+      author: 'Shiva Varma',
+      badge: () => (ticketVisibility.value === 'work' ? 'Work note' : ''),
+      onChange: countComments,
+    });
+  </script>
+</Layout>

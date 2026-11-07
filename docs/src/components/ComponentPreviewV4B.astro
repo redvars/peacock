@@ -310,7 +310,7 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
   </div>
 )}
 
-{name === 'comment-thread' && (
+{name === 'discussion' && (
   <div class='bp cp-frame cp4b-thread'>
     <span class='cp4b-comment'>
       <span class='cp-avatar cp-avatar-initials cp4b-av-xs'></span>
@@ -328,6 +328,12 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
       </span>
     </span>
     <span class='cp4b-composer'><span class='bp-line cp-w1'></span><wc-icon {...icon('send', 'cp-i-primary')}></wc-icon></span>
+  </div>
+)}
+
+{name === 'comment-composer' && (
+  <div class='bp cp-frame cp-center cp4b-thread'>
+    <span class='cp4b-composer'><span class='bp-line cp-w2'></span><wc-icon {...icon('send', 'cp-i-primary')}></wc-icon></span>
   </div>
 )}
 

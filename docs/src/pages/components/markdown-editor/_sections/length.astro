@@ -1,0 +1,30 @@
+---
+export const title = 'Size and length';
+export const order = 160;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>rows</code> sets the height of the empty editor in lines (4 by
+  default). The editor grows with its text; with <code>max-rows</code> it
+  stops growing at that many lines and scrolls. <code>size="sm"</code> uses the
+  smaller body text.
+</p>
+<p>
+  <code>maxlength</code> limits the number of characters of text, not counting
+  Markdown syntax, and shows a count below the field. Typing stops at the
+  limit; a longer value set from code is kept and reported as too long, as on a
+  textarea.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    label="Summary"
+    size="sm"
+    rows="2"
+    max-rows="6"
+    maxlength="280"
+    value="A short summary of the change, up to 280 characters."
+    style="display:block; width: 100%;"
+  ></wc-markdown-editor>
+</DemoComponentCard>

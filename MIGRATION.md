@@ -152,9 +152,25 @@ Each item reads `3.x` → `4.0`.
 - `lineNumbers = 'on' | 'off'` (property) → `lineNumbers = true | false`
 
 ### wc-html-editor
+Rebuilt on the same editor as `wc-markdown-editor` (Tiptap 3), with its toolbar, selection bubble, slash menu, block handle, link editor and mention list.
 - `show-toolbar` / `showToolbar = false` → `hide-toolbar`
-- `show-suggestion-character` / `showSuggestionCharacter = false` → `hide-suggestion-character`
-- `search` event with `detail.callback` → `mention-search` event (`detail: { query }`); answer it by setting `mentions`
+- Mentions use the same API as `wc-mention-input`: `mentions` (`{ label, value }[]`), `mentions-search`, `suggestion-character` and `hide-suggestion-character` → `triggers` (default `@`), `suggestions` (`{ id, label, description?, avatar? }[]`) and `suggestions-loading`.
+- `search` event with `detail.callback` → `search` event with `detail: { trigger, query }`; answer it by setting `suggestions`. A picked suggestion fires `mention`.
+- A mention is stored as `<span data-type="mention" data-id="…" data-label="…">@…</span>`.
+- The Visual / HTML switch below the editor → the **View source** button at the end of the toolbar.
+- The value is the editor's HTML as is; it is no longer reformatted with js-beautify.
+- The `HtmlEditorMention` type is removed; use `MentionSuggestion`.
+- `--html-editor-min-height` → `rows` (and `max-rows`); `--html-editor-toolbar-background` and `--html-editor-toolbar-border-color` are removed.
+
+### wc-markdown-editor
+Rebuilt on Tiptap 3 and the shared rich-text core; the value is still Markdown.
+- The Editor / Markdown switch below the editor → the **View source** button at the end of the toolbar.
+- New fixed toolbar (text style, marks, link, lists, checklist, quote, code block, table, divider, mention); `hide-toolbar` hides it.
+- Underline is no longer offered: Markdown cannot store it.
+- New: mentions (`triggers`, `suggestions`, `suggestions-loading`, `search` and `mention` events), links, tables, checklists, `maxlength`, `rows` and `max-rows`.
+- `--markdown-editor-min-height` → `rows` (and `max-rows`); `--markdown-editor-bubble-background` and `--markdown-editor-slash-background` are removed (the popups use the surface container color).
+- Italic is written as `*text*` instead of `_text_`.
+- Strings: `editorMode`, `markdownMode`, `visualMode`, `htmlMode`, `unorderedList` and `orderedList` → `viewSource`, `bulletedList` and `numberedList`.
 
 
 ### wc-modal
@@ -254,4 +270,7 @@ These components are new, so there is nothing to migrate. The [README](readme.md
 - **Layout and navigation:** `wc-app-shell`, `wc-page-header`, `wc-stack`, `wc-grid`, `wc-resizable-panels`, `wc-scroll-area`, `wc-stepper`, `wc-anchor-nav`, `wc-command-palette`, `wc-workspace-switcher`, `wc-user-menu`, `wc-link-button`, `wc-copy-button`.
 - **Data:** table column resize, reorder, show/hide, multi-sort, column groups, row details, inline editing, grouping, totals, virtual scrolling and CSV export; `wc-filter-bar`, `wc-description-list`, `wc-stat`, `wc-sparkline`, `wc-virtual-list`, `wc-kanban`, `wc-json-viewer`, `wc-diff-viewer`.
 - **Feedback and overlays:** `wc-confirm-dialog`, `wc-banner`, `wc-notification-center`, `wc-tour`, `wc-hover-card`, `wc-illustration` (illustrations for empty, error and success screens), `wc-redvars-loader` (the Redvars r as a loading indicator).
-- **People and status:** `wc-avatar-group`, `wc-presence-indicator`, `wc-status-indicator`, `wc-comment-thread`, `wc-relative-time`, `wc-kbd`.
+- **People and status:** `wc-avatar-group`, `wc-presence-indicator`, `wc-status-indicator`, `wc-relative-time`, `wc-kbd`.
+- **Rich text:** `wc-markdown`, which shows Markdown safely (raw HTML stays text, unsafe links are not followed) with mention chips, plus `extractMentions()` to find who a value mentions. The editors are built on Tiptap 3.
+- **Discussion:** `wc-discussion` with `wc-discussion-comment` (Markdown comments, one level of replies, inline reply and edit) and `wc-discussion-activity` (field and status changes between the comments), and `wc-comment-composer`, a rich-text comment box with mentions that sends with Ctrl+Enter. They replace the `wc-comment-thread` and `wc-comment` of the 4.0 previews.
+- **Documents:** `wc-document-editor`, a word processor with real pages (A4, Letter, Legal; portrait or landscape; margin presets), page breaks, a repeating header and footer with page numbers, tables, resizable images (stored by the app through `image-upload`), text color, alignment, an outline and print. The value is JSON (`DocumentValue`); `getMarkdown()` and `getHTML()` export the body. Inline comments highlight text and line up app-owned threads (such as `wc-discussion`) beside it. Realtime collaboration on Yjs (`collaboration = { document, provider, user }`) shares edits, the header, footer, page setup and comments, with named carets and presence; `yjs` is an optional peer dependency, loaded only when collaboration is used.

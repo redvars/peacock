@@ -1169,8 +1169,8 @@
             "text": "string"
           },
           "default": "''",
-          "fieldName": "variant",
           "description": "The visual style of the button: `\"filled\"`, `\"tonal\"`, `\"outlined\"`, `\"text\"`,\n`\"elevated\"` or `\"neo\"`. Unset, it comes from `level`, else `\"filled\"`.",
+          "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -1182,8 +1182,8 @@
             "text": "string"
           },
           "default": "''",
-          "fieldName": "color",
           "description": "The color role of the button. Unset, it comes from `level`, else `\"primary\"`.",
+          "fieldName": "color",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -1191,12 +1191,12 @@
         },
         {
           "name": "disabled",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "fieldName": "disabled",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
             "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
@@ -1246,6 +1246,7 @@
             "text": "string"
           },
           "default": "'submit'",
+          "description": "What activating the element does in a form: `\"submit\"` (default) submits it, `\"reset\"`\nresets it and `\"button\"` does nothing.",
           "fieldName": "type",
           "inheritedFrom": {
             "name": "mixinFormSubmitter",
@@ -1258,6 +1259,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The value sent with the form, paired with `name`, when this element submits it.",
           "fieldName": "value",
           "inheritedFrom": {
             "name": "mixinFormSubmitter",
@@ -1266,6 +1268,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
@@ -3329,6 +3332,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3337,6 +3341,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3349,6 +3354,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3361,6 +3367,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3373,6 +3380,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3493,6 +3501,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3501,6 +3510,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3513,6 +3523,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3525,6 +3536,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3537,6 +3549,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3657,6 +3670,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The visual style of the button, such as `\"filled\"`, `\"tonal\"`, `\"outlined\"` or `\"text\"`.",
           "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -3669,6 +3683,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The color role of the button, such as `\"primary\"`, `\"surface\"` or `\"danger\"`.",
           "fieldName": "color",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -3719,6 +3734,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -3731,6 +3747,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -3743,6 +3760,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -3755,6 +3773,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -3866,6 +3885,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3874,6 +3894,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3886,6 +3907,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3898,6 +3920,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3910,6 +3933,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3982,6 +4006,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows ongoing activity with no known completion, ignoring `value`.",
           "fieldName": "indeterminate",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -3993,7 +4018,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "A visible label describing the progress, which also names the progress bar\r\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
+          "description": "A visible label describing the progress, which also names the progress bar\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -4005,6 +4030,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "Help text shown below the progress indicator.",
           "fieldName": "helperText",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -4017,6 +4043,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Lays out the label and the indicator on one line instead of stacking them.",
           "fieldName": "inline",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -4247,6 +4274,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the editor while `error` is set; replaces the help text.",
           "fieldName": "errorText"
         },
         {
@@ -4351,6 +4379,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4359,6 +4388,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4371,6 +4401,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4383,6 +4414,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4395,6 +4427,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4481,8 +4514,8 @@
     "tag": "wc-code-highlighter",
     "rawTag": "code-highlighter",
     "summary": "A read-only block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.",
-    "overview": "<p>Give the code as <code>value</code>, or as a <code>&lt;pre&gt;&lt;code&gt;</code> in the light\nDOM, and its <code>language</code>; unknown languages render as plain text. JavaScript, HTML and\nCSS are formatted with Prettier first unless <code>format=\"false\"</code>. The code is shown as\nwritten for people to read and copy; to let them edit it use <code>wc-code-editor</code>. Several\nblocks shown as tabs go in a <code>wc-code-group</code>.</p>\n<ul>\n<li><code>label</code> or the <code>title</code> slot shows a header, with an optional\n<code>icon</code> slot and the actions.</li>\n<li><code>line-numbers</code> and <code>start-line</code> number the lines;\n<code>highlight-lines</code>, <code>added-lines</code> and <code>removed-lines</code> mark lines\nby number or range, such as <code>\"1, 3-5\"</code>, counted after formatting.</li>\n<li><code>wrap</code> wraps long lines, and <code>wrap-toggle</code> adds a button to turn wrapping\non and off.</li>\n<li><code>collapsible</code> caps the height and adds a show more button, with\n<code>aria-expanded</code>, when the code is taller; it fires <code>expanded-change</code>.</li>\n<li>The copy button copies the code, or <code>copy-value</code>, and fires <code>copied</code>\nor <code>copy-error</code>; <code>hide-copy</code> removes it. More buttons go in the\n<code>actions</code> slot.</li>\n<li><code>inline</code> renders the code as a compact chip within text; <code>size=\"sm\"</code>\nsuits dense layouts and <code>variant=\"error\"</code> tints the block for failure output.</li>\n</ul>\n<p>The code area is always left to right and is focusable, so keyboard users can scroll it.</p>",
-    "example": "```html\n<wc-code-highlighter language=\"javascript\" label=\"hello.js\" line-numbers highlight-lines=\"2\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```",
+    "overview": "<p>Give the code as <code>value</code>, or as a <code>&lt;pre&gt;&lt;code&gt;</code> in the light\r\nDOM, and its <code>language</code>; unknown languages render as plain text. JavaScript, HTML and\r\nCSS are formatted with Prettier first unless <code>format=\"false\"</code>. The code is shown as\r\nwritten for people to read and copy; to let them edit it use <code>wc-code-editor</code>. Several\r\nblocks shown as tabs go in a <code>wc-code-group</code>.</p>\r\n<ul>\r\n<li><code>label</code> or the <code>title</code> slot shows a header, with an optional\r\n<code>icon</code> slot and the actions.</li>\r\n<li><code>line-numbers</code> and <code>start-line</code> number the lines;\r\n<code>highlight-lines</code>, <code>added-lines</code> and <code>removed-lines</code> mark lines\r\nby number or range, such as <code>\"1, 3-5\"</code>, counted after formatting.</li>\r\n<li><code>wrap</code> wraps long lines, and <code>wrap-toggle</code> adds a button to turn wrapping\r\non and off.</li>\r\n<li><code>collapsible</code> caps the height and adds a show more button, with\r\n<code>aria-expanded</code>, when the code is taller; it fires <code>expanded-change</code>.</li>\r\n<li>The copy button copies the code, or <code>copy-value</code>, and fires <code>copied</code>\r\nor <code>copy-error</code>; <code>hide-copy</code> removes it. More buttons go in the\r\n<code>actions</code> slot.</li>\r\n<li><code>inline</code> renders the code as a compact chip within text; <code>size=\"sm\"</code>\r\nsuits dense layouts and <code>variant=\"error\"</code> tints the block for failure output.</li>\r\n</ul>\r\n<p>The code area is always left to right and is focusable, so keyboard users can scroll it.</p>",
+    "example": "```html\r\n<wc-code-highlighter language=\"javascript\" label=\"hello.js\" line-numbers highlight-lines=\"2\"><pre><code>\r\n  function helloWorld() {\r\n    console.log('Hello, world!');\r\n  }</code></pre>\r\n</wc-code-highlighter>\r\n```",
     "slot": "actions - Extra action buttons, shown in the header or floating at the top end.",
     "csspart": "footer - The footer holding the show more button.",
     "cssprop": "--code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.",
@@ -4636,7 +4669,7 @@
             "text": "boolean"
           },
           "default": "true",
-          "description": "Formats JavaScript, HTML and CSS with Prettier before display.\nSet `format=\"false\"` to show the code as written.",
+          "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
           "fieldName": "format"
         },
         {
@@ -4785,7 +4818,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\ntab, so the block drops its border and header.",
+          "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
           "fieldName": "grouped"
         }
       ],
@@ -4886,6 +4919,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -4924,6 +4958,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -4949,6 +4984,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -5012,6 +5048,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -5020,6 +5057,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -5032,6 +5070,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -5044,6 +5083,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -5056,6 +5096,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -5208,211 +5249,110 @@
     }
   },
   {
-    "label": "Comment",
-    "tag": "wc-comment",
-    "rawTag": "comment",
-    "summary": "One comment in a comment thread, with its author, time, text, actions and replies.",
-    "overview": "<p>A comment shows its <code>author</code> (with a <code>wc-avatar</code> from\n<code>avatar-src</code>, or the author's initials), its time and its text. <code>datetime</code>\n(ISO 8601) shows relative to now in the page's locale, such as \"5 minutes ago\", and keeps itself\ncurrent; the absolute date and time is the tooltip of its <code>&lt;time&gt;</code>. With\n<code>href</code> (the comment's permalink) the time links to it. <code>edited</code> adds an\n\"Edited\" marker.</p>\n<p>The text is <code>body</code>, plain text whose line breaks show. For rich text, put the\ncontent in the comment instead; it replaces <code>body</code>.</p>\n<p>Replies are <code>wc-comment</code> elements with <code>slot=\"replies\"</code> inside their\ncomment, shown indented. There is one level: a reply shows no Reply button and no replies.</p>\n<p>Actions fire events and change nothing; the app owns the data. The actions menu (the\n<code>more_vert</code> button) lists Edit with <code>editable</code>, Delete with\n<code>deletable</code> and, with <code>href</code>, Copy link, which also copies the absolute\nlink to the clipboard. Without any of them there is no menu. Reply (on comments, not replies)\nfires a cancelable <code>reply</code> and opens a reply composer under the replies; Ctrl+Enter\n(Cmd+Enter) or Send fires <code>submit</code> with <code>detail.parentId</code> set to this\ncomment's <code>comment-id</code>, and Escape or Cancel closes it. Cancel <code>submit</code> to\nkeep the composer open with the text.</p>\n<p>Each comment is an <code>article</code> named \"Comment by <i>author</i>, <i>time</i>\" (a\nreply \"Reply by ...\"), so a screen reader can move between them.</p>",
-    "slot": "replies - The replies: `wc-comment` elements.",
-    "fires": "submit - Cancelable. The person sent a reply.",
-    "example": "```html\n<wc-comment comment-id=\"1\" author=\"Ada Lovelace\" datetime=\"2026-11-07T09:30:00Z\" body=\"Looks good to me.\"></wc-comment>\n```",
-    "tags": "collaboration",
+    "label": "Comment Composer",
+    "tag": "wc-comment-composer",
+    "rawTag": "comment-composer",
+    "summary": "A box for writing a comment in rich text, with mentions, that sends it with a button or Ctrl+Enter.",
+    "overview": "<p>The composer is where people write a comment or a work note, such as at the bottom of a ticket's\ndiscussion. It starts as a one-line box; focusing it opens the editor and a footer with the\nformatting tools and <strong>Send</strong>. Comments are Markdown: bold, italic, strikethrough,\ncode, links, lists, checklists, quotes and code blocks, but no headings or tables.</p>\n\n<p><strong>Send</strong> or Ctrl+Enter (Cmd+Enter on a Mac) fires a cancelable\n<code>submit</code> with the Markdown in <code>detail.value</code> and the people it mentions in\n<code>detail.mentions</code>. Unless the event is cancelled the composer empties; cancel it to keep\nthe text, for example while a request fails. Set <code>loading</code> while the comment is being\nsaved. <code>dismissible</code> adds a <strong>Cancel</strong> button, and Escape, that empty the\ncomposer and fire <code>cancel</code>; use it for reply and edit composers.</p>\n\n<p>Mentions work as on <code>wc-markdown-editor</code>: answer <code>search</code> by setting\n<code>suggestions</code>. Inside <code>wc-discussion</code>, set the suggestions on the discussion\ninstead and it passes them to whichever composer asked.</p>\n\n<p>Put controls of your own in the footer with the <code>start</code> slot, such as a select for\n<em>Comment</em> or <em>Work note</em>, or an attach button, and an avatar before the box with\nthe <code>avatar</code> slot. The composer is form-associated, so it also works as the\n\"Additional comments\" field of a form.</p>",
+    "slot": "start - Controls in the footer after the formatting tools, such as a visibility select or an attach button.",
+    "cssprop": "--mention-list-width - Width of the mention suggestion list.",
+    "fires": "mention - Dispatched when a suggestion is inserted as a mention.",
+    "example": "```html\n<wc-comment-composer placeholder=\"Add a comment\"></wc-comment-composer>\n```",
+    "tags": "input editor collaboration",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the box.",
+          "name": "--comment-composer-background"
+        },
+        {
+          "description": "Background of mention chips.",
+          "name": "--prose-mention-background"
+        },
+        {
+          "description": "Text color of mention chips.",
+          "name": "--prose-mention-color"
+        },
+        {
+          "description": "Width of the mention suggestion list.",
+          "name": "--mention-list-width"
+        }
+      ],
       "slots": [
         {
-          "description": "Rich text body; replaces `body`.",
-          "name": ""
+          "description": "Shown before the box, such as the current person's `wc-avatar`.",
+          "name": "avatar"
         },
         {
-          "description": "The replies: `wc-comment` elements.",
-          "name": "replies"
-        }
-      ],
-      "events": [
-        {
-          "name": "type",
-          "type": {
-            "text": "CustomEvent"
-          }
-        },
-        {
-          "type": {
-            "text": "CustomEvent<{commentId: string}>"
-          },
-          "description": "The person chose Edit.",
-          "name": "edit"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<{commentId: string}>"
-          },
-          "description": "The person chose Delete.",
-          "name": "delete"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<{commentId: string, href: string}>"
-          },
-          "description": "The person chose Copy link; the link is on the clipboard.",
-          "name": "copy-link"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<{commentId: string}>"
-          },
-          "description": "Cancelable. The person pressed Reply; cancel it to show your own reply composer.",
-          "name": "reply"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<{body: string, parentId: string}>"
-          },
-          "description": "Cancelable. The person sent a reply.",
-          "name": "submit"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "comment-id",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The app's id of the comment, sent back in every event.",
-          "fieldName": "commentId"
-        },
-        {
-          "name": "author",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Name of the person who wrote it.",
-          "fieldName": "author"
-        },
-        {
-          "name": "avatar-src",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "URL of the author's picture; without one the avatar shows initials.",
-          "fieldName": "avatarSrc"
-        },
-        {
-          "name": "datetime",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "When it was written, as an ISO 8601 date-time.",
-          "fieldName": "datetime"
-        },
-        {
-          "name": "body",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The text, as plain text; line breaks show. Slotted content replaces it.",
-          "fieldName": "body"
-        },
-        {
-          "name": "edited",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Shows the \"Edited\" marker.",
-          "fieldName": "edited"
-        },
-        {
-          "name": "editable",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Offers Edit in the actions menu.",
-          "fieldName": "editable"
-        },
-        {
-          "name": "deletable",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Offers Delete in the actions menu.",
-          "fieldName": "deletable"
-        },
-        {
-          "name": "href",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The comment's permalink: the time links to it, and the menu offers Copy link.",
-          "fieldName": "href"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-comment",
-      "customElement": true,
-      "rawTag": {
-        "name": "comment",
-        "description": ""
-      }
-    }
-  },
-  {
-    "label": "Comment Thread",
-    "tag": "wc-comment-thread",
-    "rawTag": "comment-thread",
-    "summary": "A discussion thread for a record: comments, one level of replies and a composer.",
-    "overview": "<p>A comment thread holds <code>wc-comment</code> elements, oldest first, and a composer under\nthem. The app owns the comments: it renders one <code>wc-comment</code> per comment (replies\nwith <code>slot=\"replies\"</code> inside their comment) and changes them in answer to the\nevents. Every event bubbles, so one listener on the thread hears them all.</p>\n<p>The composer is a <code>wc-textarea</code> with a Send button. Ctrl+Enter (Cmd+Enter on a\nMac) or Send fires a cancelable <code>submit</code> with the trimmed text in\n<code>detail.body</code> and <code>detail.parentId</code> <code>null</code> (replies, sent from a\ncomment's reply composer, carry the comment's id). Unless the event is cancelled the composer\nempties, and the app adds the comment; cancel it to keep the text, for example when the app\ncannot take it now. Send is disabled while the text is blank or the thread is\n<code>loading</code>. Put your own control in the <code>composer</code> slot to replace the\ntextarea (a mention input, say): it needs a <code>value</code> property and must fire\n<code>input</code>, and the thread empties it after a send. <code>readonly</code> hides the\ncomposer and the Reply buttons.</p>\n<p><code>loading</code> shows placeholder rows while the comments load. Without comments the\nthread says \"No comments yet\" (replace it with the <code>empty</code> slot).</p>\n<p>Accessibility: the comments sit in a <code>role=\"feed\"</code> named by <code>label</code>\n(\"Comments\" by default), busy while loading. Each comment is an <code>article</code> named\n\"Comment by <i>author</i>, <i>time</i>\". Page Down and Page Up move focus to the next and\nprevious comment, and Ctrl+End to the composer. A comment added after the thread has loaded is\nannounced politely (\"New comment by <i>author</i>\").</p>",
-    "slot": "empty - Replaces the \"No comments yet\" message.",
-    "fires": "submit - Cancelable. The person sent a comment (`parentId` null) or a reply.",
-    "example": "```html\n<wc-comment-thread>\n  <wc-comment comment-id=\"1\" author=\"Ada Lovelace\" datetime=\"2026-11-07T09:30:00Z\" body=\"Can we ship this on Friday?\">\n    <wc-comment slot=\"replies\" comment-id=\"2\" author=\"Grace Hopper\" datetime=\"2026-11-07T10:02:00Z\" body=\"Yes, the tests pass.\"></wc-comment>\n  </wc-comment>\n</wc-comment-thread>\n```",
-    "tags": "collaboration",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "slots": [
-        {
-          "description": "The comments: `wc-comment` elements.",
-          "name": ""
-        },
-        {
-          "description": "Replaces the composer's textarea; needs a `value` and must fire `input`.",
-          "name": "composer"
-        },
-        {
-          "description": "Replaces the \"No comments yet\" message.",
-          "name": "empty"
+          "description": "Controls in the footer after the formatting tools, such as a visibility select or an attach button.",
+          "name": "start"
         }
       ],
       "events": [
         {
           "name": "submit",
           "type": {
-            "text": "CustomEvent<{body: string, parentId: string | null}>"
+            "text": "CustomEvent<{value: string, mentions: {id: string, label: string, trigger: string}[]}>"
           },
-          "description": "Cancelable. The person sent a comment (`parentId` null) or a reply."
+          "description": "Cancelable. The person sent the comment."
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "The person pressed Cancel or Escape in a `dismissible` composer.",
+          "name": "cancel"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched as the content changes, after `debounce` milliseconds without typing.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched when focus leaves after an edit.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{trigger: string, query: string}>"
+          },
+          "description": "Dispatched as a mention is typed; answer with `suggestions`.",
+          "name": "search"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{mention: {id: string, label: string, trigger: string}, suggestion: MentionSuggestion}>"
+          },
+          "description": "Dispatched when a suggestion is inserted as a mention.",
+          "name": "mention"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         }
       ],
       "attributes": [
         {
-          "name": "label",
+          "name": "submit-label",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "description": "Accessible name of the feed. Defaults to \"Comments\".",
-          "fieldName": "label"
+          "description": "Text of the send button. Defaults to \"Send\".",
+          "fieldName": "submitLabel"
         },
         {
           "name": "loading",
@@ -5420,8 +5360,237 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Shows placeholder rows while the comments load; Send is disabled.",
+          "description": "Shows the comment is being saved: Send shows progress and does nothing.",
           "fieldName": "loading"
+        },
+        {
+          "name": "expanded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps the composer open even when it is empty and not focused.",
+          "fieldName": "expanded"
+        },
+        {
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Adds a Cancel button, and Escape, that empty the composer and fire `cancel`.",
+          "fieldName": "dismissible"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value: Markdown or HTML, depending on the editor.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the editor.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Text shown while the editor is empty. Each editor has its own default.",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "description": "Visual style of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md'"
+          },
+          "default": "'md'",
+          "description": "Size of the text: `sm` or `md`.",
+          "fieldName": "size",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help shown below the editor.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the error state.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The error message shown with `error`.",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "debounce",
+          "type": {
+            "text": "number"
+          },
+          "default": "250",
+          "description": "Milliseconds without typing before `input` fires.",
+          "fieldName": "debounce",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "hide-toolbar",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the fixed toolbar; formatting stays available from the selection bubble, `/` and shortcuts.",
+          "fieldName": "hideToolbar",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "maxlength",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Maximum number of characters of text. Typing stops there, and a count shows below.",
+          "fieldName": "maxlength",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "rows",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Height of the empty editor, in lines.",
+          "fieldName": "rows",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "max-rows",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Lines the editor grows to before it scrolls. Without it, it keeps growing.",
+          "fieldName": "maxRows",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Characters that start a mention, such as `\"@\"` or `\"@#\"`. Empty turns mentions off.",
+          "fieldName": "triggers",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "suggestions-loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a loading row in the mention list while the app looks for suggestions.",
+          "fieldName": "suggestionsLoading",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "name",
+          "description": "The name the value is submitted under in a form.",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
         },
         {
           "name": "readonly",
@@ -5429,18 +5598,48 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Hides the composer and the Reply buttons.",
-          "fieldName": "readonly"
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Requires a value before the form can submit.",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "RichTextInput",
+        "package": "@/__internal/rich-text/rich-text-input.js"
       },
-      "tagName": "wc-comment-thread",
+      "tagName": "wc-comment-composer",
       "customElement": true,
       "rawTag": {
-        "name": "comment-thread",
+        "name": "comment-composer",
         "description": ""
       }
     }
@@ -5973,6 +6172,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6011,6 +6211,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6036,6 +6237,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6099,6 +6301,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6107,6 +6310,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6119,6 +6323,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6131,6 +6336,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6143,6 +6349,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6297,6 +6504,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6335,6 +6543,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6360,6 +6569,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6423,6 +6633,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6431,6 +6642,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6443,6 +6655,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6455,6 +6668,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6467,6 +6681,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6617,6 +6832,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Disables the calendar: no date can be focused or picked.",
           "fieldName": "disabled"
         },
         {
@@ -6625,6 +6841,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the selected date but stops the user changing it.",
           "fieldName": "readonly"
         }
       ],
@@ -6793,6 +7010,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6831,6 +7049,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6856,6 +7075,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -6919,6 +7139,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6927,6 +7148,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6939,6 +7161,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6951,6 +7174,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6963,6 +7187,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7146,6 +7371,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -7184,6 +7410,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -7209,6 +7436,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -7272,6 +7500,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7280,6 +7509,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7292,6 +7522,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7304,6 +7535,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7316,6 +7548,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7592,6 +7825,396 @@
     }
   },
   {
+    "label": "Discussion",
+    "tag": "wc-discussion",
+    "rawTag": "discussion",
+    "summary": "The discussion of a record, such as a ticket: comments with replies, activity entries and a rich-text composer with mentions.",
+    "overview": "<p>A discussion holds <code>wc-discussion-comment</code> and <code>wc-discussion-activity</code>\nelements in the order the app gives them (oldest or newest first), and a\n<code>wc-comment-composer</code> under them. The app owns the data: it renders the entries and\nchanges them in answer to the events, which all bubble, so one listener on the discussion hears\nthem.</p>\n\n<ul>\n<li><code>submit</code> (cancelable) with <code>{ value, mentions, parentId }</code>: a new\ncomment from the composer (<code>parentId</code> null) or a reply. Cancel it to keep the text in\nthe composer.</li>\n<li><code>edit</code> (cancelable), <code>delete</code>, <code>reply</code> and\n<code>copy-link</code>, from the comments.</li>\n<li><code>search</code> with <code>{ trigger, query }</code> from any composer, the main one or a\nreply or edit composer. Answer by setting <code>suggestions</code> (and\n<code>suggestions-loading</code>) on the discussion; it passes them to the composer that\nasked.</li>\n</ul>\n\n<p>Put your own <code>wc-comment-composer</code> in the <code>composer</code> slot to add footer\ncontrols (a <em>Comment</em> / <em>Work note</em> select, an attach button) or an avatar.\n<code>readonly</code> hides the composer, Reply and Edit. <code>triggers</code> and\n<code>mention-href</code> pass down to every comment and composer. <code>loading</code> shows\nplaceholder rows; without entries the discussion says \"No comments yet\" (replace it with the\n<code>empty</code> slot). The <code>header</code> slot sits above the entries, for a title, a\ncount or a sort control.</p>\n\n<p>Accessibility: the entries sit in a <code>role=\"feed\"</code> named by <code>label</code>\n(\"Comments\" by default). Page Down and Page Up move focus between entries and Ctrl+End to the\ncomposer. A comment added after the discussion has loaded is announced politely.</p>",
+    "slot": "empty - Replaces the \"No comments yet\" message.",
+    "fires": "submit - Cancelable. A new comment or a reply.",
+    "example": "```html\n<wc-discussion>\n  <wc-discussion-activity author=\"Ana Lima\" datetime=\"2026-11-07T08:00:00Z\" value=\"opened the ticket\"></wc-discussion-activity>\n  <wc-discussion-comment comment-id=\"1\" author=\"Ravi Kumar\" datetime=\"2026-11-07T09:30:00Z\" value=\"Looking into it.\"></wc-discussion-comment>\n</wc-discussion>\n```",
+    "tags": "collaboration",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "The entries: `wc-discussion-comment` and `wc-discussion-activity` elements.",
+          "name": ""
+        },
+        {
+          "description": "Above the entries, such as a title and a count.",
+          "name": "header"
+        },
+        {
+          "description": "Replaces the built-in composer with your own `wc-comment-composer`.",
+          "name": "composer"
+        },
+        {
+          "description": "Replaces the \"No comments yet\" message.",
+          "name": "empty"
+        }
+      ],
+      "events": [
+        {
+          "name": "submit",
+          "type": {
+            "text": "CustomEvent<{value: string, mentions: object[], parentId: string | null}>"
+          },
+          "description": "Cancelable. A new comment or a reply."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the feed. Defaults to \"Comments\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows placeholder rows while the entries load.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the composer, Reply and Edit.",
+          "fieldName": "readonly"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Placeholder of the built-in composer. Defaults to \"Add a comment\".",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Mention triggers of every composer; empty turns mentions off.",
+          "fieldName": "triggers"
+        },
+        {
+          "name": "mention-href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Address mentions link to, with `{id}`; passed to every entry.",
+          "fieldName": "mentionHref"
+        },
+        {
+          "name": "suggestions-loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the app is still looking for suggestions.",
+          "fieldName": "suggestionsLoading"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-discussion",
+      "customElement": true,
+      "rawTag": {
+        "name": "discussion",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Discussion Activity",
+    "tag": "wc-discussion-activity",
+    "rawTag": "discussion-activity",
+    "summary": "A one-line entry in a discussion for something that happened, such as a changed field or status.",
+    "overview": "<p>An activity entry records a change on the record the discussion belongs to, such as\n\"Ana Lima changed State from New to In progress\", between the comments. It shows an\n<code>icon</code>, the <code>author</code>, the change as inline Markdown in <code>value</code>\nand the time from <code>datetime</code>, relative to now.</p>\n\n<p>Use it inside <code>wc-discussion</code>; Page Up and Page Down move through activity entries\nand comments alike.</p>",
+    "slot": "- Replaces the Markdown text with your own content.",
+    "example": "```html\n<wc-discussion-activity icon=\"swap_horiz\" author=\"Ana Lima\" datetime=\"2026-11-07T09:30:00Z\"\n  value=\"changed **State** from New to In progress\"></wc-discussion-activity>\n```",
+    "tags": "collaboration",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "Replaces the Markdown text with your own content.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "'history'",
+          "description": "Name of a Material Symbols icon for the kind of change.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "author",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Who made the change.",
+          "fieldName": "author"
+        },
+        {
+          "name": "datetime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "When it happened, as ISO 8601.",
+          "fieldName": "datetime"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "What happened, as inline Markdown, after the author's name.",
+          "fieldName": "value"
+        },
+        {
+          "name": "mention-href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Address mentions link to, with `{id}`; see `wc-markdown`. `wc-discussion` sets it.",
+          "fieldName": "mentionHref"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-discussion-activity",
+      "customElement": true,
+      "rawTag": {
+        "name": "discussion-activity",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Discussion Comment",
+    "tag": "wc-discussion-comment",
+    "rawTag": "discussion-comment",
+    "summary": "One comment in a discussion: author, time, Markdown text, actions, replies and inline reply and edit.",
+    "overview": "<p>A comment shows its <code>author</code> (with a <code>wc-avatar</code> from\n<code>avatar-src</code>, or initials), its time and its text. <code>value</code> is Markdown,\nshown with <code>wc-markdown</code>, so mentions show as chips. <code>datetime</code> (ISO 8601)\nshows relative to now and keeps itself current; with <code>href</code> (the comment's permalink)\nthe time links to it. <code>edited</code> adds an \"Edited\" marker, and the <code>badge</code>\nslot holds a tag such as <em>Work note</em>.</p>\n\n<p>Replies are <code>wc-discussion-comment</code> elements with <code>slot=\"replies\"</code>,\none level deep. <strong>Reply</strong> fires a cancelable <code>reply</code> and opens a\n<code>wc-comment-composer</code> under the replies; sending it fires <code>submit</code> with\n<code>detail.parentId</code> set to this comment's <code>comment-id</code>.\n<strong>Edit</strong> (with <code>editable</code>) turns the text into a composer; saving fires a\ncancelable <code>edit</code> with the new Markdown. Cancel either event to keep the composer open,\nfor example while a save fails. <strong>Delete</strong> (with <code>deletable</code>) and\n<strong>Copy link</strong> (with <code>href</code>) fire <code>delete</code> and\n<code>copy-link</code>. The app owns the data: it updates <code>value</code>, adds the reply, or\nremoves the comment.</p>\n\n<p>Use comments inside <code>wc-discussion</code>, which passes down <code>readonly</code>,\n<code>triggers</code> and <code>mention-href</code>, and gives the reply and edit composers their\nmention suggestions.</p>",
+    "slot": "replies - The replies: `wc-discussion-comment` elements.",
+    "fires": "copy-link - The person chose Copy link; the link is on the clipboard.",
+    "example": "```html\n<wc-discussion-comment comment-id=\"1\" author=\"Ana Lima\" datetime=\"2026-11-07T09:30:00Z\"\n  value=\"Restarted the worker. [@Ravi Kumar](mention:usr_7), can you check?\"></wc-discussion-comment>\n```",
+    "tags": "collaboration",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "Replaces the Markdown body with your own content.",
+          "name": ""
+        },
+        {
+          "description": "Shown after the author, such as a `wc-tag` for a work note.",
+          "name": "badge"
+        },
+        {
+          "description": "Shown under the text, such as reactions or attachments.",
+          "name": "footer"
+        },
+        {
+          "description": "The replies: `wc-discussion-comment` elements.",
+          "name": "replies"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string}>"
+          },
+          "description": "Cancelable. The person pressed Reply; cancel it to use your own composer.",
+          "name": "reply"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, mentions: object[], parentId: string}>"
+          },
+          "description": "Cancelable. The person sent a reply.",
+          "name": "submit"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string, value: string, mentions: object[]}>"
+          },
+          "description": "Cancelable. The person saved an edit.",
+          "name": "edit"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string}>"
+          },
+          "description": "The person chose Delete.",
+          "name": "delete"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string, href: string}>"
+          },
+          "description": "The person chose Copy link; the link is on the clipboard.",
+          "name": "copy-link"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "comment-id",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The app's id of the comment, sent back in every event.",
+          "fieldName": "commentId"
+        },
+        {
+          "name": "author",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Name of the author.",
+          "fieldName": "author"
+        },
+        {
+          "name": "avatar-src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Image URL of the author's avatar; without it the avatar shows initials.",
+          "fieldName": "avatarSrc"
+        },
+        {
+          "name": "datetime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "When the comment was written, as ISO 8601.",
+          "fieldName": "datetime"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The comment, as Markdown.",
+          "fieldName": "value"
+        },
+        {
+          "name": "edited",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows an \"Edited\" marker.",
+          "fieldName": "edited"
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Offers Edit.",
+          "fieldName": "editable"
+        },
+        {
+          "name": "deletable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Offers Delete.",
+          "fieldName": "deletable"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The comment's permalink; links the time and offers Copy link.",
+          "fieldName": "href"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides Reply and Edit. `wc-discussion` sets it from its own `readonly`.",
+          "fieldName": "readonly"
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Mention triggers of the reply and edit composers. `wc-discussion` sets it.",
+          "fieldName": "triggers"
+        },
+        {
+          "name": "mention-href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Address mentions link to, with `{id}`; see `wc-markdown`. `wc-discussion` sets it.",
+          "fieldName": "mentionHref"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-discussion-comment",
+      "customElement": true,
+      "rawTag": {
+        "name": "discussion-comment",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Divider",
     "tag": "wc-divider",
     "rawTag": "divider",
@@ -7640,6 +8263,221 @@
       "customElement": true,
       "rawTag": {
         "name": "divider",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Document Editor",
+    "tag": "wc-document-editor",
+    "rawTag": "document-editor",
+    "summary": "A word-processor style editor with pages, a header and footer, page numbers, tables, images and an outline.",
+    "overview": "<p>Use it for long, structured documents that are read as pages: policies, contracts, reports,\nspecifications. The text flows over pages of the chosen size, A4, Letter or Legal, portrait or\nlandscape, with normal, narrow or wide margins. Paragraphs continue on the next page at the line\nthat does not fit; tables break between rows; images move whole. Ctrl/Cmd+Enter inserts a page\nbreak.</p>\n\n<p>Double-click the top or bottom margin of a page to edit the <strong>header</strong> or\n<strong>footer</strong>, which repeat on every page; the toolbar then inserts the page number\nor page count. The <strong>outline</strong> lists the headings for navigation\n(<code>outline-open</code>), and the status bar shows the page setup, word count and the\ncurrent page. <code>print()</code> prints the pages as they look, always at 100%.</p>\n\n<p><strong>Zoom.</strong> By default (<code>zoom=\"fit\"</code>) a page wider than the editor is\nscaled down to fit its width, so narrow containers, tablets and phones show whole pages instead\nof scrolling sideways; it is never enlarged past 100%. Set <code>zoom</code> to a percentage, or\npick one in the status bar, to show the pages at a fixed size; the editor fires\n<code>zoom-change</code> when the person changes it. Zooming only changes how the pages are\nshown: the text flows over the same pages at every zoom.</p>\n\n<p>The value is a <code>DocumentValue</code>: the page setup and the body, header and footer as\nTiptap JSON, so alignment, colors and page setup are kept. <code>getMarkdown()</code> and\n<code>getHTML()</code> export the body. The editor fires <code>input</code> with\n<code>{ value }</code> as the document changes (after <code>debounce</code> milliseconds) and\n<code>change</code> when focus leaves after an edit.</p>\n\n<p><strong>Images.</strong> Inserting an image (toolbar, paste or drop) fires\n<code>image-upload</code> with the <code>file</code> and a <code>respond(src, alt?)</code>\nfunction. Store the file and call <code>respond</code> with its address; Peacock never uploads\nanything itself, and does not embed files in the value.</p>\n\n<p><strong>Mentions</strong> work as on <code>wc-markdown-editor</code>: answer\n<code>search</code> by setting <code>suggestions</code>.</p>\n\n<p><strong>Comments.</strong> <em>Comment</em> (toolbar or selection bubble) highlights the\nselected text and fires a cancelable <code>comment-add</code> with a new <code>threadId</code>\nand the <code>quote</code>. The app owns the threads: it puts an element per thread in the\n<code>comments</code> slot with a <code>thread-id</code> attribute, usually a\n<code>wc-discussion</code>, and the editor lines each one up beside its text in a column next\nto the pages. The thread under the caret gets <code>data-active</code> and fires\n<code>comment-select</code>; focusing a thread highlights its text. <code>removeComment()</code>\nclears a resolved thread's highlight, <code>focusComment()</code> goes to it, and\n<code>comments</code> lists them. The highlights are part of the document, so they are shared\nwhen collaborating.</p>\n\n<p><strong>Collaboration.</strong> Set <code>collaboration</code> to\n<code>{ document, provider, user }</code>: a <code>Y.Doc</code>, its provider (any Yjs provider;\nits <code>awareness</code> carries carets and presence) and the person editing here. Everyone's\nedits, the header, footer and page setup merge live; other people's carets show with their\nnames, and their avatars appear in the toolbar (<code>presence-change</code> lists them). Edits\nfrom others update <code>value</code> without firing <code>input</code>. The first person into an\nempty shared document brings this editor's <code>value</code>. Collaboration needs the\n<code>yjs</code> package, which loads only when it is used.</p>",
+    "slot": "comments - Comment threads, one element per thread with a `thread-id`, such as `wc-discussion`.",
+    "cssprop": "--document-editor-comment-active - Background of the active thread's text.",
+    "fires": "zoom-change - The person picked a zoom in the status bar.",
+    "example": "```html\n<wc-document-editor label=\"Policy\" outline-open></wc-document-editor>\n```",
+    "tags": "editor",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background behind the pages.",
+          "name": "--document-editor-canvas"
+        },
+        {
+          "description": "Background of a page.",
+          "name": "--document-editor-page"
+        },
+        {
+          "description": "Height of the editor; the pages scroll inside. Defaults to 40rem.",
+          "name": "--document-editor-height"
+        },
+        {
+          "description": "Width of the comments column. Defaults to 20rem.",
+          "name": "--document-editor-comments-width"
+        },
+        {
+          "description": "Background of commented text.",
+          "name": "--document-editor-comment"
+        },
+        {
+          "description": "Background of the active thread's text.",
+          "name": "--document-editor-comment-active"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Comment threads, one element per thread with a `thread-id`, such as `wc-discussion`.",
+          "name": "comments"
+        }
+      ],
+      "events": [
+        {
+          "name": "presence-change",
+          "type": {
+            "text": "CustomEvent<{users: DocumentPresence[]}>"
+          },
+          "description": "The people in a shared document changed."
+        },
+        {
+          "name": "comment-select",
+          "type": {
+            "text": "CustomEvent<{threadId: string}>"
+          },
+          "description": "The caret moved into a thread's text."
+        },
+        {
+          "name": "image-upload",
+          "type": {
+            "text": "CustomEvent<{file: File, respond: (src: string, alt?: string) => void}>"
+          },
+          "description": "Dispatched when an image is added; call `respond` with its stored address."
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: DocumentValue}>"
+          },
+          "description": "Dispatched as the document changes, after `debounce` milliseconds.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: DocumentValue}>"
+          },
+          "description": "Dispatched when focus leaves the editor after an edit.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{trigger: string, query: string}>"
+          },
+          "description": "Dispatched as a mention is typed; answer with `suggestions`.",
+          "name": "search"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{mention: {id: string, label: string, trigger: string}, suggestion: MentionSuggestion}>"
+          },
+          "description": "Dispatched when a suggestion is inserted as a mention.",
+          "name": "mention"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{threadId: string, quote: string}>"
+          },
+          "description": "Cancelable. Text was commented; add a thread element with this `thread-id`.",
+          "name": "comment-add"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{zoom: DocumentZoom}>"
+          },
+          "description": "The person picked a zoom in the status bar.",
+          "name": "zoom-change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the document. Defaults to \"Document\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Text shown while the document is empty.",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the document without editing; the formatting tools are hidden.",
+          "fieldName": "readonly"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the document dimmed and without editing.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "outline-open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the outline panel.",
+          "fieldName": "outlineOpen"
+        },
+        {
+          "name": "debounce",
+          "type": {
+            "text": "number"
+          },
+          "default": "400",
+          "description": "Milliseconds without typing before `input` fires.",
+          "fieldName": "debounce"
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Characters that start a mention, such as `\"@\"`. Empty turns mentions off.",
+          "fieldName": "triggers"
+        },
+        {
+          "name": "suggestions-loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a loading row in the mention list while the app looks for suggestions.",
+          "fieldName": "suggestionsLoading"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "DocumentZoom"
+          },
+          "default": "'fit'",
+          "description": "How large the pages are shown: `\"fit\"` (the default) scales a page wider than the editor down\nto its width, never above 100%; a number is a percentage, such as `75`. Printing is always at\n100%.",
+          "fieldName": "zoom",
+          "expandedType": {
+            "text": "'fit' | "
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-document-editor",
+      "customElement": true,
+      "rawTag": {
+        "name": "document-editor",
         "description": ""
       }
     }
@@ -7864,8 +8702,8 @@
             "text": "string"
           },
           "default": "'surface'",
-          "fieldName": "color",
           "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
+          "fieldName": "color",
           "expandedType": {
             "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
           },
@@ -7880,8 +8718,8 @@
             "text": "string"
           },
           "default": "'tonal'",
-          "fieldName": "variant",
           "description": "The style variant of the FAB.\n`\"tonal\"` uses container colors.\n`\"filled\"` uses solid role colors.",
+          "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -7942,12 +8780,12 @@
         },
         {
           "name": "disabled",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "fieldName": "disabled",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
             "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
@@ -7996,6 +8834,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -8008,6 +8847,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -8020,6 +8860,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -8032,6 +8873,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -8044,6 +8886,7 @@
             "text": "string"
           },
           "default": "'submit'",
+          "description": "What activating the element does in a form: `\"submit\"` (default) submits it, `\"reset\"`\nresets it and `\"button\"` does nothing.",
           "fieldName": "type",
           "inheritedFrom": {
             "name": "mixinFormSubmitter",
@@ -8056,6 +8899,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The value sent with the form, paired with `name`, when this element submits it.",
           "fieldName": "value",
           "inheritedFrom": {
             "name": "mixinFormSubmitter",
@@ -8064,6 +8908,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
@@ -8832,43 +9677,46 @@
     "label": "HTML Editor",
     "tag": "wc-html-editor",
     "rawTag": "html-editor",
-    "summary": "A rich text editor for HTML, with formatting actions and a switch to edit the HTML source.",
-    "overview": "<p>The editor is built on Tiptap. It wraps the editable area in a styled <code>wc-field</code>,\nexposes common formatting actions, and includes a segmented switch between\n<strong>Visual</strong> and <strong>HTML</strong> source modes.</p>\n\n<p>Get and set the HTML content via the <code>value</code> property; an empty editor has the\nvalue <code>''</code>. The component fires <code>input</code> with <code>{ value }</code> as the\ncontent changes (after <code>debounce</code> milliseconds without typing) and\n<code>change</code> with <code>{ value }</code> when focus leaves the editor after an edit.\nWith <code>required</code>, an empty editor blocks form submission.</p>\n\n<p>Mention suggestions come from the <code>mentions</code> property. With\n<code>mentions-search=\"managed\"</code> the editor fires <code>mention-search</code> with the\ntyped <code>query</code>; set <code>mentions</code> in response, at once or after a request.</p>\n\n<p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on\n<code>wc-code-editor</code>.</p>",
-    "cssprop": "--html-editor-toolbar-border-color - Border color between toolbar and editing area.",
-    "fires": "mention-search - Dispatched in managed mention mode as the user types after the suggestion character. Set `mentions` in response. *",
-    "example": "```html\n<wc-html-editor\n  label=\"Description\"\n  value=\"<p>Hello <strong>world</strong></p>\"\n  .mentions=\"[{ label: 'Alex', value: 'alex' }]\"\n></wc-html-editor>\n```",
+    "summary": "A rich-text field whose value is HTML, with the same toolbar and mentions as the Markdown editor.",
+    "overview": "<p>Use it where the value has to be HTML, such as an email body or a CMS field. It works like\n<code>wc-markdown-editor</code>: a toolbar, a selection bubble, a slash menu, a block handle,\nmentions and a <strong>View source</strong> button that shows the HTML in\n<code>wc-code-editor</code>. HTML can store underline and resizable table columns, which\nMarkdown cannot, so the HTML editor offers them.</p>\n\n<p>Get and set the HTML through <code>value</code>; an empty editor has the value\n<code>''</code>. Only what the editor supports is kept: other tags, attributes and scripts in a\nvalue are dropped when it loads.</p>\n\n<p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by\ndefault) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting\n<code>suggestions</code>. A mention is stored as\n<code>&lt;span data-type=\"mention\" data-id=\"usr_142\" data-label=\"Ana Lima\"&gt;@Ana Lima&lt;/span&gt;</code>.</p>\n\n<p>The editor is form-associated, fires <code>input</code> and <code>change</code> with\n<code>{ value }</code>, and supports <code>required</code>, <code>maxlength</code>,\n<code>rows</code> and <code>max-rows</code>, as the Markdown editor does.</p>",
+    "cssprop": "--mention-list-max-height - Maximum height of the mention suggestion list.",
+    "fires": "mention - Dispatched when a suggestion is inserted as a mention.",
+    "example": "```html\n<wc-html-editor\n  label=\"Email body\"\n  value=\"<p>Hello <strong>world</strong></p>\"\n></wc-html-editor>\n```",
     "tags": "input editor",
     "customElement": {
       "kind": "class",
       "description": "",
       "cssProperties": [
         {
-          "description": "Minimum height of the editable area. Defaults to 8rem.",
-          "name": "--html-editor-min-height"
+          "description": "Background behind the text.",
+          "name": "--rich-text-editor-background"
         },
         {
-          "description": "Background color of the toolbar.",
-          "name": "--html-editor-toolbar-background"
+          "description": "Color of links.",
+          "name": "--prose-link-color"
         },
         {
-          "description": "Border color between toolbar and editing area.",
-          "name": "--html-editor-toolbar-border-color"
+          "description": "Background of mention chips.",
+          "name": "--prose-mention-background"
+        },
+        {
+          "description": "Text color of mention chips.",
+          "name": "--prose-mention-color"
+        },
+        {
+          "description": "Background of inline code and code blocks.",
+          "name": "--prose-code-background"
+        },
+        {
+          "description": "Width of the mention suggestion list.",
+          "name": "--mention-list-width"
+        },
+        {
+          "description": "Maximum height of the mention suggestion list.",
+          "name": "--mention-list-max-height"
         }
       ],
       "events": [
-        {
-          "name": "type",
-          "type": {
-            "text": "CustomEvent"
-          }
-        },
-        {
-          "name": "mention-search",
-          "type": {
-            "text": "CustomEvent<{query: string}>"
-          },
-          "description": "Dispatched in managed mention mode as the user types after the suggestion character. Set `mentions` in response. *"
-        },
         {
           "type": {
             "text": "CustomEvent<{value: string}>"
@@ -8882,8 +9730,42 @@
           },
           "description": "Dispatched when focus leaves the editor after an edit.",
           "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{trigger: string, query: string}>"
+          },
+          "description": "Dispatched as a mention is typed; answer with `suggestions`.",
+          "name": "search"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{mention: {id: string, label: string, trigger: string}, suggestion: MentionSuggestion}>"
+          },
+          "description": "Dispatched when a suggestion is inserted as a mention.",
+          "name": "mention"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         }
       ],
+      "superclass": {
+        "name": "RichTextInput",
+        "package": "@/__internal/rich-text/rich-text-input.js"
+      },
+      "tagName": "wc-html-editor",
+      "customElement": true,
+      "rawTag": {
+        "name": "html-editor",
+        "description": ""
+      },
       "attributes": [
         {
           "name": "value",
@@ -8891,8 +9773,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Current HTML value of the editor; `''` while it is empty.",
-          "fieldName": "value"
+          "description": "The value: Markdown or HTML, depending on the editor.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "label",
@@ -8900,8 +9786,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Label displayed above the editor.",
-          "fieldName": "label"
+          "description": "Label shown above the editor.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "placeholder",
@@ -8909,8 +9799,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Placeholder text shown when the editor is empty. Defaults to Peacock's `enterTextPlaceholder` string.",
-          "fieldName": "placeholder"
+          "description": "Text shown while the editor is empty. Each editor has its own default.",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "variant",
@@ -8918,8 +9812,12 @@
             "text": "'filled' | 'outlined' | 'default'"
           },
           "default": "'default'",
-          "description": "Visual style of the wrapping field.",
-          "fieldName": "variant"
+          "description": "Visual style of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "size",
@@ -8928,7 +9826,11 @@
           },
           "default": "'md'",
           "description": "Size of the text: `sm` or `md`.",
-          "fieldName": "size"
+          "fieldName": "size",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "helper-text",
@@ -8936,8 +9838,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Helper text displayed below the editor.",
-          "fieldName": "helperText"
+          "description": "Help shown below the editor.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "error",
@@ -8945,8 +9851,12 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether to show an error state.",
-          "fieldName": "error"
+          "description": "Shows the error state.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "error-text",
@@ -8954,53 +9864,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Error message text.",
-          "fieldName": "errorText"
-        },
-        {
-          "name": "hide-toolbar",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Hides the formatting toolbar of the visual mode.",
-          "fieldName": "hideToolbar"
-        },
-        {
-          "name": "mentions",
-          "type": {
-            "text": "HtmlEditorMention[]"
-          },
-          "default": "[]",
-          "description": "Mention suggestions used by the mention extension.",
-          "fieldName": "mentions"
-        },
-        {
-          "name": "mentions-search",
-          "type": {
-            "text": "'contains' | 'managed'"
-          },
-          "default": "'contains'",
-          "description": "Mention filtering mode: `contains` filters `mentions`; `managed` fires `mention-search`.",
-          "fieldName": "mentionsSearch"
-        },
-        {
-          "name": "suggestion-character",
-          "type": {
-            "text": "string"
-          },
-          "default": "'@'",
-          "description": "Character that triggers mention suggestions.",
-          "fieldName": "suggestionCharacter"
-        },
-        {
-          "name": "hide-suggestion-character",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Leaves the suggestion character out of rendered mention text.",
-          "fieldName": "hideSuggestionCharacter"
+          "description": "The error message shown with `error`.",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "debounce",
@@ -9008,11 +9877,92 @@
             "text": "number"
           },
           "default": "250",
-          "description": "Debounce in milliseconds for dispatching `input`.",
-          "fieldName": "debounce"
+          "description": "Milliseconds without typing before `input` fires.",
+          "fieldName": "debounce",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "hide-toolbar",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the fixed toolbar; formatting stays available from the selection bubble, `/` and shortcuts.",
+          "fieldName": "hideToolbar",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "maxlength",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Maximum number of characters of text. Typing stops there, and a count shows below.",
+          "fieldName": "maxlength",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "rows",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Height of the empty editor, in lines.",
+          "fieldName": "rows",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "max-rows",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Lines the editor grows to before it scrolls. Without it, it keeps growing.",
+          "fieldName": "maxRows",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Characters that start a mention, such as `\"@\"` or `\"@#\"`. Empty turns mentions off.",
+          "fieldName": "triggers",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "suggestions-loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a loading row in the mention list while the app looks for suggestions.",
+          "fieldName": "suggestionsLoading",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -9021,6 +9971,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -9033,6 +9984,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -9045,6 +9997,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -9057,23 +10010,14 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
             "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
-      ],
-      "superclass": {
-        "name": "BaseInput",
-        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
-      },
-      "tagName": "wc-html-editor",
-      "customElement": true,
-      "rawTag": {
-        "name": "html-editor",
-        "description": ""
-      }
+      ]
     }
   },
   {
@@ -9341,8 +10285,8 @@
             "text": "string"
           },
           "default": "''",
-          "fieldName": "variant",
           "description": "The visual style of the button: `\"filled\"`, `\"tonal\"`, `\"outlined\"`, `\"text\"`,\n`\"elevated\"` or `\"neo\"`. Unset, it comes from `level`, else `\"filled\"`.",
+          "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -9354,8 +10298,8 @@
             "text": "string"
           },
           "default": "''",
-          "fieldName": "color",
           "description": "The color role of the button. Unset, it comes from `level`, else `\"primary\"`.",
+          "fieldName": "color",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -9363,12 +10307,12 @@
         },
         {
           "name": "disabled",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "fieldName": "disabled",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
             "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
@@ -9417,6 +10361,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -9429,6 +10374,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -9441,6 +10387,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -9453,6 +10400,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -9465,6 +10413,7 @@
             "text": "string"
           },
           "default": "'submit'",
+          "description": "What activating the element does in a form: `\"submit\"` (default) submits it, `\"reset\"`\nresets it and `\"button\"` does nothing.",
           "fieldName": "type",
           "inheritedFrom": {
             "name": "mixinFormSubmitter",
@@ -9477,6 +10426,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The value sent with the form, paired with `name`, when this element submits it.",
           "fieldName": "value",
           "inheritedFrom": {
             "name": "mixinFormSubmitter",
@@ -9485,6 +10435,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
@@ -9975,6 +10926,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -10013,6 +10965,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -10038,6 +10991,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -10101,6 +11055,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10109,6 +11064,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10121,6 +11077,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10133,6 +11090,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10145,6 +11103,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10428,6 +11387,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows ongoing activity with no known completion, ignoring `value`.",
           "fieldName": "indeterminate",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -10439,7 +11399,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "A visible label describing the progress, which also names the progress bar\r\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
+          "description": "A visible label describing the progress, which also names the progress bar\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -10451,6 +11411,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "Help text shown below the progress indicator.",
           "fieldName": "helperText",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -10463,6 +11424,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Lays out the label and the indicator on one line instead of stacking them.",
           "fieldName": "inline",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -10680,8 +11642,8 @@
             "text": "string"
           },
           "default": "''",
-          "fieldName": "variant",
           "description": "The visual style of the button: `\"filled\"`, `\"tonal\"`, `\"outlined\"`, `\"text\"`,\n`\"elevated\"` or `\"neo\"`. Unset, it comes from `level`, else `\"filled\"`.",
+          "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -10693,8 +11655,8 @@
             "text": "string"
           },
           "default": "''",
-          "fieldName": "color",
           "description": "The color role of the button. Unset, it comes from `level`, else `\"primary\"`.",
+          "fieldName": "color",
           "inheritedFrom": {
             "name": "mixinBaseButton",
             "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
@@ -10756,6 +11718,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -10768,6 +11731,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -10780,6 +11744,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -10792,6 +11757,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -10925,6 +11891,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10933,6 +11900,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10945,6 +11913,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10957,6 +11926,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -10969,6 +11939,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11205,6 +12176,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The visual style of the button, such as `\"filled\"`, `\"tonal\"`, `\"outlined\"` or `\"text\"`.",
           "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -11217,6 +12189,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The color role of the button, such as `\"primary\"`, `\"surface\"` or `\"danger\"`.",
           "fieldName": "color",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -11279,6 +12252,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -11291,6 +12265,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -11303,6 +12278,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -11315,6 +12291,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -11353,39 +12330,129 @@
     }
   },
   {
+    "label": "Markdown",
+    "tag": "wc-markdown",
+    "rawTag": "markdown",
+    "summary": "Shows Markdown as formatted text, the read view of the Markdown editor and comments.",
+    "overview": "<p>Give the Markdown as <code>value</code>. It reads GitHub-flavoured Markdown (tables, task\nlists, strikethrough, autolinks) and mentions written as <code>[@Ana Lima](mention:usr_142)</code>,\nthe form <code>wc-markdown-editor</code> and <code>wc-comment-composer</code> store, so a saved\ndescription looks the same as it did in the editor.</p>\n\n<p>It is safe for text people typed: raw HTML is shown as text, and only http(s),\n<code>mailto:</code>, <code>tel:</code> and relative links are followed; other links show their\ntext only. Links open in a new tab, apart from links to <code>#</code> anchors.</p>\n\n<p>Mentions show as chips. With <code>mention-href</code> they are links: <code>{id}</code> in it\nis replaced by the mention's id, for example <code>mention-href=\"/users/{id}\"</code>.</p>\n\n<p><code>inline</code> shows the Markdown as a run of text without block spacing, for a\none-line summary or an activity entry.</p>",
+    "cssprop": "--prose-code-background - Background of inline code and code blocks.",
+    "example": "```html\n<wc-markdown value=\"**Done.** Thanks [@Ana Lima](mention:usr_142).\"></wc-markdown>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of links.",
+          "name": "--prose-link-color"
+        },
+        {
+          "description": "Background of mention chips.",
+          "name": "--prose-mention-background"
+        },
+        {
+          "description": "Text color of mention chips.",
+          "name": "--prose-mention-color"
+        },
+        {
+          "description": "Background of inline code and code blocks.",
+          "name": "--prose-code-background"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The Markdown to show.",
+          "fieldName": "value"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the Markdown as one run of inline text, without block spacing.",
+          "fieldName": "inline"
+        },
+        {
+          "name": "mention-href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Address mentions link to; `{id}` is replaced by the mention's id. Without it, mentions are not links.",
+          "fieldName": "mentionHref"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md'"
+          },
+          "default": "'md'",
+          "description": "Size of the text: `sm` or `md`, as on the editors.",
+          "fieldName": "size"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-markdown",
+      "customElement": true,
+      "rawTag": {
+        "name": "markdown",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Markdown Editor",
     "tag": "wc-markdown-editor",
     "rawTag": "markdown-editor",
-    "summary": "A block-based Markdown editor with a slash menu and a formatting toolbar, and a switch between rendered and raw Markdown.",
-    "overview": "<p>The editor is built on Tiptap. Type <code>/</code> to open a slash menu for inserting\nheadings, lists, quotes, code blocks, and dividers. Select text to reveal\na floating bubble toolbar with inline formatting actions.</p>\n\n<p>The canonical <code>value</code> is Markdown. Use the bottom segmented\nswitch to toggle between the rendered editor and the raw markdown source.\nThe component fires <code>input</code> with <code>{ value }</code> as the content changes\n(after <code>debounce</code> milliseconds without typing) and <code>change</code> with\n<code>{ value }</code> when focus leaves the editor after an edit. With\n<code>required</code>, an empty editor blocks form submission.</p>\n\n<p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on\n<code>wc-code-editor</code>.</p>",
-    "cssprop": "--markdown-editor-slash-background - Background color of the slash command menu.",
-    "fires": "change - Dispatched when focus leaves the editor after an edit.",
-    "example": "```html\n<wc-markdown-editor\n  label=\"Notes\"\n  value=\"# Hello\\n\\nType a slash on a new line to insert blocks.\"\n></wc-markdown-editor>\n```",
+    "summary": "A rich-text field whose value is Markdown: people format text as they type, and can view the Markdown source.",
+    "overview": "<p>Use it where a form needs more than a textarea, such as a description, notes or a release\nnote. People edit formatted text directly; the value is Markdown, so it stores as plain text and\nshows the same way in <code>wc-markdown</code>.</p>\n\n<ul>\n<li><strong>Toolbar.</strong> Text style, bold, italic, strikethrough, inline code, link, lists,\nchecklist, quote, code block, table, divider and mention. While the caret is in a table, a\n<em>Table</em> menu adds and removes rows and columns. <code>hide-toolbar</code> hides it.</li>\n<li><strong>Selection bubble.</strong> Selecting text shows the inline formats and link.</li>\n<li><strong>Slash menu.</strong> Typing <code>/</code> inserts a block; Markdown shortcuts such\nas <code>## </code>, <code>- </code> and <code>**bold**</code> work too.</li>\n<li><strong>Block handle.</strong> Hovering a block shows a handle to drag it and a + to insert\none below.</li>\n<li><strong>View source.</strong> The last toolbar button shows the Markdown, editable, in\n<code>wc-code-editor</code>.</li>\n</ul>\n\n<p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by\ndefault) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting\n<code>suggestions</code>, and <code>suggestions-loading</code> while you look. A chosen mention is\nstored as <code>[@Ana Lima](mention:usr_142)</code> and fires <code>mention</code>. Set\n<code>triggers=\"\"</code> to turn mentions off.</p>\n\n<p>The editor is form-associated. It fires <code>input</code> with <code>{ value }</code> as the\ncontent changes (after <code>debounce</code> milliseconds without typing) and <code>change</code>\nwhen focus leaves after an edit. <code>required</code> blocks an empty submit, and\n<code>maxlength</code> limits the number of characters and shows a count.</p>\n\n<p><code>rows</code> sets the height of the empty editor in lines; it grows with the text, up to\n<code>max-rows</code> if set, and then scrolls.</p>",
+    "cssprop": "--mention-list-max-height - Maximum height of the mention suggestion list.",
+    "fires": "mention - Dispatched when a suggestion is inserted as a mention.",
+    "example": "```html\n<wc-markdown-editor\n  label=\"Description\"\n  value=\"## Steps\\n\\n1. Open **billing**\"\n></wc-markdown-editor>\n```",
     "tags": "input editor",
     "customElement": {
       "kind": "class",
       "description": "",
       "cssProperties": [
         {
-          "description": "Minimum height of the editable area. Defaults to 12rem.",
-          "name": "--markdown-editor-min-height"
+          "description": "Background behind the text.",
+          "name": "--rich-text-editor-background"
         },
         {
-          "description": "Background color of the selection bubble menu.",
-          "name": "--markdown-editor-bubble-background"
+          "description": "Color of links.",
+          "name": "--prose-link-color"
         },
         {
-          "description": "Background color of the slash command menu.",
-          "name": "--markdown-editor-slash-background"
+          "description": "Background of mention chips.",
+          "name": "--prose-mention-background"
+        },
+        {
+          "description": "Text color of mention chips.",
+          "name": "--prose-mention-color"
+        },
+        {
+          "description": "Background of inline code and code blocks.",
+          "name": "--prose-code-background"
+        },
+        {
+          "description": "Width of the mention suggestion list.",
+          "name": "--mention-list-width"
+        },
+        {
+          "description": "Maximum height of the mention suggestion list.",
+          "name": "--mention-list-max-height"
         }
       ],
       "events": [
-        {
-          "name": "type",
-          "type": {
-            "text": "CustomEvent"
-          }
-        },
         {
           "type": {
             "text": "CustomEvent<{value: string}>"
@@ -11399,8 +12466,42 @@
           },
           "description": "Dispatched when focus leaves the editor after an edit.",
           "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{trigger: string, query: string}>"
+          },
+          "description": "Dispatched as a mention is typed; answer with `suggestions`.",
+          "name": "search"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{mention: {id: string, label: string, trigger: string}, suggestion: MentionSuggestion}>"
+          },
+          "description": "Dispatched when a suggestion is inserted as a mention.",
+          "name": "mention"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         }
       ],
+      "superclass": {
+        "name": "RichTextInput",
+        "package": "@/__internal/rich-text/rich-text-input.js"
+      },
+      "tagName": "wc-markdown-editor",
+      "customElement": true,
+      "rawTag": {
+        "name": "markdown-editor",
+        "description": ""
+      },
       "attributes": [
         {
           "name": "value",
@@ -11408,8 +12509,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Current Markdown value of the editor.",
-          "fieldName": "value"
+          "description": "The value: Markdown or HTML, depending on the editor.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "label",
@@ -11417,8 +12522,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Label displayed above the editor.",
-          "fieldName": "label"
+          "description": "Label shown above the editor.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "placeholder",
@@ -11426,8 +12535,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Placeholder text shown when the editor is empty. Defaults to Peacock's \"Type '/' for commands…\".",
-          "fieldName": "placeholder"
+          "description": "Text shown while the editor is empty. Each editor has its own default.",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "variant",
@@ -11435,8 +12548,12 @@
             "text": "'filled' | 'outlined' | 'default'"
           },
           "default": "'default'",
-          "description": "Visual style of the wrapping field.",
-          "fieldName": "variant"
+          "description": "Visual style of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "size",
@@ -11445,7 +12562,11 @@
           },
           "default": "'md'",
           "description": "Size of the text: `sm` or `md`.",
-          "fieldName": "size"
+          "fieldName": "size",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "helper-text",
@@ -11453,8 +12574,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Helper text displayed below the editor.",
-          "fieldName": "helperText"
+          "description": "Help shown below the editor.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "error",
@@ -11462,8 +12587,12 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether to show an error state.",
-          "fieldName": "error"
+          "description": "Shows the error state.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "error-text",
@@ -11471,8 +12600,12 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Error message text.",
-          "fieldName": "errorText"
+          "description": "The error message shown with `error`.",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "debounce",
@@ -11480,11 +12613,92 @@
             "text": "number"
           },
           "default": "250",
-          "description": "Debounce in milliseconds for dispatching `input`.",
-          "fieldName": "debounce"
+          "description": "Milliseconds without typing before `input` fires.",
+          "fieldName": "debounce",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "hide-toolbar",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the fixed toolbar; formatting stays available from the selection bubble, `/` and shortcuts.",
+          "fieldName": "hideToolbar",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "maxlength",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Maximum number of characters of text. Typing stops there, and a count shows below.",
+          "fieldName": "maxlength",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "rows",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Height of the empty editor, in lines.",
+          "fieldName": "rows",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "max-rows",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Lines the editor grows to before it scrolls. Without it, it keeps growing.",
+          "fieldName": "maxRows",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Characters that start a mention, such as `\"@\"` or `\"@#\"`. Empty turns mentions off.",
+          "fieldName": "triggers",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "suggestions-loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a loading row in the mention list while the app looks for suggestions.",
+          "fieldName": "suggestionsLoading",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11493,6 +12707,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11505,6 +12720,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11517,6 +12733,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11529,23 +12746,14 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
             "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
-      ],
-      "superclass": {
-        "name": "BaseInput",
-        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
-      },
-      "tagName": "wc-markdown-editor",
-      "customElement": true,
-      "rawTag": {
-        "name": "markdown-editor",
-        "description": ""
-      }
+      ]
     }
   },
   {
@@ -11553,7 +12761,7 @@
     "tag": "wc-mention-input",
     "rawTag": "mention-input",
     "summary": "A multiline text field where typing a trigger character, such as the at sign, suggests people or tags to mention.",
-    "overview": "<p>Mention input is a textarea in which a trigger character, <code>@</code> by default, opens a\nlist of suggestions at the caret. Picking one inserts the trigger and the suggestion's label as\ntext, such as <code>@Ana Lima</code>, followed by a space.</p>\n<p><code>value</code> is the plain text the person sees, and it is what the field submits with a\nform. <code>mentions</code> lists the mentions in it, each <code>{id, label, trigger, start,\nend}</code>; the field keeps the positions up to date as the text changes. Editing inside a\nmention turns it back into plain text; Backspace right after a mention (or Delete right before\nit) removes the whole mention. To load saved text, set <code>value</code> and then\n<code>mentions</code>; entries that do not match the text are dropped.</p>\n<p>The app supplies the suggestions: on <code>search</code> (<code>detail: {trigger,\nquery}</code>) it sets <code>suggestions</code> to the matches, each <code>{id, label,\ndescription?, avatar?}</code>, and sets <code>loading</code> while it fetches them. The list\nshows while there are suggestions or <code>loading</code> is set. <code>triggers</code> takes\nseveral characters, such as <code>\"@#\"</code> for people and tags.</p>\n<p>Focus stays in the textarea: Arrow Up and Down move the highlighted suggestion\n(<code>aria-activedescendant</code>), Enter or Tab inserts it, Escape closes the list. A\ntrigger counts at the start of the text or after a space or an opening bracket or quote, so\nemail addresses do not open the list.</p>\n<p>It validates like <code>wc-textarea</code> (<code>required</code>, <code>minlength</code>,\n<code>maxlength</code>) and grows with the text with <code>auto-grow</code>. It works as the\n<code>composer</code> of <code>wc-comment-thread</code>.</p>",
+    "overview": "<p>Mention input is a textarea in which a trigger character, <code>@</code> by default, opens a\nlist of suggestions at the caret. Picking one inserts the trigger and the suggestion's label as\ntext, such as <code>@Ana Lima</code>, followed by a space.</p>\n<p><code>value</code> is the plain text the person sees, and it is what the field submits with a\nform. <code>mentions</code> lists the mentions in it, each <code>{id, label, trigger, start,\nend}</code>; the field keeps the positions up to date as the text changes. Editing inside a\nmention turns it back into plain text; Backspace right after a mention (or Delete right before\nit) removes the whole mention. To load saved text, set <code>value</code> and then\n<code>mentions</code>; entries that do not match the text are dropped.</p>\n<p>The app supplies the suggestions: on <code>search</code> (<code>detail: {trigger,\nquery}</code>) it sets <code>suggestions</code> to the matches, each <code>{id, label,\ndescription?, avatar?}</code>, and sets <code>loading</code> while it fetches them. The list\nshows while there are suggestions or <code>loading</code> is set. <code>triggers</code> takes\nseveral characters, such as <code>\"@#\"</code> for people and tags.</p>\n<p>Focus stays in the textarea: Arrow Up and Down move the highlighted suggestion\n(<code>aria-activedescendant</code>), Enter or Tab inserts it, Escape closes the list. A\ntrigger counts at the start of the text or after a space or an opening bracket or quote, so\nemail addresses do not open the list.</p>\n<p>It validates like <code>wc-textarea</code> (<code>required</code>, <code>minlength</code>,\n<code>maxlength</code>) and grows with the text with <code>auto-grow</code>. It is a\nplain-text field; for rich comments use <code>wc-comment-composer</code>.</p>",
     "tags": "input, form",
     "fires": "mention - Dispatched when a suggestion is inserted.",
     "cssprop": "--mention-input-list-width - Width of the suggestion list. Defaults to `18rem`.",
@@ -11699,6 +12907,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -11737,6 +12946,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -11762,6 +12972,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -11825,6 +13036,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11833,6 +13045,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11845,6 +13058,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11857,6 +13071,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -11869,6 +13084,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -12160,6 +13376,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The visual style of the button, such as `\"filled\"`, `\"tonal\"`, `\"outlined\"` or `\"text\"`.",
           "fieldName": "variant",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -12172,6 +13389,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The color role of the button, such as `\"primary\"`, `\"surface\"` or `\"danger\"`.",
           "fieldName": "color",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -12234,6 +13452,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -12246,6 +13465,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -12258,6 +13478,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -12270,6 +13491,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "mixinHyperlink",
@@ -13548,6 +14770,7 @@
           "type": {
             "text": "number | undefined"
           },
+          "description": "The largest value allowed.",
           "fieldName": "max"
         },
         {
@@ -13555,6 +14778,7 @@
           "type": {
             "text": "number | undefined"
           },
+          "description": "The smallest value allowed.",
           "fieldName": "min"
         },
         {
@@ -13562,6 +14786,7 @@
           "type": {
             "text": "number | undefined"
           },
+          "description": "How much the value changes per step, and the granularity a valid value must match.",
           "fieldName": "step"
         },
         {
@@ -13570,6 +14795,7 @@
             "text": "'on' | 'off'"
           },
           "default": "'off'",
+          "description": "Whether the browser may autofill the field: `\"on\"` or `\"off\"` (default).",
           "fieldName": "autocomplete"
         },
         {
@@ -13608,6 +14834,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -13646,6 +14873,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -13671,6 +14899,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -13734,6 +14963,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -13742,6 +14972,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -13754,6 +14985,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -13766,6 +14998,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -13778,6 +15011,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14137,6 +15371,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14175,6 +15410,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14200,6 +15436,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14263,6 +15500,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14271,6 +15509,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14283,6 +15522,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14295,6 +15535,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14307,6 +15548,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14459,6 +15701,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14497,6 +15740,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14522,6 +15766,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14585,6 +15830,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14593,6 +15839,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14605,6 +15852,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14617,6 +15865,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14629,6 +15878,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14759,6 +16009,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14797,6 +16048,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14822,6 +16074,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -14885,6 +16138,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14893,6 +16147,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14905,6 +16160,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14917,6 +16173,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -14929,6 +16186,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15337,6 +16595,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15345,6 +16604,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15357,6 +16617,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15369,6 +16630,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15381,6 +16643,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15506,6 +16769,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the group while `error` is set; replaces the help text.",
           "fieldName": "errorText"
         }
       ],
@@ -15640,6 +16904,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the rating while `error` is set; replaces the help text.",
           "fieldName": "errorText"
         },
         {
@@ -15673,6 +16938,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15681,6 +16947,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15693,6 +16960,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15705,6 +16973,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15717,6 +16986,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -15741,7 +17011,7 @@
     "tag": "wc-redvars-loader",
     "rawTag": "redvars-loader",
     "summary": "A loading indicator drawn from the Redvars r mark, for app start-up and full-page loads.",
-    "overview": "<p>Redvars Loader animates the r mark on its red tile in one of five ways (<code>variant</code>):\n<code>build</code> (the default: the stem rises and the arm swings out), <code>trace</code> (the\noutline draws itself and fills), <code>fill</code> (the r fills from the bottom),\n<code>pulse</code> (the tile beats and sends out a ring) and <code>orbit</code> (a runner chases\nround the tile).</p>\n<p>With <code>value</code> (0 to 100) it stops looping and fills the r to that level, as a\ndeterminate progress bar. It is <code>role=\"progressbar\"</code>, named by <code>label</code>\n(\"Loading\" by default). When the system asks for reduced motion, every variant becomes a slow\nfill of the r, with nothing moving, unless <code>full-motion</code> is set.</p>\n<p>For loading inside a page, use <code>wc-circular-progress</code> or\n<code>wc-linear-progress</code>; this one is the brand moment, such as the first load of an\napp.</p>",
+    "overview": "<p>Redvars Loader animates the r mark on its red tile in one of five ways (<code>variant</code>):\n<code>build</code> (the default: the stem rises and the arm swings out), <code>trace</code> (the\noutline draws itself and fills), <code>fill</code> (the r fills from the bottom),\n<code>pulse</code> (the tile beats and sends out a ring) and <code>orbit</code> (a runner chases\nround the tile).</p>\n<p>With <code>value</code> (0 to 100) it stops looping and fills the r to that level, as a\ndeterminate progress bar. It is <code>role=\"progressbar\"</code>, named by <code>label</code>\n(\"Loading\" by default).</p>\n<p>The full animation plays by default: it is the point of the loader. With\n<code>respect-reduced-motion</code>, a system that asks for reduced motion gets a slow fill of\nthe r instead, with nothing moving.</p>\n<p>For loading inside a page, use <code>wc-circular-progress</code> or\n<code>wc-linear-progress</code>; this one is the brand moment, such as the first load of an\napp.</p>",
     "cssprop": "--redvars-loader-duration - Length of one loop. Defaults to `2.4s`; `pulse` loops at three quarters of it.",
     "example": "```html\n<wc-redvars-loader></wc-redvars-loader>\n<wc-redvars-loader variant=\"orbit\" label=\"Starting Redvars\"></wc-redvars-loader>\n<wc-redvars-loader value=\"60\"></wc-redvars-loader>\n```",
     "tags": "display, progress",
@@ -15797,13 +17067,13 @@
           "fieldName": "label"
         },
         {
-          "name": "full-motion",
+          "name": "respect-reduced-motion",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "Plays the full animation even when the system asks for reduced motion.",
-          "fieldName": "fullMotion"
+          "description": "Follows the system's reduced-motion setting: when it asks for less motion, every variant\nbecomes a slow fill of the r. Off by default, because the animation is the point of the\nloader.",
+          "fieldName": "respectReducedMotion"
         }
       ],
       "superclass": {
@@ -16253,6 +17523,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16261,6 +17532,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16273,6 +17545,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16285,6 +17558,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16297,6 +17571,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16505,6 +17780,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
@@ -16513,6 +17789,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "mixinFormAssociated",
@@ -16672,6 +17949,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -16710,6 +17988,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -16735,6 +18014,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -16798,6 +18078,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16806,6 +18087,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16818,6 +18100,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16830,6 +18113,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16842,6 +18126,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -16905,6 +18190,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The visual style of the button, such as `\"filled\"`, `\"tonal\"`, `\"outlined\"` or `\"text\"`.",
           "fieldName": "variant",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -16917,6 +18203,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The color role of the button, such as `\"primary\"`, `\"surface\"` or `\"danger\"`.",
           "fieldName": "color",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -16979,6 +18266,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the component renders as an `<a>` element.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -16991,6 +18279,7 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
+          "description": "Where to open the linked URL: `\"_self\"` (default), `\"_blank\"`, `\"_parent\"`, `\"_top\"` or a\nframe name. Pair `\"_blank\"` with `rel=\"noopener noreferrer\"`.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -17003,6 +18292,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The relationship of the linked URL to the current page, as the native `rel` attribute.",
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -17015,6 +18305,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Downloads the linked URL instead of navigating to it; the value is the suggested file\nname. Only applies with `href`.",
           "fieldName": "download",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -17494,6 +18785,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the slider while `error` is set; replaces the help text.",
           "fieldName": "errorText"
         },
         {
@@ -17522,6 +18814,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -17530,6 +18823,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -17542,6 +18836,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -17554,6 +18849,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -17566,6 +18862,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -18616,6 +19913,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a check icon in the handle when on and a close icon when off.",
           "fieldName": "withIcon"
         },
         {
@@ -18671,6 +19969,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -18679,6 +19978,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -18691,6 +19991,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -18703,6 +20004,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -18715,6 +20017,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -18776,6 +20079,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Disables the tab: it can't be selected.",
           "fieldName": "disabled"
         },
         {
@@ -18817,6 +20121,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The URL to link to. When set, the tab renders as a link for page navigation.",
           "fieldName": "href"
         },
         {
@@ -19329,6 +20634,7 @@
             "text": "'primary' | 'secondary' | 'contained' | 'filled'"
           },
           "default": "'primary'",
+          "description": "The visual style of the tabs: `\"primary\"` (default), `\"secondary\"`, `\"contained\"` or `\"filled\"`.",
           "fieldName": "variant"
         },
         {
@@ -19473,6 +20779,7 @@
             "text": "'on' | 'off'"
           },
           "default": "'off'",
+          "description": "Whether the browser may autofill the field: `\"on\"` or `\"off\"` (default).",
           "fieldName": "autocomplete"
         },
         {
@@ -19545,6 +20852,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -19583,6 +20891,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -19608,6 +20917,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -19671,6 +20981,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -19679,6 +20990,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -19691,6 +21003,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -19703,6 +21016,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -19715,6 +21029,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -19878,6 +21193,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -19916,6 +21232,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -19941,6 +21258,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -20004,6 +21322,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20012,6 +21331,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20024,6 +21344,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20036,6 +21357,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20048,6 +21370,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20283,6 +21606,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Disables the picker: no time can be focused or picked.",
           "fieldName": "disabled"
         },
         {
@@ -20291,6 +21615,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the selected time but stops the user changing it.",
           "fieldName": "readonly"
         }
       ],
@@ -20311,9 +21636,9 @@
     "tag": "wc-toolbar",
     "rawTag": "toolbar",
     "summary": "A group of related actions, such as editor formatting controls.",
-    "overview": "<p>The toolbar groups related actions into one control. The <code>floating</code> variant\r\n(default) is an elevated pill that sits over content, such as a canvas or a selection. The\r\n<code>flat</code> variant has no container of its own, for embedding in existing chrome like a\r\ncard or editor header. Both variants lay their actions out horizontally or vertically.</p>\r\n\r\n<p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of\r\nactions; in a horizontal toolbar give it <code>orientation=\"vertical\"</code>.</p>\r\n\r\n<p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow\r\nkeys along its orientation move focus between actions (Home and End jump to the first and last).\r\nDisabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>",
-    "cssprop": "--toolbar-content-color - Color of text inside the toolbar.",
-    "example": "```html\r\n<!-- Flat toolbar inside existing chrome -->\r\n<wc-toolbar variant=\"flat\" aria-label=\"Row actions\">\r\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Edit\"><wc-icon name=\"edit\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Delete\"><wc-icon name=\"delete\"></wc-icon></wc-icon-button>\r\n</wc-toolbar>\r\n```",
+    "overview": "<p>The toolbar groups related actions into one control. The <code>floating</code> variant\n(default) is an elevated pill that sits over content, such as a canvas or a selection. The\n<code>flat</code> variant has no container of its own, for embedding in existing chrome like a\ncard or editor header. Both variants lay their actions out horizontally or vertically.</p>\n\n<p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of\nactions; in a horizontal toolbar give it <code>orientation=\"vertical\"</code>.</p>\n\n<p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow\nkeys along its orientation move focus between actions (Home and End jump to the first and last).\nDisabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>",
+    "cssprop": "--toolbar-wrap - `wrap` lets actions flow onto more lines when the toolbar is narrow. Defaults to `nowrap`.",
+    "example": "```html\n<!-- Flat toolbar inside existing chrome -->\n<wc-toolbar variant=\"flat\" aria-label=\"Row actions\">\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Edit\"><wc-icon name=\"edit\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Delete\"><wc-icon name=\"delete\"></wc-icon></wc-icon-button>\n</wc-toolbar>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -20342,6 +21667,10 @@
         {
           "description": "Color of text inside the toolbar.",
           "name": "--toolbar-content-color"
+        },
+        {
+          "description": "`wrap` lets actions flow onto more lines when the toolbar is narrow. Defaults to `nowrap`.",
+          "name": "--toolbar-wrap"
         }
       ],
       "attributes": [
@@ -20351,7 +21680,7 @@
             "text": "'floating' | 'flat'"
           },
           "default": "'floating'",
-          "description": "Visual variant of the toolbar.\r\n- `\"floating\"`: An elevated pill that floats over content (default).\r\n- `\"flat\"`: No container, fill or elevation; for embedding in existing chrome.",
+          "description": "Visual variant of the toolbar.\n- `\"floating\"`: An elevated pill that floats over content (default).\n- `\"flat\"`: No container, fill or elevation; for embedding in existing chrome.",
           "fieldName": "variant"
         },
         {
@@ -20360,7 +21689,7 @@
             "text": "'horizontal' | 'vertical'"
           },
           "default": "'horizontal'",
-          "description": "Orientation of the toolbar. It sets the layout direction and the arrow keys that move focus\r\n(Left/Right for horizontal, Up/Down for vertical).",
+          "description": "Orientation of the toolbar. It sets the layout direction and the arrow keys that move focus\n(Left/Right for horizontal, Up/Down for vertical).",
           "fieldName": "orientation"
         },
         {
@@ -20633,6 +21962,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the component while `error` is set; replaces the help text.",
           "fieldName": "errorText"
         },
         {
@@ -20681,6 +22011,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20689,6 +22020,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20701,6 +22033,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20713,6 +22046,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -20725,6 +22059,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -21056,6 +22391,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Hint shown inside the empty control.",
           "fieldName": "placeholder",
           "inheritedFrom": {
             "name": "BaseField",
@@ -21094,6 +22430,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Error message shown below the field while `error` is set; replaces the help text.",
           "fieldName": "errorText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -21119,6 +22456,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Warning message shown below the field while `warning` is set; replaces the help text.",
           "fieldName": "warningText",
           "inheritedFrom": {
             "name": "BaseField",
@@ -21182,6 +22520,7 @@
         },
         {
           "name": "name",
+          "description": "The name the value is submitted under in a form.",
           "fieldName": "name",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -21190,6 +22529,7 @@
         },
         {
           "name": "disabled",
+          "description": "Disables the control: it can't be focused or changed, and its value isn't submitted.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -21202,6 +22542,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -21214,6 +22555,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Requires a value before the form can submit.",
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -21226,6 +22568,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows a loading placeholder in place of the control.",
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -21377,7 +22720,7 @@
     "tag": "wc-virtual-list",
     "rawTag": "virtual-list",
     "summary": "A long list that renders only the items in view, for thousands of items or infinite scroll.",
-    "overview": "<p><code>wc-virtual-list</code> takes an array of <code>items</code> and a\n<code>renderItem</code> function, and renders only the items in view plus\n<code>overscan</code> items on each side. Every item has the same height,\n<code>item-height</code> pixels. The list is its own scroll container: give it a height\n(the default is <code>20rem</code>).</p>\n<p>Items are rendered into the list's light DOM, each in a wrapper\n<code>&lt;div role=\"listitem\"&gt;</code>, so page styles reach them. The list manages its\nchildren: do not add your own. <code>renderItem</code> returns a Lit template, a DOM node or a\nstring; use arrow functions for event listeners in the template.</p>\n<p>The host has <code>role=\"list\"</code> and each rendered item <code>aria-setsize</code> and\n<code>aria-posinset</code>, so screen readers announce the real length. A focused item stays\nrendered when it scrolls out of view. With <code>navigable</code>, the items are one tab stop\nand Up, Down, Page Up, Page Down, Home and End move focus through the whole list.</p>\n<p>For infinite scroll, listen for <code>end-reached</code>, which fires once per length when\nthe last visible item is within <code>threshold</code> items of the end, and append items.\nThe scroll position is kept. Set <code>loading</code> while they load.</p>",
+    "overview": "<p><code>wc-virtual-list</code> takes an array of <code>items</code> and a\n<code>renderItem</code> function, and renders only the items in view plus\n<code>overscan</code> items on each side. Every item has the same height,\n<code>item-height</code> pixels. The list is its own scroll container: give it a height\n(the default is <code>20rem</code>). Scrolling stays inside it at either end, so the page does\nnot start moving under the pointer.</p>\n<p>Items are rendered into the list's light DOM, each in a wrapper\n<code>&lt;div role=\"listitem\"&gt;</code>, so page styles reach them. The list manages its\nchildren: do not add your own. <code>renderItem</code> returns a Lit template, a DOM node or a\nstring; use arrow functions for event listeners in the template.</p>\n<p>The host has <code>role=\"list\"</code> and each rendered item <code>aria-setsize</code> and\n<code>aria-posinset</code>, so screen readers announce the real length. A focused item stays\nrendered when it scrolls out of view. With <code>navigable</code>, the items are one tab stop\nand Up, Down, Page Up, Page Down, Home and End move focus through the whole list.</p>\n<p>For infinite scroll, listen for <code>end-reached</code>, which fires once per length when\nthe last visible item is within <code>threshold</code> items of the end, and append items.\nThe scroll position is kept. Set <code>loading</code> while they load.</p>",
     "fires": "end-reached - Dispatched once per `items.length` when the end of the list comes within `threshold` items of the view. Not dispatched while `loading`.",
     "example": "```html\n<wc-virtual-list id=\"people\" label=\"People\" item-height=\"48\" style=\"height: 20rem\"></wc-virtual-list>\n<script>\n  const list = document.getElementById('people');\n  list.items = Array.from({ length: 10000 }, (_, i) => ({ name: `Person ${i + 1}` }));\n  list.renderItem = item => item.name;\n</script>\n```",
     "tags": "display",

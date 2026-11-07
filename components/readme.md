@@ -263,7 +263,7 @@ SVG `wc-svg` ·
 [Tag](https://peacock.redvars.com/components/tag) `wc-tag` ·
 [Chip](https://peacock.redvars.com/components/chip) `wc-chip` ·
 [Status indicator](https://peacock.redvars.com/components/status-indicator) `wc-status-indicator` ·
-[Comment thread](https://peacock.redvars.com/components/comment-thread) `wc-comment-thread`
+[Discussion](https://peacock.redvars.com/components/discussion) `wc-discussion`
 
 ## Feedback
 
@@ -294,6 +294,9 @@ SVG `wc-svg` ·
 [Code editor](https://peacock.redvars.com/components/code-editor) `wc-code-editor` ·
 [HTML editor](https://peacock.redvars.com/components/html-editor) `wc-html-editor` ·
 [Markdown editor](https://peacock.redvars.com/components/markdown-editor) `wc-markdown-editor` ·
+[Markdown](https://peacock.redvars.com/components/markdown) `wc-markdown` ·
+[Comment composer](https://peacock.redvars.com/components/comment-composer) `wc-comment-composer` ·
+[Document editor](https://peacock.redvars.com/components/document-editor) `wc-document-editor` ·
 [Flow](https://peacock.redvars.com/components/flow) `wc-flow`
 
 ## Primitives

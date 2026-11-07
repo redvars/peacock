@@ -1,0 +1,71 @@
+---
+export const title = 'Replies, edits and forms';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h3 class="text-title-medium">Dismissible</h3>
+<p>
+  <code>dismissible</code> adds a <strong>Cancel</strong> button, and
+  <kbd>Escape</kbd>, that empty the composer and fire <code>cancel</code>. Use
+  it for reply and edit composers, which close on cancel.
+  <code>expanded</code> keeps the composer open while empty.
+</p>
+<DemoComponentCard lang={'html'}>
+  <wc-comment-composer
+    dismissible
+    expanded
+    placeholder="Reply to Ana Lima"
+    style="display:block; width:100%; max-width: 40rem;"
+  ></wc-comment-composer>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Mentions</h3>
+<p>
+  Answer <code>search</code> by setting <code>suggestions</code>, as on
+  <code>wc-markdown-editor</code>. In a <code>wc-discussion</code>, set the
+  suggestions on the discussion instead; it passes them to whichever composer
+  asked.
+</p>
+<DemoComponentCard lang={'html'}>
+  <wc-comment-composer
+    id="composer-mentions"
+    expanded
+    placeholder="Type @ to mention someone"
+    style="display:block; width:100%; max-width: 40rem;"
+  ></wc-comment-composer>
+  <script is:inline>
+    const mentioning = document.getElementById('composer-mentions');
+    const team = [
+      { id: 'usr_142', label: 'Ana Lima', description: 'Billing' },
+      { id: 'usr_7', label: 'Ravi Kumar', description: 'Support' },
+      { id: 'usr_31', label: 'Mei Chen', description: 'Platform' },
+    ];
+    mentioning.addEventListener('search', event => {
+      const query = event.detail.query.toLowerCase();
+      mentioning.suggestions = team.filter(person =>
+        person.label.toLowerCase().includes(query),
+      );
+    });
+  </script>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">In a form</h3>
+<p>
+  The composer is form-associated: with a <code>name</code> it submits its
+  Markdown with the form, and <code>required</code> and
+  <code>maxlength</code> validate it, as an "Additional comments" field on a
+  request form, for example.
+</p>
+<DemoComponentCard lang={'html'}>
+  <form style="width:100%; max-width: 40rem;" onsubmit="event.preventDefault()">
+    <wc-comment-composer
+      name="comments"
+      required
+      maxlength="500"
+      expanded
+      submit-label="Add"
+      placeholder="Additional comments"
+    ></wc-comment-composer>
+  </form>
+</DemoComponentCard>

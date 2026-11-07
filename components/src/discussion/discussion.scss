@@ -1,0 +1,90 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  color: var(--color-on-surface);
+}
+
+::slotted([slot='header']) {
+  display: block;
+  margin-block-end: var(--spacing-100);
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding-block: var(--spacing-100);
+}
+
+.skeleton-row {
+  display: flex;
+  gap: var(--spacing-150);
+}
+
+.skeleton-avatar {
+  flex: none;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  --skeleton-container-shape: var(--shape-corner-full);
+}
+
+.skeleton-lines {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  padding-block-start: var(--spacing-050);
+}
+
+.skeleton-line {
+  inline-size: 100%;
+  block-size: 0.75rem;
+  --skeleton-container-shape: var(--shape-corner-extra-small);
+
+  &.short {
+    inline-size: 30%;
+  }
+
+  &.medium {
+    inline-size: 70%;
+  }
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-100);
+  padding-block: var(--spacing-300);
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-medium);
+
+  wc-icon {
+    --icon-color: currentColor;
+    --icon-size: 1.25rem;
+  }
+}
+
+.composer {
+  margin-block-start: var(--spacing-200);
+}
+
+.built-in-composer,
+::slotted([slot='composer']) {
+  display: block;
+}
+
+@media (forced-colors: active) {
+  .skeleton-avatar,
+  .skeleton-line {
+    outline: 1px solid GrayText;
+  }
+}

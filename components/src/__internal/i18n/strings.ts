@@ -226,22 +226,96 @@ export const defaultStrings = {
   underline: 'Underline',
   strikethrough: 'Strikethrough',
   inlineCode: 'Inline code',
-  unorderedList: 'Unordered list',
-  orderedList: 'Ordered list',
+  /** The block style menu: paragraph text. */
+  paragraph: 'Text',
+  /** Label of the block style menu button. */
+  textStyle: 'Text style',
   heading1: 'Heading 1',
   heading2: 'Heading 2',
   heading3: 'Heading 3',
   bulletedList: 'Bulleted list',
   numberedList: 'Numbered list',
+  taskList: 'Checklist',
   quote: 'Quote',
   codeBlock: 'Code block',
   divider: 'Divider',
-  visualMode: 'Visual',
-  htmlMode: 'HTML',
-  editorMode: 'Editor',
-  markdownMode: 'Markdown',
+  table: 'Table',
+  addRowBelow: 'Add row below',
+  addColumnAfter: 'Add column after',
+  deleteRow: 'Delete row',
+  deleteColumn: 'Delete column',
+  deleteTable: 'Delete table',
+  link: 'Link',
+  /** Label of the address field in the link editor. */
+  linkAddress: 'Link address',
+  applyLink: 'Apply',
+  removeLink: 'Remove link',
+  /** Shown when the typed link address cannot be used. */
+  linkInvalid: 'Enter a web address, an email address or a relative path.',
+  /** The toolbar button that starts a mention. */
+  mentionSomeone: 'Mention someone',
+  /** The toolbar toggle between the formatted view and the source. */
+  viewSource: 'View source',
   enterTextPlaceholder: 'Enter text…',
   slashCommandsPlaceholder: "Type '/' for commands…",
+  /** Announced when the slash menu has no match. */
+  noMatchingBlocks: 'No matching blocks',
+  // ── Document editor ──────────────────────────────────────────────────────
+  /** Default accessible name of a document editor. */
+  documentLabel: 'Document',
+  documentPlaceholder: 'Start writing…',
+  documentHeader: 'Header',
+  documentFooter: 'Footer',
+  /** Shown in an empty header or footer while it is edited. */
+  documentHeaderPlaceholder: 'Header text',
+  documentFooterPlaceholder: 'Footer text',
+  /** Tooltip of a header or footer that is not being edited. */
+  documentEditMarginal: 'Double-click to edit',
+  pageBreak: 'Page break',
+  insertImage: 'Image',
+  textColor: 'Text color',
+  defaultColor: 'Default',
+  alignLeft: 'Align left',
+  alignCenter: 'Center',
+  alignRight: 'Align right',
+  alignJustify: 'Justify',
+  outline: 'Outline',
+  /** The outline panel of a document without headings. */
+  outlineEmpty: 'Headings you add appear here.',
+  print: 'Print',
+  pageSize: 'Page size',
+  orientation: 'Orientation',
+  portrait: 'Portrait',
+  landscape: 'Landscape',
+  margins: 'Margins',
+  marginsNormal: 'Normal margins',
+  marginsNarrow: 'Narrow margins',
+  marginsWide: 'Wide margins',
+  marginsCustom: 'Custom margins',
+  insertPageNumber: 'Page number',
+  pageCount: 'Page count',
+  /** The button that comments on the selected text. */
+  addComment: 'Comment',
+  /** Accessible name of a document's comments column. */
+  documentComments: 'Comments',
+  /** Accessible name of the people editing a document together. */
+  collaborators: 'People editing',
+  /** Name shown for a collaborator without one. */
+  anonymousCollaborator: 'Anonymous',
+  /** Marks the current person in the list of collaborators, for example "Ana Lima (you)". */
+  collaboratorYou: (name: string): string => `${name} (you)`,
+  /** The word count in a document's status bar, for example "1,284 words". */
+  wordCount: (count: number, formatted: string): string =>
+    `${formatted} ${count === 1 ? 'word' : 'words'}`,
+  /** The page indicator in a document's status bar, for example "Page 2 of 5". */
+  documentPageOf: (page: string, total: string): string =>
+    `Page ${page} of ${total}`,
+  /** Accessible name of a document's zoom menu. */
+  documentZoom: 'Zoom',
+  /** The zoom that fits the page to the editor's width. */
+  documentZoomFit: 'Fit width',
+  /** Validation message when rich text is longer than `maxlength` characters. */
+  richTextTooLong: (max: number): string => `Use ${max} characters or fewer`,
 
   // ── Condition builder ────────────────────────────────────────────────────
   addCondition: 'Add condition',
@@ -597,6 +671,11 @@ export const defaultStrings = {
   commentAdded: (author: string): string => `New comment by ${author}`,
   /** Author shown for a comment without one. */
   commentUnknownAuthor: 'Unknown author',
+  /** The save button of a comment being edited. */
+  commentSave: 'Save',
+  /** Accessible name of an activity entry, for example "Activity by Ada Lovelace, 2 hours ago". */
+  activityLabel: (author: string, time: string): string =>
+    time ? `Activity by ${author}, ${time}` : `Activity by ${author}`,
 
   // ── Password rules, rating, signature pad ────────────────────────────────
   /** Accessible name of a password rules checklist. */

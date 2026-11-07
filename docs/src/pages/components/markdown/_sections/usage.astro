@@ -1,0 +1,40 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-markdown</code> shows Markdown as formatted text. Use it wherever a
+  value from <code>wc-markdown-editor</code> or a comment is read back: a
+  ticket description, a comment, a release note. It reads GitHub-flavoured
+  Markdown: headings, lists, task lists, tables, code blocks, strikethrough and
+  links.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown id="markdown-usage" style="max-width: 40rem;"></wc-markdown>
+  <script is:inline>
+    document.getElementById('markdown-usage').value = [
+      '## Steps to reproduce',
+      '',
+      '1. Open the **billing** page as an admin',
+      '2. Export last month as _CSV_',
+      '3. Compare the totals with `ledger.total`',
+      '',
+      '- [x] Reproduced on staging',
+      '- [ ] Reproduced on production',
+      '',
+      '| Region | Status |',
+      '| :-- | :-- |',
+      '| EU | Failing |',
+      '| US | OK |',
+      '',
+      '> Started after the 4.2 release.',
+      '',
+      '```js',
+      "const total = invoices.reduce((sum, i) => sum + i.amount, 0);",
+      '```',
+    ].join('\n');
+  </script>
+</DemoComponentCard>

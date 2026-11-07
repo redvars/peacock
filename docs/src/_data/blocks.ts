@@ -16,6 +16,7 @@ export type BlockPreview =
   | 'signup'
   | 'settings'
   | 'data-table'
+  | 'ticket'
   | 'app-shell'
   | 'kanban'
   | 'calendar'
@@ -128,6 +129,16 @@ export const BLOCKS: BlockDefinition[] = [
       'A filterable customer list with saved views, a sortable, selectable table with status tags, bulk actions behind a confirm dialog, pagination and empty states.',
     tags: ['table', 'filters', 'bulk actions'],
     icon: 'table',
+  },
+  {
+    name: 'ticket',
+    label: 'Ticket',
+    href: '/blocks/ticket/',
+    group: 'Collaboration',
+    summary:
+      'A support ticket with a Markdown description, record fields, and a discussion of comments, work notes, replies, mentions and activity.',
+    tags: ['form', 'discussion', 'mentions'],
+    icon: 'forum',
   },
   {
     name: 'two-factor',

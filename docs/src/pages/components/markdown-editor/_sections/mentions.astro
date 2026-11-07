@@ -1,0 +1,61 @@
+---
+export const title = 'Mentions';
+export const order = 120;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Mentions work as on <code>wc-mention-input</code>. Typing a character from
+  <code>triggers</code> (<code>@</code> by default) fires <code>search</code>
+  with <code>{'{ trigger, query }'}</code>. Answer by setting
+  <code>suggestions</code>, an array of
+  <code>{'{ id, label, description?, avatar? }'}</code>; set
+  <code>suggestions-loading</code> while a request is in flight. Arrow keys
+  move through the list, <kbd>Enter</kbd> or <kbd>Tab</kbd> inserts, and
+  <kbd>Escape</kbd> closes it.
+</p>
+<p>
+  A mention is stored in the Markdown as
+  <code>[@Ana Lima](mention:usr_142)</code> and fires <code>mention</code>.
+  Use <code>extractMentions(value)</code> on save to find who to notify.
+  <code>triggers="@#"</code> adds a second trigger, for example for tickets;
+  <code>triggers=""</code> turns mentions off.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    id="md-mentions"
+    label="Comment"
+    triggers="@#"
+    rows="3"
+    helper-text="Type @ for people or # for tickets."
+    style="display:block; width: 100%;"
+  ></wc-markdown-editor>
+  <script is:inline>
+    const mentionEditor = document.getElementById('md-mentions');
+    const people = [
+      { id: 'usr_142', label: 'Ana Lima', description: 'Billing', avatar: '' },
+      { id: 'usr_7', label: 'Ravi Kumar', description: 'Support', avatar: '' },
+      { id: 'usr_31', label: 'Mei Chen', description: 'Platform', avatar: '' },
+    ];
+    const tickets = [
+      { id: 'inc_2041', label: 'INC-2041', description: 'Invoices fail to export' },
+      { id: 'inc_2052', label: 'INC-2052', description: 'Slow ledger sync' },
+    ];
+    mentionEditor.addEventListener('search', event => {
+      const { trigger, query } = event.detail;
+      const source = trigger === '#' ? tickets : people;
+      mentionEditor.suggestionsLoading = true;
+      // A real app would ask its server here.
+      setTimeout(() => {
+        mentionEditor.suggestions = source.filter(item =>
+          item.label.toLowerCase().includes(query.toLowerCase()),
+        );
+        mentionEditor.suggestionsLoading = false;
+      }, 150);
+    });
+    mentionEditor.addEventListener('mention', event => {
+      console.log('mentioned', event.detail.mention);
+    });
+  </script>
+</DemoComponentCard>

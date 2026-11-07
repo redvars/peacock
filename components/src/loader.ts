@@ -114,7 +114,6 @@ import { Banner } from '@/banner/banner.js';
 import { NotificationCenter } from '@/notification-center/notification-center.js';
 import { Tour } from '@/tour/tour.js';
 import { InlineEdit } from '@/inline-edit/inline-edit.js';
-import { CommentThread, CommentElement } from '@/comment-thread/index.js';
 import { PasswordRules } from '@/password-rules/password-rules.js';
 import { Rating } from '@/rating/rating.js';
 import { SignaturePad } from '@/signature-pad/signature-pad.js';
@@ -320,6 +319,32 @@ const loaderConfig: LoaderConfig = {
       importPath: `${distDirectory}/markdown-editor.js`,
       dependencies: ['wc-code-editor'],
     },
+    'wc-markdown': {
+      importPath: `${distDirectory}/markdown.js`,
+      dependencies: ['wc-code-highlighter'],
+    },
+    'wc-comment-composer': {
+      importPath: `${distDirectory}/comment-composer.js`,
+    },
+    'wc-document-editor': {
+      importPath: `${distDirectory}/document-editor.js`,
+    },
+    'wc-discussion': {
+      importPath: `${distDirectory}/discussion.js`,
+      dependencies: [
+        'wc-comment-composer',
+        'wc-discussion-comment',
+        'wc-discussion-activity',
+      ],
+    },
+    'wc-discussion-comment': {
+      importPath: `${distDirectory}/discussion-comment.js`,
+      dependencies: ['wc-markdown', 'wc-comment-composer'],
+    },
+    'wc-discussion-activity': {
+      importPath: `${distDirectory}/discussion-activity.js`,
+      dependencies: ['wc-markdown'],
+    },
     'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
     },
@@ -520,12 +545,6 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-inline-edit': {
       CustomElementClass: InlineEdit,
-    },
-    'wc-comment-thread': {
-      CustomElementClass: CommentThread,
-    },
-    'wc-comment': {
-      CustomElementClass: CommentElement,
     },
     'wc-password-rules': {
       CustomElementClass: PasswordRules,

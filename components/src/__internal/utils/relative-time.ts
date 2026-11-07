@@ -1,6 +1,6 @@
 /**
  * Relative and absolute times ("5 minutes ago", "in 3 days", "Nov 2"), and one shared ticker that
- * keeps every relative time on the page current. Used by `wc-relative-time`, `wc-comment` and
+ * keeps every relative time on the page current. Used by `wc-relative-time`, the discussion entries and
  * `wc-notification-center`.
  */
 

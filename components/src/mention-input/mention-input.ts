@@ -67,8 +67,8 @@ let listCount = 0;
  * trigger counts at the start of the text or after a space or an opening bracket or quote, so
  * email addresses do not open the list.</p>
  * <p>It validates like <code>wc-textarea</code> (<code>required</code>, <code>minlength</code>,
- * <code>maxlength</code>) and grows with the text with <code>auto-grow</code>. It works as the
- * <code>composer</code> of <code>wc-comment-thread</code>.</p>
+ * <code>maxlength</code>) and grows with the text with <code>auto-grow</code>. It is a
+ * plain-text field; for rich comments use <code>wc-comment-composer</code>.</p>
  * @tags input, form
  *
  * @fires {CustomEvent<{value: string, mentions: Mention[]}>} input - Dispatched as the text changes, including when a mention is inserted or removed.

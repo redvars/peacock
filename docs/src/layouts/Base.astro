@@ -41,6 +41,14 @@ function getPageTitle() {
   <!-- Required Meta Tags Always Come First -->
   <meta charset="utf-8"/>
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+
+  <!--
+    Yjs is a peer dependency of wc-document-editor's collaboration (the app and the editor must
+    share one copy). The docs have no bundler, so map it here, before any module script loads.
+  -->
+  <script is:inline type="importmap">
+    { "imports": { "yjs": "https://cdn.jsdelivr.net/npm/yjs@13.6.33/+esm" } }
+  </script>
   <link rel="sitemap" href="/sitemap-index.xml" />
 
   <link rel='canonical' href={canonicalURL} />
