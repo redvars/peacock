@@ -1,58 +1,33 @@
 ---
 // A link to the GitHub repository with its star count, read from the GitHub API at build time
-// (_data/github.ts). When GitHub did not answer, the count is left out and the link stays.
-// `button` is a wc-link-button for calls to action; `pill` matches the footer's version pill.
+// (_data/github.ts), as a quiet pill (home hero badges and the footer). When GitHub did not answer,
+// the count is left out and the link stays.
 import { GITHUB_REPOSITORY, REPO_URL } from '../siteconfig';
 import { formatStarCount, getStarCount } from '../_data/github';
 
 interface Props {
-  variant?: 'button' | 'pill';
   class?: string;
 }
 
-const { variant = 'pill', class: className } = Astro.props;
+const { class: className } = Astro.props;
 const stars = await getStarCount(GITHUB_REPOSITORY);
 const count = stars === null ? null : formatStarCount(stars);
 const label =
   stars === null ? 'Peacock on GitHub' : `Peacock on GitHub, ${stars.toLocaleString('en')} stars`;
 ---
 
-{variant === 'button' ? (
-  <wc-link-button
-    class:list={['github-stars-button', className]}
-    href={REPO_URL}
-    target='_blank'
-    rel='noopener'
-    level='secondary'
-    variant='outlined'
-    aria-label={label}
-  >
-    <wc-icon slot='icon' name='logo--github' provider='carbon'></wc-icon>
-    {count === null ? 'GitHub' : <>Star on GitHub<span class='github-stars-count' aria-hidden='true'>{count}</span></>}
-  </wc-link-button>
-) : (
-  <a class:list={['github-stars-pill', 'text-label-medium', className]} href={REPO_URL} target='_blank' rel='noopener' aria-label={label}>
-    <wc-icon name='logo--github' provider='carbon' aria-hidden='true'></wc-icon>
-    <span>GitHub</span>
-    {count !== null && (
-      <span class='github-stars-pill-count' aria-hidden='true'>
-        <wc-icon name='star' aria-hidden='true'></wc-icon>
-        {count}
-      </span>
-    )}
-  </a>
-)}
+<a class:list={['github-stars-pill', 'text-label-medium', className]} href={REPO_URL} target='_blank' rel='noopener' aria-label={label}>
+  <wc-icon name='logo--github' provider='carbon' aria-hidden='true'></wc-icon>
+  <span>GitHub</span>
+  {count !== null && (
+    <span class='github-stars-pill-count' aria-hidden='true'>
+      <wc-icon name='star' aria-hidden='true'></wc-icon>
+      {count}
+    </span>
+  )}
+</a>
 
 <style lang='scss'>
-  .github-stars-count {
-    margin-inline-start: var(--spacing-100);
-    padding: 0 var(--spacing-075);
-    border-radius: var(--shape-corner-full);
-    background: var(--color-secondary-container);
-    color: var(--color-on-secondary-container);
-    font-variant-numeric: tabular-nums;
-  }
-
   .github-stars-pill {
     display: inline-flex;
     align-items: center;

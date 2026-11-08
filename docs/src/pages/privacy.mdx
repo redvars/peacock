@@ -1,39 +1,49 @@
 ---
 layout: ../layouts/Notice.astro
 title: 'Privacy Policy'
-description: 'How the Peacock documentation site handles your privacy: no accounts, no stored personal data, and the third-party services it relies on.'
+description: 'What the Peacock documentation site collects: Google Analytics and Google AdSense cookies, fonts and scripts from CDNs, and settings kept in your browser.'
 ---
 import { AUTHOR } from '../siteconfig';
 
 # Privacy Policy
 
-**Last Updated:** May 3, 2026
+**Last Updated:** November 8, 2026
 
-The **redvars/peacock** project is committed to providing a high-quality, performant, and private web experience. This statement outlines our approach to privacy for this static site.
+This statement covers the Peacock documentation site (peacock.redvars.com), run by {AUTHOR.name}. It explains what the site collects, which third-party services it loads, and the choices you have. The Peacock component library itself collects nothing: it runs in your app and sends no data anywhere.
 
-## 1. No Data Collection
-This is a static website. We do not require user registration, and we do not collect, store, or process any personal data from our visitors.
+## 1. What we collect ourselves
+This is a static website. There are no accounts, no forms that send data to us, and no database of visitors. We do not ask for or store your name, email address or any other personal details.
 
-* We do not use databases to store user information.
-* We do not track your IP address.
-* We do not collect browser fingerprinting data.
+The site search runs in your browser against an index that ships with the site, so your search terms are not sent to a server.
 
-## 2. Cookies and Tracking
-We believe in a clean browsing experience.
+## 2. Analytics
+We use **Google Analytics** to understand how the documentation is used, such as which pages are read and which browsers and countries visitors come from. Google Analytics sets cookies (such as `_ga`) and sends Google information about your visit, including the pages you view, your browser and device, and an approximate location derived from your IP address. We see these as aggregate reports and do not use them to identify individual visitors.
 
-* **Cookies:** This site does not use cookies for tracking or advertising.
-* **Third-Party Analytics:** We do not use third-party analytics services (such as Google Analytics) that track users across different websites.
+You can block Google Analytics with the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout), a content blocker, or your browser's cookie settings. The site works the same without it.
 
-## 3. Third-Party Services
-This site is built using the Peacock component library and may be hosted on static hosting providers (such as GitHub Pages, Vercel, or Netlify). These providers may collect standard server logs (such as IP addresses and timestamps) for security purposes and to maintain service stability. We do not have access to this data for the purpose of identifying individuals.
+## 3. Advertising
+Some documentation pages show ads from **Google AdSense**. To serve and measure ads, Google and its partners may set cookies and read information about your visit. Depending on your Google settings and your region, the ads may be personalized based on your visits to this and other websites.
 
-## 4. External Links
-Our site may contain links to other websites (e.g., GitHub repositories or documentation). Please be aware that we are not responsible for the privacy practices of such other sites. We encourage our users to be aware when they leave our site and to read the privacy statements of any other site that collects personally identifiable information.
+You can manage ad personalization in [My Ad Center](https://myadcenter.google.com/) and read how Google uses information from sites that use its services in [Google's partner sites policy](https://policies.google.com/technologies/partner-sites).
 
-## 5. Changes to This Statement
-This privacy policy is subject to change without notice. Any updates will be reflected on this page with a new "Last Updated" date.
+## 4. Other third-party services
+To display the pages, your browser loads files from these services, which receive your IP address and browser details as part of any web request:
 
-## 6. Contact
-If you have any questions regarding this privacy statement or the technical implementation of the Peacock library, feel free to contact us directly:
+* **jsDelivr** serves the Peacock components, styles and some libraries used by the demos. See the [jsDelivr privacy policy](https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net).
+* **Google Fonts** serves the fonts. See the [Google Fonts privacy FAQ](https://developers.google.com/fonts/faq/privacy).
+* **Unsplash** serves the sample photos on some component demos.
+* **The hosting provider** keeps standard server logs (such as IP addresses and timestamps) for security and to keep the site running.
 
-**Email:** [{AUTHOR.email}](mailto:{AUTHOR.email})
+The GitHub star count and the current version are fetched when the site is built, not when you visit, so viewing them sends nothing to GitHub or npm.
+
+## 5. Settings stored in your browser
+The site keeps a few settings in your browser's local storage so they survive the next visit: your light or dark theme, the text direction, and your choices in the theme builder. Some component demos also remember their own state there. These settings never leave your device; clearing your browser's site data removes them.
+
+## 6. External links
+The site links to other websites, such as GitHub, npm and the blog's references. We are not responsible for their privacy practices, so please read their own policies.
+
+## 7. Changes to this statement
+We update this page when the site changes what it collects or which services it uses, and change the "Last Updated" date above.
+
+## 8. Contact
+If you have questions about this statement, contact us at <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>.

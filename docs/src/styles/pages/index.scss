@@ -73,6 +73,13 @@
   min-width: 0;
 }
 
+.home-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--spacing-100);
+}
+
 .home-announcement {
   display: inline-flex;
   align-items: center;

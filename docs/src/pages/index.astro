@@ -197,11 +197,14 @@ const keywords = 'web components, design system, lit, react components, vue comp
     <!-- Hero -->
     <section class='home-hero'>
       <div class='home-hero-text'>
-        <a class='home-announcement text-label-large' href={latestPost?.href ?? '/blog/'}>
-          <span class='home-announcement-badge'>New</span>
-          {latestPost?.title ?? 'Read the blog'}
-          <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
-        </a>
+        <div class='home-badges'>
+          <a class='home-announcement text-label-large' href={latestPost?.href ?? '/blog/'}>
+            <span class='home-announcement-badge'>New</span>
+            {latestPost?.title ?? 'Read the blog'}
+            <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+          </a>
+          <GitHubStars class='home-github' />
+        </div>
 
         <h1 class='home-title text-display-large'>
           Build product interfaces <span class='home-title-accent'>with web components.</span>
@@ -211,7 +214,6 @@ const keywords = 'web components, design system, lit, react components, vue comp
         <div class='home-actions'>
           <wc-link-button href='#getting-started' level='primary'>Get started</wc-link-button>
           <wc-link-button href='/components/' level='secondary' variant='tonal'>Browse components</wc-link-button>
-          <GitHubStars variant='button' />
         </div>
 
         <div class='home-install'>
@@ -238,7 +240,7 @@ const keywords = 'web components, design system, lit, react components, vue comp
               </wc-avatar-group>
             </div>
             <wc-input label='Email' type='email' placeholder='name@company.com' value='grace@example.com'></wc-input>
-            <wc-select label='Role' value='editor'>
+            <wc-select id='home-demo-role' label='Role' value='viewer'>
               <wc-option value='viewer'>Viewer</wc-option>
               <wc-option value='editor'>Editor</wc-option>
               <wc-option value='admin'>Admin</wc-option>
@@ -252,8 +254,18 @@ const keywords = 'web components, design system, lit, react components, vue comp
         </wc-card>
         <div class='home-demo-stats'>
           <wc-stat variant='filled' label='Seats used' value='42' previous='37'></wc-stat>
-          <wc-stat variant='filled' label='Pending invites' value='5' previous='8'></wc-stat>
+          <wc-stat variant='filled' label='Pending invites' value='5' previous='8'>
+            <wc-ai-summary slot='insight' variant='inline' value='3 expire tomorrow; all are from the design team.'></wc-ai-summary>
+          </wc-stat>
         </div>
+        <script is:inline>
+          // The assistant suggested the role: the field holds it with a Suggested badge and the
+          // reason until the person accepts (edits or sends) or clears it.
+          customElements.whenDefined('wc-select').then(() => {
+            const role = document.getElementById('home-demo-role');
+            if (role) role.suggestion = { value: 'editor', reason: 'Grace edited 12 pages here last month.' };
+          });
+        </script>
       </div>
     </section>
 
