@@ -2,13 +2,15 @@
 
 @include mixin.base-styles;
 
+// M3 Expressive split button: a pill whose outer corners are fully round and whose inner
+// corners are small. The inner corners grow on hover and press, and the trailing button
+// becomes a circle while its menu is open. Per-size values live in split-button-sizes.scss.
+
 :host {
   display: inline-flex;
   position: relative;
 
-  --split-button-container-shape: var(--shape-corner-medium);
-  --split-button-gap: 0.125rem;
-  --split-button-icon-size: 1.125rem;
+  --split-button-gap: var(--spacing-025);
 }
 
 .split-button {
@@ -17,17 +19,60 @@
   gap: var(--split-button-gap);
 }
 
+.action-button,
+.dropdown-trigger {
+  --_outer-corner: var(
+    --split-button-container-shape,
+    calc(var(--button-height) / 2)
+  );
+  --_inner: var(--_inner-corner);
+  --button-container-shape-variant: round;
+}
+
 .action-button {
-  --button-container-shape: var(--split-button-container-shape);
+  --button-container-shape-start-start: var(--_outer-corner);
+  --button-container-shape-end-start: var(--_outer-corner);
+  --button-container-shape-start-end: var(--_inner);
+  --button-container-shape-end-end: var(--_inner);
+  --button-container-padding-start: var(--_leading-padding-start);
+  --button-container-padding-end: var(--_leading-padding-end);
 }
 
 .dropdown-trigger {
-  --button-container-shape: var(--split-button-container-shape);
-  --button-icon-size: var(--split-button-icon-size);
+  --button-container-shape-start-start: var(--_inner);
+  --button-container-shape-end-start: var(--_inner);
+  --button-container-shape-start-end: var(--_outer-corner);
+  --button-container-shape-end-end: var(--_outer-corner);
+  --button-width: var(--_trailing-width);
+  --button-icon-size: var(--_trailing-icon-size);
+}
+
+.action-button:not(.disabled):hover,
+.action-button:not(.disabled):active,
+.dropdown-trigger:not(.disabled):hover,
+.dropdown-trigger:not(.disabled):active {
+  --_inner: var(--_inner-corner-active);
+}
+
+// Menu open: the trailing button turns into a circle. A press still wins.
+.dropdown-trigger.active:not(:active) {
+  --_inner: var(--_outer-corner);
 }
 
 .dropdown-icon {
-  transition: transform 200ms ease;
+  // Optical centring: with a flat start and a round end, the icon reads as centred when it
+  // sits a little toward the flat side (Compose's horizontalCenterOptically coefficient).
+  --_optical-offset: calc(
+    (var(--_inner) - var(--_outer-corner)) * 0.11
+  );
+  translate: var(--_optical-offset) 0;
+  transition:
+    transform 200ms var(--easing-standard),
+    translate 200ms var(--easing-standard);
+}
+
+:host(:dir(rtl)) .dropdown-icon {
+  translate: calc(var(--_optical-offset) * -1) 0;
 }
 
 .dropdown-trigger.active .dropdown-icon {
@@ -44,7 +89,6 @@
   }
 }
 
-
 /* ── Variant: Tonal ─────────────────────────────────────── */
 
 .split-button.variant-tonal {
@@ -55,6 +99,15 @@
   }
 }
 
+/* ── Variant: Elevated ──────────────────────────────────── */
+
+.split-button.variant-elevated {
+  .action-button,
+  .dropdown-trigger {
+    --elevated-button-container-color: var(--elevated-split-button-container-color);
+    --elevated-button-label-text-color: var(--elevated-split-button-label-text-color);
+  }
+}
 
 /* ── Variant: Outlined ──────────────────────────────────── */
 

@@ -1,11 +1,21 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixture, expect } from '@open-wc/testing';
+import { fixture, expect, aTimeout } from '@open-wc/testing';
 // Import modules directly: src/index.js pulls in html-editor's CommonJS js-beautify, which the
 // test server cannot load.
+import { Button } from '../src/button/button/button.js';
+import { IconButton } from '../src/button/icon-button/icon-button.js';
 import { Item } from '../src/item/index.js';
 import { Menu, MenuItem } from '../src/menu/index.js';
 import { SplitButton } from '../src/split-button/index.js';
+
+if (!customElements.get('wc-button')) {
+  customElements.define('wc-button', Button);
+}
+
+if (!customElements.get('wc-icon-button')) {
+  customElements.define('wc-icon-button', IconButton);
+}
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);
@@ -162,5 +172,41 @@ describe('SplitButton', () => {
     await el.updateComplete;
     expect(parts(el).menu.placement).to.equal('top-start');
     expect(el.getAttribute('placement')).to.equal('top-start');
+  });
+
+  it('follows the M3 shape: round outer corners, small inner ones, a circle when open', async () => {
+    // The shape tokens come from the theme stylesheet, which the test page does not load.
+    const el = await fixture<SplitButton>(html`
+      <wc-split-button
+        size="sm"
+        style="--shape-corner-extra-small: 4px; --shape-corner-medium: 12px"
+      >
+        Save
+        <wc-menu-item slot="menu">Draft</wc-menu-item>
+      </wc-split-button>
+    `);
+    const { actionEl, triggerEl } = parts(el);
+    await (actionEl as Button).updateComplete;
+    await (triggerEl as unknown as IconButton).updateComplete;
+
+    const corners = (host: HTMLElement) => {
+      const bg = host.shadowRoot!.querySelector<HTMLElement>('.background')!;
+      const style = getComputedStyle(bg);
+      return [
+        style.borderStartStartRadius,
+        style.borderStartEndRadius,
+        style.borderEndStartRadius,
+        style.borderEndEndRadius,
+      ];
+    };
+
+    expect(corners(actionEl)).to.deep.equal(['20px', '4px', '20px', '4px']);
+    expect(corners(triggerEl)).to.deep.equal(['4px', '20px', '4px', '20px']);
+    expect(triggerEl.getBoundingClientRect().width).to.equal(48);
+
+    el.show();
+    await settle(el);
+    await aTimeout(300); // the corner morph animates over 200ms
+    expect(corners(triggerEl)).to.deep.equal(['20px', '20px', '20px', '20px']);
   });
 });

@@ -4,7 +4,7 @@ export const order = 200;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>The split button supports filled, tonal, and outlined variants, following M3 Material Design guidelines.</p>
+<p>The split button supports filled, tonal, elevated and outlined variants, following M3 Material Design guidelines.</p>
 
 <DemoComponentCard lang={'html'} inline>
   <wc-split-button variant='filled'>
@@ -15,6 +15,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <wc-split-button variant='tonal'>
     Tonal
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button variant='elevated'>
+    Elevated
     <wc-menu-item slot="menu">Option A</wc-menu-item>
     <wc-menu-item slot="menu">Option B</wc-menu-item>
   </wc-split-button>

@@ -19,7 +19,8 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @overview
  * <p>The main button runs the default action; the arrow beside it opens a menu of related actions.</p>
  *
- * @cssprop --split-button-container-shape: Defines the border radius of the split button container shape.
+ * @cssprop --split-button-container-shape: Radius of the split button's outer corners. Defaults to fully round; the inner corners follow the M3 size tokens.
+ * @cssprop --split-button-gap: Space between the main button and the menu button. Defaults to 2px.
  *
  * @cssprop --filled-split-button-container-color: Color of the filled split button container.
  * @cssprop --filled-split-button-label-text-color: Text color of the filled split button label.
@@ -29,6 +30,9 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  *
  * @cssprop --tonal-split-button-container-color: Color of the tonal split button container.
  * @cssprop --tonal-split-button-label-text-color: Text color of the tonal split button label.
+ *
+ * @cssprop --elevated-split-button-container-color: Color of the elevated split button container.
+ * @cssprop --elevated-split-button-label-text-color: Text color of the elevated split button label.
  *
  * @fires {MouseEvent} click - Dispatched when the primary action button is clicked.
  * @fires {CustomEvent} open - Dispatched after the menu opens.
@@ -61,9 +65,13 @@ export class SplitButton extends LitElement {
    * `"filled"` is a filled button.
    * `"outlined"` is an outlined button.
    * `"tonal"` is a light color button.
+   * `"elevated"` is a raised button on a low surface.
    */
-  @property({ reflect: true }) variant: 'filled' | 'tonal' | 'outlined' =
-    'filled';
+  @property({ reflect: true }) variant:
+    | 'filled'
+    | 'tonal'
+    | 'elevated'
+    | 'outlined' = 'filled';
 
   /**
    * Defines the primary color of the split button.
@@ -179,7 +187,7 @@ export class SplitButton extends LitElement {
         >
           <wc-icon
             class="dropdown-icon"
-            name="arrow_drop_down"
+            name="keyboard_arrow_down"
             aria-hidden="true"
           ></wc-icon>
         </wc-icon-button>

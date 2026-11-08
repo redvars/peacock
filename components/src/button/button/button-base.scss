@@ -48,8 +48,15 @@
   align-items: center;
   justify-content: center;
   height: var(--button-height);
-  padding: 0
-    var(--button-container-padding, var(--_button-container-padding));
+  padding-block: 0;
+  padding-inline-start: var(
+    --button-container-padding-start,
+    var(--button-container-padding, var(--_button-container-padding))
+  );
+  padding-inline-end: var(
+    --button-container-padding-end,
+    var(--button-container-padding, var(--_button-container-padding))
+  );
   width: 100%;
 
   .label {

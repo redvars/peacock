@@ -2,7 +2,9 @@
 
 // Mixin for the shared transition logic
 @mixin button-transition {
-  transition-property: inset, width, height, transform, opacity;
+  transition-property:
+    inset, width, height, transform, opacity, border-start-start-radius,
+    border-start-end-radius, border-end-start-radius, border-end-end-radius;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
   will-change: inset, transform, opacity;

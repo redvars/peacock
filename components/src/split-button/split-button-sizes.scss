@@ -1,19 +1,46 @@
+// M3 Expressive split button tokens (Compose SplitButton{XSmall..XLarge}Tokens).
+
 :host([size='xs']) {
-  --split-button-icon-size: 1rem;
+  --_inner-corner: var(--shape-corner-extra-small);
+  --_inner-corner-active: var(--shape-corner-small);
+  --_leading-padding-start: 0.75rem;
+  --_leading-padding-end: 0.625rem;
+  --_trailing-width: 3rem;
+  --_trailing-icon-size: 1.375rem;
 }
 
 :host([size='sm']) {
-  --split-button-icon-size: 1.125rem;
+  --_inner-corner: var(--shape-corner-extra-small);
+  --_inner-corner-active: var(--shape-corner-medium);
+  --_leading-padding-start: 1rem;
+  --_leading-padding-end: 0.75rem;
+  --_trailing-width: 3rem;
+  --_trailing-icon-size: 1.375rem;
 }
 
 :host([size='md']) {
-  --split-button-icon-size: 1.25rem;
+  --_inner-corner: var(--shape-corner-extra-small);
+  --_inner-corner-active: var(--shape-corner-medium);
+  --_leading-padding-start: 1.5rem;
+  --_leading-padding-end: 1.5rem;
+  --_trailing-width: 3.5rem;
+  --_trailing-icon-size: 1.625rem;
 }
 
 :host([size='lg']) {
-  --split-button-icon-size: 1.5rem;
+  --_inner-corner: var(--shape-corner-small);
+  --_inner-corner-active: var(--shape-corner-large-increased);
+  --_leading-padding-start: 3rem;
+  --_leading-padding-end: 3rem;
+  --_trailing-width: 6rem;
+  --_trailing-icon-size: 2.375rem;
 }
 
 :host([size='xl']) {
-  --split-button-icon-size: 2rem;
+  --_inner-corner: var(--shape-corner-medium);
+  --_inner-corner-active: var(--shape-corner-large-increased);
+  --_leading-padding-start: 4rem;
+  --_leading-padding-end: 4rem;
+  --_trailing-width: 8.5rem;
+  --_trailing-icon-size: 3.125rem;
 }

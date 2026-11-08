@@ -5,6 +5,9 @@
   --tonal-split-button-container-color: var(--color-#{$color}-container);
   --tonal-split-button-label-text-color: var(--color-on-#{$color}-container);
 
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-#{$color});
+
   --outlined-split-button-outline-color: var(--color-#{$color});
   --outlined-split-button-label-text-color: var(--color-#{$color});
 }
@@ -40,6 +43,9 @@
   --tonal-split-button-container-color: var(--color-on-surface-variant);
   --tonal-split-button-label-text-color: var(--color-surface-container-high);
 
+  --elevated-split-button-container-color: var(--color-on-surface);
+  --elevated-split-button-label-text-color: var(--color-surface);
+
   --outlined-split-button-outline-color: var(--color-on-surface);
   --outlined-split-button-label-text-color: var(--color-on-surface);
 }
@@ -50,6 +56,9 @@
 
   --tonal-split-button-container-color: var(--color-surface-container-high);
   --tonal-split-button-label-text-color: var(--color-on-surface);
+
+  --elevated-split-button-container-color: var(--color-surface);
+  --elevated-split-button-label-text-color: var(--color-on-surface);
 
   --outlined-split-button-outline-color: var(--color-on-surface);
   --outlined-split-button-label-text-color: var(--color-on-surface);
