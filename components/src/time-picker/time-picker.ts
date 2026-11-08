@@ -83,8 +83,10 @@ export class TimePicker extends LitElement {
   /** BCP 47 locale for AM/PM names and the default hour cycle. */
   @property({ type: String }) locale = '';
 
+  /** Disables the picker: no time can be focused or picked. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** Shows the selected time but stops the user changing it. */
   @property({ type: Boolean, reflect: true }) readonly = false;
 
   // ── State ────────────────────────────────────────────────────────────────

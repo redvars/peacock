@@ -5,61 +5,91 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  <code>wc-html-editor</code> is the same editor as
-  <code>wc-markdown-editor</code>, for fields whose value has to be HTML, such
-  as an email body. It has the same toolbar, selection bubble, slash menu,
-  block handle, link editor and mentions. HTML can store underline and
-  resizable table columns, so the HTML editor offers them; <strong>View
-  source</strong> shows the HTML.
+  <code>wc-html-editor</code> is a form field for rich text whose value has to
+  be HTML, such as an email body or a CMS field. It is the same editor as
+  <code>wc-markdown-editor</code>: people edit formatted text directly, the way
+  they would in a word processor, and the value is HTML.
 </p>
+<ul>
+  <li>
+    <strong>Toolbar</strong>: text style, bold, italic, underline,
+    strikethrough, inline code, link, lists, checklist, quote, code block,
+    table, divider and mention. While the caret is in a table, a
+    <em>Table</em> menu adds and removes rows and columns, and column edges
+    can be dragged to resize them.
+  </li>
+  <li>
+    <strong>Selection bubble</strong>: select text to format it in place.
+  </li>
+  <li>
+    <strong>Slash menu</strong>: type <code>/</code> to insert a block.
+    Markdown shortcuts such as <code>## </code>, <code>- </code>,
+    <code>1. </code>, <code>&gt; </code> and <code>**bold**</code> work as you
+    type.
+  </li>
+  <li>
+    <strong>Block handle</strong>: hover a block to drag it, or press
+    <strong>+</strong> to insert a block below.
+  </li>
+  <li>
+    <strong>Link</strong>: the toolbar button, the bubble or
+    <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> open the link editor. Only web,
+    email and relative addresses are accepted.
+  </li>
+  <li>
+    <strong>View source</strong>: the last toolbar button shows the HTML,
+    which you can edit directly.
+  </li>
+</ul>
 <p>
-  Only what the editor supports is kept: other tags, attributes and scripts in
-  a value are dropped when it loads.
+  HTML can store underline and table column widths, which Markdown cannot, so
+  the HTML editor offers them. Only what the editor supports is kept: other
+  tags, attributes and scripts in a value are dropped when it loads.
 </p>
-
-<wc-checkbox id="disableEditor">Disable editor</wc-checkbox>
-<wc-checkbox id="readonlyEditor">Read-only editor</wc-checkbox>
 
 <DemoComponentCard lang={'html'}>
   <wc-html-editor
     id="html-editor"
     label="Message"
-    helper-text="Format text, type @ to mention, or view the HTML source."
+    helper-text="Type / for blocks, select text to format, @ to mention."
     style="display:block; width: 100%;"
   ></wc-html-editor>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script is:inline>
-    const editor = document.getElementById('html-editor');
-
-    editor.value = `<p>Hi everyone! <strong>Don't forget the daily stand-up at 8 AM.</strong></p>
-<p>Please <u>review the tasks</u> assigned to you before the meeting.</p>`;
-
-    const people = [
-      { id: 'alex', label: 'Alex Morgan', description: 'Design' },
-      { id: 'pat', label: 'Pat Kim', description: 'Engineering' },
-      { id: 'jordan', label: 'Jordan Lee', description: 'Support' },
-    ];
-    // Answer each `search` by setting `suggestions`, now or after a request.
-    editor.addEventListener('search', event => {
-      const query = event.detail.query.toLowerCase();
-      editor.suggestions = people.filter(person =>
-        person.label.toLowerCase().includes(query),
-      );
-    });
-
-    document.querySelector('#disableEditor').addEventListener('change', function (evt) {
-      editor.disabled = evt.target.value;
-    });
-
-    document.querySelector('#readonlyEditor').addEventListener('change', function (evt) {
-      editor.readonly = evt.target.value;
-    });
-
-    // `input` fires while editing; `change` when focus leaves with a different value.
-    editor.addEventListener('input', event => {
-      console.log('html-editor input:', event.detail.value);
-    });
-    editor.addEventListener('change', event => {
-      console.log('html-editor change:', event.detail.value);
-    });
+    // Answers `search` with people (@) and tickets (#), so mentions list suggestions.
+    window.peacockMentionDemo(document.getElementById('html-editor'));
+    document.getElementById('html-editor').value = `<h2>Billing export update</h2>
+<p>Hi team, the <strong>CSV export</strong> fails for last month. Please <u>review the steps</u> before stand-up.</p>
+<ol>
+  <li><p>Open the <strong>billing</strong> page as an admin</p></li>
+  <li><p>Export last month as <em>CSV</em></p></li>
+</ol>
+<ul data-type="taskList">
+  <li data-type="taskItem" data-checked="true"><p>Reproduced on staging</p></li>
+  <li data-type="taskItem" data-checked="false"><p>Reproduced on production</p></li>
+</ul>
+<table>
+  <tr><th><p>Region</p></th><th><p>Status</p></th></tr>
+  <tr><td><p>EU</p></td><td><p>Failing</p></td></tr>
+  <tr><td><p>US</p></td><td><p>OK</p></td></tr>
+</table>`;
   </script>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Without the toolbar</h3>
+
+<p>
+  <code>hide-toolbar</code> leaves a clean writing surface. Formatting stays
+  available from the selection bubble, the slash menu, Markdown shortcuts and
+  keyboard shortcuts.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    label="Notes"
+    hide-toolbar
+    rows="3"
+    placeholder="Write a note. Select text to format it."
+    style="display:block; width: 100%;"
+  ></wc-html-editor>
 </DemoComponentCard>

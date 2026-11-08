@@ -85,7 +85,7 @@ describe('Field', () => {
 
   /** The tokens the states draw with, which the tests do not otherwise load. */
   const tokens =
-    '--color-on-surface: rgb(1, 2, 3); --color-on-surface-variant: rgb(4, 5, 6); --color-surface-container-lowest: rgb(7, 8, 9)';
+    '--color-on-surface: rgb(1, 2, 3); --color-on-surface-variant: rgb(4, 5, 6); --color-surface-container-lowest: rgb(7, 8, 9); --color-outline: rgb(10, 11, 12); --color-primary: rgb(13, 14, 15)';
 
   async function field(
     state: 'readonly' | 'disabled' | '',
@@ -155,6 +155,71 @@ describe('Field', () => {
     it('keeps the filled bottom line at 38% and the outlined field unfilled', async () => {
       expect(style(await field('disabled', 'filled'), '.outline').opacity).to.equal('0.38');
       expect(containerInk(await field('disabled', 'outlined'))).to.equal(0);
+    });
+  });
+
+  describe('outlined', () => {
+    const part = (el: Field, selector: string) =>
+      el.shadowRoot!.querySelector<HTMLElement>(selector);
+
+    it('builds the outline from a start, a notch sized by the label and an end', async () => {
+      const el = await field('', 'outlined');
+
+      expect(part(el, '.outline .outline-start')).to.exist;
+      expect(part(el, '.outline .outline-notch')).to.exist;
+      expect(part(el, '.outline .outline-end')).to.exist;
+      expect(part(el, '.outline-notch-label')?.textContent?.trim()).to.equal('Name');
+      expect(style(el, '.outline-notch').borderTopStyle).to.equal('none');
+      expect(style(el, '.outline').borderTopStyle).to.equal('none');
+    });
+
+    it('keeps the label inside the outline, with no header above it', async () => {
+      const el = await field('', 'outlined');
+
+      expect(part(el, '.field-header')).to.not.exist;
+      expect(part(el, '.field-body .outlined-label')?.textContent).to.contain('Name');
+    });
+
+    it('rests the label until focused or populated, then floats it into the notch', async () => {
+      const el = await field('', 'outlined');
+      const fieldEl = part(el, '.field')!;
+      expect(fieldEl.classList.contains('label-floating')).to.be.false;
+
+      el.focused = true;
+      await el.updateComplete;
+      expect(fieldEl.classList.contains('label-floating')).to.be.true;
+
+      el.focused = false;
+      el.populated = true;
+      await el.updateComplete;
+      expect(fieldEl.classList.contains('label-floating')).to.be.true;
+    });
+
+    it('draws a 1px outline, 2px while focused', async () => {
+      const el = await field('', 'outlined');
+      expect(style(el, '.outline-start').borderTopWidth).to.equal('1px');
+      expect(style(el, '.outline-end').borderBottomWidth).to.equal('1px');
+
+      el.focused = true;
+      await el.updateComplete;
+      expect(style(el, '.outline-start').borderTopWidth).to.equal('2px');
+      expect(style(el, '.outline-notch').borderBottomWidth).to.equal('2px');
+    });
+
+    it('opens no notch without a label', async () => {
+      const el = await fixture<Field>(
+        html`<wc-field variant="outlined" focused><input /></wc-field>`,
+      );
+      expect(part(el, '.outline-notch-label')).to.not.exist;
+      expect(part(el, '.outlined-label')).to.not.exist;
+    });
+
+    it('keeps the label in the same place for the required mark', async () => {
+      const el = await fixture<Field>(
+        html`<wc-field variant="outlined" label="Name" required><input /></wc-field>`,
+      );
+      expect(part(el, '.outlined-label .required')).to.exist;
+      expect(part(el, '.outline-notch-label .required')).to.exist;
     });
   });
 

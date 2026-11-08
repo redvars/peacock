@@ -13,15 +13,15 @@ if (Astro.slots.has('default')) {
   html = html.replaceAll('<script>', '&lt;script&gt;').replaceAll('</script>', '&lt;/script&gt;');
 }
 ---
-<pc-card class={cssClasses}>
-  <pc-card-content class='demo-area'>
+<wc-card class={cssClasses}>
+  <wc-card-content class='demo-area'>
     <div class='demo-area-inner'>
       <slot></slot>
     </div>
-  </pc-card-content>
-  <pc-card-content class='no-padding code-area'>
+  </wc-card-content>
+  <wc-card-content class='no-padding code-area'>
     <wc-code-highlighter language={lang} class='demo-html'>
       <pre><code><Fragment set:html={html} /></code></pre>
     </wc-code-highlighter>
-  </pc-card-content>
-</pc-card>
+  </wc-card-content>
+</wc-card>

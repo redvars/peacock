@@ -127,6 +127,7 @@ export class TransferList extends BaseInput {
   @property({ type: Boolean, reflect: true })
   error = false;
 
+  /** Error message shown below the component while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 

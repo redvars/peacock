@@ -1,0 +1,70 @@
+---
+export const title = 'Mentions';
+export const order = 120;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Mentions work as on <code>wc-mention-input</code>. Typing a character from
+  <code>triggers</code> (<code>@</code> by default) fires <code>search</code>
+  with <code>{'{ trigger, query }'}</code>. Answer by setting
+  <code>suggestions</code>, an array of
+  <code>{'{ id, label, description?, avatar? }'}</code>; set
+  <code>suggestions-loading</code> while a request is in flight. Arrow keys
+  move through the list, <kbd>Enter</kbd> or <kbd>Tab</kbd> inserts, and
+  <kbd>Escape</kbd> closes it.
+</p>
+<p>
+  A mention is stored in the HTML as
+  <code>{'<span data-type="mention" data-id="usr_142" data-label="Ana Lima">@Ana Lima</span>'}</code>
+  and fires <code>mention</code>. On save, read the <code>data-id</code> of
+  each <code>[data-type="mention"]</code> element to find who to notify.
+  <code>triggers="@#"</code> adds a second trigger, for example for tickets;
+  <code>triggers=""</code> turns mentions off.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    id="html-mentions"
+    label="Comment"
+    triggers="@#"
+    rows="3"
+    helper-text="Type @ for people or # for tickets."
+    style="display:block; width: 100%;"
+  ></wc-html-editor>
+  <script is:inline>
+    const htmlMentionEditor = document.getElementById('html-mentions');
+    const htmlPeople = [
+      { id: 'usr_142', label: 'Ana Lima', description: 'Billing', avatar: '' },
+      { id: 'usr_7', label: 'Ravi Kumar', description: 'Support', avatar: '' },
+      { id: 'usr_31', label: 'Mei Chen', description: 'Platform', avatar: '' },
+    ];
+    const htmlTickets = [
+      { id: 'inc_2041', label: 'INC-2041', description: 'Invoices fail to export' },
+      { id: 'inc_2052', label: 'INC-2052', description: 'Slow ledger sync' },
+    ];
+    htmlMentionEditor.addEventListener('search', event => {
+      const { trigger, query } = event.detail;
+      const source = trigger === '#' ? htmlTickets : htmlPeople;
+      htmlMentionEditor.suggestionsLoading = true;
+      // A real app would ask its server here.
+      setTimeout(() => {
+        htmlMentionEditor.suggestions = source.filter(item =>
+          item.label.toLowerCase().includes(query.toLowerCase()),
+        );
+        htmlMentionEditor.suggestionsLoading = false;
+      }, 150);
+    });
+    htmlMentionEditor.addEventListener('mention', event => {
+      console.log('mentioned', event.detail.mention);
+    });
+    htmlMentionEditor.addEventListener('change', event => {
+      // Find who to notify from the stored HTML.
+      const doc = new DOMParser().parseFromString(event.detail.value, 'text/html');
+      const ids = [...doc.querySelectorAll('[data-type="mention"]')].map(
+        node => node.dataset.id,
+      );
+      console.log('mentioned ids', ids);
+    });
+  </script>
+</DemoComponentCard>

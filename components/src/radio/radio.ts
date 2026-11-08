@@ -217,7 +217,6 @@ export class Radio extends ToggleBase {
           class="container"
           role="radio"
           aria-checked=${String(this.checked)}
-          @click=${this.clickHandler}
           @mousedown=${this.handleMouseDown}
           @keydown=${this.keyDownHandler}
           @focus=${this.handleFocusChange}
@@ -237,6 +236,7 @@ export class Radio extends ToggleBase {
           aria-hidden="true"
           ?disabled=${this.disabled}
           tabindex="-1"
+          @click=${this.clickHandler}
         />
 
         ${this.renderLabel()}

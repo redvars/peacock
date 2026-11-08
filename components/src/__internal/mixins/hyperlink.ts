@@ -50,13 +50,23 @@ export function mixinHyperlink<T extends MixinBase<LitElement>>(
   base: T,
 ): MixinReturn<T, Hyperlink> {
   abstract class HyperlinkElement extends base implements Hyperlink {
+    /** The URL to link to. When set, the component renders as an `<a>` element. */
     @property() href?: string;
 
+    /**
+     * Where to open the linked URL: `"_self"` (default), `"_blank"`, `"_parent"`, `"_top"` or a
+     * frame name. Pair `"_blank"` with `rel="noopener noreferrer"`.
+     */
     @property() target: '_self' | '_parent' | '_blank' | '_top' | string =
       '_self';
 
+    /** The relationship of the linked URL to the current page, as the native `rel` attribute. */
     @property() rel = '';
 
+    /**
+     * Downloads the linked URL instead of navigating to it; the value is the suggested file
+     * name. Only applies with `href`.
+     */
     @property() download = '';
 
     // Mixins must have a constructor with `...args: any[]`

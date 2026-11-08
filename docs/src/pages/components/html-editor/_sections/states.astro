@@ -1,0 +1,66 @@
+---
+export const title = 'States';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<h3>Disabled</h3>
+
+<p>
+  Add the <code>disabled</code> attribute to prevent all interaction. The block
+  handle, bubble menu, and slash command menu are all suppressed.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    label="Notes"
+    disabled
+    style="display:block;"
+  ></wc-html-editor>
+  <script is:inline>
+    document.currentScript.previousElementSibling.value =
+      '<h2>Disabled editor</h2><p>This editor cannot be edited.</p>';
+  </script>
+</DemoComponentCard>
+
+<h3>Read-only</h3>
+
+<p>
+  Add the <code>readonly</code> attribute to display content without allowing
+  edits. The source toggle still works.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    label="Release Notes"
+    readonly
+    style="display:block;"
+  ></wc-html-editor>
+  <script is:inline>
+    document.currentScript.previousElementSibling.value = [
+      '<h2>v2.0.0</h2>',
+      '<p>This content is <strong>read-only</strong> and cannot be modified.</p>',
+      '<ul>',
+      '<li><p>Block handle is hidden</p></li>',
+      '<li><p>Bubble menu is suppressed</p></li>',
+      '<li><p>Source toggle still works</p></li>',
+      '</ul>',
+    ].join('');
+  </script>
+</DemoComponentCard>
+
+<h3>Error</h3>
+
+<p>
+  Set <code>error</code> and <code>error-text</code> to show a validation
+  error below the field.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    label="Message"
+    error
+    error-text="Message is required."
+    style="display:block;"
+  ></wc-html-editor>
+</DemoComponentCard>

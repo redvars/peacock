@@ -94,8 +94,10 @@ export class DatePicker extends LitElement {
   /** Shows Today and Clear buttons below the calendar. */
   @property({ type: Boolean, attribute: 'show-actions' }) showActions = false;
 
+  /** Disables the calendar: no date can be focused or picked. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** Shows the selected date but stops the user changing it. */
   @property({ type: Boolean, reflect: true }) readonly = false;
 
   /** Return true for dates that cannot be picked, such as holidays. */

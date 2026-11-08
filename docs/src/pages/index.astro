@@ -10,7 +10,7 @@ import { getGroupedComponents } from '../_data/componentGroups.ts';
 import { CHARTS } from '../_data/charts';
 import { BLOCKS } from '../_data/blocks';
 import { getPosts } from '../_data/blog';
-import { SITE_TITLE, SITE_DESCRIPTION, GITHUB_USERNAME, AUTHOR, VERSION, NPM_PACKAGE } from '../siteconfig';
+import { SITE_DESCRIPTION, VERSION, NPM_PACKAGE } from '../siteconfig';
 
 const groups = getGroupedComponents();
 const componentCount = groups.reduce((total, group) => total + group.entries.length, 0);
@@ -392,21 +392,6 @@ const keywords = 'web components, design system, lit, react components, vue comp
       </div>
     </section>
 
-    <!-- Credits -->
-    <section class='home-credits text-body-medium'>
-      <span>
-        {SITE_TITLE} is open source under the MIT license, maintained by
-        <a href={AUTHOR.url}>{AUTHOR.name}</a>. Made in India.
-      </span>
-      <wc-toolbar aria-label='Social links'>
-        <wc-icon-button variant='text' size='sm' aria-label='GitHub' target='_blank' href={`https://www.github.com/${GITHUB_USERNAME}`}>
-          <wc-icon name='logo--github' provider='carbon'></wc-icon>
-        </wc-icon-button>
-        <wc-icon-button variant='text' size='sm' aria-label='X' target='_blank' href={`https://x.com/${AUTHOR.twitter}`}>
-          <wc-icon name='logo--x' provider='carbon'></wc-icon>
-        </wc-icon-button>
-      </wc-toolbar>
-    </section>
   </div>
 
   <Footer />

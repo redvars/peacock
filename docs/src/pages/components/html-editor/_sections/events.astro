@@ -1,0 +1,60 @@
+---
+export const title = 'Events';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<p>
+  The editor fires <code>input</code> while the HTML content changes and
+  <code>change</code> when focus leaves the editor with a different value, like
+  a native field. Both are <code>CustomEvent</code>s with the HTML in
+  <code>detail.value</code>. <code>input</code> is debounced (default 250 ms,
+  configurable via the <code>debounce</code> property) to avoid excessive calls
+  while the user is typing.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    id="html-events-demo"
+    label="Editor"
+    helper-text="Edit content to see input and change events in the console."
+    style="display:block;"
+  ></wc-html-editor>
+  <script is:inline>
+    const htmlEvents = document.getElementById('html-events-demo');
+
+    htmlEvents.value = '<h2>Hello</h2><p>Start typing to fire <code>input</code> events.</p>';
+
+    htmlEvents.addEventListener('input', event => {
+      console.log('input fired — value:', event.detail.value);
+    });
+    htmlEvents.addEventListener('change', event => {
+      console.log('change fired — value:', event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Custom debounce</h3>
+
+<p>
+  Set <code>debounce="0"</code> for immediate <code>input</code> events or a
+  higher value (e.g. <code>debounce="1000"</code>) to reduce frequency on slow
+  connections.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    id="html-events-debounce"
+    label="Editor (500 ms debounce)"
+    debounce="500"
+    helper-text="Input events fire 500 ms after you stop typing."
+    style="display:block;"
+  ></wc-html-editor>
+  <script is:inline>
+    const htmlDebounced = document.getElementById('html-events-debounce');
+    htmlDebounced.value = '<p>Type here…</p>';
+    htmlDebounced.addEventListener('input', event => {
+      console.log('debounced input:', event.detail.value);
+    });
+  </script>
+</DemoComponentCard>

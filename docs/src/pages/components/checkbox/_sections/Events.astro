@@ -1,31 +1,20 @@
 ---
 export const title = 'Events';
 export const order = 600;
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>The checkbox component emits custom events for user interactions. The <code class='highlighter-rouge' data-lang='html'>change</code> event is triggered when the checkbox value changes.</p>
+<p>
+  The checkbox dispatches a <code>change</code> <b>CustomEvent</b> when it is toggled.
+  <code>event.detail</code> holds <code>checked</code>, the checkbox's <code>value</code> and the
+  <code>originalEvent</code> that caused the toggle.
+</p>
 
-<pc-card>
-  <pc-card-content>
-    <wc-checkbox id='change-checkbox-field'>Change Event?</wc-checkbox>
-    <script is:inline>
-      document.querySelector('#change-checkbox-field').addEventListener('change', function(event) {
-        console.log('Checkbox changed to:', event.detail.value);
-      });
-    </script>
-  </pc-card-content>
-  <!-- prettier-ignore -->
-  <pc-card-content class='no-padding'>
-    <Highlighter lang='javascript' is:raw>
-      document.querySelector('#change-checkbox-field').addEventListener('change', function(event) {
-        console.log('Checkbox changed to:', event.detail.value);
-        console.log('Original event:', event.detail.originalEvent);
-      });
+<DemoComponentCard lang={'html'}>
+  <wc-checkbox id='change-checkbox-field'>Change Event?</wc-checkbox>
 
-      // Also available: focus and blur events
-      document.querySelector('#change-checkbox-field').addEventListener('focus', function(event) {
-        console.log('Checkbox focused');
-      });
-    </Highlighter>
-  </pc-card-content>
-</pc-card>
+  <script is:inline>
+    document.querySelector('#change-checkbox-field').addEventListener('change', function(event) {
+      myConsole.log('change :: checked = ' + event.detail.checked);
+    });
+  </script>
+</DemoComponentCard>

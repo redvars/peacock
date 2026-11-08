@@ -190,17 +190,6 @@ pre[class*='language-'] {
   gap: 1rem;
 }
 
-.previous-next-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  --icon-color: white;
-}
-
-.previous-next-nav pc-button {
-  --filled-button-container-color: var(--color-secondary);
-}
-
 @media only screen and (max-width: 1055px) {
   .sidenav {
     width: 100%;

@@ -212,6 +212,7 @@ export class CodeEditor extends BaseInput {
   @property({ type: Boolean })
   error = false;
 
+  /** Error message shown below the editor while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 

@@ -84,6 +84,7 @@ export class RadioGroup extends LitElement {
   @property({ type: Boolean, reflect: true })
   error = false;
 
+  /** Error message shown below the group while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 

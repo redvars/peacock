@@ -61,6 +61,7 @@ export class Tab extends LitElement {
   /** Whether this is the chosen tab. Reflects to `aria-selected` (or `aria-current` on a link tab). */
   @property({ type: Boolean, reflect: true }) selected = false;
 
+  /** Disables the tab: it can't be selected. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   /** Why the tab is disabled; read to screen reader users. */
@@ -79,6 +80,7 @@ export class Tab extends LitElement {
    */
   @property() target: string = '_self';
 
+  /** The URL to link to. When set, the tab renders as a link for page navigation. */
   @property({ type: String, reflect: true }) href?: string;
 
   /**

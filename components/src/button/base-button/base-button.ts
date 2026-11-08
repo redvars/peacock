@@ -36,9 +36,11 @@ export function mixinBaseButton<
   T extends MixinBase<LitElement & WithElementInternals>,
 >(base: T): MixinReturn<T, BaseButton> {
   abstract class BaseButtonElement extends base implements BaseButton {
+    /** The visual style of the button, such as `"filled"`, `"tonal"`, `"outlined"` or `"text"`. */
     @property({ type: String, reflect: true })
     variant: string = '';
 
+    /** The color role of the button, such as `"primary"`, `"surface"` or `"danger"`. */
     @property({ type: String, reflect: true })
     color: string = '';
 

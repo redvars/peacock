@@ -68,11 +68,17 @@ export function mixinFormSubmitter<
   T extends MixinBase<LitElement & WithElementInternals>,
 >(base: T): MixinReturn<T, FormSubmitter> {
   abstract class FormSubmitterElement extends base implements FormSubmitter {
+    /**
+     * What activating the element does in a form: `"submit"` (default) submits it, `"reset"`
+     * resets it and `"button"` does nothing.
+     */
     @property() type = 'submit';
 
+    /** The value sent with the form, paired with `name`, when this element submits it. */
     @property({ reflect: true }) value = '';
 
     // Name attribute must reflect synchronously for form integration.
+    /** The name sent with the form, paired with `value`, when this element submits it. */
     get name() {
       return this.getAttribute('name') ?? '';
     }

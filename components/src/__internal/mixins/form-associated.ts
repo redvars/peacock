@@ -196,6 +196,7 @@ export function mixinFormAssociated<
     // We don't use Lit's default getter/setter (`noAccessor: true`) because
     // the attributes need to be updated synchronously to work with synchronous
     // form APIs, and Lit updates attributes async by default.
+    /** The name the value is submitted under in a form. */
     @property({ noAccessor: true })
     get name() {
       return this.getAttribute('name') ?? '';
@@ -207,6 +208,7 @@ export function mixinFormAssociated<
       // in `attributeChangedCallback()`.
     }
 
+    /** Disables the control: it can't be focused or changed, and its value isn't submitted. */
     @property({ type: Boolean, noAccessor: true })
     get disabled() {
       return this.hasAttribute('disabled');
