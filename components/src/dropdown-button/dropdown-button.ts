@@ -128,7 +128,8 @@ export class DropdownButton extends LitElement {
         color=${this.color}
         trailing-icon
         ?disabled=${this.disabled}
-        .configAria=${this._trigger.triggerAria}
+        aria-haspopup="menu"
+        aria-expanded=${String(this._trigger.open)}
         @click=${this._trigger.handleTriggerClick}
         @keydown=${this._trigger.handleTriggerKeyDown}
       >

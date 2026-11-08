@@ -170,10 +170,9 @@ export class SplitButton extends LitElement {
           size=${this.size}
           variant=${this.variant}
           ?disabled=${this.disabled}
-          .configAria=${{
-            ...this._trigger.triggerAria,
-            'aria-label': this.i18n.t('openSplitButtonMenu'),
-          }}
+          aria-label=${this.i18n.t('openSplitButtonMenu')}
+          aria-haspopup="menu"
+          aria-expanded=${String(this._trigger.open)}
           @click=${this._trigger.handleTriggerClick}
           @keydown=${this._trigger.handleTriggerKeyDown}
         >

@@ -17,17 +17,22 @@ export interface MenuTriggerOptions {
 
 /**
  * The menu wiring shared by buttons that open a `wc-menu` (dropdown button, split button):
- * show / close / toggle, Arrow Up / Down on the trigger, the trigger's `aria-haspopup`,
- * `aria-expanded` and `aria-controls`, and the host's `open` / `close` events (ADR-030001).
+ * show / close / toggle, Arrow Up / Down on the trigger, the open state behind the trigger's
+ * `aria-expanded`, and the host's `open` / `close` events (ADR-030001).
  *
  * The menu's own `open` / `close` events are stopped inside the host, which fires its own `open`
- * and `close` instead; `close` carries `detail.reason` from the menu's close event. The host renders the menu with `id=${trigger.menuId}`, `@open=${trigger.handleMenuOpen}`
- * and `@close=${trigger.handleMenuClose}`, and the trigger button with
- * `.configAria=${trigger.triggerAria}`, `@click=${trigger.handleTriggerClick}` and
+ * and `close` instead; `close` carries `detail.reason` from the menu's close event. The host
+ * renders the menu with `id=${trigger.menuId}`, `@open=${trigger.handleMenuOpen}` and
+ * `@close=${trigger.handleMenuClose}`, and the trigger button with `aria-haspopup="menu"`,
+ * `aria-expanded=${String(trigger.open)}`, `@click=${trigger.handleTriggerClick}` and
  * `@keydown=${trigger.handleTriggerKeyDown}`.
+ *
+ * Add `aria-controls=${trigger.menuId}` only when the trigger is a native `<button>` in the same
+ * shadow root as the menu. A `wc-button` or `wc-icon-button` renders its `<button>` in its own
+ * shadow root, where an ID reference to the menu cannot resolve, so leave `aria-controls` off it.
  */
 export class MenuTriggerController {
-  /** Id for the menu, referenced by the trigger's `aria-controls`. */
+  /** Id for the menu, for the `aria-controls` of a native trigger in the same shadow root. */
   readonly menuId: string;
 
   private readonly host: ReactiveControllerHost & HTMLElement;
@@ -48,15 +53,6 @@ export class MenuTriggerController {
   /** Whether the menu is open, as last reported by its `open` / `close` events. */
   get open() {
     return this._open;
-  }
-
-  /** ARIA for the trigger button. */
-  get triggerAria(): Record<string, string> {
-    return {
-      'aria-haspopup': 'menu',
-      'aria-expanded': String(this._open),
-      'aria-controls': this.menuId,
-    };
   }
 
   /** Opens the menu, anchored to the host, and focuses its first (or last) item. */
