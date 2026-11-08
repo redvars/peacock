@@ -128,6 +128,8 @@ export class CommentComposer extends RichTextInput {
     if (!value.trim() || this.loading || this.disabled || this.readonly) {
       return;
     }
+    // Sending is the person's confirmation of a reply the assistant drafted.
+    this.acceptSuggestion('submit');
     const accepted = this.dispatchEvent(
       new CustomEvent<CommentComposerSubmitDetail>('submit', {
         detail: { value, mentions: extractMentions(value) },
@@ -215,6 +217,25 @@ export class CommentComposer extends RichTextInput {
 
   // ── Render ────────────────────────────────────────────────────────────────
 
+  /** A reply the assistant drafted: marked until the person edits or sends it, with why. */
+  private renderSuggestion() {
+    if (!this.suggestionVisible) return nothing;
+    return html`<div class="suggestion">
+      <wc-ai-badge
+        kind="draft"
+        dismissible
+        @dismiss=${(event: Event) => {
+          event.stopPropagation();
+          this.dismissSuggestion();
+        }}
+        >${this.i18n.t('aiSuggestedReply')}</wc-ai-badge
+      >
+      ${this.suggestionReason
+        ? html`<span class="suggestion-reason">${this.suggestionReason}</span>`
+        : nothing}
+    </div>`;
+  }
+
   render() {
     const { editor, open, validationText } = this;
     const canSend =
@@ -229,7 +250,7 @@ export class CommentComposer extends RichTextInput {
       >
         <slot name="avatar"></slot>
         <div class="box">
-          ${this.renderEditorArea()}
+          ${this.renderSuggestion()} ${this.renderEditorArea()}
           <div class="footer" ?hidden=${!open}>
             ${editor && !this.hideToolbar
               ? html`<wc-toolbar

@@ -1104,6 +1104,137 @@ export const defaultStrings = {
   /** Announced when the run moves, for example "Send email succeeded". */
   workflowStepStatus: (name: string, status: string): string =>
     `${name}: ${status.toLowerCase()}`,
+
+  // ── AI (ADR-030002) ──────────────────────────────────────────────────────
+  /** Label of an AI badge on a value the person hasn't accepted yet. */
+  aiSuggested: 'Suggested',
+  /** Label of an AI badge on a record or text waiting to be confirmed. */
+  aiDraft: 'Draft',
+  /** Label of an AI badge on read-only output, such as a summary. */
+  aiGenerated: 'By the assistant',
+  /** Accessible name of the clear button on a "Suggested" badge. */
+  aiClearSuggestion: 'Clear suggestion',
+  /** Accessible name of the clear button on a "Draft" badge. */
+  aiDiscardDraft: 'Discard draft',
+  /** Accessible name of the clear button on a generated-output badge. */
+  aiHideGenerated: 'Hide',
+  /** Read after a suggested field's label, for example "Suggested by the assistant. Assigned to you." */
+  aiSuggestedDescription: (reason: string): string =>
+    reason
+      ? `Suggested by the assistant. ${reason}`
+      : 'Suggested by the assistant.',
+  /** Headline of a form's draft banner. */
+  aiDraftBannerHeadline: 'Drafted by the assistant.',
+  /** Text of a form's draft banner. */
+  aiDraftBannerText: 'Check the marked fields before you submit.',
+  /** The draft banner's button that clears every suggestion in the form. */
+  aiClearAll: 'Clear all',
+  /** Heading above the suggested option in a select's list. */
+  aiSuggestedOption: 'Suggested',
+  /** Read with a field while ghost text shows, for example "Suggestion: returned on Thursday. Press Tab to accept." */
+  aiGhostHint: (text: string): string =>
+    `Suggestion: ${text}. Press Tab to accept, Escape to dismiss.`,
+  /** Heading of the AI actions in a slash menu. */
+  aiAssistantGroup: 'Assistant',
+  /** Heading of the blocks in a slash menu that also lists AI actions. */
+  slashBlocksGroup: 'Blocks',
+  /** The button that opens the AI actions for the selected text. */
+  aiAskAi: 'Ask AI',
+  /** Accessible name of the AI actions menu. */
+  aiActions: 'AI actions',
+  aiImprove: 'Improve writing',
+  aiShorten: 'Make shorter',
+  aiFix: 'Fix spelling and grammar',
+  aiTranslate: 'Translate…',
+  aiCustom: 'Tell it what to change…',
+  aiContinue: 'Continue writing',
+  aiSummarizeAbove: 'Summarize above',
+  /** Label of the instruction field for "Tell it what to change". */
+  aiInstruction: 'What should change?',
+  /** Label of the language field for "Translate". */
+  aiTargetLanguage: 'Translate to',
+  /** Button that sends the instruction or language. */
+  aiGo: 'Go',
+  aiAccept: 'Accept',
+  aiDiscard: 'Discard',
+  aiTryAgain: 'Try again',
+  aiStop: 'Stop',
+  /** Shown while the assistant writes. */
+  aiWriting: 'Writing…',
+  /** Toggle between the suggested text and its changes. */
+  aiResult: 'Result',
+  aiChanges: 'Changes',
+  /** Accessible name of the panel with the assistant's suggested text. */
+  aiPreview: 'Suggested text',
+  /** Shown when a rewrite fails. */
+  aiFailed: "The assistant couldn't write this. Your text is unchanged.",
+  // ── Conversation (prompt input, chat, steps, draft card, assistant panel) ──
+  promptPlaceholder: 'Ask for something',
+  promptSend: 'Send',
+  promptStop: 'Stop',
+  /** Who wrote a message, read before it. */
+  chatYou: 'You',
+  chatAssistant: 'Assistant',
+  chatCopy: 'Copy',
+  chatRegenerate: 'Try again',
+  chatGoodAnswer: 'Good answer',
+  chatBadAnswer: 'Bad answer',
+  /** Shown when an answer failed. */
+  chatFailed: "The assistant couldn't answer.",
+  /** Accessible name of the conversation log. */
+  chatLog: 'Conversation',
+  chatJumpToLatest: 'Jump to latest',
+  /** Announced when an answer is complete, for example "Assistant: Desk support has 2 loaners free." */
+  chatAnnouncement: (author: string, text: string): string =>
+    `${author}: ${text}`,
+  assistantStepsShow: 'Show steps',
+  assistantStepsHide: 'Hide steps',
+  /** Read after an assistant step, for its status. */
+  assistantStepPending: 'Waiting',
+  assistantStepRunning: 'In progress',
+  assistantStepDone: 'Done',
+  assistantStepError: 'Failed',
+  assistantStepBlocked: 'Not allowed',
+  draftConfirm: 'Confirm',
+  draftEdit: 'Edit in form',
+  draftDiscard: 'Discard draft',
+  draftDiscarded: 'Discarded · nothing was sent',
+  draftOpen: 'Open',
+  draftCantUndo: "This can't be undone.",
+  draftFailed: "This couldn't be saved.",
+  panelHeadline: 'Assistant',
+  panelNewConversation: 'New conversation',
+  panelClose: 'Close the assistant',
+  panelDisclaimer:
+    'The assistant can be wrong. Check a draft before you send it.',
+  // ── Ask and summarize ────────────────────────────────────────────────────
+  aiSummaryFailed: "The summary couldn't be written.",
+  aiSummaryGood: 'Good summary',
+  aiSummaryBad: 'Bad summary',
+  /** The Ask button of a search box with `ask`. */
+  searchAsk: 'Ask',
+  /** Accessible name of the Ask button. */
+  searchAskLabel: 'Ask the assistant',
+  /** The command palette's Ask row, for example "Ask the assistant: “who approved the trip?”". */
+  commandPaletteAsk: (query: string): string => `Ask the assistant: “${query}”`,
+  commandPaletteAskDescription: 'Answers with your access',
+  /** The filter bar's button that turns the search text into filters. */
+  filterBarFromSentence: 'Turn into filters',
+  filterBarAiFailed: "Couldn't turn this into filters.",
+  /** Announced when a sentence became filters, for example "3 filters suggested". */
+  filterBarAiApplied: (count: number): string =>
+    count === 1 ? '1 filter suggested' : `${count} filters suggested`,
+  /** Label of the condition builder's describe field. */
+  conditionDescribe: 'Describe the condition',
+  conditionDescribeGo: 'Go',
+  conditionDescribeFailed: "Couldn't turn this into rules.",
+  /** Label of the marker on a reply the assistant drafted. */
+  aiSuggestedReply: 'Suggested reply',
+  /** Default label of a typing indicator. */
+  typingThinking: 'Thinking…',
+  /** Accessible name of a citation chip, for example "Source 2: Payroll integration". */
+  citationLabel: (label: string, headline: string): string =>
+    headline ? `Source ${label}: ${headline}` : `Source ${label}`,
 };
 
 /** The string table. Overrides must keep each entry's type, so a function stays a function. */

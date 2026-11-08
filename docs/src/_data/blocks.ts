@@ -8,6 +8,7 @@ export type BlockGroupName =
   | 'Forms & Flows'
   | 'Data Display'
   | 'Collaboration'
+  | 'AI'
   | 'Marketing';
 
 export type BlockPreview =
@@ -23,7 +24,9 @@ export type BlockPreview =
   | 'onboarding'
   | 'pricing'
   | 'two-factor'
-  | 'record-detail';
+  | 'record-detail'
+  | 'assistant'
+  | 'home-ai';
 
 export interface BlockDefinition {
   name: BlockPreview;
@@ -43,6 +46,7 @@ export const BLOCK_GROUPS: BlockGroupName[] = [
   'Forms & Flows',
   'Data Display',
   'Collaboration',
+  'AI',
   'Marketing',
 ];
 
@@ -139,6 +143,28 @@ export const BLOCKS: BlockDefinition[] = [
       'A support ticket with a Markdown description, record fields, and a discussion of comments, work notes, replies, mentions and activity.',
     tags: ['form', 'discussion', 'mentions'],
     icon: 'forum',
+  },
+  {
+    name: 'assistant',
+    label: 'Assistant panel',
+    href: '/blocks/assistant/',
+    group: 'AI',
+    summary:
+      'A page with the assistant beside it: a conversation that looks things up as the person, streams its answer and drafts two records to confirm, and a page that works without it.',
+    tags: ['ai', 'chat', 'drafts'],
+    icon: 'forum',
+    isNew: true,
+  },
+  {
+    name: 'home-ai',
+    label: 'Home with AI',
+    href: '/blocks/home-ai/',
+    group: 'AI',
+    summary:
+      'A home page with an ask bar over search, a summary of the day above the app tiles, and an insight under a number; asking opens the assistant beside the page.',
+    tags: ['ai', 'summary', 'search'],
+    icon: 'home',
+    isNew: true,
   },
   {
     name: 'two-factor',

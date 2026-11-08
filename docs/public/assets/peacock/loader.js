@@ -115,6 +115,17 @@ import { Rating } from './rating.js';
 import { SignaturePad } from './signature-pad.js';
 import { MentionInput } from './mention-input.js';
 import { Kbd } from './kbd.js';
+import { AiBadge } from './ai-badge.js';
+import { TypingIndicator } from './typing-indicator.js';
+import { Citation } from './citation.js';
+import { ChatMessage } from './chat-message.js';
+import { ChatThread } from './chat-thread.js';
+import { AssistantSteps } from './assistant-steps.js';
+import { AssistantStep } from './assistant-step.js';
+import { DraftCard } from './draft-card.js';
+import { AssistantPanel } from './assistant-panel.js';
+import { AiSummary } from './ai-summary.js';
+import { G as GenerativeView } from './generative-view-CCZDU1bp.js';
 import { HoverCard } from './hover-card.js';
 import { Kanban } from './kanban.js';
 import { VirtualList } from './virtual-list.js';
@@ -135,7 +146,10 @@ import { NavigationBarItem } from './navigation-bar-item.js';
 import { NavigationDrawer } from './navigation-drawer.js';
 import { NavigationDrawerItem } from './navigation-drawer-item.js';
 import { NavigationDrawerGroup } from './navigation-drawer-group.js';
-export { d as defaultStrings, s as setPeacockStrings } from './strings-BFkowon5.js';
+export { d as defaultStrings, s as setPeacockStrings } from './strings-BJPuhKJk.js';
+export { i as isAiAvailable, o as onPeacockAiChange, p as peacockAi, s as setPeacockAi } from './ai-controller-DR_Tg0sN.js';
+export { r as readStream } from './stream-C16hbcio.js';
+export { g as generativeViewSchema } from './schema-CQ7LI1UJ.js';
 import './IndividualComponent-BK7XZjE2.js';
 import './property-B2TG3KEE.js';
 import './attachable-controller-DofeyflD.js';
@@ -160,17 +174,19 @@ import './warn-once-BNxX1Y98.js';
 import './form-associated-BHbg72PG.js';
 import './is-link-Dk2OV3PM.js';
 import './hyperlink-DycWPKwU.js';
-import './i18n-controller-W5hLm7os.js';
+import './i18n-controller-Cp43HjJl.js';
 import './locale-DEsJZCQG.js';
 import './menu-trigger-controller-DyLpTxM7.js';
 import './spread-B5cgadZl.js';
-import './BaseField-BT3TcE60.js';
-import './BaseInput-BXHX6bMj.js';
+import './BaseField-BYMiC1q4.js';
+import './BaseInput-cLydYG8j.js';
+import './suggestion-controller-kTnSMkjh.js';
 import './date-vFrYT1S9.js';
 import './utils-D92ldd1V.js';
-import './picker-field-BGLnmppt.js';
+import './picker-field-D7rB_djl.js';
 import './range-utils-BoKOhxVX.js';
-import './toggle-base-D7hVoSJK.js';
+import './style-map-CHOg6N_R.js';
+import './toggle-base-BmE6atDf.js';
 import './floating-controller-CABF4tBT.js';
 import './placement-C4GO0JP9.js';
 import './query-assigned-elements-BJaGSqM0.js';
@@ -178,8 +194,7 @@ import './query-all-ThKhg-Lp.js';
 import './roving-focus-controller-fm95JkZJ.js';
 import './accordion-item.js';
 import './NativeHyperlinkMixin-WdY0fM-H.js';
-import './style-map-CHOg6N_R.js';
-import './base-progress-Ds8M-bo6.js';
+import './base-progress-CvLVSjuy.js';
 import './overlay-controller-BOk-kfil.js';
 import './observe-theme-change-CkSENG98.js';
 import './repeat-D_ERDRYT.js';
@@ -188,8 +203,11 @@ import './clipboard-C7hBdUXP.js';
 import './virtual-window-5OYyIqZh.js';
 import './modal-B78gUfEO.js';
 import './live-D_5OfuGD.js';
+import './sparkle-BmtM0vbq.js';
 import './platform-BUuoTAmr.js';
 import './relative-time-BVQXLuHm.js';
+import './url-BFUh__RO.js';
+import './diff-CT416thw.js';
 import './navigation-item-base-kUrvJgCx.js';
 import './indicator-navigation-item-CmyhsOmy.js';
 
@@ -523,21 +541,23 @@ const loaderConfig = {
         },
         'wc-html-editor': {
             importPath: `${distDirectory}/html-editor.js`,
-            dependencies: ['wc-code-editor'],
+            dependencies: ['wc-code-editor', 'wc-markdown'],
         },
         'wc-markdown-editor': {
             importPath: `${distDirectory}/markdown-editor.js`,
-            dependencies: ['wc-code-editor'],
+            dependencies: ['wc-code-editor', 'wc-markdown'],
         },
         'wc-markdown': {
             importPath: `${distDirectory}/markdown.js`,
-            dependencies: ['wc-code-highlighter'],
+            dependencies: ['wc-code-highlighter', 'wc-citation'],
         },
         'wc-comment-composer': {
             importPath: `${distDirectory}/comment-composer.js`,
+            dependencies: ['wc-markdown'],
         },
         'wc-document-editor': {
             importPath: `${distDirectory}/document-editor.js`,
+            dependencies: ['wc-markdown'],
         },
         'wc-discussion': {
             importPath: `${distDirectory}/discussion.js`,
@@ -770,6 +790,42 @@ const loaderConfig = {
         },
         'wc-kbd': {
             CustomElementClass: Kbd,
+        },
+        'wc-ai-badge': {
+            CustomElementClass: AiBadge,
+        },
+        'wc-typing-indicator': {
+            CustomElementClass: TypingIndicator,
+        },
+        'wc-citation': {
+            CustomElementClass: Citation,
+        },
+        'wc-chat-message': {
+            CustomElementClass: ChatMessage,
+        },
+        'wc-chat-thread': {
+            CustomElementClass: ChatThread,
+        },
+        'wc-assistant-steps': {
+            CustomElementClass: AssistantSteps,
+        },
+        'wc-assistant-step': {
+            CustomElementClass: AssistantStep,
+        },
+        'wc-draft-card': {
+            CustomElementClass: DraftCard,
+        },
+        'wc-assistant-panel': {
+            CustomElementClass: AssistantPanel,
+        },
+        'wc-ai-summary': {
+            CustomElementClass: AiSummary,
+        },
+        'wc-generative-view': {
+            CustomElementClass: GenerativeView,
+        },
+        'wc-prompt-input': {
+            importPath: `${distDirectory}/prompt-input.js`,
         },
         'wc-hover-card': {
             CustomElementClass: HoverCard,

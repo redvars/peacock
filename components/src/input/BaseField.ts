@@ -138,12 +138,14 @@ export default abstract class BaseField extends BaseInput {
   ): TemplateResult {
     const errorText = this.fieldErrorText(options.controlError);
     const description = this.fieldDescription(options.controlError);
+    // While a suggestion shows, its reason takes the helper text's place.
+    const helperText = this.suggestionReason || this.helperText;
     return html`
       <wc-field
         label=${this.label}
         size=${this.size}
         variant=${this.variant}
-        helper-text=${this.helperText}
+        helper-text=${helperText}
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -161,6 +163,7 @@ export default abstract class BaseField extends BaseInput {
         <slot name="start" slot="field-start"></slot>
         ${options.start ?? nothing} ${control}
         <slot name="end" slot="field-end"></slot>
+        ${this.suggestionBadge({ slot: 'field-end' })}
         ${this.renderClearButton(options.populated)} ${options.end ?? nothing}
       </wc-field>
       ${description
@@ -178,6 +181,11 @@ export default abstract class BaseField extends BaseInput {
         composed: true,
       }),
     );
+  }
+
+  protected override emitSuggestionValue() {
+    this.emitValue('input');
+    this.emitValue('change');
   }
 
   /** Clears the value for the clear button. Fields with another empty value override it. */
@@ -207,6 +215,9 @@ export default abstract class BaseField extends BaseInput {
     const errorText = this.fieldErrorText(controlError);
     if (errorText) return errorText;
     if (this.warning && this.warningText) return this.warningText;
+    if (this.suggestionVisible) {
+      return peacockString('aiSuggestedDescription')(this.suggestionReason);
+    }
     return this.helperText;
   }
 

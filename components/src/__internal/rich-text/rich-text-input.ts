@@ -8,6 +8,7 @@ import BaseInput, { type ControlValidity } from '../../input/BaseInput.js';
 import { I18nController } from '../i18n/i18n-controller.js';
 import type { PeacockStrings } from '../i18n/strings.js';
 import type { MentionSuggestion } from '../../mention-input/mention-model.js';
+import { RichTextAiController } from './ai-controller.js';
 import { RichTextBlockHandleController } from './block-handle-controller.js';
 import { RichTextBubbleController } from './bubble-controller.js';
 import {
@@ -56,6 +57,10 @@ type TableAction = (typeof TABLE_ACTIONS)[number];
  * - `input` with `{ value }`, `debounce` milliseconds after the content stops changing;
  * - `change` with `{ value }` when focus leaves after an edit;
  * - `search` and `mention`, as on `wc-mention-input`.
+ *
+ * With a provider that offers them (ADR-030002), the editors also get AI actions on the selection
+ * (from the bubble and the toolbar), Continue writing and Summarize above in the slash menu, and,
+ * with `ai-completion`, ghost text. Results show in a preview until the person accepts them.
  */
 export default abstract class RichTextInput
   extends BaseInput
@@ -131,6 +136,17 @@ export default abstract class RichTextInput
   @property({ attribute: false })
   strings?: Partial<PeacockStrings>;
 
+  /**
+   * Suggests how to go on after a pause in typing, as ghost text at the end of the paragraph: Tab
+   * takes it, Mod+→ takes a word, Escape dismisses it. Needs a provider with `complete`.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'ai-completion' })
+  aiCompletion = false;
+
+  /** Turns the AI actions and ghost text off for this editor, even when the page offers them. */
+  @property({ type: Boolean, reflect: true, attribute: 'no-ai' })
+  noAi = false;
+
   // ── State ─────────────────────────────────────────────────────────────────
 
   /** Whether the editor has focus. */
@@ -156,9 +172,15 @@ export default abstract class RichTextInput
     i18n: this.i18n,
   });
 
+  protected readonly ai = new RichTextAiController(this, {
+    editor: () => this.editor,
+    i18n: this.i18n,
+  });
+
   protected readonly slash = new RichTextSlashController(this, {
     editor: () => this.editor,
     i18n: this.i18n,
+    actions: () => this.ai.slashActions(),
   });
 
   protected readonly link = new RichTextLinkController(this, {
@@ -170,11 +192,14 @@ export default abstract class RichTextInput
     editor: () => this.editor,
     i18n: this.i18n,
     allowed: () =>
+      this.selectionBubble &&
       !this.sourceView &&
       !this.link.open &&
       !this.slash.visible &&
-      !this.mentions.visible,
+      !this.mentions.visible &&
+      !this.ai.open,
     editLink: () => this.link.show(),
+    extra: () => this.bubbleExtra(),
   });
 
   protected readonly blockHandle = new RichTextBlockHandleController(this, {
@@ -217,9 +242,24 @@ export default abstract class RichTextInput
     return true;
   }
 
+  /** Whether `/` opens the block menu; the prompt input, which holds no blocks, turns it off. */
+  protected get slashMenu(): boolean {
+    return true;
+  }
+
+  /** Whether selecting text shows the selection bubble; the prompt input turns it off. */
+  protected get selectionBubble(): boolean {
+    return true;
+  }
+
   /** Extensions a subclass adds, such as keyboard shortcuts. */
   protected extraExtensions(): Extensions {
     return [];
+  }
+
+  /** Buttons added to the selection bubble after the marks and link; Ask AI by default. */
+  protected bubbleExtra(): TemplateResult | typeof nothing {
+    return this.ai.bubbleButton();
   }
 
   /** The block tools in the toolbar: every block the schema allows except text styles. */
@@ -349,7 +389,8 @@ export default abstract class RichTextInput
         maxlength: this.maxlength,
         mentions: this.triggers ? this.mentions.suggestionOptions() : [],
         extra: [
-          this.slash.extension(),
+          this.ai.extension(),
+          ...(this.slashMenu ? [this.slash.extension()] : []),
           this.link.extension(),
           this.blockHandle.extension(),
           ...this.extraExtensions(),
@@ -589,7 +630,7 @@ export default abstract class RichTextInput
             this.mentions.insertTrigger(),
           )
         : nothing}
-      ${this.renderTableTools(editor)}`;
+      ${this.renderTableTools(editor)} ${this.ai.toolbarButton()}`;
   }
 
   /** Keeps the editor's selection when a tool is pressed. */
@@ -687,7 +728,8 @@ export default abstract class RichTextInput
     return html`${this.mentions.render()}
       <span class="slash-anchor" aria-hidden="true"></span>
       ${this.slash.render()} ${this.bubble.render()} ${this.link.render()}
-      ${this.blockHandle.render()} ${this.blockHandle.renderDropLine()}`;
+      ${this.blockHandle.render()} ${this.blockHandle.renderDropLine()}
+      ${this.ai.render()}`;
   }
 
   // ── Render ────────────────────────────────────────────────────────────────

@@ -198,3 +198,10 @@
   opacity: 1;
   transform: translateY(0);
 }
+// The label with the Suggested badge beside it (ADR-030002).
+.label-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
+}

@@ -290,6 +290,11 @@ export class Rating extends BaseInput {
     this.commit(Math.min(this.starCount, Math.max(lowest, next)));
   }
 
+  /** A suggestion for a rating is a score. */
+  protected override writeSuggestionValue(value: unknown): void {
+    this.value = Number(value) || 0;
+  }
+
   // ── Render helpers ───────────────────────────────────────────────────────
 
   private renderStar(index: number, shown: number) {
@@ -316,7 +321,7 @@ export class Rating extends BaseInput {
     const labelId = `${this.idPrefix}-label`;
     const descriptionId = `${this.idPrefix}-description`;
     const errorText = this.error ? this.errorText : this.validationText;
-    const description = errorText || this.helperText;
+    const description = errorText || this.suggestionReason || this.helperText;
     const shown = this.hoverValue ?? this.shownValue;
     const name = this.label || this.i18n.t('ratingLabel');
     const stars = Array.from({ length: this.starCount }, (_, index) =>
@@ -365,12 +370,14 @@ export class Rating extends BaseInput {
         })}
       >
         ${this.label
-          ? html`<div class="label" id=${labelId}>
-              ${this.label}${this.required && !this.readonly
-                ? html`<span class="required" aria-hidden="true">*</span>`
-                : nothing}
-            </div>`
-          : nothing}
+          ? this.labelWithSuggestion(
+              html`<div class="label" id=${labelId}>
+                ${this.label}${this.required && !this.readonly
+                  ? html`<span class="required" aria-hidden="true">*</span>`
+                  : nothing}
+              </div>`,
+            )
+          : this.suggestionBadge()}
         ${display}
         ${description
           ? html`<div class="helper" id=${descriptionId}>${description}</div>`

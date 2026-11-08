@@ -105,6 +105,32 @@ setPeacockStrings({
 
 Numbers and dates are formatted with `Intl` in a locale resolved per component: its `locale` property, else the `lang` of the nearest ancestor (across shadow roots), else `<html lang>`, else the browser's language.
 
+### AI: an assistant inside your app
+
+Peacock has components for an assistant that works inside your pages: summaries that cite their sources, a chat panel, suggested values and drafts the person confirms, and answers shown as charts and tables (see [AI](#ai) below). Peacock never calls a model. Components show the AI state your app passes in, such as a field's `suggestion` or a summary's streamed `value`, and the few features that ask for text (ghost text, rewriting a selection, a sentence turned into filters) call one provider you register:
+
+```js
+import { setPeacockAi } from 'https://cdn.jsdelivr.net/npm/@redvars/peacock@4.0.0/dist/loader.js';
+
+setPeacockAi({
+  provider: {
+    // Each method is optional; a feature appears only when its method is there. `transform` and
+    // `summarize` return an async iterable of text chunks. Every request carries an AbortSignal.
+    complete: ({ before, after, signal }) => myModel.complete(before, after, { signal }), // ghost text: a string or null
+    transform: ({ action, text, instruction, signal }) => myModel.stream(action, text, instruction, { signal }), // rewrites
+    summarize: ({ kind, text, signal }) => myModel.stream('summarize', text, kind, { signal }),
+    parse: ({ target, text, schema, signal }) => myModel.json(target, text, schema, { signal }), // filters, conditions
+  },
+});
+```
+
+- `setPeacockAi({ enabled: false })` turns AI off for the page: every marker, button and menu entry that refers to the assistant disappears, and each page still works. `features: { summarize: false }` turns off one capability, and `no-ai` turns it off for one element.
+- Everything the assistant wrote is marked with `wc-ai-badge` and can show why. Writes are drafts: a suggested value is filled in and marked until the person edits or submits it, ghost text needs Tab, a rewrite needs Accept, and a `wc-draft-card` needs Confirm.
+- A field with `sensitive` is never sent to the provider, and password and PIN fields never are.
+- Model text is never run or parsed as HTML: it shows through `wc-markdown` or `wc-generative-view`, which renders only an allow-listed set of components and props. `generativeViewSchema()` returns that set as a JSON Schema for your model service.
+
+[ADR-030002](docs/adr/030002-ai-native-components.md) records the decisions.
+
 ### Forms and validation
 
 Fields and toggles are form-associated and validate like native controls: `required` and each control's own rules (email, min/max, unreadable dates) block form submission, `:invalid` matches, and `checkValidity()`, `reportValidity()`, `setCustomValidity()`, `validity` and `validationMessage` work as on `<input>`. A field shows its message once the value is committed or the form is submitted. Fields fire `input` and `change` as `CustomEvent<{ value }>`; checkboxes, switches and radios fire `change` with `{ checked, value }`. Fields default to `size="sm"`, the height of a default button.
@@ -129,7 +155,7 @@ In Windows high contrast (`forced-colors: active`), selected and current items a
 
 # Components
 
-Every component below ships in 4.0. Each name links to its page on [peacock.redvars.com](https://peacock.redvars.com/components), with live demos and the API reference. Upgrading from 3.x? Read the [migration guide](https://github.com/redvars/peacock/blob/main/MIGRATION.md).
+Every component below ships in 4.0, except the [AI](#ai) group, which arrives in the next release. Each name links to its page on [peacock.redvars.com](https://peacock.redvars.com/components), with live demos and the API reference. Upgrading from 3.x? Read the [migration guide](https://github.com/redvars/peacock/blob/main/MIGRATION.md).
 
 ## Layout and app shell
 
@@ -298,6 +324,22 @@ SVG `wc-svg` ·
 [Comment composer](https://peacock.redvars.com/components/comment-composer) `wc-comment-composer` ·
 [Document editor](https://peacock.redvars.com/components/document-editor) `wc-document-editor` ·
 [Diagram](https://peacock.redvars.com/components/diagram) `wc-diagram`
+
+## AI
+
+[AI badge](https://peacock.redvars.com/components/ai-badge) `wc-ai-badge` ·
+[AI summary](https://peacock.redvars.com/components/ai-summary) `wc-ai-summary` ·
+[Assistant panel](https://peacock.redvars.com/components/assistant-panel) `wc-assistant-panel` ·
+[Chat thread](https://peacock.redvars.com/components/chat-thread) `wc-chat-thread` ·
+[Chat message](https://peacock.redvars.com/components/chat-message) `wc-chat-message` ·
+[Prompt input](https://peacock.redvars.com/components/prompt-input) `wc-prompt-input` ·
+[Assistant steps](https://peacock.redvars.com/components/assistant-steps) `wc-assistant-steps` ·
+[Draft card](https://peacock.redvars.com/components/draft-card) `wc-draft-card` ·
+[Generative view](https://peacock.redvars.com/components/generative-view) `wc-generative-view` ·
+[Citation](https://peacock.redvars.com/components/citation) `wc-citation` ·
+[Typing indicator](https://peacock.redvars.com/components/typing-indicator) `wc-typing-indicator`
+
+Existing components gain AI features too: suggested values on every field and `suggest()` on `wc-form`, ghost text in `wc-textarea`, the rich-text editors and `wc-code-editor`, Ask in `wc-search` and `wc-command-palette`, filters and conditions from a sentence in `wc-filter-bar` and `wc-condition-builder`, and summary and insight slots in `wc-discussion`, `wc-notification-center`, `wc-stat` and the charts.
 
 ## Primitives
 

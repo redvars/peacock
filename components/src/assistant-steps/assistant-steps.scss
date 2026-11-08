@@ -1,0 +1,85 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+}
+
+.icon {
+  flex: none;
+  margin-block-start: 0.0625rem;
+  --icon-size: 1rem;
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.status-done .icon {
+  --icon-color: var(--color-success);
+}
+
+.status-running .icon {
+  --icon-color: var(--color-primary);
+  animation: spin 1s linear infinite;
+}
+
+.status-error .icon {
+  --icon-color: var(--color-error);
+}
+
+.label {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.toggle {
+  @include mixin.reset-button-styles;
+
+  color: var(--color-primary);
+  font: inherit;
+  cursor: pointer;
+  border-radius: var(--shape-corner-extra-small);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 0.5rem);
+  margin-block-start: var(--spacing-100, 0.5rem);
+  margin-inline-start: 0.4375rem;
+  padding-inline-start: var(--spacing-200, 1rem);
+  border-inline-start: 2px solid var(--color-outline-variant);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-running .icon {
+    animation: none;
+  }
+}

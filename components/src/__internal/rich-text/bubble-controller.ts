@@ -1,5 +1,6 @@
 import {
   html,
+  type nothing,
   type ReactiveController,
   type ReactiveControllerHost,
   type TemplateResult,
@@ -25,8 +26,8 @@ interface BubbleOptions {
   allowed: () => boolean;
   /** Opens the link editor. */
   editLink: () => void;
-  /** Buttons a component adds after the standard ones, such as Comment. */
-  extra?: () => TemplateResult | string;
+  /** Buttons a component adds after the standard ones, such as Comment or Ask AI. */
+  extra?: () => TemplateResult | string | typeof nothing;
 }
 
 let bubbleCount = 0;

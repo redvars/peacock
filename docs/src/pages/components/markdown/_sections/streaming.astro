@@ -1,0 +1,87 @@
+---
+export const title = 'Streaming and citations';
+export const order = 250;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  For an answer that arrives in pieces, set <code>streaming</code> and keep replacing
+  <code>value</code> with the text so far. Only the last blocks are parsed again, so a long answer
+  costs the same per piece as a short one. An unfinished <code>**</code>, <code>`</code> or link at the
+  end shows as it will once complete, and a caret marks the end. Turn <code>streaming</code> off when
+  the answer is complete; the finished text is then rendered exactly as written.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown id='markdown-stream' size='sm' streaming></wc-markdown>
+  <wc-button id='markdown-stream-replay' variant='text' size='sm' style='margin-top: 0.75rem;'>Play again</wc-button>
+  <script is:inline>
+    (function () {
+      var answer =
+        'Desk support in Pune has **2 loaner laptops** free[1](cite:asset_9). ' +
+        'Incidents raised before noon are usually handled the same day[2](cite:sla_3).\n\n' +
+        '- Raise the incident with the asset tag\n' +
+        '- Pick the loaner up at desk 4 on the second floor\n\n' +
+        'Your leave starts **Friday**, so raise it today.';
+      var el = document.querySelector('#markdown-stream');
+      el.citations = [
+        { id: 'asset_9', headline: 'Loaner pool · Pune', supportingText: 'Asset management', href: '#asset-9' },
+        { id: 'sla_3', headline: 'Hardware incident SLA', supportingText: 'Knowledge base' },
+      ];
+      var timer;
+      function play() {
+        clearInterval(timer);
+        var shown = 0;
+        el.streaming = true;
+        el.value = '';
+        timer = setInterval(function () {
+          shown = Math.min(answer.length, shown + 3 + Math.floor(Math.random() * 6));
+          el.value = answer.slice(0, shown);
+          if (shown >= answer.length) {
+            clearInterval(timer);
+            el.streaming = false;
+          }
+        }, 60);
+      }
+      document.querySelector('#markdown-stream-replay').addEventListener('click', play);
+      play();
+    })();
+  </script>
+</DemoComponentCard>
+
+<p>
+  Streams from Peacock's AI provider are <code>AsyncIterable&lt;string&gt;</code>.
+  <code>readStream()</code> joins the pieces and reports the text at most once a frame:
+</p>
+
+<pre><code>import {'{ readStream }'} from '@redvars/peacock';
+
+markdown.streaming = true;
+await readStream(provider.summarize(request), (text, done) => {'{'}
+  markdown.value = text;
+  markdown.streaming = !done;
+{'}'}, signal);</code></pre>
+
+<h3 class="text-title-medium">Citations</h3>
+<p>
+  Links written as <code>[2](cite:rule_88)</code> show as <code>wc-citation</code> chips.
+  <code>citations</code> gives each source's <code>headline</code>, <code>supportingText</code> and
+  <code>href</code> by <code>id</code>; <code>citation-href</code> (with <code>{'{id}'}</code>) is the
+  address of a source it doesn't list. A <code>cite:</code> link is never an ordinary link, so an
+  answer can't send someone to an address the model made up.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown
+    size='sm'
+    citation-href='#source-{id}'
+    value='Exports failed because the retry limit was `0`[1](cite:inc_2041). Ravi raised it to 5 in 4.2.1[2](cite:comment_17).'
+  ></wc-markdown>
+</DemoComponentCard>
+
+<h3 class="text-title-medium">Accessibility</h3>
+<p>
+  While <code>streaming</code> is on, the content is <code>aria-busy</code>, so screen readers wait for
+  the finished text instead of reading every piece. The caret is hidden from them, and it stops
+  blinking with reduced motion.
+</p>

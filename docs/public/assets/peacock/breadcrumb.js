@@ -1,12 +1,12 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
 import { BreadcrumbItem } from './breadcrumb-item.js';
-import { I as I18nController } from './i18n-controller-W5hLm7os.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
 import './state-BCeDVCI9.js';
 import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 import './if-defined-D9DEJR_6.js';
-import './strings-BFkowon5.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {

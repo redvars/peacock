@@ -1,0 +1,83 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+  vertical-align: 0.125em;
+  // Tight to the word it cites, with a little room before the next chip or punctuation.
+  margin-inline: 0.125em 0.0625em;
+
+  /**
+   * @prop --citation-container-color: Background of the chip
+   */
+  --citation-container-color: var(--color-surface-container-highest);
+
+  /**
+   * @prop --citation-color: Text color of the chip
+   */
+  --citation-color: var(--color-on-surface);
+}
+
+wc-hover-card {
+  display: inline-flex;
+}
+
+.chip {
+  @include mixin.reset-button-styles;
+  @include mixin.reset-link-styles;
+
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 1.125rem;
+  block-size: 1.125rem;
+  padding-inline: 0.3125rem;
+  color: var(--citation-color);
+  font-family: var(--typography-label-small-font-family);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  background: var(--citation-container-color);
+  border-radius: var(--shape-corner-full);
+
+  &:link,
+  &:visited {
+    color: var(--citation-color);
+  }
+
+  &:hover {
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+  }
+
+  &:focus-visible {
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.25rem);
+  @include mixin.get-typography-not-important(body-medium);
+}
+
+.supporting-text {
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+.headline {
+  @include mixin.get-typography-not-important(body-medium-emphasized);
+}
+
+@media (forced-colors: active) {
+  .chip {
+    border: 1px solid LinkText;
+    color: LinkText;
+  }
+}

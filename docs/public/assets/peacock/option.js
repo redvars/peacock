@@ -46,6 +46,11 @@ let SelectOptionElement = class SelectOptionElement extends MenuItem {
          * match the current typeahead search query. Set by wc-select.
          */
         this.filtered = false;
+        /**
+         * Marks the option the assistant suggested with a Suggested badge, while the select holds the
+         * suggestion. Set by wc-select.
+         */
+        this.suggested = false;
     }
     willUpdate(changed) {
         super.willUpdate(changed);
@@ -80,7 +85,10 @@ let SelectOptionElement = class SelectOptionElement extends MenuItem {
     }
     renderEnd() {
         // A multi-select shows its state in the leading checkbox instead of a trailing check.
-        return this.multiple ? A : super.renderEnd();
+        const end = this.multiple ? A : super.renderEnd();
+        if (!this.suggested)
+            return end;
+        return b `<wc-ai-badge class="suggested-badge"></wc-ai-badge>${end}`;
     }
 };
 __decorate([
@@ -92,6 +100,9 @@ __decorate([
 __decorate([
     n({ type: Boolean, reflect: true })
 ], SelectOptionElement.prototype, "filtered", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true })
+], SelectOptionElement.prototype, "suggested", void 0);
 SelectOptionElement = __decorate([
     IndividualComponent
 ], SelectOptionElement);

@@ -101,5 +101,7 @@ export declare class Slider extends BaseInput {
      */
     private snapToStep;
     private handleKeyDown;
+    /** A suggestion for a slider is a number. */
+    protected writeSuggestionValue(value: unknown): void;
     render(): import("lit-html").TemplateResult<1>;
 }

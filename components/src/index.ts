@@ -135,7 +135,11 @@ export { Select } from './select/index.js';
 export type { SelectOption } from './select/index.js';
 export { SelectOptionElement } from './select/index.js';
 export { Search } from './search/index.js';
-export { FilterBar, FILTER_BAR_SEARCH_KEY } from './filter-bar/index.js';
+export {
+  FilterBar,
+  FILTER_BAR_SEARCH_KEY,
+  filtersFromParse,
+} from './filter-bar/index.js';
 export type {
   FilterBarChangeDetail,
   FilterBarValue,
@@ -300,6 +304,75 @@ export type {
 } from './mention-input/index.js';
 export { Kbd } from './kbd/index.js';
 export type { KbdPlatform } from './kbd/index.js';
+export {
+  setPeacockAi,
+  peacockAi,
+  onPeacockAiChange,
+  isAiAvailable,
+} from './__internal/ai/config.js';
+export { readStream } from './__internal/ai/stream.js';
+export type {
+  SuggestionAcceptCause,
+  SuggestionAcceptDetail,
+  SuggestionDismissDetail,
+} from './__internal/ai/suggestion-controller.js';
+export type {
+  PeacockAiConfig,
+  PeacockAiProvider,
+  AiCapability,
+  AiRequestContext,
+  AiCompleteRequest,
+  AiTransformRequest,
+  AiTransformAction,
+  AiSummarizeRequest,
+  AiParseRequest,
+  AiSuggestion,
+  AiCitation,
+} from './__internal/ai/types.js';
+export { AiBadge } from './ai-badge/index.js';
+export type { AiBadgeKind } from './ai-badge/index.js';
+export { TypingIndicator } from './typing-indicator/index.js';
+export { Citation } from './citation/index.js';
+export type { CitationSelectDetail } from './citation/index.js';
+export { PromptInput } from './prompt-input/index.js';
+export type { PromptInputSubmitDetail } from './prompt-input/index.js';
+export { ChatMessage } from './chat-message/index.js';
+export type {
+  ChatMessageFrom,
+  ChatMessageFeedback,
+  ChatMessageFeedbackDetail,
+} from './chat-message/index.js';
+export { ChatThread } from './chat-thread/index.js';
+export type { ChatThreadSuggestionDetail } from './chat-thread/index.js';
+export { AssistantSteps, AssistantStep } from './assistant-steps/index.js';
+export type { AssistantStepStatus } from './assistant-steps/index.js';
+export { DraftCard } from './draft-card/index.js';
+export type { DraftCardField, DraftCardState } from './draft-card/index.js';
+export { AiSummary } from './ai-summary/index.js';
+export type {
+  AiSummaryFeedback,
+  AiSummaryFeedbackDetail,
+} from './ai-summary/index.js';
+export {
+  GenerativeView,
+  generativeViewSchema,
+  parsePartialJson,
+} from './generative-view/index.js';
+export type {
+  GenerativeCatalog,
+  GenerativeCatalogEntry,
+  GenerativeChild,
+  GenerativeNode,
+  GenerativePropKind,
+  GenerativePropSpec,
+  GenerativeValue,
+  GenerativeViewActionDetail,
+} from './generative-view/index.js';
+export { AssistantPanel } from './assistant-panel/index.js';
+export type {
+  AssistantPanelCloseDetail,
+  AssistantPanelCloseReason,
+} from './assistant-panel/index.js';
 export { HoverCard } from './hover-card/index.js';
 export type { HoverCardCloseDetail } from './hover-card/index.js';
 export { Kanban, applyKanbanMove } from './kanban/index.js';
@@ -509,4 +582,5 @@ export type {
   CbRuleMoveDetail,
   CbRuleRemoveDetail,
   CbRuleValue,
+  ConditionBuilderDescribeDetail,
 } from './condition-builder/index.js';

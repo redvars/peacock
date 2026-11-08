@@ -2,15 +2,15 @@ import { i, _ as __decorate, I as IndividualComponent, b, w } from './Individual
 import { n } from './property-B2TG3KEE.js';
 import { o } from './style-map-CHOg6N_R.js';
 import { c as cubicOut } from './transform-CxeQFXXB.js';
-import { a as constant, b as array, c as css_248z$1, C as ChartBase, d as chartColor, s as select, i as interpolate } from './chart-base-DJ6EtYbP.js';
+import { a as constant, b as array, c as css_248z$1, C as ChartBase, d as chartColor, s as select, i as interpolate } from './chart-base-D-Gp730U.js';
 import { w as withPath } from './path-CJ0Arqcy.js';
 import './directive-ZPhl09Yt.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';
-import './i18n-controller-W5hLm7os.js';
-import './strings-BFkowon5.js';
+import './i18n-controller-Cp43HjJl.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 
 const abs = Math.abs;
@@ -491,6 +491,7 @@ const MIN_LABEL_ANGLE = 0.35;
  * ```
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
+ * @slot insight - Below the chart, a line that explains it, such as the assistant’s reading of a trend. The data comes from the platform; the insight only puts it into words.
  *
  * @fires {CustomEvent<ChartSelectDetail>} select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
  *

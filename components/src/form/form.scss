@@ -21,6 +21,42 @@
   }
 }
 
+// Shown while fields hold the assistant's suggestions (ADR-030002).
+.draft-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  margin-block-end: var(--_form-summary-gap);
+  padding-block: var(--spacing-100);
+  padding-inline: var(--spacing-200) var(--spacing-100);
+  color: var(--color-on-primary-container);
+  background: var(--color-primary-container);
+  border-radius: var(--shape-corner-medium);
+  @include mixin.get-typography-not-important(body-medium);
+
+  .sparkle {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    flex: none;
+    fill: currentColor;
+  }
+
+  .draft-text {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  .draft-clear {
+    flex: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .draft-banner {
+    border: 1px solid CanvasText;
+  }
+}
+
 .headline {
   @include mixin.get-typography(title-small);
 }

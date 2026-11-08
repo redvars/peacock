@@ -1,0 +1,53 @@
+---
+export const title = 'Ghost text';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>ai-completion</code> and a provider that offers completions (ADR-030002), a pause in
+  typing at the end of a line shows how the assistant would go on, in grey after the caret.
+  <strong>Tab</strong> takes it, <strong>Ctrl+→</strong> (<strong>⌘→</strong>) takes the next word,
+  and <strong>Escape</strong> or typing dismisses it. Nothing is inserted until the person takes it.
+  Type a sentence about the laptop below and pause.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-textarea
+    label='Resolution notes'
+    ai-completion
+    rows='4'
+    value='Replaced the screen on LT-0412 and ran the display test.'
+    style='max-width: 36rem;'
+  ></wc-textarea>
+  <script type='module' src='/assets/js/ai-demo.js'></script>
+</DemoComponentCard>
+
+<p>
+  The demo uses a scripted provider. An app registers its own once with
+  <code>setPeacockAi({'{ provider }'})</code>; <code>complete()</code> gets the text before and after
+  the caret and an <code>AbortSignal</code> that aborts when the person keeps typing:
+</p>
+
+<pre><code>import {'{ setPeacockAi }'} from '@redvars/peacock';
+
+setPeacockAi({'{'}
+  provider: {'{'}
+    complete: ({'{ before, after, signal, context }'}) =>
+      api.complete({'{ before, after, field: context.label }'}, {'{ signal }'}),
+  {'}'},
+{'}'});</code></pre>
+
+<h3>When it is not offered</h3>
+<p>
+  Ghost text is opt-in per field, because in short fields it gets in the way. It is never offered
+  while the page has AI off, on <code>sensitive</code> fields, or on read-only and disabled fields.
+  Only the text of this field is sent.
+</p>
+
+<h3>Accessibility</h3>
+<p>
+  While a suggestion shows, the textarea's description reads "Suggestion: …. Press Tab to accept,
+  Escape to dismiss." (the <code>aiGhostHint</code> string). Tab moves focus as usual whenever no
+  suggestion shows.
+</p>

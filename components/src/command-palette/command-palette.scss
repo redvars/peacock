@@ -112,6 +112,21 @@
   flex: none;
 }
 
+// The Ask row's sparkle (ADR-030002).
+.ask-icon {
+  display: inline-grid;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  place-items: center;
+  color: var(--color-primary);
+
+  .sparkle {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    fill: currentColor;
+  }
+}
+
 .option-text {
   display: flex;
   flex: 1;

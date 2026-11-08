@@ -12,6 +12,11 @@
   margin-block-end: var(--spacing-100);
 }
 
+::slotted([slot='summary']) {
+  display: block;
+  margin-block-end: var(--spacing-200);
+}
+
 .feed {
   display: flex;
   flex-direction: column;

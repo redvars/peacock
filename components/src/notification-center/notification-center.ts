@@ -131,6 +131,8 @@ function formatItemTime(time: number, now: number, locale: string): string {
  * unread"). When unread notifications arrive while the panel is closed, a polite live region
  * announces "2 new notifications".</p>
  *
+ * @slot summary - At the top of the list, such as a `wc-ai-summary` digest of what needs the person.
+ *
  * @fires {CustomEvent} open - Fired when the panel opens.
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the panel closes.
  * @fires {CustomEvent<{notification: NotificationCenterItem}>} item-click - Fired, cancelable, when a notification is activated. Cancelling stops a link from navigating.
@@ -324,10 +326,7 @@ export class NotificationCenter extends LitElement {
         this.updateComplete.then(() => {
           if (!this.open || this.sheet) return;
           this.floating.setOptions({
-            placement: toPhysicalPlacement(
-              this.placement,
-              this,
-            ),
+            placement: toPhysicalPlacement(this.placement, this),
           });
           this.floating.open();
         });
@@ -738,6 +737,7 @@ export class NotificationCenter extends LitElement {
         </button>
       </div>
       <div class="content" aria-busy=${this.loading ? 'true' : nothing}>
+        <slot name="summary"></slot>
         ${groups.length > 0 ? this.renderGroups(groups) : nothing}
         ${groups.length === 0 && !this.loading ? this.renderEmpty() : nothing}
         ${this.renderFooter()}

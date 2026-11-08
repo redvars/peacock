@@ -221,13 +221,30 @@ export default abstract class ToggleBase extends BaseInput {
     this.hasFocus = event.type === 'focus';
   };
 
-  /** The visible label, from `label` or the default slot, with the id that names the control. */
+  /**
+   * The visible label, from `label` or the default slot, with the id that names the control, and
+   * the Suggested badge after it while a suggestion shows.
+   */
   protected renderLabel() {
-    return this.label
+    const label = this.label
       ? html`<div id=${this.labelId} class="label">${this.label}</div>`
       : html`<div id=${this.labelId} class="label slot-container">
           <slot></slot>
         </div>`;
+    return html`${label}${this.suggestionBadge({ withReason: true })}`;
+  }
+
+  /** A suggestion for a toggle is its `checked` state. */
+  protected override readSuggestionValue(): unknown {
+    return this.checked;
+  }
+
+  protected override writeSuggestionValue(value: unknown): void {
+    this.checked = !!value;
+  }
+
+  protected override emitSuggestionValue(): void {
+    this.dispatchChange();
   }
 
   // ── Private ──────────────────────────────────────────────────────────────

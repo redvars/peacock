@@ -4,13 +4,15 @@ import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
 import { o } from './style-map-CHOg6N_R.js';
-import { B as BaseInput } from './BaseInput-BXHX6bMj.js';
-import { I as I18nController } from './i18n-controller-W5hLm7os.js';
+import { B as BaseInput } from './BaseInput-cLydYG8j.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-BHbg72PG.js';
-import './strings-BFkowon5.js';
+import './strings-BJPuhKJk.js';
+import './suggestion-controller-kTnSMkjh.js';
+import './ai-controller-DR_Tg0sN.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`:host {
@@ -198,6 +200,13 @@ var css_248z = i`:host {
 .thumb:focus-visible .value-label {
   opacity: 1;
   transform: translateY(0);
+}
+
+.label-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
 }`;
 
 let sliderCount = 0;
@@ -433,6 +442,10 @@ let Slider = class Slider extends BaseInput {
             this.emit('change');
         }
     }
+    /** A suggestion for a slider is a number. */
+    writeSuggestionValue(value) {
+        this.value = Number(value);
+    }
     // ── Render ───────────────────────────────────────────────────────────────
     render() {
         const { value } = this;
@@ -444,7 +457,7 @@ let Slider = class Slider extends BaseInput {
         const descriptionId = `${this.idPrefix}-description`;
         const errorText = this.error ? this.errorText : this.validationText;
         const invalid = this.error || !!errorText;
-        const description = errorText || this.helperText;
+        const description = errorText || this.suggestionReason || this.helperText;
         return b `
       <div
         class=${e$1({
@@ -456,8 +469,8 @@ let Slider = class Slider extends BaseInput {
         })}
       >
         ${this.label
-            ? b `<div class="label" id=${labelId}>${this.label}</div>`
-            : A}
+            ? this.labelWithSuggestion(b `<div class="label" id=${labelId}>${this.label}</div>`)
+            : this.suggestionBadge()}
         <div class="slider ${placement.end ? 'with-value' : ''}">
           <div
             class="slider-container ${this.disabled ? 'disabled' : ''}"

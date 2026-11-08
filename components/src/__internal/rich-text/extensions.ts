@@ -16,7 +16,16 @@ import { createMentionExtension } from './mention-node.js';
  * - `html`: `wc-html-editor`. Everything StarterKit has, including underline.
  * - `document`: `wc-document-editor`. Like `html`, with Markdown export.
  */
-export type RichTextProfile = 'markdown' | 'comment' | 'html' | 'document';
+/**
+ * What an editor can hold. `prompt` is plain text with line breaks and mentions, for
+ * `wc-prompt-input`: no formatting, blocks or tables.
+ */
+export type RichTextProfile =
+  | 'markdown'
+  | 'comment'
+  | 'html'
+  | 'document'
+  | 'prompt';
 
 export interface RichTextExtensionOptions {
   /** The placeholder shown in an empty editor. */
@@ -66,7 +75,30 @@ function maxLength(limit: number) {
 
 /** Whether the profile's value is Markdown. */
 export function isMarkdownProfile(profile: RichTextProfile): boolean {
-  return profile === 'markdown' || profile === 'comment';
+  return (
+    profile === 'markdown' || profile === 'comment' || profile === 'prompt'
+  );
+}
+
+/** StarterKit with only paragraphs, line breaks and history: the plain `prompt` profile. */
+function plainStarterKit(history: boolean) {
+  return StarterKit.configure({
+    bold: false,
+    italic: false,
+    strike: false,
+    code: false,
+    underline: false,
+    link: false,
+    heading: false,
+    blockquote: false,
+    codeBlock: false,
+    bulletList: false,
+    orderedList: false,
+    listItem: false,
+    listKeymap: false,
+    horizontalRule: false,
+    undoRedo: history ? {} : false,
+  });
 }
 
 /** The Tiptap extensions for a Peacock rich-text editor. */
@@ -75,6 +107,23 @@ export function buildExtensions(
   options: RichTextExtensionOptions = {},
 ): Extensions {
   const markdown = isMarkdownProfile(profile);
+  if (profile === 'prompt') {
+    const plain: Extensions = [
+      plainStarterKit(options.history !== false),
+      Placeholder.configure({
+        placeholder: () => options.placeholder?.() ?? '',
+      }),
+      Markdown.configure({ markedOptions: { gfm: true } }),
+    ];
+    if (options.maxlength !== undefined && options.maxlength >= 0) {
+      plain.push(maxLength(options.maxlength));
+    }
+    if (options.mentions?.length) {
+      plain.push(createMentionExtension(options.mentions));
+    }
+    if (options.extra) plain.push(...options.extra);
+    return plain;
+  }
   const extensions: Extensions = [
     StarterKit.configure({
       underline: markdown ? false : {},

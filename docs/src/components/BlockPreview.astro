@@ -218,6 +218,35 @@ const { name, icon } = Astro.props;
   </div>
 )}
 
-{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket'].includes(name) && (
+{name === 'assistant' && (
+  <div class='bp bp-assistant'>
+    <div class='bp-assistant-page'>
+      <span class='bp-line bp-title'></span>
+      <span class='bp-line'></span>
+      <div class='bp-assistant-tiles'><span></span><span></span><span></span></div>
+    </div>
+    <div class='bp-assistant-panel'>
+      <span class='bp-assistant-ask'></span>
+      <span class='bp-assistant-answer'></span>
+      <span class='bp-assistant-draft'></span>
+      <span class='bp-assistant-draft'></span>
+      <span class='bp-assistant-composer'></span>
+    </div>
+  </div>
+)}
+
+{name === 'home-ai' && (
+  <div class='bp bp-home-ai'>
+    <span class='bp-home-ai-search'></span>
+    <span class='bp-line bp-title'></span>
+    <div class='bp-home-ai-row'>
+      <span class='bp-home-ai-summary'></span>
+      <span class='bp-home-ai-stat'></span>
+    </div>
+    <div class='bp-assistant-tiles'><span></span><span></span><span></span></div>
+  </div>
+)}
+
+{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket', 'assistant', 'home-ai'].includes(name) && (
   <wc-icon class='bp-fallback' name={icon}></wc-icon>
 )}

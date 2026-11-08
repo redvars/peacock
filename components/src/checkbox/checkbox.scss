@@ -303,3 +303,8 @@
     background: GrayText;
   }
 }
+
+// The Suggested badge after the label (ADR-030002).
+.suggestion-badge {
+  margin-inline-start: var(--spacing-100);
+}

@@ -1,0 +1,58 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-prompt-input</code> is where people write to the assistant. It is plain text: Enter sends,
+  Shift+Enter starts a new line, and the box grows up to <code>max-rows</code> lines. Sending fires a
+  cancelable <code>submit</code> and empties the box.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-prompt-input id='prompt-demo' placeholder='Ask for something' style='inline-size: 100%; max-inline-size: 30rem;'>
+    <wc-icon-button slot='start' variant='text' shape='round' size='sm' aria-label='Attach a file'>
+      <wc-icon name='attach_file'></wc-icon>
+    </wc-icon-button>
+  </wc-prompt-input>
+  <script is:inline src='/assets/js/mention-demo.js'></script>
+  <script is:inline>
+    (function () {
+      var prompt = document.querySelector('#prompt-demo');
+      window.peacockMentionDemo(prompt);
+      prompt.triggers = '@#';
+      prompt.addEventListener('submit', function (event) {
+        myConsole.log('submit: ' + event.detail.value);
+        prompt.loading = true;
+        setTimeout(function () {
+          prompt.loading = false;
+        }, 2500);
+      });
+      prompt.addEventListener('stop', function () {
+        myConsole.log('stop');
+        prompt.loading = false;
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Stop</h3>
+<p>
+  While <code>loading</code> (the answer is arriving), the send button becomes <strong>Stop</strong>,
+  which fires <code>stop</code>, and Enter does not send. Send something in the demo to see it.
+</p>
+
+<h3>Mentions</h3>
+<p>
+  Mentions point the assistant at records and people. Typing a trigger (<code>@</code> by default; the
+  demo also takes <code>#</code> for tickets) fires <code>search</code>; answer by setting
+  <code>suggestions</code>. A mention is sent as <code>[@INC-2041](mention:inc_2041)</code>, and
+  <code>detail.mentions</code> lists them.
+</p>
+
+<h3>Attachments</h3>
+<p>
+  Put an attach button in the <code>start</code> slot and the attached files, as chips, in the
+  <code>attachments</code> slot above the text.
+</p>

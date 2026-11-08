@@ -1,0 +1,51 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-chat-thread</code> holds a conversation's <code>wc-chat-message</code>s, oldest first. It
+  fills its container and scrolls, keeping the latest message in view while the person reads the end.
+  Scroll up in the demo and a <strong>Jump to latest</strong> button appears.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chat-thread style='block-size: 20rem; inline-size: 100%; max-inline-size: 30rem; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-medium);'>
+    <wc-chat-message from='user' value='What is waiting for me?'></wc-chat-message>
+    <wc-chat-message value='Two things need you today: **Ada asked for your timesheet**, and INC-2318 is waiting for your reply.'></wc-chat-message>
+    <wc-chat-message from='user' value='Remind me about the timesheet at 4.'></wc-chat-message>
+    <wc-chat-message value='Done. I set a reminder for 16:00 in your calendar.'></wc-chat-message>
+    <wc-chat-message from='user' value='And the incident?'></wc-chat-message>
+    <wc-chat-message value='INC-2318 is about the cracked screen on LT-0412. Desk support asked when you can bring the laptop in.'></wc-chat-message>
+  </wc-chat-thread>
+</DemoComponentCard>
+
+<h3>Before the first message</h3>
+<p>
+  The <code>empty</code> slot and <code>suggestions</code> show until the first message: prompt
+  starters as chips that fire <code>suggestion-select</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chat-thread id='thread-empty' style='inline-size: 100%; max-inline-size: 30rem;'>
+    <p slot='empty'>What can I help with?</p>
+  </wc-chat-thread>
+  <script is:inline>
+    (function () {
+      var thread = document.querySelector('#thread-empty');
+      thread.suggestions = ['Request leave', 'Report a problem', "What's waiting for me?"];
+      thread.addEventListener('suggestion-select', function (event) {
+        myConsole.log('suggestion-select: ' + event.detail.value);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The thread is a log (<code>role="log"</code>) named "Conversation", but not a live region: a
+  streaming answer would be read word by word. Instead it announces each assistant answer once, when
+  its <code>streaming</code> turns off, as "Assistant: …" (the <code>chatAnnouncement</code> string).
+  Messages already there when the thread connects, and the person's own messages, are not announced.
+</p>

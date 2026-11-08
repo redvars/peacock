@@ -1,0 +1,51 @@
+---
+export const title = 'Describe the condition';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With a provider that offers <code>parse</code> (ADR-030002), a box above the footer takes a
+  sentence. The provider gets it with the fields in <code>ai-schema</code>, never record values, and
+  its answer arrives as <code>describe</code>. You build the rules from it, as you build any rule,
+  with <code>suggested</code> on each <code>wc-cb-rule</code>: they show a Suggested badge until the
+  person changes one of their controls, and removing one discards it. Try "P1 incidents with no
+  assignment group for over 30 minutes".
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-condition-builder id='cb-describe' operator='and' style='inline-size: 100%;'></wc-condition-builder>
+  <script type='module' src='/assets/js/ai-demo.js'></script>
+  <script is:inline>
+    (function () {
+      var builder = document.querySelector('#cb-describe');
+      builder.aiSchema = [
+        { key: 'priority', label: 'Priority', options: ['1 · Critical', '2 · High', '3 · Medium'] },
+        { key: 'assignment_group', label: 'Assignment group' },
+        { key: 'opened', label: 'Opened' },
+      ];
+      function control(tag, name, value) {
+        var el = document.createElement(tag);
+        el.setAttribute('name', name);
+        el.setAttribute('size', 'sm');
+        el.value = value;
+        el.setAttribute('aria-label', name);
+        return el;
+      }
+      builder.addEventListener('describe', function (event) {
+        builder.operator = event.detail.value.operator || 'and';
+        event.detail.value.rules.forEach(function (rule) {
+          var el = document.createElement('wc-cb-rule');
+          el.suggested = true;
+          el.append(
+            control('wc-input', 'field', rule.field),
+            control('wc-input', 'operator', rule.operator),
+            control('wc-input', 'value', rule.value),
+          );
+          builder.append(el);
+        });
+        myConsole.log('describe: ' + JSON.stringify(event.detail.value));
+      });
+    })();
+  </script>
+</DemoComponentCard>

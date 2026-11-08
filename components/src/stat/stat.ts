@@ -47,6 +47,7 @@ export type StatVariant = 'outlined' | 'filled' | 'plain';
  * for a stat inside a <code>wc-card</code>.</p>
  *
  * @slot trend - A small chart of the metric's history, usually a `wc-sparkline`.
+ * @slot insight - A line under the number that explains it, such as the assistant's reading of a change. The number comes from the platform; the insight only puts it into words.
  *
  * @cssprop --stat-padding - Padding inside the tile.
  * @cssprop --stat-container-color - Background of the filled tile.
@@ -274,6 +275,7 @@ export class Stat extends LitElement {
           ${this.renderHelp()}
         </div>
         ${this.renderBody()}
+        <slot name="insight"></slot>
       </div>
     `;
   }

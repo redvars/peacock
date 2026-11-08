@@ -16,6 +16,10 @@ import { type ControlValidity } from '../input/BaseInput.js';
  * <p><code>rows</code> sets the starting height. With <code>auto-grow</code> the height follows the
  * content, up to <code>max-rows</code> when it is set; <code>resize</code> controls whether the
  * person can drag the corner to resize it.</p>
+ * <p>With <code>ai-completion</code> and a provider that offers completions (ADR-030002), a pause
+ * in typing at the end of a line shows ghost text: how the assistant would go on, in grey after the
+ * caret. Tab takes it, Ctrl+→ (⌘→) takes a word, Escape or typing dismisses it. Nothing is inserted
+ * until the person takes it, and <code>sensitive</code> fields never ask.</p>
  * @tags input
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the user types.
@@ -47,7 +51,14 @@ export declare class Textarea extends BaseField {
     maxRows?: number;
     /** Which way the person can resize it by dragging the corner. */
     resize: 'none' | 'vertical' | 'both';
+    /**
+     * Suggests how to go on after a pause in typing, as ghost text after the caret: Tab takes it.
+     * Needs a provider with `complete`.
+     */
+    aiCompletion: boolean;
     private inputElement?;
+    private readonly i18n;
+    private readonly ghost;
     protected updated(changed: PropertyValues<this>): void;
     focus(): void;
     blur(): void;
@@ -57,5 +68,9 @@ export declare class Textarea extends BaseField {
     private fitToContent;
     private handleInput;
     private handleChange;
+    private handleKeyDown;
+    private handleBlur;
+    /** Inserts accepted ghost text at the caret, as if typed: the value changes and `input` fires. */
+    private insertAtCaret;
     render(): import("lit-html").TemplateResult;
 }

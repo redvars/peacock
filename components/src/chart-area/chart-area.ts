@@ -67,6 +67,7 @@ export type { ChartCurve } from '../chart-line/chart-line.js';
  * ```
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
+ * @slot insight - Below the chart, a line that explains it, such as the assistant’s reading of a trend. The data comes from the platform; the insight only puts it into words.
  *
  * @fires {CustomEvent<ChartSelectDetail>} select - A category was clicked or chosen with Enter. `detail` holds `index` (the row position) and `datum`.
  *

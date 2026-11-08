@@ -30,6 +30,11 @@ export declare class SelectOptionElement extends MenuItem {
      * match the current typeahead search query. Set by wc-select.
      */
     filtered: boolean;
+    /**
+     * Marks the option the assistant suggested with a Suggested badge, while the select holds the
+     * suggestion. Set by wc-select.
+     */
+    suggested: boolean;
     protected willUpdate(changed: PropertyValues<this>): void;
     protected get itemRole(): string;
     protected get itemAriaSelected(): string;

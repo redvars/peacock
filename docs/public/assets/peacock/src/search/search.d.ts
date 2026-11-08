@@ -18,6 +18,11 @@ import BaseInput, { type ControlValidity } from '../input/BaseInput.js';
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.
  * It shows no validation message, so use <code>wc-input</code> for a search term that must be
  * validated.</p>
+ * <p><b>Ask.</b> With <code>ask</code>, the box is also where people ask the assistant
+ * (ADR-030002): an <strong>Ask</strong> button and Ctrl+Enter (⌘Enter) fire <code>ask</code> with
+ * the text, while Enter still searches. <code>ask-placeholder</code> replaces the placeholder, such
+ * as "Ask for something, or search apps and records". With AI off for the page, the box is a plain
+ * search: no button, the usual placeholder, and no <code>ask</code>.</p>
  *
  * @slot start - Leading content; replaces the search icon.
  * @slot end - Trailing content, after the clear button.
@@ -34,6 +39,7 @@ import BaseInput, { type ControlValidity } from '../input/BaseInput.js';
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed: on blur, Enter, or when it is cleared.
  * @fires {CustomEvent} clear - Dispatched when the value is cleared with the clear button or Escape.
  * @fires {CustomEvent<{value: string}>} search - Dispatched when the user submits the search (presses Enter).
+ * @fires {CustomEvent<{value: string}>} ask - With `ask`: the person pressed Ask or Ctrl+Enter (⌘Enter) to ask the assistant.
  *
  * @example
  * ```html
@@ -68,10 +74,17 @@ export declare class Search extends BaseInput {
      * Possible values: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
      */
     size: 'sm' | 'md' | 'lg';
+    /** Lets people ask the assistant from the box: an Ask button and Ctrl+Enter fire `ask`. */
+    ask: boolean;
+    /** Placeholder while asking is offered, such as "Ask for something, or search apps and records". */
+    askPlaceholder: string;
     private focused;
     private inputElement?;
     /** Peacock's strings for the placeholder and clear button. */
     private readonly i18n;
+    private readonly ai;
+    /** Whether Ask is offered now: `ask`, and AI on for the page. */
+    private get __asking();
     focus(): void;
     blur(): void;
     protected computeValidity(): ControlValidity;
@@ -82,6 +95,8 @@ export declare class Search extends BaseInput {
     private __handleKeydown;
     private __handleFocusChange;
     private __clearValue;
+    private __ask;
+    private __renderAskButton;
     private __renderClearButton;
     private __renderLeadingIcon;
     render(): import("lit-html").TemplateResult<1>;

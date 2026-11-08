@@ -314,6 +314,11 @@ export class Slider extends BaseInput {
     }
   }
 
+  /** A suggestion for a slider is a number. */
+  protected override writeSuggestionValue(value: unknown): void {
+    this.value = Number(value);
+  }
+
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
@@ -326,7 +331,7 @@ export class Slider extends BaseInput {
     const descriptionId = `${this.idPrefix}-description`;
     const errorText = this.error ? this.errorText : this.validationText;
     const invalid = this.error || !!errorText;
-    const description = errorText || this.helperText;
+    const description = errorText || this.suggestionReason || this.helperText;
 
     return html`
       <div
@@ -339,8 +344,10 @@ export class Slider extends BaseInput {
         })}
       >
         ${this.label
-          ? html`<div class="label" id=${labelId}>${this.label}</div>`
-          : nothing}
+          ? this.labelWithSuggestion(
+              html`<div class="label" id=${labelId}>${this.label}</div>`,
+            )
+          : this.suggestionBadge()}
         <div class="slider ${placement.end ? 'with-value' : ''}">
           <div
             class="slider-container ${this.disabled ? 'disabled' : ''}"

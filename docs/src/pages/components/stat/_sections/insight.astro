@@ -1,0 +1,17 @@
+---
+export const title = 'Insight';
+export const order = 250;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The <code>insight</code> slot holds a line under the number that explains it, usually a
+  <code>wc-ai-summary variant="inline"</code> (ADR-030002). The number comes from the platform; the
+  insight only puts it into words, and disappears when AI is off. The charts have the same slot.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stat label='Open incidents' value='42' previous='31' variant='outlined' style='inline-size: 100%; max-inline-size: 22rem;'>
+    <wc-ai-summary slot='insight' variant='inline' value='Up 35% since Monday: 9 of the 11 new ones are the export failure.'></wc-ai-summary>
+  </wc-stat>
+</DemoComponentCard>

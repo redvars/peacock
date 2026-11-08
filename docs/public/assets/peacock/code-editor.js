@@ -3,16 +3,18 @@ import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-W5hLm7os.js';
-import { B as BaseInput } from './BaseInput-BXHX6bMj.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
+import { A as AiController } from './ai-controller-DR_Tg0sN.js';
+import { B as BaseInput } from './BaseInput-cLydYG8j.js';
 import { o as observeThemeChange } from './observe-theme-change-CkSENG98.js';
 import { t as tokenColor } from './token-colors-DEO6rvEu.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-BFkowon5.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-BHbg72PG.js';
+import './suggestion-controller-kTnSMkjh.js';
 
 /**
  * The colors the editor theme is built from: Peacock color roles, plus the syntax colors
@@ -7073,6 +7075,13 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.markers = [];
         /** Drops the frame and takes the height of the container instead of `--code-editor-height`. */
         this.fill = false;
+        /**
+         * Suggests code after a pause in typing, as Monaco's inline ghost text: Tab takes it. Needs a
+         * provider with `complete`, which gets `language` with the code before and after the caret.
+         */
+        this.aiCompletion = false;
+        /** AI availability and requests for `ai-completion` (ADR-030002). */
+        this.__ai = new AiController(this, 'complete');
         /** Whether the editor text has focus. */
         this.hasFocus = false;
         /** This editor's model's address, unique on the page so two editors never share a model. */
@@ -7125,6 +7134,8 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.__childObserver?.disconnect();
         this.__lib?.forEach(lib => lib.dispose());
         this.__lib = undefined;
+        this.__inlineCompletions?.dispose();
+        this.__inlineCompletions = undefined;
         const model = this.editorMonacoInstance?.getModel();
         this.editorMonacoInstance?.dispose();
         model?.dispose();
@@ -7141,6 +7152,8 @@ let CodeEditor = class CodeEditor extends BaseInput {
         const editor = this.editorMonacoInstance;
         if (!editor || !this.monaco)
             return;
+        if (changedProperties.has('aiCompletion'))
+            this.__syncInlineCompletions();
         if (changedProperties.has('disabled') ||
             changedProperties.has('readonly')) {
             editor.updateOptions({ readOnly: this.disabled || this.readonly });
@@ -7220,6 +7233,7 @@ let CodeEditor = class CodeEditor extends BaseInput {
         // Monaco measures the font when it starts; measure again once web fonts have loaded.
         document.fonts?.ready.then(() => this.monaco?.editor.remeasureFonts());
         this.libSourceChanged();
+        this.__syncInlineCompletions();
         this.drawDecorations();
         this.drawMarkers();
         this.editorMonacoInstance.onDidChangeModelContent((e) => {
@@ -7338,6 +7352,64 @@ let CodeEditor = class CodeEditor extends BaseInput {
     /** Whether light-DOM children are assigned to the named slot. */
     __hasSlotted(name) {
         return Array.from(this.children).some(child => child.getAttribute('slot') === name);
+    }
+    /**
+     * Registers Monaco's inline-completions provider while `ai-completion` is on and the page's AI
+     * offers completions; Monaco shows the result as ghost text that Tab accepts. Providers are
+     * global to Monaco, so this one answers only for this editor's model.
+     */
+    __syncInlineCompletions() {
+        const { monaco } = this;
+        this.__inlineCompletions?.dispose();
+        this.__inlineCompletions = undefined;
+        if (!monaco || !this.aiCompletion)
+            return;
+        this.__inlineCompletions =
+            monaco.languages.registerInlineCompletionsProvider({ pattern: '**' }, {
+                provideInlineCompletions: async (model, position, _context, token) => {
+                    const empty = { items: [] };
+                    const { provider } = this.__ai;
+                    if (model !== this.editorMonacoInstance?.getModel() ||
+                        !provider?.complete ||
+                        this.disabled ||
+                        this.readonly) {
+                        return empty;
+                    }
+                    // Wait for a pause in typing; Monaco cancels the token on the next keystroke.
+                    await new Promise(resolve => {
+                        setTimeout(resolve, 400);
+                    });
+                    if (token.isCancellationRequested)
+                        return empty;
+                    const controller = new AbortController();
+                    token.onCancellationRequested(() => controller.abort());
+                    const text = model.getValue();
+                    const offset = model.getOffsetAt(position);
+                    try {
+                        const completion = await provider.complete({
+                            signal: controller.signal,
+                            context: this.__ai.context(),
+                            before: text.slice(Math.max(0, offset - 4000), offset),
+                            after: text.slice(offset, offset + 1000),
+                            language: this.language,
+                        });
+                        if (!completion || token.isCancellationRequested)
+                            return empty;
+                        return {
+                            items: [
+                                {
+                                    insertText: completion,
+                                    range: new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column),
+                                },
+                            ],
+                        };
+                    }
+                    catch {
+                        return empty;
+                    }
+                },
+                disposeInlineCompletions: () => { },
+            });
     }
     libSourceChanged() {
         const typescript = this.monaco?.typescript;
@@ -7605,6 +7677,9 @@ __decorate([
 __decorate([
     n({ attribute: false })
 ], CodeEditor.prototype, "strings", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true, attribute: 'ai-completion' })
+], CodeEditor.prototype, "aiCompletion", void 0);
 __decorate([
     r()
 ], CodeEditor.prototype, "hasFocus", void 0);

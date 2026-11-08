@@ -1,5 +1,5 @@
 import { i, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
-import { R as RichTextInput } from './rich-text-input-Cq2xF7Kv.js';
+import { R as RichTextInput } from './rich-text-input-Bb0yufqS.js';
 import './property-B2TG3KEE.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
@@ -7,16 +7,22 @@ import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 import './style-map-CHOg6N_R.js';
-import './slash-controller-podBjU-d.js';
+import './slash-controller-C6UkMOqY.js';
+import './diff-CT416thw.js';
+import './ai-controller-DR_Tg0sN.js';
+import './locale-DEsJZCQG.js';
+import './sparkle-BmtM0vbq.js';
+import './stream-C16hbcio.js';
 import './floating-controller-CABF4tBT.js';
 import './overlay-controller-BOk-kfil.js';
-import './url-mx3Fl8OA.js';
-import './BaseInput-BXHX6bMj.js';
+import './mention--NNhafc7.js';
+import './url-BFUh__RO.js';
+import './BaseInput-cLydYG8j.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-BHbg72PG.js';
-import './strings-BFkowon5.js';
-import './i18n-controller-W5hLm7os.js';
-import './locale-DEsJZCQG.js';
+import './strings-BJPuhKJk.js';
+import './suggestion-controller-kTnSMkjh.js';
+import './i18n-controller-Cp43HjJl.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -604,6 +610,258 @@ img.ProseMirror-separator {
   display: flex;
 }
 
+.sparkle {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  flex: none;
+  fill: currentColor;
+}
+
+.ghost-text {
+  color: var(--color-on-surface-variant);
+  opacity: 0.7;
+  pointer-events: none;
+  user-select: none;
+}
+
+.slash-group {
+  padding: var(--spacing-100, 0.5rem) var(--spacing-100, 0.5rem) var(--spacing-050, 0.25rem);
+  color: var(--color-on-surface-variant);
+  font-family: var(--typography-label-small-font-family);
+  font-size: var(--typography-label-small-font-size);
+  font-weight: var(--typography-label-small-font-weight);
+  line-height: var(--typography-label-small-line-height);
+  letter-spacing: var(--typography-label-small-letter-spacing);
+}
+
+.slash-item-glyph {
+  display: inline-grid;
+  inline-size: 1.25rem;
+  place-items: center;
+  color: var(--color-primary);
+}
+
+.bubble-divider {
+  align-self: center;
+  inline-size: 1px;
+  block-size: 1.25rem;
+  margin-inline: var(--spacing-025, 0.125rem);
+  background: var(--color-outline-variant);
+}
+
+.bubble-ai {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+  block-size: 2rem;
+  padding-inline: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  color: var(--color-on-primary-container);
+  cursor: pointer;
+  background: var(--color-primary-container);
+  border-radius: var(--shape-corner-full);
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-weight: var(--typography-label-large-font-weight);
+  line-height: var(--typography-label-large-line-height);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+}
+.bubble-ai:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.ai-tool {
+  color: var(--color-primary);
+}
+
+.ai-anchor {
+  position: fixed;
+  inline-size: 1px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.ai-panel {
+  margin: 0;
+  border: 0;
+  inset: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  background-color: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border-radius: var(--shape-corner-small);
+  box-shadow: var(--elevation-level2);
+  display: none;
+  flex-direction: column;
+  gap: var(--spacing-100, 0.5rem);
+  inline-size: min(30rem, 100vw - 2rem);
+  max-block-size: min(28rem, var(--floating-available-height, 100vh));
+  overflow-y: auto;
+  padding: var(--spacing-100, 0.5rem);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--shape-corner-medium);
+}
+.ai-panel:popover-open {
+  display: flex;
+}
+.ai-panel:has(.ai-menu) {
+  inline-size: 16rem;
+  border-color: transparent;
+}
+
+.ai-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-menu-item {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  min-block-size: 2.25rem;
+  padding: 0 var(--spacing-100, 0.5rem);
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+  border-radius: var(--shape-corner-extra-small);
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+}
+.ai-menu-item .sparkle {
+  color: var(--color-primary);
+}
+.ai-menu-item:hover, .ai-menu-item:focus-visible {
+  background-color: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+.ai-head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  padding-inline: var(--spacing-050, 0.25rem);
+  color: var(--color-on-surface-variant);
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+}
+
+.ai-head-label {
+  flex: 1;
+}
+
+.ai-result {
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  background: var(--color-surface);
+  border-radius: var(--shape-corner-small);
+}
+
+.ai-changes {
+  margin: 0;
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  white-space: pre-wrap;
+  background: var(--color-surface);
+  border-radius: var(--shape-corner-small);
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+}
+.ai-changes del {
+  color: var(--color-on-error-container);
+  background: var(--color-error-container);
+  text-decoration: line-through;
+}
+.ai-changes ins {
+  color: var(--color-on-success-container);
+  background: var(--color-success-container);
+  text-decoration: none;
+}
+
+@media (forced-colors: active) {
+  .ai-changes ins {
+    text-decoration: underline;
+  }
+}
+.ai-error {
+  margin: 0;
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  color: var(--color-on-error-container);
+  background: var(--color-error-container);
+  border-radius: var(--shape-corner-small);
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+}
+
+.ai-instruction-row {
+  display: flex;
+  gap: var(--spacing-100, 0.5rem);
+  align-items: center;
+}
+
+.ai-instruction {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 2.5rem;
+  padding: 0 var(--spacing-150, 0.75rem);
+  color: var(--color-on-surface);
+  background: var(--color-surface);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--shape-corner-extra-small);
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+}
+.ai-instruction:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+.ai-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+}
+
+.ai-spacer {
+  flex: 1;
+}
+
+@media (forced-colors: active) {
+  .ghost-text {
+    color: GrayText;
+    opacity: 1;
+  }
+  .ai-panel {
+    border-color: CanvasText;
+  }
+}
 .link-editor {
   margin: 0;
   border: 0;

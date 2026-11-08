@@ -1,0 +1,78 @@
+@use '../../scss/mixin';
+@use '../__internal/rich-text/editor-chrome';
+
+@include mixin.base-styles;
+@include editor-chrome.styles;
+
+/**
+ * @prop --prompt-input-background: Background of the box
+ */
+.prompt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.25rem);
+  padding: var(--spacing-075, 0.375rem);
+  padding-inline-start: var(--spacing-150, 0.75rem);
+  background: var(--prompt-input-background, var(--color-surface));
+  border: 1px solid var(--color-outline);
+  border-radius: calc(var(--_line) / 2 + var(--spacing-200, 1rem));
+  transition: border-color 0.12s ease;
+
+  &.focused {
+    border-color: var(--color-primary);
+    outline: 1px solid var(--color-primary);
+  }
+
+  &.invalid {
+    border-color: var(--color-error);
+  }
+
+  &.disabled {
+    opacity: 0.6;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-050, 0.25rem);
+}
+
+::slotted([slot='start']) {
+  flex: none;
+}
+
+::slotted([slot='attachments']) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-050, 0.25rem);
+}
+
+.text {
+  flex: 1;
+  min-inline-size: 0;
+  --_max-rows: 6;
+}
+
+.editor-area {
+  --_pad: var(--spacing-075, 0.375rem);
+}
+
+.action {
+  flex: none;
+}
+
+.error-text,
+.helper-text {
+  margin-block-start: var(--spacing-050, 0.25rem);
+  padding-inline: var(--spacing-150, 0.75rem);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+.error-text {
+  color: var(--color-error);
+}
+
+.helper-text {
+  color: var(--color-on-surface-variant);
+}

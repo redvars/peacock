@@ -1,0 +1,103 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+
+  /**
+   * @prop --ai-badge-container-color: Background of the badge
+   */
+  --ai-badge-container-color: var(--color-primary-container);
+
+  /**
+   * @prop --ai-badge-color: Text and sparkle color
+   */
+  --ai-badge-color: var(--color-on-primary-container);
+}
+
+:host([kind='draft']) {
+  --ai-badge-container-color: var(--color-secondary-container);
+  --ai-badge-color: var(--color-on-secondary-container);
+}
+
+:host([kind='generated']) {
+  --ai-badge-container-color: transparent;
+  --ai-badge-color: var(--color-primary);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-025, 0.125rem);
+  block-size: 1.375rem;
+  padding-inline: var(--spacing-075, 0.375rem) var(--spacing-100, 0.5rem);
+  color: var(--ai-badge-color);
+  white-space: nowrap;
+  background: var(--ai-badge-container-color);
+  border-radius: var(--shape-corner-small);
+  @include mixin.get-typography-not-important(label-medium-emphasized);
+}
+
+:host([kind='generated']) .badge {
+  padding-inline: 0;
+}
+
+:host([dismissible]) .badge {
+  padding-inline-end: var(--spacing-025, 0.125rem);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+  border-radius: var(--shape-corner-extra-small);
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.sparkle {
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  flex: none;
+  fill: currentColor;
+}
+
+.dismiss {
+  @include mixin.reset-button-styles;
+
+  display: inline-grid;
+  place-items: center;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  margin-inline-start: var(--spacing-025, 0.125rem);
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--shape-corner-full);
+  --icon-size: 0.875rem;
+  --icon-color: currentColor;
+
+  &:hover {
+    background: color-mix(in srgb, currentColor 12%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+}
+
+@media (forced-colors: active) {
+  .badge {
+    border: 1px solid CanvasText;
+  }
+
+  .sparkle {
+    fill: CanvasText;
+  }
+}

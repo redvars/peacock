@@ -1,0 +1,66 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/assistant.scss';
+---
+
+<Layout
+  title='Assistant panel'
+  description='A page with the assistant beside it, built from Peacock components: the page works on its own, and the assistant looks things up as the person, streams its answer and drafts records for them to confirm.'
+>
+  <div class='block-demo assistant-shell'>
+    <main class='assistant-page'>
+      <div class='assistant-page-header'>
+        <h2 class='text-headline-small'>Good morning, Alan</h2>
+        <p class='text-body-medium block-muted'>Your apps, and what is waiting for you.</p>
+      </div>
+      <div class='assistant-tiles'>
+        <wc-card variant='outlined' class='assistant-tile'>
+          <wc-card-content>
+            <span class='assistant-mark assistant-mark-it'>IT</span>
+            <div><strong>IT service desk</strong><p class='text-body-small block-muted'>Incidents and requests</p></div>
+          </wc-card-content>
+        </wc-card>
+        <wc-card variant='outlined' class='assistant-tile'>
+          <wc-card-content>
+            <span class='assistant-mark assistant-mark-hr'>HR</span>
+            <div><strong>Human resources</strong><p class='text-body-small block-muted'>Leave and people</p></div>
+          </wc-card-content>
+        </wc-card>
+        <wc-card variant='outlined' class='assistant-tile'>
+          <wc-card-content>
+            <span class='assistant-mark assistant-mark-pr'>PR</span>
+            <div><strong>Projects</strong><p class='text-body-small block-muted'>Tasks and milestones</p></div>
+          </wc-card-content>
+        </wc-card>
+      </div>
+      <p class='text-body-small block-muted'>
+        Everything here works without the assistant: the panel beside it is a layer on this page.
+      </p>
+    </main>
+
+    <aside class='assistant-aside'>
+      <wc-assistant-panel id='block-panel' supporting-text='Acting as Alan Turing, with your access'>
+        <wc-chat-thread id='block-thread'>
+          <div slot='empty' class='assistant-empty'>
+            <strong class='text-title-medium'>What can I help with?</strong>
+            <span class='text-body-small block-muted'>I use your access: I can read and do only what you can, and I ask before I change anything.</span>
+          </div>
+        </wc-chat-thread>
+        <wc-prompt-input id='block-prompt' slot='composer'>
+          <wc-icon-button slot='start' variant='text' shape='round' size='sm' aria-label='Attach a file'>
+            <wc-icon name='attach_file'></wc-icon>
+          </wc-icon-button>
+        </wc-prompt-input>
+      </wc-assistant-panel>
+    </aside>
+  </div>
+
+  <script is:inline src='/assets/js/assistant-demo.js'></script>
+  <script is:inline>
+    window.peacockAssistantDemo(
+      document.getElementById('block-panel'),
+      document.getElementById('block-thread'),
+      document.getElementById('block-prompt'),
+    );
+  </script>
+</Layout>

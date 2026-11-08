@@ -260,6 +260,13 @@ export class Select extends BaseField {
     this._dispatchChange();
   }
 
+  /** A multi-select also takes a suggestion as an array of values. */
+  protected override writeSuggestionValue(value: unknown) {
+    this.value = Array.isArray(value)
+      ? value.map(String).join(',')
+      : String(value ?? '');
+  }
+
   /** The field event contract, plus `values` for a multi-select. */
   protected override emitValue(type: 'input' | 'change') {
     this.dispatchEvent(
@@ -312,9 +319,11 @@ export class Select extends BaseField {
     let visibleCount = 0;
     let filterChanged = false;
 
+    const suggestedValues = this._suggestedValues;
     for (const opt of this._optionElements) {
       opt.selected = this._isSelected(opt.value);
       opt.multiple = this.multiple;
+      opt.suggested = suggestedValues.includes(opt.value);
       const filtered =
         filtering &&
         !(opt.textContent?.trim().toLowerCase() ?? '').includes(searchText);
@@ -335,6 +344,19 @@ export class Select extends BaseField {
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
+
+  /** The values the assistant suggested, while the suggestion shows; marked in the list. */
+  private get _suggestedValues(): string[] {
+    if (!this.suggestionVisible) return [];
+    const value = this.suggestion?.value;
+    if (Array.isArray(value)) return value.map(String);
+    const text = String(value ?? '');
+    if (!this.multiple) return [text];
+    return text
+      .split(',')
+      .map(v => v.trim())
+      .filter(Boolean);
+  }
 
   private get _selectedValues(): string[] {
     if (!this.value) return [];

@@ -1,0 +1,49 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-100, 0.5rem);
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}
+
+.icon {
+  flex: none;
+  margin-block-start: 0.0625rem;
+  --icon-size: 1rem;
+  --icon-color: var(--color-on-surface-variant);
+}
+
+:host([status='done']) .icon {
+  --icon-color: var(--color-success);
+}
+
+:host([status='running']) .icon {
+  --icon-color: var(--color-primary);
+  animation: spin 1s linear infinite;
+}
+
+:host([status='error']) .icon,
+:host([status='blocked']) .icon {
+  --icon-color: var(--color-error);
+}
+
+.app {
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([status='running']) .icon {
+    animation: none;
+  }
+}

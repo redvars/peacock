@@ -2,6 +2,11 @@ import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import {
+  SuggestionController,
+  type SuggestionAcceptCause,
+} from '@/__internal/ai/suggestion-controller.js';
+import type { AiSuggestion } from '@/__internal/ai/types.js';
 import type { Radio } from './radio.js';
 import styles from './radio-group.scss';
 
@@ -25,8 +30,13 @@ type GroupFlag = 'disabled' | 'required' | 'readonly';
  * <p>Below the radios the group shows <code>helper-text</code>, or <code>error-text</code> while
  * <code>error</code> is set, or the radios' validation message after a failed check
  * (<code>reportValidity()</code> or a form submission).</p>
+ * <p>Like Peacock's fields, it can hold a value the assistant suggested: <code>suggestion</code>
+ * checks that radio and shows a Suggested badge and the reason until the person picks a radio, the
+ * form is submitted, or the badge clears it (ADR-030002).</p>
  *
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the user checks a different radio. The group swallows the radios' own `change` events.
+ * @fires {CustomEvent<SuggestionAcceptDetail>} accept - Fired when a suggested value is accepted: the person picked a radio (`cause: 'edit'`), the form was submitted (`'submit'`) or `acceptSuggestion()` was called (`'action'`).
+ * @fires {CustomEvent<SuggestionDismissDetail>} dismiss - Fired when the person clears a suggestion, before `change` with the restored value.
  *
  * @cssprop --radio-group-gap - Space between radios. Defaults to `--spacing-100`.
  *
@@ -88,6 +98,26 @@ export class RadioGroup extends LitElement {
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 
+  /** Holds data that must never reach a model: the group takes no suggestions. */
+  @property({ type: Boolean, reflect: true })
+  sensitive = false;
+
+  /**
+   * A value the assistant suggests, with why. The group checks that radio and shows a Suggested
+   * badge and the reason until the person picks a radio, the form is submitted, or the badge clears
+   * it, which checks the previous radio again. Ignored while AI is off and on `sensitive` groups.
+   */
+  @property({ attribute: false })
+  get suggestion(): AiSuggestion | null {
+    return this.suggestions.suggestion;
+  }
+
+  set suggestion(suggestion: AiSuggestion | null) {
+    const old = this.suggestions.suggestion;
+    this.suggestions.set(suggestion);
+    this.requestUpdate('suggestion', old);
+  }
+
   // ── State ────────────────────────────────────────────────────────────────
 
   /** Whether to show the radios' validation message: after a failed check. */
@@ -114,6 +144,38 @@ export class RadioGroup extends LitElement {
 
   /** The form the group was connected in, whose `reset` hides the message again. */
   private form: HTMLFormElement | null = null;
+
+  private readonly suggestions = new SuggestionController(this, {
+    read: () => this.value,
+    write: value => {
+      this.value = value == null ? '' : String(value);
+    },
+    emit: () =>
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: { value: this.value },
+          bubbles: true,
+          composed: true,
+        }),
+      ),
+  });
+
+  // ── Public methods ───────────────────────────────────────────────────────
+
+  /** Whether the group holds a suggestion the person hasn't accepted or cleared. */
+  get suggested(): boolean {
+    return !!this.suggestions.suggestion;
+  }
+
+  /** Accepts the suggestion: the radio stays checked and the marker goes. Fires `accept`. */
+  acceptSuggestion(cause: SuggestionAcceptCause = 'action'): void {
+    this.suggestions.accept(cause);
+  }
+
+  /** Clears the suggestion and checks the previous radio again. Fires `dismiss` and `change`. */
+  dismissSuggestion(): void {
+    this.suggestions.dismiss();
+  }
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -228,6 +290,7 @@ export class RadioGroup extends LitElement {
   };
 
   private handleFormReset = () => {
+    this.suggestions.set(null);
     this.showValidity = false;
   };
 
@@ -236,7 +299,19 @@ export class RadioGroup extends LitElement {
   render() {
     const { errorMessage } = this;
     const invalid = this.error || !!errorMessage;
-    const description = errorMessage || this.helperText;
+    const description =
+      errorMessage || this.suggestions.reason || this.helperText;
+    const label = this.label
+      ? html`<div class="label" id=${this.labelId}>
+          ${this.label}${this.required
+            ? html`<span class="required" aria-hidden="true">*</span>`
+            : nothing}
+        </div>`
+      : nothing;
+    // The badge sits beside the label, not in it, so it is not part of the group's name.
+    const header = this.suggestions.visible
+      ? html`<div class="label-row">${label}${this.suggestions.badge()}</div>`
+      : label;
 
     return html`
       <div
@@ -254,13 +329,7 @@ export class RadioGroup extends LitElement {
         aria-readonly=${this.readonly ? 'true' : nothing}
         aria-invalid=${invalid ? 'true' : nothing}
       >
-        ${this.label
-          ? html`<div class="label" id=${this.labelId}>
-              ${this.label}${this.required
-                ? html`<span class="required" aria-hidden="true">*</span>`
-                : nothing}
-            </div>`
-          : nothing}
+        ${header}
         <div class="radios">
           <slot @slotchange=${this.syncRadios}></slot>
         </div>

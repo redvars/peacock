@@ -1,0 +1,29 @@
+---
+export const title = 'Streaming';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  While the answer arrives, set <code>streaming</code> and keep replacing <code>value</code> with the
+  JSON text so far. The view closes what the text leaves open, drops an unfinished key, and shows
+  what has arrived; elements it already rendered stay in place and only update. Before the first
+  node it shows a typing indicator.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-generative-view id='generative-stream' style='inline-size: 100%; max-inline-size: 44rem;'></wc-generative-view>
+  <wc-button id='generative-stream-play' variant='text' size='sm' style='margin-top: 0.75rem;'>Play again</wc-button>
+  <script is:inline src='/assets/js/generative-demo.js'></script>
+  <script is:inline>
+    (function () {
+      var view = document.querySelector('#generative-stream');
+      view.citations = window.peacockGenerativeDemo.citations;
+      function play() {
+        window.peacockGenerativeDemo.stream(view);
+      }
+      document.querySelector('#generative-stream-play').addEventListener('click', play);
+      play();
+    })();
+  </script>
+</DemoComponentCard>
