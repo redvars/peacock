@@ -98,7 +98,7 @@ const elevationLevels = [0, 1, 2, 3, 4, 5];
             <wc-chip value='city'>City</wc-chip>
             <wc-chip value='mountains'>Mountains</wc-chip>
           </wc-chip-set>
-          <wc-switch label='Price alerts' value='true'></wc-switch>
+          <wc-switch label='Price alerts' checked></wc-switch>
           <wc-slider value='60' aria-label='Budget'></wc-slider>
           <wc-button variant='filled'>Search</wc-button>
         </wc-card-content>
@@ -137,7 +137,7 @@ const elevationLevels = [0, 1, 2, 3, 4, 5];
           <div class='text-title-medium'>Seat class</div>
           <wc-radio name={`${id}-class`} value='economy' label='Economy' checked></wc-radio>
           <wc-radio name={`${id}-class`} value='premium' label='Premium economy'></wc-radio>
-          <wc-checkbox value='true'>Extra legroom</wc-checkbox>
+          <wc-checkbox checked>Extra legroom</wc-checkbox>
           <wc-alert intent='success' description='Seats 14A and 14B are confirmed.'></wc-alert>
           <wc-alert intent='warning' description='Check-in closes in 3 hours.'></wc-alert>
           <wc-alert intent='danger' description='Payment failed. Try another card.'></wc-alert>

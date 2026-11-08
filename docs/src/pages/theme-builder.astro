@@ -296,7 +296,8 @@ const customColors = [
         selectChoice(contrastChoices, config.contrast);
         selectChoice(shapeChoices, config.shape);
         for (const key of CUSTOM_KEYS) {
-          $(`.tb-custom-switch[data-key="${key}"]`).value = Boolean(config[key]);
+          // A switch's state is `checked`; its `value` is the string it submits in a form.
+          $(`.tb-custom-switch[data-key="${key}"]`).checked = Boolean(config[key]);
           showCustom(key, Boolean(config[key]));
         }
       }
@@ -332,13 +333,15 @@ const customColors = [
         toggle.addEventListener('change', event => {
           if (event.target !== toggle) return;
           const key = toggle.dataset.key;
-          if (toggle.value) {
-            config = { ...config, [key]: derivedColor(key) ?? config.primary };
+          const custom = Boolean(event.detail?.checked ?? toggle.checked);
+          if (custom) {
+            // Start the override from the color it replaces, so nothing jumps.
+            config = { ...config, [key]: config[key] ?? derivedColor(key) ?? config.primary };
           } else {
             const { [key]: _removed, ...rest } = config;
             config = rest;
           }
-          showCustom(key, Boolean(toggle.value));
+          showCustom(key, custom);
           scheduleRebuild();
         });
       });
