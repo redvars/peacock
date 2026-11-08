@@ -1,0 +1,66 @@
+---
+// Shows the source of a shared demo script (public/assets/js) under the demo that loads it, so
+// readers see the wiring a demo card's markup leaves out. The file is read at build time, so the
+// code shown is always the code that runs.
+import Highlighter from './Highlighter.astro';
+import aiDemo from '../../public/assets/js/ai-demo.js?raw';
+import assistantDemo from '../../public/assets/js/assistant-demo.js?raw';
+import generativeDemo from '../../public/assets/js/generative-demo.js?raw';
+
+const SCRIPTS = {
+  'ai-demo': {
+    file: 'ai-demo.js',
+    note: 'The demo registers a scripted provider with setPeacockAi(); a real app registers one that calls its model service, once, at startup. The guard and the loader lookup at the top are only there because the docs pages share this file.',
+    code: aiDemo,
+  },
+  'assistant-demo': {
+    file: 'assistant-demo.js',
+    note: 'The panel, thread and prompt are plain components: the demo answers from a script, where a real app sends the prompt to its assistant and renders what comes back the same way, with steps, a streamed message and draft cards.',
+    code: assistantDemo,
+  },
+  'generative-demo': {
+    file: 'generative-demo.js',
+    note: 'The answer is the JSON a model would return for wc-generative-view; the stream helper hands it over node by node, the way a streamed response arrives.',
+    code: generativeDemo,
+  },
+} as const;
+
+interface Props {
+  name: keyof typeof SCRIPTS;
+}
+
+const script = SCRIPTS[Astro.props.name];
+---
+
+<details class='demo-script'>
+  <summary class='text-label-large'>How this demo is wired: <code>{script.file}</code></summary>
+  <p class='text-body-medium'>{script.note}</p>
+  <Highlighter lang='js'><Fragment set:text={script.code} /></Highlighter>
+</details>
+
+<style lang='scss'>
+  .demo-script {
+    margin-block: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--shape-corner-medium);
+    background: var(--color-surface-container-low);
+
+    summary {
+      padding: var(--spacing-150) var(--spacing-200);
+      cursor: pointer;
+      color: var(--color-primary);
+    }
+
+    p {
+      margin: 0;
+      padding: 0 var(--spacing-200) var(--spacing-150);
+      color: var(--color-on-surface-variant);
+    }
+
+    :global(wc-code-highlighter) {
+      display: block;
+      max-height: 32rem;
+      overflow: auto;
+    }
+  }
+</style>

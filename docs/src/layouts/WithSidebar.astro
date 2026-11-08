@@ -1,5 +1,6 @@
 ---
 import Layout from './Default.astro';
+import type { PageSeo } from '../_data/seo';
 import '../styles/layout/with-sidebar.scss';
 const pathname = Astro.url.pathname;
 
@@ -15,17 +16,19 @@ type SidebarMenuGroup = {
 
 interface Props {
   title: string;
-  description?: string;
+  description?: string | null;
+  /** Search and social metadata beyond the title and description (see _data/seo.ts). */
+  seo?: PageSeo;
   sidebarItems?: SidebarMenuItem[];
   /** Collapsible groups after the items. The group holding the current page starts expanded. */
   sidebarGroups?: SidebarMenuGroup[];
 }
-const {title, description, sidebarItems = [], sidebarGroups = []} = Astro.props;
+const {title, description, seo, sidebarItems = [], sidebarGroups = []} = Astro.props;
 
 
 
 ---
-<Layout title={title} description={description}>
+<Layout title={title} description={description} seo={seo}>
 
   <div class="with-sidebar-layout">
 

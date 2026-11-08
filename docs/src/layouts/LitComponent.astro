@@ -9,6 +9,7 @@ import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitCom
 import { getComponentGroup, getComponentNeighbours } from '../_data/componentGroups.ts';
 import type { Section } from '../_data/getSections.ts';
 import LitComponentApiPanel from '../components/LitComponentApiPanel.astro';
+import { toPlainText } from '../_data/seo';
 
 interface Props {
   componentName: string;
@@ -20,6 +21,8 @@ const componentDetails = getComponentDetails(componentName);
 const title: string = getTextTag(componentDetails, 'label') ?? componentName;
 const description = getTextTag(componentDetails, 'description');
 const summary = getMarkdown(componentDetails, 'summary');
+// The meta description: the component's summary as plain text.
+const metaDescription = toPlainText(componentDetails?.summary) || description;
 const tagName: string = getTextTag(componentDetails, 'tag') ?? `wc-${componentName}`;
 const group = getComponentGroup(componentName);
 const { previous, next } = getComponentNeighbours(componentName);
@@ -35,7 +38,7 @@ const allSections: Section[] = [
 ];
 ---
 
-<Layout title={title} description={description}>
+<Layout title={`${title} · Components`} description={metaDescription}>
   <Article title={title} description={summary || description} sections={allSections}>
     <Fragment slot='eyebrow'>
       <a href='/components/'>Components</a>

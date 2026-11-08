@@ -68,6 +68,7 @@ export const CONTROL_PREVIEWS = [
   'number-field',
   'pagination',
   'popover',
+  'radio',
   'radio-group',
   'ripple',
   'search',
@@ -156,6 +157,32 @@ export const V4_PREVIEWS_B = [
   'virtual-list',
   'workspace-switcher',
 ] as const;
+
+/** Diagram and AI components added in 4.1, drawn in ComponentPreviewV41.astro. */
+export const V41_PREVIEWS = [
+  'workflow',
+  'workflow-timeline',
+  'tree-chart',
+  'dependency-map',
+  'erd',
+  'diagram-controls',
+  'diagram-minimap',
+  'assistant-panel',
+  'ai-summary',
+  'generative-view',
+  'chat-thread',
+  'chat-message',
+  'prompt-input',
+  'assistant-steps',
+  'draft-card',
+  'ai-badge',
+  'typing-indicator',
+  'citation',
+] as const;
+
+export function isV41Preview(rawTag: string): boolean {
+  return (V41_PREVIEWS as readonly string[]).includes(rawTag);
+}
 
 export function isV4PreviewA(rawTag: string): boolean {
   return (V4_PREVIEWS_A as readonly string[]).includes(rawTag);

@@ -2,6 +2,7 @@
 export const title = 'Writing with the assistant';
 export const order = 350;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+import DemoScript from '../../../../components/DemoScript.astro';
 ---
 
 <p>
@@ -22,6 +23,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   ></wc-markdown-editor>
   <script type='module' src='/assets/js/ai-demo.js'></script>
 </DemoComponentCard>
+
+<DemoScript name='ai-demo' />
 
 <h3>Nothing changes until you accept</h3>
 <p>

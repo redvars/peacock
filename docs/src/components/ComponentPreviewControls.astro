@@ -190,6 +190,13 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
   </div>
 )}
 
+{name === 'radio' && (
+  <div class='bp cp-center cp-col cp-left'>
+    <span class='cp-option'><span class='cp-radio cp-radio-on'></span><span class='bp-line cp-w2'></span></span>
+    <span class='cp-option'><span class='cp-radio'></span><span class='bp-line cp-w1'></span></span>
+  </div>
+)}
+
 {name === 'switch' && (
   <div class='bp cp-center cp-col cp-left'>
     <span class='cp-option'><span class='cp-switch cp-switch-on'><i></i></span><span class='bp-line cp-w2'></span></span>

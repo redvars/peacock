@@ -1,9 +1,12 @@
 ---
 const pathname = Astro.url.pathname;
 import { SITE_TITLE } from '../../siteconfig';
+import VersionBadge from './VersionBadge.astro';
 const isComponentsPage =
   pathname === '/components' || pathname.startsWith('/components/');
 const isChartsPage = pathname === '/charts' || pathname.startsWith('/charts/');
+const isDiagramsPage = pathname === '/diagrams' || pathname.startsWith('/diagrams/');
+const isAiPage = pathname === '/ai' || pathname.startsWith('/ai/');
 const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isFrameworksPage = pathname === '/frameworks' || pathname.startsWith('/frameworks/');
 const isThemeBuilderPage = pathname === '/theme-builder';
@@ -39,6 +42,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     <img src="/assets/img/logo-plain.webp" class="logo" alt="peacock">
     {SITE_TITLE}
   </a>
+  <VersionBadge slotName="end" />
   <wc-icon-button slot="end" variant="text"  class="search-button">
     <wc-icon name="search"></wc-icon>
   </wc-icon-button>
@@ -64,6 +68,14 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     <wc-list-item href='/charts/' aria-label='Go to Charts' current={isChartsPage ? true : null}>
       <wc-icon slot="start" name="bar_chart"></wc-icon>
       Charts
+    </wc-list-item>
+    <wc-list-item href='/diagrams/' aria-label='Go to Diagrams' current={isDiagramsPage ? true : null}>
+      <wc-icon slot="start" name="account_tree"></wc-icon>
+      Diagrams
+    </wc-list-item>
+    <wc-list-item href='/ai/' aria-label='Go to AI' current={isAiPage ? true : null}>
+      <wc-icon slot="start" name="stars_2"></wc-icon>
+      AI
     </wc-list-item>
     <wc-list-item href='/foundations/' aria-label='Go to Foundations' current={isFoundationsPage ? true : null}>
       <wc-icon slot="start" name="palette"></wc-icon>

@@ -1,46 +1,95 @@
 ---
+// The root HTML shell: search and social metadata (title, description, canonical, Open Graph,
+// Twitter card, JSON-LD from _data/seo.ts), fonts, analytics and the Peacock styles and loader.
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
-interface Props {
-  title?: string;
-  description?: string;
-  keywords?: any;
-}
-
-const { title, description, keywords } = Astro.props;
 import '../styles/layout/base.scss';
 import { getScriptUrl, getFallbackScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
-import { SITE_TITLE, SITE_TAGLINE, SITE_DESCRIPTION, AUTHOR, GOOGLE_ANALYTICS_ID } from '../siteconfig';
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+import {
+  SITE_TITLE,
+  SITE_TAGLINE,
+  SITE_DESCRIPTION,
+  SITE_LOCALE,
+  SOCIAL_IMAGE,
+  AUTHOR,
+  GOOGLE_ANALYTICS_ID,
+} from '../siteconfig';
+import {
+  getCanonicalUrl,
+  getPageGraph,
+  serializeJsonLd,
+  toPlainText,
+  truncateDescription,
+  type PageSeo,
+} from '../_data/seo';
 
+interface Props {
+  title?: string;
+  description?: string | null;
+  keywords?: string;
+  seo?: PageSeo;
+}
+
+const { title, description, keywords, seo = {} } = Astro.props;
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/';
+
+const pageTitle = title ? `${title} · ${SITE_TITLE}` : `${SITE_TITLE} · ${SITE_TAGLINE}`;
+const pageDescription = truncateDescription(toPlainText(description) || SITE_DESCRIPTION);
+const canonicalURL = getCanonicalUrl(pathname, Astro.site);
+const image = seo.image ?? SOCIAL_IMAGE;
+const imageURL = new URL(image.src, Astro.site).href;
+const ogType = seo.type ?? (isHome ? 'website' : 'article');
+const keywordList = [title, keywords].filter(Boolean).join(', ');
+const jsonLd = serializeJsonLd(
+  getPageGraph({ pathname, title, description: pageDescription, image: imageURL, seo }),
+);
 
 const isProd = import.meta.env.PROD;
-
-function getKeywords() {
-  if (keywords) {
-    return Astro.props.title + ', ' + keywords;
-  } else {
-    return Astro.props.title;
-  }
-}
-
-function getPageTitle() {
-  if (title) {
-    return `${title}  &middot; ${SITE_TITLE}`;
-  } else {
-    return `${SITE_TITLE} &middot; ${SITE_TAGLINE}`;
-  }
-}
 ---
 
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-  <!-- Title -->
-  <title set:html={getPageTitle()}></title>
-
   <!-- Required Meta Tags Always Come First -->
   <meta charset="utf-8"/>
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+
+  <title>{pageTitle}</title>
+  <meta name='description' content={pageDescription} />
+  {keywordList && <meta name='keywords' content={keywordList} />}
+  <link rel='canonical' href={canonicalURL} />
+  <meta name='robots' content={seo.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+  <meta name='color-scheme' content='light dark' />
+  <meta name='theme-color' content='#ffffff' media='(prefers-color-scheme: light)' />
+  <meta name='theme-color' content='#121212' media='(prefers-color-scheme: dark)' />
+
+  <!-- Author Meta Tags -->
+  <meta name='author' content={AUTHOR.name} />
+  <meta name='copyright' content={`(c) ${new Date().getFullYear()} ${AUTHOR.name}`} />
+
+  <!-- Open Graph -->
+  <meta property='og:site_name' content={SITE_TITLE} />
+  <meta property='og:locale' content={SITE_LOCALE} />
+  <meta property='og:type' content={ogType} />
+  <meta property='og:title' content={pageTitle} />
+  <meta property='og:description' content={pageDescription} />
+  <meta property='og:url' content={canonicalURL} />
+  <meta property='og:image' content={imageURL} />
+  {image.width && <meta property='og:image:width' content={String(image.width)} />}
+  {image.height && <meta property='og:image:height' content={String(image.height)} />}
+  {image.alt && <meta property='og:image:alt' content={image.alt} />}
+  {seo.publishedDate && <meta property='article:published_time' content={seo.publishedDate} />}
+
+  <!-- Twitter card -->
+  <meta name='twitter:card' content='summary_large_image' />
+  <meta name='twitter:site' content={`@${AUTHOR.twitter}`} />
+  <meta name='twitter:title' content={pageTitle} />
+  <meta name='twitter:description' content={pageDescription} />
+  <meta name='twitter:image' content={imageURL} />
+  {image.alt && <meta name='twitter:image:alt' content={image.alt} />}
+
+  <!-- Structured data -->
+  <script is:inline type='application/ld+json' set:html={jsonLd}></script>
 
   <!--
     Yjs is a peer dependency of wc-document-editor's collaboration (the app and the editor must
@@ -51,20 +100,12 @@ function getPageTitle() {
   </script>
   <link rel="sitemap" href="/sitemap-index.xml" />
 
-  <link rel='canonical' href={canonicalURL} />
-
-  <!-- Author Meta Tags -->
-  <meta name='author' content={AUTHOR.name} />
-  <meta name='copyright' content={`(c) ${new Date().getFullYear()} ${AUTHOR.name}`} />
-
-  <!--  Meta tags -->
-  <meta name='keywords' content={getKeywords()} />
-  <meta name='description' content={description ? description : SITE_DESCRIPTION} />
-
   <GoogleAnalytics id={GOOGLE_ANALYTICS_ID} />
 
   <!-- Favicon -->
-  <link rel='shortcut icon' href='/favicon.svg' />
+  <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
+  <link rel='icon' href='/assets/img/favicon.png' type='image/png' />
+  <link rel='apple-touch-icon' href='/assets/img/logo.png' />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -88,7 +129,7 @@ function getPageTitle() {
 
 <slot />
 
-<!-- GoatUI scripts -->
+<!-- Peacock scripts -->
 {isProd ?
   (
   <script

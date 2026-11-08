@@ -1,0 +1,41 @@
+---
+// The current Peacock version in the site header (navigation rail and mobile app bar), linking to
+// its page on npm. Same VERSION as the footer and the CDN links (siteconfig.ts).
+import { NPM_VERSION_URL, VERSION } from '../../siteconfig';
+
+interface Props {
+  /** The slot of the parent element to place the badge in. */
+  slotName?: string;
+  class?: string;
+}
+
+const { slotName, class: className } = Astro.props;
+---
+
+<a
+  slot={slotName}
+  class:list={['version-badge', 'text-label-small', className]}
+  href={NPM_VERSION_URL}
+  target='_blank'
+  rel='noopener'
+  aria-label={`Peacock version ${VERSION} on npm`}
+>v{VERSION}</a>
+
+<style>
+  .version-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-025) var(--spacing-100);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--shape-corner-full);
+    color: var(--color-on-surface-variant);
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .version-badge:hover {
+    background: var(--color-surface-container);
+    color: var(--color-on-surface);
+  }
+</style>

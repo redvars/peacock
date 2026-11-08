@@ -1,0 +1,246 @@
+---
+// Wireframes for the diagram and AI components added in 4.1 on the Components overview. Rendered by
+// ComponentPreview.astro; styles in styles/component-previews-v41.scss. Diagram previews place
+// boxes in percentages over an SVG (viewBox 0 0 100 60) so lines and boxes line up at any card size.
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+
+/** A small icon in the wireframe ink. */
+const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim() });
+/** Inline position of a box, in percent of the preview. */
+const at = (left: number, top: number, width?: number, height?: number) =>
+  `left:${left}%;top:${top}%;${width ? `width:${width}%;` : ''}${height ? `height:${height}%;` : ''}`;
+---
+
+{/* ── Diagrams ─────────────────────────────────────────────── */}
+
+{name === 'workflow' && (
+  <div class='bp cp41-canvas'>
+    <svg class='cp-edges' viewBox='0 0 100 60' preserveAspectRatio='none' aria-hidden='true'>
+      <path d='M50 13 V19' />
+      <path d='M50 19 Q50 22 46 22 H32 Q28 22 28 25 V28' />
+      <path d='M50 19 Q50 22 54 22 H68 Q72 22 72 25 V28' />
+      <path d='M28 37 V40 Q28 43 32 43 H68 Q72 43 72 40 V37' />
+      <path d='M50 43 V48' />
+    </svg>
+    <span class='cp41-card cp41-card-trigger' style={at(34, 4, 32, 15)}><i class='cp41-tile'></i><span class='bp-line'></span></span>
+    <span class='cp41-cond' style={at(41, 32)}></span>
+    <span class='cp41-card' style={at(14, 46, 28, 15)}><i class='cp41-tile cp41-tile-alt'></i><span class='bp-line'></span></span>
+    <span class='cp41-card cp41-card-on' style={at(58, 46, 28, 15)}><i class='cp41-tile'></i><span class='bp-line'></span></span>
+    <span class='cp41-end' style={at(42, 82, 16, 10)}></span>
+  </div>
+)}
+
+{name === 'workflow-timeline' && (
+  <div class='bp cp41-gantt'>
+    {[
+      [0, 22, 'ok'],
+      [22, 18, 'ok'],
+      [40, 30, 'ok'],
+      [70, 12, 'run'],
+      [82, 10, 'wait'],
+    ].map(([left, width, state]) => (
+      <span class='cp41-gantt-row'>
+        <span class='bp-line cp41-gantt-label'></span>
+        <span class='cp41-gantt-track'>
+          <i class:list={['cp41-bar', `cp41-bar-${state}`]} style={`left:${left}%;width:${width}%`}></i>
+        </span>
+      </span>
+    ))}
+  </div>
+)}
+
+{name === 'tree-chart' && (
+  <div class='bp cp41-canvas'>
+    <svg class='cp-edges' viewBox='0 0 100 60' preserveAspectRatio='none' aria-hidden='true'>
+      <path d='M50 16 V22 Q50 25 46 25 H20 Q16 25 16 28 V32' />
+      <path d='M50 22 V32' />
+      <path d='M50 22 Q50 25 54 25 H80 Q84 25 84 28 V32' />
+    </svg>
+    <span class='cp41-person cp41-person-root' style={at(36, 6, 28, 22)}><i class='cp41-avatar'></i><span class='cp41-lines'><span class='bp-line'></span><span class='bp-line cp-w2'></span></span></span>
+    {[2, 36, 70].map(left => (
+      <span class='cp41-person' style={at(left, 53, 28, 22)}><i class='cp41-avatar'></i><span class='cp41-lines'><span class='bp-line'></span><span class='bp-line cp-w2'></span></span></span>
+    ))}
+    <span class='cp41-count' style={at(45, 82, 10, 9)}></span>
+  </div>
+)}
+
+{name === 'dependency-map' && (
+  <div class='bp cp41-canvas'>
+    <span class='cp41-group' style={at(52, 8, 44, 62)}></span>
+    <svg class='cp-edges' viewBox='0 0 100 60' preserveAspectRatio='none' aria-hidden='true'>
+      <path d='M14 30 Q30 18 44 20' />
+      <path d='M14 30 Q28 44 42 44' class='cp41-thick' />
+      <path d='M48 20 Q60 14 70 14' />
+      <path d='M48 44 Q62 42 72 32' class='cp41-error' />
+      <path d='M74 30 Q82 40 84 48' />
+    </svg>
+    <i class='cp41-svc' style={at(9, 42)}></i>
+    <i class='cp41-svc' style={at(41, 25)}></i>
+    <i class='cp41-svc cp41-svc-warn' style={at(39, 66)}></i>
+    <i class='cp41-svc' style={at(68, 15)}></i>
+    <i class='cp41-svc cp41-svc-down' style={at(70, 43)}></i>
+    <i class='cp41-svc' style={at(82, 72)}></i>
+  </div>
+)}
+
+{name === 'erd' && (
+  <div class='bp cp41-canvas'>
+    <svg class='cp-edges' viewBox='0 0 100 60' preserveAspectRatio='none' aria-hidden='true'>
+      <path d='M36 19 H44 Q47 19 47 22 V29 Q47 32 50 32 H58' />
+      <path d='M54 29 L58 32 L54 35 M58 29 V35' />
+      <path d='M36 41 H58' />
+      <path d='M54 38 L58 41 L54 44' />
+    </svg>
+    <span class='cp41-table' style={at(6, 10, 30, 74)}>
+      <span class='cp41-table-head'><i class='cp41-tile'></i><span class='bp-line cp-strong'></span></span>
+      <span class='cp41-row'><i class='cp41-key'></i><span class='bp-line'></span></span>
+      <span class='cp41-row'><span class='bp-line cp-w2'></span></span>
+      <span class='cp41-row'><span class='bp-line cp-w1'></span></span>
+      <span class='cp41-row'><span class='bp-line cp-w2'></span></span>
+    </span>
+    <span class='cp41-table cp41-table-on' style={at(58, 30, 36, 60)}>
+      <span class='cp41-table-head'><i class='cp41-tile cp41-tile-alt'></i><span class='bp-line cp-strong'></span></span>
+      <span class='cp41-row'><i class='cp41-key'></i><span class='bp-line'></span></span>
+      <span class='cp41-row cp41-row-lit'><i class='cp41-link'></i><span class='bp-line'></span></span>
+      <span class='cp41-row'><span class='bp-line cp-w1'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'diagram-controls' && (
+  <div class='bp cp41-canvas cp41-dots'>
+    <span class='cp41-controls'>
+      <wc-icon {...icon('remove')}></wc-icon>
+      <span class='cp41-zoom'></span>
+      <wc-icon {...icon('add')}></wc-icon>
+      <wc-icon {...icon('fit_screen')}></wc-icon>
+      <wc-icon {...icon('home', 'cp-i-primary')}></wc-icon>
+    </span>
+  </div>
+)}
+
+{name === 'diagram-minimap' && (
+  <div class='bp cp41-canvas cp41-dots'>
+    <span class='cp41-minimap'>
+      <i style={at(10, 18, 20, 16)}></i>
+      <i style={at(40, 12, 22, 18)}></i>
+      <i style={at(70, 30, 18, 16)}></i>
+      <i style={at(24, 56, 26, 18)}></i>
+      <i style={at(60, 62, 20, 16)}></i>
+      <b class='cp41-viewport' style={at(30, 22, 44, 50)}></b>
+    </span>
+  </div>
+)}
+
+{/* ── AI ───────────────────────────────────────────────────── */}
+
+{name === 'assistant-panel' && (
+  <div class='bp cp-frame cp41-panel'>
+    <span class='cp41-panel-head'><wc-icon {...icon('stars_2', 'cp-i-primary')}></wc-icon><span class='bp-line cp-strong'></span></span>
+    <span class='cp41-bubble cp41-bubble-me'><span class='bp-line'></span></span>
+    <span class='cp41-bubble'><span class='bp-line'></span><span class='bp-line cp-w2'></span></span>
+    <span class='cp41-draft'><span class='cp41-badge'></span><span class='bp-line cp-w2'></span></span>
+    <span class='cp41-prompt'><span class='bp-line cp-w1'></span><i class='cp41-send'></i></span>
+  </div>
+)}
+
+{name === 'ai-summary' && (
+  <div class='bp cp-center'>
+    <span class='cp41-summary'>
+      <span class='cp41-badge-row'><span class='cp41-badge cp41-badge-text'><wc-icon {...icon('stars_2', 'cp41-spark')}></wc-icon><span class='bp-line'></span></span></span>
+      <span class='bp-line'></span>
+      <span class='bp-line'></span>
+      <span class='cp41-text-row'><span class='bp-line cp-w2'></span><i class='cp41-cite'>1</i></span>
+      <span class='cp41-actions'><i></i><i></i><i></i></span>
+    </span>
+  </div>
+)}
+
+{name === 'generative-view' && (
+  <div class='bp cp-frame cp41-generated'>
+    <span class='cp41-gen-head'><span class='bp-line cp-strong'></span><wc-icon {...icon('stars_2', 'cp41-spark')}></wc-icon></span>
+    <span class='cp41-stats'>
+      <span class='cp41-stat'><span class='bp-line cp-w1'></span><b></b></span>
+      <span class='cp41-stat'><span class='bp-line cp-w1'></span><b></b></span>
+    </span>
+    <span class='cp41-chart'>{[40, 70, 55, 90, 65].map(h => <i style={`height:${h}%`}></i>)}</span>
+  </div>
+)}
+
+{name === 'chat-thread' && (
+  <div class='bp cp-col cp41-thread'>
+    <span class='cp41-msg'><i class='cp41-avatar'></i><span class='cp41-bubble'><span class='bp-line'></span><span class='bp-line cp-w1'></span></span></span>
+    <span class='cp41-msg cp41-msg-me'><span class='cp41-bubble cp41-bubble-me'><span class='bp-line'></span></span></span>
+    <span class='cp41-msg'><i class='cp41-avatar'></i><span class='cp41-bubble'><span class='bp-line cp-w2'></span></span></span>
+  </div>
+)}
+
+{name === 'chat-message' && (
+  <div class='bp cp-center'>
+    <span class='cp41-message'>
+      <i class='cp41-avatar cp41-avatar-ai'><wc-icon {...icon('stars_2', 'cp-i-on')}></wc-icon></i>
+      <span class='cp41-message-body'>
+        <span class='bp-line cp-w1 cp-strong'></span>
+        <span class='bp-line'></span>
+        <span class='bp-line'></span>
+        <span class='bp-line cp-w2'></span>
+        <span class='cp41-actions'><i></i><i></i><i></i></span>
+      </span>
+    </span>
+  </div>
+)}
+
+{name === 'prompt-input' && (
+  <div class='bp cp-center'>
+    <span class='cp41-prompt cp41-prompt-lg'>
+      <span class='cp41-prompt-text'><span class='bp-line cp-w2'></span><span class='bp-line cp-w1'></span></span>
+      <span class='cp41-prompt-bar'><wc-icon {...icon('attach_file')}></wc-icon><i class='cp41-send'><wc-icon {...icon('arrow_upward', 'cp-i-on')}></wc-icon></i></span>
+    </span>
+  </div>
+)}
+
+{name === 'assistant-steps' && (
+  <div class='bp cp-col cp41-steps'>
+    <span class='cp41-step'><wc-icon {...icon('check_circle', 'cp-i-success')}></wc-icon><span class='bp-line cp-w2'></span></span>
+    <span class='cp41-step'><wc-icon {...icon('check_circle', 'cp-i-success')}></wc-icon><span class='bp-line cp-w1'></span></span>
+    <span class='cp41-step'><wc-icon {...icon('lock')}></wc-icon><span class='bp-line cp-w2'></span></span>
+    <span class='cp41-step cp41-step-now'><i class='cp41-spinner'></i><span class='bp-line cp-w1'></span></span>
+  </div>
+)}
+
+{name === 'draft-card' && (
+  <div class='bp cp-center'>
+    <span class='cp41-draft-card'>
+      <span class='cp41-badge-row'><span class='cp41-badge cp41-badge-text cp41-badge-draft'><span class='bp-line'></span></span></span>
+      <span class='bp-line cp-strong cp-w2'></span>
+      <span class='bp-line'></span>
+      <span class='bp-line cp-w1'></span>
+      <span class='cp41-buttons'><span class='bp-button bp-ghost'></span><span class='bp-button'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'ai-badge' && (
+  <div class='bp cp-col cp-center'>
+    <span class='cp41-badge cp41-badge-text'><wc-icon {...icon('stars_2', 'cp41-spark')}></wc-icon><span class='bp-line'></span></span>
+    <span class='cp41-badge cp41-badge-text cp41-badge-draft'><wc-icon {...icon('edit_note', 'cp41-spark')}></wc-icon><span class='bp-line'></span></span>
+    <span class='cp41-badge cp41-badge-text cp41-badge-plain'><wc-icon {...icon('stars_2')}></wc-icon><span class='bp-line'></span></span>
+  </div>
+)}
+
+{name === 'typing-indicator' && (
+  <div class='bp cp-center'>
+    <span class='cp41-msg'><i class='cp41-avatar'></i><span class='cp41-bubble cp41-typing'><i></i><i></i><i></i></span></span>
+  </div>
+)}
+
+{name === 'citation' && (
+  <div class='bp cp-col cp-center cp41-citation'>
+    <span class='cp41-text-row'><span class='bp-line cp-w2'></span><i class='cp41-cite'>1</i><span class='bp-line cp-w3'></span></span>
+    <span class='cp41-text-row'><span class='bp-line cp-w1'></span><i class='cp41-cite cp41-cite-on'>2</i></span>
+    <span class='cp41-preview'><span class='bp-line cp-strong cp-w2'></span><span class='bp-line cp-w1'></span></span>
+  </div>
+)}

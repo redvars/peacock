@@ -4,12 +4,15 @@ const pathname = Astro.url.pathname;
 const isComponentsPage =
   pathname === '/components' || pathname.startsWith('/components/');
 const isChartsPage = pathname === '/charts' || pathname.startsWith('/charts/');
+const isDiagramsPage = pathname === '/diagrams' || pathname.startsWith('/diagrams/');
+const isAiPage = pathname === '/ai' || pathname.startsWith('/ai/');
 const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isFrameworksPage = pathname === '/frameworks' || pathname.startsWith('/frameworks/');
 const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
 const isHomePage = pathname === '/';
 const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
+import VersionBadge from './VersionBadge.astro';
 ---
 
 <style lang="scss">
@@ -17,6 +20,11 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     position: fixed;
     --nav-rail-width: var(--side-navigation-width);
     --nav-rail-container-color: transparent;
+  }
+
+  // VersionBadge renders the element, so the class needs :global to reach it.
+  .navigation-rail :global(.navigation-rail-version) {
+    margin-block-start: var(--spacing-150);
   }
 </style>
 
@@ -31,6 +39,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
         aria-label='Search components'
   ><wc-icon name="search"></wc-icon
   ></wc-fab>
+  <VersionBadge slotName="header" class="navigation-rail-version" />
 
   <wc-navigation-rail-item href="/#" aria-label='Go to Home' current={isHomePage ? true : null}>
     <img src="/assets/img/logo-plain.webp" slot="icon" class="logo" alt="peacock" style="width: 32px;">
@@ -43,6 +52,14 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   <wc-navigation-rail-item href='/charts/' aria-label='Go to Charts' current={isChartsPage ? true : null}>
     <wc-icon slot="icon" name="bar_chart"></wc-icon>
     Charts
+  </wc-navigation-rail-item>
+  <wc-navigation-rail-item href='/diagrams/' aria-label='Go to Diagrams' current={isDiagramsPage ? true : null}>
+    <wc-icon slot="icon" name="account_tree"></wc-icon>
+    Diagrams
+  </wc-navigation-rail-item>
+  <wc-navigation-rail-item href='/ai/' aria-label='Go to AI' current={isAiPage ? true : null}>
+    <wc-icon slot="icon" name="stars_2"></wc-icon>
+    AI
   </wc-navigation-rail-item>
   <wc-navigation-rail-item href='/foundations/' aria-label='Go to Foundations' current={isFoundationsPage ? true : null}>
     <wc-icon slot="icon" name="palette"></wc-icon>

@@ -95,6 +95,12 @@
   }
 }
 
+.site-footer-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+}
+
 .site-footer-social {
   display: flex;
   gap: var(--spacing-100);

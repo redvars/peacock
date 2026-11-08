@@ -5,12 +5,14 @@
 import Layout from '../layouts/Default.astro';
 import '../styles/pages/index.scss';
 import Footer from '../components/Footer.astro';
-import { getScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
+import GitHubStars from '../components/GitHubStars.astro';
+import { getCdnUrl, getScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
 import { getGroupedComponents } from '../_data/componentGroups.ts';
 import { CHARTS } from '../_data/charts';
 import { BLOCKS } from '../_data/blocks';
 import { getPosts } from '../_data/blog';
-import { SITE_DESCRIPTION, VERSION, NPM_PACKAGE } from '../siteconfig';
+import { SITE_DESCRIPTION, NPM_PACKAGE } from '../siteconfig';
+import { getSoftwareNode } from '../_data/seo';
 
 const groups = getGroupedComponents();
 const componentCount = groups.reduce((total, group) => total + group.entries.length, 0);
@@ -157,7 +159,7 @@ const gettingStarted = [
   <link rel="stylesheet" href="${getThemeCssUrl()}">
 
   <script type="module">
-    import { Button } from 'https://cdn.jsdelivr.net/npm/${NPM_PACKAGE}@${VERSION}/dist/button.js';
+    import { Button } from '${getCdnUrl('dist/button.js')}';
     // The class is not registered: define it under the tag you want.
     customElements.define('my-button', Button);
   </script>
@@ -173,7 +175,7 @@ const gettingStarted = [
     value: `// With a bundler: npm install ${NPM_PACKAGE}
 import { applyTheme } from '${NPM_PACKAGE}/theme';
 // Without one, import it from the CDN instead:
-// import { applyTheme } from 'https://cdn.jsdelivr.net/npm/${NPM_PACKAGE}@${VERSION}/dist/assets/theme.js';
+// import { applyTheme } from '${getCdnUrl('dist/assets/theme.js')}';
 
 // Settings you leave out keep their defaults.
 await applyTheme({
@@ -189,7 +191,7 @@ await applyTheme({
 const keywords = 'web components, design system, lit, react components, vue components, angular components, ui library, button, input, select, table, data grid, calendar, date picker, modal, tabs, menu, charts, dashboard, theme builder, accessibility, right-to-left, ai components, assistant, chat ui, generative ui';
 ---
 
-<Layout keywords={keywords}>
+<Layout keywords={keywords} seo={{ type: 'website', jsonLd: [getSoftwareNode()] }}>
   <div class='home'>
 
     <!-- Hero -->
@@ -209,6 +211,7 @@ const keywords = 'web components, design system, lit, react components, vue comp
         <div class='home-actions'>
           <wc-link-button href='#getting-started' level='primary'>Get started</wc-link-button>
           <wc-link-button href='/components/' level='secondary' variant='tonal'>Browse components</wc-link-button>
+          <GitHubStars variant='button' />
         </div>
 
         <div class='home-install'>

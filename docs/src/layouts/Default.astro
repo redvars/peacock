@@ -3,23 +3,27 @@ import Layout from './Base.astro';
 import SideNavigation from '../components/navigation/SideNavigation.astro';
 import MobileNavigation from '../components/navigation/MobileNavigation.astro';
 import SiteSearch from '../components/navigation/SiteSearch.astro';
+import type { PageSeo } from '../_data/seo';
 import '../styles/layout/default.scss';
 
 interface Props {
   title?: string;
-  description?: string;
+  description?: string | null;
   keywords?: string;
+  /** Search and social metadata beyond the title and description (see _data/seo.ts). */
+  seo?: PageSeo;
 }
 
 
 const {
   title,
   description,
-  keywords
+  keywords,
+  seo,
 } = Astro.props;
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
+<Layout title={title} description={description} keywords={keywords} seo={seo}>
 
   <div class="default-layout">
 

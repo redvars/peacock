@@ -268,6 +268,11 @@ function toLink(entry: ComponentEntry): ComponentLink {
   };
 }
 
+/** Links to the components of one gallery group, in gallery order, for the Diagrams and AI sections. */
+export function getGroupLinks(name: string): ComponentLink[] {
+  return getGroupedComponents().find(group => group.name === name)?.entries.map(toLink) ?? [];
+}
+
 /** The components before and after this one in gallery order, for the page pager. */
 export function getComponentNeighbours(rawTag: string): { previous?: ComponentLink; next?: ComponentLink } {
   const ordered = getGroupedComponents().flatMap(group => group.entries);

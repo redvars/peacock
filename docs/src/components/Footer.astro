@@ -1,7 +1,8 @@
 ---
 // The site footer: brand and mission with social links, three columns of links (docs,
 // resources, project), then a bottom bar. Styles: styles/footer.scss.
-import { AUTHOR, REPO_URL, PRIVACY_URL, LICENSE_URL, GITHUB_USERNAME, NPM_PACKAGE, VERSION, SITE_TITLE } from '../siteconfig';
+import { AUTHOR, REPO_URL, NPM_VERSIONS_URL, PRIVACY_URL, LICENSE_URL, NPM_URL, VERSION, SITE_TITLE } from '../siteconfig';
+import GitHubStars from './GitHubStars.astro';
 import '../styles/footer.scss';
 
 const columns = [
@@ -22,7 +23,7 @@ const columns = [
       { label: 'Getting started', href: '/#getting-started' },
       { label: 'Blog', href: '/blog/' },
       { label: 'Migrating to 4.0', href: `${REPO_URL}/blob/main/MIGRATION.md`, external: true },
-      { label: 'Releases', href: `${REPO_URL}/releases`, external: true },
+      { label: 'Versions', href: NPM_VERSIONS_URL, external: true },
     ],
   },
   {
@@ -30,7 +31,7 @@ const columns = [
     links: [
       { label: 'GitHub', href: REPO_URL, external: true },
       { label: 'Report an issue', href: `${REPO_URL}/issues/new`, external: true },
-      { label: 'npm package', href: `https://www.npmjs.com/package/${NPM_PACKAGE}`, external: true },
+      { label: 'npm package', href: NPM_URL, external: true },
       { label: 'License', href: LICENSE_URL },
       { label: 'Privacy policy', href: PRIVACY_URL },
     ],
@@ -50,16 +51,14 @@ const year = new Date().getFullYear();
       <p class='text-body-medium site-footer-muted'>
         Accessible, themeable web components for product interfaces. Built with Lit, usable everywhere.
       </p>
-      <a class='site-footer-version text-label-medium' href={`https://www.npmjs.com/package/${NPM_PACKAGE}`} target='_blank' rel='noopener'>
-        <wc-icon name='deployed_code' aria-hidden='true'></wc-icon>
-        v{VERSION} on npm
-      </a>
+      <div class='site-footer-badges'>
+        <a class='site-footer-version text-label-medium' href={NPM_URL} target='_blank' rel='noopener'>
+          <wc-icon name='deployed_code' aria-hidden='true'></wc-icon>
+          v{VERSION} on npm
+        </a>
+        <GitHubStars variant='pill' />
+      </div>
       <ul class='site-footer-social' aria-label='Social links'>
-        <li>
-          <wc-icon-button variant='outlined' color='surface' href={`https://github.com/${GITHUB_USERNAME}`} target='_blank' aria-label='GitHub'>
-            <wc-icon name='logo--github' provider='carbon'></wc-icon>
-          </wc-icon-button>
-        </li>
         <li>
           <wc-icon-button variant='outlined' color='surface' href={`https://x.com/${AUTHOR.twitter}`} target='_blank' aria-label='X'>
             <wc-icon name='logo--x' provider='carbon'></wc-icon>

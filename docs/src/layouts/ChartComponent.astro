@@ -9,6 +9,7 @@ import LitComponentApiPanel from '../components/LitComponentApiPanel.astro';
 import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
 import { CHARTS, CHART_NAV } from '../_data/charts';
 import type { Section } from '../_data/getSections.ts';
+import { toPlainText } from '../_data/seo';
 
 interface Props {
   componentName: string;
@@ -41,7 +42,7 @@ const allSections: Section[] = [
 ];
 ---
 
-<Layout title={`${title} · Charts`} description={summary}>
+<Layout title={`${title} · Charts`} description={toPlainText(componentDetails?.summary) || summary}>
   <Article title={title} description={summary} sections={allSections}>
     <a slot='eyebrow' href='/charts/'>Charts</a>
     <ComponentMeta slot='meta' tagName={tagName} pageFolder={`charts/${chart?.slug ?? componentName}`} />

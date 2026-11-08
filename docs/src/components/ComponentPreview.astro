@@ -7,22 +7,29 @@ import {
   isControlPreview,
   isV4PreviewA,
   isV4PreviewB,
+  isV41Preview,
 } from '../_data/component-previews';
 import ComponentPreviewControls from './ComponentPreviewControls.astro';
 import ComponentPreviewV4A from './ComponentPreviewV4A.astro';
 import ComponentPreviewV4B from './ComponentPreviewV4B.astro';
+import ComponentPreviewV41 from './ComponentPreviewV41.astro';
 
 interface Props {
   name: string;
 }
 const { name } = Astro.props;
 const drawn =
-  isComplexPreview(name) || isControlPreview(name) || isV4PreviewA(name) || isV4PreviewB(name);
+  isComplexPreview(name) ||
+  isControlPreview(name) ||
+  isV4PreviewA(name) ||
+  isV4PreviewB(name) ||
+  isV41Preview(name);
 ---
 
 {isControlPreview(name) && <ComponentPreviewControls name={name} />}
 {isV4PreviewA(name) && <ComponentPreviewV4A name={name} />}
 {isV4PreviewB(name) && <ComponentPreviewV4B name={name} />}
+{isV41Preview(name) && <ComponentPreviewV41 name={name} />}
 
 {!drawn && <wc-icon class='bp-fallback' name='widgets'></wc-icon>}
 

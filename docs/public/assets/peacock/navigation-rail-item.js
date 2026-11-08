@@ -1,9 +1,9 @@
 import { _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
-import { I as IndicatorNavigationItem } from './indicator-navigation-item-CmyhsOmy.js';
+import { I as IndicatorNavigationItem } from './indicator-navigation-item-rlDwOUwW.js';
 import './state-BCeDVCI9.js';
 import './observe-slot-change-DPxaZrZF.js';
-import './navigation-item-base-kUrvJgCx.js';
+import './navigation-item-base-YtzLu9UE.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';

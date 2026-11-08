@@ -2,6 +2,7 @@
 export const title = 'Ghost text';
 export const order = 500;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+import DemoScript from '../../../../components/DemoScript.astro';
 ---
 
 <p>
@@ -23,9 +24,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <script type='module' src='/assets/js/ai-demo.js'></script>
 </DemoComponentCard>
 
+<DemoScript name='ai-demo' />
+
 <p>
   The demo uses a scripted provider. An app registers its own once with
-  <code>setPeacockAi({'{ provider }'})</code>; <code>complete()</code> gets the text before and after
+  <code>setPeacockAi({'{ provider }'})</code> (see <a href='/ai/'>AI setup</a> for when and where); <code>complete()</code> gets the text before and after
   the caret and an <code>AbortSignal</code> that aborts when the person keeps typing:
 </p>
 

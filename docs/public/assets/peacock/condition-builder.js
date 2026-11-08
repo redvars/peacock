@@ -2,7 +2,7 @@ import { i, _ as __decorate, I as IndividualComponent, A, b } from './Individual
 import { n } from './property-B2TG3KEE.js';
 import { A as AiController } from './ai-controller-DR_Tg0sN.js';
 import { s as sparkle } from './sparkle-BmtM0vbq.js';
-import { a as CbGroupBase } from './cb-group-base-BoZpDP2U.js';
+import { a as CbGroupBase } from './cb-group-base-BhD3fhNB.js';
 import { c as css_248z$1 } from './cb-group-base-BBDUgxne.js';
 import './locale-DEsJZCQG.js';
 import './state-BCeDVCI9.js';

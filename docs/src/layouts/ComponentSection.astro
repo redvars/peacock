@@ -1,0 +1,50 @@
+---
+// A section of related components with its own entry in the main navigation (Diagrams, AI): an
+// overview page with a sidebar that lists the section's pages, then its components directly (they
+// keep their pages under /components/). The page content goes in the default slot; the component cards follow.
+import Layout from './WithSidebar.astro';
+import Footer from '../components/Footer.astro';
+import { getGroupLinks } from '../_data/componentGroups.ts';
+import '../styles/pages/foundations.scss';
+
+interface Props {
+  title: string;
+  description: string;
+  /** The gallery group whose components the section lists. */
+  group: string;
+  /** The section's own pages, first the overview. */
+  pages: { label: string; href: string }[];
+}
+
+const { title, description, group, pages } = Astro.props;
+const components = getGroupLinks(group);
+---
+
+<Layout
+  title={title}
+  description={description}
+  sidebarItems={[...pages, ...components]}
+>
+  <article class='foundation-page'>
+    <header class='foundation-header'>
+      <h1 class='text-display-small'>{title}</h1>
+      <p class='text-body-large foundation-lede'>{description}</p>
+    </header>
+
+    <slot />
+
+    <section class='foundation-section' aria-labelledby='section-components-title'>
+      <h2 class='text-headline-small' id='section-components-title'>Components</h2>
+      <div class='foundation-cards'>
+        {components.map(component => (
+          <a class='foundation-card' href={component.href}>
+            <span class='text-title-large'>{component.label}</span>
+            <span class='text-body-medium foundation-muted'>{component.description}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+
+  <Footer />
+</Layout>

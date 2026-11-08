@@ -27,7 +27,7 @@ const newer = index > 0 ? posts[index - 1] : undefined;
 const sidebarItems = [{ label: 'All posts', href: '/blog/' }, ...posts.map(post => ({ label: post.title, href: post.href }))];
 ---
 
-<Layout title={`${title} · Blog`} description={description} sidebarItems={sidebarItems}>
+<Layout title={`${title} · Blog`} description={description} sidebarItems={sidebarItems} seo={{ type: 'article', publishedDate }}>
   <article class='doc-page'>
     <header class='doc-header'>
       <a class='text-label-large doc-eyebrow' href='/blog/'>Blog</a>

@@ -145,6 +145,34 @@
   }
 }
 
+// Prose tables on the section overviews (Diagrams, AI): body text, top-aligned rows, code cells.
+.section-table {
+  th,
+  td {
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: 500;
+  }
+
+  code {
+    font-family: var(--font-family-monospace);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+  }
+
+  // A short name in the first column stays on one line.
+  td:first-child code {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  a {
+    color: var(--color-primary);
+  }
+}
+
 // On phones, the description column moves under the token name.
 @include mixin.for-phone-only {
   .token-table-stack {

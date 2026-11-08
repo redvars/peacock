@@ -1,0 +1,233 @@
+---
+import Layout from '../../layouts/ComponentSection.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { AI_PAGES } from '../../_data/sections.ts';
+import { getScriptUrl } from '../../_data/utils.ts';
+
+const npm = `// main.ts: your app's entry module, run once when the app starts
+import { setPeacockAi } from '@redvars/peacock';
+
+setPeacockAi({
+  provider: {
+    complete: ({ before, after, signal }) => api.complete({ before, after }, { signal }),
+    transform: ({ action, text, instruction, targetLocale, signal }) =>
+      api.stream('transform', { action, text, instruction, targetLocale }, { signal }),
+    parse: ({ target, text, schema, signal }) => api.parse({ target, text, schema }, { signal }),
+  },
+});`;
+
+const cdn = `<script type="module">
+  // The same loader.js, same version, that loads the components.
+  import { setPeacockAi } from '${getScriptUrl()}';
+
+  setPeacockAi({ provider: { complete: request => myComplete(request) } });
+</script>`;
+
+const toggle = `import { setPeacockAi } from '@redvars/peacock';
+
+// Each call replaces every setting: what you leave out goes back to its default.
+// Keep the provider in one place and pass it every time.
+const provider = { complete, transform, parse };
+
+export function applyAiSettings({ enabled, ghostText }) {
+  setPeacockAi({
+    enabled,                               // false: every AI marker, button and menu disappears
+    provider,
+    features: { complete: ghostText },     // false: turns off one capability
+  });
+}
+
+applyAiSettings({ enabled: true, ghostText: true });
+// Later, when the instance or the person turns the assistant off:
+applyAiSettings({ enabled: false, ghostText: true });`;
+
+const stream = `// transform must return an AsyncIterable of text pieces. A streamed fetch response, for example:
+async function* streamText(response) {
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) return;
+    yield value;
+  }
+}
+
+const provider = {
+  async *transform({ action, text, instruction, signal, context }) {
+    const response = await fetch('/api/ai/transform', {
+      method: 'POST',
+      body: JSON.stringify({ action, text, instruction, field: context.label }),
+      signal, // aborted when the person types on, presses Stop or leaves
+    });
+    yield* streamText(response);
+  },
+};`;
+
+const optOut = `<!-- One element without AI -->
+<wc-textarea label="Notes" no-ai></wc-textarea>
+
+<!-- Data that must never reach a model; password and PIN fields never do -->
+<wc-input label="National ID" sensitive></wc-input>
+
+<!-- Ghost text is opt-in per field -->
+<wc-textarea label="Reply" ai-completion></wc-textarea>`;
+
+const reading = `import { peacockAi, onPeacockAiChange, isAiAvailable } from '@redvars/peacock';
+
+peacockAi().enabled;               // the current settings
+isAiAvailable('complete');          // on, and the provider has complete(), and it isn't turned off
+const stop = onPeacockAiChange(() => renderMyAssistantButton());`;
+---
+
+<Layout
+  title='AI'
+  description='Building blocks for AI-native pages that still work completely without AI. Peacock never calls a model: components show the AI state your app passes in, and a few features call the one provider you register with setPeacockAi().'
+  group='AI'
+  pages={AI_PAGES}
+>
+  <section class='foundation-section' aria-labelledby='how-title'>
+    <h2 class='text-headline-small' id='how-title'>How it works</h2>
+    <p class='text-body-large'>Peacock's AI support comes in two kinds:</p>
+    <ul class='text-body-large'>
+      <li>
+        <strong>State you pass in</strong> needs no setup. A field's <code class='text-code-block'>suggestion</code>,
+        <code class='text-code-block'>wc-form</code>'s <code class='text-code-block'>suggest()</code>, a
+        <code class='text-code-block'>wc-ai-summary</code>'s text while it streams, citations, draft cards and the
+        assistant panel all show what your app gives them, from any backend.
+      </li>
+      <li>
+        <strong>Interactive features</strong> (ghost text, rewriting, sentence to filters) call a provider: an
+        object with up to four methods that you register once with
+        <code class='text-code-block'>setPeacockAi()</code>. A feature appears only when the provider has its
+        method. In Redvars the provider calls the platform's model service, so every request runs with the
+        person's session and access.
+      </li>
+    </ul>
+    <p class='text-body-large'>
+      AI is on by default with no provider, so the first kind works as soon as you use the components and the
+      second appears once you register a provider.
+    </p>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='register-title'>
+    <h2 class='text-headline-small' id='register-title'>Register the provider</h2>
+    <h3 class='text-title-large'>When</h3>
+    <p class='text-body-large'>
+      Call <code class='text-code-block'>setPeacockAi()</code> once, in your app's entry module, when the app
+      starts. The order doesn't matter: components that are already on the page re-render with the new settings,
+      and components added later read them when they connect. Call it again whenever the settings change, for
+      example when the instance turns the assistant off.
+    </p>
+    <Highlighter lang='js'><Fragment set:text={npm} /></Highlighter>
+
+    <h3 class='text-title-large'>Where it applies</h3>
+    <ul class='text-body-large'>
+      <li>
+        <strong>The whole page.</strong> One call configures every Peacock component in the document, including
+        the ones inside other components' shadow roots. There are no per-component or per-subtree providers; use
+        <code class='text-code-block'>no-ai</code> on an element to leave it out.
+      </li>
+      <li>
+        <strong>One copy of Peacock.</strong> The settings live in the Peacock module that loaded the components,
+        so import <code class='text-code-block'>setPeacockAi</code> from the same place: from
+        <code class='text-code-block'>@redvars/peacock</code> in a bundled app (also with
+        <code class='text-code-block'>@redvars/peacock-react</code>, <code class='text-code-block'>-vue</code> and
+        <code class='text-code-block'>-angular</code>, which use that package), or from the same
+        <code class='text-code-block'>loader.js</code> URL and version on a CDN page. Two copies, such as a CDN
+        loader next to a bundle or two versions, each keep their own settings, and components from one never see
+        the other's provider.
+      </li>
+      <li>
+        <strong>Each frame.</strong> An iframe runs its own copy, so call it there too.
+      </li>
+      <li>
+        <strong>The browser.</strong> With server-side rendering, call it from code that runs in the browser
+        (your client entry), since the provider makes the requests.
+      </li>
+    </ul>
+    <Highlighter lang='html'><Fragment set:text={cdn} /></Highlighter>
+
+    <h3 class='text-title-large'>Changing the settings</h3>
+    <p class='text-body-large'>
+      Each call replaces the settings rather than merging into them: a field you leave out goes back to its
+      default (AI on, no provider, every capability allowed). So
+      <code class='text-code-block'>setPeacockAi({'{ enabled: false }'})</code> also drops the provider, and turning
+      AI back on needs the provider again. Keep the provider in one place and pass the whole settings each time:
+    </p>
+    <Highlighter lang='js'><Fragment set:text={toggle} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='capabilities-title'>
+    <h2 class='text-headline-small' id='capabilities-title'>Provider methods</h2>
+    <p class='text-body-large'>
+      Every method is optional. Each gets an <code class='text-code-block'>AbortSignal</code>, which aborts when
+      the result is no longer wanted (the person types on, presses Stop, or the element leaves the page), and a
+      <code class='text-code-block'>context</code> with the asking component's tag and the field's
+      <code class='text-code-block'>name</code>, <code class='text-code-block'>label</code> and
+      <code class='text-code-block'>locale</code>.
+    </p>
+    <table class='token-table section-table text-body-medium'>
+      <thead>
+        <tr><th>Method</th><th>Returns</th><th>Feature</th><th>Used by</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>complete</code></td>
+          <td>A string, or <code>null</code> for none</td>
+          <td>Ghost text after a pause; Tab takes it. Opt in per field with <code>ai-completion</code>.</td>
+          <td><code>wc-textarea</code>, <code>wc-html-editor</code>, <code>wc-markdown-editor</code>, <code>wc-document-editor</code>, <code>wc-code-editor</code></td>
+        </tr>
+        <tr>
+          <td><code>transform</code></td>
+          <td>An async iterable of text</td>
+          <td>Improve, Shorten, Fix, Translate, Tell it what to change, Continue writing and Summarize above, streamed into a preview that changes nothing until Accept.</td>
+          <td>The rich-text editors, such as <code>wc-html-editor</code>, <code>wc-markdown-editor</code> and <code>wc-document-editor</code></td>
+        </tr>
+        <tr>
+          <td><code>parse</code></td>
+          <td>A structured value</td>
+          <td>A sentence becomes filters or conditions. The provider gets field definitions, never record values.</td>
+          <td><code>wc-filter-bar</code>, <code>wc-condition-builder</code></td>
+        </tr>
+        <tr>
+          <td><code>summarize</code></td>
+          <td>An async iterable of Markdown</td>
+          <td>Reserved for summaries a component asks for itself; no component calls it yet. The editors' Summarize goes through <code>transform</code> with <code>action: 'summarize'</code>, and <code>wc-ai-summary</code> shows text you pass in.</td>
+          <td>None yet</td>
+        </tr>
+      </tbody>
+    </table>
+    <Highlighter lang='js'><Fragment set:text={stream} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='off-title'>
+    <h2 class='text-headline-small' id='off-title'>Turning AI off</h2>
+    <p class='text-body-large'>
+      <code class='text-code-block'>enabled: false</code> turns AI off for the page:
+      <code class='text-code-block'>wc-ai-badge</code>, Ask buttons, AI menu groups and the assistant panel render
+      nothing, interactive features aren't offered, and every page still works. Neutral pieces such as
+      <code class='text-code-block'>wc-typing-indicator</code>, <code class='text-code-block'>wc-citation</code> and
+      the chat thread keep working, because they serve conversations between people too.
+      <code class='text-code-block'>features</code> turns off single capabilities, and two attributes work per
+      element:
+    </p>
+    <Highlighter lang='html'><Fragment set:text={optOut} /></Highlighter>
+    <p class='text-body-large'>
+      To build your own AI controls that follow the same settings, read them instead of keeping a copy:
+    </p>
+    <Highlighter lang='js'><Fragment set:text={reading} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='rules-title'>
+    <h2 class='text-headline-small' id='rules-title'>What the components guarantee</h2>
+    <ul class='text-body-large'>
+      <li>Everything the assistant wrote is marked with <code class='text-code-block'>wc-ai-badge</code> and can say why.</li>
+      <li>Writes are drafts: a suggested value stays marked until edited or submitted, ghost text needs Tab, a rewrite needs Accept, and a draft card needs Confirm.</li>
+      <li>A request carries only the text the component owns; <code class='text-code-block'>sensitive</code>, password and PIN fields are never sent.</li>
+      <li>Model text is never run or parsed as HTML: it shows through <code class='text-code-block'>wc-markdown</code> or <code class='text-code-block'>wc-generative-view</code>, which renders only an allow-listed set of components.</li>
+    </ul>
+    <p class='text-body-large'>
+      The decisions behind these rules are recorded in
+      <a href='https://github.com/redvars/peacock/blob/main/docs/adr/030002-ai-native-components.md'>ADR-030002</a>.
+    </p>
+  </section>
+</Layout>

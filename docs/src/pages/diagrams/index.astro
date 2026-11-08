@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/ComponentSection.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { DIAGRAM_PAGES } from '../../_data/sections.ts';
+
+const chrome = `<wc-erd id="schema" start-position="fit" style="height: 560px">
+  <wc-diagram-controls slot="controls"></wc-diagram-controls>
+  <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+</wc-erd>`;
+
+const view = `const erd = document.querySelector('#schema');
+
+// Save each person's view as they move around…
+erd.addEventListener('viewport-change', event => {
+  if (event.detail.settled) localStorage.setItem('schema-view', JSON.stringify(event.detail));
+});
+
+// …and open there next time: setting view moves the camera at once. (In markup, the
+// start-view attribute does the same before the first render, and wins over start-position.)
+const saved = localStorage.getItem('schema-view');
+if (saved) erd.view = JSON.parse(saved);
+
+erd.home();          // fly back to the start position
+erd.fit();           // fit all content
+erd.zoomTo('orders'); // or a zoom level, such as 1`;
+---
+
+<Layout
+  title='Diagrams'
+  description='Canvases for workflows, hierarchies, schemas, service maps and free-form graphs. Each component reads and writes its own model, and all of them share one infinite canvas, the same connectors, controls, minimap and keyboard.'
+  group='Diagrams'
+  pages={DIAGRAM_PAGES}
+>
+  <section class='foundation-section' aria-labelledby='choose-title'>
+    <h2 class='text-headline-small' id='choose-title'>Which one to use</h2>
+    <table class='token-table section-table text-body-medium'>
+      <thead>
+        <tr><th>You are showing</th><th>Use</th><th>Its model</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Business rules and processes: steps, conditions that split and merge back, loops, approvals, waits</td>
+          <td><a href='/components/workflow/'><code>wc-workflow</code></a>, with <a href='/components/workflow-timeline/'><code>wc-workflow-timeline</code></a> for runs</td>
+          <td>A tree of steps; debug and history modes take a run from your engine</td>
+        </tr>
+        <tr>
+          <td>Org charts, sitemaps, taxonomies</td>
+          <td><a href='/components/tree-chart/'><code>wc-tree-chart</code></a></td>
+          <td>Flat items, each naming its <code>parentId</code></td>
+        </tr>
+        <tr>
+          <td>Database schemas</td>
+          <td><a href='/components/erd/'><code>wc-erd</code></a></td>
+          <td>Entities with columns, and relations between columns</td>
+        </tr>
+        <tr>
+          <td>Service meshes, CMDB and asset relationships</td>
+          <td><a href='/components/dependency-map/'><code>wc-dependency-map</code></a></td>
+          <td>Typed nodes with status, edges with traffic metrics, groups</td>
+        </tr>
+        <tr>
+          <td>Anything else: state machines, node editors, hand-placed graphs</td>
+          <td><a href='/components/diagram/'><code>wc-diagram</code></a></td>
+          <td>Nodes with positions and ports, edges between ports</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class='text-body-large'>
+      <code class='text-code-block'>wc-diagram</code> was called <code class='text-code-block'>wc-flow</code> before
+      4.1; the old tag still works until 5.0.
+    </p>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='canvas-title'>
+    <h2 class='text-headline-small' id='canvas-title'>The shared canvas</h2>
+    <ul class='text-body-large'>
+      <li>
+        <strong>Infinite in every direction.</strong> There are no scrollbars or edges; the host element only sets
+        the window size, so give it a height.
+      </li>
+      <li>
+        <strong>Navigation.</strong> Drag the background, hold Space and drag, or scroll with two fingers to pan.
+        Ctrl/⌘ + wheel or pinch zooms around the pointer, between <code class='text-code-block'>min-zoom</code>
+        and <code class='text-code-block'>max-zoom</code> (10% to 400% by default).
+      </li>
+      <li>
+        <strong>Start position.</strong> <code class='text-code-block'>start-position</code> is
+        <code class='text-code-block'>fit</code> (all content), <code class='text-code-block'>origin</code> (canvas
+        0,0 at 100%) or <code class='text-code-block'>first</code> (the first item at 100%);
+        <code class='text-code-block'>start-view</code> restores an exact view. Home flies back there.
+      </li>
+      <li>
+        <strong>Lost content.</strong> When nothing is in view, a Back to content button appears.
+      </li>
+      <li>
+        <strong>Motion</strong> only follows what the person does or what a run does: nothing animates on load,
+        and everything stops under reduced motion.
+      </li>
+    </ul>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='chrome-title'>
+    <h2 class='text-headline-small' id='chrome-title'>Controls and minimap</h2>
+    <p class='text-body-large'>
+      Every canvas has a <code class='text-code-block'>controls</code> and a
+      <code class='text-code-block'>minimap</code> slot.
+      <a href='/components/diagram-controls/'><code class='text-code-block'>wc-diagram-controls</code></a> gives zoom,
+      fit, back to start and, on editable canvases, undo and redo;
+      <a href='/components/diagram-minimap/'><code class='text-code-block'>wc-diagram-minimap</code></a> shows all
+      content and moves the view. Slotted, they find their canvas; elsewhere on the page, point them at it with
+      <code class='text-code-block'>for</code>. Below 480px wide the minimap hides.
+    </p>
+    <Highlighter lang='html'><Fragment set:text={chrome} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='view-title'>
+    <h2 class='text-headline-small' id='view-title'>Saving the view</h2>
+    <p class='text-body-large'>
+      <code class='text-code-block'>viewport-change</code> fires once per frame while the camera moves and once
+      more with <code class='text-code-block'>settled: true</code>, so you can keep each person's view:
+    </p>
+    <Highlighter lang='js'><Fragment set:text={view} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='keys-title'>
+    <h2 class='text-headline-small' id='keys-title'>Keyboard</h2>
+    <ul class='text-body-large'>
+      <li>Tab reaches the canvas, then one item; the arrow keys move between items in each component's own way.</li>
+      <li>On the empty canvas, the arrow keys pan.</li>
+      <li>+ and − zoom, Ctrl/⌘ + 0 sets 100%, Shift + 1 fits, Shift + 2 zooms to the selection and Home goes back to the start.</li>
+      <li>On editable canvases, Delete removes, Ctrl/⌘ + Z undoes and Ctrl/⌘ + Y redoes.</li>
+    </ul>
+  </section>
+</Layout>

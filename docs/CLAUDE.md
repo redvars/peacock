@@ -24,9 +24,14 @@ You are an expert Frontend Engineer specializing in **Astro**, TypeScript, SCSS,
 - `getLitComponentDetails.ts` — Parses the JSDoc JSON to extract component metadata for pages.
 - `utils.ts` — CDN URL helpers (jsdelivr), section ID normalization, theme CSS URL generation.
 - `componentGroups.ts` — The component groups shared by the gallery, the Components sidebar, the home page and the previous/next order of component pages. Add every new component to a group here; one left out shows under "Others".
+- `component-previews.ts` — Which wireframe file draws each component's gallery card (`ComponentPreview.astro`, `…Controls`, `…V4A`, `…V4B`, `…V41`). Give every new component a preview; one without shows a fallback icon.
+- `sections.ts` — The pages of the Diagrams and AI sections, which have their own entry in the main navigation. Their sidebars list these pages, then the components of the gallery group of the same name.
 - `componentSource.ts` — Maps each tag to its source folder (from `public/assets/peacock/custom-elements.json`) for the "Source" and "Edit this page" links.
 - `foundations.ts` — Build-time data for the Foundations pages: palettes, color roles and shape from the theme engine (`../design-tokens/src/engine`), plus the static token JSON (`../design-tokens/src/tokens`).
-- `../siteconfig.ts` — Site metadata: title, version, author, GitHub links.
+- `seo.ts` — Search and social metadata for `Base.astro`: canonical URLs, breadcrumbs, the JSON-LD graph (WebSite and SoftwareSourceCode on home, TechArticle or BlogPosting plus BreadcrumbList on section pages), plain-text descriptions. Layouts pass extra data as a `seo` prop (`PageSeo`).
+- `npm.ts` — Build-time check of the components version against the npm registry (used by `siteconfig.ts`).
+- `github.ts` — Build-time GitHub star count (`GitHubStars.astro`); `null` when the API fails or rate-limits, and the pages then show a plain GitHub link. Set `GITHUB_TOKEN` in CI to raise the rate limit.
+- `../siteconfig.ts` — Site metadata: title, version, social image, author, GitHub links.
 
 ### Components (`src/components/`)
 Reusable Astro components for the documentation UI. Key files:
@@ -34,6 +39,7 @@ Reusable Astro components for the documentation UI. Key files:
 - `Article.astro` — The page frame of component and chart pages: header (`eyebrow` and `meta` slots), sections, `footer` slot.
 - `ComponentMeta.astro` — The row under a component's title: tag with copy button, "How to use" snippets (HTML, React, Vue, Angular), Source and Edit links.
 - `DocPager.astro` — Previous/next cards that end Blocks, Foundations, Frameworks, blog, component and chart pages. Use it instead of writing pager markup.
+- `DemoScript.astro` — Shows a shared demo script from `public/assets/js` under the demo that loads it, read at build time. A demo that loads a script with `src` should show it this way, so readers see the wiring.
 - `OnThisPageNavigation.astro` — "On This Page" table of contents.
 - `SideNavigation.astro` — Left sidebar component navigation.
 
@@ -44,6 +50,7 @@ Reusable Astro components for the documentation UI. Key files:
 - `Foundations.astro` — Layout for the Foundations pages: sidebar, header and previous/next links.
 - `WithBlocksSidebar.astro` — Block pages: wraps the page's `.block-demo` in a Preview/Code viewer (the markup is captured before the components upgrade), lists the components it uses, and ends with previous/next. A new block is an entry in `src/_data/blocks.ts`, a page in `pages/blocks/<name>/`, its `styles/blocks/<name>.scss`, and a wireframe in `components/BlockPreview.astro`.
 - `Frameworks.astro` — The same for the Frameworks pages (`src/_data/frameworks.ts` lists them).
+- `ComponentSection.astro` — Overview pages of the Diagrams and AI sections (`pages/diagrams/`, `pages/ai/`): sidebar from `sections.ts` plus the group's components, and component cards after the page content. The AI overview documents `setPeacockAi()`.
 
 ### Pages (`src/pages/`)
 - `index.astro` — Homepage. Its counts (components, charts, blocks) and group chips are computed at build time.
@@ -56,7 +63,8 @@ Reusable Astro components for the documentation UI. Key files:
 
 ## Technical Constraints & Guidelines
 1. **Component metadata is auto-generated.** Never manually edit `custom-elements-jsdocs.json`; it is produced by the build in the sibling `components/` package.
-2. **CDN URLs** for Peacock assets are constructed in `utils.ts`. Update `VERSION` in `src/siteconfig.ts` to bump CDN references, only once that version is on npm (CDN links to an unpublished version break).
+2. **Version and CDN URLs.** `VERSION` in `src/siteconfig.ts` is the only version on the site (header badge, footer, CDN links, snippets). It is read from `../components/package.json` at build time and checked against npm: if that version is not published yet, the site uses the latest published one, because CDN links must only point at a version on npm. Never write a version number in a page; build CDN links with `getCdnUrl()` in `utils.ts`.
+7. **SEO.** Every page passes a unique `title` and `description` to its layout; `Base.astro` adds the canonical URL, Open Graph, Twitter card and JSON-LD. The sitemap comes from `@astrojs/sitemap` (exclusions in `astro.config.mjs`), `robots.txt` from `pages/robots.txt.ts`, the social card from `public/assets/img/og-image.png`.
 3. **New component pages** follow the pattern in `src/pages/components/[existing-component]/`. Create an `index.astro` and a `_sections/` directory.
 4. **SCSS** is organized by scope: `src/styles/layout/` for layout styles, `src/styles/pages/` for page-specific styles.
 5. **Static assets** (images, JS) go in `public/`. Peacock component JS files are copied into `public/assets/peacock/` by `npm run publish:docs` in `../components`.

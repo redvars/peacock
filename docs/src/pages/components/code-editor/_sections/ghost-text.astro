@@ -2,6 +2,7 @@
 export const title = 'Ghost text';
 export const order = 400;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+import DemoScript from '../../../../components/DemoScript.astro';
 ---
 
 <p>
@@ -20,6 +21,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   ></wc-code-editor>
   <script type='module' src='/assets/js/ai-demo.js'></script>
 </DemoComponentCard>
+
+<DemoScript name='ai-demo' />
 
 <p>
   As everywhere, nothing is suggested while the page has AI off, or when the editor is read-only,

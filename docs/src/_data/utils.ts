@@ -1,22 +1,28 @@
-import { VERSION, FALLBACK_VERSION } from '../siteconfig';
+import { VERSION, FALLBACK_VERSION, NPM_PACKAGE } from '../siteconfig';
+
+/**
+ * A file of the published package on the jsDelivr CDN, such as `dist/button.js`. Every CDN link
+ * on the site goes through here, so they all use VERSION (a version that is on npm).
+ */
+export function getCdnUrl(path: string, version: string = VERSION) {
+  return `https://cdn.jsdelivr.net/npm/${NPM_PACKAGE}@${version}/${path.replace(/^\//, '')}`;
+}
 
 export function getScriptUrl() {
-  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${VERSION}/dist/loader.js`;
+  return getCdnUrl('dist/loader.js');
 }
 
 export function getThemeCssUrl() {
-  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${VERSION}/dist/assets/styles.css`;
+  return getCdnUrl('dist/assets/styles.css');
 }
 
 export function getFallbackScriptUrl() {
-  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${FALLBACK_VERSION}/dist/loader.js`;
+  return getCdnUrl('dist/loader.js', FALLBACK_VERSION);
 }
 
 /** The theme engine (theme.js) used by the theme builder page. */
 export function getThemeEngineUrl(isProd: boolean) {
-  return isProd
-    ? `https://cdn.jsdelivr.net/npm/@redvars/peacock@${VERSION}/dist/assets/theme.js`
-    : '/assets/peacock/assets/theme.js';
+  return isProd ? getCdnUrl('dist/assets/theme.js') : '/assets/peacock/assets/theme.js';
 }
 
 export function convertToSectionId(title: any) {

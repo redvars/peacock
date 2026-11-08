@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 import { getGroupedComponents } from '../_data/componentGroups.ts';
 
 interface Props {
-  description?: string;
+  description?: string | null;
   title: string;
   classes?: string;
 }
