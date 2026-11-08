@@ -14,7 +14,12 @@
   --_table-checkbox-width: 3rem;
   --_table-edge-shadow: color-mix(
     in srgb,
-    var(--color-shadow) 14%,
+    var(--color-shadow) 12%,
+    transparent
+  );
+  --_table-edge-shadow-soft: color-mix(
+    in srgb,
+    var(--color-shadow) 4%,
     transparent
   );
 }
@@ -574,33 +579,76 @@
   display: flex;
 }
 
-// ── Edge shadows on pinned columns ──────────────────────────────────────────
+// ── Pinned column edges: divider and lift shadow ───────────────────────────
 
+// A hairline always marks the frozen edge. A pseudo element, not a border, so the row keeps
+// the width `totalWidth()` gives it; above the cells of its own group.
+.pinned-group-start::before,
+.pinned-group-end::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  z-index: 1;
+  inline-size: 1px;
+  background: var(--table-border-color);
+  pointer-events: none;
+}
+
+.pinned-group-start::before {
+  inset-inline-end: 0;
+}
+
+.pinned-group-end::after {
+  inset-inline-start: 0;
+}
+
+// While content is scrolled under the edge, an eased shadow fades in behind the hairline.
 .pinned-group-start::after,
 .pinned-group-end::before {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 0.75rem;
+  inset-block: 0;
+  inline-size: 1rem;
+  background: linear-gradient(
+    to right,
+    var(--_table-edge-shadow) 0,
+    var(--_table-edge-shadow-soft) 40%,
+    transparent
+  );
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--duration-short4, 200ms) ease;
 }
 
 .pinned-group-start::after {
-  inset-inline-end: -0.75rem;
-  background: linear-gradient(to right, var(--_table-edge-shadow), transparent);
+  inset-inline-end: -1rem;
 }
 
 .pinned-group-end::before {
-  inset-inline-start: -0.75rem;
-  background: linear-gradient(to left, var(--_table-edge-shadow), transparent);
+  inset-inline-start: -1rem;
+  transform: scaleX(-1);
+}
+
+// The shadow falls along the reading direction.
+.pinned-group-start:dir(rtl)::after {
+  transform: scaleX(-1);
+}
+
+.pinned-group-end:dir(rtl)::before {
+  transform: none;
 }
 
 .scrolled-from-start .pinned-group-start::after,
 .scrolled-from-end .pinned-group-end::before {
   opacity: 1;
+}
+
+// A resize grip beside a hairline would draw a second bar; it shows only on hover or focus.
+.pinned-group-start > .cell:last-child,
+.scroll-group:has(+ .pinned-group-end) > .cell:last-child {
+  .resize-handle:not(:hover, :focus-visible)::after {
+    background: transparent;
+  }
 }
 
 // ── Selection bar ───────────────────────────────────────────────────────────
