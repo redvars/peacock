@@ -1,10 +1,19 @@
 @charset "utf-8";
 @use '../mixin';
 
+// Layout. The page has one scroll: the docs content column. On wide screens
+// the settings panel sticks beside the preview and only scrolls itself when
+// the viewport is too short for it (without chaining into the page); on
+// phones everything is one column and a button brings the settings back.
+
 .theme-builder {
+  --tb-gutter: var(--spacing-200);
+  // The docs page background (html in layout/base.scss), behind the sticky toolbar.
+  --tb-page-background: var(--color-surface-container-highest);
+
   display: grid;
   gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-200);
+  padding: var(--spacing-300) var(--tb-gutter) var(--spacing-800);
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'header'
@@ -21,12 +30,6 @@
 
   .tb-controls {
     grid-area: controls;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-    padding: var(--spacing-300);
-    background: var(--color-surface);
-    border-radius: var(--shape-corner-extra-large);
   }
 
   .tb-main {
@@ -40,8 +43,11 @@
 
 @include mixin.for-tablet-landscape-up {
   .theme-builder {
-    padding: var(--spacing-400);
-    grid-template-columns: 21rem minmax(0, 1fr);
+    --tb-gutter: var(--spacing-400);
+    --tb-sticky-top: var(--spacing-300);
+
+    padding-block-start: var(--spacing-400);
+    grid-template-columns: 20rem minmax(0, 1fr);
     grid-template-areas:
       'header header'
       'controls main';
@@ -49,9 +55,30 @@
 
     .tb-controls {
       position: sticky;
-      top: var(--spacing-300);
-      max-height: calc(100vh - 2 * var(--spacing-300));
+      top: var(--tb-sticky-top);
+      max-height: calc(100dvh - 2 * var(--tb-sticky-top));
+    }
+
+    .tb-controls-body {
+      flex: 1 1 auto;
+      min-height: 0;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+
+    // The preview mode stays at hand while the preview scrolls.
+    .tb-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      margin-block-start: calc(-1 * var(--tb-sticky-top));
+      padding-block: var(--tb-sticky-top) var(--spacing-150);
+      background: var(--tb-page-background);
+    }
+
+    .tb-jump {
+      display: none;
     }
   }
 }
@@ -60,28 +87,68 @@
   color: var(--color-on-surface-variant);
 }
 
+// ── Settings panel
+
+.tb-controls {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--color-surface);
+  border-radius: var(--shape-corner-extra-large);
+  overflow: hidden;
+}
+
+.tb-controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  padding: var(--spacing-150) var(--spacing-150) 0 var(--spacing-300);
+}
+
+.tb-controls-body {
+  display: block;
+}
+
+.tb-controls-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: block;
+  padding-inline: var(--spacing-150);
+  background: var(--color-surface);
+}
+
+.tb-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300);
+}
+
 .tb-group {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-150);
 
-  & + .tb-group {
-    padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-outline-variant);
+  wc-color-picker {
+    --color-picker-width: 100%;
+    --color-picker-sv-height: 8rem;
   }
 }
 
-.tb-field {
+.tb-custom-color {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-100);
+  min-width: 0;
 
-  wc-color-picker {
-    --color-picker-width: 100%;
+  wc-color-field {
+    padding-inline-start: calc(2rem + var(--spacing-150));
   }
 }
 
-.tb-custom-color-header {
+.tb-custom-color-row {
   display: flex;
   align-items: center;
   gap: var(--spacing-150);
@@ -108,11 +175,31 @@
   border-inline-start: 2px solid currentColor;
 }
 
-.tb-actions {
+.tb-controls-footer {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-100);
+  padding: var(--spacing-200);
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  wc-button {
+    flex: 1 1 auto;
+    --button-width: 100%;
+  }
 }
+
+.tb-jump {
+  position: fixed;
+  inset-block-end: var(--spacing-200);
+  inset-inline-end: var(--spacing-200);
+  z-index: 10;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// ── Preview column
 
 .tb-toolbar {
   display: flex;
@@ -143,6 +230,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-150);
+  min-width: 0;
   padding: var(--spacing-300);
   background: var(--color-surface);
   border-radius: var(--shape-corner-extra-large);
@@ -152,10 +240,11 @@
   }
 }
 
-// ── Sample page. Everything below reads the tokens declared on
+// ── Sample app. Everything below reads the tokens declared on
 // .theme-preview, so it follows the theme being built.
 
 .theme-preview {
+  min-width: 0;
   background: var(--color-surface);
   color: var(--color-on-surface);
   font-family: var(--font-family-sans);
@@ -198,11 +287,28 @@
     }
   }
 
+  .preview-hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    min-width: 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
   .preview-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--spacing-100);
+  }
+
+  .preview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--spacing-200);
   }
 
   .preview-grid {
@@ -211,17 +317,72 @@
     gap: var(--spacing-200);
   }
 
+  .preview-split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--spacing-200);
+  }
+
+  wc-card {
+    min-width: 0;
+  }
+
   .preview-card {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
+    min-width: 0;
     padding: var(--spacing-200);
+  }
+
+  .preview-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-100);
+  }
+
+  .preview-table {
+    height: 12rem;
+    min-width: 0;
+
+    wc-table {
+      height: 100%;
+    }
+  }
+
+  // Diagram canvases pan on wheel and touch. In the preview they are static
+  // samples, so the page keeps scrolling when the pointer passes over them.
+  .preview-diagram {
+    display: block;
+    height: 12rem;
+    min-width: 0;
+    border-radius: var(--shape-corner-medium);
+    overflow: hidden;
+    pointer-events: none;
   }
 
   .preview-section {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-150);
+  }
+
+  .preview-elevation {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+    gap: var(--spacing-200);
+    padding-block-end: var(--spacing-100);
+  }
+
+  .preview-level {
+    display: flex;
+    align-items: flex-end;
+    min-height: 4rem;
+    padding: var(--spacing-150);
+    border-radius: var(--shape-corner-medium);
+    background: var(--color-surface-container-low);
   }
 
   .preview-roles {
@@ -234,9 +395,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: var(--spacing-050);
     min-height: 4.5rem;
     padding: var(--spacing-150);
     border-radius: var(--shape-corner-medium);
+    overflow-wrap: anywhere;
   }
 
   .preview-palette {
@@ -264,6 +427,10 @@
 
 @include mixin.for-phone-only {
   .theme-preview {
+    .preview-body {
+      padding: var(--spacing-200);
+    }
+
     .preview-hero {
       flex-direction: column;
       padding: var(--spacing-300);

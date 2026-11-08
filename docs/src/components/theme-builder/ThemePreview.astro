@@ -1,8 +1,14 @@
 ---
 /**
- * Sample page for the theme builder. It renders inside `.theme-preview`, the
+ * Sample app for the theme builder. It renders inside `.theme-preview`, the
  * selector the builder declares the generated tokens on, so every component
  * here picks up the theme being edited. `mode` sets light or dark.
+ *
+ * The sections are picked to judge a theme quickly: primary, secondary and
+ * tertiary accents, surfaces and containers, error, warning and success,
+ * elevation, shape and type, on the components Peacock ships today (fields
+ * with suggested values, stats with AI insights, charts, a table, a timeline
+ * and two small diagrams). Diagram canvases get an explicit height.
  */
 interface Props {
   id: string;
@@ -21,11 +27,16 @@ const roles = [
   ['tertiary', 'on-tertiary'],
   ['tertiary-container', 'on-tertiary-container'],
   ['error', 'on-error'],
+  ['error-container', 'on-error-container'],
+  ['success-container', 'on-success-container'],
+  ['warning-container', 'on-warning-container'],
   ['surface-container-highest', 'on-surface'],
+  ['inverse-surface', 'inverse-on-surface'],
 ];
+const elevationLevels = [0, 1, 2, 3, 4, 5];
 ---
 
-<div class='theme-preview' id={id} data-theme={mode} aria-label={`${mode} theme preview`}>
+<div class='theme-preview' id={id} data-theme={mode} role='region' aria-label={`${mode === 'light' ? 'Light' : 'Dark'} theme preview`}>
   <wc-app-bar variant='small'>
     <wc-icon-button slot='start' variant='text' aria-label='Menu'>
       <wc-icon name='menu'></wc-icon>
@@ -37,13 +48,15 @@ const roles = [
     <wc-avatar slot='end' name='Ada Lovelace'></wc-avatar>
   </wc-app-bar>
 
+  <wc-banner intent='info' headline='New:'>Trip suggestions from the assistant are on for your team.</wc-banner>
+
   <div class='preview-body'>
     <section class='preview-hero'>
-      <div>
+      <div class='preview-hero-text'>
         <div class='text-headline-medium'>Plan your next trip</div>
         <p class='text-body-large preview-muted'>
-          Flights, stays and day plans in one place. Every color, corner and font on this page comes
-          from the theme you are building.
+          Flights, stays and day plans in one place. Every color, corner and font here comes from the theme you are
+          building.
         </p>
         <div class='preview-row'>
           <wc-button variant='filled'>Book now</wc-button>
@@ -55,46 +68,67 @@ const roles = [
       <wc-fab color='primary' aria-label='New trip'><wc-icon name='add'></wc-icon></wc-fab>
     </section>
 
-    <wc-tabs class='preview-tabs'>
-      <wc-tab selected>Flights</wc-tab>
-      <wc-tab>Hotels</wc-tab>
-      <wc-tab>Cars</wc-tab>
-    </wc-tabs>
+    <div class='preview-stats'>
+      <wc-stat label='Bookings this week' value='1284' previous='951' variant='outlined' comparison='vs last week'>
+        <wc-ai-summary
+          slot='insight'
+          variant='inline'
+          value='Up 35%: most of the new bookings are city breaks in Lisbon and Porto.'
+        ></wc-ai-summary>
+      </wc-stat>
+      <wc-stat
+        label='Revenue'
+        value='86400'
+        previous='79100'
+        variant='outlined'
+        format='{"style": "currency", "currency": "EUR", "maximumFractionDigits": 0}'
+      ></wc-stat>
+      <wc-stat label='Cancellations' value='42' previous='31' positive='down' variant='outlined'></wc-stat>
+    </div>
 
     <div class='preview-grid'>
       <wc-card variant='elevated'>
         <wc-card-content class='preview-card'>
           <div class='text-title-medium'>Search flights</div>
-          <wc-input label='Destination' placeholder='Lisbon'></wc-input>
+          <wc-input variant='outlined' label='Destination' value='Lisbon'></wc-input>
+          <wc-input variant='outlined' label='Return' value='Fri 16 May' data-tp='suggested'></wc-input>
           <wc-select label='Travellers' class='preview-travellers' value='2'></wc-select>
-          <wc-checkbox value='true'>Flexible dates</wc-checkbox>
+          <wc-chip-set selectable label='Trip type' value='city'>
+            <wc-chip value='beach'>Beach</wc-chip>
+            <wc-chip value='city'>City</wc-chip>
+            <wc-chip value='mountains'>Mountains</wc-chip>
+          </wc-chip-set>
           <wc-switch label='Price alerts' value='true'></wc-switch>
-          <div class='text-label-medium preview-muted'>Budget</div>
           <wc-slider value='60' aria-label='Budget'></wc-slider>
-          <wc-button variant='filled' class='preview-full'>Search</wc-button>
+          <wc-button variant='filled'>Search</wc-button>
         </wc-card-content>
       </wc-card>
 
       <wc-card variant='filled'>
         <wc-card-content class='preview-card'>
-          <div class='text-title-medium'>Upcoming</div>
-          <wc-list>
-            <wc-list-item>
-              <wc-avatar slot='start' name='Lisbon'></wc-avatar>
-              Lisbon · 12 – 18 May
-            </wc-list-item>
-            <wc-list-item>
-              <wc-avatar slot='start' name='Kyoto'></wc-avatar>
-              Kyoto · 2 – 14 Jun
-            </wc-list-item>
-          </wc-list>
-          <div class='preview-row'>
-            <wc-chip selected>Beach</wc-chip>
-            <wc-chip>City</wc-chip>
-            <wc-chip>Mountains</wc-chip>
+          <div class='preview-card-header'>
+            <span class='text-title-medium'>Lisbon itinerary</span>
+            <wc-tag size='sm' variant='tonal' intent='success'>Confirmed</wc-tag>
           </div>
+          <wc-timeline>
+            <wc-timeline-item>
+              <span>Flight TP 1351</span>
+              <span slot='content' class='text-body-small preview-muted'>Mon 12 May · 09:40</span>
+              <wc-icon slot='dot' name='flight_takeoff'></wc-icon>
+            </wc-timeline-item>
+            <wc-timeline-item>
+              <span>Check in at Casa Alfama</span>
+              <span slot='content' class='text-body-small preview-muted'>Mon 12 May · 15:00</span>
+              <wc-icon slot='dot' name='hotel'></wc-icon>
+            </wc-timeline-item>
+            <wc-timeline-item>
+              <span>Sintra day trip</span>
+              <span slot='content' class='text-body-small preview-muted'>Wed 14 May</span>
+              <wc-icon slot='dot' name='hiking'></wc-icon>
+            </wc-timeline-item>
+          </wc-timeline>
           <div class='text-label-medium preview-muted'>Trip planned</div>
-          <wc-linear-progress value='70'></wc-linear-progress>
+          <wc-linear-progress value='70' aria-label='Trip planned'></wc-linear-progress>
         </wc-card-content>
       </wc-card>
 
@@ -103,12 +137,56 @@ const roles = [
           <div class='text-title-medium'>Seat class</div>
           <wc-radio name={`${id}-class`} value='economy' label='Economy' checked></wc-radio>
           <wc-radio name={`${id}-class`} value='premium' label='Premium economy'></wc-radio>
-          <wc-radio name={`${id}-class`} value='business' label='Business'></wc-radio>
-          <wc-alert intent='success' description='Seats are confirmed.'></wc-alert>
+          <wc-checkbox value='true'>Extra legroom</wc-checkbox>
+          <wc-alert intent='success' description='Seats 14A and 14B are confirmed.'></wc-alert>
+          <wc-alert intent='warning' description='Check-in closes in 3 hours.'></wc-alert>
           <wc-alert intent='danger' description='Payment failed. Try another card.'></wc-alert>
         </wc-card-content>
       </wc-card>
     </div>
+
+    <div class='preview-split'>
+      <wc-card variant='outlined'>
+        <wc-card-content class='preview-card'>
+          <div class='text-title-medium'>Bookings by month</div>
+          <wc-chart-bar data-tp='chart' category-key='month' height='200' label='Bookings by month'></wc-chart-bar>
+        </wc-card-content>
+      </wc-card>
+      <wc-card variant='outlined'>
+        <wc-card-content class='preview-card'>
+          <div class='text-title-medium'>Booking services</div>
+          <!-- Diagrams pan on wheel and touch; here they are static samples, so the page scrolls over them. -->
+          <wc-dependency-map data-tp='map' layout='layered' hide-legend class='preview-diagram'></wc-dependency-map>
+        </wc-card-content>
+      </wc-card>
+    </div>
+
+    <wc-card variant='outlined'>
+      <wc-card-content class='preview-card'>
+        <div class='text-title-medium'>Refund workflow</div>
+        <wc-workflow data-tp='workflow' direction='horizontal' density='compact' class='preview-diagram'></wc-workflow>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='outlined'>
+      <wc-card-content class='preview-card'>
+        <div class='text-title-medium'>Recent bookings</div>
+        <div class='preview-table'>
+          <wc-table data-tp='table' key-field='id' density='compact' label='Recent bookings'></wc-table>
+        </div>
+      </wc-card-content>
+    </wc-card>
+
+    <section class='preview-section'>
+      <div class='text-title-medium'>Elevation</div>
+      <div class='preview-elevation'>
+        {elevationLevels.map(level => (
+          <div class='preview-level' style={`box-shadow: var(--elevation-level${level});`}>
+            <span class='text-label-medium'>Level {level}</span>
+          </div>
+        ))}
+      </div>
+    </section>
 
     <section class='preview-section'>
       <div class='text-title-medium'>Color roles</div>
@@ -126,7 +204,7 @@ const roles = [
       <div class='text-title-medium'>Tonal palettes</div>
       {paletteNames.map(palette => (
         <div class='preview-palette'>
-          <span class='text-label-medium preview-palette-name'>{palette}</span>
+          <span class='text-label-medium'>{palette}</span>
           <div class='preview-tones'>
             {tones.map(tone => (
               <span
@@ -150,3 +228,109 @@ const roles = [
     </section>
   </div>
 </div>
+
+<script>
+  // Sample data for the previews. Bundled once however many previews the
+  // page renders; each preview gets its own copy of the data.
+  type Row = Record<string, string | number>;
+
+  const travellers = ['1', '2', '3', '4+'].map(value => ({
+    value,
+    label: `${value} adult${value === '1' ? '' : 's'}`,
+  }));
+
+  const chartData: Row[] = [
+    { month: 'Jan', flights: 186, stays: 120 },
+    { month: 'Feb', flights: 305, stays: 200 },
+    { month: 'Mar', flights: 237, stays: 160 },
+    { month: 'Apr', flights: 273, stays: 190 },
+    { month: 'May', flights: 340, stays: 260 },
+  ];
+
+  const statusTag: Record<string, string> = { Paid: 'success', Pending: 'warning', Failed: 'danger' };
+  const tableColumns = [
+    { name: 'traveller', label: 'Traveller', width: 10 },
+    { name: 'trip', label: 'Trip', width: 6 },
+    { name: 'dates', label: 'Dates', width: 8 },
+    {
+      name: 'status',
+      label: 'Status',
+      width: 6,
+      template: (row: Row) =>
+        `<wc-tag size='sm' variant='tonal' intent='${statusTag[row.status as string]}'>${row.status}</wc-tag>`,
+    },
+    { name: 'amount', label: 'Amount', width: 6, type: 'number' },
+  ];
+  const tableData: Row[] = [
+    { id: 1, traveller: 'Ada Lovelace', trip: 'Lisbon', dates: '12 – 18 May', status: 'Paid', amount: 1240 },
+    { id: 2, traveller: 'Alan Turing', trip: 'Kyoto', dates: '2 – 14 Jun', status: 'Pending', amount: 3180 },
+    { id: 3, traveller: 'Grace Hopper', trip: 'Oslo', dates: '20 – 23 Jun', status: 'Failed', amount: 860 },
+    { id: 4, traveller: 'Katherine Johnson', trip: 'Porto', dates: '1 – 6 Jul', status: 'Paid', amount: 990 },
+  ];
+
+  const workflow = {
+    trigger: { id: 'request', type: 'action', headline: 'Refund requested', icon: 'bolt' },
+    steps: [
+      {
+        id: 'amount',
+        type: 'branch',
+        headline: 'Amount check',
+        icon: 'call_split',
+        paths: [
+          {
+            id: 'large',
+            label: 'Over €500',
+            steps: [{ id: 'approve', type: 'action', headline: 'Manager approval', icon: 'how_to_reg', accent: 'purple' }],
+          },
+          {
+            id: 'small',
+            label: 'Otherwise',
+            isDefault: true,
+            steps: [
+              { id: 'agent', type: 'action', headline: 'Draft reply', supportingText: 'AI agent', icon: 'smart_toy', accent: 'tertiary' },
+            ],
+          },
+        ],
+      },
+      { id: 'done', type: 'end', headline: 'Refunded' },
+    ],
+  };
+
+  const mapNodes = [
+    { id: 'web', type: 'Service', headline: 'web', icon: 'deployed_code', status: 'healthy' },
+    { id: 'search', type: 'Service', headline: 'search', icon: 'deployed_code', status: 'healthy' },
+    { id: 'pay', type: 'Service', headline: 'payments', icon: 'deployed_code', status: 'degraded' },
+    { id: 'db', type: 'Database', headline: 'trips', icon: 'database', status: 'healthy' },
+    { id: 'ledger', type: 'Database', headline: 'ledger', icon: 'database', status: 'down' },
+  ];
+  const mapEdges = [
+    { id: 'e1', source: 'web', target: 'search', metrics: { rps: 900, latencyMs: 40 } },
+    { id: 'e2', source: 'web', target: 'pay', metrics: { rps: 120, latencyMs: 520, errorRate: 0.04 } },
+    { id: 'e3', source: 'search', target: 'db', metrics: { rps: 900, latencyMs: 12 } },
+    { id: 'e4', source: 'pay', target: 'ledger', metrics: { rps: 120, latencyMs: 300, errorRate: 0.12 } },
+  ];
+
+  // Properties set before an element upgrades are picked up when it does.
+  const set = (selector: string, props: Record<string, unknown>) => {
+    for (const element of document.querySelectorAll(`.theme-preview ${selector}`)) {
+      Object.assign(element, structuredClone(props));
+    }
+  };
+
+  set('.preview-travellers', { options: travellers });
+  set('[data-tp="chart"]', { config: { flights: { label: 'Flights' }, stays: { label: 'Stays' } }, data: chartData });
+  set('[data-tp="workflow"]', { value: workflow });
+  set('[data-tp="map"]', { nodes: mapNodes, edges: mapEdges });
+  for (const table of document.querySelectorAll<HTMLElement & { columns: unknown; data: unknown }>(
+    '.theme-preview [data-tp="table"]',
+  )) {
+    table.columns = tableColumns; // Holds template functions, so it isn't cloned.
+    table.data = structuredClone(tableData);
+  }
+
+  customElements.whenDefined('wc-input').then(() => {
+    set('[data-tp="suggested"]', {
+      suggestion: { value: 'Sun 18 May', reason: 'Most travellers stay six nights in Lisbon.' },
+    });
+  });
+</script>

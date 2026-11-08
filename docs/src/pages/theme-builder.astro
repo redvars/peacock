@@ -14,7 +14,7 @@ const customColors = [
 
 <Layout
   title='Theme builder'
-  description='Pick a primary color, scheme, contrast, corner shape and fonts, preview them on a sample page, and copy the full Peacock token CSS.'
+  description='Build a Peacock theme: pick color, contrast, shape and fonts, preview it live on fields, charts, tables, AI insights and diagrams, then copy the token CSS.'
   keywords='theme builder, material 3, design tokens, color scheme, css variables'
 >
   <!-- The generated tokens, declared on .theme-preview only. -->
@@ -25,72 +25,89 @@ const customColors = [
     <header class='tb-header'>
       <h1 class='text-display-small'>Theme builder</h1>
       <p class='text-body-large tb-muted'>
-        Pick your global theme settings, check them on a sample page, then copy the complete token CSS. The
+        Pick your global theme settings, check them live on Peacock components, then copy the complete token CSS. The
         palettes come from Material 3 color science, so every role meets its contrast pairing. The
         <wc-link href='/foundations/'>Foundations</wc-link> pages explain each token, from
         <wc-link href='/foundations/color/'>color roles</wc-link> to <wc-link href='/foundations/shape/'>shape</wc-link>.
       </p>
     </header>
 
-    <aside class='tb-controls' aria-label='Theme settings'>
-      <section class='tb-group'>
-        <h2 class='text-title-medium'>Colors</h2>
+    <aside class='tb-controls' id='tb-controls' aria-labelledby='tb-controls-title'>
+      <div class='tb-controls-header'>
+        <h2 class='text-title-medium' id='tb-controls-title'>Theme settings</h2>
+        <wc-icon-button id='reset-theme' variant='text' shape='round' tooltip='Reset to default' aria-label='Reset to default'>
+          <wc-icon name='restart_alt'></wc-icon>
+        </wc-icon-button>
+      </div>
 
-        <div class='tb-field'>
-          <span class='text-label-large'>Primary</span>
-          <wc-color-picker id='primary-picker' value='#7c5df0' aria-label='Primary color'></wc-color-picker>
-        </div>
+      <wc-tab-group class='tb-controls-body'>
+        <wc-tabs aria-label='Theme settings' variant='secondary' class='tb-controls-tabs'>
+          <wc-tab selected>Color</wc-tab>
+          <wc-tab>Style</wc-tab>
+        </wc-tabs>
 
-        {customColors.map(({ key, label }) => (
-          <div class='tb-field tb-custom-color' data-key={key}>
-            <div class='tb-custom-color-header'>
-              <span class='tb-swatch' data-swatch={key} aria-hidden='true'></span>
-              <wc-switch class='tb-custom-switch' data-key={key} label={`Custom ${label.toLowerCase()}`}></wc-switch>
-            </div>
-            <span class='text-body-small tb-muted tb-derived-note' data-note={key}>Derived from primary</span>
-            <wc-color-picker class='tb-custom-picker' data-key={key} hidden></wc-color-picker>
+        <wc-tab-panel>
+          <div class='tb-panel'>
+          <section class='tb-group' aria-labelledby='tb-primary-label'>
+            <span class='text-label-large' id='tb-primary-label'>Primary</span>
+            <wc-color-picker id='primary-picker' value='#7c5df0' aria-label='Primary color'></wc-color-picker>
+          </section>
+
+          <section class='tb-group' aria-labelledby='tb-accents-label' aria-describedby='tb-accents-note'>
+            <span class='text-label-large' id='tb-accents-label'>Accents and neutral</span>
+            <span class='text-body-small tb-muted' id='tb-accents-note'>Derived from primary unless you set your own.</span>
+            {customColors.map(({ key, label }) => (
+              <div class='tb-custom-color' data-key={key}>
+                <div class='tb-custom-color-row'>
+                  <span class='tb-swatch' data-swatch={key} aria-hidden='true'></span>
+                  <wc-switch class='tb-custom-switch' data-key={key} label={`Custom ${label.toLowerCase()}`}></wc-switch>
+                </div>
+                <wc-color-field class='tb-custom-field' data-key={key} label={`${label} color`} hidden></wc-color-field>
+              </div>
+            ))}
+          </section>
           </div>
-        ))}
-      </section>
+        </wc-tab-panel>
 
-      <section class='tb-group'>
-        <h2 class='text-title-medium'>Scheme</h2>
-        <wc-select id='variant-select' label='Variant'></wc-select>
-        <span class='text-label-large' id='contrast-label'>Contrast</span>
-        <div class='tb-choices' id='contrast-choices' role='group' aria-labelledby='contrast-label'></div>
-      </section>
+        <wc-tab-panel>
+          <div class='tb-panel'>
+          <section class='tb-group' aria-labelledby='tb-scheme-label'>
+            <span class='text-label-large' id='tb-scheme-label'>Scheme</span>
+            <wc-select id='variant-select' label='Variant'></wc-select>
+            <span class='text-body-small tb-muted' id='contrast-label'>Contrast</span>
+            <div class='tb-choices' id='contrast-choices' role='group' aria-labelledby='contrast-label'></div>
+          </section>
 
-      <section class='tb-group'>
-        <h2 class='text-title-medium' id='shape-label'>Shape</h2>
-        <div class='tb-choices' id='shape-choices' role='group' aria-labelledby='shape-label'></div>
-      </section>
+          <section class='tb-group' aria-labelledby='shape-label'>
+            <span class='text-label-large' id='shape-label'>Corner shape</span>
+            <div class='tb-choices' id='shape-choices' role='group' aria-labelledby='shape-label'></div>
+          </section>
 
-      <section class='tb-group'>
-        <h2 class='text-title-medium'>Typography</h2>
-        <wc-select id='brand-font-select' label='Brand font (display, headline, title)'></wc-select>
-        <wc-select id='plain-font-select' label='Plain font (body, label)'></wc-select>
-      </section>
+          <section class='tb-group' aria-labelledby='tb-type-label'>
+            <span class='text-label-large' id='tb-type-label'>Typography</span>
+            <wc-select id='brand-font-select' label='Brand font (display, headline, title)'></wc-select>
+            <wc-select id='plain-font-select' label='Plain font (body, label)'></wc-select>
+          </section>
+          </div>
+        </wc-tab-panel>
+      </wc-tab-group>
 
-      <section class='tb-group'>
-        <h2 class='text-title-medium'>Actions</h2>
-        <div class='tb-actions'>
-          <wc-button id='download-css' variant='filled'>
-            <wc-icon slot='icon' name='download'></wc-icon>
-            Download tokens.css
-          </wc-button>
-          <wc-button id='copy-link' variant='outlined'>
-            <wc-icon slot='icon' name='link'></wc-icon>
-            Copy share link
-          </wc-button>
-          <wc-button id='reset-theme' variant='text'>Reset</wc-button>
-        </div>
-      </section>
+      <div class='tb-controls-footer'>
+        <wc-button id='download-css' variant='filled' size='sm'>
+          <wc-icon slot='icon' name='download'></wc-icon>
+          Download CSS
+        </wc-button>
+        <wc-button id='copy-link' variant='outlined' size='sm'>
+          <wc-icon slot='icon' name='link'></wc-icon>
+          Copy link
+        </wc-button>
+      </div>
     </aside>
 
-    <main class='tb-main'>
+    <main class='tb-main' aria-labelledby='tb-preview-title'>
       <div class='tb-toolbar'>
-        <h2 class='text-title-large'>Preview</h2>
-        <wc-segmented-button-group id='preview-mode'>
+        <h2 class='text-title-large' id='tb-preview-title'>Preview</h2>
+        <wc-segmented-button-group id='preview-mode' aria-label='Preview mode'>
           <wc-segmented-button value='light' icon='light_mode' selected>Light</wc-segmented-button>
           <wc-segmented-button value='dark' icon='dark_mode'>Dark</wc-segmented-button>
           <wc-segmented-button value='both' icon='splitscreen_right'>Both</wc-segmented-button>
@@ -115,6 +132,11 @@ const customColors = [
         <wc-code-editor id='theme-code' language='css' readonly></wc-code-editor>
       </section>
     </main>
+
+    <!-- Phones: the settings sit above the preview; this brings them back. -->
+    <wc-fab id='tb-jump' class='tb-jump' variant='filled' label='Theme settings' hidden>
+      <wc-icon name='tune'></wc-icon>
+    </wc-fab>
   </div>
 
   <script is:inline define:vars={{ engineUrl }}>
@@ -126,7 +148,7 @@ const customColors = [
 
       const engine = await import(engineUrl);
       await Promise.all(
-        ['wc-color-picker', 'wc-select', 'wc-switch', 'wc-chip'].map(tag =>
+        ['wc-color-picker', 'wc-color-field', 'wc-select', 'wc-switch', 'wc-chip'].map(tag =>
           customElements.whenDefined(tag),
         ),
       );
@@ -218,11 +240,14 @@ const customColors = [
         });
       }
 
+      function derivedColor(key) {
+        const tone = key === 'neutral' ? 50 : 40;
+        return theme.palettes[key].find(([t]) => t === tone)?.[1];
+      }
+
       function updateSwatches() {
-        const swatchTone = { secondary: 40, tertiary: 40, neutral: 50 };
         for (const key of CUSTOM_KEYS) {
-          const tone = theme.palettes[key].find(([t]) => t === swatchTone[key]);
-          $(`[data-swatch="${key}"]`).style.background = config[key] ?? tone?.[1];
+          $(`[data-swatch="${key}"]`).style.background = config[key] ?? derivedColor(key);
         }
       }
 
@@ -257,6 +282,12 @@ const customColors = [
         return glyph;
       }
 
+      function showCustom(key, custom) {
+        const field = $(`.tb-custom-field[data-key="${key}"]`);
+        field.hidden = !custom;
+        if (custom) field.value = config[key];
+      }
+
       function syncControls() {
         primaryPicker.value = config.primary;
         variantSelect.value = config.variant;
@@ -265,12 +296,8 @@ const customColors = [
         selectChoice(contrastChoices, config.contrast);
         selectChoice(shapeChoices, config.shape);
         for (const key of CUSTOM_KEYS) {
-          const custom = Boolean(config[key]);
-          $(`.tb-custom-switch[data-key="${key}"]`).value = custom;
-          const picker = $(`.tb-custom-picker[data-key="${key}"]`);
-          picker.hidden = !custom;
-          if (custom) picker.value = config[key];
-          $(`[data-note="${key}"]`).hidden = custom;
+          $(`.tb-custom-switch[data-key="${key}"]`).value = Boolean(config[key]);
+          showCustom(key, Boolean(config[key]));
         }
       }
 
@@ -293,9 +320,6 @@ const customColors = [
         },
         cornerGlyph,
       );
-      $$('.preview-travellers').forEach(select => {
-        select.options = ['1', '2', '3', '4+'].map(value => ({ value, label: `${value} adult${value === '1' ? '' : 's'}` }));
-      });
 
       primaryPicker.addEventListener('input', event => {
         if (!event.detail?.value) return;
@@ -308,29 +332,26 @@ const customColors = [
         toggle.addEventListener('change', event => {
           if (event.target !== toggle) return;
           const key = toggle.dataset.key;
-          const picker = $(`.tb-custom-picker[data-key="${key}"]`);
           if (toggle.value) {
-            const derived = $(`[data-swatch="${key}"]`).style.background;
-            const start = theme.palettes[key].find(([tone]) => tone === (key === 'neutral' ? 50 : 40))?.[1];
-            config = { ...config, [key]: start ?? derived };
-            picker.value = config[key];
+            config = { ...config, [key]: derivedColor(key) ?? config.primary };
           } else {
             const { [key]: _removed, ...rest } = config;
             config = rest;
           }
-          picker.hidden = !toggle.value;
-          $(`[data-note="${key}"]`).hidden = toggle.value;
+          showCustom(key, Boolean(toggle.value));
           scheduleRebuild();
         });
       });
 
-      $$('.tb-custom-picker').forEach(picker => {
-        picker.addEventListener('input', event => {
-          if (!event.detail?.value) return;
-          config = { ...config, [picker.dataset.key]: event.detail.value };
+      $$('.tb-custom-field').forEach(field => {
+        const update = event => {
+          if (event.target !== field || !event.detail?.value) return;
+          config = { ...config, [field.dataset.key]: event.detail.value };
           previewPalettes();
           scheduleRebuild();
-        });
+        };
+        field.addEventListener('input', update);
+        field.addEventListener('change', update);
       });
 
       variantSelect.addEventListener('change', event => {
@@ -350,7 +371,17 @@ const customColors = [
       $('#preview-mode').addEventListener('change', event => {
         if (event.target.id !== 'preview-mode' || !event.detail.value) return;
         $('.tb-previews').dataset.mode = event.detail.value;
+        // Diagrams laid out while hidden go back to their start view at their new size.
+        requestAnimationFrame(() => $$('.theme-preview .preview-diagram').forEach(diagram => diagram.home?.()));
       });
+
+      // Phones: once the settings scroll out of view, a button brings them back.
+      const controls = $('#tb-controls');
+      const jump = $('#tb-jump');
+      jump.addEventListener('click', () => controls.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      new IntersectionObserver(([entry]) => {
+        jump.hidden = entry.isIntersecting || entry.boundingClientRect.top > 0;
+      }).observe(controls);
 
       // ── Actions
 
