@@ -2,6 +2,18 @@
 
 Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](docs/adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
 
+## New in 4.1
+
+4.1 adds components and changes nothing you must migrate: `npm install @redvars/peacock@4.1`, or change the CDN URLs to `@4.1.0`.
+
+- **Diagrams,** on one shared infinite canvas with `wc-diagram-controls` (zoom, fit, back to start, undo) and `wc-diagram-minimap`:
+  - `wc-workflow` builds business rules and processes from structured steps (branches that merge back, parallel paths, loops, waits, error paths, ends) with rich step cards, a step palette, drag-to-move, undo and an accessible tree. Its `debug` and `history` modes show a run from your engine (status per step, the path taken, breakpoints, a debug bar, loop iterations), and `wc-workflow-timeline` shows the run's timeline.
+  - `wc-tree-chart` lays out org charts and other hierarchies as tidy trees (compact teams, lazy children, search, drag to reparent).
+  - `wc-dependency-map` explores service meshes and asset relationships (force, layered and radial layouts, collapsible groups, health rings, traffic-weighted edges, upstream and downstream impact, focus on a node's neighbourhood).
+  - `wc-erd` draws entity-relationship diagrams (column rows joined by crow's-foot relations, automatic layout, collapsible tables, schema filter) and, with `editable`, designs schemas (rename, add and remove columns, drag a column onto another to relate them, undo).
+- **`wc-flow` is now `wc-diagram`,** an infinite canvas with an editor (`editable`: connect, marquee, multi-select, alignment guides, delete, copy and paste, undo). `wc-flow`, the `Flow*` types and the `--flow-*` custom properties keep working until 5.0; see [wc-flow → wc-diagram](#wc-flow--wc-diagram-41).
+- **Fields:** the `outlined` variant of `wc-field` and the text fields is the Material 3 outlined text field, with its label floating into a notch in the outline. Checkbox, switch and radio toggle when clicked through an external `<label for>` or a wrapping `<label>`.
+
 ## How to upgrade
 
 1. Update the package: `npm install @redvars/peacock@4`, or change the CDN URLs from `@3.x` to `@4.0.0`.
@@ -260,7 +272,7 @@ Rebuilt on Tiptap 3 and the shared rich-text core; the value is still Markdown.
 ### wc-chart-pie
 - `inner-radius` → use `wc-chart-doughnut`, which owns `inner-radius` and the centre label. A pie no longer draws a hole.
 
-### wc-flow → wc-diagram
+### wc-flow → wc-diagram (4.1)
 - **Renamed:** `wc-flow` is now `wc-diagram` (class `Diagram`, entry `diagram.js`). `wc-flow` keeps working as a deprecated alias with a console warning until 5.0, but only `wc-diagram` gets React, Vue and Angular wrappers, so framework users switch to the `Diagram` component.
 - **Types:** the `Flow*` types are now `Diagram*`: `DiagramNode`, `DiagramEdge`, `DiagramPort`, `DiagramIntent`, `DiagramStrokeVariant`, `DiagramHandlePosition`, `DiagramEdgeType`, `DiagramMarker`, `DiagramConnector`, `DiagramStartPosition`, `DiagramView`, `DiagramPoint` and the event details `DiagramNodeMoveDetail`, `DiagramSelectDetail`, `DiagramConnectDetail`, `DiagramChangeDetail`, `DiagramChangeReason`, `DiagramDeleteDetail`, `DiagramViewportDetail`. The `Flow*` names stay as deprecated aliases until 5.0.
 - **Custom properties:** `--flow-*` → `--diagram-*` (`--diagram-background`, `--diagram-dot-color`, `--diagram-line-color`, `--diagram-hover-color`, `--diagram-port-size`, `--diagram-node-background`, `--diagram-node-border`, `--diagram-node-shadow`, `--diagram-node-active-shadow`). The old names are still read as fallbacks until 5.0.
@@ -280,7 +292,6 @@ These components are new, so there is nothing to migrate. The [README](readme.md
 - **Layout and navigation:** `wc-app-shell`, `wc-page-header`, `wc-stack`, `wc-grid`, `wc-resizable-panels`, `wc-scroll-area`, `wc-stepper`, `wc-anchor-nav`, `wc-command-palette`, `wc-workspace-switcher`, `wc-user-menu`, `wc-link-button`, `wc-copy-button`.
 - **Data:** table column resize, reorder, show/hide, multi-sort, column groups, row details, inline editing, grouping, totals, virtual scrolling and CSV export; `wc-filter-bar`, `wc-description-list`, `wc-stat`, `wc-sparkline`, `wc-virtual-list`, `wc-kanban`, `wc-json-viewer`, `wc-diff-viewer`.
 - **Feedback and overlays:** `wc-confirm-dialog`, `wc-banner`, `wc-notification-center`, `wc-tour`, `wc-hover-card`, `wc-illustration` (illustrations for empty, error and success screens), `wc-redvars-loader` (the Redvars r as a loading indicator).
-- **Diagrams:** `wc-workflow` builds business rules and processes from structured steps (branches that merge back, parallel paths, loops, waits, error paths, ends) with rich step cards, a step palette, drag-to-move, undo and an accessible tree. Its `debug` and `history` modes show a run from your engine (status per step, the path taken, breakpoints, a debug bar, loop iterations), and `wc-workflow-timeline` shows the run's timeline. `wc-tree-chart` lays out org charts and other hierarchies as tidy trees (compact teams, lazy children, search, drag to reparent). `wc-dependency-map` explores service meshes and asset relationships (force, layered and radial layouts, collapsible groups, health rings, traffic-weighted edges, upstream and downstream impact, focus on a node's neighbourhood). `wc-erd` draws entity-relationship diagrams (column rows joined by crow's-foot relations, automatic layout, collapsible tables, schema filter) and, with `editable`, designs schemas (rename, add and remove columns, drag a column onto another to relate them, undo). `wc-diagram` (called `wc-flow` before 4.0) is an infinite canvas with an editor (`editable`: connect, marquee, multi-select, alignment guides, delete, copy and paste, undo), plus `wc-diagram-controls` (zoom, fit, back to start, undo) and `wc-diagram-minimap`.
 - **People and status:** `wc-avatar-group`, `wc-presence-indicator`, `wc-status-indicator`, `wc-relative-time`, `wc-kbd`.
 - **Rich text:** `wc-markdown`, which shows Markdown safely (raw HTML stays text, unsafe links are not followed) with mention chips, plus `extractMentions()` to find who a value mentions. The editors are built on Tiptap 3.
 - **Discussion:** `wc-discussion` with `wc-discussion-comment` (Markdown comments, one level of replies, inline reply and edit) and `wc-discussion-activity` (field and status changes between the comments), and `wc-comment-composer`, a rich-text comment box with mentions that sends with Ctrl+Enter. They replace the `wc-comment-thread` and `wc-comment` of the 4.0 previews.
