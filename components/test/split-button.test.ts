@@ -8,6 +8,15 @@ import { IconButton } from '../src/button/icon-button/icon-button.js';
 import { Item } from '../src/item/index.js';
 import { Menu, MenuItem } from '../src/menu/index.js';
 import { SplitButton } from '../src/split-button/index.js';
+import { resetWarnOnce } from '../src/__internal/utils/warn-once.js';
+
+if (!customElements.get('wc-button')) {
+  customElements.define('wc-button', Button);
+}
+
+if (!customElements.get('wc-icon-button')) {
+  customElements.define('wc-icon-button', IconButton);
+}
 
 if (!customElements.get('wc-button')) {
   customElements.define('wc-button', Button);
@@ -33,20 +42,24 @@ if (!customElements.get('wc-split-button')) {
   customElements.define('wc-split-button', SplitButton);
 }
 
-type AriaTrigger = HTMLElement & { configAria: Record<string, string> };
-
 function parts(el: SplitButton) {
   const root = el.shadowRoot!;
   const actionEl = root.querySelector<HTMLElement>('.action-button')!;
-  const triggerEl = root.querySelector<AriaTrigger>('.dropdown-trigger')!;
+  const triggerEl = root.querySelector<IconButton>('.dropdown-trigger')!;
   const menu = root.querySelector<Menu>('wc-menu')!;
   return { actionEl, triggerEl, menu };
+}
+
+/** The native `<button>` inside the menu trigger's shadow root, which carries the ARIA. */
+function nativeTrigger(el: SplitButton) {
+  return parts(el).triggerEl.shadowRoot!.querySelector('button')!;
 }
 
 async function settle(el: SplitButton) {
   await el.updateComplete;
   await parts(el).menu.updateComplete;
   await el.updateComplete;
+  await parts(el).triggerEl.updateComplete;
 }
 
 describe('SplitButton', () => {
@@ -63,14 +76,42 @@ describe('SplitButton', () => {
     await settle(el);
     expect(menu.open).to.be.true;
     expect(menu.anchorElement).to.equal(el);
-    expect(triggerEl.configAria['aria-expanded']).to.equal('true');
-    expect(triggerEl.configAria['aria-controls']).to.equal(menu.id);
-    expect(triggerEl.configAria['aria-label']).to.be.a('string').and.not.empty;
+    expect(nativeTrigger(el).getAttribute('aria-expanded')).to.equal('true');
 
     triggerEl.click();
     await settle(el);
     expect(menu.open).to.be.false;
-    expect(triggerEl.configAria['aria-expanded']).to.equal('false');
+    expect(nativeTrigger(el).getAttribute('aria-expanded')).to.equal('false');
+  });
+
+  it('names the menu trigger and marks it as opening a menu', async () => {
+    resetWarnOnce();
+    const warnings: string[] = [];
+    const original = console.warn;
+    console.warn = (message: string) => {
+      warnings.push(message);
+    };
+    try {
+      const el = await fixture<SplitButton>(html`
+        <wc-split-button>
+          Save
+          <wc-menu-item slot="menu">Draft</wc-menu-item>
+        </wc-split-button>
+      `);
+      await settle(el);
+      const button = nativeTrigger(el);
+
+      expect(button.getAttribute('aria-label')).to.be.a('string').and.not.empty;
+      expect(button.getAttribute('aria-haspopup')).to.equal('menu');
+      expect(button.getAttribute('aria-expanded')).to.equal('false');
+      // The menu lives in the split button's shadow root, out of reach of an ID reference.
+      expect(button.hasAttribute('aria-controls')).to.be.false;
+      expect(
+        warnings.filter(message => message.includes('no accessible name')),
+      ).to.deep.equal([]);
+    } finally {
+      console.warn = original;
+    }
   });
 
   it('opens on the first item with Arrow Down and the last with Arrow Up', async () => {

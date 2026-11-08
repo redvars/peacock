@@ -1,9 +1,14 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
+import { Button } from '../src/button/button/button.js';
 import { Item } from '../src/item/index.js';
 import { Menu, MenuItem } from '../src/menu/index.js';
 import { DropdownButton } from '../src/dropdown-button/index.js';
+
+if (!customElements.get('wc-button')) {
+  customElements.define('wc-button', Button);
+}
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);
@@ -22,15 +27,20 @@ if (!customElements.get('wc-dropdown-button')) {
 }
 
 function parts(el: DropdownButton) {
-  const triggerEl =
-    el.shadowRoot!.querySelector<HTMLElement>('.trigger-button')!;
+  const triggerEl = el.shadowRoot!.querySelector<Button>('.trigger-button')!;
   const menu = el.shadowRoot!.querySelector<Menu>('wc-menu')!;
   return { triggerEl, menu };
+}
+
+/** The native `<button>` inside the trigger's shadow root, which carries the ARIA. */
+function nativeTrigger(el: DropdownButton) {
+  return parts(el).triggerEl.shadowRoot!.querySelector('button')!;
 }
 
 async function settle(el: DropdownButton) {
   await el.updateComplete;
   await parts(el).menu.updateComplete;
+  await parts(el).triggerEl.updateComplete;
 }
 
 describe('DropdownButton', () => {
@@ -99,7 +109,7 @@ describe('DropdownButton', () => {
         <wc-menu-item slot="menu">Edit</wc-menu-item>
       </wc-dropdown-button>
     `);
-    const { triggerEl, menu } = parts(el);
+    const { triggerEl } = parts(el);
     const seen: string[] = [];
     const record = (event: Event) => {
       const { reason } =
@@ -109,24 +119,25 @@ describe('DropdownButton', () => {
     };
     document.addEventListener('open', record);
     document.addEventListener('close', record);
-    const aria = () =>
-      (triggerEl as HTMLElement & { configAria: Record<string, string> })
-        .configAria;
+    const aria = (name: string) => nativeTrigger(el).getAttribute(name);
 
-    expect(aria()['aria-expanded']).to.equal('false');
-    expect(aria()['aria-controls']).to.equal(menu.id);
-    expect(aria()['aria-haspopup']).to.equal('menu');
+    expect(aria('aria-expanded')).to.equal('false');
+    expect(aria('aria-haspopup')).to.equal('menu');
+    // The menu lives in the dropdown button's shadow root, out of reach of an ID reference.
+    expect(aria('aria-controls')).to.be.null;
 
     el.show();
     await settle(el);
     await el.updateComplete;
-    expect(aria()['aria-expanded']).to.equal('true');
+    await triggerEl.updateComplete;
+    expect(aria('aria-expanded')).to.equal('true');
     expect(triggerEl.classList.contains('active')).to.be.true;
 
     el.close();
     await settle(el);
     await el.updateComplete;
-    expect(aria()['aria-expanded']).to.equal('false');
+    await triggerEl.updateComplete;
+    expect(aria('aria-expanded')).to.equal('false');
     document.removeEventListener('open', record);
     document.removeEventListener('close', record);
     expect(seen).to.deep.equal(['open:host', 'close:host:api']);
