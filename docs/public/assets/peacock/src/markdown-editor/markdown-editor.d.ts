@@ -1,145 +1,71 @@
-import { type PropertyValues } from 'lit';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import BaseInput from '../input/BaseInput.js';
+import type { Editor } from '@tiptap/core';
+import RichTextInput, { type RichTextContent } from '../__internal/rich-text/rich-text-input.js';
 /**
  * @label Markdown Editor
  * @tag wc-markdown-editor
  * @rawTag markdown-editor
  *
- * @summary A block-based Markdown editor with a slash menu and a formatting toolbar, and a switch between rendered and raw Markdown.
+ * @summary A rich-text field whose value is Markdown: people format text as they type, and can view the Markdown source.
  * @overview
- * <p>The editor is built on Tiptap. Type <code>/</code> to open a slash menu for inserting
- * headings, lists, quotes, code blocks, and dividers. Select text to reveal
- * a floating bubble toolbar with inline formatting actions.</p>
+ * <p>Use it where a form needs more than a textarea, such as a description, notes or a release
+ * note. People edit formatted text directly; the value is Markdown, so it stores as plain text and
+ * shows the same way in <code>wc-markdown</code>.</p>
  *
- * <p>The canonical <code>value</code> is Markdown. Use the bottom segmented
- * switch to toggle between the rendered editor and the raw markdown source.
- * The component fires <code>input</code> with <code>{ value }</code> as the content changes
- * (after <code>debounce</code> milliseconds without typing) and <code>change</code> with
- * <code>{ value }</code> when focus leaves the editor after an edit. With
- * <code>required</code>, an empty editor blocks form submission.</p>
+ * <ul>
+ * <li><strong>Toolbar.</strong> Text style, bold, italic, strikethrough, inline code, link, lists,
+ * checklist, quote, code block, table, divider and mention. While the caret is in a table, a
+ * <em>Table</em> menu adds and removes rows and columns. <code>hide-toolbar</code> hides it.</li>
+ * <li><strong>Selection bubble.</strong> Selecting text shows the inline formats and link.</li>
+ * <li><strong>Slash menu.</strong> Typing <code>/</code> inserts a block; Markdown shortcuts such
+ * as <code>## </code>, <code>- </code> and <code>**bold**</code> work too.</li>
+ * <li><strong>Block handle.</strong> Hovering a block shows a handle to drag it and a + to insert
+ * one below.</li>
+ * <li><strong>View source.</strong> The last toolbar button shows the Markdown, editable, in
+ * <code>wc-code-editor</code>.</li>
+ * </ul>
  *
- * <p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on
- * <code>wc-code-editor</code>.</p>
+ * <p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by
+ * default) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting
+ * <code>suggestions</code>, and <code>suggestions-loading</code> while you look. A chosen mention is
+ * stored as <code>[@Ana Lima](mention:usr_142)</code> and fires <code>mention</code>. Set
+ * <code>triggers=""</code> to turn mentions off.</p>
  *
- * @cssprop --markdown-editor-min-height - Minimum height of the editable area. Defaults to 12rem.
- * @cssprop --markdown-editor-bubble-background - Background color of the selection bubble menu.
- * @cssprop --markdown-editor-slash-background - Background color of the slash command menu.
+ * <p>The editor is form-associated. It fires <code>input</code> with <code>{ value }</code> as the
+ * content changes (after <code>debounce</code> milliseconds without typing) and <code>change</code>
+ * when focus leaves after an edit. <code>required</code> blocks an empty submit, and
+ * <code>maxlength</code> limits the number of characters and shows a count.</p>
+ *
+ * <p><code>rows</code> sets the height of the empty editor in lines; it grows with the text, up to
+ * <code>max-rows</code> if set, and then scrolls.</p>
+ *
+ * @cssprop --rich-text-editor-background - Background behind the text.
+ * @cssprop --prose-link-color - Color of links.
+ * @cssprop --prose-mention-background - Background of mention chips.
+ * @cssprop --prose-mention-color - Text color of mention chips.
+ * @cssprop --prose-code-background - Background of inline code and code blocks.
+ * @cssprop --mention-list-width - Width of the mention suggestion list.
+ * @cssprop --mention-list-max-height - Maximum height of the mention suggestion list.
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the content changes, after `debounce` milliseconds without typing.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when focus leaves the editor after an edit.
+ * @fires {CustomEvent<{trigger: string, query: string}>} search - Dispatched as a mention is typed; answer with `suggestions`.
+ * @fires {CustomEvent<{mention: {id: string, label: string, trigger: string}, suggestion: MentionSuggestion}>} mention - Dispatched when a suggestion is inserted as a mention.
  *
  * @example
  * ```html
  * <wc-markdown-editor
- *   label="Notes"
- *   value="# Hello\n\nType a slash on a new line to insert blocks."
+ *   label="Description"
+ *   value="## Steps\n\n1. Open **billing**"
  * ></wc-markdown-editor>
  * ```
  * @tags input editor
  */
-export declare class MarkdownEditor extends BaseInput {
+export declare class MarkdownEditor extends RichTextInput {
     static styles: import("lit").CSSResultGroup[];
-    /** Current Markdown value of the editor. */
-    value: string;
-    /** Label displayed above the editor. */
-    label: string;
-    /** Placeholder text shown when the editor is empty. Defaults to Peacock's "Type '/' for commands…". */
-    placeholder: string;
-    /** Visual style of the wrapping field. */
-    variant: 'filled' | 'outlined' | 'default';
-    /** Size of the text: `sm` or `md`. */
-    size: 'sm' | 'md';
-    /** Helper text displayed below the editor. */
-    helperText: string;
-    /** Whether to show an error state. */
-    error: boolean;
-    /** Error message text. */
-    errorText: string;
-    /** Debounce in milliseconds for dispatching `input`. */
-    debounce: number;
-    /** Overrides Peacock's strings for this instance only. */
-    strings?: Partial<PeacockStrings>;
-    /** Whether the editor currently has focus. */
-    private _focused;
-    /** Current view mode: rendered editor or raw markdown. */
-    private _mode;
-    /** Whether the bubble toolbar is visible. */
-    private _bubbleOpen;
-    /** Whether the slash command menu is visible. */
-    private _slashOpen;
-    /** Filtered slash menu items. */
-    private _slashItems;
-    /** Currently highlighted slash menu index. */
-    private _slashIndex;
-    /** Whether the block handle panel is visible. */
-    private _blockHandleVisible;
-    private _editorEl?;
-    private _bubbleEl?;
-    private _slashEl?;
-    private _blockHandleEl?;
-    /** TipTap editor instance. */
-    private _editor?;
-    /** Debounce timer for the `input` event. */
-    private _inputTimeout?;
-    /** Whether focus is somewhere inside the editor. */
-    private _focusWithin;
-    /** The value when focus entered the editor; `change` fires on leaving when it differs. */
-    private _valueAtFocus;
-    /** Most recent slash-suggestion bounding rect (for popup placement). */
-    private _slashClientRect;
-    /** Slash-suggestion command callback to invoke on selection. */
-    private _slashCommand?;
-    /** ProseMirror doc position (inside-block) of the block under the handle. */
-    private _blockHandleNodePos;
-    /** Timer id for delayed hide of the block handle. */
-    private _blockHandleHideTimeout?;
-    /** Peacock's strings for the menus, handles, modes, tags and placeholder. */
-    private readonly i18n;
-    /** Reusable Turndown serializer instance. */
-    private _turndown;
-    constructor();
-    protected firstUpdated(): void;
-    disconnectedCallback(): void;
-    protected updated(changed: PropertyValues<this>): void;
-    focus(): void;
-    private static _normalizeMd;
-    private _markdownToHtml;
-    private _htmlToMarkdown;
-    /** The `placeholder`, or Peacock's default when it is empty. */
-    private _placeholderText;
-    private _destroyEditor;
-    private _initializeEditor;
-    private _focusEditorOnContainerClick;
-    private _buildSlashExtension;
-    private _positionSlashMenu;
-    private _onSlashItemClick;
-    private _buildBlockHandleExtension;
-    private _positionBlockHandle;
-    private _onBlockHandleMouseEnter;
-    private _onBlockHandleMouseLeave;
-    private _onInsertBlockClick;
-    private _onDragHandleMouseDown;
-    private _onDragHandleDragStart;
-    private _onDragHandleDragEnd;
-    private _updateBubbleMenu;
-    private _emitValue;
-    private _dispatchDebouncedInput;
-    /** Fires a pending debounced `input` now. */
-    private _flushInput;
-    private _onFocusIn;
-    private _onFocusOut;
-    /** Commits the value: `change` when it differs from the value when focus entered. */
-    private _commit;
-    private _stopEvent;
-    private _execCommand;
-    private _switchMode;
-    /** The source editor's `input`: take its value. */
-    private _handleSourceInput;
-    private _renderToolbarButton;
-    private _renderBubbleMenu;
-    private _renderSlashMenu;
-    private _renderBlockHandle;
-    private _renderReadonlyTag;
-    render(): import("lit-html").TemplateResult<1>;
+    protected readonly profile: "markdown";
+    protected readonly sourceLanguage: "markdown";
+    protected readonly sourceIcon = "markdown";
+    protected readFromEditor(editor: Editor): string;
+    protected contentFor(value: string): RichTextContent;
+    protected defaultPlaceholder(): string;
 }

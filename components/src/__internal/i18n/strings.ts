@@ -903,6 +903,207 @@ export const defaultStrings = {
   cancel: 'Cancel',
   /** Label of a confirm dialog's type-to-confirm field, for example "Type acme-prod to confirm". */
   typeToConfirm: (text: string): string => `Type ${text} to confirm`,
+
+  // ── Diagrams (flow, workflow, tree chart, ERD, dependency map) ──────────
+  /** Default accessible name of a diagram canvas. */
+  diagramLabel: 'Diagram',
+  /** Read with a diagram canvas, from `aria-describedby`. */
+  diagramInstructions:
+    'Drag the canvas or use the arrow keys to pan. Hold Ctrl or Command and scroll to zoom. Shift+1 fits all content, Home goes back to the start.',
+  diagramZoomIn: 'Zoom in',
+  diagramZoomOut: 'Zoom out',
+  diagramFit: 'Fit to content',
+  diagramZoomToSelection: 'Zoom to selection',
+  diagramBackToStart: 'Back to start',
+  diagramBackToContent: 'Back to content',
+  /** Accessible name of the zoom level button, for example "Zoom level, 80%". */
+  diagramZoomLevel: (percent: string): string => `Zoom level, ${percent}`,
+  diagramUndo: 'Undo',
+  diagramRedo: 'Redo',
+  diagramControls: 'Diagram controls',
+  diagramMinimap: 'Minimap',
+  /** Role description of a diagram node, read by screen readers instead of "group". */
+  diagramNode: 'node',
+  /** Accessible name of a connection, for example "Connection from Start to Review: approve". */
+  diagramEdgeLabel: (from: string, to: string, label?: string): string =>
+    `Connection from ${from} to ${to}${label ? `: ${label}` : ''}`,
+  /** Announced after a node moves, for example "Review moved to 120, 40". */
+  diagramMoved: (label: string, x: string, y: string): string =>
+    `${label} moved to ${x}, ${y}`,
+  /** Announced after a connection is made. */
+  diagramConnected: (from: string, to: string): string =>
+    `Connected ${from} to ${to}`,
+  /** Announced after nodes and connections are deleted. */
+  diagramDeleted: (count: number): string =>
+    count === 1 ? '1 item deleted' : `${count} items deleted`,
+  /** Announced after pasting, for example "3 items pasted". */
+  diagramPasted: (count: number): string =>
+    count === 1 ? '1 item pasted' : `${count} items pasted`,
+
+  // ── Workflow ─────────────────────────────────────────────────────────────
+  workflowLabel: 'Workflow',
+  workflowAddStep: 'Add step',
+  workflowAddTrigger: 'Add a trigger',
+  workflowSearchSteps: 'Search steps',
+  workflowNoSteps: 'No matching steps',
+  workflowOnError: 'On error',
+  workflowWaitForAll: 'Wait for all',
+  workflowEnd: 'End',
+  workflowMoreActions: 'More actions',
+  workflowDuplicate: 'Duplicate',
+  workflowDelete: 'Delete',
+  workflowCollapse: 'Collapse',
+  workflowExpand: 'Expand',
+  workflowOutputs: 'Outputs',
+  workflowTools: 'Tools',
+  workflowUntil: 'Until',
+  /** Summary of a collapsed branch or loop, for example "3 paths, 7 steps". */
+  workflowCollapsedSummary: (paths: number, steps: number): string =>
+    `${paths === 1 ? '1 path' : `${paths} paths`}, ${steps === 1 ? '1 step' : `${steps} steps`}`,
+  /** Label of the problems button, for example "2 problems". */
+  workflowProblems: (count: number): string =>
+    count === 1 ? '1 problem' : `${count} problems`,
+  workflowUnreachable: 'This step never runs: the path before it ends.',
+  workflowLoopForEach: 'For each',
+  workflowLoopWhile: 'While',
+  workflowLoopUntil: 'Repeat until',
+  /** Announced after a step is added, for example "Send email added". */
+  workflowStepAdded: (name: string): string => `${name} added`,
+  workflowStepRemoved: (name: string): string => `${name} removed`,
+  workflowStepMoved: (name: string): string => `${name} moved`,
+  /** Accessible name of an add-step button, for example "Add step after Look up manager". */
+  workflowAddStepAfter: (name: string): string => `Add step after ${name}`,
+  workflowAddStepIn: (name: string): string => `Add step in ${name}`,
+
+  // ── Tree chart ───────────────────────────────────────────────────────────
+  treeChartLabel: 'Tree chart',
+  treeChartLoading: 'Loading',
+  treeChartAddChild: 'Add below',
+  treeChartAddSibling: 'Add beside',
+  treeChartNewItem: 'New item',
+  /** Accessible name of the count chip, for example "Expand Elena Rostova, 4 below". */
+  treeChartExpand: (name: string, count: number): string =>
+    count ? `Expand ${name}, ${count} below` : `Expand ${name}`,
+  treeChartCollapse: (name: string): string => `Collapse ${name}`,
+  /** Announced after a drag, for example "Ana Ruiz moved under Elena Rostova". */
+  treeChartMoved: (name: string, parent: string): string =>
+    parent ? `${name} moved under ${parent}` : `${name} moved to the top`,
+  treeChartRemoved: (name: string): string => `${name} removed`,
+  /** Announced after a search, for example "3 matches". */
+  treeChartMatches: (count: number): string =>
+    count === 1 ? '1 match' : `${count} matches`,
+
+  // ── Dependency map ───────────────────────────────────────────────────────
+  dependencyMapLabel: 'Dependency map',
+  dependencyMapLegend: 'Legend',
+  dependencyMapHealthy: 'Healthy',
+  dependencyMapDegraded: 'Degraded',
+  dependencyMapDown: 'Down',
+  dependencyMapUnknown: 'Unknown',
+  dependencyMapImpact: 'Impact path',
+  dependencyMapTraffic: 'Width = traffic',
+  dependencyMapShowType: (type: string): string => `Show ${type}`,
+  /** A collapsed group's subtitle, for example "8 items". */
+  dependencyMapGroupCount: (count: number): string =>
+    count === 1 ? '1 item' : `${count} items`,
+  /** Label of an aggregated edge between collapsed groups, for example "12 connections". */
+  dependencyMapEdgeCount: (count: number): string =>
+    count === 1 ? '1 connection' : `${count} connections`,
+  dependencyMapExpandGroup: (name: string): string => `Expand ${name}`,
+  dependencyMapCollapseGroup: (name: string): string => `Collapse ${name}`,
+  /** Accessible name of a node, for example "payments-db, PostgreSQL, degraded, 3 upstream, 0 downstream". */
+  dependencyMapNode: (
+    name: string,
+    type: string,
+    status: string,
+    upstream: number,
+    downstream: number,
+  ): string =>
+    `${name}${type ? `, ${type}` : ''}${status ? `, ${status}` : ''}, ${upstream} upstream, ${downstream} downstream`,
+  dependencyMapRps: (value: string): string => `${value} req/s`,
+  dependencyMapLatency: (value: string): string => `p95 ${value}`,
+  dependencyMapErrors: (value: string): string => `${value} errors`,
+
+  // ── Entity-relationship diagram ──────────────────────────────────────────
+  erdLabel: 'Entity-relationship diagram',
+  erdPrimaryKey: 'Primary key',
+  erdForeignKey: 'Foreign key',
+  erdNullable: 'Nullable',
+  erdAddColumn: 'Add column',
+  erdRemoveColumn: (name: string): string => `Remove ${name}`,
+  erdTogglePrimaryKey: (name: string): string =>
+    `Toggle primary key on ${name}`,
+  erdCollapse: (name: string): string => `Collapse ${name}`,
+  erdExpand: (name: string): string => `Expand ${name}`,
+  erdRename: 'Rename',
+  erdNewColumn: 'new_column',
+  erdNewEntity: 'new_table',
+  erdCardinality: 'Relationship',
+  erdManyToOne: 'Many to one',
+  erdZeroOrManyToOne: 'Zero or many to one',
+  erdOneToOne: 'One to one',
+  erdZeroOrOneToOne: 'Zero or one to one',
+  erdManyToMany: 'Many to many',
+  /** Summary of a column count, for example "8 columns". */
+  erdColumnCount: (count: number): string =>
+    count === 1 ? '1 column' : `${count} columns`,
+  /** Accessible name of an entity, for example "orders, 8 columns, references customers, referenced by order_items". */
+  erdEntity: (
+    name: string,
+    columns: number,
+    references: string[],
+    referencedBy: string[],
+  ): string =>
+    [
+      name,
+      columns === 1 ? '1 column' : `${columns} columns`,
+      references.length ? `references ${references.join(', ')}` : '',
+      referencedBy.length ? `referenced by ${referencedBy.join(', ')}` : '',
+    ]
+      .filter(Boolean)
+      .join(', '),
+  /** Announced after a relation is added, for example "orders.customer_id references customers.id". */
+  erdConnected: (from: string, to: string): string =>
+    `${from} references ${to}`,
+
+  // ── Workflow debugging ───────────────────────────────────────────────────
+  workflowDebugBar: 'Debugging',
+  workflowContinue: 'Continue',
+  workflowPause: 'Pause',
+  workflowStepOver: 'Step over',
+  workflowStepInto: 'Step into',
+  workflowRestart: 'Restart',
+  workflowStop: 'Stop',
+  workflowRetryFromHere: 'Retry from here',
+  workflowBreakpoint: 'Breakpoint',
+  workflowToggleBreakpoint: 'Toggle breakpoint',
+  workflowPinData: 'Pin data',
+  workflowUnpinData: 'Unpin data',
+  workflowPinned: 'Data pinned',
+  workflowPreviousIteration: 'Previous iteration',
+  workflowNextIteration: 'Next iteration',
+  /** Iteration picker label, for example "Iteration 3 of 12". */
+  workflowIteration: (index: number, total: number): string =>
+    `Iteration ${index} of ${total}`,
+  /** Short iteration label, for example "3 / 12". */
+  workflowIterationShort: (index: number, total: number): string =>
+    `${index} / ${total}`,
+  workflowRunTimeline: 'Run timeline',
+  /** Status of a step or run, shown on cards and read by screen readers. */
+  workflowStatusQueued: 'Queued',
+  workflowStatusRunning: 'Running',
+  workflowStatusWaiting: 'Waiting',
+  workflowStatusPaused: 'Paused',
+  workflowStatusSuccess: 'Succeeded',
+  workflowStatusFailed: 'Failed',
+  workflowStatusSkipped: 'Skipped',
+  workflowStatusCanceled: 'Canceled',
+  /** Summary of a run, for example "Run 184, Failed, 2 h 15 min". */
+  workflowRunSummary: (id: string, status: string, duration: string): string =>
+    duration ? `Run ${id} · ${status} · ${duration}` : `Run ${id} · ${status}`,
+  /** Announced when the run moves, for example "Send email succeeded". */
+  workflowStepStatus: (name: string, status: string): string =>
+    `${name}: ${status.toLowerCase()}`,
 };
 
 /** The string table. Overrides must keep each entry's type, so a function stays a function. */

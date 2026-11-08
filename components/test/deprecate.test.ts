@@ -29,7 +29,7 @@ describe('deprecate', () => {
     expect(warnings).to.have.length(1);
     expect(warnings[0]).to.contain('wc-input');
     expect(warnings[0]).to.contain('wc-password-field');
-    expect(warnings[0]).to.contain('4.0');
+    expect(warnings[0]).to.contain('5.0');
   });
 
   it('warns separately for different APIs', () => {

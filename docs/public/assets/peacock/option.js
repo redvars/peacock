@@ -6,10 +6,10 @@ import './base-Cl6v8-BZ.js';
 import './if-defined-D9DEJR_6.js';
 import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
-import './base-button-Do2TUy8M.js';
+import './base-button-BJMGMcMv.js';
 import './throttle-SQ9t-HL7.js';
 import './warn-once-BNxX1Y98.js';
-import './hyperlink-DhE9RlVS.js';
+import './hyperlink-DycWPKwU.js';
 import './element-internals-QME0yEz4.js';
 import './is-link-Dk2OV3PM.js';
 

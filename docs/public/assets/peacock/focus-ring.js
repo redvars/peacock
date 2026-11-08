@@ -61,12 +61,14 @@ let FocusRing = class FocusRing extends i$1 {
         this.inward = false;
         this.attachableController = new AttachableController(this, this.onControlChange.bind(this));
     }
+    /** The id of the control the ring attaches to, as the `for` attribute. */
     get htmlFor() {
         return this.attachableController.htmlFor;
     }
     set htmlFor(htmlFor) {
         this.attachableController.htmlFor = htmlFor;
     }
+    /** The control the ring attaches to; without `for` or this, it follows its parent. */
     get control() {
         return this.attachableController.control;
     }

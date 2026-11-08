@@ -47,6 +47,7 @@ export declare class Accordion extends LitElement {
      * When `false` (default), the icon is placed at the trailing end.
      */
     leadingToggle: boolean;
+    /** The `wc-accordion-item` children slotted into the accordion. */
     items: Array<AccordionItem>;
     /** Up/Down, Home and End move focus between the header buttons. */
     private readonly roving;

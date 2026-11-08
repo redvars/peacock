@@ -3,8 +3,8 @@ import { n } from './property-B2TG3KEE.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
 import { o } from './if-defined-D9DEJR_6.js';
 import { e } from './class-map-NDIkZErE.js';
-import { a as mixinBaseButton } from './base-button-Do2TUy8M.js';
-import { m as mixinHyperlink } from './hyperlink-DhE9RlVS.js';
+import { a as mixinBaseButton } from './base-button-BJMGMcMv.js';
+import { m as mixinHyperlink } from './hyperlink-DycWPKwU.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
 import { i as isActivationClick, d as dispatchActivationClick } from './throttle-SQ9t-HL7.js';
 import { i as isLink } from './is-link-Dk2OV3PM.js';
@@ -351,6 +351,7 @@ let MenuItem = class MenuItem extends mixinBaseButton(mixinHyperlink(mixinElemen
         // wc-item reads which named slots it has in its own render; tell it when ours change.
         this.renderRoot.querySelector('wc-item')?.requestUpdate();
     }
+    /** The item's tab index, managed by the parent menu's roving focus and applied to the inner control. */
     get tabIndex() {
         return this._rovingTabIndex;
     }

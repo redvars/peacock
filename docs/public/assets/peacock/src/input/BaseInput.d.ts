@@ -1,5 +1,5 @@
 import { LitElement, type PropertyValues } from 'lit';
-import { type FormRestoreState, type FormValue, getFormValue } from '@/__internal/mixins/form-associated.js';
+import { type FormRestoreState, type FormValue, getFormValue } from '../__internal/mixins/form-associated.js';
 declare const VALIDITY_KEYS: readonly ["valueMissing", "typeMismatch", "patternMismatch", "tooLong", "tooShort", "rangeUnderflow", "rangeOverflow", "stepMismatch", "badInput"];
 /** The flags `ElementInternals.setValidity()` takes, as the DOM's `ValidityStateFlags`. */
 export type ValidityFlags = {
@@ -14,7 +14,7 @@ export interface ControlValidity {
 }
 /** The validity of a native control, for controls that wrap one. */
 export declare function nativeValidity(control: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement): ControlValidity;
-declare const BaseInput_base: import("../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>;
+declare const BaseInput_base: import("../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("../__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("../__internal/mixins/form-associated.js").FormAssociatedConstructor, import("../__internal/mixins/form-associated.js").FormAssociated>;
 /**
  * Base class for Peacock's form controls.
  *
@@ -32,8 +32,11 @@ declare const BaseInput_base: import("../__internal/mixins/mixin.js").MixinRetur
 export default abstract class BaseInput extends BaseInput_base {
     /** Each control declares its own `value` (a property, or an accessor such as Switch's). */
     abstract value?: any;
+    /** Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted. */
     readonly: boolean;
+    /** Requires a value before the form can submit. */
     required: boolean;
+    /** Shows a loading placeholder in place of the control. */
     skeleton: boolean;
     /** Whether to show the validation message: after a commit, or after a failed submit. */
     protected showValidity: boolean;

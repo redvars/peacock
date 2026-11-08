@@ -1,6 +1,6 @@
 import { LitElement, PropertyValues } from 'lit';
 import type { BundledLanguage, SpecialLanguage } from 'shiki';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 export type CodeHighlighterLanguage = BundledLanguage | SpecialLanguage;
 export type CodeHighlighterSize = 'sm' | 'md';
 export type CodeHighlighterVariant = 'default' | 'error';

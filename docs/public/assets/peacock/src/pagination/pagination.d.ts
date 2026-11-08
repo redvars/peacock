@@ -1,6 +1,6 @@
 import { LitElement } from 'lit';
 import type { PropertyValues } from 'lit';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 export type PaginationVariant = 'full' | 'compact' | 'simple';
 /** Lets the next forced variant warn again. For tests only. */
 export declare function resetPaginationWarnings(): void;

@@ -33,6 +33,7 @@ import { type ControlValidity } from '../input/BaseInput.js';
 export declare class Textarea extends BaseField {
     static styles: import("lit").CSSResultGroup[];
     value: string;
+    /** Whether the browser may autofill the field: `"on"` or `"off"` (default). */
     autocomplete: 'on' | 'off';
     /** Visible lines of text; the starting height with `auto-grow`. */
     rows: number;

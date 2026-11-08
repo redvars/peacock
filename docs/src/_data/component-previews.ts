@@ -11,7 +11,7 @@ export const COMPLEX_PREVIEWS = [
   'code-highlighter',
   'color-picker',
   'condition-builder',
-  'flow',
+  'diagram',
   'focus-ring',
   'html-editor',
   'image',

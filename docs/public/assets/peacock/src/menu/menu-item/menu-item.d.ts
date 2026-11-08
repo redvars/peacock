@@ -1,7 +1,7 @@
 import { LitElement, nothing, type TemplateResult } from 'lit';
 /** What a menu item is: an action (`item`), an on/off choice (`checkbox`) or one of a set (`radio`). */
 export type MenuItemType = 'item' | 'checkbox' | 'radio';
-declare const MenuItem_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("@/__internal/mixins/element-internals.js").WithElementInternals>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("@/button/base-button/base-button.js").BaseButton>;
+declare const MenuItem_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("../../__internal/mixins/element-internals.js").WithElementInternals>, import("../../__internal/mixins/hyperlink.js").Hyperlink>, import("../../button/base-button/base-button.js").BaseButton>;
 /**
  * @label Menu Item
  * @tag wc-menu-item
@@ -67,6 +67,7 @@ export declare class MenuItem extends MenuItem_base {
     connectedCallback(): void;
     disconnectedCallback(): void;
     protected updated(): void;
+    /** The item's tab index, managed by the parent menu's roving focus and applied to the inner control. */
     get tabIndex(): number;
     set tabIndex(value: number);
     /** Whether the item shows something in its leading column. */

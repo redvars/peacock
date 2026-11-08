@@ -1,0 +1,68 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-full);
+  box-shadow: var(--elevation-level2);
+
+  &.vertical {
+    flex-direction: column;
+    border-radius: var(--shape-corner-extra-large);
+  }
+}
+
+.zoom-level {
+  @include mixin.reset-button-styles;
+
+  min-inline-size: 52px;
+  block-size: 32px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-on-surface-variant);
+  border-radius: var(--shape-corner-full);
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+}
+
+.separator {
+  inline-size: 1px;
+  block-size: 20px;
+  margin: 0 4px;
+  background: var(--color-outline-variant);
+
+  .vertical & {
+    inline-size: 20px;
+    block-size: 1px;
+    margin: 4px 0;
+  }
+}
+
+// In a narrow canvas (see `container-name: diagram` in wc-diagram), keep zoom, fit and home only.
+// Keyboard shortcuts still undo, redo and reset the zoom.
+@container diagram (max-width: 480px) {
+  .bar:not(.vertical) .zoom-level,
+  .bar:not(.vertical) .history {
+    display: none;
+  }
+}

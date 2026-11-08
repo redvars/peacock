@@ -1,0 +1,42 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-workflow-timeline</code> shows the steps of a workflow run as bars on one time scale, coloured by status, with
+  each step's duration. Set <code>for</code> to a <code>wc-workflow</code> in debug or history mode and it follows that
+  workflow's run and selection; clicking a row selects the step on the canvas. Without a workflow, set
+  <code>value</code> and <code>run</code> yourself. See the <a href="/components/workflow/">workflow</a> page for a live
+  debugging demo.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-workflow-timeline id="standalone-timeline" style="width: 100%;"></wc-workflow-timeline>
+
+  <script is:inline>
+    (() => {
+      const t = document.querySelector('#standalone-timeline');
+      t.value = {
+        trigger: { id: 'pr', type: 'action', headline: 'Pull request opened', icon: 'merge' },
+        steps: [
+          { id: 'lint', type: 'action', headline: 'Lint', icon: 'rule' },
+          { id: 'test', type: 'action', headline: 'Unit tests', icon: 'science' },
+          { id: 'build', type: 'action', headline: 'Build', icon: 'construction' },
+          { id: 'deploy', type: 'action', headline: 'Deploy preview', icon: 'rocket_launch' },
+        ],
+      };
+      t.run = {
+        id: '91', status: 'failed', durationMs: 412000,
+        steps: {
+          pr: { status: 'success', startedAt: 0, durationMs: 1000 },
+          lint: { status: 'success', startedAt: 1000, durationMs: 38000 },
+          test: { status: 'success', startedAt: 1000, durationMs: 214000 },
+          build: { status: 'failed', startedAt: 215000, durationMs: 197000 },
+          deploy: { status: 'skipped' },
+        },
+      };
+    })();
+  </script>
+</DemoComponentCard>

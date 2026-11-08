@@ -1,0 +1,73 @@
+---
+export const title = 'Editing';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>editable</code>, the diagram becomes a schema designer. Double-click a table name, a column name or a
+  type to rename it (F2 renames the focused table). Add columns at the bottom of a table and remove them with the
+  cross on their row. Click the space before a column to make it part of the primary key. To add a relation, drag the
+  ring at the end of a foreign-key column onto the column it references, then choose the cardinality.
+</p>
+<p>
+  Delete removes the focused table (and its relations) or the selected relation. Every edit fires
+  <code>change</code> with the full <code>entities</code> and <code>relations</code>, so saving is one handler;
+  <code>connect</code> and <code>delete</code> are cancelable when the app needs to confirm. Undo with Ctrl+Z, or with
+  the buttons in <code>wc-diagram-controls</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <wc-button id="design-add" variant="tonal"><wc-icon slot="icon" name="add"></wc-icon>Add table</wc-button>
+      <wc-button id="design-layout" variant="text">Tidy layout</wc-button>
+      <span id="design-status" style="font-size: 13px; color: var(--color-on-surface-variant);"></span>
+    </div>
+    <wc-erd id="design" editable style="height: 520px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+    </wc-erd>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const erd = document.querySelector('#design');
+      erd.entities = [
+        { id: 'projects', name: 'projects', accent: 'tertiary', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'name', type: 'text' },
+          { name: 'owner_id', type: 'uuid' },
+        ] },
+        { id: 'users', name: 'users', accent: 'blue', icon: 'person', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'email', type: 'citext' },
+        ] },
+        { id: 'tasks', name: 'tasks', accent: 'green', icon: 'task_alt', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'project_id', type: 'uuid' },
+          { name: 'assignee_id', type: 'uuid', nullable: true },
+          { name: 'title', type: 'text' },
+          { name: 'due_on', type: 'date', nullable: true },
+        ] },
+      ];
+      erd.relations = [
+        { id: 'p1', source: 'projects', sourceColumn: 'owner_id', target: 'users', targetColumn: 'id' },
+        { id: 'p2', source: 'tasks', sourceColumn: 'project_id', target: 'projects', targetColumn: 'id', sourceCardinality: 'zero-or-many' },
+      ];
+      const status = document.querySelector('#design-status');
+      erd.addEventListener('change', e => {
+        status.textContent = `${e.detail.reason}: ${e.detail.entities.length} tables, ${e.detail.relations.length} relations`;
+      });
+      document.querySelector('#design-add').addEventListener('click', () => erd.addEntity());
+      document.querySelector('#design-layout').addEventListener('click', () => erd.autoLayout());
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Keyboard</h3>
+<ul>
+  <li>Tab reaches the diagram, then one table. Arrow keys move to the nearest table in that direction.</li>
+  <li>Enter or Space selects. Shift+Enter collapses or expands. F shows only the table's neighbours; Escape shows everything again, then clears the selection.</li>
+  <li>When editable: F2 renames, Delete removes, Ctrl+Z undoes and Ctrl+Y redoes.</li>
+  <li>The canvas keys work as in every Peacock diagram: arrows pan the background, + and − zoom, Shift+1 fits, Home goes back to the start.</li>
+</ul>

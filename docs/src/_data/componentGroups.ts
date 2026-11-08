@@ -203,7 +203,11 @@ const GROUPS: { name: string; components: string[] }[] = [
   },
   {
     name: 'Editors',
-    components: ['code-editor', 'html-editor', 'markdown-editor', 'markdown', 'comment-composer', 'document-editor', 'flow'],
+    components: ['code-editor', 'html-editor', 'markdown-editor', 'markdown', 'comment-composer', 'document-editor'],
+  },
+  {
+    name: 'Diagrams',
+    components: ['workflow', 'workflow-timeline', 'tree-chart', 'dependency-map', 'erd', 'diagram', 'diagram-controls', 'diagram-minimap'],
   },
 ];
 

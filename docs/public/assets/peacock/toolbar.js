@@ -65,6 +65,8 @@ var css_248z$1 = i`* {
   z-index: 1;
   display: flex;
   align-items: center;
+  flex: 1 1 auto;
+  flex-wrap: var(--toolbar-wrap, nowrap);
   gap: var(--toolbar-gap);
   min-width: 0;
 }
@@ -165,6 +167,7 @@ const SEPARATOR_SELECTOR = 'wc-divider, hr, [role="separator"]';
  * @cssprop --toolbar-gap - Gap between toolbar actions.
  * @cssprop --toolbar-icon-color - Color of icons inside the toolbar.
  * @cssprop --toolbar-content-color - Color of text inside the toolbar.
+ * @cssprop --toolbar-wrap - `wrap` lets actions flow onto more lines when the toolbar is narrow. Defaults to `nowrap`.
  *
  * @example
  * ```html

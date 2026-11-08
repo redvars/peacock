@@ -1,0 +1,37 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-diagram-minimap</code> shows every node of a diagram canvas as a box and the part in view as a
+  rectangle, wherever the view has wandered. Click to fly there, or drag to move the view. Put it in the canvas's
+  <code>minimap</code> slot, or anywhere with <code>for</code> set to the canvas's id. Size it with
+  <code>--diagram-minimap-width</code> and <code>--diagram-minimap-height</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diagram id="minimap-diagram" start-position="first" style="height: 380px;">
+    <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+  </wc-diagram>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#minimap-diagram');
+      const nodes = [];
+      const edges = [];
+      for (let i = 0; i < 12; i += 1) {
+        nodes.push({ id: `n${i}`, position: { x: (i % 4) * 420, y: Math.floor(i / 4) * 260 }, headline: `Step ${i + 1}`, icon: 'radio_button_unchecked' });
+        if (i > 0) edges.push({ id: `e${i}`, source: `n${i - 1}`, target: `n${i}` });
+      }
+      diagram.nodes = nodes;
+      diagram.edges = edges;
+    })();
+  </script>
+</DemoComponentCard>
+
+<p>
+  The minimap is a pointer shortcut. Keyboard users pan the canvas with the arrow keys and use
+  <wc-kbd keys="shift+1"></wc-kbd> to fit and <wc-kbd keys="home"></wc-kbd> to go back to the start.
+</p>

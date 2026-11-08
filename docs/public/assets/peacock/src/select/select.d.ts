@@ -1,6 +1,6 @@
 import { type PropertyValues } from 'lit';
-import { type FormValue, getFormValue } from '@/__internal/mixins/form-associated.js';
-import { type PeacockStrings } from '@/__internal/i18n/strings.js';
+import { type FormValue, getFormValue } from '../__internal/mixins/form-associated.js';
+import { type PeacockStrings } from '../__internal/i18n/strings.js';
 import BaseField from '../input/BaseField.js';
 export interface SelectOption {
     label: string;

@@ -1,0 +1,1164 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 240px;
+  overflow: hidden;
+  --workflow-background: var(--color-surface-container-lowest, #fbfbfd);
+  --workflow-dot-color: var(--color-outline-variant, #c5c6cb);
+  --workflow-connector-color: color-mix(in srgb, var(--color-primary, #005faf) 45%, var(--color-outline-variant, #c5c6cb));
+  --workflow-card-width: 280px;
+  --_gap: 56px;
+}
+
+/* Canvas coordinates are physical x/y and do not mirror in right-to-left layouts. */
+/* stylelint-disable property-disallowed-list */
+
+.wf-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--workflow-background);
+  background-image: radial-gradient(var(--workflow-dot-color) 1px, transparent 1.2px);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  touch-action: none;
+  outline: none;
+  container-type: inline-size;
+  container-name: diagram;
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-primary);
+  }
+
+  &.is-space {
+    cursor: grab;
+  }
+
+  &.is-panning {
+    cursor: grabbing;
+  }
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+}
+
+.wf-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.wf-connectors {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* stylelint-enable property-disallowed-list */
+
+// ── Connectors
+.wf-conn {
+  fill: none;
+  stroke: var(--workflow-connector-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 150ms ease, stroke-width 150ms ease;
+
+  &.is-hover {
+    stroke: var(--color-primary);
+    stroke-width: 3;
+  }
+
+  &.is-stub {
+    stroke-dasharray: 2 5;
+  }
+
+  &.is-error {
+    stroke: color-mix(in srgb, var(--color-error) 70%, transparent);
+  }
+}
+
+.wf-arrow {
+  fill: var(--workflow-connector-color);
+}
+
+// ── Layout
+.wf-root {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  padding: 48px;
+  display: flex;
+  font-size: 13px;
+  color: var(--color-on-surface);
+}
+
+.wf-seq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .horizontal & {
+    flex-direction: row;
+  }
+}
+
+.wf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .horizontal & {
+    flex-direction: row;
+  }
+}
+
+.wf-gap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--_gap);
+
+  .horizontal & {
+    min-block-size: 0;
+    min-inline-size: var(--_gap);
+  }
+
+  &.is-trailing {
+    min-block-size: 44px;
+
+    .horizontal & {
+      min-block-size: 0;
+      min-inline-size: 44px;
+    }
+  }
+
+  &.is-drop .wf-plus {
+    transform: scale(1.35);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    --icon-color: var(--color-on-primary);
+  }
+}
+
+.wf-plus {
+  @include mixin.reset-button-styles;
+
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 50%;
+  background: var(--workflow-background);
+  border: 1.5px solid var(--workflow-connector-color);
+  cursor: pointer;
+  --icon-size: 0.875rem;
+  --icon-color: var(--color-on-surface-variant);
+  transition: transform 150ms cubic-bezier(0.2, 0, 0, 1), background-color 150ms ease, border-color 150ms ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.2);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    --icon-color: var(--color-on-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ── Cards
+.wf-card {
+  position: relative;
+  z-index: 1;
+  inline-size: var(--workflow-card-width);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  box-shadow: var(--elevation-level1);
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 150ms ease, border-color 150ms ease;
+  touch-action: none;
+
+  .density-compact & {
+    inline-size: calc(var(--workflow-card-width) - 60px);
+  }
+
+  .density-expanded & {
+    inline-size: calc(var(--workflow-card-width) + 40px);
+  }
+
+  &:hover {
+    border-color: var(--color-outline);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  &.is-selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary), var(--elevation-level2);
+  }
+
+  &.is-invalid {
+    border-color: var(--color-error);
+  }
+
+  &.is-dragging {
+    opacity: 0.4;
+  }
+
+  &:hover .wf-more,
+  &:focus-within .wf-more,
+  &.is-selected .wf-more {
+    opacity: 1;
+  }
+}
+
+.wf-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 8px 12px 12px;
+}
+
+.wf-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: var(--shape-corner-medium);
+  background: var(--_tile-bg, var(--color-primary-container));
+  --icon-color: var(--_tile-fg, var(--color-on-primary-container));
+  --icon-size: 1.25rem;
+}
+
+.accent-primary {
+  --_tile-bg: var(--color-primary-container);
+  --_tile-fg: var(--color-on-primary-container);
+}
+
+.accent-tertiary {
+  --_tile-bg: var(--color-tertiary-container);
+  --_tile-fg: var(--color-on-tertiary-container);
+}
+
+.accent-blue {
+  --_tile-bg: var(--color-blue-container);
+  --_tile-fg: var(--color-on-blue-container);
+}
+
+.accent-green {
+  --_tile-bg: var(--color-green-container);
+  --_tile-fg: var(--color-on-green-container);
+}
+
+.accent-orange {
+  --_tile-bg: var(--color-orange-container);
+  --_tile-fg: var(--color-on-orange-container);
+}
+
+.accent-purple {
+  --_tile-bg: var(--color-purple-container);
+  --_tile-fg: var(--color-on-purple-container);
+}
+
+.accent-red {
+  --_tile-bg: var(--color-error-container);
+  --_tile-fg: var(--color-on-error-container);
+}
+
+.accent-yellow {
+  --_tile-bg: var(--color-yellow-container);
+  --_tile-fg: var(--color-on-yellow-container);
+}
+
+.accent-neutral {
+  --_tile-bg: var(--color-surface-container-high);
+  --_tile-fg: var(--color-on-surface-variant);
+}
+
+.wf-names {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.wf-headline {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wf-kind {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wf-badge {
+  display: inline-flex;
+  --icon-color: var(--color-error);
+  --icon-size: 1.125rem;
+}
+
+.wf-more {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.wf-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 12px 12px 60px;
+}
+
+.wf-summary {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.wf-field {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.wf-field-label {
+  flex: none;
+  inline-size: 68px;
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.wf-field-value {
+  min-inline-size: 0;
+  font-family: var(--typography-code-small-font-family, monospace);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wf-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px 1px 6px;
+  font-family: inherit;
+  font-size: 12px;
+  vertical-align: middle;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  --icon-size: 0.875rem;
+  --icon-color: var(--color-on-secondary-container);
+
+  .wf-field-value & {
+    font-family: var(--typography-body-small-font-family, inherit);
+  }
+}
+
+.wf-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-block-start: 1px solid var(--color-outline-variant);
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.wf-assignee {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wf-foot-label {
+  margin-inline-end: 2px;
+}
+
+.wf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  font-size: 11px;
+  border-radius: var(--shape-corner-full);
+  border: 1px solid var(--color-outline-variant);
+  --icon-size: 0.75rem;
+
+  &.tool {
+    border-color: transparent;
+    background: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
+    --icon-color: var(--color-on-tertiary-container);
+  }
+}
+
+// ── Branches
+.wf-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .horizontal & {
+    flex-direction: row;
+  }
+}
+
+.wf-paths {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  margin-block-start: 40px;
+
+  .horizontal & {
+    flex-direction: column;
+    margin-block-start: 0;
+    margin-inline-start: 40px;
+  }
+}
+
+.wf-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .horizontal & {
+    flex-direction: row;
+  }
+}
+
+.wf-path-tail {
+  flex: 1;
+}
+
+.wf-pill {
+  position: relative;
+  z-index: 1;
+  padding: 3px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  &.is-default {
+    background: var(--color-surface-container-high);
+    color: var(--color-on-surface-variant);
+  }
+
+  &.is-error {
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+  }
+}
+
+.wf-join {
+  position: relative;
+  z-index: 1;
+  inline-size: 10px;
+  block-size: 10px;
+  margin-block-start: 40px;
+  border-radius: 50%;
+  background: var(--workflow-connector-color);
+
+  .horizontal & {
+    margin-block-start: 0;
+    margin-inline-start: 40px;
+  }
+
+  &.is-bar {
+    inline-size: auto;
+    block-size: auto;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: var(--shape-corner-full);
+    background: var(--color-surface-container-high);
+    color: var(--color-on-surface-variant);
+    border: 2px solid var(--workflow-connector-color);
+  }
+}
+
+// ── Loops
+.wf-loop {
+  padding: 12px 24px 28px 40px;
+  border: 1.5px dashed var(--color-outline);
+  border-radius: var(--shape-corner-extra-large);
+  background: color-mix(in srgb, var(--color-surface-container-low) 70%, transparent);
+
+  .horizontal & {
+    padding: 40px 28px 24px 12px;
+  }
+}
+
+.wf-loop-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.wf-loop-over {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+// ── Error paths: the spacer keeps the card on the spine.
+.wf-has-error {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 48px;
+
+  .horizontal & {
+    grid-template-columns: none;
+    grid-template-rows: 1fr auto 1fr;
+    justify-items: start;
+  }
+}
+
+.wf-error-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block-start: 64px;
+
+  .horizontal & {
+    flex-direction: row;
+    margin-block-start: 0;
+    margin-inline-start: 64px;
+  }
+}
+
+// ── End and trigger
+.wf-end {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--shape-corner-full);
+  border: 1px solid var(--color-outline-variant);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  outline: none;
+  --icon-size: 1rem;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &.is-selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+
+  &.is-invalid {
+    border-color: var(--color-error);
+  }
+}
+
+.wf-add-trigger {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  inline-size: var(--workflow-card-width);
+  block-size: 64px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-primary);
+  border: 1.5px dashed var(--color-primary);
+  border-radius: var(--shape-corner-large);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  cursor: pointer;
+  --icon-color: var(--color-primary);
+
+  &:hover,
+  &:focus-visible {
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+}
+
+// ── Overlays
+.wf-palette {
+  position: absolute;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  inline-size: 300px;
+  max-block-size: 380px;
+  overflow: hidden;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  box-shadow: var(--elevation-level3);
+}
+
+.wf-palette-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px;
+  padding: 0 12px;
+  block-size: 40px;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container);
+  --icon-color: var(--color-on-surface-variant);
+
+  input {
+    flex: 1;
+    min-inline-size: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    color: var(--color-on-surface);
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+}
+
+.wf-palette-list {
+  overflow-y: auto;
+  // Reaching the end of the list does not scroll the page or pan the canvas.
+  overscroll-behavior: contain;
+  padding: 0 4px 8px;
+}
+
+.wf-palette-heading {
+  padding: 8px 12px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
+.wf-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: var(--shape-corner-medium);
+  cursor: pointer;
+
+  .wf-tile {
+    inline-size: 32px;
+    block-size: 32px;
+    --icon-size: 1.125rem;
+  }
+
+  &.is-active {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+}
+
+.wf-option-text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.wf-option-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.wf-option-sub {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.wf-palette-empty {
+  padding: 16px;
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  text-align: center;
+}
+
+.wf-ghost {
+  position: absolute;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  pointer-events: none;
+  transform: translate(12px, 12px) rotate(-2deg);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level3);
+  --icon-size: 1.125rem;
+}
+
+.wf-problems {
+  @include mixin.reset-button-styles;
+
+  position: absolute;
+  z-index: 20;
+  inset-block-start: 16px;
+  inset-inline-start: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+  cursor: pointer;
+  box-shadow: var(--elevation-level1);
+  --icon-color: var(--color-on-error-container);
+  --icon-size: 1.125rem;
+}
+
+.back-to-content {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 24px;
+  transform: translateX(-50%);
+  box-shadow: var(--elevation-level2);
+  border-radius: var(--shape-corner-full);
+  z-index: 20;
+}
+
+.slot-controls,
+.slot-minimap {
+  position: absolute;
+  inset-block-end: 16px;
+  z-index: 20;
+}
+
+.slot-controls {
+  inset-inline-start: 16px;
+}
+
+.slot-minimap {
+  inset-inline-end: 16px;
+}
+
+@container diagram (max-width: 480px) {
+  .slot-minimap {
+    display: none;
+  }
+
+  .slot-controls {
+    inset-inline-start: 8px;
+    inset-block-end: 8px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ── Debugging and run history
+.wf-conn {
+  &.is-taken {
+    stroke: var(--color-primary);
+    stroke-width: 2.75;
+  }
+
+  &.is-active {
+    stroke-dasharray: 7 6;
+    animation: wf-flow 0.9s linear infinite;
+  }
+
+  &.is-untaken {
+    stroke: var(--color-outline-variant);
+    stroke-dasharray: 4 5;
+    opacity: 0.7;
+  }
+}
+
+.wf-tokens {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.wf-token {
+  fill: var(--color-primary);
+}
+
+.wf-token-halo {
+  fill: color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+// The status sits on the card's top edge, so the headline keeps its width.
+.wf-status {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: -11px;
+  inset-inline-end: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  block-size: 22px;
+  padding: 0 8px 0 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--color-on-surface-variant);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-full);
+  --icon-size: 0.9375rem;
+
+  &.st-success {
+    border-color: var(--color-success);
+  }
+
+  &.st-failed {
+    border-color: var(--color-error);
+  }
+
+  &.st-running,
+  &.st-paused,
+  &.st-waiting {
+    border-color: var(--color-primary);
+  }
+
+  &.st-success {
+    --icon-color: var(--color-success);
+  }
+
+  &.st-failed {
+    color: var(--color-error);
+    --icon-color: var(--color-error);
+  }
+
+  &.st-running,
+  &.st-paused,
+  &.st-waiting {
+    color: var(--color-primary);
+    --icon-color: var(--color-primary);
+  }
+
+  &.st-running wc-icon {
+    animation: wf-spin 1s linear infinite;
+  }
+}
+
+.wf-attempts {
+  padding: 0 6px;
+  font-size: 11px;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container-high);
+}
+
+.wf-card,
+.wf-end {
+  &.st-success {
+    border-color: var(--color-success);
+  }
+
+  &.st-failed {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 1px var(--color-error), var(--elevation-level1);
+  }
+
+  &.st-running,
+  &.st-paused,
+  &.st-waiting {
+    border-color: var(--color-primary);
+    animation: wf-pulse 1.6s ease-in-out infinite;
+  }
+
+  &.st-skipped,
+  &.st-queued,
+  &.st-canceled {
+    opacity: 0.5;
+    box-shadow: none;
+  }
+}
+
+.wf-run-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 12px 12px;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-radius: var(--shape-corner-small);
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+.wf-run-error-text {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wf-retry {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: inherit;
+  border-radius: var(--shape-corner-full);
+  cursor: pointer;
+  --icon-size: 0.875rem;
+  --icon-color: currentcolor;
+
+  &:hover {
+    background: color-mix(in srgb, currentcolor 12%, transparent);
+  }
+}
+
+.wf-pin {
+  display: inline-flex;
+  --icon-color: var(--color-primary);
+  --icon-size: 1rem;
+}
+
+.wf-bp {
+  @include mixin.reset-button-styles;
+
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-start: -26px;
+  inline-size: 14px;
+  block-size: 14px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--color-outline);
+  background: transparent;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 150ms ease;
+
+  .wf-card:hover &,
+  .wf-card:focus-within &,
+  &.is-on {
+    opacity: 1;
+  }
+
+  &.is-on {
+    border: 0;
+    background: var(--color-error);
+    box-shadow: 0 0 0 3px var(--workflow-background);
+  }
+}
+
+.wf-iterations {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 8px 2px 2px;
+  font-size: 12px;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.wf-iteration-label {
+  min-inline-size: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.wf-ticks {
+  display: inline-flex;
+  gap: 3px;
+  margin-inline-start: 6px;
+}
+
+.wf-tick {
+  @include mixin.reset-button-styles;
+
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--shape-corner-extra-small);
+  background: var(--color-outline-variant);
+  cursor: pointer;
+
+  &.st-success {
+    background: var(--color-success);
+  }
+
+  &.st-failed {
+    background: var(--color-error);
+  }
+
+  &.st-running {
+    background: var(--color-primary);
+  }
+
+  &.is-current {
+    outline: 2px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+    outline-offset: 1px;
+  }
+}
+
+.wf-debugbar,
+.wf-runbar {
+  position: absolute;
+  z-index: 25;
+  inset-block-start: 16px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-full);
+  box-shadow: var(--elevation-level2);
+}
+
+.wf-runbar {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+
+  &.st-success {
+    color: var(--color-success);
+  }
+
+  &.st-failed {
+    color: var(--color-error);
+  }
+}
+
+.wf-run-status {
+  padding: 4px 12px;
+  margin-inline-end: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+
+  &.st-paused {
+    background: var(--color-yellow-container);
+    color: var(--color-on-yellow-container);
+  }
+
+  &.st-running {
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+
+  &.st-failed {
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+  }
+
+  &.st-success {
+    background: var(--color-green-container);
+    color: var(--color-on-green-container);
+  }
+}
+
+@keyframes wf-flow {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+@keyframes wf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wf-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent), var(--elevation-level2);
+  }
+
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--color-primary) 30%, transparent), var(--elevation-level2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wf-conn,
+  .wf-plus,
+  .wf-card,
+  .wf-more,
+  .wf-bp {
+    transition: none;
+  }
+
+  .wf-conn.is-active,
+  .wf-status.st-running wc-icon,
+  .wf-card.st-running,
+  .wf-card.st-paused,
+  .wf-card.st-waiting,
+  .wf-end.st-running {
+    animation: none;
+  }
+}

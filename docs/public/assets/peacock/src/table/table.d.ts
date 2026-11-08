@@ -1,6 +1,6 @@
 import { LitElement } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 import type { GridColumn, TableColumn, TableExportOptions, TableRow, TableSelection, TableSort, TableSortOrder } from './table-types.js';
 export type { TableAggregate, TableColumn, TableEditor, TableEditorOption, TableExportOptions, TableRow, TableSelection, TableSort, TableSortOrder, } from './table-types.js';
 export type { TableCellEditDetail, TableColumnReorderDetail, TableColumnResizeDetail, TableColumnVisibilityDetail, TableGroupToggleDetail, TablePageDetail, TableRowExpandDetail, TableSelectionChangeDetail, TableSortDetail, } from './table-types.js';

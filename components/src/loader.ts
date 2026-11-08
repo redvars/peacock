@@ -635,8 +635,33 @@ const loaderConfig: LoaderConfig = {
     'wc-calendar-month-view': {
       importPath: `${distDirectory}/calendar-month-view.js`,
     },
+    'wc-diagram': {
+      importPath: `${distDirectory}/diagram.js`,
+    },
+    // Deprecated alias of wc-diagram, until 5.0.
     'wc-flow': {
       importPath: `${distDirectory}/flow.js`,
+    },
+    'wc-workflow': {
+      importPath: `${distDirectory}/workflow.js`,
+    },
+    'wc-tree-chart': {
+      importPath: `${distDirectory}/tree-chart.js`,
+    },
+    'wc-dependency-map': {
+      importPath: `${distDirectory}/dependency-map.js`,
+    },
+    'wc-erd': {
+      importPath: `${distDirectory}/erd.js`,
+    },
+    'wc-workflow-timeline': {
+      importPath: `${distDirectory}/workflow-timeline.js`,
+    },
+    'wc-diagram-controls': {
+      importPath: `${distDirectory}/diagram-controls.js`,
+    },
+    'wc-diagram-minimap': {
+      importPath: `${distDirectory}/diagram-minimap.js`,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

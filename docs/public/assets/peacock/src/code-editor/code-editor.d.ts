@@ -1,5 +1,5 @@
 import { PropertyValues } from 'lit';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 import BaseInput from '../input/BaseInput.js';
 export type CodeEditorLanguage = 'javascript' | 'typescript' | 'json' | 'html' | 'css' | 'scss' | 'markdown';
 export type CodeEditorSize = 'sm' | 'md';
@@ -100,6 +100,7 @@ export declare class CodeEditor extends BaseInput {
     helperText: string;
     /** Shows the editor in its error state with `error-text`. */
     error: boolean;
+    /** Error message shown below the editor while `error` is set; replaces the help text. */
     errorText: string;
     /** TypeScript declarations (a `.d.ts`) for completions in TypeScript and JavaScript, such as the modules the code may import. */
     libSource: string | undefined;

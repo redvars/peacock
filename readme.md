@@ -297,7 +297,7 @@ SVG `wc-svg` ·
 [Markdown](https://peacock.redvars.com/components/markdown) `wc-markdown` ·
 [Comment composer](https://peacock.redvars.com/components/comment-composer) `wc-comment-composer` ·
 [Document editor](https://peacock.redvars.com/components/document-editor) `wc-document-editor` ·
-[Flow](https://peacock.redvars.com/components/flow) `wc-flow`
+[Diagram](https://peacock.redvars.com/components/diagram) `wc-diagram`
 
 ## Primitives
 

@@ -1,4 +1,4 @@
-import type { FormRestoreState } from '@/__internal/mixins/form-associated.js';
+import type { FormRestoreState } from '../__internal/mixins/form-associated.js';
 import BaseField from '../input/BaseField.js';
 import { type ControlValidity } from '../input/BaseInput.js';
 /**
@@ -27,9 +27,13 @@ import { type ControlValidity } from '../input/BaseInput.js';
 export declare class NumberField extends BaseField {
     static styles: import("lit").CSSResultGroup[];
     value?: number;
+    /** The largest value allowed. */
     max?: number;
+    /** The smallest value allowed. */
     min?: number;
+    /** How much the value changes per step, and the granularity a valid value must match. */
     step?: number;
+    /** Whether the browser may autofill the field: `"on"` or `"off"` (default). */
     autocomplete: 'on' | 'off';
     /** Shows buttons that step the value down and up. */
     stepper: boolean;

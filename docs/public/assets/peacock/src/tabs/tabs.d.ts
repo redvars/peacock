@@ -36,6 +36,7 @@ export interface TabsChangeDetail {
 export declare class Tabs extends LitElement {
     static styles: import("lit").CSSResultGroup[];
     static Tab: typeof Tab;
+    /** The visual style of the tabs: `"primary"` (default), `"secondary"`, `"contained"` or `"filled"`. */
     variant: 'primary' | 'secondary' | 'contained' | 'filled';
     /** The consumer controls the selection: the tabs fire `change` but do not select a tab. */
     managed: boolean;

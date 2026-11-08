@@ -16,5 +16,7 @@ export default defineConfig({
     '/components/chart-bar': '/charts/bar/',
     '/components/chart-pie': '/charts/pie/',
     '/components/chart-doughnut': '/charts/doughnut/',
+    // wc-flow was renamed to wc-diagram in 4.0.
+    '/components/flow': '/components/diagram/',
   },
 });

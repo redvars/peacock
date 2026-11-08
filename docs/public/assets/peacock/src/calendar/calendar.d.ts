@@ -1,6 +1,6 @@
 import { LitElement, PropertyValues } from 'lit';
 import type { CalendarViewType, EventType } from './types.js';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 /** Detail of `date-change`. */
 export type CalendarDateChangeDetail = {
     /** The new context date. */

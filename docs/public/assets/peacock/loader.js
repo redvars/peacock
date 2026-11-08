@@ -110,8 +110,6 @@ import { Banner } from './banner.js';
 import { NotificationCenter } from './notification-center.js';
 import { Tour } from './tour.js';
 import { InlineEdit } from './inline-edit.js';
-import { CommentThread } from './comment-thread.js';
-import { CommentElement } from './comment.js';
 import { PasswordRules } from './password-rules.js';
 import { Rating } from './rating.js';
 import { SignaturePad } from './signature-pad.js';
@@ -137,7 +135,7 @@ import { NavigationBarItem } from './navigation-bar-item.js';
 import { NavigationDrawer } from './navigation-drawer.js';
 import { NavigationDrawerItem } from './navigation-drawer-item.js';
 import { NavigationDrawerGroup } from './navigation-drawer-group.js';
-export { d as defaultStrings, s as setPeacockStrings } from './strings-WY90FZfd.js';
+export { d as defaultStrings, s as setPeacockStrings } from './strings-BFkowon5.js';
 import './IndividualComponent-BK7XZjE2.js';
 import './property-B2TG3KEE.js';
 import './attachable-controller-DofeyflD.js';
@@ -155,26 +153,25 @@ import './when-DEJm_QN9.js';
 import './throttle-SQ9t-HL7.js';
 import './ButtonConstants-CahP2_NA.js';
 import './delegate-Bw2wdPFP.js';
-import './form-submitter-DWwv6K9-.js';
+import './form-submitter-beG1CXAn.js';
 import './element-internals-QME0yEz4.js';
-import './base-button-Do2TUy8M.js';
+import './base-button-BJMGMcMv.js';
 import './warn-once-BNxX1Y98.js';
-import './form-associated-D3Tn33s_.js';
+import './form-associated-BHbg72PG.js';
 import './is-link-Dk2OV3PM.js';
-import './hyperlink-DhE9RlVS.js';
-import './i18n-controller-Dxqz0Aof.js';
+import './hyperlink-DycWPKwU.js';
+import './i18n-controller-W5hLm7os.js';
 import './locale-DEsJZCQG.js';
 import './menu-trigger-controller-DyLpTxM7.js';
 import './spread-B5cgadZl.js';
-import './BaseField-DhB1H2mw.js';
-import './BaseInput-DJ7w21-i.js';
-import './date-D4b7tbXp.js';
+import './BaseField-BT3TcE60.js';
+import './BaseInput-BXHX6bMj.js';
+import './date-vFrYT1S9.js';
 import './utils-D92ldd1V.js';
-import './picker-field-DWL7dB1v.js';
-import './range-utils-CzdfmgB-.js';
-import './toggle-base-Cq6DEEgq.js';
-import './floating-controller-CbbD1i-z.js';
-import './floating-ui.dom-IXnOdYJ1.js';
+import './picker-field-BGLnmppt.js';
+import './range-utils-BoKOhxVX.js';
+import './toggle-base-D7hVoSJK.js';
+import './floating-controller-CABF4tBT.js';
 import './placement-C4GO0JP9.js';
 import './query-assigned-elements-BJaGSqM0.js';
 import './query-all-ThKhg-Lp.js';
@@ -182,7 +179,7 @@ import './roving-focus-controller-fm95JkZJ.js';
 import './accordion-item.js';
 import './NativeHyperlinkMixin-WdY0fM-H.js';
 import './style-map-CHOg6N_R.js';
-import './base-progress-MpWCikJb.js';
+import './base-progress-Ds8M-bo6.js';
 import './overlay-controller-BOk-kfil.js';
 import './observe-theme-change-CkSENG98.js';
 import './repeat-D_ERDRYT.js';
@@ -192,7 +189,7 @@ import './virtual-window-5OYyIqZh.js';
 import './modal-B78gUfEO.js';
 import './live-D_5OfuGD.js';
 import './platform-BUuoTAmr.js';
-import './relative-time-DaZYpkj5.js';
+import './relative-time-BVQXLuHm.js';
 import './navigation-item-base-kUrvJgCx.js';
 import './indicator-navigation-item-CmyhsOmy.js';
 
@@ -285,8 +282,12 @@ class LoaderUtils {
             return;
         try {
             const module = await import(config.importPath);
-            // Runtime definition: grabbing the class from the module
-            const CustomElementClass = module.default || module[Object.keys(module)[0]];
+            // Runtime definition: the module's element class. A module may also export helpers (such as
+            // a list of defaults), so pick the export that is a custom element class.
+            const CustomElementClass = module.default ||
+                Object.values(module).find(value => typeof value === 'function' &&
+                    value.prototype instanceof HTMLElement) ||
+                module[Object.keys(module)[0]];
             LoaderUtils.registerComponent(tagName, CustomElementClass);
             // Handle dependencies recursively
             if (config.dependencies) {
@@ -528,6 +529,32 @@ const loaderConfig = {
             importPath: `${distDirectory}/markdown-editor.js`,
             dependencies: ['wc-code-editor'],
         },
+        'wc-markdown': {
+            importPath: `${distDirectory}/markdown.js`,
+            dependencies: ['wc-code-highlighter'],
+        },
+        'wc-comment-composer': {
+            importPath: `${distDirectory}/comment-composer.js`,
+        },
+        'wc-document-editor': {
+            importPath: `${distDirectory}/document-editor.js`,
+        },
+        'wc-discussion': {
+            importPath: `${distDirectory}/discussion.js`,
+            dependencies: [
+                'wc-comment-composer',
+                'wc-discussion-comment',
+                'wc-discussion-activity',
+            ],
+        },
+        'wc-discussion-comment': {
+            importPath: `${distDirectory}/discussion-comment.js`,
+            dependencies: ['wc-markdown', 'wc-comment-composer'],
+        },
+        'wc-discussion-activity': {
+            importPath: `${distDirectory}/discussion-activity.js`,
+            dependencies: ['wc-markdown'],
+        },
         'wc-code-highlighter': {
             importPath: `${distDirectory}/code-highlighter.js`,
         },
@@ -729,12 +756,6 @@ const loaderConfig = {
         'wc-inline-edit': {
             CustomElementClass: InlineEdit,
         },
-        'wc-comment-thread': {
-            CustomElementClass: CommentThread,
-        },
-        'wc-comment': {
-            CustomElementClass: CommentElement,
-        },
         'wc-password-rules': {
             CustomElementClass: PasswordRules,
         },
@@ -824,8 +845,33 @@ const loaderConfig = {
         'wc-calendar-month-view': {
             importPath: `${distDirectory}/calendar-month-view.js`,
         },
+        'wc-diagram': {
+            importPath: `${distDirectory}/diagram.js`,
+        },
+        // Deprecated alias of wc-diagram, until 5.0.
         'wc-flow': {
             importPath: `${distDirectory}/flow.js`,
+        },
+        'wc-workflow': {
+            importPath: `${distDirectory}/workflow.js`,
+        },
+        'wc-tree-chart': {
+            importPath: `${distDirectory}/tree-chart.js`,
+        },
+        'wc-dependency-map': {
+            importPath: `${distDirectory}/dependency-map.js`,
+        },
+        'wc-erd': {
+            importPath: `${distDirectory}/erd.js`,
+        },
+        'wc-workflow-timeline': {
+            importPath: `${distDirectory}/workflow-timeline.js`,
+        },
+        'wc-diagram-controls': {
+            importPath: `${distDirectory}/diagram-controls.js`,
+        },
+        'wc-diagram-minimap': {
+            importPath: `${distDirectory}/diagram-minimap.js`,
         },
         'wc-chart-doughnut': {
             importPath: `${distDirectory}/chart-doughnut.js`,

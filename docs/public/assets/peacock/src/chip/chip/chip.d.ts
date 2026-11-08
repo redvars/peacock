@@ -1,5 +1,5 @@
 import { LitElement, nothing } from 'lit';
-declare const Chip_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("@/__internal/mixins/element-internals.js").WithElementInternals>>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("@/button/base-button/base-button.js").BaseButton>;
+declare const Chip_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("../../__internal/mixins/element-internals.js").WithElementInternals>>, import("../../__internal/mixins/hyperlink.js").Hyperlink>, import("../../button/base-button/base-button.js").BaseButton>;
 /**
  * @label Chip
  * @tag wc-chip

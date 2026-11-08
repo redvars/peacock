@@ -1,0 +1,41 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  inline-size: var(--diagram-minimap-width, 200px);
+  block-size: var(--diagram-minimap-height, 132px);
+}
+
+.frame {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level2);
+}
+
+svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.item {
+  fill: var(--color-outline-variant);
+}
+
+.item.selected {
+  fill: var(--color-primary);
+}
+
+.view {
+  fill: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  stroke: var(--color-primary);
+  stroke-width: 1.5;
+}

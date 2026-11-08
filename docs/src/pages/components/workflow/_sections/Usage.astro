@@ -1,0 +1,102 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-workflow</code> builds business rules and processes as structured steps: actions, branches whose paths
+  merge back below, parallel paths, loops, waits, error paths and ends. The layout is automatic, so if/else always
+  rejoins; a path that ends draws no merge. Set <code>value</code> to a trigger and its steps, and
+  <code>stepTypes</code> to the entries of the add-step palette.
+</p>
+
+<p>
+  With <code>editable</code>, the "+" on each connector opens a searchable palette. Drag a step onto another "+" to move
+  it; steps glide to their new places. Selecting a step fires <code>select</code>: show its settings in your own
+  inspector and save edits with <code>updateStep()</code>. Every edit fires <code>change</code> with the new value.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px; width: 100%;">
+    <wc-workflow id="expense-rule" editable style="flex: 1 1 480px; min-width: 0; height: 640px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+      <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+    </wc-workflow>
+    <aside id="expense-inspector" style="flex: 1 1 220px; padding: 16px; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-large); display: flex; flex-direction: column; gap: 12px;">
+      <strong>Inspector</strong>
+      <p style="margin: 0; color: var(--color-on-surface-variant);">Select a step to edit it.</p>
+    </aside>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const wf = document.querySelector('#expense-rule');
+      wf.stepTypes = [
+        { kind: 'record', type: 'action', headline: 'Record created', icon: 'bolt', trigger: true, category: 'Triggers' },
+        { kind: 'schedule', type: 'action', headline: 'On a schedule', icon: 'event_repeat', trigger: true, category: 'Triggers' },
+        { kind: 'lookup', type: 'action', headline: 'Look up record', supportingText: 'Data', icon: 'person_search', accent: 'blue', category: 'Data' },
+        { kind: 'update', type: 'action', headline: 'Update record', supportingText: 'Data', icon: 'edit_note', accent: 'green', category: 'Data' },
+        { kind: 'http', type: 'action', headline: 'HTTP request', supportingText: 'Integration', icon: 'api', accent: 'blue', category: 'Integrations' },
+        { kind: 'email', type: 'action', headline: 'Send email', supportingText: 'Notification', icon: 'mail', accent: 'blue', category: 'Notifications' },
+        { kind: 'approval', type: 'action', headline: 'Approval', supportingText: 'Human task', icon: 'how_to_reg', accent: 'purple', category: 'People' },
+        { kind: 'agent', type: 'action', headline: 'AI agent', supportingText: 'Reasoning with tools', icon: 'smart_toy', accent: 'tertiary', category: 'AI' },
+        { kind: 'branch', type: 'branch', headline: 'Branch', supportingText: 'If / else', icon: 'call_split', category: 'Logic' },
+        { kind: 'parallel', type: 'parallel', headline: 'Parallel', supportingText: 'Run paths together', icon: 'alt_route', category: 'Logic' },
+        { kind: 'loop', type: 'loop', headline: 'Loop', supportingText: 'For each item', icon: 'repeat', category: 'Logic' },
+        { kind: 'wait', type: 'wait', headline: 'Wait', supportingText: 'Delay or event', icon: 'schedule', category: 'Logic' },
+        { kind: 'end', type: 'end', headline: 'End', icon: 'stop_circle', category: 'Logic' },
+      ];
+      wf.value = {
+        trigger: { id: 'created', type: 'action', headline: 'Expense report created', supportingText: 'Record trigger', icon: 'bolt', fields: [{ label: 'Table', value: 'expense_report' }] },
+        steps: [
+          { id: 'manager', type: 'action', headline: 'Look up manager', supportingText: 'Directory lookup', icon: 'person_search', accent: 'blue', fields: [{ label: 'User', value: '{{Trigger.submitted_by}}' }], outputs: [{ name: 'manager' }, { name: 'email' }] },
+          {
+            id: 'amount', type: 'branch', headline: 'Amount check', supportingText: 'If / else if / else', icon: 'call_split',
+            paths: [
+              { id: 'cfo-path', label: 'amount > 10,000', steps: [{ id: 'cfo', type: 'action', headline: 'CFO approval', supportingText: 'Approval', icon: 'how_to_reg', accent: 'purple', fields: [{ label: 'Timeout', value: '3 days' }], assignee: { name: 'Dana Wells' } }] },
+              { id: 'mgr-path', label: 'amount > 1,000', steps: [{ id: 'mgr', type: 'action', headline: 'Manager approval', supportingText: 'Approval', icon: 'how_to_reg', accent: 'purple', fields: [{ label: 'Approver', value: '{{Look up manager.manager}}' }], assignee: { name: 'Michael Chen' } }] },
+              { id: 'auto-path', label: 'Otherwise', isDefault: true, steps: [{ id: 'auto', type: 'action', headline: 'Auto approve', supportingText: 'Update record', icon: 'task_alt', accent: 'green' }] },
+            ],
+          },
+          {
+            id: 'items', type: 'loop', headline: 'Line items', icon: 'repeat', over: '{{Trigger.line_items}}',
+            steps: [{ id: 'receipt', type: 'action', headline: 'Check receipt', supportingText: 'AI agent', icon: 'smart_toy', accent: 'tertiary', fields: [{ label: 'Receipt', value: '{{Line items.receipt}}' }], tools: [{ id: 'ocr', headline: 'OCR' }, { id: 'policy', headline: 'Policy lookup' }] }],
+          },
+          {
+            id: 'erp', type: 'action', headline: 'Post to ERP', supportingText: 'HTTP request', icon: 'api', accent: 'blue', fields: [{ label: 'POST', value: '/api/v2/expenses' }], outputs: [{ name: 'status' }],
+            onError: [
+              { id: 'alert', type: 'action', headline: 'Notify finance', supportingText: 'Send email', icon: 'mail', accent: 'red' },
+              { id: 'failed', type: 'end', headline: 'End · failed' },
+            ],
+          },
+          { id: 'done', type: 'end' },
+        ],
+      };
+
+      const inspector = document.querySelector('#expense-inspector');
+      wf.addEventListener('select', e => {
+        const { step } = e.detail;
+        inspector.innerHTML = '<strong>Inspector</strong>';
+        const name = document.createElement('wc-input');
+        name.setAttribute('label', 'Step name');
+        name.value = step.headline ?? '';
+        name.addEventListener('change', ev => wf.updateStep(step.id, { headline: ev.detail.value }));
+        const kind = document.createElement('p');
+        kind.style.cssText = 'margin: 0; color: var(--color-on-surface-variant);';
+        kind.textContent = `${step.type}${step.supportingText ? ` · ${step.supportingText}` : ''} · id ${step.id}`;
+        inspector.append(name, kind);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Steps</h3>
+<ul>
+  <li><strong>action</strong> and <strong>wait</strong>: a card with up to three <code>fields</code> (all with <code>density="expanded"</code>). <code>{'{{Step.output}}'}</code> in a value renders as a data pill with the source step's icon. The footer shows <code>outputs</code>, AI agent <code>tools</code> or an <code>assignee</code>.</li>
+  <li><strong>branch</strong>: paths side by side, each with a label pill; <code>isDefault</code> marks the "otherwise" path. Paths merge into a join dot below.</li>
+  <li><strong>parallel</strong>: every path runs, then the flow waits for all of them.</li>
+  <li><strong>loop</strong>: a frame with a back arrow; <code>mode</code> is <code>for-each</code>, <code>while</code> or <code>until</code>, and <code>over</code> what it loops over.</li>
+  <li><strong>onError</strong> on an action: a side path in the error colour, like try/catch.</li>
+  <li><strong>end</strong>: stops the path. Steps after a path that always ends are flagged in a problems button, along with steps marked <code>invalid</code> (with <code>errorText</code>).</li>
+</ul>

@@ -1,5 +1,5 @@
 import { LitElement } from 'lit';
-import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { I18nController } from '../__internal/i18n/i18n-controller.js';
 declare const BaseProgress_base: import("../__internal/mixins/mixin.js").MixinReturn<typeof LitElement>;
 /**
  * `aria-label` on the host names the progress bar without a visible label (it moves to the inner
@@ -10,13 +10,16 @@ export declare class BaseProgress extends BaseProgress_base {
     value?: number;
     /** The value at which the task is complete. Defaults to `100`. */
     max: number;
+    /** Shows ongoing activity with no known completion, ignoring `value`. */
     indeterminate: boolean;
     /**
      * A visible label describing the progress, which also names the progress bar
      * (`aria-labelledby`). Without one the bar is named "Loading" (string `loading`).
      */
     label?: string;
+    /** Help text shown below the progress indicator. */
     helperText?: string;
+    /** Lays out the label and the indicator on one line instead of stacking them. */
     inline: boolean;
     /** Peacock's strings, for the fallback accessible name. */
     protected readonly i18n: I18nController;

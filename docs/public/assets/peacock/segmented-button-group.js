@@ -1,7 +1,7 @@
 import { i, a as i$1, A, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { m as mixinFormAssociated, g as getFormValue } from './form-associated-D3Tn33s_.js';
+import { m as mixinFormAssociated, g as getFormValue } from './form-associated-BHbg72PG.js';
 import { SegmentedButton } from './segmented-button.js';
 import './state-BCeDVCI9.js';
 import './class-map-NDIkZErE.js';

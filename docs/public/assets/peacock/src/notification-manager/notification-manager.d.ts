@@ -1,5 +1,5 @@
 import { LitElement } from 'lit';
-import type { SnackbarIntent } from '@/snackbar/snackbar.js';
+import type { SnackbarIntent } from '../snackbar/snackbar.js';
 /** Where the toasts stack, in logical directions. */
 export type ToastPlacement = 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
 /** What a toast shows; the `detail` of a `peacock-toast` window event, or the argument of `show()`. */

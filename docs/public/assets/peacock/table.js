@@ -4,7 +4,7 @@ import { r } from './state-BCeDVCI9.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
 import { e } from './class-map-NDIkZErE.js';
 import { c } from './repeat-D_ERDRYT.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { I as I18nController } from './i18n-controller-W5hLm7os.js';
 import { o } from './style-map-CHOg6N_R.js';
 import { o as o$1 } from './unsafe-html-Cy_JqoPT.js';
 import { w as writeClipboardText } from './clipboard-C7hBdUXP.js';
@@ -12,7 +12,7 @@ import { v as virtualWindow } from './virtual-window-5OYyIqZh.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './directive-helpers-Bx3mu42O.js';
-import './strings-WY90FZfd.js';
+import './strings-BFkowon5.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {

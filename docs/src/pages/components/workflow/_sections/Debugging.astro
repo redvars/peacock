@@ -1,0 +1,205 @@
+---
+export const title = 'Debugging and run history';
+export const order = 150;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>mode="debug"</code> shows a live <code>run</code> from your engine; the component never executes anything.
+  Cards get their status and duration, the path taken is drawn solid and paths not taken dashed, the running step
+  pulses, and a dot travels into each step the run reaches. <code>follow</code> keeps the running step in view. A
+  failed step shows its error with <strong>Retry from here</strong>.
+</p>
+<p>
+  The debug bar fires <code>debug-action</code>: Continue or Pause (<wc-kbd keys="f5"></wc-kbd>), Step over
+  (<wc-kbd keys="f10"></wc-kbd>), Step into (<wc-kbd keys="f11"></wc-kbd>), Restart and Stop
+  (<wc-kbd keys="shift+f5"></wc-kbd>). The dot left of each card sets a breakpoint (<wc-kbd keys="f9"></wc-kbd>) and
+  fires <code>breakpoint-toggle</code>. A loop shows an iteration picker; the steps inside show the picked iteration.
+  Pin a step's data from its menu. Add <code>wc-workflow-timeline</code> with <code>for</code> for a timeline that stays
+  in step with the selection.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px; width: 100%;">
+    <wc-workflow id="debug-rule" mode="debug" editable follow style="flex: 1 1 480px; min-width: 0; height: 640px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+    </wc-workflow>
+    <aside style="flex: 1 1 240px; padding: 16px; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-large); display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+      <strong id="debug-step">Select a step</strong>
+      <span id="debug-status" style="color: var(--color-on-surface-variant);">Press Continue (F5) to run. Set a breakpoint with the dot left of a card.</span>
+      <wc-json-viewer id="debug-data" expand-depth="all"></wc-json-viewer>
+    </aside>
+    <wc-workflow-timeline for="debug-rule" style="flex: 1 1 100%;"></wc-workflow-timeline>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const wf = document.querySelector('#debug-rule');
+      wf.value = {
+        trigger: { id: 'created', type: 'action', headline: 'Expense report created', icon: 'bolt' },
+        steps: [
+          { id: 'manager', type: 'action', headline: 'Look up manager', supportingText: 'Directory lookup', icon: 'person_search', accent: 'blue' },
+          {
+            id: 'amount', type: 'branch', headline: 'Amount check', icon: 'call_split',
+            paths: [
+              { id: 'big', label: 'amount > 10,000', steps: [{ id: 'cfo', type: 'action', headline: 'CFO approval', icon: 'how_to_reg', accent: 'purple' }] },
+              { id: 'mid', label: 'amount > 1,000', steps: [{ id: 'mgr', type: 'action', headline: 'Manager approval', icon: 'how_to_reg', accent: 'purple' }] },
+              { id: 'small', label: 'Otherwise', isDefault: true, steps: [{ id: 'auto', type: 'action', headline: 'Auto approve', icon: 'task_alt', accent: 'green' }] },
+            ],
+          },
+          { id: 'items', type: 'loop', headline: 'Line items', icon: 'repeat', over: '{{Trigger.line_items}}', steps: [{ id: 'receipt', type: 'action', headline: 'Check receipt', supportingText: 'AI agent', icon: 'smart_toy', accent: 'tertiary' }] },
+          { id: 'erp', type: 'action', headline: 'Post to ERP', supportingText: 'HTTP request', icon: 'api', accent: 'blue' },
+          { id: 'done', type: 'end' },
+        ],
+      };
+
+      // A tiny pretend engine. Your engine runs the workflow and sets wf.run as it goes.
+      const plan = [
+        { id: 'created' }, { id: 'manager' }, { id: 'amount', skip: ['cfo', 'auto'] }, { id: 'mgr' },
+        { id: 'items', loopStart: 3 },
+        { id: 'receipt', loop: 'items', iteration: 0 }, { id: 'receipt', loop: 'items', iteration: 1, failsOnce: true },
+        { id: 'receipt', loop: 'items', iteration: 2 },
+        { id: 'items', loopEnd: true }, { id: 'erp' }, { id: 'done' },
+      ];
+      let run, cursor, timer, failed;
+      const data = id => ({ step: id, input: { reportId: 'EXP-2041', amount: 4200, currency: 'EUR' }, output: id === 'manager' ? { manager: 'Michael Chen' } : { ok: true } });
+      const reset = () => {
+        clearTimeout(timer);
+        cursor = 0;
+        failed = false;
+        run = { id: String(Math.floor(Math.random() * 900) + 100), status: 'paused', startedAt: Date.now(), steps: {} };
+        wf.run = { ...run };
+      };
+      const slot = tick => {
+        if (!tick.loop) return run.steps;
+        const loop = run.steps[tick.loop];
+        loop.iterations[tick.iteration] = loop.iterations[tick.iteration] || {};
+        return loop.iterations[tick.iteration];
+      };
+      const finishCurrent = () => {
+        const prev = plan[cursor - 1];
+        if (!prev || prev.loopStart) return;
+        const record = slot(prev)[prev.loopEnd ? 'items' : prev.id];
+        if (record && record.status === 'running') {
+          record.status = 'success';
+          record.durationMs = Date.now() - record.startedAt;
+        }
+        if (prev.loopEnd) {
+          run.steps.items.status = 'success';
+          run.steps.items.durationMs = Date.now() - run.steps.items.startedAt;
+        }
+      };
+      const advance = () => {
+        finishCurrent();
+        const tick = plan[cursor];
+        if (!tick) {
+          run.status = 'success';
+          run.durationMs = Date.now() - run.startedAt;
+          run.current = undefined;
+          wf.run = { ...run };
+          return false;
+        }
+        cursor += 1;
+        if (tick.loopStart) run.steps.items = { status: 'running', startedAt: Date.now(), iterations: [] };
+        else if (!tick.loopEnd) {
+          const fail = tick.failsOnce && !failed;
+          slot(tick)[tick.id] = fail
+            ? { status: 'failed', startedAt: Date.now(), durationMs: 380, error: { message: 'Receipt image unreadable (OCR confidence 0.31)' }, ...data(tick.id) }
+            : { status: 'running', startedAt: Date.now(), ...data(tick.id) };
+          if (fail) {
+            failed = true;
+            run.status = 'failed';
+          }
+        }
+        (tick.skip || []).forEach(id => { run.steps[id] = { status: 'skipped' }; });
+        run.current = tick.loopEnd ? 'items' : tick.id;
+        wf.run = { ...run, steps: { ...run.steps } };
+        return run.status !== 'failed';
+      };
+      const play = () => {
+        run.status = 'running';
+        let resuming = true;
+        const loop = () => {
+          const next = plan[cursor];
+          if (!resuming && next && wf.breakpoints.includes(next.id)) {
+            // Finish the step that ran, and pause on the one with the breakpoint.
+            finishCurrent();
+            run.status = 'paused';
+            run.current = next.id;
+            if (!next.loop) run.steps[next.id] = { status: 'paused' };
+            wf.run = { ...run, steps: { ...run.steps } };
+            return;
+          }
+          resuming = false;
+          if (!advance()) return;
+          timer = setTimeout(loop, 700);
+        };
+        loop();
+      };
+      wf.addEventListener('debug-action', e => {
+        const { action } = e.detail;
+        if (action === 'continue') play();
+        else if (action === 'pause') { clearTimeout(timer); run.status = 'paused'; wf.run = { ...run }; }
+        else if (action === 'step-over' || action === 'step-into') { clearTimeout(timer); run.status = 'paused'; advance(); }
+        else if (action === 'restart') reset();
+        else if (action === 'stop') { clearTimeout(timer); run.status = 'canceled'; wf.run = { ...run }; }
+        else if (action === 'retry') { cursor -= 1; run.status = 'paused'; play(); }
+      });
+      reset();
+
+      const title = document.querySelector('#debug-step');
+      const status = document.querySelector('#debug-status');
+      const viewer = document.querySelector('#debug-data');
+      const show = id => {
+        const step = [wf.value.trigger, ...wf.value.steps].find(s => s.id === id);
+        title.textContent = step?.headline ?? id;
+        const record = run.steps[id] || run.steps.items?.iterations?.at(-1)?.[id];
+        status.textContent = record ? `${record.status}${record.durationMs ? ` · ${record.durationMs} ms` : ''}` : 'Not run yet';
+        viewer.value = record ? { input: record.input, output: record.output, error: record.error } : {};
+      };
+      wf.addEventListener('select', e => show(e.detail.id));
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Run history</h3>
+<p>
+  <code>mode="history"</code> replays a finished run, read-only. Pick a loop iteration to see what happened in it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    <wc-workflow id="history-rule" mode="history" style="height: 520px;"></wc-workflow>
+    <wc-workflow-timeline for="history-rule"></wc-workflow-timeline>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const wf = document.querySelector('#history-rule');
+      wf.value = {
+        trigger: { id: 'nightly', type: 'action', headline: 'Every night at 02:00', icon: 'event_repeat' },
+        steps: [
+          { id: 'fetch', type: 'action', headline: 'Fetch open invoices', icon: 'database', accent: 'blue' },
+          { id: 'each', type: 'loop', headline: 'Invoices', icon: 'repeat', steps: [{ id: 'remind', type: 'action', headline: 'Send reminder', icon: 'mail', accent: 'blue' }] },
+          { id: 'report', type: 'action', headline: 'Post summary', icon: 'summarize', accent: 'green' },
+        ],
+      };
+      wf.run = {
+        id: '2207', status: 'failed', durationMs: 4200,
+        steps: {
+          nightly: { status: 'success', startedAt: 0, durationMs: 20 },
+          fetch: { status: 'success', startedAt: 20, durationMs: 940 },
+          each: {
+            status: 'failed', startedAt: 960, durationMs: 3240,
+            iterations: [
+              { remind: { status: 'success', durationMs: 610 } },
+              { remind: { status: 'success', durationMs: 580 } },
+              { remind: { status: 'failed', durationMs: 2050, attempts: 3, error: { message: 'SMTP 451: try again later' } } },
+            ],
+          },
+          report: { status: 'skipped' },
+        },
+      };
+    })();
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,63 @@
+---
+export const title = 'Org chart';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-tree-chart</code> lays a hierarchy out as a tidy tree. Give it a flat list of <code>items</code>, each naming
+  its <code>parentId</code>, as rows come from a database. Cards show an avatar (initials when there is no image), a
+  headline, supporting text and a <code>badge</code>; the chip under a card shows how many items are below it and
+  expands or collapses them. <code>compact</code> stacks teams with no further levels in a column, which keeps wide
+  organisations narrow.
+</p>
+<p>
+  <code>search(text)</code> expands the way to every match, highlights the path from the root and dims the rest. With
+  <code>editable</code>, drag a person onto a new manager, add people with the buttons on a card, and delete with
+  Delete (their reports move up to their manager). Every edit fires <code>change</code>; undo with Ctrl+Z.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <wc-search id="org-search" placeholder="Search people" style="min-width: 240px;"></wc-search>
+      <wc-switch id="org-compact" checked>Compact</wc-switch>
+      <wc-switch id="org-edit">Edit</wc-switch>
+    </div>
+    <wc-tree-chart id="org" compact style="height: 560px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+      <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+    </wc-tree-chart>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const chart = document.querySelector('#org');
+      chart.items = [
+        { id: 'ceo', headline: 'Sarah Jenkins', supportingText: 'Chief executive', badge: 'Executive' },
+        { id: 'cto', parentId: 'ceo', headline: 'Michael Chen', supportingText: 'Chief technology officer', badge: 'Engineering' },
+        { id: 'cpo', parentId: 'ceo', headline: 'Elena Rostova', supportingText: 'Chief product officer', badge: 'Product' },
+        { id: 'cfo', parentId: 'ceo', headline: 'Tom Okafor', supportingText: 'Chief financial officer', badge: 'Finance' },
+        { id: 'platform', parentId: 'cto', headline: 'David Miller', supportingText: 'Platform lead' },
+        { id: 'apps', parentId: 'cto', headline: 'Priya Shah', supportingText: 'Apps lead' },
+        { id: 'p1', parentId: 'platform', headline: 'Alex Kumar', supportingText: 'Staff engineer' },
+        { id: 'p2', parentId: 'platform', headline: 'Lina Park', supportingText: 'Site reliability' },
+        { id: 'p3', parentId: 'platform', headline: 'Omar Haddad', supportingText: 'Data engineer' },
+        { id: 'a1', parentId: 'apps', headline: 'Zara Lee', supportingText: 'Frontend engineer' },
+        { id: 'a2', parentId: 'apps', headline: 'Noah Brooks', supportingText: 'Mobile engineer' },
+        { id: 'design', parentId: 'cpo', headline: 'Ana Ruiz', supportingText: 'Design lead' },
+        { id: 'pm', parentId: 'cpo', headline: 'Kenji Watanabe', supportingText: 'Group product manager', collapsed: true },
+        { id: 'd1', parentId: 'design', headline: 'Maya Rodriguez', supportingText: 'Product designer' },
+        { id: 'd2', parentId: 'design', headline: 'Liam Novak', supportingText: 'Researcher' },
+        { id: 'pm1', parentId: 'pm', headline: 'Grace Kim', supportingText: 'Product manager' },
+        { id: 'pm2', parentId: 'pm', headline: 'Ivan Petrov', supportingText: 'Product manager' },
+        { id: 'fin1', parentId: 'cfo', headline: 'Fatima Zahra', supportingText: 'Controller' },
+        { id: 'fin2', parentId: 'cfo', headline: 'Ben Carter', supportingText: 'Financial analyst' },
+      ];
+      document.querySelector('#org-search').addEventListener('input', e => chart.search(e.detail?.value ?? e.target.value ?? ''));
+      document.querySelector('#org-compact').addEventListener('change', e => { chart.compact = e.target.checked; });
+      document.querySelector('#org-edit').addEventListener('change', e => { chart.editable = e.target.checked; });
+      chart.addEventListener('change', e => console.log('tree change:', e.detail.reason));
+    })();
+  </script>
+</DemoComponentCard>

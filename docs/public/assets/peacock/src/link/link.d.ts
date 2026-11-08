@@ -1,5 +1,5 @@
 import { LitElement } from 'lit';
-declare const Link_base: typeof LitElement & import("../__internal/mixins/MixinConstructor.js").MixinConstructor<import("@/__internal/mixins/NativeHyperlinkMixin.js").NativeHyperlinkInterface>;
+declare const Link_base: typeof LitElement & import("../__internal/mixins/MixinConstructor.js").MixinConstructor<import("../__internal/mixins/NativeHyperlinkMixin.js").NativeHyperlinkInterface>;
 /**
  * @label Link
  * @tag wc-link

@@ -4,13 +4,13 @@ import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
 import { o } from './style-map-CHOg6N_R.js';
-import { B as BaseInput } from './BaseInput-DJ7w21-i.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { B as BaseInput } from './BaseInput-BXHX6bMj.js';
+import { I as I18nController } from './i18n-controller-W5hLm7os.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './element-internals-QME0yEz4.js';
-import './form-associated-D3Tn33s_.js';
-import './strings-WY90FZfd.js';
+import './form-associated-BHbg72PG.js';
+import './strings-BFkowon5.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`:host {
@@ -253,6 +253,7 @@ let Slider = class Slider extends BaseInput {
         this.helperText = '';
         /** Shows the slider in its error state with `error-text`. */
         this.error = false;
+        /** Error message shown below the slider while `error` is set; replaces the help text. */
         this.errorText = '';
         /** Size of the track and thumb: `sm` (default), `md` or `lg`. */
         this.size = 'sm';

@@ -1,6 +1,6 @@
 import { i, _ as __decorate, I as IndividualComponent, A, b } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
-import { a as CbGroupBase } from './cb-group-base-C4jaY-se.js';
+import { a as CbGroupBase } from './cb-group-base-BnHR3vef.js';
 import { c as css_248z$1 } from './cb-group-base-BBDUgxne.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
@@ -8,8 +8,8 @@ import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 import './style-map-CHOg6N_R.js';
-import './i18n-controller-Dxqz0Aof.js';
-import './strings-WY90FZfd.js';
+import './i18n-controller-W5hLm7os.js';
+import './strings-BFkowon5.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`.footer {

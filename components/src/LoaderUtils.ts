@@ -112,9 +112,16 @@ export class LoaderUtils {
     try {
       const module = await import(config.importPath);
 
-      // Runtime definition: grabbing the class from the module
+      // Runtime definition: the module's element class. A module may also export helpers (such as
+      // a list of defaults), so pick the export that is a custom element class.
       const CustomElementClass =
-        module.default || module[Object.keys(module)[0]];
+        module.default ||
+        Object.values(module).find(
+          value =>
+            typeof value === 'function' &&
+            (value as { prototype: unknown }).prototype instanceof HTMLElement,
+        ) ||
+        module[Object.keys(module)[0]];
 
       LoaderUtils.registerComponent(tagName, CustomElementClass);
 

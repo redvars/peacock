@@ -7569,6 +7569,304 @@
     }
   },
   {
+    "label": "Dependency map",
+    "tag": "wc-dependency-map",
+    "rawTag": "dependency-map",
+    "summary": "An explorable map of connected services and assets: service meshes, CMDB relationships, infrastructure.",
+    "overview": "<p>Set <code>nodes</code>, <code>edges</code> and optionally <code>groups</code>. Each node has a\n<code>type</code>, a <code>status</code> (healthy, degraded, down) shown as a ring, and an optional\n<code>group</code> (a cluster, namespace or business service) drawn as a box. Edges get thicker with\ntraffic (<code>metrics.rps</code>) and warmer with errors (<code>metrics.errorRate</code>); hover one\nfor its metrics. A collapsed group becomes one node with combined status and edges.</p>\n<p><code>layout</code> is <code>force</code> (organic, groups drift together), <code>layered</code>\n(callers on the left, dependencies on the right) or <code>radial</code> (rings of hops around the\nfocused or selected node). Live updates move as little as possible, and changing layout glides.\nDrag a node to pin it.</p>\n<p>Select a node and set <code>impact</code> to <code>upstream</code> to light up everything that\ndepends on it (what breaks if it goes down), or <code>downstream</code> for everything it depends on;\nthe rest dims. <code>focused-node</code> shows only the nodes within <code>hops</code> of one node (press F\non a node). <code>filter</code> limits nodes by type, status, tag or text, and the legend's types toggle\nit. Zoomed out, nodes become status dots; zoomed in, they show their metrics.</p>\n<p>Nodes are buttons with one tab stop. Down moves to a node it depends on, Up to one that depends\non it, Left and Right to the other nodes along that step, Enter selects, F focuses and Escape\nclears. The canvas is infinite like <code>wc-diagram</code>, with the <code>controls</code> and\n<code>minimap</code> slots.</p>",
+    "example": "```html\n<wc-dependency-map id=\"mesh\" style=\"height: 500px\"></wc-dependency-map>\n<script>\n  const map = document.getElementById('mesh');\n  map.nodes = [\n    { id: 'web', type: 'Service', headline: 'checkout-web', status: 'healthy' },\n    { id: 'api', type: 'Service', headline: 'payments-api', status: 'degraded' },\n    { id: 'db', type: 'Database', headline: 'payments-db', status: 'degraded', icon: 'database' }\n  ];\n  map.edges = [\n    { id: 'e1', source: 'web', target: 'api', metrics: { rps: 420 } },\n    { id: 'e2', source: 'api', target: 'db', metrics: { rps: 1200, errorRate: 0.008 } }\n  ];\n</script>\n```",
+    "slot": "minimap - A `wc-diagram-minimap`, shown at the bottom end corner.",
+    "fires": "viewport-change - Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+    "cssprop": "--dependency-map-background - Canvas background. Defaults to surface-container-lowest.",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Colour of edges. Defaults to outline.",
+          "name": "--dependency-map-edge-color"
+        },
+        {
+          "description": "Colour of the impact path. Defaults to the orange palette.",
+          "name": "--dependency-map-impact-color"
+        },
+        {
+          "description": "Canvas background. Defaults to surface-container-lowest.",
+          "name": "--dependency-map-background"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A `wc-diagram-controls`, shown at the bottom start corner.",
+          "name": "controls"
+        },
+        {
+          "description": "A `wc-diagram-minimap`, shown at the bottom end corner.",
+          "name": "minimap"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<DependencyMapSelectDetail>"
+          },
+          "description": "A node or collapsed group was chosen. Detail contains `{ id, node, group }`.",
+          "name": "select"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DependencyMapFocusDetail>"
+          },
+          "description": "Focus mode was turned on or off with the keyboard. Detail contains `{ id, hops }`.",
+          "name": "focus-change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DependencyMapFilterDetail>"
+          },
+          "description": "The legend changed the filter. Detail contains `{ filter }`.",
+          "name": "filter-change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DependencyMapMoveDetail>"
+          },
+          "description": "A dragged node was dropped and pinned there. Detail contains `{ id, position }`.",
+          "name": "node-drag-end"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DependencyMapGroupDetail>"
+          },
+          "description": "A group was collapsed or expanded. Detail contains `{ id, collapsed }`.",
+          "name": "group-toggle"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DependencyMapViewportDetail>"
+          },
+          "description": "Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+          "name": "viewport-change"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "layout",
+          "type": {
+            "text": "DependencyMapLayout"
+          },
+          "default": "'force'",
+          "description": "How nodes are arranged.",
+          "fieldName": "layout",
+          "expandedType": {
+            "text": "'force' | 'layered' | 'radial'"
+          }
+        },
+        {
+          "name": "impact",
+          "type": {
+            "text": "DependencyMapImpact"
+          },
+          "default": "'none'",
+          "description": "Highlights what depends on the selected node (`upstream`) or what it depends on (`downstream`).",
+          "fieldName": "impact",
+          "expandedType": {
+            "text": "'none' | 'upstream' | 'downstream'"
+          }
+        },
+        {
+          "name": "focused-node",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Shows only the nodes within `hops` of this node.",
+          "fieldName": "focusedNode"
+        },
+        {
+          "name": "hops",
+          "type": {
+            "text": "number"
+          },
+          "default": "2",
+          "description": "How far focus mode reaches.",
+          "fieldName": "hops"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the selected node or collapsed group.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "hide-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Leaves out the legend.",
+          "fieldName": "hideLegend"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The camera's scale. Follows wheel and pinch zooming; set it to zoom around the centre.",
+          "fieldName": "zoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "Screen pixels kept around content when fitting it.",
+          "fieldName": "padding",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-position",
+          "type": {
+            "text": "DiagramStartPosition"
+          },
+          "default": "'fit'",
+          "description": "Where the camera starts: fit all content, the canvas origin at 100%, or the first item at 100%.",
+          "fieldName": "startPosition",
+          "expandedType": {
+            "text": "'fit' | 'origin' | 'first'"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-view",
+          "type": {
+            "text": "DiagramView | undefined"
+          },
+          "description": "An exact starting camera, `{ x, y, zoom }`, for example one saved from `viewport-change`. Wins over `start-position`.",
+          "fieldName": "startView",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "min-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "0.1",
+          "description": "Smallest zoom.",
+          "fieldName": "minZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "max-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Largest zoom.",
+          "fieldName": "maxZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "grid-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "20",
+          "description": "Spacing of the background dots, in canvas pixels.",
+          "fieldName": "gridSize",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns on editing.",
+          "fieldName": "editable",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps content in place; the person can still pan, zoom and select.",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The canvas's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "DiagramCanvasElement",
+        "package": "@/__internal/diagram/canvas-base.js"
+      },
+      "tagName": "wc-dependency-map",
+      "customElement": true,
+      "rawTag": {
+        "name": "dependency-map",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Description Item",
     "tag": "wc-description-item",
     "rawTag": "description-item",
@@ -7688,6 +7986,412 @@
       "customElement": true,
       "rawTag": {
         "name": "description-list",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Diagram",
+    "tag": "wc-diagram",
+    "rawTag": "diagram",
+    "summary": "An infinite canvas of nodes and connections that the person pans, zooms and edits, for state machines, process maps and node editors.",
+    "overview": "<p>Set <code>nodes</code> and <code>edges</code> as properties. A node shows a built-in card with\n<code>headline</code>, <code>supportingText</code> and <code>icon</code>, or your own content in an\nelement with <code>slot=\"node:&lt;id&gt;\"</code>. Nodes connect through <code>ports</code> on their\nsides; edges are drawn as rounded elbows by default (<code>connector</code>), with an optional label\nand markers at each end.</p>\n<p>The canvas is infinite: drag the background, hold Space and drag, use the middle button or a\ntrackpad to pan, and hold Ctrl or Command and scroll, or pinch, to zoom. It opens at\n<code>start-position</code> (<code>fit</code>, <code>origin</code> or <code>first</code>) or at an exact\n<code>start-view</code>; Home or <code>home()</code> flies back there, Shift+1 or <code>fit()</code> fits\nall content, and a \"Back to content\" button appears when everything is out of view. Read and set\nthe camera with <code>view</code>, and save it from <code>viewport-change</code>. Add\n<code>wc-diagram-controls</code> and <code>wc-diagram-minimap</code> in the <code>controls</code> and\n<code>minimap</code> slots.</p>\n<p>By default nodes can be dragged and connections drawn; the diagram fires <code>node-drag-end</code>\nand <code>connect</code> and leaves edges to you. <code>editable</code> turns it into a full editor:\nit adds the edge on <code>connect</code> unless you cancel the event, selects edges, draws a marquee\nwith Shift + drag, moves several nodes at once, snaps to other nodes (and to the grid with\n<code>snap-to-grid</code>), deletes with Delete, copies and pastes, and undoes with Ctrl+Z. Every\ncommitted edit fires <code>change</code>. <code>readonly</code> keeps everything in place.</p>\n<p>The diagram never mutates the objects you pass: edits assign new <code>nodes</code> and\n<code>edges</code> arrays. Each node is focusable and named by its headline. Arrow keys move the\nfocused node by 20px (Shift: 100px), Alt + arrow moves focus to the nearest node in that\ndirection, and Enter or Space selects it. Arrow keys follow the canvas axes and are not mirrored in\nright-to-left layouts.</p>\n<p>This component was called <code>wc-flow</code> before 4.0. That tag still works as a\ndeprecated alias until 5.0.</p>",
+    "example": "```html\n<wc-diagram id=\"my-diagram\" style=\"height: 400px\">\n  <wc-diagram-controls slot=\"controls\"></wc-diagram-controls>\n  <wc-diagram-minimap slot=\"minimap\"></wc-diagram-minimap>\n</wc-diagram>\n<script>\n  const diagram = document.getElementById('my-diagram');\n  diagram.nodes = [\n    { id: 'new', position: { x: 0, y: 0 }, headline: 'New', icon: 'fiber_new' },\n    { id: 'done', position: { x: 300, y: 0 }, headline: 'Done', icon: 'task_alt' }\n  ];\n  diagram.edges = [{ id: 'e1', source: 'new', target: 'done', label: 'finish' }];\n</script>\n```",
+    "slot": "node:<id> - Custom content for the node with that id, in place of the built-in card.",
+    "fires": "viewport-change - Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+    "cssprop": "--diagram-node-background - Background of the built-in card.",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Canvas background. Defaults to surface-container-lowest.",
+          "name": "--diagram-background"
+        },
+        {
+          "description": "Colour of the grid dots. Defaults to outline-variant.",
+          "name": "--diagram-dot-color"
+        },
+        {
+          "description": "Colour of edges at rest. Defaults to a mix of primary and outline-variant.",
+          "name": "--diagram-line-color"
+        },
+        {
+          "description": "Colour of hovered and selected edges, ports and nodes. Defaults to primary.",
+          "name": "--diagram-hover-color"
+        },
+        {
+          "description": "Diameter of a port ring. Defaults to 10px.",
+          "name": "--diagram-port-size"
+        },
+        {
+          "description": "Background of the built-in card.",
+          "name": "--diagram-node-background"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A `wc-diagram-controls`, shown at the bottom start corner.",
+          "name": "controls"
+        },
+        {
+          "description": "A `wc-diagram-minimap`, shown at the bottom end corner.",
+          "name": "minimap"
+        },
+        {
+          "description": "Custom content for the node with that id, in place of the built-in card.",
+          "name": "node:<id>"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<DiagramNodeMoveDetail>"
+          },
+          "description": "While a node is dragged. Detail contains `{ id, position }`.",
+          "name": "node-drag"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DiagramNodeMoveDetail>"
+          },
+          "description": "Once when a drag ends, and after each keyboard move. Detail contains `{ id, position }`.",
+          "name": "node-drag-end"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DiagramSelectDetail>"
+          },
+          "description": "A node or edge was chosen with a click, Enter or Space. Detail contains `{ id, kind, node, edge }`.",
+          "name": "select"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DiagramConnectDetail>"
+          },
+          "description": "A connection was dragged onto a port. With `editable`, the diagram adds the edge unless the event is canceled. Detail contains `{ source, target, sourceHandle, targetHandle }`.",
+          "name": "connect"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DiagramDeleteDetail>"
+          },
+          "description": "Before nodes and edges are deleted with `editable`. Cancel it to keep them. Detail contains `{ nodes, edges }` (ids).",
+          "name": "delete"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DiagramChangeDetail>"
+          },
+          "description": "After a committed edit. Detail contains `{ nodes, edges, reason }`.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<DiagramViewportDetail>"
+          },
+          "description": "Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+          "name": "viewport-change"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "nodes",
+          "type": {
+            "text": "DiagramNode[]"
+          },
+          "default": "[]",
+          "description": "Nodes to draw. Replaced with a new array, never mutated, when the person edits.",
+          "fieldName": "nodes"
+        },
+        {
+          "name": "edges",
+          "type": {
+            "text": "DiagramEdge[]"
+          },
+          "default": "[]",
+          "description": "Connections between node ports.",
+          "fieldName": "edges"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the selected node or edge. With several selected, the last one chosen.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "connector",
+          "type": {
+            "text": "DiagramConnector"
+          },
+          "default": "'elbow'",
+          "description": "How edges without a `type` are drawn.",
+          "fieldName": "connector",
+          "expandedType": {
+            "text": "'elbow' | 'bezier' | 'straight'"
+          }
+        },
+        {
+          "name": "snap-to-grid",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Snaps dragged nodes to the grid (`grid-size`).",
+          "fieldName": "snapToGrid"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The camera's scale. Follows wheel and pinch zooming; set it to zoom around the centre.",
+          "fieldName": "zoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "Screen pixels kept around content when fitting it.",
+          "fieldName": "padding",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-position",
+          "type": {
+            "text": "DiagramStartPosition"
+          },
+          "default": "'fit'",
+          "description": "Where the camera starts: fit all content, the canvas origin at 100%, or the first item at 100%.",
+          "fieldName": "startPosition",
+          "expandedType": {
+            "text": "'fit' | 'origin' | 'first'"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-view",
+          "type": {
+            "text": "DiagramView | undefined"
+          },
+          "description": "An exact starting camera, `{ x, y, zoom }`, for example one saved from `viewport-change`. Wins over `start-position`.",
+          "fieldName": "startView",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "min-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "0.1",
+          "description": "Smallest zoom.",
+          "fieldName": "minZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "max-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Largest zoom.",
+          "fieldName": "maxZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "grid-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "20",
+          "description": "Spacing of the background dots, in canvas pixels.",
+          "fieldName": "gridSize",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns on editing.",
+          "fieldName": "editable",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps content in place; the person can still pan, zoom and select.",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The canvas's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "DiagramCanvasElement",
+        "package": "@/__internal/diagram/canvas-base.js"
+      },
+      "tagName": "wc-diagram",
+      "customElement": true,
+      "rawTag": {
+        "name": "diagram",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Diagram controls",
+    "tag": "wc-diagram-controls",
+    "rawTag": "diagram-controls",
+    "summary": "Zoom, fit, back-to-start and undo buttons for a diagram canvas such as `wc-diagram`.",
+    "overview": "<p>Put it in a canvas's <code>controls</code> slot, or anywhere on the page with <code>for</code> set\nto the canvas's id. It shows zoom out, the zoom level, zoom in, fit to content and back to start;\nundo and redo join them when the canvas is <code>editable</code>. The zoom level opens a menu with\n50%, 100%, 200%, fit, zoom to selection and back to start.</p>\n<p>It is a <code>toolbar</code>: Tab reaches it once and the arrow keys move between its buttons.</p>",
+    "example": "```html\n<wc-diagram style=\"height: 400px\">\n  <wc-diagram-controls slot=\"controls\"></wc-diagram-controls>\n</wc-diagram>\n```",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "attributes": [
+        {
+          "name": "for",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the canvas to control, when the controls are not inside it.",
+          "fieldName": "for"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "'horizontal' | 'vertical'"
+          },
+          "default": "'horizontal'",
+          "description": "Lays the buttons out in a row or a column.",
+          "fieldName": "orientation"
+        },
+        {
+          "name": "hide-history",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Leaves out undo and redo even when the canvas is editable.",
+          "fieldName": "hideHistory"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-diagram-controls",
+      "customElement": true,
+      "rawTag": {
+        "name": "diagram-controls",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Diagram minimap",
+    "tag": "wc-diagram-minimap",
+    "rawTag": "diagram-minimap",
+    "summary": "A small overview of a diagram canvas that shows where the view is and moves it.",
+    "overview": "<p>Put it in a canvas's <code>minimap</code> slot, or anywhere with <code>for</code> set to the\ncanvas's id. It draws every node as a box and the part of the canvas in view as a rectangle,\nwherever the view has wandered. Click to fly there, or drag to move the view.</p>\n<p>The minimap is a pointer shortcut; keyboard users pan the canvas itself with the arrow keys.</p>",
+    "example": "```html\n<wc-diagram style=\"height: 400px\">\n  <wc-diagram-minimap slot=\"minimap\"></wc-diagram-minimap>\n</wc-diagram>\n```",
+    "cssprop": "--diagram-minimap-height - Height. Defaults to 132px.",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Width. Defaults to 200px.",
+          "name": "--diagram-minimap-width"
+        },
+        {
+          "description": "Height. Defaults to 132px.",
+          "name": "--diagram-minimap-height"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "for",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the canvas to show, when the minimap is not inside it.",
+          "fieldName": "for"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-diagram-minimap",
+      "customElement": true,
+      "rawTag": {
+        "name": "diagram-minimap",
         "description": ""
       }
     }
@@ -8632,6 +9336,294 @@
     }
   },
   {
+    "label": "ERD",
+    "tag": "wc-erd",
+    "rawTag": "erd",
+    "summary": "An entity-relationship diagram: tables with their columns, joined by crow's-foot relations.",
+    "overview": "<p>Set <code>entities</code> (each with <code>columns</code>) and <code>relations</code>. A relation\nruns from the entity holding the foreign key (<code>source</code>, <code>sourceColumn</code>) to the\none it references (<code>target</code>, <code>targetColumn</code>), and its ends show crow's-foot\ncardinality (many to one by default). Lines join the column rows and route at right angles. Primary\nkeys show a key, foreign keys a link. Hover an entity or a column to highlight what it is joined to.</p>\n<p>Entities without a <code>position</code> are laid out automatically: referenced tables to the left\nof the tables that reference them. Collapse an entity to its header with the chevron (or Shift+Enter);\nthe layout closes the gap. <code>schema</code> shows one schema, and <code>focused-node</code> with\n<code>hops</code> shows one entity's neighbourhood (press F on an entity). Zoomed far out, rows\nbecome bars.</p>\n<p>With <code>editable</code>: double-click a name or type to rename it (F2 on an entity), add and\nremove columns, click a row's key to toggle the primary key, drag the ring at a row's end onto\nanother row to add a relation and pick its cardinality, and delete with Delete. Every edit fires\n<code>change</code> with the new <code>entities</code> and <code>relations</code>; undo with Ctrl+Z.</p>\n<p>Entities are one tab stop: arrow keys move to the nearest entity in that direction, Enter selects.\nThe canvas is infinite like <code>wc-diagram</code>, with the <code>controls</code> and\n<code>minimap</code> slots.</p>",
+    "example": "```html\n<wc-erd id=\"schema\" style=\"height: 480px\"></wc-erd>\n<script>\n  const erd = document.getElementById('schema');\n  erd.entities = [\n    { id: 'customers', name: 'customers', columns: [\n      { name: 'id', type: 'uuid', pk: true }, { name: 'email', type: 'text' }] },\n    { id: 'orders', name: 'orders', columns: [\n      { name: 'id', type: 'uuid', pk: true }, { name: 'customer_id', type: 'uuid' }] }\n  ];\n  erd.relations = [\n    { id: 'r1', source: 'orders', sourceColumn: 'customer_id', target: 'customers', targetColumn: 'id' }\n  ];\n</script>\n```",
+    "slot": "minimap - A `wc-diagram-minimap`, shown at the bottom end corner.",
+    "fires": "viewport-change - Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+    "cssprop": "--erd-background - Canvas background. Defaults to surface-container-lowest.",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Colour of relations. Defaults to outline.",
+          "name": "--erd-relation-color"
+        },
+        {
+          "description": "Colour of highlighted relations and rows. Defaults to primary.",
+          "name": "--erd-highlight-color"
+        },
+        {
+          "description": "Canvas background. Defaults to surface-container-lowest.",
+          "name": "--erd-background"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A `wc-diagram-controls`, shown at the bottom start corner.",
+          "name": "controls"
+        },
+        {
+          "description": "A `wc-diagram-minimap`, shown at the bottom end corner.",
+          "name": "minimap"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<ErdSelectDetail>"
+          },
+          "description": "An entity or relation was chosen. Detail contains `{ id, kind, entity, relation }`.",
+          "name": "select"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdMoveDetail>"
+          },
+          "description": "A dragged entity was dropped. Detail contains `{ id, position }`.",
+          "name": "entity-move"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdToggleDetail>"
+          },
+          "description": "An entity was collapsed or expanded. Detail contains `{ id, collapsed }`.",
+          "name": "toggle"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdConnectDetail>"
+          },
+          "description": "A relation is about to be added by dragging. Cancelable. Detail contains `{ relation }`.",
+          "name": "connect"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdDeleteDetail>"
+          },
+          "description": "Entities or relations are about to be deleted. Cancelable. Detail contains `{ entities, relations }`.",
+          "name": "delete"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdChangeDetail>"
+          },
+          "description": "An edit was made. Detail contains `{ entities, relations, reason }`.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdFocusDetail>"
+          },
+          "description": "Focus mode was turned on or off with the keyboard. Detail contains `{ id, hops }`.",
+          "name": "focus-change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<ErdViewportDetail>"
+          },
+          "description": "Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+          "name": "viewport-change"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "schema",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Shows only the entities of this schema.",
+          "fieldName": "schema"
+        },
+        {
+          "name": "focused-node",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Shows only the entities within `hops` relations of this entity.",
+          "fieldName": "focusedNode"
+        },
+        {
+          "name": "hops",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "How far focus mode reaches.",
+          "fieldName": "hops"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the selected entity or relation.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The camera's scale. Follows wheel and pinch zooming; set it to zoom around the centre.",
+          "fieldName": "zoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "Screen pixels kept around content when fitting it.",
+          "fieldName": "padding",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-position",
+          "type": {
+            "text": "DiagramStartPosition"
+          },
+          "default": "'fit'",
+          "description": "Where the camera starts: fit all content, the canvas origin at 100%, or the first item at 100%.",
+          "fieldName": "startPosition",
+          "expandedType": {
+            "text": "'fit' | 'origin' | 'first'"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-view",
+          "type": {
+            "text": "DiagramView | undefined"
+          },
+          "description": "An exact starting camera, `{ x, y, zoom }`, for example one saved from `viewport-change`. Wins over `start-position`.",
+          "fieldName": "startView",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "min-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "0.1",
+          "description": "Smallest zoom.",
+          "fieldName": "minZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "max-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Largest zoom.",
+          "fieldName": "maxZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "grid-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "20",
+          "description": "Spacing of the background dots, in canvas pixels.",
+          "fieldName": "gridSize",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns on editing.",
+          "fieldName": "editable",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps content in place; the person can still pan, zoom and select.",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The canvas's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "DiagramCanvasElement",
+        "package": "@/__internal/diagram/canvas-base.js"
+      },
+      "tagName": "wc-erd",
+      "customElement": true,
+      "rawTag": {
+        "name": "erd",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "FAB",
     "tag": "wc-fab",
     "rawTag": "fab",
@@ -8959,12 +9951,27 @@
     "tag": "wc-field",
     "rawTag": "field",
     "summary": "The box around a form control, with its label, required mark, helper, error or warning text and a character count.",
-    "overview": "<p>The field draws the frame of a form control: the label with a required mark, the bordered\nbox with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,\nerror or warning text and a character count. Wrap a custom control in it to match the\nbuilt-in fields.</p>",
+    "overview": "<p>The field draws the frame of a form control: the label with a required mark, the bordered\nbox with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,\nerror or warning text and a character count. Wrap a custom control in it to match the\nbuilt-in fields.</p>\n<p>The <code>default</code> variant fills its box with <code>surface-container-lowest</code>, so it\nstands out on cards and dialogs as well as on the page. <code>outlined</code> has no fill (the\noutline alone marks it) and <code>filled</code> uses <code>surface-container-highest</code>, as in\nMaterial 3. Disabled follows M3: the text at 38%, the outline at 12% and a 4% fill. Read-only\nkeeps the label and value at full contrast in a faint box, so it reads as information.</p>\n<p>The <code>outlined</code> variant is the M3 outlined text field: its label rests inside the\nempty field and, on focus or with a value, floats into a notch in the outline's top edge. The\noutline is drawn in parts (start, notch, end), so the notch needs no background and the field\nworks on any surface. The outline is 1px, 2px while focused.</p>",
+    "cssprop": "--field-label-rest-top - Where the outlined label's resting line is centred, from the top of the box. Defaults to the middle; multi-line fields set it to their first line.",
     "example": "```html\n<wc-field label=\"Name\" required>\n  some text\n</wc-field>\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "The box's fill. Defaults to `surface-container-lowest` (default variant), `surface-container-highest` (filled) or none (outlined).",
+          "name": "--field-container-color"
+        },
+        {
+          "description": "The outline's resting width. Defaults to 1px on the outlined variant.",
+          "name": "--field-outline-width"
+        },
+        {
+          "description": "Where the outlined label's resting line is centred, from the top of the box. Defaults to the middle; multi-line fields set it to their first line.",
+          "name": "--field-label-rest-top"
+        }
+      ],
       "attributes": [
         {
           "name": "label",
@@ -9238,135 +10245,6 @@
       },
       "default": "'q'",
       "description": "Key of the search text in `value`."
-    }
-  },
-  {
-    "label": "Flow",
-    "tag": "wc-flow",
-    "rawTag": "flow",
-    "summary": "A node editor on a dotted grid, where the person moves nodes and draws connections between them.",
-    "overview": "<p>Set <code>nodes</code> and <code>edges</code> as properties. A node shows its\n<code>data.label</code> (or its id) on a default card, or renders your own element when\n<code>data</code> is an element or has an <code>element</code>. Each node has input handles\n(left by default) and output handles (right by default); an edge is drawn as a smooth step,\nbezier or straight line, solid, dashed or animated dashed.</p>\n<p>Nodes are dragged with a mouse, pen or touch; <code>node-drag</code> fires while a node moves\nand <code>node-drag-end</code> once when the drag ends. A press without movement selects the\nnode, sets <code>selected</code> and fires <code>select</code>. Dragging from an output handle\nonto another node's input handle fires <code>connect</code>; the flow does not add the edge, so\nadd it to <code>edges</code> yourself.</p>\n<p>Each node is focusable and named by its label. Arrow keys move the focused node by one grid\nstep (20px), Shift + arrow by 100px, and each move fires <code>node-drag-end</code>; Enter or\nSpace selects it. Arrow keys follow the canvas axes, so they are not mirrored in right-to-left\nlayouts.</p>\n<p>Moving a node never mutates the objects you passed: the flow replaces the moved node with a\nnew object (<code>{ ...node, position }</code>) and assigns a new array to <code>nodes</code>.\nRead <code>flow.nodes</code>, or save the position from <code>node-drag-end</code>, to keep the\nchange. <code>zoom</code> scales the canvas and <code>padding</code> sets the space around the\nnodes.</p>",
-    "example": "```html\n<wc-flow id=\"my-flow\"></wc-flow>\n<script>\n  const flow = document.getElementById('my-flow');\n  flow.nodes = [\n    { id: '1', position: { x: 50, y: 50 }, data: { label: 'Node 1' } },\n    { id: '2', position: { x: 250, y: 50 }, data: { label: 'Node 2' } }\n  ];\n  flow.edges = [\n    { id: 'e1-2', source: '1', target: '2' }\n  ];\n</script>\n```",
-    "fires": "connect - An output handle was dragged onto another node's input handle. Detail contains `{ source, target, sourceHandle, targetHandle }`.",
-    "cssprop": "--flow-arrow-color - Stroke color for arrow markers. Defaults to on-surface.",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "cssProperties": [
-        {
-          "description": "Background color for the canvas wrapper. Defaults to surface-container-low.",
-          "name": "--flow-background"
-        },
-        {
-          "description": "Color of the background grid dots. Defaults to outline-variant.",
-          "name": "--flow-dot-color"
-        },
-        {
-          "description": "Default stroke color for lines and connectors. Defaults to on-surface.",
-          "name": "--flow-line-color"
-        },
-        {
-          "description": "Stroke color on hover for clickable shapes. Defaults to primary.",
-          "name": "--flow-hover-color"
-        },
-        {
-          "description": "Stroke color for arrow markers. Defaults to on-surface.",
-          "name": "--flow-arrow-color"
-        }
-      ],
-      "events": [
-        {
-          "name": "type",
-          "type": {
-            "text": "CustomEvent"
-          }
-        },
-        {
-          "type": {
-            "text": "CustomEvent<FlowNodeMoveDetail>"
-          },
-          "description": "While a node is dragged. Detail contains `{ id, position }`.",
-          "name": "node-drag"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<FlowNodeMoveDetail>"
-          },
-          "description": "Once when a drag ends, and after each keyboard move. Detail contains `{ id, position }`.",
-          "name": "node-drag-end"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<FlowSelectDetail>"
-          },
-          "description": "A node was clicked, or chosen with Enter or Space. Detail contains `{ id, node }`.",
-          "name": "select"
-        },
-        {
-          "type": {
-            "text": "CustomEvent<FlowConnectDetail>"
-          },
-          "description": "An output handle was dragged onto another node's input handle. Detail contains `{ source, target, sourceHandle, targetHandle }`.",
-          "name": "connect"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "nodes",
-          "type": {
-            "text": "FlowNode[]"
-          },
-          "default": "[]",
-          "description": "Nodes to draw. Replaced with a new array, never mutated, when a node moves.",
-          "fieldName": "nodes"
-        },
-        {
-          "name": "edges",
-          "type": {
-            "text": "FlowEdge[]"
-          },
-          "default": "[]",
-          "description": "Connections between node handles.",
-          "fieldName": "edges"
-        },
-        {
-          "name": "zoom",
-          "type": {
-            "text": "number"
-          },
-          "default": "1",
-          "description": "Scale of the canvas.",
-          "fieldName": "zoom"
-        },
-        {
-          "name": "padding",
-          "type": {
-            "text": "number"
-          },
-          "default": "50",
-          "description": "Space around the nodes, in canvas pixels.",
-          "fieldName": "padding"
-        },
-        {
-          "name": "selected",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Id of the selected node. Set by clicking a node or pressing Enter or Space on it.",
-          "fieldName": "selected"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-flow",
-      "customElement": true,
-      "rawTag": {
-        "name": "flow",
-        "description": ""
-      }
     }
   },
   {
@@ -22180,6 +23058,288 @@
     }
   },
   {
+    "label": "Tree chart",
+    "tag": "wc-tree-chart",
+    "rawTag": "tree-chart",
+    "summary": "A hierarchy laid out as a tidy tree on an infinite canvas: org charts, taxonomies, sitemaps, decision trees.",
+    "overview": "<p>Set <code>items</code> to a flat list where each item names its <code>parentId</code>; the chart lays\nthe tree out with each card's real size. Top to bottom by default, or left to right with\n<code>orientation=\"horizontal\"</code>. <code>compact</code> stacks teams with no further levels in a\ncolumn under their manager, which keeps wide organisations narrow.</p>\n<p>A card shows an avatar (or an <code>icon</code>), a headline, supporting text and a\n<code>badge</code>. Put your own card in <code>slot=\"item:&lt;id&gt;\"</code>. The chip under a card\nshows how many items are below it and expands or collapses them (<code>expand</code> and\n<code>collapse</code> fire). For lazy loading, give an item <code>hasChildren</code> and add its\nchildren when it fires <code>expand</code>; it shows a spinner until they arrive.</p>\n<p><code>search(text)</code> expands the way to every match, highlights the path from the root and\ndims the rest, and zooms to the first match; <code>clearSearch()</code> undoes it.</p>\n<p>With <code>editable</code>, drag a card onto another to change its parent (never into its own\nbranch), add an item below or beside with the buttons on a card, and delete with Delete, which\nmoves the item's children up to its parent. <code>reparent</code>, <code>add</code> and\n<code>delete</code> fire first and can be canceled; every edit then fires <code>change</code> with the\nnew <code>items</code>. Undo with Ctrl+Z. Expanding, collapsing and edits glide.</p>\n<p>The tree follows the WAI-ARIA tree pattern with one tab stop. In a vertical chart Up goes to the\nparent, Down to the first child, Left and Right to siblings (mirrored in right-to-left); a\nhorizontal chart turns the keys. Home and End go to the first and last item, <code>*</code> expands\nall siblings, Enter selects and Shift + Enter expands or collapses. The canvas is infinite like\n<code>wc-diagram</code>, with the <code>controls</code> and <code>minimap</code> slots.</p>",
+    "example": "```html\n<wc-tree-chart id=\"org\" style=\"height: 500px\"></wc-tree-chart>\n<script>\n  document.getElementById('org').items = [\n    { id: 'ceo', headline: 'Sarah Jenkins', supportingText: 'CEO' },\n    { id: 'cto', parentId: 'ceo', headline: 'Michael Chen', supportingText: 'CTO', badge: 'Engineering' },\n    { id: 'cpo', parentId: 'ceo', headline: 'Elena Rostova', supportingText: 'CPO', badge: 'Product' }\n  ];\n</script>\n```",
+    "slot": "item:<id> - Custom content for the item with that id, in place of the built-in card.",
+    "fires": "viewport-change - Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+    "cssprop": "--tree-chart-background - Canvas background. Defaults to surface-container-lowest.",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Colour of connectors. Defaults to a mix of primary and outline-variant.",
+          "name": "--tree-chart-connector-color"
+        },
+        {
+          "description": "Canvas background. Defaults to surface-container-lowest.",
+          "name": "--tree-chart-background"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A `wc-diagram-controls`, shown at the bottom start corner.",
+          "name": "controls"
+        },
+        {
+          "description": "A `wc-diagram-minimap`, shown at the bottom end corner.",
+          "name": "minimap"
+        },
+        {
+          "description": "Custom content for the item with that id, in place of the built-in card.",
+          "name": "item:<id>"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartItemDetail>"
+          },
+          "description": "An item was chosen with a click, Enter or Space. Detail contains `{ id, item }`.",
+          "name": "select"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartItemDetail>"
+          },
+          "description": "An item was expanded. Add its children now when they load lazily. Detail contains `{ id, item }`.",
+          "name": "expand"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartItemDetail>"
+          },
+          "description": "An item was collapsed. Detail contains `{ id, item }`.",
+          "name": "collapse"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartReparentDetail>"
+          },
+          "description": "Before a dragged item gets a new parent. Cancel it to keep it where it was. Detail contains `{ id, parentId, previousParentId }`.",
+          "name": "reparent"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartAddDetail>"
+          },
+          "description": "Before a new item is added with a card's buttons. Cancel it to add the item your own way. Detail contains `{ parentId, position, of }`.",
+          "name": "add"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartDeleteDetail>"
+          },
+          "description": "Before an item is removed. Cancel it to keep it. Detail contains `{ ids }`.",
+          "name": "delete"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartChangeDetail>"
+          },
+          "description": "After every edit. Detail contains `{ items, reason }`.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<TreeChartViewportDetail>"
+          },
+          "description": "Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+          "name": "viewport-change"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "orientation",
+          "type": {
+            "text": "TreeChartOrientation"
+          },
+          "default": "'vertical'",
+          "description": "Lays the tree out top to bottom or left to right.",
+          "fieldName": "orientation",
+          "expandedType": {
+            "text": "'vertical' | 'horizontal'"
+          }
+        },
+        {
+          "name": "compact",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Stacks children that have no children of their own in a column (vertical charts).",
+          "fieldName": "compact"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the selected item.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The camera's scale. Follows wheel and pinch zooming; set it to zoom around the centre.",
+          "fieldName": "zoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "Screen pixels kept around content when fitting it.",
+          "fieldName": "padding",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-position",
+          "type": {
+            "text": "DiagramStartPosition"
+          },
+          "default": "'fit'",
+          "description": "Where the camera starts: fit all content, the canvas origin at 100%, or the first item at 100%.",
+          "fieldName": "startPosition",
+          "expandedType": {
+            "text": "'fit' | 'origin' | 'first'"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-view",
+          "type": {
+            "text": "DiagramView | undefined"
+          },
+          "description": "An exact starting camera, `{ x, y, zoom }`, for example one saved from `viewport-change`. Wins over `start-position`.",
+          "fieldName": "startView",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "min-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "0.1",
+          "description": "Smallest zoom.",
+          "fieldName": "minZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "max-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Largest zoom.",
+          "fieldName": "maxZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "grid-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "20",
+          "description": "Spacing of the background dots, in canvas pixels.",
+          "fieldName": "gridSize",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns on editing.",
+          "fieldName": "editable",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps content in place; the person can still pan, zoom and select.",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The canvas's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "DiagramCanvasElement",
+        "package": "@/__internal/diagram/canvas-base.js"
+      },
+      "tagName": "wc-tree-chart",
+      "customElement": true,
+      "rawTag": {
+        "name": "tree-chart",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Tree Item",
     "tag": "wc-tree-item",
     "rawTag": "tree-item",
@@ -22800,6 +23960,359 @@
       "customElement": true,
       "rawTag": {
         "name": "virtual-list",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Workflow",
+    "tag": "wc-workflow",
+    "rawTag": "workflow",
+    "summary": "A structured builder for business rules and processes: steps, branches that merge back, parallel paths, loops, error paths and ends.",
+    "overview": "<p>Set <code>value</code> to a trigger and a list of steps. Steps are <code>action</code>,\n<code>wait</code> and <code>end</code> cards, <code>branch</code> and <code>parallel</code> blocks whose\npaths sit side by side and merge back below (a path that ends draws no merge), and\n<code>loop</code> frames. An action's <code>onError</code> steps run as a side path. The layout is\nautomatic: top to bottom, or left to right with <code>direction=\"horizontal\"</code>, joined by rounded\nconnectors.</p>\n<p>Cards show a tinted icon, a headline and the kind of step, up to three <code>fields</code>\n(<code>{{Step.output}}</code> in a value renders as a data pill), and a footer with outputs, tools or\nan assignee. <code>density</code> shows less (<code>compact</code>) or everything\n(<code>expanded</code>). Put your own card in <code>slot=\"step:&lt;id&gt;\"</code>.</p>\n<p>With <code>editable</code>, a \"+\" on every connector opens a searchable palette built from\n<code>stepTypes</code>; <code>step-add</code> fires first and can be canceled to show your own dialog.\nDrag a step to another \"+\" to move it, delete it with Delete, duplicate with Ctrl+D, copy and paste,\nand undo with Ctrl+Z. Steps glide to their new places. Every edit fires <code>change</code> with the\nnew <code>value</code>; selecting a step fires <code>select</code>, for your inspector. Apply its edits\nwith <code>updateStep()</code>.</p>\n<p>The canvas is infinite, like <code>wc-diagram</code>: pan, zoom, <code>start-position</code>,\n<code>home()</code>, and the <code>controls</code> and <code>minimap</code> slots. Steps are a tree for\nscreen readers. Up and Down move through steps in reading order, Left and Right move between the\npaths of a branch (in a horizontal workflow the keys swap), Insert opens the palette after the\nfocused step, Alt + Up or Down moves it, and Shift + Enter collapses or expands a block.</p>\n<p><code>mode=\"debug\"</code> and <code>mode=\"history\"</code> show a <code>run</code> from your engine:\neach card gets its status and duration, the path taken is drawn solid and paths not taken are\ndashed, the running step pulses and a dot travels into each step the run reaches\n(<code>follow</code> keeps it in view). A failed step shows its error with \"Retry from here\". In\ndebug mode a debug bar fires <code>debug-action</code> (Continue F5, Step over F10, Step into F11,\nRestart, Stop Shift+F5), and the dot left of each card toggles a breakpoint (F9) and fires\n<code>breakpoint-toggle</code>. A loop shows an iteration picker; the steps inside show the picked\niteration. History mode is read-only. Editing is off outside <code>design</code>. Pair it with\n<code>wc-workflow-timeline</code> for a timeline of the run.</p>",
+    "example": "```html\n<wc-workflow id=\"rule\" editable style=\"height: 600px\">\n  <wc-diagram-controls slot=\"controls\"></wc-diagram-controls>\n</wc-workflow>\n<script>\n  document.getElementById('rule').value = {\n    trigger: { id: 'created', type: 'action', headline: 'Expense created', icon: 'bolt' },\n    steps: [\n      {\n        id: 'amount', type: 'branch', headline: 'Amount check',\n        paths: [\n          { id: 'big', label: 'amount > 1,000', steps: [{ id: 'approve', type: 'action', headline: 'Manager approval' }] },\n          { id: 'small', label: 'Otherwise', isDefault: true, steps: [] }\n        ]\n      },\n      { id: 'end', type: 'end' }\n    ]\n  };\n</script>\n```",
+    "slot": "step:<id> - Custom content for the step with that id, in place of the built-in card.",
+    "fires": "iteration-change - A different loop iteration was picked. Detail contains `{ loopId, index }`.",
+    "cssprop": "--workflow-background - Canvas background. Defaults to surface-container-lowest.",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Width of a standard card. Defaults to 280px.",
+          "name": "--workflow-card-width"
+        },
+        {
+          "description": "Colour of connectors. Defaults to a mix of primary and outline-variant.",
+          "name": "--workflow-connector-color"
+        },
+        {
+          "description": "Canvas background. Defaults to surface-container-lowest.",
+          "name": "--workflow-background"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A `wc-diagram-controls`, shown at the bottom start corner.",
+          "name": "controls"
+        },
+        {
+          "description": "A `wc-diagram-minimap`, shown at the bottom end corner.",
+          "name": "minimap"
+        },
+        {
+          "description": "Custom content for the step with that id, in place of the built-in card.",
+          "name": "step:<id>"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowSelectDetail>"
+          },
+          "description": "A step was chosen with a click, Enter or Space. Detail contains `{ id, step }`.",
+          "name": "select"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowStepAddDetail>"
+          },
+          "description": "Before a step from the palette is added. Cancel it to add the step your own way. Detail contains `{ stepType, list, index, trigger }`.",
+          "name": "step-add"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowDeleteDetail>"
+          },
+          "description": "Before steps are removed. Cancel it to keep them. Detail contains `{ ids }`.",
+          "name": "delete"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowChangeDetail>"
+          },
+          "description": "After every edit. Detail contains `{ value, reason }`.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowViewportDetail>"
+          },
+          "description": "Once per frame while the camera moves and once when it settles. Detail contains `{ x, y, zoom, settled }`.",
+          "name": "viewport-change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowDebugActionDetail>"
+          },
+          "description": "A debug bar button, a debug shortcut or \"Retry from here\" was used. Detail contains `{ action, stepId }`.",
+          "name": "debug-action"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowBreakpointDetail>"
+          },
+          "description": "A breakpoint was set or cleared in debug mode. Detail contains `{ id, enabled, breakpoints }`.",
+          "name": "breakpoint-toggle"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<WorkflowIterationDetail>"
+          },
+          "description": "A different loop iteration was picked. Detail contains `{ loopId, index }`.",
+          "name": "iteration-change"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "direction",
+          "type": {
+            "text": "WorkflowDirection"
+          },
+          "default": "'vertical'",
+          "description": "Lays the workflow out top to bottom or left to right.",
+          "fieldName": "direction",
+          "expandedType": {
+            "text": "'vertical' | 'horizontal'"
+          }
+        },
+        {
+          "name": "density",
+          "type": {
+            "text": "WorkflowDensity"
+          },
+          "default": "'standard'",
+          "description": "How much each card shows: the header only, up to three fields, or everything.",
+          "fieldName": "density",
+          "expandedType": {
+            "text": "'compact' | 'standard' | 'expanded'"
+          }
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the selected step.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "mode",
+          "type": {
+            "text": "WorkflowMode"
+          },
+          "default": "'design'",
+          "description": "`design` edits the workflow. `debug` shows a live `run` with a debug bar and breakpoints.\n`history` replays a past `run`, read-only. Editing is off outside `design`.",
+          "fieldName": "mode",
+          "expandedType": {
+            "text": "'design' | 'debug' | 'history'"
+          }
+        },
+        {
+          "name": "follow",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps the step that is running in view as the run moves.",
+          "fieldName": "follow"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The camera's scale. Follows wheel and pinch zooming; set it to zoom around the centre.",
+          "fieldName": "zoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "Screen pixels kept around content when fitting it.",
+          "fieldName": "padding",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-position",
+          "type": {
+            "text": "DiagramStartPosition"
+          },
+          "default": "'fit'",
+          "description": "Where the camera starts: fit all content, the canvas origin at 100%, or the first item at 100%.",
+          "fieldName": "startPosition",
+          "expandedType": {
+            "text": "'fit' | 'origin' | 'first'"
+          },
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "start-view",
+          "type": {
+            "text": "DiagramView | undefined"
+          },
+          "description": "An exact starting camera, `{ x, y, zoom }`, for example one saved from `viewport-change`. Wins over `start-position`.",
+          "fieldName": "startView",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "min-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "0.1",
+          "description": "Smallest zoom.",
+          "fieldName": "minZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "max-zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "4",
+          "description": "Largest zoom.",
+          "fieldName": "maxZoom",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "grid-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "20",
+          "description": "Spacing of the background dots, in canvas pixels.",
+          "fieldName": "gridSize",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns on editing.",
+          "fieldName": "editable",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps content in place; the person can still pan, zoom and select.",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The canvas's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "DiagramCanvasElement",
+            "module": "E:/git/redvars/peacock/components/src/__internal/diagram/canvas-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "DiagramCanvasElement",
+        "package": "@/__internal/diagram/canvas-base.js"
+      },
+      "tagName": "wc-workflow",
+      "customElement": true,
+      "rawTag": {
+        "name": "workflow",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Workflow timeline",
+    "tag": "wc-workflow-timeline",
+    "rawTag": "workflow-timeline",
+    "summary": "The steps of a workflow run as bars on a shared time scale, in step with a `wc-workflow`.",
+    "overview": "<p>Set <code>for</code> to the id of a <code>wc-workflow</code> in debug or history mode: the timeline\nshows its <code>run</code>, follows its selection, and selects a step in the workflow when a row is\nclicked. Without a workflow, set <code>value</code> and <code>run</code> yourself.</p>\n<p>Each step that ran is a row with its name, a bar from when it started to when it finished\n(running steps grow to now), coloured by status, and its duration. Steps without a\n<code>startedAt</code> are laid end to end in reading order.</p>",
+    "example": "```html\n<wc-workflow id=\"rule\" mode=\"history\"></wc-workflow>\n<wc-workflow-timeline for=\"rule\"></wc-workflow-timeline>\n```",
+    "tags": "data",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "attributes": [
+        {
+          "name": "for",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Id of the `wc-workflow` to show.",
+          "fieldName": "for"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The accessible name and heading. Defaults to \"Run timeline\".",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-workflow-timeline",
+      "customElement": true,
+      "rawTag": {
+        "name": "workflow-timeline",
         "description": ""
       }
     }

@@ -3,16 +3,16 @@ import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
-import { B as BaseInput } from './BaseInput-DJ7w21-i.js';
+import { I as I18nController } from './i18n-controller-W5hLm7os.js';
+import { B as BaseInput } from './BaseInput-BXHX6bMj.js';
 import { o as observeThemeChange } from './observe-theme-change-CkSENG98.js';
 import { t as tokenColor } from './token-colors-DEO6rvEu.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-WY90FZfd.js';
+import './strings-BFkowon5.js';
 import './locale-DEsJZCQG.js';
 import './element-internals-QME0yEz4.js';
-import './form-associated-D3Tn33s_.js';
+import './form-associated-BHbg72PG.js';
 
 /**
  * The colors the editor theme is built from: Peacock color roles, plus the syntax colors
@@ -6954,7 +6954,7 @@ function loadMonaco() {
             style.textContent = declaration;
             document.head.append(style);
         }
-        return import('./monaco-CM52C2ss.js').then(function (n) { return n.m; });
+        return import('./monaco-DKotUTYe.js').then(function (n) { return n.m; });
     })();
     return loading;
 }
@@ -7049,6 +7049,7 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.helperText = '';
         /** Shows the editor in its error state with `error-text`. */
         this.error = false;
+        /** Error message shown below the editor while `error` is set; replaces the help text. */
         this.errorText = '';
         /** Whether line numbers show in the gutter. On by default; `line-numbers="false"` hides them. */
         this.lineNumbers = true;

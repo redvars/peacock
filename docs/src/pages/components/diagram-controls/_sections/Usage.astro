@@ -1,0 +1,53 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-diagram-controls</code> zooms, fits and returns a diagram canvas to its start. Put it in the canvas's
+  <code>controls</code> slot, or anywhere on the page with <code>for</code> set to the canvas's id. Clicking the
+  zoom level opens a menu with 50%, 100%, 200%, fit, zoom to selection and back to start. Undo and redo join the
+  bar when the canvas is <code>editable</code> (unless <code>hide-history</code> is set).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diagram id="controls-diagram" editable style="height: 360px;">
+    <wc-diagram-controls slot="controls"></wc-diagram-controls>
+  </wc-diagram>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#controls-diagram');
+      diagram.nodes = [
+        { id: 'a', position: { x: 0, y: 0 }, headline: 'Draft', icon: 'edit_note' },
+        { id: 'b', position: { x: 300, y: 120 }, headline: 'Published', icon: 'public', intent: 'success' },
+      ];
+      diagram.edges = [{ id: 'e', source: 'a', target: 'b', label: 'publish' }];
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Vertical, outside the canvas</h3>
+<p>
+  <code>orientation="vertical"</code> stacks the buttons, for a rail beside the canvas. The bar is a toolbar: Tab
+  reaches it once and the arrow keys move between its buttons.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; gap: 12px; align-items: center; width: 100%;">
+    <wc-diagram-controls for="rail-diagram" orientation="vertical"></wc-diagram-controls>
+    <wc-diagram id="rail-diagram" style="height: 300px; flex: 1;"></wc-diagram>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#rail-diagram');
+      diagram.nodes = [
+        { id: 'a', position: { x: 0, y: 0 }, headline: 'Start', icon: 'play_arrow' },
+        { id: 'b', position: { x: 260, y: 0 }, headline: 'Finish', icon: 'flag' },
+      ];
+      diagram.edges = [{ id: 'e', source: 'a', target: 'b' }];
+    })();
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,128 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.timeline {
+  padding: 12px 16px;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-block-end: 8px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.total {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  @include mixin.reset-button-styles;
+
+  display: grid;
+  grid-template-columns: minmax(120px, 30%) 1fr 72px;
+  align-items: center;
+  gap: 12px;
+  inline-size: 100%;
+  min-block-size: 30px;
+  padding: 0 8px;
+  font-size: 13px;
+  text-align: start;
+  border-radius: var(--shape-corner-small);
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 6%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  &.is-selected {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-inline-size: 0;
+  --icon-size: 1rem;
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  block-size: 10px;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container);
+}
+
+/* Bars are placed along the time axis, which does not mirror. */
+/* stylelint-disable property-disallowed-list */
+.bar {
+  position: absolute;
+  top: 0;
+  block-size: 100%;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-outline);
+
+  .st-success & {
+    background: var(--color-success);
+  }
+
+  .st-failed & {
+    background: var(--color-error);
+  }
+
+  .st-running &,
+  .st-waiting &,
+  .st-paused & {
+    background: var(--color-primary);
+  }
+
+  .st-skipped &,
+  .st-canceled & {
+    background: var(--color-outline-variant);
+  }
+}
+/* stylelint-enable property-disallowed-list */
+
+.duration {
+  font-size: 12px;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-on-surface-variant);
+
+  .st-failed & {
+    color: var(--color-error);
+  }
+}

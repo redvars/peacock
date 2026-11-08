@@ -1,4 +1,4 @@
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 import { CbGroupBase } from './cb-group-base.js';
 /**
  * @label Condition Builder

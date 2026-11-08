@@ -2,15 +2,15 @@ import { i, _ as __decorate, I as IndividualComponent, b } from './IndividualCom
 import { r } from './state-BCeDVCI9.js';
 import { e } from './class-map-NDIkZErE.js';
 import { s as spread } from './spread-B5cgadZl.js';
-import { p as peacockString } from './strings-WY90FZfd.js';
-import { T as ToggleBase } from './toggle-base-Cq6DEEgq.js';
+import { p as peacockString } from './strings-BFkowon5.js';
+import { T as ToggleBase } from './toggle-base-D7hVoSJK.js';
 import './property-B2TG3KEE.js';
 import './directive-ZPhl09Yt.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
-import './form-associated-D3Tn33s_.js';
+import './form-associated-BHbg72PG.js';
 import './element-internals-QME0yEz4.js';
-import './BaseInput-DJ7w21-i.js';
+import './BaseInput-BXHX6bMj.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -379,7 +379,6 @@ let Radio = Radio_1 = class Radio extends ToggleBase {
           class="container"
           role="radio"
           aria-checked=${String(this.checked)}
-          @click=${this.clickHandler}
           @mousedown=${this.handleMouseDown}
           @keydown=${this.keyDownHandler}
           @focus=${this.handleFocusChange}
@@ -399,6 +398,7 @@ let Radio = Radio_1 = class Radio extends ToggleBase {
           aria-hidden="true"
           ?disabled=${this.disabled}
           tabindex="-1"
+          @click=${this.clickHandler}
         />
 
         ${this.renderLabel()}
