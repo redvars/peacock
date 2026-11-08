@@ -2,6 +2,17 @@
 
 Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](docs/adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
 
+## New in 4.2
+
+4.2 adds features and changes nothing you must migrate: `npm install @redvars/peacock@4.2`, or change the CDN URLs to `@4.2.0`.
+
+- **Conversations:** `wc-chat-message` takes `from="participant"` for other people in the conversation, with a header line (author, channel, time) and a `meta` slot, and `suggestions` renders quick replies as chips that fire `suggestion-select`. The new `wc-chat-event` puts what happened (an icon, a sentence, the time) between messages. `wc-chat-thread` stays at the latest message while content grows, until the reader scrolls up.
+- **AI:** `wc-ai-badge` gains `icon-only`; narrow fields and textareas use it for the Suggested badge. `wc-draft-card` stacks label over value in narrow cards.
+- **Split button** follows the Material 3 Expressive spec: fully round outer corners, small inner corners that grow on hover and press, a circular menu button while the menu is open, and the M3 sizes. It gains the `elevated` variant. `--split-button-container-shape` now sets only the outer corners.
+- **Buttons:** `--button-container-padding-start` and `--button-container-padding-end` set uneven padding, and corner shape changes animate.
+- **Accessibility:** the menu buttons of `wc-split-button` and `wc-dropdown-button` now expose their label, `aria-haspopup` and `aria-expanded` to screen readers.
+- **Table:** a distinct sort icon for unsorted columns, and a hairline edge on pinned columns.
+
 ## New in 4.1
 
 4.1 adds components and changes nothing you must migrate: `npm install @redvars/peacock@4.1`, or change the CDN URLs to `@4.1.0`.
