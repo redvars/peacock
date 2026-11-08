@@ -1,0 +1,148 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Incident agent block (pages/blocks/incident-agent/): the inbox, the conversation and the record
+// side by side. The frame is .block-demo from styles/pages/blocks.scss.
+
+.incident-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--color-surface-container-lowest);
+
+  @include mixin.for-tablet-landscape-up {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    // A fixed height, so the conversation scrolls inside its pane as it would in an app.
+    block-size: 48rem;
+  }
+
+  // The inbox only where the conversation still has room beside it.
+  @include mixin.for-big-desktop-up {
+    grid-template-columns: 15rem minmax(0, 1fr) 20rem;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.incident-pane-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  min-block-size: 3.5rem;
+  padding: var(--spacing-100) var(--spacing-200);
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  h2 {
+    flex: 1;
+    min-inline-size: 0;
+  }
+}
+
+.incident-title {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+
+  h2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.incident-group {
+  padding: var(--spacing-150) var(--spacing-200) var(--spacing-050);
+}
+
+.incident-inbox {
+  display: none;
+  overflow-y: auto;
+  background: var(--color-surface-container-low);
+  border-inline-end: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-big-desktop-up {
+    display: block;
+  }
+
+  wc-list {
+    padding-inline: var(--spacing-100);
+  }
+}
+
+.incident-conversation {
+  display: flex;
+  flex-direction: column;
+  // Stacked on a phone, the conversation keeps a height of its own so the thread scrolls in it.
+  block-size: 42rem;
+
+  @include mixin.for-tablet-landscape-up {
+    block-size: auto;
+    min-block-size: 0;
+  }
+
+  .incident-pane-header {
+    flex-wrap: wrap;
+  }
+
+  .incident-title {
+    flex-basis: 12rem;
+  }
+}
+
+.incident-thread {
+  flex: 1;
+  min-block-size: 0;
+}
+
+.incident-agent-mark {
+  display: grid;
+  flex: none;
+  inline-size: 2rem;
+  block-size: 2rem;
+  place-items: center;
+  color: var(--color-on-primary-container);
+  background: var(--color-primary-container);
+  border-radius: var(--shape-corner-full);
+
+  wc-icon {
+    --icon-size: 1.125rem;
+    --icon-color: currentColor;
+  }
+}
+
+.incident-composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  padding: var(--spacing-100) var(--spacing-200) var(--spacing-200);
+  border-block-start: 1px solid var(--color-outline-variant);
+}
+
+.incident-record {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  background: var(--color-surface-container-low);
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-tablet-landscape-up {
+    border-block-start: 0;
+    border-inline-start: 1px solid var(--color-outline-variant);
+  }
+}
+
+.incident-record-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding: var(--spacing-200);
+  overflow-y: auto;
+
+  .incident-group {
+    padding: 0;
+    margin-block-end: calc(-1 * var(--spacing-100));
+  }
+}

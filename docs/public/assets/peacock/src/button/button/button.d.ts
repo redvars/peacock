@@ -20,6 +20,10 @@ declare const Button_base: import("../../__internal/mixins/mixin.js").MixinRetur
  * @cssprop --button-container-shape-end-start - Defines the start position of the button container shape.
  * @cssprop --button-container-shape-end-end - Defines the end position of the button container shape.
  *
+ * @cssprop --button-container-padding - Inline padding of the button container, on both sides.
+ * @cssprop --button-container-padding-start - Inline-start padding of the button container; overrides `--button-container-padding`.
+ * @cssprop --button-container-padding-end - Inline-end padding of the button container; overrides `--button-container-padding`.
+ *
  *
  * @cssprop --filled-button-container-color - Color of the filled button container.
  * @cssprop --filled-button-label-text-color - Text color of the filled button label.

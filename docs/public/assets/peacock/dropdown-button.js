@@ -2,7 +2,7 @@ import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './Ind
 import { n } from './property-B2TG3KEE.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { M as MenuTriggerController } from './menu-trigger-controller-DyLpTxM7.js';
+import { M as MenuTriggerController } from './menu-trigger-controller-CEJq1ugC.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -150,7 +150,8 @@ let DropdownButton = class DropdownButton extends i$1 {
         color=${this.color}
         trailing-icon
         ?disabled=${this.disabled}
-        .configAria=${this._trigger.triggerAria}
+        aria-haspopup="menu"
+        aria-expanded=${String(this._trigger.open)}
         @click=${this._trigger.handleTriggerClick}
         @keydown=${this._trigger.handleTriggerKeyDown}
       >

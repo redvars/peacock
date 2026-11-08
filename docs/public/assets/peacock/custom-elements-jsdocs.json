@@ -56,7 +56,7 @@
     "tag": "wc-ai-badge",
     "rawTag": "ai-badge",
     "summary": "Marks a value, draft or text as made by the assistant, says why, and can clear it in one action.",
-    "overview": "<p>The one marker for AI output in Peacock (ADR-030002). Put it beside anything the assistant\r\nmade until a person accepts it:</p>\r\n<ul>\r\n  <li><code>suggested</code> (default): a value the person hasn't accepted, such as a field the\r\n  assistant filled in.</li>\r\n  <li><code>draft</code>: a record or text waiting to be confirmed, such as an incident the\r\n  assistant prepared.</li>\r\n  <li><code>generated</code>: read-only output, such as a summary. Shown as colored text without\r\n  a container.</li>\r\n</ul>\r\n<p><code>reason</code> says why, in a sentence: it shows in a tooltip on hover or keyboard focus\r\nand is read as the badge's description. <code>dismissible</code> adds a clear button that fires\r\n<code>dismiss</code>; the app then removes the suggestion, discards the draft or hides the\r\nsummary.</p>\r\n<p>When AI is off for the page (<code>setPeacockAi({ enabled: false })</code>) the badge renders\r\nnothing, so a page that still passes AI state in never shows a stale marker.</p>\r\n<p>The label is always text, never only the color or the sparkle. Replace it with the default\r\nslot, for example \"Summary by the assistant\".</p>",
+    "overview": "<p>The one marker for AI output in Peacock (ADR-030002). Put it beside anything the assistant\r\nmade until a person accepts it:</p>\r\n<ul>\r\n  <li><code>suggested</code> (default): a value the person hasn't accepted, such as a field the\r\n  assistant filled in.</li>\r\n  <li><code>draft</code>: a record or text waiting to be confirmed, such as an incident the\r\n  assistant prepared.</li>\r\n  <li><code>generated</code>: read-only output, such as a summary. Shown as colored text without\r\n  a container.</li>\r\n</ul>\r\n<p><code>reason</code> says why, in a sentence: it shows in a tooltip on hover or keyboard focus\r\nand is read as the badge's description. <code>dismissible</code> adds a clear button that fires\r\n<code>dismiss</code>; the app then removes the suggestion, discards the draft or hides the\r\nsummary.</p>\r\n<p><code>icon-only</code> keeps just the sparkle where there is no room for the label, such as a\r\nnarrow field: the label is still read and shows in the tooltip. Fields switch to it on their\r\nown when they are narrow.</p>\r\n<p>When AI is off for the page (<code>setPeacockAi({ enabled: false })</code>) the badge renders\r\nnothing, so a page that still passes AI state in never shows a stale marker.</p>\r\n<p>The label is always text, never only the color or the sparkle. Replace it with the default\r\nslot, for example \"Summary by the assistant\".</p>",
     "tags": "display, ai",
     "slot": "- The label, instead of the default one for the kind.",
     "csspart": "dismiss - The clear button.",
@@ -135,6 +135,15 @@
           "default": "false",
           "description": "Adds a button that clears the output in one action.",
           "fieldName": "dismissible"
+        },
+        {
+          "name": "icon-only",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows only the sparkle, for tight spaces such as a narrow field. The label stays the\r\naccessible name and shows in the tooltip.",
+          "fieldName": "iconOnly"
         }
       ],
       "superclass": {
@@ -1487,10 +1496,10 @@
     "tag": "wc-button",
     "rawTag": "button",
     "summary": "A button with a text label that runs an action, such as saving a form or sending a message; it can also toggle.",
-    "overview": "<p><code>level</code> is a preset of <code>color</code> and <code>variant</code>: <code>primary</code> (primary, filled), <code>secondary</code> (surface, tonal), <code>tertiary</code> (primary, text) and <code>danger</code> (danger, filled). A <code>color</code> or <code>variant</code> you set wins over it.</p>\r\n<p>Set <code>toggle</code> to make a toggle button: it renders <code>aria-pressed</code>, flips <code>selected</code> on each click and fires <code>change</code>. <code>selected</code> does nothing without <code>toggle</code>.</p>\r\n<p>For a link that looks like a button, use <code>wc-link-button</code>.</p>",
+    "overview": "<p><code>level</code> is a preset of <code>color</code> and <code>variant</code>: <code>primary</code> (primary, filled), <code>secondary</code> (surface, tonal), <code>tertiary</code> (primary, text) and <code>danger</code> (danger, filled). A <code>color</code> or <code>variant</code> you set wins over it.</p>\n<p>Set <code>toggle</code> to make a toggle button: it renders <code>aria-pressed</code>, flips <code>selected</code> on each click and fires <code>change</code>. <code>selected</code> does nothing without <code>toggle</code>.</p>\n<p>For a link that looks like a button, use <code>wc-link-button</code>.</p>",
     "cssprop": "--neo-button-label-text-color - Text color of the neo button label.",
     "fires": "change - Dispatched by a `toggle` button after a click flips `selected`.",
-    "example": "```html\r\n<wc-button>Button</wc-button>\r\n```",
+    "example": "```html\n<wc-button>Button</wc-button>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -1515,6 +1524,18 @@
         {
           "description": "Defines the end position of the button container shape.",
           "name": "--button-container-shape-end-end"
+        },
+        {
+          "description": "Inline padding of the button container, on both sides.",
+          "name": "--button-container-padding"
+        },
+        {
+          "description": "Inline-start padding of the button container; overrides `--button-container-padding`.",
+          "name": "--button-container-padding-start"
+        },
+        {
+          "description": "Inline-end padding of the button container; overrides `--button-container-padding`.",
+          "name": "--button-container-padding-end"
         },
         {
           "description": "Color of the filled button container.",
@@ -1584,7 +1605,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When `true`, the icon is placed after the label (trailing).\r\nWhen `false` (default), the icon is placed before the label (leading).",
+          "description": "When `true`, the icon is placed after the label (trailing).\nWhen `false` (default), the icon is placed before the label (leading).",
           "fieldName": "trailingIcon"
         },
         {
@@ -1593,7 +1614,7 @@
             "text": "ButtonSize"
           },
           "default": "'sm'",
-          "description": "Button size.\r\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size",
           "expandedType": {
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
@@ -1626,7 +1647,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true, the button is busy: it shows a spinner in place of its icon (or before the label),\r\nsets `aria-busy=\"true\"` and ignores clicks, like `soft-disabled`.",
+          "description": "When true, the button is busy: it shows a spinner in place of its icon (or before the label),\nsets `aria-busy=\"true\"` and ignores clicks, like `soft-disabled`.",
           "fieldName": "loading"
         },
         {
@@ -1635,7 +1656,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click\r\nand fires `change`.",
+          "description": "When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click\nand fires `change`.",
           "fieldName": "toggle"
         },
         {
@@ -3745,17 +3766,82 @@
     }
   },
   {
+    "label": "Chat Event",
+    "tag": "wc-chat-event",
+    "rawTag": "chat-event",
+    "summary": "A line in a conversation for something that happened rather than something said, such as \"Alan Kay confirmed the rollback\".",
+    "overview": "<p>Goes in <code>wc-chat-thread</code> between <code>wc-chat-message</code>s. It records what\nhappened to the conversation's subject: a person confirmed a draft, a record changed state,\nsomeone joined. The content is the sentence; <code>icon</code> sets the glyph before it, and\n<code>datetime</code> adds the time after it.</p>\n<p>Use a message for anything someone wrote, and an event for anything the platform recorded.\nEvents are not announced as they arrive; the record they describe is what changed.</p>",
+    "tags": "display, ai",
+    "slot": "- What happened. Bold the name of who did it with `<strong>`.",
+    "csspart": "event - The line.",
+    "example": "```html\n<wc-chat-event icon=\"verified\" datetime=\"2026-11-08T10:07:00\">\n  <strong>Alan Kay</strong> confirmed the rollback · policy NET-04\n</wc-chat-event>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssParts": [
+        {
+          "description": "The line.",
+          "name": "event"
+        }
+      ],
+      "slots": [
+        {
+          "description": "What happened. Bold the name of who did it with `<strong>`.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Material Symbols name of the glyph before the text, such as `verified`.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "datetime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "When it happened, as an ISO 8601 date-time; shown as a time after the text.",
+          "fieldName": "datetime"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Locale for the time; defaults to the nearest `lang`, else the browser's.",
+          "fieldName": "locale"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chat-event",
+      "customElement": true,
+      "rawTag": {
+        "name": "chat-event",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Chat Message",
     "tag": "wc-chat-message",
     "rawTag": "chat-message",
-    "summary": "One turn of a conversation: what the person asked, or the assistant's answer with its steps, drafts and sources.",
-    "overview": "<p>Put messages in <code>wc-chat-thread</code>. <code>from=\"user\"</code> shows the person's text in\r\na bubble at the end of the line; <code>from=\"assistant\"</code> (default) shows the answer as\r\nformatted text. Both take Markdown in <code>value</code>, rendered by <code>wc-markdown</code>, so\r\nmentions and <code>[1](cite:id)</code> citations work; give the sources in\r\n<code>citations</code>.</p>\r\n<p>While an answer arrives, set <code>streaming</code> and keep replacing <code>value</code>. Before\r\nthe first words, a typing indicator shows <code>status</code>, such as \"Looking up your laptop…\".\r\nPut <code>wc-assistant-steps</code> in the <code>steps</code> slot, above the text, and\r\n<code>wc-draft-card</code>s in the default slot, below it.</p>\r\n<p>A finished answer has actions: copy, <strong>Try again</strong> (<code>regenerate</code>) and\r\ngood or bad (<code>feedback</code>, which toggles <code>feedback</code>). <code>hide-actions</code>\r\nremoves them. With <code>error</code> the message says the answer failed, with Try again.</p>",
+    "summary": "One turn of a conversation: what the person asked, another person's message, or the assistant's answer with its steps, drafts and sources.",
+    "overview": "<p>Put messages in <code>wc-chat-thread</code>. <code>from=\"user\"</code> shows the person's text in\r\na bubble at the end of the line; <code>from=\"assistant\"</code> (default) shows the answer as\r\nformatted text; <code>from=\"participant\"</code> shows another person's text, such as a caller's\r\nor a teammate's, in a quiet bubble at the start of the line, with their name above it. All take\r\nMarkdown in <code>value</code>, rendered by <code>wc-markdown</code>, so mentions and\r\n<code>[1](cite:id)</code> citations work; give the sources in <code>citations</code>.</p>\r\n<p><strong>Who and when.</strong> A line above the message names <code>author</code> and adds\r\n<code>channel</code> (\"via Teams\") and the time of <code>datetime</code>. It shows for a\r\nparticipant, whenever <code>datetime</code> or <code>channel</code> is set, and when the\r\n<code>meta</code> slot has content, such as a \"Work note\" tag. In a one-to-one conversation with\r\nthe assistant, leave them out and the messages stay bare.</p>\r\n<p>While an answer arrives, set <code>streaming</code> and keep replacing <code>value</code>. Before\r\nthe first words, a typing indicator shows <code>status</code>, such as \"Looking up your laptop…\".\r\nPut <code>wc-assistant-steps</code> in the <code>steps</code> slot, above the text, and\r\n<code>wc-draft-card</code>s in the default slot, below it.</p>\r\n<p>A finished answer has actions: copy, <strong>Try again</strong> (<code>regenerate</code>) and\r\ngood or bad (<code>feedback</code>, which toggles <code>feedback</code>). <code>hide-actions</code>\r\nremoves them. With <code>error</code> the message says the answer failed, with Try again.</p>\r\n<p><strong>Quick replies.</strong> <code>suggestions</code> shows the likely next moves as chips\r\nunder the message (\"Promote to major incident\", \"Why P2?\"). Picking one fires\r\n<code>suggestion-select</code>; the app sends it and usually clears the list.</p>",
     "tags": "display, ai",
-    "slot": "footer - Below everything, such as follow-up suggestions.",
-    "csspart": "actions - The answer's actions.",
-    "cssprop": "--chat-message-bubble-color - Text color of the person's bubble.",
-    "fires": "feedback - The person rated the answer, or took the rating back (`value: ''`).",
-    "example": "```html\r\n<wc-chat-message from=\"user\" value=\"Will I get a loaner before Friday?\"></wc-chat-message>\r\n<wc-chat-message value=\"Desk support has **2 loaners** free.\"></wc-chat-message>\r\n```",
+    "slot": "footer - Below everything.",
+    "csspart": "suggestions - The quick replies.",
+    "cssprop": "--chat-message-participant-color - Text color of a participant's bubble.",
+    "fires": "suggestion-select - The person picked a quick reply.",
+    "example": "```html\r\n<wc-chat-message from=\"participant\" author=\"Priya Shah\" channel=\"Teams\"\r\n  datetime=\"2026-11-08T09:41:00\" value=\"VPN keeps dropping every ten minutes.\"></wc-chat-message>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -3767,11 +3853,23 @@
         {
           "description": "Text color of the person's bubble.",
           "name": "--chat-message-bubble-color"
+        },
+        {
+          "description": "Background of a participant's bubble.",
+          "name": "--chat-message-participant-background"
+        },
+        {
+          "description": "Text color of a participant's bubble.",
+          "name": "--chat-message-participant-color"
         }
       ],
       "cssParts": [
         {
-          "description": "The person's text bubble.",
+          "description": "The line above the message with the author, channel and time.",
+          "name": "header"
+        },
+        {
+          "description": "The text bubble of the person or a participant.",
           "name": "bubble"
         },
         {
@@ -3781,6 +3879,10 @@
         {
           "description": "The answer's actions.",
           "name": "actions"
+        },
+        {
+          "description": "The quick replies.",
+          "name": "suggestions"
         }
       ],
       "slots": [
@@ -3797,11 +3899,22 @@
           "name": "avatar"
         },
         {
-          "description": "Below everything, such as follow-up suggestions.",
+          "description": "At the end of the line above the message, such as a \"Work note\" `wc-tag`.",
+          "name": "meta"
+        },
+        {
+          "description": "Below everything.",
           "name": "footer"
         }
       ],
       "events": [
+        {
+          "name": "suggestion-select",
+          "type": {
+            "text": "CustomEvent<ChatMessageSuggestionDetail>"
+          },
+          "description": "The person picked a quick reply."
+        },
         {
           "name": "feedback",
           "type": {
@@ -3824,10 +3937,10 @@
             "text": "ChatMessageFrom"
           },
           "default": "'assistant'",
-          "description": "Who wrote it: the person (`user`) or the assistant (`assistant`, default).",
+          "description": "Who wrote it: the person (`user`), the assistant (`assistant`, default) or another person (`participant`).",
           "fieldName": "from",
           "expandedType": {
-            "text": "'user' | 'assistant'"
+            "text": "'user' | 'assistant' | 'participant'"
           }
         },
         {
@@ -3836,8 +3949,26 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Name read before the message; defaults to \"You\" or \"Assistant\".",
+          "description": "Name shown above a participant's message and read before every message; defaults to \"You\", \"Assistant\" or \"Participant\".",
           "fieldName": "author"
+        },
+        {
+          "name": "datetime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "When it was written, as an ISO 8601 date-time; shown as a time above the message.",
+          "fieldName": "datetime"
+        },
+        {
+          "name": "channel",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Where it came from, such as \"Teams\"; shown as \"via Teams\" above the message.",
+          "fieldName": "channel"
         },
         {
           "name": "value",
@@ -3913,6 +4044,14 @@
           "default": "false",
           "description": "Removes copy, Try again and the rating from an answer.",
           "fieldName": "hideActions"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Locale for the time; defaults to the nearest `lang`, else the browser's.",
+          "fieldName": "locale"
         }
       ],
       "superclass": {
@@ -3932,7 +4071,7 @@
     "tag": "wc-chat-thread",
     "rawTag": "chat-thread",
     "summary": "The scrolling log of a conversation: keeps the latest message in view and announces finished answers.",
-    "overview": "<p>Holds <code>wc-chat-message</code>s, oldest first. It fills its container and scrolls; while\r\nthe person reads the end, new messages and growing answers stay in view. Scrolling up stops that,\r\nand a <strong>Jump to latest</strong> button appears.</p>\r\n<p>It is a log (<code>role=\"log\"</code>), but not a live region of its own: streaming text would be\r\nread word by word. Instead, an assistant answer is announced once, when it is complete (its\r\n<code>streaming</code> turns off), as \"Assistant: …\".</p>\r\n<p>Before the first message it shows the <code>empty</code> slot and <code>suggestions</code>: prompt\r\nstarters as chips that fire <code>suggestion-select</code>.</p>",
+    "overview": "<p>Holds <code>wc-chat-message</code>s, oldest first, with <code>wc-chat-event</code> lines between\r\nthem for what happened along the way. It fills its container and scrolls; while\r\nthe person reads the end, new messages and growing answers stay in view. Scrolling up stops that,\r\nand a <strong>Jump to latest</strong> button appears.</p>\r\n<p>It is a log (<code>role=\"log\"</code>), but not a live region of its own: streaming text would be\r\nread word by word. Instead, an assistant answer or a participant's message is announced once,\r\nwhen it is complete (its <code>streaming</code> turns off), as \"Assistant: …\".</p>\r\n<p>Before the first message it shows the <code>empty</code> slot and <code>suggestions</code>: prompt\r\nstarters as chips that fire <code>suggestion-select</code>.</p>",
     "tags": "display, ai",
     "slot": "empty - Shown while there are no messages, above the suggestions.",
     "csspart": "jump - The Jump to latest button.",
@@ -3964,7 +4103,7 @@
       ],
       "slots": [
         {
-          "description": "The `wc-chat-message`s.",
+          "description": "The `wc-chat-message`s and `wc-chat-event`s.",
           "name": ""
         },
         {
@@ -22740,7 +22879,7 @@
     "rawTag": "split-button",
     "summary": "A button for a default action joined to an arrow that opens a menu of related actions.",
     "overview": "<p>The main button runs the default action; the arrow beside it opens a menu of related actions.</p>",
-    "cssprop": "--tonal-split-button-label-text-color: Text color of the tonal split button label.",
+    "cssprop": "--elevated-split-button-label-text-color: Text color of the elevated split button label.",
     "fires": "close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` or the primary action `api`.",
     "example": "```html\r\n<wc-split-button>\r\n  Save\r\n  <wc-menu-item slot=\"menu\">Save as draft</wc-menu-item>\r\n  <wc-menu-item slot=\"menu\">Save and publish</wc-menu-item>\r\n</wc-split-button>\r\n```",
     "tags": "controls",
@@ -22749,8 +22888,12 @@
       "description": "",
       "cssProperties": [
         {
-          "description": "Defines the border radius of the split button container shape.",
+          "description": "Radius of the split button's outer corners. Defaults to fully round; the inner corners follow the M3 size tokens.",
           "name": "--split-button-container-shape:"
+        },
+        {
+          "description": "Space between the main button and the menu button. Defaults to 2px.",
+          "name": "--split-button-gap:"
         },
         {
           "description": "Color of the filled split button container.",
@@ -22775,6 +22918,14 @@
         {
           "description": "Text color of the tonal split button label.",
           "name": "--tonal-split-button-label-text-color:"
+        },
+        {
+          "description": "Color of the elevated split button container.",
+          "name": "--elevated-split-button-container-color:"
+        },
+        {
+          "description": "Text color of the elevated split button label.",
+          "name": "--elevated-split-button-label-text-color:"
         }
       ],
       "events": [
@@ -22813,11 +22964,14 @@
         {
           "name": "variant",
           "type": {
-            "text": "'filled' | 'tonal' | 'outlined'"
+            "text": "| 'filled'\r\n    | 'tonal'\r\n    | 'elevated'\r\n    | 'outlined'"
           },
           "default": "'filled'",
-          "description": "The visual style of the split button.\r\n\r\nPossible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"tonal\"` is a light color button.",
-          "fieldName": "variant"
+          "description": "The visual style of the split button.\r\n\r\nPossible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is a raised button on a low surface.",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'filled' | 'tonal' | 'elevated' | 'outlined'"
+          }
         },
         {
           "name": "color",

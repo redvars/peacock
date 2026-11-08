@@ -31,6 +31,9 @@ export type AiBadgeKind = 'suggested' | 'draft' | 'generated';
  * and is read as the badge's description. <code>dismissible</code> adds a clear button that fires
  * <code>dismiss</code>; the app then removes the suggestion, discards the draft or hides the
  * summary.</p>
+ * <p><code>icon-only</code> keeps just the sparkle where there is no room for the label, such as a
+ * narrow field: the label is still read and shows in the tooltip. Fields switch to it on their
+ * own when they are narrow.</p>
  * <p>When AI is off for the page (<code>setPeacockAi({ enabled: false })</code>) the badge renders
  * nothing, so a page that still passes AI state in never shows a stale marker.</p>
  * <p>The label is always text, never only the color or the sparkle. Replace it with the default
@@ -74,6 +77,13 @@ export class AiBadge extends LitElement {
   /** Adds a button that clears the output in one action. */
   @property({ type: Boolean, reflect: true }) dismissible = false;
 
+  /**
+   * Shows only the sparkle, for tight spaces such as a narrow field. The label stays the
+   * accessible name and shows in the tooltip.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'icon-only' })
+  iconOnly = false;
+
   /** Per-instance string overrides. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
@@ -109,10 +119,17 @@ export class AiBadge extends LitElement {
   render() {
     if (!this._ai.available) return nothing;
     const reason = this.reason.trim();
+    const { iconOnly } = this;
+    // Icon-only, the tooltip says what the sparkle stands for, then why.
+    const tooltip = iconOnly
+      ? [this._label(), reason].filter(Boolean).join('. ')
+      : reason;
     // The tooltip sits outside the badge so it doesn't inherit the badge's one-line label styles.
     return html`<span class="badge" part="badge"
-        ><span class="label" id="label" tabindex=${reason ? 0 : nothing}
-          >${sparkle}<slot>${this._label()}</slot></span
+        ><span class="label" id="label" tabindex=${tooltip ? 0 : nothing}
+          >${sparkle}<span class=${iconOnly ? 'screen-reader-only' : 'text'}
+            ><slot>${this._label()}</slot></span
+          ></span
         >${this.dismissible
           ? html`<button
               class="dismiss"
@@ -124,9 +141,9 @@ export class AiBadge extends LitElement {
               <wc-icon name="close"></wc-icon>
             </button>`
           : nothing}</span
-      >${reason
+      >${tooltip
         ? html`<wc-tooltip for="label" placement="bottom-start"
-            >${reason}</wc-tooltip
+            >${tooltip}</wc-tooltip
           >`
         : nothing}`;
   }

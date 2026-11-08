@@ -2,11 +2,11 @@ import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './Ind
 import { n } from './property-B2TG3KEE.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
-import { M as MenuTriggerController } from './menu-trigger-controller-DyLpTxM7.js';
+import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
+import { M as MenuTriggerController } from './menu-trigger-controller-CEJq1ugC.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-BJPuhKJk.js';
+import './strings-DnYjGbbc.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z$2 = i`@charset "UTF-8";
@@ -48,9 +48,7 @@ var css_248z$2 = i`@charset "UTF-8";
 :host {
   display: inline-flex;
   position: relative;
-  --split-button-container-shape: var(--shape-corner-medium);
-  --split-button-gap: 0.125rem;
-  --split-button-icon-size: 1.125rem;
+  --split-button-gap: var(--spacing-025);
 }
 
 .split-button {
@@ -59,17 +57,55 @@ var css_248z$2 = i`@charset "UTF-8";
   gap: var(--split-button-gap);
 }
 
+.action-button,
+.dropdown-trigger {
+  --_outer-corner: var(
+    --split-button-container-shape,
+    calc(var(--button-height) / 2)
+  );
+  --_inner: var(--_inner-corner);
+  --button-container-shape-variant: round;
+}
+
 .action-button {
-  --button-container-shape: var(--split-button-container-shape);
+  --button-container-shape-start-start: var(--_outer-corner);
+  --button-container-shape-end-start: var(--_outer-corner);
+  --button-container-shape-start-end: var(--_inner);
+  --button-container-shape-end-end: var(--_inner);
+  --button-container-padding-start: var(--_leading-padding-start);
+  --button-container-padding-end: var(--_leading-padding-end);
 }
 
 .dropdown-trigger {
-  --button-container-shape: var(--split-button-container-shape);
-  --button-icon-size: var(--split-button-icon-size);
+  --button-container-shape-start-start: var(--_inner);
+  --button-container-shape-end-start: var(--_inner);
+  --button-container-shape-start-end: var(--_outer-corner);
+  --button-container-shape-end-end: var(--_outer-corner);
+  --button-width: var(--_trailing-width);
+  --button-icon-size: var(--_trailing-icon-size);
+}
+
+.action-button:not(.disabled):hover,
+.action-button:not(.disabled):active,
+.dropdown-trigger:not(.disabled):hover,
+.dropdown-trigger:not(.disabled):active {
+  --_inner: var(--_inner-corner-active);
+}
+
+.dropdown-trigger.active:not(:active) {
+  --_inner: var(--_outer-corner);
 }
 
 .dropdown-icon {
-  transition: transform 200ms ease;
+  --_optical-offset: calc(
+    (var(--_inner) - var(--_outer-corner)) * 0.11
+  );
+  translate: var(--_optical-offset) 0;
+  transition: transform 200ms var(--easing-standard), translate 200ms var(--easing-standard);
+}
+
+:host(:dir(rtl)) .dropdown-icon {
+  translate: calc(var(--_optical-offset) * -1) 0;
 }
 
 .dropdown-trigger.active .dropdown-icon {
@@ -88,6 +124,13 @@ var css_248z$2 = i`@charset "UTF-8";
 .split-button.variant-tonal .dropdown-trigger {
   --tonal-button-container-color: var(--tonal-split-button-container-color);
   --tonal-button-label-text-color: var(--tonal-split-button-label-text-color);
+}
+
+/* ── Variant: Elevated ──────────────────────────────────── */
+.split-button.variant-elevated .action-button,
+.split-button.variant-elevated .dropdown-trigger {
+  --elevated-button-container-color: var(--elevated-split-button-container-color);
+  --elevated-button-label-text-color: var(--elevated-split-button-label-text-color);
 }
 
 /* ── Variant: Outlined ──────────────────────────────────── */
@@ -112,6 +155,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-primary);
   --tonal-split-button-container-color: var(--color-primary-container);
   --tonal-split-button-label-text-color: var(--color-on-primary-container);
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-primary);
   --outlined-split-button-outline-color: var(--color-primary);
   --outlined-split-button-label-text-color: var(--color-primary);
 }
@@ -121,6 +166,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-secondary);
   --tonal-split-button-container-color: var(--color-secondary-container);
   --tonal-split-button-label-text-color: var(--color-on-secondary-container);
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-secondary);
   --outlined-split-button-outline-color: var(--color-secondary);
   --outlined-split-button-label-text-color: var(--color-secondary);
 }
@@ -130,6 +177,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-tertiary);
   --tonal-split-button-container-color: var(--color-tertiary-container);
   --tonal-split-button-label-text-color: var(--color-on-tertiary-container);
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-tertiary);
   --outlined-split-button-outline-color: var(--color-tertiary);
   --outlined-split-button-label-text-color: var(--color-tertiary);
 }
@@ -139,6 +188,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-success);
   --tonal-split-button-container-color: var(--color-success-container);
   --tonal-split-button-label-text-color: var(--color-on-success-container);
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-success);
   --outlined-split-button-outline-color: var(--color-success);
   --outlined-split-button-label-text-color: var(--color-success);
 }
@@ -148,6 +199,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-error);
   --tonal-split-button-container-color: var(--color-error-container);
   --tonal-split-button-label-text-color: var(--color-on-error-container);
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-error);
   --outlined-split-button-outline-color: var(--color-error);
   --outlined-split-button-label-text-color: var(--color-error);
 }
@@ -157,6 +210,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-warning);
   --tonal-split-button-container-color: var(--color-warning-container);
   --tonal-split-button-label-text-color: var(--color-on-warning-container);
+  --elevated-split-button-container-color: var(--color-surface-container-low);
+  --elevated-split-button-label-text-color: var(--color-warning);
   --outlined-split-button-outline-color: var(--color-warning);
   --outlined-split-button-label-text-color: var(--color-warning);
 }
@@ -166,6 +221,8 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-surface);
   --tonal-split-button-container-color: var(--color-on-surface-variant);
   --tonal-split-button-label-text-color: var(--color-surface-container-high);
+  --elevated-split-button-container-color: var(--color-on-surface);
+  --elevated-split-button-label-text-color: var(--color-surface);
   --outlined-split-button-outline-color: var(--color-on-surface);
   --outlined-split-button-label-text-color: var(--color-on-surface);
 }
@@ -175,28 +232,55 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-label-text-color: var(--color-on-surface);
   --tonal-split-button-container-color: var(--color-surface-container-high);
   --tonal-split-button-label-text-color: var(--color-on-surface);
+  --elevated-split-button-container-color: var(--color-surface);
+  --elevated-split-button-label-text-color: var(--color-on-surface);
   --outlined-split-button-outline-color: var(--color-on-surface);
   --outlined-split-button-label-text-color: var(--color-on-surface);
 }`;
 
 var css_248z = i`:host([size=xs]) {
-  --split-button-icon-size: 1rem;
+  --_inner-corner: var(--shape-corner-extra-small);
+  --_inner-corner-active: var(--shape-corner-small);
+  --_leading-padding-start: 0.75rem;
+  --_leading-padding-end: 0.625rem;
+  --_trailing-width: 3rem;
+  --_trailing-icon-size: 1.375rem;
 }
 
 :host([size=sm]) {
-  --split-button-icon-size: 1.125rem;
+  --_inner-corner: var(--shape-corner-extra-small);
+  --_inner-corner-active: var(--shape-corner-medium);
+  --_leading-padding-start: 1rem;
+  --_leading-padding-end: 0.75rem;
+  --_trailing-width: 3rem;
+  --_trailing-icon-size: 1.375rem;
 }
 
 :host([size=md]) {
-  --split-button-icon-size: 1.25rem;
+  --_inner-corner: var(--shape-corner-extra-small);
+  --_inner-corner-active: var(--shape-corner-medium);
+  --_leading-padding-start: 1.5rem;
+  --_leading-padding-end: 1.5rem;
+  --_trailing-width: 3.5rem;
+  --_trailing-icon-size: 1.625rem;
 }
 
 :host([size=lg]) {
-  --split-button-icon-size: 1.5rem;
+  --_inner-corner: var(--shape-corner-small);
+  --_inner-corner-active: var(--shape-corner-large-increased);
+  --_leading-padding-start: 3rem;
+  --_leading-padding-end: 3rem;
+  --_trailing-width: 6rem;
+  --_trailing-icon-size: 2.375rem;
 }
 
 :host([size=xl]) {
-  --split-button-icon-size: 2rem;
+  --_inner-corner: var(--shape-corner-medium);
+  --_inner-corner-active: var(--shape-corner-large-increased);
+  --_leading-padding-start: 4rem;
+  --_leading-padding-end: 4rem;
+  --_trailing-width: 8.5rem;
+  --_trailing-icon-size: 3.125rem;
 }`;
 
 /**
@@ -208,7 +292,8 @@ var css_248z = i`:host([size=xs]) {
  * @overview
  * <p>The main button runs the default action; the arrow beside it opens a menu of related actions.</p>
  *
- * @cssprop --split-button-container-shape: Defines the border radius of the split button container shape.
+ * @cssprop --split-button-container-shape: Radius of the split button's outer corners. Defaults to fully round; the inner corners follow the M3 size tokens.
+ * @cssprop --split-button-gap: Space between the main button and the menu button. Defaults to 2px.
  *
  * @cssprop --filled-split-button-container-color: Color of the filled split button container.
  * @cssprop --filled-split-button-label-text-color: Text color of the filled split button label.
@@ -218,6 +303,9 @@ var css_248z = i`:host([size=xs]) {
  *
  * @cssprop --tonal-split-button-container-color: Color of the tonal split button container.
  * @cssprop --tonal-split-button-label-text-color: Text color of the tonal split button label.
+ *
+ * @cssprop --elevated-split-button-container-color: Color of the elevated split button container.
+ * @cssprop --elevated-split-button-label-text-color: Text color of the elevated split button label.
  *
  * @fires {MouseEvent} click - Dispatched when the primary action button is clicked.
  * @fires {CustomEvent} open - Dispatched after the menu opens.
@@ -248,6 +336,7 @@ let SplitButton = class SplitButton extends i$1 {
          * `"filled"` is a filled button.
          * `"outlined"` is an outlined button.
          * `"tonal"` is a light color button.
+         * `"elevated"` is a raised button on a low surface.
          */
         this.variant = 'filled';
         /**
@@ -330,16 +419,15 @@ let SplitButton = class SplitButton extends i$1 {
           size=${this.size}
           variant=${this.variant}
           ?disabled=${this.disabled}
-          .configAria=${{
-            ...this._trigger.triggerAria,
-            'aria-label': this.i18n.t('openSplitButtonMenu'),
-        }}
+          aria-label=${this.i18n.t('openSplitButtonMenu')}
+          aria-haspopup="menu"
+          aria-expanded=${String(this._trigger.open)}
           @click=${this._trigger.handleTriggerClick}
           @keydown=${this._trigger.handleTriggerKeyDown}
         >
           <wc-icon
             class="dropdown-icon"
-            name="arrow_drop_down"
+            name="keyboard_arrow_down"
             aria-hidden="true"
           ></wc-icon>
         </wc-icon-button>

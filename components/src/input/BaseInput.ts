@@ -224,7 +224,7 @@ export default abstract class BaseInput extends mixinFormAssociated(
    * without helper text pass `withReason` so the badge's tooltip carries the reason.
    */
   protected suggestionBadge(
-    options: { slot?: string; withReason?: boolean } = {},
+    options: { slot?: string; withReason?: boolean; iconOnly?: boolean } = {},
   ) {
     return this.__suggestions.badge(options);
   }

@@ -1,0 +1,332 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/incident-agent.scss';
+---
+
+<Layout
+  title='Incident agent'
+  description='An IT incident worked in a conversation, built from Peacock components: the caller, teammates and an incident agent in one thread, a cited diagnosis, drafts the person confirms that run as live steps, and the record beside it with suggested fields and a plan.'
+>
+  <div class='block-demo incident-shell'>
+    <aside class='incident-inbox' aria-label='Incidents'>
+      <div class='incident-pane-header'>
+        <h2 class='text-title-medium'>Incidents</h2>
+        <wc-icon-button variant='text' shape='round' size='sm' aria-label='New incident'><wc-icon name='add'></wc-icon></wc-icon-button>
+      </div>
+      <p class='incident-group text-label-medium block-muted'>Needs you · 2</p>
+      <wc-list>
+        <wc-list-item current>
+          <wc-status-indicator slot='start' intent='warning' dot-only label='Needs you'></wc-status-indicator>
+          <span slot='headline'>VPN drops every ~10 min, Pune</span>
+          <span slot='supporting-text'>Confirm the certificate rollback</span>
+          <span slot='trailing-supporting-text'>P2</span>
+        </wc-list-item>
+        <wc-list-item>
+          <wc-status-indicator slot='start' intent='warning' dot-only label='Needs you'></wc-status-indicator>
+          <span slot='headline'>Payroll export missing rows</span>
+          <span slot='supporting-text'>Caller replied with a sample</span>
+          <span slot='trailing-supporting-text'>P3</span>
+        </wc-list-item>
+      </wc-list>
+      <p class='incident-group text-label-medium block-muted'>Agent working · 2</p>
+      <wc-list>
+        <wc-list-item>
+          <wc-status-indicator slot='start' intent='info' dot-only pulse label='Agent working'></wc-status-indicator>
+          <span slot='headline'>Outlook won't open on LT-7740</span>
+          <span slot='supporting-text'>Collecting crash logs…</span>
+        </wc-list-item>
+        <wc-list-item>
+          <wc-status-indicator slot='start' dot-only label='Waiting on caller'></wc-status-indicator>
+          <span slot='headline'>Badge reader, gate 3</span>
+          <span slot='supporting-text'>Waiting on the caller for a photo</span>
+        </wc-list-item>
+      </wc-list>
+    </aside>
+
+    <main class='incident-conversation'>
+      <div class='incident-pane-header'>
+        <div class='incident-title'>
+          <h2 class='text-title-medium'>VPN drops every ~10 min for the Pune office</h2>
+          <span class='text-body-small block-muted'>INC0042187 · P2 · resolve within 3 h 12 min</span>
+        </div>
+        <wc-tag size='sm'><wc-icon slot='icon' name='verified_user'></wc-icon>Asks before changes</wc-tag>
+      </div>
+
+      <wc-chat-thread id='incident-thread' label='Incident INC0042187' class='incident-thread'>
+        <wc-chat-event icon='add_circle' datetime='2026-11-08T09:41:00'>Opened from Teams by <strong>Priya Shah</strong></wc-chat-event>
+        <wc-chat-message
+          from='participant'
+          author='Priya Shah'
+          channel='Teams'
+          datetime='2026-11-08T09:41:00'
+          value='The VPN drops every ten minutes for everyone in the Pune office. Started this morning.'
+        >
+          <wc-avatar slot='avatar' name='Priya Shah' size='sm'></wc-avatar>
+        </wc-chat-message>
+        <wc-chat-message
+          id='incident-diagnosis'
+          author='Incident agent'
+          datetime='2026-11-08T09:42:00'
+          hide-actions
+        >
+          <span slot='avatar' class='incident-agent-mark' aria-hidden='true'><wc-icon name='support_agent'></wc-icon></span>
+          <wc-assistant-steps slot='steps' label='Worked for 40 s · 4 steps'>
+            <wc-assistant-step status='done' app='Network operations'>found 140 Pune clients reconnecting every 10 minutes</wc-assistant-step>
+            <wc-assistant-step status='done' app='Network operations'>read the certificate on vpn-gw-02: expired at 09:30</wc-assistant-step>
+            <wc-assistant-step status='done' app='Change management'>found CHG-311, which replaced it last night</wc-assistant-step>
+            <wc-assistant-step status='done' app='IT service desk'>linked 7 incidents from Pune with the same symptom</wc-assistant-step>
+          </wc-assistant-steps>
+          <wc-draft-card
+            id='incident-reply'
+            headline='Reply to Priya Shah'
+            supporting-text='In Teams, as you'
+            confirm-label='Send'
+          ></wc-draft-card>
+          <wc-draft-card
+            id='incident-rollback'
+            headline='Roll back the certificate on vpn-gw-02'
+            supporting-text='Network operations · needs your approval under policy NET-04'
+            confirm-label='Confirm rollback'
+          ></wc-draft-card>
+        </wc-chat-message>
+        <wc-chat-message
+          from='user'
+          author='Alan Kay'
+          datetime='2026-11-08T09:50:00'
+          value='Checked with Network operations: nobody else is changing vpn-gw-02 today.'
+        >
+          <wc-tag slot='meta' size='sm'><wc-icon slot='icon' name='lock'></wc-icon>Work note</wc-tag>
+        </wc-chat-message>
+      </wc-chat-thread>
+
+      <div class='incident-composer'>
+        <wc-chip-set id='incident-audience' selectable label='Send to' value='agent'>
+          <wc-chip value='agent'><wc-icon slot='icon' name='support_agent'></wc-icon>Agent</wc-chip>
+          <wc-chip value='caller'><wc-icon slot='icon' name='forum'></wc-icon>Priya in Teams</wc-chip>
+          <wc-chip value='note'><wc-icon slot='icon' name='lock'></wc-icon>Work note</wc-chip>
+        </wc-chip-set>
+        <wc-prompt-input id='incident-prompt' placeholder='Ask the agent, or / for an action'></wc-prompt-input>
+      </div>
+    </main>
+
+    <aside class='incident-record' aria-label='Record'>
+      <div class='incident-pane-header'>
+        <h2 class='text-title-medium'>Record</h2>
+        <wc-button variant='text' size='sm'><wc-icon slot='icon' name='open_in_new'></wc-icon>Open form</wc-button>
+      </div>
+      <div class='incident-record-body'>
+        <wc-description-list class='incident-meta'>
+          <wc-description-item label='State'>In progress</wc-description-item>
+          <wc-description-item label='Caller'>Priya Shah</wc-description-item>
+          <wc-description-item label='Assigned to'>Alan Kay</wc-description-item>
+        </wc-description-list>
+        <wc-linear-progress value='35' label='Resolve within 3 h 12 min' helper-text='35% of the resolution target used'></wc-linear-progress>
+        <wc-select id='incident-category' label='Category' value='network'>
+          <wc-option value='network'>Network</wc-option>
+          <wc-option value='vpn'>Network › VPN</wc-option>
+          <wc-option value='hardware'>Hardware</wc-option>
+        </wc-select>
+        <wc-input id='incident-ci' label='Configuration item'></wc-input>
+        <wc-input id='incident-group' label='Assignment group' value='Service desk'></wc-input>
+
+        <p class='incident-group text-label-medium block-muted'>Plan</p>
+        <wc-assistant-steps id='incident-plan' label='Plan · 1 of 4' open>
+          <wc-assistant-step status='done'>Find the cause</wc-assistant-step>
+          <wc-assistant-step status='pending' app='Network operations'>Roll back the certificate · waits on your approval</wc-assistant-step>
+          <wc-assistant-step status='pending' app='Teams'>Ask the 23 affected people to reconnect · waits on the rollback</wc-assistant-step>
+          <wc-assistant-step status='pending' app='Change management'>Mark CHG-311 as failed · waits on the change board</wc-assistant-step>
+        </wc-assistant-steps>
+      </div>
+    </aside>
+  </div>
+
+  <script is:inline type='module'>
+    // This product calls the assistant an agent, so Peacock's own sentences say so too.
+    const loader = document.querySelector('script[src*="loader"][type="module"]');
+    if (loader) {
+      const { setPeacockStrings } = await import(loader.src);
+      setPeacockStrings({
+        chatAssistant: 'Agent',
+        chatFailed: "The agent couldn't answer.",
+        aiGenerated: 'By the agent',
+        aiSuggestedDescription: reason =>
+          reason ? `Suggested by the agent. ${reason}` : 'Suggested by the agent.',
+        aiDraftBannerHeadline: 'Drafted by the agent.',
+      });
+    }
+  </script>
+  <script is:inline>
+    (function () {
+      var thread = document.getElementById('incident-thread');
+      var diagnosis = document.getElementById('incident-diagnosis');
+      var reply = document.getElementById('incident-reply');
+      var rollback = document.getElementById('incident-rollback');
+      var plan = document.getElementById('incident-plan');
+      var prompt = document.getElementById('incident-prompt');
+      var log = function (text) {
+        if (window.myConsole) window.myConsole.log(text);
+      };
+      // The demo's own clock, so new lines follow the sample times instead of today's.
+      var clock = new Date('2026-11-08T10:07:00').getTime();
+      var now = function () {
+        clock += 60000;
+        var d = new Date(clock);
+        var pad = function (n) {
+          return String(n).padStart(2, '0');
+        };
+        return '2026-11-08T' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':00';
+      };
+      var agentMark = function () {
+        var mark = document.createElement('span');
+        mark.slot = 'avatar';
+        mark.className = 'incident-agent-mark';
+        mark.setAttribute('aria-hidden', 'true');
+        mark.innerHTML = '<wc-icon name="support_agent"></wc-icon>';
+        return mark;
+      };
+      var event = function (icon, html) {
+        var el = document.createElement('wc-chat-event');
+        el.icon = icon;
+        el.datetime = now();
+        el.innerHTML = html;
+        thread.append(el);
+      };
+      var message = function (props) {
+        var el = document.createElement('wc-chat-message');
+        Object.assign(el, { datetime: now() }, props);
+        if (el.from === 'assistant') {
+          el.author = 'Incident agent';
+          el.hideActions = true;
+          el.append(agentMark());
+        }
+        thread.append(el);
+        return el;
+      };
+
+      // Every figure in the answer is a record the platform returned.
+      diagnosis.citations = [
+        { id: 'ci', headline: 'vpn-gw-02 · certificate', supportingText: 'Network operations · expired 09:30' },
+        { id: 'chg', headline: 'CHG-311 · Renew VPN certificates', supportingText: 'Change management · done last night' },
+        { id: 'inc', headline: '7 linked incidents, Pune', supportingText: 'IT service desk' },
+      ];
+      diagnosis.value =
+        'The certificate on **vpn-gw-02** expired at 09:30[1](cite:ci): CHG-311 installed one valid for a day instead of a year[2](cite:chg). ' +
+        'Seven more people in Pune reported the same drops[3](cite:inc). Rolling back to the previous certificate fixes it until the renewal is redone. I drafted both for you:';
+      diagnosis.suggestions = ['Why P2?', 'Promote to major incident', 'Who else is affected?'];
+
+      reply.fields = [
+        { label: 'To', value: 'Priya Shah, in Teams' },
+        { label: 'Message', value: 'We found the cause: an expired certificate. A fix is going in now; the VPN should be steady within 15 minutes.', suggested: true },
+      ];
+      rollback.fields = [
+        { label: 'Gateway', value: 'vpn-gw-02' },
+        { label: 'Certificate', value: 'The previous one, valid until March 2027' },
+        { label: 'Effect', value: '140 clients reconnect once, about 30 seconds', suggested: true, reason: 'From the gateway’s session count.' },
+      ];
+
+      var confirm = function (card, doneText, then) {
+        card.addEventListener('confirm', function () {
+          card.state = 'submitting';
+          setTimeout(function () {
+            card.state = 'done';
+            card.resultText = doneText;
+            if (then) then();
+          }, 700);
+        });
+      };
+      confirm(reply, 'Sent to Priya in Teams');
+      confirm(rollback, 'Rollback started', runRollback);
+      [reply, rollback].forEach(function (card) {
+        card.addEventListener('edit', function () {
+          log('edit: open the action’s form');
+        });
+      });
+
+      // A confirmed action runs as the platform's steps, not the model's: the thread shows each one.
+      function runRollback() {
+        diagnosis.suggestions = [];
+        event('verified', '<strong>Alan Kay</strong> confirmed the rollback · policy NET-04');
+        var steps = plan.querySelectorAll('wc-assistant-step');
+        steps[1].status = 'running';
+        steps[1].textContent = 'Roll back the certificate · running';
+        plan.label = 'Plan · rolling back';
+        var run = message({ value: '', streaming: true, status: 'Rolling back on vpn-gw-02…' });
+        var list = document.createElement('wc-assistant-steps');
+        list.slot = 'steps';
+        list.label = 'Rolling back';
+        list.open = true;
+        run.append(list);
+        var items = [
+          'saved the current certificate as a backup',
+          'installed the certificate valid until March 2027',
+          '140 of 140 clients reconnected',
+        ];
+        items.forEach(function (text, i) {
+          setTimeout(function () {
+            var step = document.createElement('wc-assistant-step');
+            step.app = 'Network operations';
+            step.status = 'done';
+            step.textContent = text;
+            list.append(step);
+            if (i === items.length - 1) {
+              list.label = 'Rolled back · 3 steps';
+              run.streaming = false;
+              run.value = 'Done: Pune is back. Next is telling the 23 people still offline to reconnect.';
+              run.suggestions = ['Draft the message to the 23', 'Mark CHG-311 as failed'];
+              steps[1].status = 'done';
+              steps[1].textContent = 'Roll back the certificate';
+              steps[2].textContent = 'Ask the 23 affected people to reconnect · ready to draft';
+              plan.label = 'Plan · 2 of 4';
+            }
+          }, 900 * (i + 1));
+        });
+      }
+
+      // Quick replies and the composer both send as the person; the agent answers with what it would do.
+      function send(text) {
+        var audience = document.getElementById('incident-audience').value;
+        var mine = message({ from: 'user', author: 'Alan Kay', value: text });
+        if (audience === 'note') {
+          var tag = document.createElement('wc-tag');
+          tag.slot = 'meta';
+          tag.size = 'sm';
+          tag.textContent = 'Work note';
+          mine.append(tag);
+          return;
+        }
+        if (audience === 'caller') {
+          mine.channel = 'Teams';
+          return;
+        }
+        var answer = message({ value: '', streaming: true, status: 'Looking it up…' });
+        setTimeout(function () {
+          answer.streaming = false;
+          answer.value = 'In a real app this goes to the platform’s agent, which looks things up as you and drafts any change for you to confirm.';
+        }, 900);
+      }
+      thread.addEventListener('suggestion-select', function (e) {
+        e.target.suggestions = [];
+        send(e.detail.value);
+      });
+      prompt.addEventListener('submit', function (e) {
+        send(e.detail.value);
+      });
+
+      // The record: what the agent filled in is marked until a person accepts it.
+      customElements.whenDefined('wc-select').then(function () {
+        document.getElementById('incident-category').suggestion = {
+          value: 'vpn',
+          reason: 'From the gateway in the diagnosis.',
+        };
+        document.getElementById('incident-ci').suggestion = {
+          value: 'vpn-gw-02',
+          reason: 'The gateway with the expired certificate.',
+        };
+        document.getElementById('incident-group').suggestion = {
+          value: 'Network operations',
+          reason: 'Owns vpn-gw-02.',
+        };
+      });
+    })();
+  </script>
+</Layout>

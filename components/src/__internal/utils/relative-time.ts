@@ -150,6 +150,26 @@ export function formatAbsoluteDate(
 }
 
 /**
+ * `date` as a clock time in `locale` ("9:41 AM"), with the date before it when it is not today
+ * ("Nov 2, 9:41 AM"), for timestamps in a conversation.
+ */
+export function formatClockTime(
+  date: Date | number,
+  locale: string,
+  now: number = Date.now(),
+): string {
+  const time = toTime(date);
+  const sameDay =
+    new Date(time).toDateString() === new Date(now).toDateString();
+  return dateFormat(
+    locale,
+    sameDay
+      ? { hour: 'numeric', minute: '2-digit' }
+      : { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' },
+  ).format(time);
+}
+
+/**
  * `date` relative to now ("5 minutes ago"), or, when `absoluteAfter` is set and the date is
  * farther from now than that, an absolute date ("Nov 2").
  */

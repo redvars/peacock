@@ -14,6 +14,16 @@
    * @prop --chat-message-bubble-color: Text color of the person's bubble
    */
   --chat-message-bubble-color: var(--color-on-secondary-container);
+
+  /**
+   * @prop --chat-message-participant-background: Background of a participant's bubble
+   */
+  --chat-message-participant-background: var(--color-surface-container-high);
+
+  /**
+   * @prop --chat-message-participant-color: Text color of a participant's bubble
+   */
+  --chat-message-participant-color: var(--color-on-surface);
 }
 
 .message {
@@ -55,6 +65,68 @@
 :host(:dir(rtl)) .bubble {
   border-radius: var(--shape-corner-large) var(--shape-corner-large)
     var(--shape-corner-large) var(--shape-corner-extra-small);
+}
+
+// A participant's bubble starts the line, so its square corner is at the start.
+.participant .bubble {
+  color: var(--chat-message-participant-color);
+  background: var(--chat-message-participant-background);
+  border-radius: var(--shape-corner-extra-small) var(--shape-corner-large)
+    var(--shape-corner-large) var(--shape-corner-large);
+}
+
+:host(:dir(rtl)) .participant .bubble {
+  border-radius: var(--shape-corner-large) var(--shape-corner-extra-small)
+    var(--shape-corner-large) var(--shape-corner-large);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+  min-block-size: 1.25rem;
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(label-medium);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.user .header {
+  justify-content: flex-end;
+}
+
+// The gap after the header is the body's; pull the bubble closer to its own name.
+.header:not([hidden]) + slot + .bubble,
+.header:not([hidden]) + slot + .content {
+  margin-block-start: calc(-1 * var(--spacing-100, 0.5rem));
+}
+
+.author {
+  color: var(--color-on-surface);
+  font-weight: 600;
+}
+
+.channel::before,
+.time::before {
+  margin-inline-end: var(--spacing-100, 0.5rem);
+  content: '·';
+}
+
+::slotted([slot='meta']) {
+  flex: none;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100, 0.5rem);
+}
+
+.user .suggestions {
+  justify-content: flex-end;
 }
 
 .content {

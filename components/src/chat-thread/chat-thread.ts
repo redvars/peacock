@@ -31,17 +31,18 @@ function plainText(markdown: string): string {
  * @rawTag chat-thread
  * @summary The scrolling log of a conversation: keeps the latest message in view and announces finished answers.
  * @overview
- * <p>Holds <code>wc-chat-message</code>s, oldest first. It fills its container and scrolls; while
+ * <p>Holds <code>wc-chat-message</code>s, oldest first, with <code>wc-chat-event</code> lines between
+ * them for what happened along the way. It fills its container and scrolls; while
  * the person reads the end, new messages and growing answers stay in view. Scrolling up stops that,
  * and a <strong>Jump to latest</strong> button appears.</p>
  * <p>It is a log (<code>role="log"</code>), but not a live region of its own: streaming text would be
- * read word by word. Instead, an assistant answer is announced once, when it is complete (its
- * <code>streaming</code> turns off), as "Assistant: …".</p>
+ * read word by word. Instead, an assistant answer or a participant's message is announced once,
+ * when it is complete (its <code>streaming</code> turns off), as "Assistant: …".</p>
  * <p>Before the first message it shows the <code>empty</code> slot and <code>suggestions</code>: prompt
  * starters as chips that fire <code>suggestion-select</code>.</p>
  * @tags display, ai
  *
- * @slot - The `wc-chat-message`s.
+ * @slot - The `wc-chat-message`s and `wc-chat-event`s.
  * @slot empty - Shown while there are no messages, above the suggestions.
  *
  * @csspart scroller - The scrolling area.
@@ -101,6 +102,9 @@ export class ChatThread extends LitElement {
 
   /** Set while Jump to latest scrolls smoothly to the end. */
   private _seeking = false;
+
+  /** The scroll position at the last scroll event, to tell the reader scrolling up from growth. */
+  private _lastScrollTop = 0;
 
   /** Messages already announced or present from the start, which are not announced. */
   private readonly _settled = new WeakSet<Element>();
@@ -164,6 +168,8 @@ export class ChatThread extends LitElement {
     const scroller = this._scroller;
     if (!scroller) return;
     scroller.scrollTo({ top: scroller.scrollHeight, behavior });
+    // Where the thread put it, so the next scroll event can tell the reader moving up from it.
+    if (behavior === 'instant') this._lastScrollTop = scroller.scrollTop;
   }
 
   private _onScroll() {
@@ -172,19 +178,29 @@ export class ChatThread extends LitElement {
     const distance =
       scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
     const atEnd = distance <= PINNED_SLACK;
+    const movedUp = scroller.scrollTop < this._lastScrollTop - 1;
+    this._lastScrollTop = scroller.scrollTop;
     // While Jump to latest scrolls smoothly, its own steps are not the reader scrolling up.
     if (this._seeking) {
       if (atEnd) this._seeking = false;
       return;
     }
-    this._pinned = atEnd;
+    // Only the reader scrolling up lets go of the end. Content growing below the view (a draft
+    // card, an answer arriving) leaves the end out of reach for a moment without anyone scrolling,
+    // and the resize observer catches up.
+    if (atEnd) this._pinned = true;
+    else if (movedUp) this._pinned = false;
   }
 
   private _onSlotChange(event: Event) {
     const slot = event.target as HTMLSlotElement;
     this._empty = !slot
       .assignedElements({ flatten: true })
-      .some(element => element.localName === 'wc-chat-message');
+      .some(
+        element =>
+          element.localName === 'wc-chat-message' ||
+          element.localName === 'wc-chat-event',
+      );
     if (this._pinned) this.updateComplete.then(() => this._toBottom('instant'));
   }
 

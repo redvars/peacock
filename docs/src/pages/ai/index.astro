@@ -41,6 +41,19 @@ applyAiSettings({ enabled: true, ghostText: true });
 // Later, when the instance or the person turns the assistant off:
 applyAiSettings({ enabled: false, ghostText: true });`;
 
+const naming = `import { setPeacockStrings } from '@redvars/peacock';
+
+// The product calls it an agent: say so wherever Peacock names it.
+setPeacockStrings({
+  chatAssistant: 'Agent',
+  chatFailed: "The agent couldn't answer.",
+  aiGenerated: 'By the agent',
+  aiSuggestedDescription: reason =>
+    reason ? \`Suggested by the agent. \${reason}\` : 'Suggested by the agent.',
+  aiDraftBannerHeadline: 'Drafted by the agent.',
+  aiFailed: "The agent couldn't write this. Your text is unchanged.",
+});`;
+
 const stream = `// transform must return an AsyncIterable of text pieces. A streamed fetch response, for example:
 async function* streamText(response) {
   const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
@@ -154,6 +167,16 @@ const stop = onPeacockAiChange(() => renderMyAssistantButton());`;
       AI back on needs the provider again. Keep the provider in one place and pass the whole settings each time:
     </p>
     <Highlighter lang='js'><Fragment set:text={toggle} /></Highlighter>
+
+    <h3 class='text-title-large'>What to call it</h3>
+    <p class='text-body-large'>
+      Peacock says "the assistant" wherever it names the AI: the draft banner on a form, the Suggested badge's
+      description, a failed answer. When your product calls it something else, such as an agent, replace those
+      strings with <code class='text-code-block'>setPeacockStrings()</code>, the same call that translates
+      Peacock. Whole sentences are strings, not a name dropped into them, so each language can phrase them its
+      own way.
+    </p>
+    <Highlighter lang='js'><Fragment set:text={naming} /></Highlighter>
   </section>
 
   <section class='foundation-section' aria-labelledby='capabilities-title'>

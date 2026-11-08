@@ -92,6 +92,7 @@ export default abstract class BaseInput extends BaseInput_base {
     protected suggestionBadge(options?: {
         slot?: string;
         withReason?: boolean;
+        iconOnly?: boolean;
     }): typeof import("lit-html").nothing | import("lit-html").TemplateResult;
     /**
      * A group's label with the Suggested badge beside it while a suggestion shows. The badge stays

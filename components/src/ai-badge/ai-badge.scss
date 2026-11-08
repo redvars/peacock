@@ -48,6 +48,14 @@
   padding-inline-end: var(--spacing-025, 0.125rem);
 }
 
+:host([icon-only]) .badge {
+  padding-inline-start: var(--spacing-050, 0.25rem);
+}
+
+:host([icon-only]:not([dismissible])) .badge {
+  padding-inline-end: var(--spacing-050, 0.25rem);
+}
+
 .label {
   display: inline-flex;
   align-items: center;

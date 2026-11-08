@@ -65,6 +65,45 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </script>
 </DemoComponentCard>
 
+<h3>Other people, and who wrote when</h3>
+<p>
+  <code>from="participant"</code> is another person in the conversation, such as a caller or a
+  teammate: a quiet bubble at the start of the line, with their name above it. The line above a
+  message also shows <code>channel</code> ("via Teams") and the time of <code>datetime</code>, and
+  the <code>meta</code> slot adds a tag, such as "Work note". It appears for a participant, or once
+  any of those is set, so a one-to-one conversation with the assistant stays bare.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem; inline-size: 100%; max-inline-size: 30rem;'>
+    <wc-chat-message from='participant' author='Priya Shah' channel='Teams' datetime='2026-11-08T09:41:00' value='VPN drops every ten minutes for the whole Pune office.'>
+      <wc-avatar slot='avatar' name='Priya Shah' size='sm'></wc-avatar>
+    </wc-chat-message>
+    <wc-chat-message from='user' author='Alan Kay' datetime='2026-11-08T09:50:00' value='Checked the gateway logs: the certificate expired at 09:30.'>
+      <wc-tag slot='meta' size='sm'>Work note</wc-tag>
+    </wc-chat-message>
+  </div>
+</DemoComponentCard>
+
+<h3>Quick replies</h3>
+<p>
+  <code>suggestions</code> shows the likely next moves as chips under a finished message. Picking one
+  fires <code>suggestion-select</code>; send it as the person's message and clear the list.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chat-message id='message-quick' hide-actions value='Pune is back: 140 of 140 clients reconnected.' style='inline-size: 100%; max-inline-size: 30rem;'></wc-chat-message>
+  <script is:inline>
+    (function () {
+      var message = document.querySelector('#message-quick');
+      message.suggestions = ['Tell Priya', 'Mark CHG-311 as failed', 'Why did it expire?'];
+      message.addEventListener('suggestion-select', function (event) {
+        myConsole.log('suggestion-select: ' + event.detail.value);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
 <h3>Steps, drafts and errors</h3>
 <p>
   Put <code>wc-assistant-steps</code> in the <code>steps</code> slot, above the text, and

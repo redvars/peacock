@@ -1,0 +1,36 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.event {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  @include mixin.get-typography-not-important(body-small);
+
+  wc-icon {
+    flex: none;
+    --icon-size: 1rem;
+    --icon-color: currentColor;
+  }
+}
+
+::slotted(strong),
+::slotted(b) {
+  color: var(--color-on-surface);
+  font-weight: 600;
+}
+
+.time::before {
+  margin-inline-end: var(--spacing-100, 0.5rem);
+  content: '·';
+}

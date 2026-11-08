@@ -1,6 +1,12 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { expect, fixture, oneEvent } from '@open-wc/testing';
+import {
+  aTimeout,
+  expect,
+  fixture,
+  oneEvent,
+  waitUntil,
+} from '@open-wc/testing';
 import { setPeacockAi } from '../src/__internal/ai/config.js';
 import type {
   SuggestionAcceptDetail,
@@ -19,6 +25,7 @@ import { Rating } from '../src/rating/index.js';
 import { Select, SelectOptionElement } from '../src/select/index.js';
 import { Slider } from '../src/slider/index.js';
 import { Switch } from '../src/switch/index.js';
+import { Textarea } from '../src/textarea/index.js';
 import { Tooltip } from '../src/tooltip/tooltip.js';
 
 for (const [tag, element] of [
@@ -38,6 +45,7 @@ for (const [tag, element] of [
   ['wc-select', Select],
   ['wc-slider', Slider],
   ['wc-switch', Switch],
+  ['wc-textarea', Textarea],
   ['wc-tooltip', Tooltip],
 ] as const) {
   if (!customElements.get(tag)) customElements.define(tag, element);
@@ -82,6 +90,28 @@ describe('Field suggestions', () => {
     expect(description?.textContent).to.equal(
       'Suggested by the assistant. Assigned to you.',
     );
+  });
+
+  it('shrinks the badge to its sparkle in a narrow field, and always in a textarea', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input label="CI" style="width: 30rem"></wc-input>`,
+    );
+    el.suggestion = { value: 'vpn-gw-02' };
+    await el.updateComplete;
+    await aTimeout(50);
+    expect(badge(el)?.hasAttribute('icon-only')).to.equal(false);
+    el.style.width = '12rem';
+    await waitUntil(
+      () => badge(el)?.hasAttribute('icon-only'),
+      'icon-only when narrow',
+    );
+
+    const area = await fixture<Textarea>(
+      html`<wc-textarea label="Notes" style="width: 40rem"></wc-textarea>`,
+    );
+    area.suggestion = { value: 'Rolled back the certificate.' };
+    await area.updateComplete;
+    expect(badge(area)?.hasAttribute('icon-only')).to.equal(true);
   });
 
   it('accepts the suggestion when the person edits the value', async () => {

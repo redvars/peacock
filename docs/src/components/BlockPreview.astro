@@ -247,6 +247,39 @@ const { name, icon } = Astro.props;
   </div>
 )}
 
-{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket', 'assistant', 'home-ai'].includes(name) && (
+{name === 'incident-agent' && (
+  <div class='bp bp-incident'>
+    <div class='bp-incident-inbox'><span></span><span></span><span></span><span></span></div>
+    <div class='bp-incident-thread'>
+      <span class='bp-incident-event'></span>
+      <span class='bp-incident-caller'></span>
+      <span class='bp-incident-answer'></span>
+      <span class='bp-incident-draft'></span>
+      <span class='bp-incident-draft'></span>
+      <span class='bp-incident-composer'></span>
+    </div>
+    <div class='bp-incident-record'>
+      <span class='bp-line bp-title'></span>
+      <span class='bp-field'></span>
+      <span class='bp-field bp-incident-suggested'></span>
+      <span class='bp-field bp-incident-suggested'></span>
+      <span class='bp-field'></span>
+    </div>
+  </div>
+)}
+
+{name === 'agent-inbox' && (
+  <div class='bp bp-agent-inbox'>
+    <span class='bp-line bp-title'></span>
+    <span class='bp-agent-inbox-summary'></span>
+    <div class='bp-agent-inbox-cols'>
+      <div class='bp-agent-inbox-col'><span></span><span></span><span></span></div>
+      <div class='bp-agent-inbox-col'><span></span><span></span></div>
+      <div class='bp-agent-inbox-col'><span></span><span></span><span></span></div>
+    </div>
+  </div>
+)}
+
+{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket', 'assistant', 'home-ai', 'incident-agent', 'agent-inbox'].includes(name) && (
   <wc-icon class='bp-fallback' name={icon}></wc-icon>
 )}

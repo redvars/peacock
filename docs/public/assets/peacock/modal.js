@@ -2,12 +2,12 @@ import { _ as __decorate, I as IndividualComponent, a as i, A, b } from './Indiv
 import { n } from './property-B2TG3KEE.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
+import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
 import { O as OverlayController } from './overlay-controller-BOk-kfil.js';
 import { c as css_248z } from './modal-B78gUfEO.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-BJPuhKJk.js';
+import './strings-DnYjGbbc.js';
 import './locale-DEsJZCQG.js';
 
 /**

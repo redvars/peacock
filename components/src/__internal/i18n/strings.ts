@@ -1175,6 +1175,12 @@ export const defaultStrings = {
   /** Who wrote a message, read before it. */
   chatYou: 'You',
   chatAssistant: 'Assistant',
+  /** Who wrote a message from another person, when it has no `author`. */
+  chatParticipant: 'Participant',
+  /** Where a message came from, for example "via Teams". */
+  chatVia: (channel: string): string => `via ${channel}`,
+  /** Accessible name of the quick replies under a message. */
+  chatQuickReplies: 'Suggested replies',
   chatCopy: 'Copy',
   chatRegenerate: 'Try again',
   chatGoodAnswer: 'Good answer',

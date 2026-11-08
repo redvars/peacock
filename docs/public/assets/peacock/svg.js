@@ -3,10 +3,10 @@ import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { s as sanitizeSvg, o } from './sanitize-svg-zWrzQaZj.js';
 import { f as fetchSVG } from './datasource-OwvH7SVq.js';
-import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
+import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
 import './directive-ZPhl09Yt.js';
 import './unsafe-html-Cy_JqoPT.js';
-import './strings-BJPuhKJk.js';
+import './strings-DnYjGbbc.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {

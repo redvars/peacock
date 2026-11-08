@@ -18,8 +18,10 @@ import { AssistantStep, AssistantSteps } from '../src/assistant-steps/index.js';
 import {
   ChatMessage,
   type ChatMessageFeedbackDetail,
+  type ChatMessageSuggestionDetail,
 } from '../src/chat-message/index.js';
 import {
+  ChatEvent,
   ChatThread,
   type ChatThreadSuggestionDetail,
 } from '../src/chat-thread/index.js';
@@ -37,6 +39,7 @@ for (const [tag, element] of [
   ['wc-assistant-panel', AssistantPanel],
   ['wc-assistant-step', AssistantStep],
   ['wc-assistant-steps', AssistantSteps],
+  ['wc-chat-event', ChatEvent],
   ['wc-chat-message', ChatMessage],
   ['wc-chat-thread', ChatThread],
   ['wc-draft-card', DraftCard],
@@ -231,6 +234,121 @@ describe('ChatMessage', () => {
     setTimeout(() => (error.querySelector('wc-button') as HTMLElement).click());
     await oneEvent(el, 'regenerate');
   });
+
+  it("shows a participant's text in a bubble under their name, with no actions", async () => {
+    const el = await fixture<ChatMessage>(
+      html`<wc-chat-message
+        from="participant"
+        author="Priya Shah"
+        channel="Teams"
+        datetime="2026-11-08T09:41:00"
+        locale="en-GB"
+        value="VPN keeps dropping."
+      ></wc-chat-message>`,
+    );
+    const header = root(el).querySelector('.header') as HTMLElement;
+    expect(header.hidden).to.equal(false);
+    expect(header.querySelector('.author')?.textContent?.trim()).to.equal(
+      'Priya Shah',
+    );
+    expect(header.querySelector('.channel')?.textContent?.trim()).to.equal(
+      'via Teams',
+    );
+    const time = header.querySelector('time') as HTMLTimeElement;
+    expect(time.dateTime).to.equal('2026-11-08T09:41:00');
+    // A clock time, with the date before it on any day but today.
+    expect(time.textContent?.trim()).to.match(/9:41/);
+    expect(time.title).to.contain('2026');
+    expect(root(el).querySelector('.participant .bubble')).to.not.equal(null);
+    expect(root(el).querySelector('.actions')).to.equal(null);
+
+    const nameless = await fixture<ChatMessage>(
+      html`<wc-chat-message from="participant" value="Hi"></wc-chat-message>`,
+    );
+    expect(nameless.authorName).to.equal('Participant');
+  });
+
+  it('shows the header only when there is something to say, including the meta slot', async () => {
+    const bare = await fixture<ChatMessage>(
+      html`<wc-chat-message value="Answer"></wc-chat-message>`,
+    );
+    expect(
+      (root(bare).querySelector('.header') as HTMLElement).hidden,
+    ).to.equal(true);
+
+    const noted = await fixture<ChatMessage>(
+      html`<wc-chat-message from="user" value="Checked the gateway"
+        ><span slot="meta">Work note</span></wc-chat-message
+      >`,
+    );
+    await waitUntil(
+      () => !(root(noted).querySelector('.header') as HTMLElement).hidden,
+      'header shown for meta',
+    );
+    expect(
+      root(noted).querySelector('.header .author')?.textContent?.trim(),
+    ).to.equal('You');
+  });
+
+  it('offers quick replies once complete and fires suggestion-select', async () => {
+    const el = await fixture<ChatMessage>(
+      html`<wc-chat-message value="Done." streaming></wc-chat-message>`,
+    );
+    el.suggestions = ['Promote to major incident', 'Why P2?'];
+    await el.updateComplete;
+    expect(root(el).querySelector('.suggestions')).to.equal(null);
+    el.streaming = false;
+    await el.updateComplete;
+    const group = root(el).querySelector('.suggestions') as HTMLElement;
+    expect(group.getAttribute('role')).to.equal('group');
+    expect(group.getAttribute('aria-label')).to.equal('Suggested replies');
+    const chips = group.querySelectorAll('wc-chip');
+    expect(chips.length).to.equal(2);
+    setTimeout(() => (chips[1] as HTMLElement).click());
+    const event = (await oneEvent(
+      el,
+      'suggestion-select',
+    )) as CustomEvent<ChatMessageSuggestionDetail>;
+    expect(event.detail.value).to.equal('Why P2?');
+  });
+});
+
+describe('ChatEvent', () => {
+  it('says what happened with its icon and time', async () => {
+    const el = await fixture<ChatEvent>(
+      html`<wc-chat-event icon="verified" datetime="2026-11-08T10:07:00"
+        ><strong>Alan Kay</strong> confirmed the rollback</wc-chat-event
+      >`,
+    );
+    expect(
+      root(el).querySelector('wc-icon')?.getAttribute('aria-hidden'),
+    ).to.equal('true');
+    expect(root(el).querySelector('wc-icon')?.getAttribute('name')).to.equal(
+      'verified',
+    );
+    expect(
+      (root(el).querySelector('time') as HTMLTimeElement).dateTime,
+    ).to.equal('2026-11-08T10:07:00');
+    expect(el.textContent?.trim()).to.equal('Alan Kay confirmed the rollback');
+
+    const plain = await fixture<ChatEvent>(
+      html`<wc-chat-event>Joined</wc-chat-event>`,
+    );
+    expect(root(plain).querySelector('wc-icon')).to.equal(null);
+    expect(root(plain).querySelector('time')).to.equal(null);
+  });
+
+  it('counts as content in a thread', async () => {
+    const el = await fixture<ChatThread>(
+      html`<wc-chat-thread style="height: 200px"
+        ><wc-chat-event>Incident opened</wc-chat-event></wc-chat-thread
+      >`,
+    );
+    await el.updateComplete;
+    expect((root(el).querySelector('.empty') as HTMLElement).hidden).to.equal(
+      true,
+    );
+  });
 });
 
 describe('ChatThread', () => {
@@ -306,6 +424,31 @@ describe('ChatThread', () => {
     scroller.dispatchEvent(new Event('scroll'));
     await el.updateComplete;
     expect(root(el).querySelector('.jump')).to.not.equal(null);
+  });
+
+  it('keeps following when content grows below without the reader scrolling', async () => {
+    const el = await fixture<ChatThread>(
+      html`<wc-chat-thread style="height: 120px"></wc-chat-thread>`,
+    );
+    for (let i = 0; i < 6; i += 1) {
+      const message = document.createElement('wc-chat-message') as ChatMessage;
+      message.value = `Message ${i}`;
+      message.hideActions = true;
+      el.append(message);
+    }
+    await aTimeout(100);
+    const scroller = root(el).querySelector('.scroller') as HTMLElement;
+    // A tall card lands below, and a scroll event arrives before the thread catches up.
+    const card = document.createElement('div');
+    card.style.height = '400px';
+    el.append(card);
+    scroller.dispatchEvent(new Event('scroll'));
+    await el.updateComplete;
+    expect(root(el).querySelector('.jump')).to.equal(null);
+    await aTimeout(100);
+    const distance =
+      scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
+    expect(distance).to.be.at.most(48);
   });
 });
 
@@ -424,6 +567,24 @@ describe('DraftCard', () => {
     expect(
       root(el).querySelector('.head wc-ai-badge')?.getAttribute('kind'),
     ).to.equal('draft');
+  });
+
+  it('puts each label above its value in a narrow card', async () => {
+    const el = await fixture<DraftCard>(
+      html`<wc-draft-card
+        headline="Reply"
+        style="width: 20rem"
+      ></wc-draft-card>`,
+    );
+    el.fields = [{ label: 'To', value: 'Priya Shah' }];
+    await el.updateComplete;
+    const field = root(el).querySelector('.field') as HTMLElement;
+    const columns = () =>
+      getComputedStyle(field).gridTemplateColumns.split(' ').length;
+    expect(columns()).to.equal(1);
+    el.style.width = '40rem';
+    await aTimeout(30);
+    expect(columns()).to.equal(2);
   });
 
   it('fires confirm and edit, and discards unless cancelled', async () => {

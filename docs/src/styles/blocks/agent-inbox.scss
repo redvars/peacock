@@ -1,0 +1,99 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Agent inbox block (pages/blocks/agent-inbox/). The frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.agent-inbox-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300) var(--spacing-200);
+  background: var(--color-surface-container-lowest);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-300);
+  }
+
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+.agent-inbox-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-150);
+
+  h2 {
+    flex: 1;
+  }
+}
+
+.agent-inbox-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--spacing-150);
+}
+
+.agent-inbox-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--spacing-200);
+  align-items: start;
+}
+
+.agent-inbox-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+}
+
+.agent-inbox-card wc-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-075);
+}
+
+.agent-inbox-urgent {
+  --outlined-card-outline-color: var(--color-warning);
+}
+
+.agent-inbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+
+  strong {
+    flex: 1;
+    min-inline-size: 0;
+  }
+}
+
+.agent-inbox-why {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-075);
+  @include mixin.get-typography(body-medium);
+
+  wc-icon {
+    flex: none;
+    margin-block-start: 0.125rem;
+    --icon-size: 1rem;
+  }
+}
+
+.agent-inbox-actions {
+  display: flex;
+  gap: var(--spacing-100);
+  margin-block-start: var(--spacing-050);
+}

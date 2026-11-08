@@ -18,7 +18,7 @@ import './directive-ZPhl09Yt.js';
 import './warn-once-BNxX1Y98.js';
 
 var css_248z = i`.button {
-  transition-property: inset, width, height, transform, opacity;
+  transition-property: inset, width, height, transform, opacity, border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
   will-change: inset, transform, opacity;
@@ -36,7 +36,7 @@ var css_248z = i`.button {
   border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
   border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
   corner-shape: var(--_button-container-shape-variant);
-  transition-property: inset, width, height, transform, opacity;
+  transition-property: inset, width, height, transform, opacity, border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
   will-change: inset, transform, opacity;
@@ -54,7 +54,7 @@ var css_248z = i`.button {
   border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
   border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
   corner-shape: var(--_button-container-shape-variant);
-  transition-property: inset, width, height, transform, opacity;
+  transition-property: inset, width, height, transform, opacity, border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
   will-change: inset, transform, opacity;
@@ -158,7 +158,7 @@ var css_248z = i`.button {
   border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
   border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
   corner-shape: var(--_button-container-shape-variant);
-  transition-property: inset, width, height, transform, opacity;
+  transition-property: inset, width, height, transform, opacity, border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
   will-change: inset, transform, opacity;
@@ -261,7 +261,9 @@ var css_248z = i`.button {
   align-items: center;
   justify-content: center;
   height: var(--button-height);
-  padding: 0 var(--button-container-padding, var(--_button-container-padding));
+  padding-block: 0;
+  padding-inline-start: var(--button-container-padding-start, var(--button-container-padding, var(--_button-container-padding)));
+  padding-inline-end: var(--button-container-padding-end, var(--button-container-padding, var(--_button-container-padding)));
   width: 100%;
 }
 .button .label {

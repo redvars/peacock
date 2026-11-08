@@ -341,8 +341,9 @@ export type {
   ChatMessageFrom,
   ChatMessageFeedback,
   ChatMessageFeedbackDetail,
+  ChatMessageSuggestionDetail,
 } from './chat-message/index.js';
-export { ChatThread } from './chat-thread/index.js';
+export { ChatThread, ChatEvent } from './chat-thread/index.js';
 export type { ChatThreadSuggestionDetail } from './chat-thread/index.js';
 export { AssistantSteps, AssistantStep } from './assistant-steps/index.js';
 export type { AssistantStepStatus } from './assistant-steps/index.js';

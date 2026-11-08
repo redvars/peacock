@@ -1,0 +1,126 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/agent-inbox.scss';
+---
+
+<Layout
+  title='Agent inbox'
+  description='A service desk queue built from Peacock components and grouped by who has to act: what needs a person and why, what the agent is working on, and what it resolved, with a summary of the day.'
+>
+  <div class='block-demo agent-inbox-shell'>
+    <div class='agent-inbox-header'>
+      <h2 class='text-headline-small'>Incidents</h2>
+      <wc-segmented-button-group aria-label='Show'>
+        <wc-segmented-button selected>Mine</wc-segmented-button>
+        <wc-segmented-button>My groups</wc-segmented-button>
+        <wc-segmented-button>All</wc-segmented-button>
+      </wc-segmented-button-group>
+      <wc-button size='sm'><wc-icon slot='icon' name='add'></wc-icon>New incident</wc-button>
+    </div>
+
+    <wc-ai-summary id='agent-inbox-summary' headline='Since 08:00' badge-label='Written by the agent'></wc-ai-summary>
+
+    <div class='agent-inbox-stats'>
+      <wc-stat label='Resolved by the agent' value='12' help='Closed without a person, each confirmed by its caller.'></wc-stat>
+      <wc-stat label='Needs a person' value='4'></wc-stat>
+      <wc-stat label='Breaching SLA within 1 h' value='1'></wc-stat>
+      <wc-stat id='agent-inbox-response' label='Median first response' value='40'></wc-stat>
+    </div>
+
+    <div class='agent-inbox-columns'>
+      <section class='agent-inbox-column' aria-labelledby='agent-inbox-needs'>
+        <h3 class='text-title-medium' id='agent-inbox-needs'>
+          <wc-status-indicator intent='warning' dot-only label='Needs you'></wc-status-indicator>Needs you · 3
+        </h3>
+        <wc-card variant='outlined' class='agent-inbox-card agent-inbox-urgent'>
+          <wc-card-content>
+            <div class='agent-inbox-row'><strong>VPN drops every ~10 min, Pune</strong><wc-tag size='sm' intent='warning'>P2</wc-tag></div>
+            <p class='agent-inbox-why'><wc-icon name='verified_user'></wc-icon>Approve a rollback on vpn-gw-02. Policy NET-04 needs the on-call lead.</p>
+            <p class='text-body-small block-muted'>INC0042187 · 2 drafts · resolve within 3 h 12 min</p>
+            <div class='agent-inbox-actions'><wc-button size='sm'>Review drafts</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+        <wc-card variant='outlined' class='agent-inbox-card'>
+          <wc-card-content>
+            <div class='agent-inbox-row'><strong>Payroll export missing rows</strong><wc-tag size='sm'>P3</wc-tag></div>
+            <p class='agent-inbox-why'><wc-icon name='help'></wc-icon>The agent isn't sure: two causes fit the sample file. It wants you to pick.</p>
+            <p class='text-body-small block-muted'>INC0042170 · Finance systems</p>
+            <div class='agent-inbox-actions'><wc-button size='sm' variant='outlined'>Open</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+        <wc-card variant='outlined' class='agent-inbox-card'>
+          <wc-card-content>
+            <div class='agent-inbox-row'><strong>Salary slip shows the wrong bank</strong><wc-tag size='sm'>P3</wc-tag></div>
+            <p class='agent-inbox-why'><wc-icon name='shield_lock'></wc-icon>Touches a sensitive field the agent doesn't read, so a person takes this one.</p>
+            <p class='text-body-small block-muted'>INC0042159 · HR systems</p>
+            <div class='agent-inbox-actions'><wc-button size='sm' variant='outlined'>Open</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+      </section>
+
+      <section class='agent-inbox-column' aria-labelledby='agent-inbox-working'>
+        <h3 class='text-title-medium' id='agent-inbox-working'>
+          <wc-status-indicator intent='info' dot-only pulse label='Agent working'></wc-status-indicator>Agent working · 2
+        </h3>
+        <wc-card variant='outlined' class='agent-inbox-card'>
+          <wc-card-content>
+            <div class='agent-inbox-row'><strong>Outlook won't open on LT-7740</strong><wc-tag size='sm'>P3</wc-tag></div>
+            <p class='text-body-medium'>Collecting crash logs from Endpoint management…</p>
+            <p class='text-body-small block-muted'>Started 2 min ago · next: a repair, drafted for the caller to confirm</p>
+            <div class='agent-inbox-actions'><wc-button size='sm' variant='text'>Watch</wc-button><wc-button size='sm' variant='text'>Take over</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+        <wc-card variant='outlined' class='agent-inbox-card'>
+          <wc-card-content>
+            <div class='agent-inbox-row'><strong>Badge reader, gate 3</strong><wc-tag size='sm'>P4</wc-tag></div>
+            <p class='text-body-medium'>Waiting on the caller for a photo of the reader</p>
+            <p class='text-body-small block-muted'>Asked 14 min ago in Teams · reminds at 11:00, then hands to Facilities</p>
+            <div class='agent-inbox-actions'><wc-button size='sm' variant='text'>Watch</wc-button><wc-button size='sm' variant='text'>Take over</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+      </section>
+
+      <section class='agent-inbox-column' aria-labelledby='agent-inbox-resolved'>
+        <h3 class='text-title-medium' id='agent-inbox-resolved'>
+          <wc-status-indicator intent='success' dot-only label='Resolved'></wc-status-indicator>Resolved by the agent · 12
+        </h3>
+        <wc-card variant='outlined' class='agent-inbox-card'>
+          <wc-card-content>
+            <strong>Password reset, Mia Chen</strong>
+            <p class='text-body-medium'>Sent the self-service link; Mia confirmed she can sign in.</p>
+            <p class='text-body-small block-muted'>09:21 · 3 min · caller confirmed</p>
+            <div class='agent-inbox-actions'><wc-button size='sm' variant='text'>What it did</wc-button><wc-button size='sm' variant='text'>Reopen</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+        <wc-card variant='outlined' class='agent-inbox-card'>
+          <wc-card-content>
+            <strong>Shared drive access, Legal</strong>
+            <p class='text-body-medium'>Drafted the access request; Sam Ortiz approved it.</p>
+            <p class='text-body-small block-muted'>09:02 · 18 min · approver Sam Ortiz</p>
+            <div class='agent-inbox-actions'><wc-button size='sm' variant='text'>What it did</wc-button><wc-button size='sm' variant='text'>Reopen</wc-button></div>
+          </wc-card-content>
+        </wc-card>
+      </section>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var summary = document.getElementById('agent-inbox-summary');
+      var response = document.getElementById('agent-inbox-response');
+      Promise.all([customElements.whenDefined('wc-ai-summary'), customElements.whenDefined('wc-stat')]).then(function () {
+        response.format = { style: 'unit', unit: 'second', unitDisplay: 'short' };
+        summary.citations = [
+          { id: 'resolved', headline: '12 incidents resolved by the agent', supportingText: 'IT service desk · each confirmed by its caller' },
+          { id: 'vpn', headline: 'INC0042187 · VPN drops, Pune', supportingText: 'IT service desk · 7 linked incidents' },
+        ];
+        summary.value =
+          'The agent closed 12 incidents on its own[1](cite:resolved), mostly passwords and access. ' +
+          'Three need you; the VPN drops in Pune are the one to look at first[2](cite:vpn).';
+        summary.addEventListener('dismiss', function () {
+          summary.hidden = true;
+        });
+      });
+    })();
+  </script>
+</Layout>

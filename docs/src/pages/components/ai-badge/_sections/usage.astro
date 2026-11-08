@@ -59,6 +59,21 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </script>
 </DemoComponentCard>
 
+<h3>Icon only</h3>
+<p>
+  <code>icon-only</code> keeps just the sparkle where there is no room for the label. The label is
+  still read by screen readers and shows in the tooltip, before the reason. Fields switch to it on
+  their own: a text field narrower than 20rem, and a textarea always, since a label beside it would
+  narrow every line of the text.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; gap: 1rem; align-items: center;'>
+    <wc-ai-badge icon-only reason='Matches the caller’s site.'></wc-ai-badge>
+    <wc-ai-badge icon-only dismissible></wc-ai-badge>
+  </div>
+</DemoComponentCard>
+
 <h3>When AI is off</h3>
 <p>
   When the page turns AI off, every badge renders nothing, so a page that still passes AI state in

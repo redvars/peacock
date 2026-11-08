@@ -3,18 +3,18 @@ import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
+import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
 import { A as AiController } from './ai-controller-DR_Tg0sN.js';
-import { B as BaseInput } from './BaseInput-cLydYG8j.js';
+import { B as BaseInput } from './BaseInput-BvS0tw15.js';
 import { o as observeThemeChange } from './observe-theme-change-CkSENG98.js';
 import { t as tokenColor } from './token-colors-DEO6rvEu.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-BJPuhKJk.js';
+import './strings-DnYjGbbc.js';
 import './locale-DEsJZCQG.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-BHbg72PG.js';
-import './suggestion-controller-kTnSMkjh.js';
+import './suggestion-controller-BKMbUhgq.js';
 
 /**
  * The colors the editor theme is built from: Peacock color roles, plus the syntax colors

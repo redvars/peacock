@@ -60,6 +60,8 @@ export declare class Textarea extends BaseField {
     private readonly i18n;
     private readonly ghost;
     protected updated(changed: PropertyValues<this>): void;
+    /** Just the sparkle: a label beside the text would narrow every line. */
+    protected get suggestionBadgeIconOnly(): boolean;
     focus(): void;
     blur(): void;
     protected computeValidity(): ControlValidity;

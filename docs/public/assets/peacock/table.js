@@ -4,7 +4,7 @@ import { r } from './state-BCeDVCI9.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
 import { e } from './class-map-NDIkZErE.js';
 import { c } from './repeat-D_ERDRYT.js';
-import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
+import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
 import { o } from './style-map-CHOg6N_R.js';
 import { o as o$1 } from './unsafe-html-Cy_JqoPT.js';
 import { w as writeClipboardText } from './clipboard-C7hBdUXP.js';
@@ -12,7 +12,7 @@ import { v as virtualWindow } from './virtual-window-5OYyIqZh.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './directive-helpers-Bx3mu42O.js';
-import './strings-BJPuhKJk.js';
+import './strings-DnYjGbbc.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {
@@ -62,7 +62,12 @@ var css_248z = i`* {
   --_table-checkbox-width: 3rem;
   --_table-edge-shadow: color-mix(
     in srgb,
-    var(--color-shadow) 14%,
+    var(--color-shadow) 12%,
+    transparent
+  );
+  --_table-edge-shadow-soft: color-mix(
+    in srgb,
+    var(--color-shadow) 4%,
     transparent
   );
 }
@@ -563,31 +568,62 @@ var css_248z = i`* {
   display: flex;
 }
 
+.pinned-group-start::before,
+.pinned-group-end::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  z-index: 1;
+  inline-size: 1px;
+  background: var(--table-border-color);
+  pointer-events: none;
+}
+
+.pinned-group-start::before {
+  inset-inline-end: 0;
+}
+
+.pinned-group-end::after {
+  inset-inline-start: 0;
+}
+
 .pinned-group-start::after,
 .pinned-group-end::before {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 0.75rem;
+  inset-block: 0;
+  inline-size: 1rem;
+  background: linear-gradient(to right, var(--_table-edge-shadow) 0, var(--_table-edge-shadow-soft) 40%, transparent);
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--duration-short4, 200ms) ease;
 }
 
 .pinned-group-start::after {
-  inset-inline-end: -0.75rem;
-  background: linear-gradient(to right, var(--_table-edge-shadow), transparent);
+  inset-inline-end: -1rem;
 }
 
 .pinned-group-end::before {
-  inset-inline-start: -0.75rem;
-  background: linear-gradient(to left, var(--_table-edge-shadow), transparent);
+  inset-inline-start: -1rem;
+  transform: scaleX(-1);
+}
+
+.pinned-group-start:dir(rtl)::after {
+  transform: scaleX(-1);
+}
+
+.pinned-group-end:dir(rtl)::before {
+  transform: none;
 }
 
 .scrolled-from-start .pinned-group-start::after,
 .scrolled-from-end .pinned-group-end::before {
   opacity: 1;
+}
+
+.pinned-group-start > .cell:last-child .resize-handle:not(:hover, :focus-visible)::after,
+.scroll-group:has(+ .pinned-group-end) > .cell:last-child .resize-handle:not(:hover, :focus-visible)::after {
+  background: transparent;
 }
 
 .bulk-bar {
@@ -2686,6 +2722,9 @@ let Table = class Table extends i$1 {
         const position = sorts.findIndex(sort => sort.name === column.name);
         const sort = sorts[position];
         const showPriority = sort && sorts.length > 1;
+        let icon = 'swap_vert';
+        if (sort)
+            icon = sort.order === 'desc' ? 'arrow_downward' : 'arrow_upward';
         return b `
       <button
         type="button"
@@ -2698,7 +2737,7 @@ let Table = class Table extends i$1 {
         <wc-icon
           class="sort-icon"
           aria-hidden="true"
-          name=${sort?.order === 'desc' ? 'arrow_downward' : 'arrow_upward'}
+          name=${icon}
         ></wc-icon>
         ${showPriority
             ? b `<span class="sort-priority" aria-hidden="true"

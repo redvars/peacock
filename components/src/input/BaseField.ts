@@ -1,9 +1,12 @@
-import { html, nothing, type TemplateResult } from 'lit';
+import { html, nothing, type PropertyValues, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 
 import { peacockString } from '@/__internal/i18n/strings.js';
 import type { Size } from '@/__internal/utils/size.js';
 import BaseInput from './BaseInput.js';
+
+/** Below this width, in pixels, a field's Suggested badge shows just the sparkle. */
+const NARROW_FIELD_WIDTH = 320;
 
 /** What a field component passes to `renderField()`. */
 export interface FieldRenderOptions {
@@ -78,6 +81,9 @@ export default abstract class BaseField extends BaseInput {
 
   @state() protected focused = false;
 
+  /** The field is too narrow for the Suggested badge's label; it shows just the sparkle. */
+  @state() private __narrow = false;
+
   // ── Private fields ───────────────────────────────────────────────────────
 
   /** Id of the hidden description the inner control points at. */
@@ -85,6 +91,9 @@ export default abstract class BaseField extends BaseInput {
 
   /** A `tabindex` set on the host, moved to the inner control. */
   protected controlTabIndex?: string;
+
+  /** Watches the field's width while it holds a suggestion, so the badge can shrink. */
+  private __widthObserver?: ResizeObserver;
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -103,7 +112,35 @@ export default abstract class BaseField extends BaseInput {
     }
   }
 
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.__widthObserver?.disconnect();
+    this.__widthObserver = undefined;
+  }
+
+  protected override updated(changed: PropertyValues) {
+    super.updated(changed);
+    // Only a field showing a suggestion pays for an observer.
+    if (this.suggestionVisible && !this.__widthObserver) {
+      this.__widthObserver = new ResizeObserver(([entry]) => {
+        this.__narrow = entry.contentRect.width < NARROW_FIELD_WIDTH;
+      });
+      this.__widthObserver.observe(this);
+    } else if (!this.suggestionVisible && this.__widthObserver) {
+      this.__widthObserver.disconnect();
+      this.__widthObserver = undefined;
+    }
+  }
+
   // ── Protected ────────────────────────────────────────────────────────────
+
+  /**
+   * Whether the Suggested badge always shows just the sparkle, whatever the width. A textarea
+   * sets it: a label beside it would narrow every line of the text.
+   */
+  protected get suggestionBadgeIconOnly(): boolean {
+    return false;
+  }
 
   /**
    * The error text the field shows: the consumer's `error-text` while `error` is set, else an
@@ -163,7 +200,10 @@ export default abstract class BaseField extends BaseInput {
         <slot name="start" slot="field-start"></slot>
         ${options.start ?? nothing} ${control}
         <slot name="end" slot="field-end"></slot>
-        ${this.suggestionBadge({ slot: 'field-end' })}
+        ${this.suggestionBadge({
+          slot: 'field-end',
+          iconOnly: this.__narrow || this.suggestionBadgeIconOnly,
+        })}
         ${this.renderClearButton(options.populated)} ${options.end ?? nothing}
       </wc-field>
       ${description

@@ -24,6 +24,8 @@
   min-block-size: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+  // The thread keeps the end in view itself; the browser's scroll anchoring would fight it.
+  overflow-anchor: none;
   outline: none;
 
   &:focus-visible {
@@ -39,7 +41,8 @@
   padding: var(--chat-thread-padding);
 }
 
-::slotted(wc-chat-message) {
+::slotted(wc-chat-message),
+::slotted(wc-chat-event) {
   display: block;
 }
 

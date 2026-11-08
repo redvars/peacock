@@ -21,6 +21,29 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </wc-chat-thread>
 </DemoComponentCard>
 
+<h3>Several people, and what happened</h3>
+<p>
+  A thread can hold more than the person and the assistant: a caller's messages bridged from another
+  channel, teammates' work notes (<code>from="participant"</code> on <code>wc-chat-message</code>),
+  and <code>wc-chat-event</code> lines for what the platform recorded along the way, such as a
+  confirmed draft. An event takes an <code>icon</code>, a <code>datetime</code> and its sentence as
+  content; bold who did it with <code>&lt;strong&gt;</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chat-thread label='Incident INC0042187' style='inline-size: 100%; max-inline-size: 34rem; block-size: 26rem;'>
+    <wc-chat-event icon='add_circle' datetime='2026-11-08T09:41:00'>Incident opened from Teams</wc-chat-event>
+    <wc-chat-message from='participant' author='Priya Shah' channel='Teams' datetime='2026-11-08T09:41:00' value='VPN drops every ten minutes for the whole Pune office.'>
+      <wc-avatar slot='avatar' name='Priya Shah' size='sm'></wc-avatar>
+    </wc-chat-message>
+    <wc-chat-message author='Incident agent' datetime='2026-11-08T09:42:00' hide-actions value='The certificate on **vpn-gw-02** expired at 09:30. I drafted a rollback for you to confirm.'></wc-chat-message>
+    <wc-chat-event icon='verified' datetime='2026-11-08T10:07:00'><strong>Alan Kay</strong> confirmed the rollback</wc-chat-event>
+    <wc-chat-message from='user' author='Alan Kay' datetime='2026-11-08T10:09:00' value='Watching the tunnels for ten minutes before I tell Priya.'>
+      <wc-tag slot='meta' size='sm'>Work note</wc-tag>
+    </wc-chat-message>
+  </wc-chat-thread>
+</DemoComponentCard>
+
 <h3>Before the first message</h3>
 <p>
   The <code>empty</code> slot and <code>suggestions</code> show until the first message: prompt
@@ -47,5 +70,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   The thread is a log (<code>role="log"</code>) named "Conversation", but not a live region: a
   streaming answer would be read word by word. Instead it announces each assistant answer once, when
   its <code>streaming</code> turns off, as "Assistant: …" (the <code>chatAnnouncement</code> string).
-  Messages already there when the thread connects, and the person's own messages, are not announced.
+  A participant's new message is announced the same way, with their name. Messages already there
+  when the thread connects, the person's own messages and <code>wc-chat-event</code> lines are not
+  announced.
 </p>

@@ -124,6 +124,7 @@ import { TypingIndicator } from '@/typing-indicator/typing-indicator.js';
 import { Citation } from '@/citation/citation.js';
 import { ChatMessage } from '@/chat-message/chat-message.js';
 import { ChatThread } from '@/chat-thread/chat-thread.js';
+import { ChatEvent } from '@/chat-thread/chat-event.js';
 import { AssistantSteps } from '@/assistant-steps/assistant-steps.js';
 import { AssistantStep } from '@/assistant-steps/assistant-step.js';
 import { DraftCard } from '@/draft-card/draft-card.js';
@@ -588,6 +589,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-chat-thread': {
       CustomElementClass: ChatThread,
+    },
+    'wc-chat-event': {
+      CustomElementClass: ChatEvent,
     },
     'wc-assistant-steps': {
       CustomElementClass: AssistantSteps,

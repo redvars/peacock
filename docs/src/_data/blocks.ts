@@ -26,7 +26,9 @@ export type BlockPreview =
   | 'two-factor'
   | 'record-detail'
   | 'assistant'
-  | 'home-ai';
+  | 'home-ai'
+  | 'incident-agent'
+  | 'agent-inbox';
 
 export interface BlockDefinition {
   name: BlockPreview;
@@ -164,6 +166,28 @@ export const BLOCKS: BlockDefinition[] = [
       'A home page with an ask bar over search, a summary of the day above the app tiles, and an insight under a number; asking opens the assistant beside the page.',
     tags: ['ai', 'summary', 'search'],
     icon: 'home',
+    isNew: true,
+  },
+  {
+    name: 'incident-agent',
+    label: 'Incident agent',
+    href: '/blocks/incident-agent/',
+    group: 'AI',
+    summary:
+      'An incident worked in a conversation: the caller, teammates and an agent in one thread, a cited diagnosis, drafts to confirm that run as live steps, quick replies, and the record beside it with suggested fields and a plan.',
+    tags: ['ai', 'chat', 'drafts'],
+    icon: 'support_agent',
+    isNew: true,
+  },
+  {
+    name: 'agent-inbox',
+    label: 'Agent inbox',
+    href: '/blocks/agent-inbox/',
+    group: 'AI',
+    summary:
+      'A service desk queue grouped by who has to act: what needs a person and why, what the agent is working on, and what it resolved, with a summary of the day and the numbers behind it.',
+    tags: ['ai', 'queue', 'summary'],
+    icon: 'inbox',
     isNew: true,
   },
   {

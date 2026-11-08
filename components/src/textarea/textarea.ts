@@ -117,6 +117,13 @@ export class Textarea extends BaseField {
     }
   }
 
+  // ── Protected methods ────────────────────────────────────────────────────
+
+  /** Just the sparkle: a label beside the text would narrow every line. */
+  protected override get suggestionBadgeIconOnly(): boolean {
+    return true;
+  }
+
   // ── Public methods ───────────────────────────────────────────────────────
 
   override focus() {

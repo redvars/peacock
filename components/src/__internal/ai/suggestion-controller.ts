@@ -156,9 +156,10 @@ export class SuggestionController implements ReactiveController {
   /**
    * The Suggested badge with its clear button, while the suggestion shows. With `withReason` the
    * badge carries the reason in its tooltip, for controls that have no helper text to show it in.
+   * With `iconOnly` it shows just the sparkle, for a field too narrow for the label.
    */
   badge(
-    options: { slot?: string; withReason?: boolean } = {},
+    options: { slot?: string; withReason?: boolean; iconOnly?: boolean } = {},
   ): TemplateResult | typeof nothing {
     if (!this.visible) return nothing;
     return html`<wc-ai-badge
@@ -166,6 +167,7 @@ export class SuggestionController implements ReactiveController {
       part="suggestion-badge"
       slot=${options.slot ?? nothing}
       reason=${options.withReason ? this.reason : ''}
+      ?icon-only=${options.iconOnly}
       dismissible
       @click=${this.onBadgeClick}
       @dismiss=${this.onBadgeDismiss}

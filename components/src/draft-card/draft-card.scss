@@ -7,6 +7,7 @@
 }
 
 .card {
+  container: draft-card / inline-size;
   overflow: hidden;
   background: var(--color-surface);
   border: 1px solid var(--color-outline-variant);
@@ -62,6 +63,14 @@
   padding: var(--spacing-075, 0.375rem) var(--spacing-200, 1rem);
 }
 
+// In a narrow card, such as a thread on a phone, each label sits above its value.
+@container draft-card (inline-size < 26rem) {
+  .field {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
 dt {
   color: var(--color-on-surface-variant);
 }
@@ -112,10 +121,15 @@ dd {
   }
 }
 
+// Done is a quiet record of what happened, not an alert: the check carries the color.
 .done {
-  color: var(--color-on-success-container);
-  background: var(--color-success-container);
+  color: var(--color-on-surface);
+  background: var(--color-surface-container-low);
   font-weight: 500;
+
+  wc-icon {
+    --icon-color: var(--color-success);
+  }
 }
 
 .done-text {

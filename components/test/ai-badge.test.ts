@@ -69,6 +69,32 @@ describe('AiBadge', () => {
     ).to.equal(false);
   });
 
+  it('shows just the sparkle with icon-only, keeping the label for screen readers and the tooltip', async () => {
+    const el = await fixture<AiBadge>(
+      html`<wc-ai-badge
+        icon-only
+        reason="Matches the caller's site."
+      ></wc-ai-badge>`,
+    );
+    const text = el.shadowRoot!.querySelector('#label slot')
+      ?.parentElement as HTMLElement;
+    expect(text.classList.contains('screen-reader-only')).to.equal(true);
+    expect(label(el)).to.equal('Suggested');
+    expect(
+      el.shadowRoot!.querySelector('wc-tooltip')?.textContent?.trim(),
+    ).to.equal("Suggested. Matches the caller's site.");
+
+    const bare = await fixture<AiBadge>(
+      html`<wc-ai-badge icon-only></wc-ai-badge>`,
+    );
+    expect(
+      bare.shadowRoot!.querySelector('wc-tooltip')?.textContent?.trim(),
+    ).to.equal('Suggested');
+    expect(
+      bare.shadowRoot!.querySelector('#label')?.getAttribute('tabindex'),
+    ).to.equal('0');
+  });
+
   it('fires dismiss from its clear button, named for the kind', async () => {
     const el = await fixture<AiBadge>(
       html`<wc-ai-badge kind="draft" dismissible></wc-ai-badge>`,

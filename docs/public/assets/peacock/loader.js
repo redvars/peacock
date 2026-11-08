@@ -120,12 +120,13 @@ import { TypingIndicator } from './typing-indicator.js';
 import { Citation } from './citation.js';
 import { ChatMessage } from './chat-message.js';
 import { ChatThread } from './chat-thread.js';
+import { ChatEvent } from './chat-event.js';
 import { AssistantSteps } from './assistant-steps.js';
 import { AssistantStep } from './assistant-step.js';
 import { DraftCard } from './draft-card.js';
 import { AssistantPanel } from './assistant-panel.js';
 import { AiSummary } from './ai-summary.js';
-import { G as GenerativeView } from './generative-view-CFf42IvV.js';
+import { G as GenerativeView } from './generative-view-DvWq3iWM.js';
 import { HoverCard } from './hover-card.js';
 import { Kanban } from './kanban.js';
 import { VirtualList } from './virtual-list.js';
@@ -146,10 +147,10 @@ import { NavigationBarItem } from './navigation-bar-item.js';
 import { NavigationDrawer } from './navigation-drawer.js';
 import { NavigationDrawerItem } from './navigation-drawer-item.js';
 import { NavigationDrawerGroup } from './navigation-drawer-group.js';
-export { d as defaultStrings, s as setPeacockStrings } from './strings-BJPuhKJk.js';
+export { d as defaultStrings, s as setPeacockStrings } from './strings-DnYjGbbc.js';
 export { i as isAiAvailable, o as onPeacockAiChange, p as peacockAi, s as setPeacockAi } from './ai-controller-DR_Tg0sN.js';
 export { r as readStream } from './stream-C16hbcio.js';
-export { g as generativeViewSchema } from './schema-CFp2Kfrz.js';
+export { g as generativeViewSchema } from './schema-BOoII-bo.js';
 import './IndividualComponent-BK7XZjE2.js';
 import './property-B2TG3KEE.js';
 import './attachable-controller-DofeyflD.js';
@@ -174,19 +175,19 @@ import './warn-once-BNxX1Y98.js';
 import './form-associated-BHbg72PG.js';
 import './is-link-Dk2OV3PM.js';
 import './hyperlink-DycWPKwU.js';
-import './i18n-controller-Cp43HjJl.js';
+import './i18n-controller-DJHsE1YH.js';
 import './locale-DEsJZCQG.js';
-import './menu-trigger-controller-DyLpTxM7.js';
+import './menu-trigger-controller-CEJq1ugC.js';
 import './spread-B5cgadZl.js';
-import './BaseField-BYMiC1q4.js';
-import './BaseInput-cLydYG8j.js';
-import './suggestion-controller-kTnSMkjh.js';
+import './BaseField-BwsdIydS.js';
+import './BaseInput-BvS0tw15.js';
+import './suggestion-controller-BKMbUhgq.js';
 import './date-vFrYT1S9.js';
 import './utils-D92ldd1V.js';
-import './picker-field-DplPoDvP.js';
+import './picker-field-CtKz83x9.js';
 import './range-utils-BoKOhxVX.js';
 import './style-map-CHOg6N_R.js';
-import './toggle-base-BmE6atDf.js';
+import './toggle-base-BiKzcZEZ.js';
 import './floating-controller-CABF4tBT.js';
 import './placement-C4GO0JP9.js';
 import './query-assigned-elements-BJaGSqM0.js';
@@ -194,7 +195,7 @@ import './query-all-ThKhg-Lp.js';
 import './roving-focus-controller-fm95JkZJ.js';
 import './accordion-item.js';
 import './NativeHyperlinkMixin-WdY0fM-H.js';
-import './base-progress-CvLVSjuy.js';
+import './base-progress-D7Nmfh1s.js';
 import './overlay-controller-BOk-kfil.js';
 import './observe-theme-change-CkSENG98.js';
 import './repeat-D_ERDRYT.js';
@@ -205,7 +206,7 @@ import './modal-B78gUfEO.js';
 import './live-D_5OfuGD.js';
 import './sparkle-BmtM0vbq.js';
 import './platform-BUuoTAmr.js';
-import './relative-time-BVQXLuHm.js';
+import './relative-time-BNxqvEbg.js';
 import './url-BFUh__RO.js';
 import './diff-CT416thw.js';
 import './navigation-item-base-YtzLu9UE.js';
@@ -805,6 +806,9 @@ const loaderConfig = {
         },
         'wc-chat-thread': {
             CustomElementClass: ChatThread,
+        },
+        'wc-chat-event': {
+            CustomElementClass: ChatEvent,
         },
         'wc-assistant-steps': {
             CustomElementClass: AssistantSteps,
