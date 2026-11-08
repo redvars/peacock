@@ -1792,6 +1792,8 @@ export class Table extends LitElement {
     const position = sorts.findIndex(sort => sort.name === column.name);
     const sort = sorts[position];
     const showPriority = sort && sorts.length > 1;
+    let icon = 'swap_vert';
+    if (sort) icon = sort.order === 'desc' ? 'arrow_downward' : 'arrow_upward';
     return html`
       <button
         type="button"
@@ -1805,7 +1807,7 @@ export class Table extends LitElement {
         <wc-icon
           class="sort-icon"
           aria-hidden="true"
-          name=${sort?.order === 'desc' ? 'arrow_downward' : 'arrow_upward'}
+          name=${icon}
         ></wc-icon>
         ${showPriority
           ? html`<span class="sort-priority" aria-hidden="true"

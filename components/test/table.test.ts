@@ -69,18 +69,23 @@ describe('Table', () => {
       const header = () =>
         root(el).querySelector('.header [data-col="1"]') as HTMLElement;
       const button = () => header().querySelector('button') as HTMLElement;
+      const icon = () =>
+        header().querySelector('.sort-icon')?.getAttribute('name');
 
       expect(header().getAttribute('aria-sort')).to.equal('none');
+      expect(icon()).to.equal('swap_vert');
 
       button().click();
       await el.updateComplete;
       expect(header().getAttribute('aria-sort')).to.equal('ascending');
+      expect(icon()).to.equal('arrow_upward');
       const ascending = bodyRows(el).map(row => Number(cellText(row, 1)));
       expect(ascending).to.deep.equal([...ascending].sort((a, b) => a - b));
 
       button().click();
       await el.updateComplete;
       expect(header().getAttribute('aria-sort')).to.equal('descending');
+      expect(icon()).to.equal('arrow_downward');
 
       setTimeout(() => button().click());
       const event = await oneEvent(el, 'sort');
@@ -89,6 +94,8 @@ describe('Table', () => {
         sortOrder: 'asc',
         sorts: [],
       });
+      await el.updateComplete;
+      expect(icon()).to.equal('swap_vert');
     });
 
     it('sorts text in natural number order', async () => {
