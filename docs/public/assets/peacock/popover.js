@@ -1,9 +1,8 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
-import { F as FloatingController } from './floating-controller-CbbD1i-z.js';
+import { F as FloatingController } from './floating-controller-CABF4tBT.js';
 import { O as OverlayController } from './overlay-controller-BOk-kfil.js';
 import { t as toPhysicalPlacement } from './placement-C4GO0JP9.js';
-import './floating-ui.dom-IXnOdYJ1.js';
 
 var css_248z = i`* {
   box-sizing: border-box;

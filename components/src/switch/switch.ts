@@ -51,6 +51,7 @@ export class Switch extends ToggleBase {
   @property({ type: Boolean })
   rounded: boolean = true;
 
+  /** Shows a check icon in the handle when on and a close icon when off. */
   @property({ type: Boolean, reflect: true, attribute: 'with-icon' })
   withIcon: boolean = false;
 

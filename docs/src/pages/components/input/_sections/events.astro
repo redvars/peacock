@@ -3,9 +3,9 @@ export const title = 'Events';
 export const order = 400;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>pc-input--change</code> is triggered by
-  the element.
+<p>
+  The input dispatches <code>input</code> as the user types and <code>change</code> when the value is
+  committed. Both are <b>CustomEvent</b>s with the value in <code>event.detail.value</code>.
 </p>
 
 <DemoComponentCard lang={'html'}>
@@ -13,10 +13,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <script is:inline>
     document.querySelector('#name-input-field').addEventListener('input', function(event) {
-      myConsole.log('pc-input--input :: ' + event.target.value);
+      myConsole.log('input :: ' + event.target.value);
     });
     document.querySelector('#name-input-field').addEventListener('change', function(event) {
-      myConsole.warn('pc-input--change :: ' + event.target.value);
+      myConsole.warn('change :: ' + event.target.value);
     });
   </script>
 </DemoComponentCard>

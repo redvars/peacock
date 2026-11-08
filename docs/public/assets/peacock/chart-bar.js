@@ -1,15 +1,16 @@
 import { _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
-import { c as css_248z } from './chart-base-CisqEeGa.js';
-import { C as CartesianChart, s as stack, l as linear, m as min, a as max, b as band } from './cartesian-chart-B2FPBkvQ.js';
+import './transform-CxeQFXXB.js';
+import { C as CartesianChart, s as stack, l as linear, m as min, a as max, b as band } from './cartesian-chart-B0zbAlY-.js';
+import { c as css_248z } from './chart-base-D-Gp730U.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 import './style-map-CHOg6N_R.js';
-import './i18n-controller-Dxqz0Aof.js';
-import './strings-WY90FZfd.js';
+import './i18n-controller-Cp43HjJl.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 
 function stackOffsetDiverging(series, order) {
@@ -113,6 +114,7 @@ const VALUE_CHAR_WIDTH = 7;
  * ```
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
+ * @slot insight - Below the chart, a line that explains it, such as the assistant’s reading of a trend. The data comes from the platform; the insight only puts it into words.
  *
  * @fires {CustomEvent<ChartSelectDetail>} select - A bar group was clicked or chosen with Enter. `detail` holds `index` (the row position), `datum`, and `series` when one series is visible.
  *

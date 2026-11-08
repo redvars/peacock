@@ -1,6 +1,6 @@
 import { type PropertyValues } from 'lit';
-import { type FormValue, getFormValue } from '@/__internal/mixins/form-associated.js';
-import { type PeacockStrings } from '@/__internal/i18n/strings.js';
+import { type FormValue, getFormValue } from '../__internal/mixins/form-associated.js';
+import { type PeacockStrings } from '../__internal/i18n/strings.js';
 import BaseField from '../input/BaseField.js';
 export interface SelectOption {
     label: string;
@@ -131,6 +131,8 @@ export declare class Select extends BaseField {
     protected validityAnchor(): HTMLElement | undefined;
     /** Clears the selection (every value of a multi-select) and fires `change`. */
     protected clearValue(): void;
+    /** A multi-select also takes a suggestion as an array of values. */
+    protected writeSuggestionValue(value: unknown): void;
     /** The field event contract, plus `values` for a multi-select. */
     protected emitValue(type: 'input' | 'change'): void;
     /**
@@ -145,6 +147,8 @@ export declare class Select extends BaseField {
      * child element so each one can render itself correctly.
      */
     private _syncOptionStates;
+    /** The values the assistant suggested, while the suggestion shows; marked in the list. */
+    private get _suggestedValues();
     private get _selectedValues();
     private _isSelected;
     /** Returns the display label for a given option value. */

@@ -50,6 +50,7 @@ export class Tabs extends LitElement {
 
   // ── Properties
 
+  /** The visual style of the tabs: `"primary"` (default), `"secondary"`, `"contained"` or `"filled"`. */
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'contained' | 'filled' = 'primary';
 

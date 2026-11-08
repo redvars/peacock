@@ -1,4 +1,4 @@
-import { i, a as i$1, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-BK7XZjE2.js';
+import { i, a as i$1, _ as __decorate, I as IndividualComponent, A, b } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
@@ -64,7 +64,7 @@ var css_248z = i`* {
   --_container-shape-start-end: var(--field-container-shape-start-end, var(--shape-corner-extra-small));
   --_container-shape-end-start: var(--field-container-shape-end-start, var(--shape-corner-extra-small));
   --_container-shape-end-end: var(--field-container-shape-end-end, var(--shape-corner-extra-small));
-  --_container-color: var(--field-container-color);
+  --_container-color: var(--field-container-color, var(--color-surface-container-lowest));
   --_outline-width: var(--field-outline-width, 0.0675rem);
   --_outline-color: var(--field-outline-color, var(--color-outline));
   --_input-text-color: var(--field-label-text-color, var(--color-on-surface));
@@ -142,26 +142,6 @@ var css_248z = i`* {
   min-width: 0;
   padding-inline: var(--spacing-200);
   position: relative;
-}
-.field .field-body .field-content .input-wrapper .outlined-label {
-  position: absolute;
-  top: 0;
-  inset-inline-start: 0;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  padding-inline: var(--spacing-200);
-  font-family: var(--typography-body-large-font-family) !important;
-  font-size: var(--typography-body-large-font-size) !important;
-  font-weight: var(--typography-body-large-font-weight) !important;
-  line-height: var(--typography-body-large-line-height) !important;
-  letter-spacing: var(--typography-body-large-letter-spacing) !important;
-  color: var(--_input-text-color);
-  background-color: var(--_container-color);
-  opacity: var(--_container-opacity, 1);
-}
-.field .field-body .field-content .input-wrapper .outlined-slot-container {
-  opacity: 0;
 }
 .field .field-body .field-content slot::slotted(*) {
   font-family: var(--typography-body-large-font-family) !important;
@@ -247,16 +227,162 @@ var css_248z = i`* {
   --_helper-text-color: var(--color-warning);
   --_input-text-color: var(--color-warning);
 }
-.field.disabled .label {
+.field.variant-outlined {
+  --_container-color: var(--field-container-color, transparent);
+  --_outline-width: var(--field-outline-width, 0.0625rem);
+  --_label-text-color: var(--field-label-text-color, var(--color-on-surface-variant));
+  --_label-motion: var(--duration-short3, 150ms) var(--easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
+  --_notch-start: max(
+    var(--spacing-150),
+    var(--_container-shape-start-start),
+    var(--_container-shape-end-start)
+  );
+  --_notch-padding: var(--spacing-050);
+}
+.field.variant-outlined.has-label {
+  padding-block-start: calc(var(--typography-body-small-line-height) / 2);
+}
+.field.variant-outlined .field-body .outline {
+  display: flex;
+  border: none;
+  border-radius: 0;
+}
+.field.variant-outlined .field-body .outline-start,
+.field.variant-outlined .field-body .outline-notch,
+.field.variant-outlined .field-body .outline-end {
+  position: relative;
+  border: var(--_outline-width) solid var(--_outline-color);
+}
+.field.variant-outlined .field-body .outline-start {
+  flex: none;
+  width: var(--_notch-start);
+  border-inline-end: none;
+  border-start-start-radius: var(--_container-shape-start-start);
+  border-end-start-radius: var(--_container-shape-end-start);
+}
+.field.variant-outlined .field-body .outline-notch {
+  flex: none;
+  display: flex;
+  max-width: calc(100% - var(--_notch-start) - var(--spacing-200));
+  border-block-start: none;
+  border-inline: none;
+}
+.field.variant-outlined .field-body .outline-notch::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  border-block-start: var(--_outline-width) solid var(--_outline-color);
+  transition: transform var(--_label-motion);
+}
+.field.variant-outlined .field-body .outline-notch-label {
+  visibility: hidden;
+  padding-inline: var(--_notch-padding);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+}
+.field.variant-outlined .field-body .outline-end {
+  flex: 1;
+  border-inline-start: none;
+  border-start-end-radius: var(--_container-shape-start-end);
+  border-end-end-radius: var(--_container-shape-end-end);
+}
+.field.variant-outlined .field-body .outlined-label {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: var(--field-label-rest-top, 50%);
+  inset-inline-start: calc(var(--_input-start, 0px) + var(--spacing-200));
+  max-width: calc(100% - var(--_input-start, 0px) - var(--_input-end, 0px) - 2 * var(--spacing-200));
+  transform: translateY(-50%);
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--_label-text-color);
+  font-family: var(--typography-body-large-font-family);
+  font-size: var(--typography-body-large-font-size);
+  font-weight: var(--typography-body-large-font-weight);
+  line-height: var(--typography-body-large-line-height);
+  letter-spacing: var(--typography-body-large-letter-spacing);
+}
+.field.variant-outlined .field-body .outlined-label .required {
+  color: var(--color-error);
+  padding-inline-start: var(--spacing-025);
+}
+.field.variant-outlined .field-body[data-label-ready] .outlined-label {
+  transition: inset-block-start var(--_label-motion), inset-inline-start var(--_label-motion), max-width var(--_label-motion), font-size var(--_label-motion), line-height var(--_label-motion), letter-spacing var(--_label-motion);
+}
+.field.variant-outlined .field-body .input-wrapper {
+  transition: opacity var(--_label-motion);
+}
+.field.variant-outlined.has-label:not(.label-floating) .field-body .input-wrapper {
+  opacity: 0;
+}
+.field.variant-outlined.has-label.label-floating .field-body .outline-notch::before {
+  transform: scaleX(0);
+}
+.field.variant-outlined.has-label.label-floating .field-body .outlined-label {
+  inset-block-start: 0;
+  inset-inline-start: calc(var(--_notch-start) + var(--_notch-padding));
+  max-width: calc(100% - var(--_notch-start) - 2 * var(--_notch-padding) - var(--spacing-200));
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+}
+.field.variant-outlined:not(.disabled, .readonly, .focused) .field-body:hover {
+  --_outline-color: var(--color-on-surface);
+  --_label-text-color: var(--color-on-surface);
+}
+.field.variant-outlined.focused {
+  --_outline-width: 0.125rem;
+  --_label-text-color: var(--color-primary);
+}
+.field.variant-outlined.has-error {
+  --_label-text-color: var(--color-error);
+  --_input-text-color: var(--color-on-surface);
+}
+.field.variant-outlined.has-error:not(.disabled, .readonly, .focused) .field-body:hover {
+  --_outline-color: var(--color-on-error-container);
+  --_label-text-color: var(--color-on-error-container);
+}
+.field.variant-outlined.has-warning {
+  --_label-text-color: var(--color-warning);
+  --_input-text-color: var(--color-on-surface);
+}
+.field.variant-outlined.has-warning:not(.disabled, .readonly, .focused, .has-error) .field-body:hover {
+  --_outline-color: var(--color-warning);
+  --_label-text-color: var(--color-warning);
+}
+.field.disabled .label,
+.field.disabled .outlined-label {
   opacity: 0.38;
 }
 .field.disabled {
-  --_input-text-color: var(--color-on-surface-variant);
-  --_outline-opacity: 0.38;
+  --_label-text-color: var(--color-on-surface);
+  --_input-text-color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
+  --_helper-text-color: var(--color-on-surface);
   --_helper-text-opacity: 0.38;
+  --_outline-color: var(--color-on-surface);
+  --_outline-opacity: 0.12;
   --_container-color: var(--color-on-surface);
-  --_container-opacity: 0.1;
+  --_container-opacity: 0.04;
   cursor: not-allowed;
+}
+.field.disabled.variant-filled {
+  --_outline-opacity: 0.38;
+}
+.field.disabled.variant-outlined {
+  --_container-color: transparent;
+  --_label-text-color: var(--color-on-surface);
+  --_input-text-color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
 }
 .field.readonly:not(.disabled) {
   cursor: initial;
@@ -294,6 +420,19 @@ var css_248z = i`* {
  * box with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,
  * error or warning text and a character count. Wrap a custom control in it to match the
  * built-in fields.</p>
+ * <p>The <code>default</code> variant fills its box with <code>surface-container-lowest</code>, so it
+ * stands out on cards and dialogs as well as on the page. <code>outlined</code> has no fill (the
+ * outline alone marks it) and <code>filled</code> uses <code>surface-container-highest</code>, as in
+ * Material 3. Disabled follows M3: the text at 38%, the outline at 12% and a 4% fill. Read-only
+ * keeps the label and value at full contrast in a faint box, so it reads as information.</p>
+ * <p>The <code>outlined</code> variant is the M3 outlined text field: its label rests inside the
+ * empty field and, on focus or with a value, floats into a notch in the outline's top edge. The
+ * outline is drawn in parts (start, notch, end), so the notch needs no background and the field
+ * works on any surface. The outline is 1px, 2px while focused.</p>
+ *
+ * @cssprop --field-container-color - The box's fill. Defaults to `surface-container-lowest` (default variant), `surface-container-highest` (filled) or none (outlined).
+ * @cssprop --field-outline-width - The outline's resting width. Defaults to 1px on the outlined variant.
+ * @cssprop --field-label-rest-top - Where the outlined label's resting line is centred, from the top of the box. Defaults to the middle; multi-line fields set it to their first line.
  *
  * @example
  * ```html
@@ -344,7 +483,18 @@ let Field = class Field extends i$1 {
         /** True when the `field-end` slot contains at least one node. */
         this.slotEndHasContent = false;
     }
+    connectedCallback() {
+        super.connectedCallback();
+        if (this.hasUpdated)
+            this.__observeInputBox();
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.__resizeObserver?.disconnect();
+        this.__resizeObserver = undefined;
+    }
     firstUpdated() {
+        this.__observeInputBox();
         observerSlotChangesWithCallback(this.renderRoot.querySelector('.slot-start-wrapper slot'), hasContent => {
             this.slotStartHasContent = hasContent;
             this.requestUpdate();
@@ -358,25 +508,83 @@ let Field = class Field extends i$1 {
         // @ts-ignore
         this.host?.focus?.();
     }
-    __renderInputSlot() {
-        if (this.variant === 'outlined') {
-            if (this.populated || this.focused)
-                return b `<slot></slot>`;
-            return b `
-        <label class="outlined-label">${this.label}</label>
-        <div class="outlined-slot-container">
-          <slot></slot>
-        </div>
-      `;
+    /**
+     * Starts watching the field body and the control box. The outlined label rests over the
+     * control's text and floats into the outline's notch; the text's start moves with leading
+     * content such as an icon, so its inset is measured and handed to the styles.
+     */
+    __observeInputBox() {
+        if (typeof ResizeObserver === 'undefined' || this.__resizeObserver)
+            return;
+        const body = this.fieldBodyElement;
+        const box = this.__inputWrapper;
+        if (!body || !box)
+            return;
+        this.__resizeObserver = new ResizeObserver(() => this.__measureInputBox());
+        this.__resizeObserver.observe(body);
+        this.__resizeObserver.observe(box);
+    }
+    /** Hands the control box's inline insets to the styles as `--_input-start` and `--_input-end`. */
+    __measureInputBox() {
+        const body = this.fieldBodyElement;
+        const box = this.__inputWrapper;
+        if (!body || !box)
+            return;
+        const bodyRect = body.getBoundingClientRect();
+        const boxRect = box.getBoundingClientRect();
+        const rtl = getComputedStyle(body).direction === 'rtl';
+        const start = rtl
+            ? bodyRect.right - boxRect.right
+            : boxRect.left - bodyRect.left;
+        const end = rtl
+            ? boxRect.left - bodyRect.left
+            : bodyRect.right - boxRect.right;
+        body.style.setProperty('--_input-start', `${Math.max(0, start)}px`);
+        body.style.setProperty('--_input-end', `${Math.max(0, end)}px`);
+        // Animate the label only after it has its first position, so it doesn't slide into place.
+        if (!body.hasAttribute('data-label-ready')) {
+            requestAnimationFrame(() => body.setAttribute('data-label-ready', ''));
         }
-        return b `<slot></slot>`;
+    }
+    /** The label text and required mark, shared by the outlined label and its notch. */
+    __renderLabelText() {
+        return b `${this.label}${this.required
+            ? b `<span class="required">*</span>`
+            : A}`;
+    }
+    /**
+     * The outline. The outlined variant builds it from parts, as Material 3 does: a start segment,
+     * a notch as wide as the floating label whose top edge opens while the label floats, and an
+     * end segment that takes the remaining width. The label floats into the notch, so the
+     * outline needs no background behind the label and works on any surface.
+     */
+    __renderOutline() {
+        if (this.variant !== 'outlined')
+            return b `<div class="outline"></div>`;
+        return b `<div class="outline" aria-hidden="true">
+      <div class="outline-start"></div>
+      <div class="outline-notch">
+        ${this.label
+            ? b `<span class="outline-notch-label"
+              >${this.__renderLabelText()}</span
+            >`
+            : A}
+      </div>
+      <div class="outline-end"></div>
+    </div>`;
+    }
+    /** The outlined label: resting over the empty control, floating in the notch otherwise. */
+    __renderOutlinedLabel() {
+        if (this.variant !== 'outlined' || !this.label)
+            return A;
+        return b `<label class="outlined-label">
+      ${this.__renderLabelText()}
+      <wc-skeleton class="skeleton"></wc-skeleton>
+    </label>`;
     }
     __renderFieldHeader() {
-        if (!this.label)
+        if (!this.label || this.variant === 'outlined')
             return A;
-        if (this.variant === 'outlined' && !this.populated && !this.focused) {
-            return A;
-        }
         return b `<div class="field-header">
       <label class="label">
         ${this.label}${this.required
@@ -422,15 +630,18 @@ let Field = class Field extends i$1 {
             readonly: this.readonly,
             [`variant-${this.variant}`]: true,
             populated: this.populated,
+            'has-label': !!this.label,
+            'label-floating': this.populated || this.focused,
         };
         return b `
       <div class=${e$1(classes)}>
         ${this.__renderFieldHeader()}
 
         <div class="field-body" @click=${this.__handleClick}>
-          <div class="outline"></div>
+          ${this.__renderOutline()}
           <div class="background"></div>
           <wc-skeleton class="skeleton"></wc-skeleton>
+          ${this.__renderOutlinedLabel()}
 
           <div class="field-content">
             <div
@@ -442,7 +653,7 @@ let Field = class Field extends i$1 {
               <slot name="field-start"></slot>
             </div>
 
-            <div class="input-wrapper">${this.__renderInputSlot()}</div>
+            <div class="input-wrapper"><slot></slot></div>
 
             <div
               class=${e$1({
@@ -522,6 +733,9 @@ __decorate([
 __decorate([
     e('.field-body')
 ], Field.prototype, "fieldBodyElement", void 0);
+__decorate([
+    e('.input-wrapper')
+], Field.prototype, "__inputWrapper", void 0);
 Field = __decorate([
     IndividualComponent
 ], Field);

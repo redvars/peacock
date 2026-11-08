@@ -1,5 +1,5 @@
 import { LitElement } from 'lit';
-import type { OverlayPlacement } from '@/__internal/utils/placement.js';
+import type { OverlayPlacement } from '../__internal/utils/placement.js';
 import type { MenuFocusTarget } from '../menu/menu/menu.js';
 /**
  * @label Split Button

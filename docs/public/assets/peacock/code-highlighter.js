@@ -4,11 +4,11 @@ import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
 import { o } from './style-map-CHOg6N_R.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
 import { T as TOKEN_DEFAULTS } from './token-colors-DEO6rvEu.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-WY90FZfd.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 
 /**
@@ -257,6 +257,7 @@ var css_248z = i`@charset "UTF-8";
 .content {
   flex: 1 1 auto;
   min-height: 0;
+  box-sizing: border-box;
   max-height: var(--code-highlighter-max-height, none);
   margin: 0;
   padding-block: var(--_pad-block);
@@ -278,7 +279,7 @@ var css_248z = i`@charset "UTF-8";
   padding-block-start: var(--_pad-near);
 }
 
-.has-footer .content {
+.has-footer:not(.collapsed) .content {
   padding-block-end: var(--_pad-near);
 }
 

@@ -1,0 +1,636 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 240px;
+  overflow: hidden;
+  --erd-background: var(--color-surface-container-lowest, #fbfbfd);
+  --erd-relation-color: color-mix(
+    in srgb,
+    var(--color-outline, #74777f) 80%,
+    transparent
+  );
+  --erd-highlight-color: var(--color-primary, #005faf);
+  --_dot-color: var(--color-outline-variant, #c5c6cb);
+}
+
+/* Canvas coordinates are physical x/y and do not mirror in right-to-left layouts. */
+/* stylelint-disable property-disallowed-list */
+
+.erd-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--erd-background);
+  background-image: radial-gradient(var(--_dot-color) 1px, transparent 1.2px);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  touch-action: none;
+  outline: none;
+  container-type: inline-size;
+  container-name: diagram;
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-primary);
+  }
+
+  &.is-space {
+    cursor: grab;
+  }
+
+  &.is-panning {
+    cursor: grabbing;
+  }
+
+  &.is-connecting {
+    cursor: crosshair;
+  }
+}
+
+.erd-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.erd-entities {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.erd-relations {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+
+// ── Relations
+
+.erd-relation {
+  --_line: var(--erd-relation-color);
+
+  transition: opacity 150ms ease;
+
+  &.is-lit,
+  &.is-selected {
+    --_line: var(--erd-highlight-color);
+  }
+
+  &.is-lit .erd-line,
+  &.is-selected .erd-line {
+    stroke-width: 2.5;
+  }
+
+  &.is-dim {
+    opacity: 0.25;
+  }
+
+  &.is-fresh .erd-line {
+    stroke-dasharray: 1;
+    animation: erd-draw 450ms ease-out both;
+  }
+}
+
+.erd-line {
+  fill: none;
+  stroke: var(--_line, var(--erd-relation-color));
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.erd-marker {
+  stroke: var(--_line, var(--erd-relation-color));
+  stroke-width: 1.5;
+  stroke-linecap: round;
+
+  &.fill-none {
+    fill: none;
+  }
+
+  &.fill-solid {
+    fill: var(--_line, var(--erd-relation-color));
+  }
+
+  &.fill-surface {
+    fill: var(--erd-background);
+  }
+}
+
+.erd-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+  pointer-events: stroke;
+  cursor: pointer;
+
+  &:hover {
+    stroke: color-mix(in srgb, var(--erd-highlight-color) 12%, transparent);
+  }
+}
+
+.erd-relation-label {
+  font-size: 11px;
+  text-anchor: middle;
+  fill: var(--color-on-surface-variant);
+  paint-order: stroke;
+  stroke: var(--erd-background);
+  stroke-width: 4px;
+  pointer-events: none;
+}
+
+.erd-preview {
+  fill: none;
+  stroke: var(--erd-highlight-color);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  pointer-events: none;
+}
+
+// ── Entities
+
+.erd-entity {
+  position: absolute;
+  box-sizing: border-box;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level1);
+  outline: none;
+  touch-action: none;
+  overflow: visible;
+  transition:
+    box-shadow 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease;
+
+  &:hover {
+    border-color: var(--color-outline);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  &.is-selected {
+    border-color: var(--color-primary);
+    box-shadow:
+      0 0 0 2px var(--color-primary),
+      var(--elevation-level2);
+    z-index: 2;
+  }
+
+  &.is-lit {
+    border-color: var(--erd-highlight-color);
+  }
+
+  &.is-dim {
+    opacity: 0.45;
+  }
+
+  &.is-focus {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--color-primary) 30%, transparent),
+      var(--elevation-level2);
+  }
+
+  &.is-fresh {
+    animation: erd-pop 320ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  }
+}
+
+/* stylelint-enable property-disallowed-list */
+
+.erd-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  block-size: 48px;
+  box-sizing: border-box;
+  padding: 0 6px 0 10px;
+  border-block-end: 1px solid var(--color-outline-variant);
+  cursor: grab;
+
+  .is-collapsed & {
+    border-block-end: 0;
+  }
+}
+
+.erd-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--shape-corner-small);
+  background: var(--_tile-bg, var(--color-primary-container));
+  --icon-color: var(--_tile-fg, var(--color-on-primary-container));
+  --icon-size: 1.05rem;
+}
+
+.accent-tertiary {
+  --_tile-bg: var(--color-tertiary-container);
+  --_tile-fg: var(--color-on-tertiary-container);
+}
+
+.accent-blue {
+  --_tile-bg: var(--color-blue-container);
+  --_tile-fg: var(--color-on-blue-container);
+}
+
+.accent-green {
+  --_tile-bg: var(--color-green-container);
+  --_tile-fg: var(--color-on-green-container);
+}
+
+.accent-orange {
+  --_tile-bg: var(--color-orange-container);
+  --_tile-fg: var(--color-on-orange-container);
+}
+
+.accent-purple {
+  --_tile-bg: var(--color-purple-container);
+  --_tile-fg: var(--color-on-purple-container);
+}
+
+.accent-red {
+  --_tile-bg: var(--color-error-container);
+  --_tile-fg: var(--color-on-error-container);
+}
+
+.accent-yellow {
+  --_tile-bg: var(--color-yellow-container);
+  --_tile-fg: var(--color-on-yellow-container);
+}
+
+.accent-neutral {
+  --_tile-bg: var(--color-surface-container-high);
+  --_tile-fg: var(--color-on-surface-variant);
+}
+
+.erd-title {
+  display: flex;
+  align-items: baseline;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.erd-schema {
+  font-weight: 400;
+  color: var(--color-on-surface-variant);
+}
+
+.erd-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.erd-count {
+  flex: none;
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+}
+
+.erd-rows {
+  padding-block: 4px;
+}
+
+.erd-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  block-size: 28px;
+  box-sizing: border-box;
+  padding: 0 10px 0 8px;
+  font-size: 13px;
+
+  &.is-hover {
+    background: color-mix(in srgb, var(--color-on-surface) 5%, transparent);
+  }
+
+  &.is-lit {
+    background: color-mix(in srgb, var(--erd-highlight-color) 10%, transparent);
+
+    .erd-col-name {
+      color: var(--erd-highlight-color);
+      font-weight: 600;
+    }
+  }
+}
+
+.erd-key {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  border-radius: var(--shape-corner-extra-small);
+  --icon-size: 0.85rem;
+  --icon-color: var(--color-on-surface-variant);
+
+  &.is-pk {
+    --icon-color: var(--color-yellow, #b58a00);
+  }
+
+  &.is-fk {
+    --icon-color: var(--color-primary);
+  }
+
+  &:is(button) {
+    cursor: pointer;
+
+    &:not(.is-pk, .is-fk) {
+      opacity: 0;
+    }
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+      background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+    }
+  }
+
+  .erd-row:hover &:is(button) {
+    opacity: 1;
+  }
+}
+
+.erd-col-name {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-on-surface);
+}
+
+.erd-col-type {
+  flex: none;
+  max-inline-size: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-code-font-family, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.erd-null {
+  margin-inline-start: 2px;
+  color: var(--color-outline);
+}
+
+.erd-input {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 24px;
+  padding: 0 6px;
+  font: inherit;
+  color: var(--color-on-surface);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--shape-corner-extra-small);
+  outline: none;
+}
+
+.erd-remove {
+  opacity: 0;
+  transition: opacity 120ms ease;
+
+  .erd-row:hover &,
+  &:focus-within {
+    opacity: 1;
+  }
+}
+
+/* stylelint-disable property-disallowed-list */
+.erd-port {
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  inline-size: 12px;
+  block-size: 12px;
+  margin-block-start: -6px;
+  box-sizing: border-box;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  background: var(--color-surface-container-lowest);
+  cursor: crosshair;
+  opacity: 0;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+
+  .erd-row:hover &,
+  .is-connecting & {
+    opacity: 1;
+  }
+
+  &:hover {
+    transform: scale(1.3);
+  }
+}
+/* stylelint-enable property-disallowed-list */
+
+.erd-add {
+  @include mixin.reset-button-styles;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  inline-size: 100%;
+  block-size: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-primary);
+  cursor: pointer;
+  --icon-size: 1rem;
+  --icon-color: var(--color-primary);
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+// Far out: rows become bars and names stay readable.
+.lod-far {
+  .erd-row > * {
+    visibility: hidden;
+  }
+
+  .erd-row::after {
+    content: '';
+    position: absolute;
+    inset-inline: 12px 40%;
+    inset-block: 10px;
+    border-radius: var(--shape-corner-full);
+    background: var(--color-surface-container-high);
+  }
+
+  .erd-title {
+    font-size: min(calc(13px / var(--_zoom, 1)), 32px);
+  }
+
+  .erd-schema,
+  .erd-count,
+  .erd-toggle {
+    display: none;
+  }
+}
+
+// ── Cardinality picker
+
+/* stylelint-disable property-disallowed-list */
+.erd-picker {
+  position: absolute;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 200px;
+  padding: 4px 0;
+  background: var(--color-surface-container);
+  border-radius: var(--shape-corner-small);
+  box-shadow: var(--elevation-level2);
+
+  button {
+    @include mixin.reset-button-styles;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    block-size: 36px;
+    padding: 0 12px;
+    font-size: 13px;
+    color: var(--color-on-surface);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+      outline: none;
+    }
+
+    &[aria-checked='true'] {
+      background: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+    }
+  }
+}
+/* stylelint-enable property-disallowed-list */
+
+.erd-picker-icon {
+  inline-size: 48px;
+  block-size: 16px;
+  overflow: visible;
+  --_line: currentcolor;
+}
+
+// ── Canvas chrome
+
+.back-to-content {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 24px;
+  transform: translateX(-50%);
+  box-shadow: var(--elevation-level2);
+  border-radius: var(--shape-corner-full);
+  z-index: 20;
+}
+
+.slot-controls,
+.slot-minimap {
+  position: absolute;
+  inset-block-end: 16px;
+  z-index: 20;
+}
+
+.slot-controls {
+  inset-inline-start: 16px;
+}
+
+.slot-minimap {
+  inset-inline-end: 16px;
+}
+
+@container diagram (max-width: 480px) {
+  .slot-minimap {
+    display: none;
+  }
+
+  .slot-controls {
+    inset-inline-start: 8px;
+    inset-block-end: 8px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes erd-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes erd-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .erd-entity,
+  .erd-relation,
+  .erd-port,
+  .erd-remove {
+    transition: none;
+  }
+
+  .erd-entity.is-fresh,
+  .erd-relation.is-fresh .erd-line {
+    animation: none;
+  }
+}

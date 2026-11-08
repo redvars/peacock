@@ -1,0 +1,626 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 240px;
+  overflow: hidden;
+  --dependency-map-background: var(--color-surface-container-lowest, #fbfbfd);
+  --dependency-map-edge-color: color-mix(
+    in srgb,
+    var(--color-outline, #74777f) 70%,
+    transparent
+  );
+  --dependency-map-impact-color: var(--color-orange, #c26a00);
+  --_dot-color: var(--color-outline-variant, #c5c6cb);
+}
+
+/* Canvas coordinates are physical x/y and do not mirror in right-to-left layouts. */
+/* stylelint-disable property-disallowed-list */
+
+.dm-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--dependency-map-background);
+  background-image: radial-gradient(var(--_dot-color) 1px, transparent 1.2px);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  touch-action: none;
+  outline: none;
+  container-type: inline-size;
+  container-name: diagram;
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-primary);
+  }
+
+  &.is-space {
+    cursor: grab;
+  }
+
+  &.is-panning {
+    cursor: grabbing;
+  }
+}
+
+.dm-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.dm-groups,
+.dm-nodes {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.dm-edges {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+
+// ── Groups
+
+.dm-group {
+  position: absolute;
+  border: 1.5px dashed color-mix(in srgb, var(--color-outline) 55%, transparent);
+  border-radius: var(--shape-corner-extra-large);
+  background: color-mix(
+    in srgb,
+    var(--color-surface-container) 55%,
+    transparent
+  );
+
+  &.st-degraded {
+    border-color: color-mix(in srgb, var(--color-warning) 70%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--color-warning-container) 30%,
+      transparent
+    );
+  }
+
+  &.st-down {
+    border-color: color-mix(in srgb, var(--color-error) 70%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--color-error-container) 30%,
+      transparent
+    );
+  }
+}
+
+.dm-group-label {
+  position: absolute;
+  left: 14px;
+  top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-on-surface-variant);
+  --icon-size: 1rem;
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.dm-group-toggle {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  --icon-size: 1rem;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+  }
+}
+
+// ── Edges
+
+.dm-edge {
+  --_edge: var(--dependency-map-edge-color);
+
+  transition: opacity 200ms ease;
+
+  &.is-warning {
+    --_edge: var(--color-warning);
+  }
+
+  &.is-error {
+    --_edge: var(--color-error);
+  }
+
+  &.is-impact {
+    --_edge: var(--dependency-map-impact-color);
+  }
+
+  &.is-dim {
+    opacity: 0.18;
+  }
+}
+
+.dm-edge-line {
+  fill: none;
+  stroke: var(--_edge);
+  stroke-linecap: round;
+
+  .is-down & {
+    stroke-dasharray: 6 6;
+  }
+}
+
+.dm-edge-tip {
+  fill: var(--_edge);
+}
+
+.dm-edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: stroke;
+  cursor: default;
+
+  &:hover + .dm-edge-count,
+  &:hover {
+    stroke: color-mix(in srgb, var(--_edge) 18%, transparent);
+  }
+}
+
+.dm-edge-count {
+  font-size: 11px;
+  font-weight: 500;
+  text-anchor: middle;
+  fill: var(--color-on-surface-variant);
+  paint-order: stroke;
+  stroke: var(--dependency-map-background);
+  stroke-width: 4px;
+  pointer-events: none;
+}
+
+// ── Nodes
+
+.dm-node {
+  --_ring: var(--color-outline);
+  --_ring-bg: var(--color-surface-container-high);
+  --_ring-fg: var(--color-on-surface-variant);
+
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-inline-size: 140px;
+  max-inline-size: 240px;
+  padding: 6px 14px 6px 6px;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-full);
+  box-shadow: var(--elevation-level1);
+  cursor: pointer;
+  outline: none;
+  touch-action: none;
+  white-space: nowrap;
+  transition:
+    box-shadow 150ms ease,
+    border-color 150ms ease,
+    opacity 200ms ease;
+
+  &:hover {
+    border-color: var(--color-outline);
+    box-shadow: var(--elevation-level2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  &.st-healthy {
+    --_ring: var(--color-success);
+    --_ring-bg: var(--color-success-container);
+    --_ring-fg: var(--color-success);
+  }
+
+  &.st-degraded {
+    --_ring: var(--color-warning);
+    --_ring-bg: var(--color-warning-container);
+    --_ring-fg: var(--color-warning-text);
+  }
+
+  &.st-down {
+    --_ring: var(--color-error);
+    --_ring-bg: var(--color-error-container);
+    --_ring-fg: var(--color-error);
+
+    border-color: color-mix(
+      in srgb,
+      var(--color-error) 50%,
+      var(--color-outline-variant)
+    );
+  }
+
+  &.is-group {
+    border-style: dashed;
+    border-width: 1.5px;
+    background: var(--color-surface-container-low);
+  }
+
+  &.is-selected {
+    border-color: var(--color-primary);
+    box-shadow:
+      0 0 0 2px var(--color-primary),
+      var(--elevation-level2);
+    z-index: 2;
+  }
+
+  &.is-impact {
+    border-color: var(--dependency-map-impact-color);
+    box-shadow:
+      0 0 0 2px var(--dependency-map-impact-color),
+      var(--elevation-level1);
+  }
+
+  &.is-focus {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--color-primary) 30%, transparent),
+      var(--elevation-level2);
+  }
+
+  &.is-dim {
+    opacity: 0.3;
+  }
+}
+
+/* stylelint-enable property-disallowed-list */
+
+.dm-ring {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 50%;
+  background: var(--_ring-bg);
+  box-shadow: inset 0 0 0 2.5px var(--_ring);
+  --icon-color: var(--_ring-fg);
+  --icon-size: 1.15rem;
+
+  .st-down & {
+    animation: dm-alert 1.6s ease-in-out infinite;
+  }
+}
+
+.dm-text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.dm-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-type {
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-metrics {
+  display: flex;
+  gap: 8px;
+  margin-block-start: 2px;
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+
+  b {
+    font-weight: 600;
+    color: var(--color-on-surface);
+  }
+}
+
+// Zoomed out: status dots with the name underneath.
+.lod-dot {
+  .dm-node {
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+
+    &.is-selected .dm-ring,
+    &.is-impact .dm-ring {
+      box-shadow:
+        inset 0 0 0 2.5px var(--_ring),
+        0 0 0 4px var(--color-primary);
+    }
+
+    &.is-impact .dm-ring {
+      box-shadow:
+        inset 0 0 0 2.5px var(--_ring),
+        0 0 0 4px var(--dependency-map-impact-color);
+    }
+  }
+
+  // Dots and labels keep their on-screen size whatever the zoom, like a map.
+  .dm-ring {
+    inline-size: calc(14px / var(--_zoom, 1));
+    block-size: calc(14px / var(--_zoom, 1));
+    background: var(--_ring);
+    --icon-color: var(--color-surface-container-lowest);
+    --icon-size: calc(9px / var(--_zoom, 1));
+  }
+
+  /* stylelint-disable property-disallowed-list */
+  .dm-text {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-block-start: calc(3px / var(--_zoom, 1));
+    pointer-events: none;
+  }
+  /* stylelint-enable property-disallowed-list */
+
+  .dm-name {
+    font-size: calc(11px / var(--_zoom, 1));
+    text-shadow:
+      0 0 calc(3px / var(--_zoom, 1)) var(--dependency-map-background),
+      0 0 calc(3px / var(--_zoom, 1)) var(--dependency-map-background);
+  }
+
+  .dm-type,
+  .dm-metrics,
+  .dm-group-toggle,
+  .dm-edge-count {
+    display: none;
+  }
+
+  .dm-group-label {
+    font-size: calc(12px / var(--_zoom, 1));
+    --icon-size: calc(14px / var(--_zoom, 1));
+  }
+}
+
+// ── Legend and tooltip
+
+.dm-legend {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  max-inline-size: calc(100% - 24px);
+  padding: 4px 10px 4px 4px;
+  background: color-mix(
+    in srgb,
+    var(--color-surface-container-lowest) 92%,
+    transparent
+  );
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level1);
+}
+
+.dm-legend-types,
+.dm-legend-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+}
+
+.dm-legend-types {
+  gap: 4px;
+}
+
+.dm-type-toggle {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  block-size: 24px;
+  padding: 0 8px 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-on-secondary-container);
+  background: var(--color-secondary-container);
+  border-radius: var(--shape-corner-small);
+  cursor: pointer;
+  --icon-size: 1rem;
+  --icon-color: var(--color-on-secondary-container);
+
+  &.is-off {
+    color: var(--color-on-surface-variant);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--color-outline-variant);
+    --icon-color: var(--color-on-surface-variant);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.dm-count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+.dm-legend-keys {
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+
+  gap: 4px 10px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.dm-dot {
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: 50%;
+  background: var(--color-outline);
+
+  &.st-healthy {
+    background: var(--color-success);
+  }
+
+  &.st-degraded {
+    background: var(--color-warning);
+  }
+
+  &.st-down {
+    background: var(--color-error);
+  }
+}
+
+.dm-bar {
+  inline-size: 18px;
+  block-size: 4px;
+  border-radius: var(--shape-corner-full);
+  background: linear-gradient(
+    90deg,
+    var(--dependency-map-edge-color) 0 30%,
+    transparent 30% 40%,
+    var(--dependency-map-edge-color) 40%
+  );
+
+  &.is-impact {
+    background: var(--dependency-map-impact-color);
+  }
+}
+
+/* stylelint-disable property-disallowed-list */
+.dm-tooltip {
+  position: absolute;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-inline-size: 280px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--color-inverse-on-surface);
+  background: var(--color-inverse-surface);
+  border-radius: var(--shape-corner-small);
+  box-shadow: var(--elevation-level2);
+  pointer-events: none;
+
+  strong {
+    font-weight: 600;
+  }
+}
+/* stylelint-enable property-disallowed-list */
+
+@container diagram (max-width: 480px) {
+  .dm-legend-keys {
+    display: none;
+  }
+}
+
+// ── Canvas chrome
+
+.back-to-content {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 24px;
+  transform: translateX(-50%);
+  box-shadow: var(--elevation-level2);
+  border-radius: var(--shape-corner-full);
+  z-index: 20;
+}
+
+.slot-controls,
+.slot-minimap {
+  position: absolute;
+  inset-block-end: 16px;
+  z-index: 20;
+}
+
+.slot-controls {
+  inset-inline-start: 16px;
+}
+
+.slot-minimap {
+  inset-inline-end: 16px;
+}
+
+@container diagram (max-width: 480px) {
+  .slot-minimap {
+    display: none;
+  }
+
+  .slot-controls {
+    inset-inline-start: 8px;
+    inset-block-end: 8px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes dm-alert {
+  50% {
+    box-shadow:
+      inset 0 0 0 2.5px var(--_ring),
+      0 0 0 6px color-mix(in srgb, var(--_ring) 25%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dm-node,
+  .dm-edge {
+    transition: none;
+  }
+
+  .dm-ring {
+    animation: none;
+  }
+}

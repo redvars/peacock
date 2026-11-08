@@ -46,15 +46,19 @@ export class NumberField extends BaseField {
   @property({ type: Number })
   value?: number;
 
+  /** The largest value allowed. */
   @property({ type: Number })
   max?: number;
 
+  /** The smallest value allowed. */
   @property({ type: Number })
   min?: number;
 
+  /** How much the value changes per step, and the granularity a valid value must match. */
   @property({ type: Number })
   step?: number;
 
+  /** Whether the browser may autofill the field: `"on"` or `"off"` (default). */
   @property({ type: String })
   autocomplete: 'on' | 'off' = 'off';
 

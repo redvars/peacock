@@ -440,7 +440,115 @@ export type {
   EventType,
   CalendarDateChangeDetail,
 } from './calendar/index.js';
-export { Flow } from './flow/index.js';
+export { Diagram } from './diagram/index.js';
+// Deprecated alias of Diagram: wc-flow was renamed to wc-diagram. Removed in 5.0.
+export { Flow } from './diagram/index.js';
+export { DiagramControls } from './diagram-controls/index.js';
+export { Workflow, WORKFLOW_LOGIC_STEPS } from './workflow/index.js';
+export { WorkflowTimeline } from './workflow-timeline/index.js';
+export { TreeChart } from './tree-chart/index.js';
+export type {
+  TreeChartAccent,
+  TreeChartAddDetail,
+  TreeChartChangeDetail,
+  TreeChartChangeReason,
+  TreeChartDeleteDetail,
+  TreeChartItem,
+  TreeChartItemDetail,
+  TreeChartOrientation,
+  TreeChartReparentDetail,
+  TreeChartViewportDetail,
+} from './tree-chart/index.js';
+export { DependencyMap } from './dependency-map/index.js';
+export type {
+  DependencyMapEdge,
+  DependencyMapFilter,
+  DependencyMapFilterDetail,
+  DependencyMapFocusDetail,
+  DependencyMapGroup,
+  DependencyMapGroupDetail,
+  DependencyMapImpact,
+  DependencyMapLayout,
+  DependencyMapMoveDetail,
+  DependencyMapNode,
+  DependencyMapSelectDetail,
+  DependencyMapStatus,
+  DependencyMapViewportDetail,
+} from './dependency-map/index.js';
+export { Erd } from './erd/index.js';
+export type {
+  ErdAccent,
+  ErdCardinality,
+  ErdChangeDetail,
+  ErdChangeReason,
+  ErdColumn,
+  ErdConnectDetail,
+  ErdDeleteDetail,
+  ErdEntity,
+  ErdFocusDetail,
+  ErdMoveDetail,
+  ErdRelation,
+  ErdSelectDetail,
+  ErdToggleDetail,
+  ErdViewportDetail,
+} from './erd/index.js';
+export type {
+  WorkflowBreakpointDetail,
+  WorkflowDebugAction,
+  WorkflowDebugActionDetail,
+  WorkflowIterationDetail,
+  WorkflowMode,
+  WorkflowRun,
+  WorkflowRunStep,
+  WorkflowRunStepStatus,
+  WorkflowAccent,
+  WorkflowActionStep,
+  WorkflowAssignee,
+  WorkflowBranchStep,
+  WorkflowChangeDetail,
+  WorkflowChangeReason,
+  WorkflowDeleteDetail,
+  WorkflowDensity,
+  WorkflowDirection,
+  WorkflowEndStep,
+  WorkflowField,
+  WorkflowListRef,
+  WorkflowLoopStep,
+  WorkflowOutput,
+  WorkflowPath,
+  WorkflowProblem,
+  WorkflowSelectDetail,
+  WorkflowStep,
+  WorkflowStepAddDetail,
+  WorkflowStepType,
+  WorkflowTool,
+  WorkflowValue,
+  WorkflowViewportDetail,
+  WorkflowWaitStep,
+} from './workflow/index.js';
+export { DiagramMinimap } from './diagram-minimap/index.js';
+export type {
+  DiagramNode,
+  DiagramEdge,
+  DiagramStrokeVariant,
+  DiagramConnectDetail,
+  DiagramHandlePosition,
+  DiagramNodeMoveDetail,
+  DiagramPoint,
+  DiagramSelectDetail,
+  DiagramChangeDetail,
+  DiagramChangeReason,
+  DiagramConnector,
+  DiagramDeleteDetail,
+  DiagramEdgeType,
+  DiagramIntent,
+  DiagramMarker,
+  DiagramPort,
+  DiagramStartPosition,
+  DiagramView,
+  DiagramViewportDetail,
+} from './diagram/index.js';
+// Deprecated aliases of the Diagram* types above (wc-flow was renamed to wc-diagram), until 5.0.
 export type {
   FlowNode,
   FlowEdge,
@@ -449,7 +557,18 @@ export type {
   FlowHandlePosition,
   FlowNodeMoveDetail,
   FlowSelectDetail,
-} from './flow/index.js';
+  FlowChangeDetail,
+  FlowChangeReason,
+  FlowConnector,
+  FlowDeleteDetail,
+  FlowEdgeType,
+  FlowIntent,
+  FlowMarker,
+  FlowPort,
+  FlowStartPosition,
+  FlowView,
+  FlowViewportDetail,
+} from './diagram/index.js';
 export {
   ConditionBuilder,
   CbGroup,

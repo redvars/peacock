@@ -439,6 +439,7 @@ let Tab = class Tab extends i$1 {
         // ── Properties
         /** Whether this is the chosen tab. Reflects to `aria-selected` (or `aria-current` on a link tab). */
         this.selected = false;
+        /** Disables the tab: it can't be selected. */
         this.disabled = false;
         /** Why the tab is disabled; read to screen reader users. */
         this.disabledReason = '';

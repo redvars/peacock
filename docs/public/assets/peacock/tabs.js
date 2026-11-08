@@ -125,6 +125,7 @@ let Tabs = Tabs_1 = class Tabs extends i$1 {
         // ── Static
         super(...arguments);
         // ── Properties
+        /** The visual style of the tabs: `"primary"` (default), `"secondary"`, `"contained"` or `"filled"`. */
         this.variant = 'primary';
         /** The consumer controls the selection: the tabs fire `change` but do not select a tab. */
         this.managed = false;

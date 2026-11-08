@@ -1,0 +1,75 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-diagram</code> is an infinite canvas of nodes and connections, for state machines, process maps and
+  node editors. Set <code>nodes</code> and <code>edges</code> as properties. A node shows a built-in card from
+  <code>headline</code>, <code>supportingText</code>, <code>icon</code> and <code>intent</code>, and connects through
+  <code>ports</code> on its sides. Edges are drawn as rounded elbows and can carry a <code>label</code>.
+  Before 4.0 it was called <code>wc-flow</code>; that tag still works as a deprecated alias until 5.0.
+</p>
+
+<p>
+  Add <code>wc-diagram-controls</code> and <code>wc-diagram-minimap</code> in the <code>controls</code> and
+  <code>minimap</code> slots for zoom, fit, back-to-start and an overview. With <code>editable</code>, drawing a
+  connection from a port adds the edge, and every committed edit fires <code>change</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diagram id="laptop-diagram" editable style="height: 520px;">
+    <wc-diagram-controls slot="controls"></wc-diagram-controls>
+    <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+  </wc-diagram>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#laptop-diagram');
+      const down = [
+        { id: 'in', side: 'top', type: 'target' },
+        { id: 'out', side: 'bottom', type: 'source' },
+      ];
+      diagram.nodes = [
+        { id: 'request', position: { x: 300, y: 0 }, headline: 'Request laptop', supportingText: 'Employee', icon: 'laptop_mac', ports: [{ id: 'out', side: 'bottom', type: 'source' }] },
+        {
+          id: 'manager',
+          position: { x: 300, y: 150 },
+          headline: 'Manager review',
+          supportingText: 'Approval',
+          icon: 'how_to_reg',
+          intent: 'warning',
+          ports: [
+            { id: 'in', side: 'top', type: 'target' },
+            { id: 'reject', side: 'left', type: 'source' },
+            { id: 'approve', side: 'right', type: 'source' },
+          ],
+        },
+        { id: 'rejected', position: { x: 0, y: 300 }, headline: 'Request denied', icon: 'block', intent: 'danger', ports: [{ id: 'in', side: 'top', type: 'target' }] },
+        { id: 'procure', position: { x: 600, y: 300 }, headline: 'IT procurement', supportingText: 'Order hardware', icon: 'inventory_2', ports: down },
+        { id: 'setup', position: { x: 600, y: 450 }, headline: 'Asset setup', supportingText: 'Image and tag', icon: 'build', ports: down },
+        { id: 'delivered', position: { x: 600, y: 600 }, headline: 'Delivered', icon: 'task_alt', intent: 'success', ports: [{ id: 'in', side: 'top', type: 'target' }] },
+      ];
+      diagram.edges = [
+        { id: 'e1', source: 'request', target: 'manager', sourceHandle: 'out', targetHandle: 'in' },
+        { id: 'e2', source: 'manager', target: 'rejected', sourceHandle: 'reject', targetHandle: 'in', label: 'Reject' },
+        { id: 'e3', source: 'manager', target: 'procure', sourceHandle: 'approve', targetHandle: 'in', label: 'Approve' },
+        { id: 'e4', source: 'procure', target: 'setup', sourceHandle: 'out', targetHandle: 'in' },
+        { id: 'e5', source: 'setup', target: 'delivered', sourceHandle: 'out', targetHandle: 'in' },
+      ];
+      diagram.addEventListener('change', event => {
+        // event.detail is { nodes, edges, reason }: save it here.
+        console.log('diagram change:', event.detail.reason);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Without <code>editable</code></h3>
+<p>
+  By default nodes can still be dragged and connections drawn, but the diagram leaves edges to you: it fires
+  <code>connect</code> with <code>{'{ source, target, sourceHandle, targetHandle }'}</code> and you add the edge.
+  <code>readonly</code> keeps everything in place while the person pans, zooms and selects. The diagram never
+  mutates the objects you pass; every edit assigns new <code>nodes</code> and <code>edges</code> arrays.
+</p>

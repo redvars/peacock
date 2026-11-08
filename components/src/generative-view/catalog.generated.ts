@@ -478,7 +478,7 @@ export const catalog: GenerativeCatalog = {
       columns: {
         kind: 'array',
         description:
-          'Grid columns configuration. Each column can have: name, label, width, minWidth, maxWidth\r\nand flex (rem and grow factor), fixed, align, type, sortable, wrap, hidden, hideable,\r\nresizable, reorderable, group, headerTemplate, template; editable, editor, options,\r\nrequired, min, max, step and validate for inline editing; exportValue; aggregate.',
+          'Grid columns configuration. Each column can have: name, label, width, minWidth, maxWidth\nand flex (rem and grow factor), fixed, align, type, sortable, wrap, hidden, hideable,\nresizable, reorderable, group, headerTemplate, template; editable, editor, options,\nrequired, min, max, step and validate for inline editing; exportValue; aggregate.',
       },
       data: {
         kind: 'array',
@@ -515,12 +515,12 @@ export const catalog: GenerativeCatalog = {
       emptyStateHeadline: {
         kind: 'string',
         description:
-          'Headline text shown when the table has no data. Defaults to Peacock\'s `noItems` string\r\n(`"No items"`).',
+          'Headline text shown when the table has no data. Defaults to Peacock\'s `noItems` string\n(`"No items"`).',
       },
       emptyStateDescription: {
         kind: 'string',
         description:
-          'Description text shown when the table has no data. Defaults to Peacock\'s\r\n`noItemsDescription` string (`"There are no items to display"`).',
+          'Description text shown when the table has no data. Defaults to Peacock\'s\n`noItemsDescription` string (`"There are no items to display"`).',
       },
     },
     slots: [],
@@ -577,7 +577,7 @@ export const catalog: GenerativeCatalog = {
         kind: 'enum',
         values: ['standard', 'segmented'],
         description:
-          '`standard` rows sit on the surface; `segmented` rows each get a\r\nsurface-container fill, a small gap and rounded outer corners.',
+          '`standard` rows sit on the surface; `segmented` rows each get a\nsurface-container fill, a small gap and rounded outer corners.',
       },
     },
     slots: [],
@@ -783,12 +783,12 @@ export const catalog: GenerativeCatalog = {
       name: {
         kind: 'string',
         description:
-          'The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.',
+          'The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.',
       },
       label: {
         kind: 'string',
         description:
-          'Accessible name for an icon that carries meaning on its own. With a label the icon is\r\n`role="img"` named by it; without one it is decorative and hidden from assistive technology.',
+          'Accessible name for an icon that carries meaning on its own. With a label the icon is\n`role="img"` named by it; without one it is decorative and hidden from assistive technology.',
       },
     },
     slots: [],
@@ -840,16 +840,17 @@ export const catalog: GenerativeCatalog = {
       },
       indeterminate: {
         kind: 'boolean',
-        description: '',
+        description:
+          'Shows ongoing activity with no known completion, ignoring `value`.',
       },
       label: {
         kind: 'string',
         description:
-          'A visible label describing the progress, which also names the progress bar\r\n(`aria-labelledby`). Without one the bar is named "Loading" (string `loading`).',
+          'A visible label describing the progress, which also names the progress bar\n(`aria-labelledby`). Without one the bar is named "Loading" (string `loading`).',
       },
       helperText: {
         kind: 'string',
-        description: '',
+        description: 'Help text shown below the progress indicator.',
       },
     },
     slots: [],
@@ -904,13 +905,13 @@ export const catalog: GenerativeCatalog = {
         kind: 'enum',
         values: ['primary', 'secondary', 'tertiary', 'danger'],
         description:
-          'Preset of `color` and `variant`: `primary` (primary, filled), `secondary` (surface, tonal),\r\n`tertiary` (primary, text), `danger` (danger, filled). A `color` or `variant` set on the\r\nelement wins over the preset.',
+          'Preset of `color` and `variant`: `primary` (primary, filled), `secondary` (surface, tonal),\n`tertiary` (primary, text), `danger` (danger, filled). A `color` or `variant` set on the\nelement wins over the preset.',
       },
       size: {
         kind: 'enum',
         values: ['xs', 'sm', 'md', 'lg', 'xl'],
         description:
-          'Button size.\r\nPossible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.',
+          'Button size.\nPossible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.',
       },
       tooltip: {
         kind: 'string',

@@ -226,6 +226,7 @@ export class Ripple extends LitElement implements Attachable {
   /** Bound reference to `handleEvent` passed to `addEventListener` / `removeEventListener`. */
   private readonly _boundHandleEvent = this.handleEvent.bind(this);
 
+  /** The id of the control the ripple attaches to, as the `for` attribute. */
   get htmlFor() {
     return this.attachableController.htmlFor;
   }
@@ -234,6 +235,7 @@ export class Ripple extends LitElement implements Attachable {
     this.attachableController.htmlFor = htmlFor;
   }
 
+  /** The control whose presses show the ripple; without `for` or this, it follows its parent. */
   get control() {
     return this.attachableController.control;
   }

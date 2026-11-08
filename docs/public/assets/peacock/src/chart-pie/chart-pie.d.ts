@@ -56,6 +56,7 @@ export type ChartPieItem = {
  * ```
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
+ * @slot insight - Below the chart, a line that explains it, such as the assistant’s reading of a trend. The data comes from the platform; the insight only puts it into words.
  *
  * @fires {CustomEvent<ChartSelectDetail>} select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
  *

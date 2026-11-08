@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues } from 'lit';
-import { Attachable } from '@/__internal/controllers/attachable-controller.js';
+import { Attachable } from '../__internal/controllers/attachable-controller.js';
 declare const HANDLED_BY_FOCUS_RING: unique symbol;
 interface FocusRingEvent extends Event {
     [HANDLED_BY_FOCUS_RING]: true;
@@ -33,8 +33,10 @@ export declare class FocusRing extends LitElement implements Attachable {
     visible: boolean;
     /** When true, the ring animates inward instead of outward (for use inside containers). */
     inward: boolean;
+    /** The id of the control the ring attaches to, as the `for` attribute. */
     get htmlFor(): string | null;
     set htmlFor(htmlFor: string | null);
+    /** The control the ring attaches to; without `for` or this, it follows its parent. */
     get control(): HTMLElement | null;
     set control(control: HTMLElement | null);
     private readonly attachableController;

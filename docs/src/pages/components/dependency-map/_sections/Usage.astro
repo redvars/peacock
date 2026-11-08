@@ -1,0 +1,85 @@
+---
+export const title = 'Service map';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-dependency-map</code> shows how services, databases, queues and other assets connect. Give it
+  <code>nodes</code> with a <code>type</code> and a <code>status</code>, <code>edges</code> with traffic metrics, and
+  optional <code>groups</code> such as clusters or business services. Rings show health, lines get thicker with
+  requests per second and turn orange or red with errors, and hovering a line shows its numbers. The legend lists the
+  types in the data; click one to hide or show it.
+</p>
+<p>
+  Select a node and choose an impact direction: <strong>Upstream</strong> lights up everything that depends on it
+  (what breaks if it goes down), <strong>Downstream</strong> everything it depends on. Press F on a node to see only its
+  neighbourhood, and Escape to leave. Collapse a group with the button next to its name; it becomes one node with the
+  worst status of its members and combined connections. Drag a node to pin it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <wc-segmented-button-group id="mesh-layout">
+        <wc-segmented-button value="force" selected>Force</wc-segmented-button>
+        <wc-segmented-button value="layered">Layered</wc-segmented-button>
+        <wc-segmented-button value="radial">Radial</wc-segmented-button>
+      </wc-segmented-button-group>
+      <wc-segmented-button-group id="mesh-impact">
+        <wc-segmented-button value="none" selected>No impact</wc-segmented-button>
+        <wc-segmented-button value="upstream">Upstream</wc-segmented-button>
+        <wc-segmented-button value="downstream">Downstream</wc-segmented-button>
+      </wc-segmented-button-group>
+      <wc-search id="mesh-search" placeholder="Filter services" style="min-width: 220px;"></wc-search>
+    </div>
+    <wc-dependency-map id="mesh" selected="payments-db" style="height: 600px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+      <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+    </wc-dependency-map>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const map = document.querySelector('#mesh');
+      map.groups = [
+        { id: 'edge', label: 'Edge', icon: 'public' },
+        { id: 'shop', label: 'Storefront', icon: 'storefront' },
+        { id: 'pay', label: 'Payments', icon: 'payments' },
+        { id: 'data', label: 'Data platform', icon: 'storage' },
+      ];
+      map.nodes = [
+        { id: 'gateway', type: 'Gateway', headline: 'api-gateway', icon: 'router', status: 'healthy', group: 'edge', metrics: { rps: '2.4k', p95: '41 ms' } },
+        { id: 'web', type: 'Service', headline: 'checkout-web', icon: 'deployed_code', status: 'healthy', group: 'shop', metrics: { rps: '1.1k', p95: '88 ms' } },
+        { id: 'catalog', type: 'Service', headline: 'catalog-api', icon: 'deployed_code', status: 'healthy', group: 'shop', metrics: { rps: '1.3k', p95: '22 ms' } },
+        { id: 'cart', type: 'Service', headline: 'cart-api', icon: 'deployed_code', status: 'healthy', group: 'shop', metrics: { rps: '640', p95: '35 ms' } },
+        { id: 'payments', type: 'Service', headline: 'payments-api', icon: 'deployed_code', status: 'degraded', group: 'pay', metrics: { rps: '310', p95: '640 ms', err: '3.1%' } },
+        { id: 'fraud', type: 'Service', headline: 'fraud-check', icon: 'deployed_code', status: 'healthy', group: 'pay', metrics: { rps: '300', p95: '120 ms' } },
+        { id: 'payments-db', type: 'Database', headline: 'payments-db', supportingText: 'PostgreSQL', icon: 'database', status: 'down', group: 'pay' },
+        { id: 'catalog-db', type: 'Database', headline: 'catalog-db', supportingText: 'PostgreSQL', icon: 'database', status: 'healthy', group: 'data' },
+        { id: 'cache', type: 'Cache', headline: 'session-cache', supportingText: 'Redis', icon: 'bolt', status: 'healthy', group: 'data' },
+        { id: 'orders', type: 'Queue', headline: 'orders-queue', icon: 'stacks', status: 'healthy', group: 'data' },
+        { id: 'stripe', type: 'External', headline: 'Stripe', icon: 'cloud', status: 'unknown' },
+      ];
+      map.edges = [
+        { id: 'e1', source: 'gateway', target: 'web', type: 'calls', metrics: { rps: 1100, latencyMs: 88 } },
+        { id: 'e2', source: 'gateway', target: 'catalog', type: 'calls', metrics: { rps: 1300, latencyMs: 22 } },
+        { id: 'e3', source: 'web', target: 'cart', type: 'calls', metrics: { rps: 640, latencyMs: 35 } },
+        { id: 'e4', source: 'web', target: 'payments', type: 'calls', metrics: { rps: 310, latencyMs: 640, errorRate: 0.031 } },
+        { id: 'e5', source: 'catalog', target: 'catalog-db', type: 'reads', metrics: { rps: 900, latencyMs: 6 } },
+        { id: 'e6', source: 'cart', target: 'cache', type: 'reads', metrics: { rps: 1200, latencyMs: 1 } },
+        { id: 'e7', source: 'cart', target: 'orders', type: 'publishes', metrics: { rps: 80 } },
+        { id: 'e8', source: 'payments', target: 'fraud', type: 'calls', metrics: { rps: 300, latencyMs: 120 } },
+        { id: 'e9', source: 'payments', target: 'payments-db', type: 'writes', status: 'down', metrics: { rps: 290, errorRate: 0.12 } },
+        { id: 'e10', source: 'fraud', target: 'payments-db', type: 'reads', status: 'down', metrics: { rps: 150, errorRate: 0.09 } },
+        { id: 'e11', source: 'payments', target: 'stripe', type: 'calls', metrics: { rps: 280, latencyMs: 410 } },
+        { id: 'e12', source: 'web', target: 'cache', type: 'reads', metrics: { rps: 700, latencyMs: 1 } },
+      ];
+      const value = e => e.detail?.value ?? e.target.value ?? '';
+      document.querySelector('#mesh-layout').addEventListener('change', e => { map.layout = value(e); });
+      document.querySelector('#mesh-impact').addEventListener('change', e => { map.impact = value(e) || 'none'; });
+      document.querySelector('#mesh-search').addEventListener('input', e => { map.filter = { ...map.filter, text: value(e) }; });
+      map.addEventListener('select', e => console.log('selected:', e.detail.id));
+    })();
+  </script>
+</DemoComponentCard>

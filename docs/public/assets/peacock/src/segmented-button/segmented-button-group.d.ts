@@ -1,8 +1,8 @@
 import { LitElement, type PropertyValues } from 'lit';
-import { type FormRestoreState, type FormValue, getFormValue } from '@/__internal/mixins/form-associated.js';
-import type { Size } from '@/__internal/utils/size.js';
+import { type FormRestoreState, type FormValue, getFormValue } from '../__internal/mixins/form-associated.js';
+import type { Size } from '../__internal/utils/size.js';
 import { SegmentedButton } from './segmented-button.js';
-declare const SegmentedButtonGroup_base: import("../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>;
+declare const SegmentedButtonGroup_base: import("../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("../__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("../__internal/mixins/form-associated.js").FormAssociatedConstructor, import("../__internal/mixins/form-associated.js").FormAssociated>;
 /**
  * @label Segmented Button Group
  * @tag wc-segmented-button-group

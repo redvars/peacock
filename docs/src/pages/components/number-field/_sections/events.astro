@@ -3,20 +3,21 @@ export const title = 'Events';
 export const order = 400;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>pc-input--change</code> is triggered by
-  the element.
+<p>
+  The number field dispatches <code>input</code> as the user types or steps the value and
+  <code>change</code> when the value is committed. Both are <b>CustomEvent</b>s with the number in
+  <code>event.detail.value</code> (<code>undefined</code> when the field is empty).
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-number-field variant='default' id='name-input-field' placeholder='Type here'></wc-number-field>
+  <wc-number-field variant='default' id='events-number-field' placeholder='Type here'></wc-number-field>
 
   <script is:inline>
-    document.querySelector('#name-input-field').addEventListener('input', function(event) {
-      myConsole.log('pc-input--input :: ' + event.target.value);
+    document.querySelector('#events-number-field').addEventListener('input', function(event) {
+      myConsole.log('input :: ' + event.detail.value);
     });
-    document.querySelector('#name-input-field').addEventListener('change', function(event) {
-      myConsole.warn('pc-input--change :: ' + event.target.value);
+    document.querySelector('#events-number-field').addEventListener('change', function(event) {
+      myConsole.warn('change :: ' + event.detail.value);
     });
   </script>
 </DemoComponentCard>

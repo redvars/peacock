@@ -124,7 +124,8 @@ let fileUploadCount = 0;
  * @fires {CustomEvent<{value: File[]}>} change - Dispatched when files are added or removed; `value` is the accepted files.
  * @fires {CustomEvent<{file: File}>} remove - Dispatched when the person removes a file, before `change`.
  *
- * @cssprop --file-upload-drop-zone-color - Background of the drop zone.
+ * @cssprop --file-upload-drop-zone-color - Background of the drop zone. Defaults to `surface-container-lowest`, the fill of a default field.
+ * @cssprop --file-upload-file-item-color - Background of each file row. Defaults to `surface-container-lowest`.
  * @cssprop --file-upload-drop-zone-border-color - Dashed border of the drop zone.
  * @cssprop --file-upload-drop-zone-shape - Corner radius of the drop zone.
  * @cssprop --file-upload-drop-zone-min-block-size - Minimum height of the drop zone.
@@ -200,6 +201,7 @@ export class FileUpload extends BaseInput {
   @property({ type: Boolean, reflect: true })
   error = false;
 
+  /** Error message shown below the component while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 

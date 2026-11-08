@@ -1,0 +1,54 @@
+---
+export const title = 'Custom nodes';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Put your own content in an element with <code>slot="node:&lt;id&gt;"</code>; it replaces the built-in card for
+  that node while the diagram keeps handling dragging, selection, ports and focus. The node's
+  <code>headline</code> still names it for screen readers. For org charts and other hierarchies, use
+  <a href="/components/tree-chart/"><code>wc-tree-chart</code></a>, which lays the tree out for you.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diagram id="team-diagram" style="height: 420px;">
+    <wc-card slot="node:lead" variant="outlined" style="display: block; width: 200px;">
+      <wc-card-content style="display: flex; gap: 12px; align-items: center; padding: 12px;">
+        <wc-avatar name="Sarah Jenkins"></wc-avatar>
+        <div><strong>Sarah Jenkins</strong><div style="color: var(--color-on-surface-variant); font-size: 12px;">Design lead</div></div>
+      </wc-card-content>
+    </wc-card>
+    <wc-card slot="node:research" variant="outlined" style="display: block; width: 200px;">
+      <wc-card-content style="display: flex; gap: 12px; align-items: center; padding: 12px;">
+        <wc-avatar name="Michael Chen"></wc-avatar>
+        <div><strong>Michael Chen</strong><div style="color: var(--color-on-surface-variant); font-size: 12px;">Research</div></div>
+      </wc-card-content>
+    </wc-card>
+    <wc-card slot="node:visual" variant="outlined" style="display: block; width: 200px;">
+      <wc-card-content style="display: flex; gap: 12px; align-items: center; padding: 12px;">
+        <wc-avatar name="Elena Rostova"></wc-avatar>
+        <div><strong>Elena Rostova</strong><div style="color: var(--color-on-surface-variant); font-size: 12px;">Visual design</div></div>
+      </wc-card-content>
+    </wc-card>
+  </wc-diagram>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#team-diagram');
+      const ports = [
+        { id: 'in', side: 'top', type: 'target' },
+        { id: 'out', side: 'bottom', type: 'source' },
+      ];
+      diagram.nodes = [
+        { id: 'lead', position: { x: 160, y: 0 }, headline: 'Sarah Jenkins, design lead', ports },
+        { id: 'research', position: { x: 0, y: 180 }, headline: 'Michael Chen, research', ports },
+        { id: 'visual', position: { x: 320, y: 180 }, headline: 'Elena Rostova, visual design', ports },
+      ];
+      diagram.edges = [
+        { id: 'r', source: 'lead', target: 'research', sourceHandle: 'out', targetHandle: 'in', markerEnd: 'none' },
+        { id: 'v', source: 'lead', target: 'visual', sourceHandle: 'out', targetHandle: 'in', markerEnd: 'none' },
+      ];
+    })();
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,56 @@
+---
+export const title = 'Direction and density';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Workflows read top to bottom by default. <code>direction="horizontal"</code> lays them out left to right, with branch
+  paths stacked and merging on the right. <code>density</code> shows only the card headers (<code>compact</code>), up to
+  three fields (<code>standard</code>) or everything (<code>expanded</code>).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-workflow id="onboarding" direction="horizontal" density="compact" style="height: 360px;">
+    <wc-diagram-controls slot="controls"></wc-diagram-controls>
+  </wc-workflow>
+
+  <script is:inline>
+    (() => {
+      document.querySelector('#onboarding').value = {
+        trigger: { id: 'hired', type: 'action', headline: 'Employee hired', icon: 'badge' },
+        steps: [
+          {
+            id: 'setup', type: 'parallel', headline: 'Set up accounts', icon: 'alt_route',
+            paths: [
+              { id: 'it', label: 'IT', steps: [{ id: 'laptop', type: 'action', headline: 'Order laptop', icon: 'laptop_mac', accent: 'blue' }] },
+              { id: 'hr', label: 'HR', steps: [{ id: 'payroll', type: 'action', headline: 'Add to payroll', icon: 'payments', accent: 'green' }] },
+            ],
+          },
+          { id: 'wait', type: 'wait', headline: 'Wait for start date', icon: 'schedule' },
+          { id: 'welcome', type: 'action', headline: 'Send welcome pack', icon: 'mail', accent: 'blue' },
+        ],
+      };
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Keyboard</h3>
+<table>
+  <thead><tr><th>Keys</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td>Up / Down</td><td>Previous and next step in reading order (Left / Right in a horizontal workflow)</td></tr>
+    <tr><td>Left / Right</td><td>Same position in the neighbouring path of a branch, or into an error path</td></tr>
+    <tr><td><wc-kbd keys="enter"></wc-kbd>, <wc-kbd keys="space"></wc-kbd></td><td>Select the step</td></tr>
+    <tr><td><wc-kbd keys="shift+enter"></wc-kbd></td><td>Collapse or expand a branch or loop</td></tr>
+    <tr><td><wc-kbd keys="insert"></wc-kbd></td><td>Open the palette after the step</td></tr>
+    <tr><td><wc-kbd keys="alt+up"></wc-kbd> / <wc-kbd keys="alt+down"></wc-kbd></td><td>Move the step within its path</td></tr>
+    <tr><td><wc-kbd keys="delete"></wc-kbd>, <wc-kbd keys="mod+d"></wc-kbd>, <wc-kbd keys="mod+c"></wc-kbd>, <wc-kbd keys="mod+v"></wc-kbd></td><td>Delete, duplicate, copy and paste</td></tr>
+    <tr><td><wc-kbd keys="mod+z"></wc-kbd> / <wc-kbd keys="mod+shift+z"></wc-kbd></td><td>Undo and redo</td></tr>
+    <tr><td><wc-kbd keys="shift+f10"></wc-kbd></td><td>Open the step's menu</td></tr>
+  </tbody>
+</table>
+<p>
+  Steps form a tree for screen readers, with one tab stop. The canvas keys of <code>wc-diagram</code> work too: zoom,
+  <wc-kbd keys="shift+1"></wc-kbd> to fit and <wc-kbd keys="home"></wc-kbd> to go back to the start.
+</p>

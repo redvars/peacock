@@ -1,6 +1,6 @@
 import { LitElement, nothing } from 'lit';
 type CardVariant = 'elevated' | 'filled' | 'outlined';
-declare const Card_base: typeof LitElement & import("../__internal/mixins/MixinConstructor.js").MixinConstructor<import("@/__internal/mixins/NativeHyperlinkMixin.js").NativeHyperlinkInterface>;
+declare const Card_base: typeof LitElement & import("../__internal/mixins/MixinConstructor.js").MixinConstructor<import("../__internal/mixins/NativeHyperlinkMixin.js").NativeHyperlinkInterface>;
 /**
  * @label Card
  * @tag wc-card

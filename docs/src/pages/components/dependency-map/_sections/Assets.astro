@@ -1,0 +1,67 @@
+---
+export const title = 'Asset relationships';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The same component maps configuration items: applications, the hosts they run on and the network gear behind them.
+  <code>layout="layered"</code> puts what depends on something to its left, so the chain reads from business service
+  to hardware. Groups can start collapsed with <code>collapsed: true</code>; double-click one, or press Shift+Enter on
+  it, to open it. <code>focused-node</code> with <code>hops</code> limits the map to one node's neighbourhood.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <wc-switch id="cmdb-focus">Only two hops from app-host-02</wc-switch>
+    </div>
+    <wc-dependency-map id="cmdb" layout="layered" start-position="fit" style="height: 460px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+    </wc-dependency-map>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const map = document.querySelector('#cmdb');
+      map.groups = [
+        { id: 'rack', label: 'Rack A3', icon: 'dns', collapsed: true },
+      ];
+      map.nodes = [
+        { id: 'hr', type: 'Business service', headline: 'HR self-service', icon: 'badge', status: 'healthy' },
+        { id: 'payroll', type: 'Business service', headline: 'Payroll', icon: 'request_quote', status: 'degraded' },
+        { id: 'portal', type: 'Application', headline: 'Employee portal', icon: 'web', status: 'healthy' },
+        { id: 'payroll-app', type: 'Application', headline: 'Payroll engine', icon: 'apps', status: 'degraded' },
+        { id: 'host1', type: 'Server', headline: 'app-host-01', icon: 'computer', status: 'healthy' },
+        { id: 'host2', type: 'Server', headline: 'app-host-02', icon: 'computer', status: 'degraded' },
+        { id: 'db', type: 'Database', headline: 'hr-db', icon: 'database', status: 'healthy' },
+        { id: 'switch', type: 'Network', headline: 'core-switch-1', icon: 'lan', status: 'healthy', group: 'rack' },
+        { id: 'storage', type: 'Storage', headline: 'san-01', icon: 'hard_drive', status: 'healthy', group: 'rack' },
+        { id: 'ups', type: 'Power', headline: 'ups-a3', icon: 'battery_charging_full', status: 'degraded', group: 'rack' },
+      ];
+      map.edges = [
+        { id: 'r1', source: 'hr', target: 'portal', type: 'depends on' },
+        { id: 'r2', source: 'payroll', target: 'payroll-app', type: 'depends on' },
+        { id: 'r3', source: 'portal', target: 'host1', type: 'runs on' },
+        { id: 'r4', source: 'payroll-app', target: 'host2', type: 'runs on' },
+        { id: 'r5', source: 'portal', target: 'db', type: 'uses' },
+        { id: 'r6', source: 'payroll-app', target: 'db', type: 'uses' },
+        { id: 'r7', source: 'host1', target: 'switch', type: 'connects to' },
+        { id: 'r8', source: 'host2', target: 'switch', type: 'connects to' },
+        { id: 'r9', source: 'db', target: 'storage', type: 'stores on' },
+        { id: 'r10', source: 'host2', target: 'ups', type: 'powered by' },
+      ];
+      document.querySelector('#cmdb-focus').addEventListener('change', e => {
+        map.hops = 2;
+        map.focusedNode = e.target.checked ? 'host2' : '';
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Keyboard</h3>
+<ul>
+  <li>Tab reaches the map, then one node. Down moves to a node it depends on, Up to one that depends on it, and Left and Right to the other nodes along the same step.</li>
+  <li>Enter or Space selects. F shows only the node's neighbourhood; Escape shows everything again, then clears the selection.</li>
+  <li>The canvas keys work as in every Peacock diagram: arrows pan the background, + and − zoom, Shift+1 fits, Home goes back to the start.</li>
+</ul>

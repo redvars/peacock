@@ -43,6 +43,7 @@ export default abstract class BaseField extends BaseInput {
   /** Label shown above the field; also the control's accessible name. */
   @property({ type: String }) label = '';
 
+  /** Hint shown inside the empty control. */
   @property({ type: String }) placeholder = '';
 
   /** Help text shown below the field. */
@@ -51,11 +52,13 @@ export default abstract class BaseField extends BaseInput {
   /** Shows the field in its error state with `error-text`. */
   @property({ type: Boolean }) error = false;
 
+  /** Error message shown below the field while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' }) errorText = '';
 
   /** Shows the field in its warning state with `warning-text`. */
   @property({ type: Boolean }) warning = false;
 
+  /** Warning message shown below the field while `warning` is set; replaces the help text. */
   @property({ type: String, attribute: 'warning-text' }) warningText = '';
 
   /** Visual variant of the field. */

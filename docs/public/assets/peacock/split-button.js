@@ -2,11 +2,11 @@ import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './Ind
 import { n } from './property-B2TG3KEE.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
 import { M as MenuTriggerController } from './menu-trigger-controller-DyLpTxM7.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-WY90FZfd.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z$2 = i`@charset "UTF-8";

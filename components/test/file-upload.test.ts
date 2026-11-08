@@ -449,6 +449,60 @@ describe('FileUpload', () => {
       el.shadowRoot!.querySelector('.file-list')!.getAttribute('aria-label'),
     ).to.equal('Attachments');
   });
+
+  describe('appearance', () => {
+    /** The tokens the states draw with, which the tests do not otherwise load. */
+    const tokens =
+      '--color-on-surface: rgb(1, 2, 3); --color-on-surface-variant: rgb(4, 5, 6); --color-surface-container-lowest: rgb(7, 8, 9); --color-primary: rgb(10, 11, 12)';
+
+    async function upload(state: 'disabled' | 'readonly' | '') {
+      const wrapper = fixtureSync(html`<div style=${tokens}>
+        <wc-file-upload
+          ?disabled=${state === 'disabled'}
+          ?readonly=${state === 'readonly'}
+        ></wc-file-upload>
+      </div>`) as HTMLElement;
+      const el = wrapper.querySelector('wc-file-upload') as FileUpload;
+      el.files = [makeFile('a.txt')];
+      await el.updateComplete;
+      return el;
+    }
+
+    function style(el: FileUpload, selector: string) {
+      return getComputedStyle(el.shadowRoot!.querySelector(selector)!);
+    }
+
+    /** The alpha of a computed color: `rgba(…, a)`, `color(… / a)`, or 1. */
+    function alphaOf(color: string) {
+      const alpha = color.match(/(?:rgba\(.*,|\/)\s*([\d.]+)\)$/);
+      return alpha ? Number(alpha[1]) : 1;
+    }
+
+    it('fills the drop zone and file rows like a default field', async () => {
+      const el = await upload('');
+      expect(style(el, '.drop-zone').backgroundColor).to.equal('rgb(7, 8, 9)');
+      expect(style(el, '.file-item').backgroundColor).to.equal('rgb(7, 8, 9)');
+    });
+
+    it('draws M3 disabled: 38% content and a 4% container, without fading the zone', async () => {
+      const el = await upload('disabled');
+      const dropZone = style(el, '.drop-zone');
+
+      expect(dropZone.opacity).to.equal('1');
+      expect(alphaOf(dropZone.backgroundColor)).to.be.closeTo(0.04, 0.01);
+      expect(alphaOf(dropZone.color)).to.be.closeTo(0.38, 0.01);
+      expect(alphaOf(style(el, '.browse').color)).to.be.closeTo(0.38, 0.01);
+      expect(alphaOf(style(el, '.file-item').color)).to.be.closeTo(0.38, 0.01);
+    });
+
+    it('keeps read-only rows at full contrast in a faint box', async () => {
+      const el = await upload('readonly');
+      const row = style(el, '.file-item');
+
+      expect(row.color).to.equal('rgb(1, 2, 3)');
+      expect(alphaOf(row.backgroundColor)).to.be.closeTo(0.04, 0.01);
+    });
+  });
 });
 
 describe('file upload helpers', () => {

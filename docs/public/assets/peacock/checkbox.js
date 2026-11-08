@@ -2,15 +2,18 @@ import { i, _ as __decorate, I as IndividualComponent, w, b } from './Individual
 import { n } from './property-B2TG3KEE.js';
 import { e } from './class-map-NDIkZErE.js';
 import { s as spread } from './spread-B5cgadZl.js';
-import { p as peacockString } from './strings-WY90FZfd.js';
-import { T as ToggleBase } from './toggle-base-Cq6DEEgq.js';
+import { p as peacockString } from './strings-BJPuhKJk.js';
+import { T as ToggleBase } from './toggle-base-BmE6atDf.js';
 import './directive-ZPhl09Yt.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
-import './form-associated-D3Tn33s_.js';
+import './form-associated-BHbg72PG.js';
 import './element-internals-QME0yEz4.js';
-import './BaseInput-DJ7w21-i.js';
+import './BaseInput-cLydYG8j.js';
+import './suggestion-controller-kTnSMkjh.js';
+import './ai-controller-DR_Tg0sN.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -279,6 +282,9 @@ var css_248z = i`* {
   .checkbox.disabled.state-indeterminate .background {
     background: GrayText;
   }
+}
+.suggestion-badge {
+  margin-inline-start: var(--spacing-100);
 }`;
 
 /**

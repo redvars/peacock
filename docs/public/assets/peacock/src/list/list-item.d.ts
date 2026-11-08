@@ -1,7 +1,7 @@
 import { LitElement } from 'lit';
 /** Where a list item sits among its sibling items; set by `wc-list`. */
 export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
-declare const ListItem_base: import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("@/__internal/mixins/element-internals.js").WithElementInternals>>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("@/button/base-button/base-button.js").BaseButton>;
+declare const ListItem_base: import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("../__internal/mixins/element-internals.js").WithElementInternals>>, import("../__internal/mixins/hyperlink.js").Hyperlink>, import("../button/base-button/base-button.js").BaseButton>;
 /**
  * @label List Item
  * @tag wc-list-item

@@ -1,5 +1,5 @@
 import { LitElement, type TemplateResult } from 'lit';
-import { type HourCycle } from '@/__internal/utils/date.js';
+import { type HourCycle } from '../__internal/utils/date.js';
 /**
  * @label Time Picker
  * @tag wc-time-picker
@@ -43,7 +43,9 @@ export declare class TimePicker extends LitElement {
     max: string;
     /** BCP 47 locale for AM/PM names and the default hour cycle. */
     locale: string;
+    /** Disables the picker: no time can be focused or picked. */
     disabled: boolean;
+    /** Shows the selected time but stops the user changing it. */
     readonly: boolean;
     /** The column holding the tab stop. */
     private activeColumn;

@@ -3,13 +3,14 @@ import { n } from './property-B2TG3KEE.js';
 import { o } from './style-map-CHOg6N_R.js';
 import { ChartPie } from './chart-pie.js';
 import './directive-ZPhl09Yt.js';
-import './chart-base-CisqEeGa.js';
+import './transform-CxeQFXXB.js';
+import './chart-base-D-Gp730U.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';
-import './i18n-controller-Dxqz0Aof.js';
-import './strings-WY90FZfd.js';
+import './i18n-controller-Cp43HjJl.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 import './path-CJ0Arqcy.js';
 
@@ -63,6 +64,7 @@ import './path-CJ0Arqcy.js';
  *
  * @slot center - Replaces the total and caption in the centre.
  * @slot empty - Shown when there is no data. Defaults to "No data".
+ * @slot insight - Below the chart, a line that explains it, such as the assistant’s reading of a trend. The data comes from the platform; the insight only puts it into words.
  *
  * @fires {CustomEvent<ChartSelectDetail>} select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
  *

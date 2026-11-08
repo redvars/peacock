@@ -145,12 +145,14 @@ let Ripple = class Ripple extends i$1 {
         // required by the controller.
         this, this.onControlChange.bind(this));
     }
+    /** The id of the control the ripple attaches to, as the `for` attribute. */
     get htmlFor() {
         return this.attachableController.htmlFor;
     }
     set htmlFor(htmlFor) {
         this.attachableController.htmlFor = htmlFor;
     }
+    /** The control whose presses show the ripple; without `for` or this, it follows its parent. */
     get control() {
         return this.attachableController.control;
     }

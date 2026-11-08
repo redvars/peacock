@@ -88,12 +88,15 @@ export default abstract class BaseInput extends mixinFormAssociated(
   /** Each control declares its own `value` (a property, or an accessor such as Switch's). */
   abstract value?: any;
 
+  /** Shows the value but stops the user changing it; unlike `disabled`, it stays focusable and is submitted. */
   @property({ type: Boolean, reflect: true })
   readonly: boolean = false;
 
+  /** Requires a value before the form can submit. */
   @property({ type: Boolean, reflect: true })
   required: boolean = false;
 
+  /** Shows a loading placeholder in place of the control. */
   @property({ type: Boolean, reflect: true })
   skeleton = false;
 

@@ -51,6 +51,7 @@ export class FocusRing extends LitElement implements Attachable {
   /** When true, the ring animates inward instead of outward (for use inside containers). */
   @property({ type: Boolean, reflect: true }) inward = false;
 
+  /** The id of the control the ring attaches to, as the `for` attribute. */
   get htmlFor() {
     return this.attachableController.htmlFor;
   }
@@ -59,6 +60,7 @@ export class FocusRing extends LitElement implements Attachable {
     this.attachableController.htmlFor = htmlFor;
   }
 
+  /** The control the ring attaches to; without `for` or this, it follows its parent. */
   get control() {
     return this.attachableController.control;
   }

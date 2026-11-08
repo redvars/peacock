@@ -1,0 +1,68 @@
+---
+export const title = 'Editing';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>editable</code> turns the diagram into a full editor. Click a node or edge to select it, Shift or Ctrl + click
+  to add to the selection, and Shift + drag on the background to draw a marquee. Dragging a selected node moves
+  the whole selection and snaps to the edges and centres of nearby nodes; <code>snap-to-grid</code> also snaps to
+  the dot grid. Drag from a port to connect, or drag either end of a selected edge to reconnect it.
+</p>
+
+<table>
+  <thead><tr><th>Keys</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><wc-kbd keys="delete"></wc-kbd></td><td>Delete the selection (cancel the <code>delete</code> event to keep it)</td></tr>
+    <tr><td><wc-kbd keys="mod+z"></wc-kbd> / <wc-kbd keys="mod+shift+z"></wc-kbd></td><td>Undo and redo; moved nodes glide back</td></tr>
+    <tr><td><wc-kbd keys="mod+c"></wc-kbd>, <wc-kbd keys="mod+v"></wc-kbd>, <wc-kbd keys="mod+d"></wc-kbd></td><td>Copy, paste and duplicate</td></tr>
+    <tr><td><wc-kbd keys="mod+a"></wc-kbd></td><td>Select everything</td></tr>
+    <tr><td>Arrow keys</td><td>Move the focused node (Shift: farther); Alt + arrow moves focus to the nearest node</td></tr>
+    <tr><td><wc-kbd keys="escape"></wc-kbd></td><td>Clear the selection</td></tr>
+  </tbody>
+</table>
+
+<p>
+  Edges take a <code>type</code> (<code>elbow</code>, <code>bezier</code>, <code>straight</code>), a <code>variant</code>
+  (<code>solid</code>, <code>dashed</code>, <code>animated-dashed</code>), a <code>color</code>, and markers at each end:
+  <code>arrow</code>, <code>arrow-open</code>, <code>circle</code>, <code>diamond</code> and the crow's-foot set
+  <code>one</code>, <code>zero-or-one</code>, <code>many</code>, <code>one-or-many</code>, <code>zero-or-many</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diagram id="ticket-diagram" editable snap-to-grid style="height: 460px;">
+    <wc-diagram-controls slot="controls"></wc-diagram-controls>
+  </wc-diagram>
+  <p id="ticket-log" style="margin-top: 8px; color: var(--color-on-surface-variant);">Edit the diagram: changes are listed here.</p>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#ticket-diagram');
+      const both = [
+        { id: 'l', side: 'left' },
+        { id: 'r', side: 'right' },
+        { id: 'b', side: 'bottom' },
+        { id: 't', side: 'top' },
+      ];
+      diagram.nodes = [
+        { id: 'new', position: { x: 0, y: 100 }, headline: 'New', icon: 'fiber_new', ports: both },
+        { id: 'triage', position: { x: 260, y: 100 }, headline: 'Triage', icon: 'checklist', ports: both },
+        { id: 'progress', position: { x: 520, y: 100 }, headline: 'In progress', icon: 'construction', ports: both },
+        { id: 'waiting', position: { x: 520, y: 300 }, headline: 'Waiting', supportingText: 'On customer', icon: 'hourglass_top', intent: 'warning', ports: both },
+        { id: 'resolved', position: { x: 780, y: 100 }, headline: 'Resolved', icon: 'task_alt', intent: 'success', ports: both },
+      ];
+      diagram.edges = [
+        { id: 'submit', source: 'new', target: 'triage', sourceHandle: 'r', targetHandle: 'l', label: 'submit' },
+        { id: 'assign', source: 'triage', target: 'progress', sourceHandle: 'r', targetHandle: 'l', label: 'assign' },
+        { id: 'ask', source: 'progress', target: 'waiting', sourceHandle: 'b', targetHandle: 't', label: 'need info', variant: 'dashed' },
+        { id: 'fix', source: 'progress', target: 'resolved', sourceHandle: 'r', targetHandle: 'l', label: 'fix' },
+        { id: 'reopen', source: 'resolved', target: 'progress', sourceHandle: 't', targetHandle: 't', label: 'reopen', type: 'bezier', variant: 'animated-dashed', color: 'var(--color-error)' },
+      ];
+      const log = document.querySelector('#ticket-log');
+      diagram.addEventListener('change', e => {
+        log.textContent = `${e.detail.reason}: ${e.detail.nodes.length} nodes, ${e.detail.edges.length} edges`;
+      });
+    })();
+  </script>
+</DemoComponentCard>

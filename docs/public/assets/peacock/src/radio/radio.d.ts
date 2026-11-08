@@ -1,6 +1,6 @@
 import { type PropertyValues } from 'lit';
-import ToggleBase from '@/__internal/toggle-base.js';
-import type { ControlValidity } from '@/input/BaseInput.js';
+import ToggleBase from '../__internal/toggle-base.js';
+import type { ControlValidity } from '../input/BaseInput.js';
 /**
  * @label Radio
  * @tag wc-radio

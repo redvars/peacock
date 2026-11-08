@@ -1,7 +1,7 @@
 import { LitElement, nothing } from 'lit';
-import type { ButtonSize, ButtonShape } from '@/button/ButtonTypes.js';
-export type { ButtonSize, ButtonLevel, ButtonShape, ButtonVariant, ButtonColor, } from '@/button/ButtonTypes.js';
-declare const Button_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>, import("@/__internal/mixins/form-submitter.js").FormSubmitter>>, import("../base-button/base-button.js").BaseButton>, import("../base-button/base-button.js").ButtonLevelAppearance>;
+import type { ButtonSize, ButtonShape } from '../ButtonTypes.js';
+export type { ButtonSize, ButtonLevel, ButtonShape, ButtonVariant, ButtonColor, } from '../ButtonTypes.js';
+declare const Button_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("../../__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("../../__internal/mixins/form-associated.js").FormAssociatedConstructor, import("../../__internal/mixins/form-associated.js").FormAssociated>, import("../../__internal/mixins/form-submitter.js").FormSubmitter>>, import("../base-button/base-button.js").BaseButton>, import("../base-button/base-button.js").ButtonLevelAppearance>;
 /**
  * @label Button
  * @tag wc-button

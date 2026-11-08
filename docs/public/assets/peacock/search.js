@@ -4,15 +4,18 @@ import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
 import { l } from './live-D_5OfuGD.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
-import { B as BaseInput, n as nativeValidity } from './BaseInput-DJ7w21-i.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
+import { A as AiController } from './ai-controller-DR_Tg0sN.js';
+import { s as sparkle } from './sparkle-BmtM0vbq.js';
+import { B as BaseInput, n as nativeValidity } from './BaseInput-cLydYG8j.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './directive-helpers-Bx3mu42O.js';
-import './strings-WY90FZfd.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 import './element-internals-QME0yEz4.js';
-import './form-associated-D3Tn33s_.js';
+import './form-associated-BHbg72PG.js';
+import './suggestion-controller-kTnSMkjh.js';
 
 var css_248z$1 = i`* {
   box-sizing: border-box;
@@ -64,10 +67,22 @@ var css_248z$1 = i`* {
   align-items: center;
   width: 100%;
   gap: 0.25rem;
-  --_container-shape-start-start: var(--search-container-shape-start-start, var(--search-container-shape));
-  --_container-shape-start-end: var(--search-container-shape-start-end, var(--search-container-shape));
-  --_container-shape-end-start: var(--search-container-shape-end-start, var(--search-container-shape));
-  --_container-shape-end-end: var(--search-container-shape-end-end, var(--search-container-shape));
+  --_container-shape-start-start: var(
+    --search-container-shape-start-start,
+    var(--search-container-shape)
+  );
+  --_container-shape-start-end: var(
+    --search-container-shape-start-end,
+    var(--search-container-shape)
+  );
+  --_container-shape-end-start: var(
+    --search-container-shape-end-start,
+    var(--search-container-shape)
+  );
+  --_container-shape-end-end: var(
+    --search-container-shape-end-end,
+    var(--search-container-shape)
+  );
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
   border-end-start-radius: var(--_container-shape-end-start);
@@ -173,6 +188,42 @@ var css_248z$1 = i`* {
 }
 
 /* Clear button */
+.ask-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+  block-size: 2rem;
+  padding-inline: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  color: var(--color-on-primary-container);
+  font: inherit;
+  cursor: pointer;
+  background: var(--color-primary-container);
+  border: none;
+  border-radius: var(--shape-corner-full);
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-weight: var(--typography-label-large-font-weight);
+  line-height: var(--typography-label-large-line-height);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+}
+.ask-button .sparkle {
+  inline-size: 1rem;
+  block-size: 1rem;
+  fill: currentColor;
+}
+.ask-button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.ask-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.size-sm .ask-button {
+  block-size: 1.75rem;
+}
+
 .clear-button {
   display: flex;
   align-items: center;
@@ -279,6 +330,11 @@ const clearableConverter = {
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.
  * It shows no validation message, so use <code>wc-input</code> for a search term that must be
  * validated.</p>
+ * <p><b>Ask.</b> With <code>ask</code>, the box is also where people ask the assistant
+ * (ADR-030002): an <strong>Ask</strong> button and Ctrl+Enter (⌘Enter) fire <code>ask</code> with
+ * the text, while Enter still searches. <code>ask-placeholder</code> replaces the placeholder, such
+ * as "Ask for something, or search apps and records". With AI off for the page, the box is a plain
+ * search: no button, the usual placeholder, and no <code>ask</code>.</p>
  *
  * @slot start - Leading content; replaces the search icon.
  * @slot end - Trailing content, after the clear button.
@@ -295,6 +351,7 @@ const clearableConverter = {
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed: on blur, Enter, or when it is cleared.
  * @fires {CustomEvent} clear - Dispatched when the value is cleared with the clear button or Escape.
  * @fires {CustomEvent<{value: string}>} search - Dispatched when the user submits the search (presses Enter).
+ * @fires {CustomEvent<{value: string}>} ask - With `ask`: the person pressed Ask or Ctrl+Enter (⌘Enter) to ask the assistant.
  *
  * @example
  * ```html
@@ -332,14 +389,23 @@ let Search = class Search extends BaseInput {
          * Possible values: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         this.size = 'md';
+        /** Lets people ask the assistant from the box: an Ask button and Ctrl+Enter fire `ask`. */
+        this.ask = false;
+        /** Placeholder while asking is offered, such as "Ask for something, or search apps and records". */
+        this.askPlaceholder = '';
         // ── State ────────────────────────────────────────────────────────────────
         this.focused = false;
         // ── Private fields ───────────────────────────────────────────────────────
         /** Peacock's strings for the placeholder and clear button. */
         this.i18n = new I18nController(this);
+        this.ai = new AiController(this);
         this.__handleFocusChange = (event) => {
             this.focused = event.type === 'focus';
         };
+    }
+    /** Whether Ask is offered now: `ask`, and AI on for the page. */
+    get __asking() {
+        return this.ask && this.ai.available;
     }
     // ── Public methods ───────────────────────────────────────────────────────
     focus() {
@@ -380,6 +446,13 @@ let Search = class Search extends BaseInput {
         this.__emit('change');
     }
     __handleKeydown(event) {
+        if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+            if (this.__asking) {
+                event.preventDefault();
+                this.__ask();
+                return;
+            }
+        }
         if (event.key === 'Enter') {
             this.__emit('search');
         }
@@ -400,7 +473,25 @@ let Search = class Search extends BaseInput {
         this.__emit('input');
         this.__emit('change');
     }
+    __ask() {
+        if (!this.value.trim() || this.disabled)
+            return;
+        this.__emit('ask');
+    }
     // ── Render helpers ───────────────────────────────────────────────────────
+    __renderAskButton() {
+        if (!this.__asking)
+            return A;
+        return b `<button
+      class="ask-button"
+      type="button"
+      aria-label=${this.i18n.t('searchAskLabel')}
+      ?disabled=${this.disabled || !this.value.trim()}
+      @click=${this.__ask}
+    >
+      ${sparkle}<span>${this.i18n.t('searchAsk')}</span>
+    </button>`;
+    }
     __renderClearButton() {
         if (!this.clearable || !this.value || this.readonly)
             return A;
@@ -437,7 +528,9 @@ let Search = class Search extends BaseInput {
             disabled: this.disabled,
             'has-value': !!this.value,
         };
-        const placeholder = this.placeholder || this.i18n.t('search');
+        const placeholder = (this.__asking && this.askPlaceholder) ||
+            this.placeholder ||
+            this.i18n.t('search');
         return b `
       <div class=${e$1(cssClasses)} role="search">
         <div class="background"></div>
@@ -465,6 +558,7 @@ let Search = class Search extends BaseInput {
         <div class="trailing-actions">
           ${this.__renderClearButton()}
           <slot name="end"></slot>
+          ${this.__renderAskButton()}
         </div>
       </div>
     `;
@@ -489,6 +583,12 @@ __decorate([
 __decorate([
     n({ type: String, reflect: true })
 ], Search.prototype, "size", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true })
+], Search.prototype, "ask", void 0);
+__decorate([
+    n({ type: String, attribute: 'ask-placeholder' })
+], Search.prototype, "askPlaceholder", void 0);
 __decorate([
     r()
 ], Search.prototype, "focused", void 0);

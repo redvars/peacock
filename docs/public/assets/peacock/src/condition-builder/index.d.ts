@@ -1,4 +1,4 @@
-export { ConditionBuilder } from './condition-builder.js';
+export { ConditionBuilder, type ConditionBuilderDescribeDetail, } from './condition-builder.js';
 export { CbGroup } from './cb-group.js';
 export { CbRule } from './cb-rule.js';
 export { CbDivider } from './cb-divider.js';

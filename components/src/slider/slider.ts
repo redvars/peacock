@@ -92,6 +92,7 @@ export class Slider extends BaseInput {
   /** Shows the slider in its error state with `error-text`. */
   @property({ type: Boolean, reflect: true }) error = false;
 
+  /** Error message shown below the slider while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' }) errorText = '';
 
   /** Size of the track and thumb: `sm` (default), `md` or `lg`. */

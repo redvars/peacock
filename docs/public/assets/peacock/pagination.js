@@ -1,9 +1,9 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
 import { e } from './class-map-NDIkZErE.js';
-import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { I as I18nController } from './i18n-controller-Cp43HjJl.js';
 import './directive-ZPhl09Yt.js';
-import './strings-WY90FZfd.js';
+import './strings-BJPuhKJk.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {

@@ -1,0 +1,72 @@
+---
+export const title = 'Other hierarchies';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The chart works for any tree: taxonomies, sitemaps, decision trees, a bill of materials. <code>orientation="horizontal"</code>
+  lays it out left to right, which suits deep trees with short labels. Give items an <code>icon</code> (and an
+  <code>accent</code>) instead of an avatar.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tree-chart id="sitemap" orientation="horizontal" style="height: 440px; width: 100%;">
+    <wc-diagram-controls slot="controls"></wc-diagram-controls>
+  </wc-tree-chart>
+
+  <script is:inline>
+    (() => {
+      document.querySelector('#sitemap').items = [
+        { id: 'home', headline: 'Home', icon: 'home' },
+        { id: 'products', parentId: 'home', headline: 'Products', icon: 'inventory_2', accent: 'blue' },
+        { id: 'pricing', parentId: 'home', headline: 'Pricing', icon: 'sell', accent: 'green' },
+        { id: 'docs', parentId: 'home', headline: 'Docs', icon: 'menu_book', accent: 'purple' },
+        { id: 'flow', parentId: 'products', headline: 'Workflows', supportingText: '/products/workflows', icon: 'account_tree', accent: 'blue' },
+        { id: 'maps', parentId: 'products', headline: 'Service maps', supportingText: '/products/maps', icon: 'hub', accent: 'blue' },
+        { id: 'start', parentId: 'docs', headline: 'Getting started', icon: 'rocket_launch', accent: 'purple' },
+        { id: 'api', parentId: 'docs', headline: 'API reference', icon: 'code', accent: 'purple' },
+      ];
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Lazy loading</h3>
+<p>
+  Give an item <code>hasChildren</code> and add its children when it fires <code>expand</code>. Its chip shows a spinner
+  until they arrive.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tree-chart id="lazy" style="height: 420px; width: 100%;"></wc-tree-chart>
+
+  <script is:inline>
+    (() => {
+      const chart = document.querySelector('#lazy');
+      chart.items = [
+        { id: 'all', headline: 'All departments', icon: 'corporate_fare' },
+        { id: 'sales', parentId: 'all', headline: 'Sales', icon: 'trending_up', accent: 'green', hasChildren: true },
+        { id: 'support', parentId: 'all', headline: 'Support', icon: 'support_agent', accent: 'orange', hasChildren: true },
+      ];
+      chart.addEventListener('expand', e => {
+        const { id, item } = e.detail;
+        if (!item.hasChildren) return;
+        // Pretend to fetch the children.
+        setTimeout(() => {
+          chart.items = [
+            ...chart.items.map(i => (i.id === id ? { ...i, hasChildren: false } : i)),
+            ...[1, 2, 3].map(n => ({ id: `${id}-${n}`, parentId: id, headline: `${item.headline} team ${n}`, icon: 'groups', accent: item.accent })),
+          ];
+        }, 900);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Keyboard</h3>
+<p>
+  The chart is one tab stop. In a vertical chart Up goes to the parent, Down to the first child, and Left and Right to
+  siblings (mirrored in right-to-left pages); a horizontal chart turns the keys. Home and End go to the first and last
+  item, <wc-kbd keys="*"></wc-kbd> expands all siblings, <wc-kbd keys="enter"></wc-kbd> selects and
+  <wc-kbd keys="shift+enter"></wc-kbd> expands or collapses. The canvas keys of <code>wc-diagram</code> work too.
+</p>

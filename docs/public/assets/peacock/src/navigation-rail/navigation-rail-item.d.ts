@@ -1,4 +1,4 @@
-import { IndicatorNavigationItem } from '@/__internal/indicator-navigation-item.js';
+import { IndicatorNavigationItem } from '../__internal/indicator-navigation-item.js';
 /**
  * @label Navigation Rail Item
  * @tag wc-navigation-rail-item

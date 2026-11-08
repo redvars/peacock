@@ -67,6 +67,7 @@ export class Accordion extends LitElement {
 
   // ── Queries
 
+  /** The `wc-accordion-item` children slotted into the accordion. */
   @queryAssignedElements({ selector: 'wc-accordion-item' })
   items!: Array<AccordionItem>;
 

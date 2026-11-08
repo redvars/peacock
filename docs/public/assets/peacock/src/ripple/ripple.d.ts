@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues } from 'lit';
-import { Attachable } from '@/__internal/controllers/attachable-controller.js';
+import { Attachable } from '../__internal/controllers/attachable-controller.js';
 /**
  * @label Ripple
  * @tag wc-ripple
@@ -62,8 +62,10 @@ export declare class Ripple extends LitElement implements Attachable {
     private rippleStartEvent?;
     /** Bound reference to `handleEvent` passed to `addEventListener` / `removeEventListener`. */
     private readonly _boundHandleEvent;
+    /** The id of the control the ripple attaches to, as the `for` attribute. */
     get htmlFor(): string | null;
     set htmlFor(htmlFor: string | null);
+    /** The control whose presses show the ripple; without `for` or this, it follows its parent. */
     get control(): HTMLElement | null;
     set control(control: HTMLElement | null);
     private readonly attachableController;

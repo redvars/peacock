@@ -451,20 +451,3 @@
   background: var(--color-primary);
   color: var(--color-on-primary);
 }
-
-// ── Credits ───────────────────────────────────────────────────────────────
-
-.home-credits {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-  padding-block-start: var(--spacing-300);
-  border-block-start: 1px solid var(--color-outline-variant);
-  color: var(--color-on-surface-variant);
-
-  a {
-    color: var(--color-primary);
-  }
-}

@@ -54,6 +54,7 @@ export class Textarea extends BaseField {
   @property({ type: String })
   value = '';
 
+  /** Whether the browser may autofill the field: `"on"` or `"off"` (default). */
   @property({ type: String }) autocomplete: 'on' | 'off' = 'off';
 
   /** Visible lines of text; the starting height with `auto-grow`. */

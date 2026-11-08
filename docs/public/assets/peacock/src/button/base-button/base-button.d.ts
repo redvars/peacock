@@ -1,7 +1,7 @@
 import { LitElement } from 'lit';
-import { WithElementInternals } from '@/__internal/mixins/element-internals.js';
-import { MixinBase, MixinReturn } from '@/__internal/mixins/mixin.js';
-import type { ButtonColor, ButtonLevel, ButtonVariant } from '@/button/ButtonTypes.js';
+import { WithElementInternals } from '../../__internal/mixins/element-internals.js';
+import { MixinBase, MixinReturn } from '../../__internal/mixins/mixin.js';
+import type { ButtonColor, ButtonLevel, ButtonVariant } from '../ButtonTypes.js';
 /**
  * 1. Define an interface for the members the mixin adds.
  * This makes the type annotation much cleaner.

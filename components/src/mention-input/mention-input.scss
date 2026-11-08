@@ -25,6 +25,8 @@
   align-items: flex-start;
   --field-height: auto;
   --field-padding-block: var(--spacing-100);
+  // The outlined label rests on the first line, not in the middle of a tall box.
+  --field-label-rest-top: calc(var(--spacing-100) + var(--typography-body-large-line-height) / 2);
 }
 
 .control {

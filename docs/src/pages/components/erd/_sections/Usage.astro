@@ -1,0 +1,105 @@
+---
+export const title = 'Schema';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-erd</code> draws tables and the references between them. Give it <code>entities</code>, each with its
+  <code>columns</code>, and <code>relations</code> from the column holding a foreign key to the column it references.
+  Lines join those rows, route at right angles and end in crow's feet (many to one unless you set
+  <code>sourceCardinality</code> and <code>targetCardinality</code>). Primary keys show a key and foreign keys a link;
+  a <code>?</code> after the type marks a nullable column.
+</p>
+<p>
+  Entities without a <code>position</code> are laid out for you, referenced tables to the left. Hover a table or a
+  column to see what it joins, collapse tables you don't need with the chevron, and pick a schema to see only its
+  tables. Press F on a table to see just its neighbours, and Escape to see everything again.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <wc-segmented-button-group id="shop-schema">
+        <wc-segmented-button value="" selected>All schemas</wc-segmented-button>
+        <wc-segmented-button value="sales">sales</wc-segmented-button>
+        <wc-segmented-button value="catalog">catalog</wc-segmented-button>
+      </wc-segmented-button-group>
+      <wc-button id="shop-collapse" variant="text">Collapse all</wc-button>
+      <wc-button id="shop-expand" variant="text">Expand all</wc-button>
+    </div>
+    <wc-erd id="shop" style="height: 640px;">
+      <wc-diagram-controls slot="controls"></wc-diagram-controls>
+      <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+    </wc-erd>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const erd = document.querySelector('#shop');
+      erd.entities = [
+        { id: 'customers', name: 'customers', schema: 'sales', icon: 'person', accent: 'blue', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'email', type: 'citext', unique: true },
+          { name: 'full_name', type: 'text' },
+          { name: 'phone', type: 'text', nullable: true },
+          { name: 'created_at', type: 'timestamptz' },
+        ] },
+        { id: 'addresses', name: 'addresses', schema: 'sales', icon: 'home', accent: 'blue', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'customer_id', type: 'uuid' },
+          { name: 'line1', type: 'text' },
+          { name: 'city', type: 'text' },
+          { name: 'country', type: 'char(2)' },
+        ] },
+        { id: 'orders', name: 'orders', schema: 'sales', icon: 'receipt_long', accent: 'green', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'customer_id', type: 'uuid' },
+          { name: 'shipping_address_id', type: 'uuid', nullable: true },
+          { name: 'status', type: 'order_status' },
+          { name: 'placed_at', type: 'timestamptz' },
+          { name: 'total', type: 'numeric(12,2)' },
+        ] },
+        { id: 'order_items', name: 'order_items', schema: 'sales', icon: 'list_alt', accent: 'green', columns: [
+          { name: 'order_id', type: 'uuid', pk: true },
+          { name: 'product_id', type: 'uuid', pk: true },
+          { name: 'quantity', type: 'int' },
+          { name: 'unit_price', type: 'numeric(12,2)' },
+        ] },
+        { id: 'payments', name: 'payments', schema: 'sales', icon: 'payments', accent: 'orange', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'order_id', type: 'uuid' },
+          { name: 'provider', type: 'text' },
+          { name: 'amount', type: 'numeric(12,2)' },
+          { name: 'paid_at', type: 'timestamptz', nullable: true },
+        ] },
+        { id: 'products', name: 'products', schema: 'catalog', icon: 'inventory_2', accent: 'purple', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'category_id', type: 'uuid' },
+          { name: 'sku', type: 'text', unique: true },
+          { name: 'name', type: 'text' },
+          { name: 'price', type: 'numeric(12,2)' },
+        ] },
+        { id: 'categories', name: 'categories', schema: 'catalog', icon: 'category', accent: 'purple', columns: [
+          { name: 'id', type: 'uuid', pk: true },
+          { name: 'parent_id', type: 'uuid', nullable: true },
+          { name: 'name', type: 'text' },
+        ] },
+      ];
+      erd.relations = [
+        { id: 'r1', source: 'addresses', sourceColumn: 'customer_id', target: 'customers', targetColumn: 'id', sourceCardinality: 'zero-or-many' },
+        { id: 'r2', source: 'orders', sourceColumn: 'customer_id', target: 'customers', targetColumn: 'id' },
+        { id: 'r3', source: 'orders', sourceColumn: 'shipping_address_id', target: 'addresses', targetColumn: 'id', targetCardinality: 'zero-or-one' },
+        { id: 'r4', source: 'order_items', sourceColumn: 'order_id', target: 'orders', targetColumn: 'id', sourceCardinality: 'one-or-many' },
+        { id: 'r5', source: 'order_items', sourceColumn: 'product_id', target: 'products', targetColumn: 'id' },
+        { id: 'r6', source: 'payments', sourceColumn: 'order_id', target: 'orders', targetColumn: 'id', sourceCardinality: 'zero-or-many' },
+        { id: 'r7', source: 'products', sourceColumn: 'category_id', target: 'categories', targetColumn: 'id' },
+        { id: 'r8', source: 'categories', sourceColumn: 'parent_id', target: 'categories', targetColumn: 'id', sourceCardinality: 'zero-or-many', targetCardinality: 'zero-or-one' },
+      ];
+      const value = e => e.detail?.value ?? e.target.value ?? '';
+      document.querySelector('#shop-schema').addEventListener('change', e => { erd.schema = value(e); });
+      document.querySelector('#shop-collapse').addEventListener('click', () => erd.collapseAll());
+      document.querySelector('#shop-expand').addEventListener('click', () => erd.expandAll());
+    })();
+  </script>
+</DemoComponentCard>

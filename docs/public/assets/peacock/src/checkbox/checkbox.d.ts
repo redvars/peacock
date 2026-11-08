@@ -1,4 +1,4 @@
-import ToggleBase from '@/__internal/toggle-base.js';
+import ToggleBase from '../__internal/toggle-base.js';
 /**
  * @label Checkbox
  * @tag wc-checkbox

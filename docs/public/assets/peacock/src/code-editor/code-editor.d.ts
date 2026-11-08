@@ -1,5 +1,5 @@
 import { PropertyValues } from 'lit';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 import BaseInput from '../input/BaseInput.js';
 export type CodeEditorLanguage = 'javascript' | 'typescript' | 'json' | 'html' | 'css' | 'scss' | 'markdown';
 export type CodeEditorSize = 'sm' | 'md';
@@ -100,6 +100,7 @@ export declare class CodeEditor extends BaseInput {
     helperText: string;
     /** Shows the editor in its error state with `error-text`. */
     error: boolean;
+    /** Error message shown below the editor while `error` is set; replaces the help text. */
     errorText: string;
     /** TypeScript declarations (a `.d.ts`) for completions in TypeScript and JavaScript, such as the modules the code may import. */
     libSource: string | undefined;
@@ -131,6 +132,15 @@ export declare class CodeEditor extends BaseInput {
     fill: boolean;
     /** Overrides Peacock's strings for this instance only. */
     strings?: Partial<PeacockStrings>;
+    /**
+     * Suggests code after a pause in typing, as Monaco's inline ghost text: Tab takes it. Needs a
+     * provider with `complete`, which gets `language` with the code before and after the caret.
+     */
+    aiCompletion: boolean;
+    /** AI availability and requests for `ai-completion` (ADR-030002). */
+    private readonly __ai;
+    /** The inline-completions provider registered for `ai-completion`. */
+    private __inlineCompletions?;
     /** Whether the editor text has focus. */
     private hasFocus;
     /** The Monaco editor instance, once loaded. */
@@ -187,6 +197,12 @@ export declare class CodeEditor extends BaseInput {
     private __applyLayout;
     /** Whether light-DOM children are assigned to the named slot. */
     private __hasSlotted;
+    /**
+     * Registers Monaco's inline-completions provider while `ai-completion` is on and the page's AI
+     * offers completions; Monaco shows the result as ghost text that Tab accepts. Providers are
+     * global to Monaco, so this one answers only for this editor's model.
+     */
+    private __syncInlineCompletions;
     private libSourceChanged;
     private drawDecorations;
     private drawMarkers;

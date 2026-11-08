@@ -1,6 +1,6 @@
 import { type PropertyValues } from 'lit';
-import BaseInput, { type ControlValidity } from '@/input/BaseInput.js';
-import { type FormValue, getFormValue } from '@/__internal/mixins/form-associated.js';
+import BaseInput, { type ControlValidity } from '../../input/BaseInput.js';
+import { type FormValue, getFormValue } from '../../__internal/mixins/form-associated.js';
 import type { Chip } from '../chip/chip.js';
 /** Detail of the chip set `change` event; `values` is set with `multiple`. */
 export interface ChipSetChangeDetail {

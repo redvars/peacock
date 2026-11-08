@@ -28,7 +28,10 @@
   --_container-shape-end-start: var(--field-container-shape-end-start, var(--shape-corner-extra-small));
   --_container-shape-end-end: var(--field-container-shape-end-end, var(--shape-corner-extra-small));
 
-  --_container-color: var(--field-container-color);
+  // The default field gets a fill one step off the cards and panels it usually sits on, so
+  // it reads as a field on any surface, not only on the page background. `outlined` stays
+  // transparent, as M3 specifies; `filled` uses surface-container-highest.
+  --_container-color: var(--field-container-color, var(--color-surface-container-lowest));
   --_outline-width: var(--field-outline-width, 0.0675rem);
   --_outline-color: var(--field-outline-color, var(--color-outline));
   --_input-text-color: var(--field-label-text-color, var(--color-on-surface));
@@ -119,24 +122,6 @@
         min-width: 0;
         padding-inline: var(--spacing-200);
         position: relative;
-
-        .outlined-label {
-          position: absolute;
-          top: 0;
-          inset-inline-start: 0;
-          align-items: center;
-          height: 100%;
-          width: 100%;
-          padding-inline: var(--spacing-200);
-          @include mixin.get-typography(body-large);
-          color: var(--_input-text-color);
-          background-color: var(--_container-color);
-          opacity: var(--_container-opacity, 1);
-        }
-
-        .outlined-slot-container {
-          opacity: 0;
-        }
       }
 
       slot::slotted(*) {
@@ -236,17 +221,206 @@
     --_input-text-color: var(--color-warning);
   }
 
+  // M3 outlined text field: no container, the outline alone marks the field. The label rests
+  // over the empty control in body-large and floats in body-small into a notch in the outline's
+  // top edge. The outline is three bordered parts (start, notch, end) rather than a box with a
+  // background behind the label, so it works on any surface.
+  &.variant-outlined {
+    --_container-color: var(--field-container-color, transparent);
+    --_outline-width: var(--field-outline-width, 0.0625rem);
+    --_label-text-color: var(--field-label-text-color, var(--color-on-surface-variant));
+    --_label-motion: var(--duration-short3, 150ms) var(--easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
+    // The notch starts 12px in and pads the label by 4px each side, so the floating label lines
+    // up with the text at 16px. It is never narrower than the start corners.
+    --_notch-start: max(
+      var(--spacing-150),
+      var(--_container-shape-start-start),
+      var(--_container-shape-end-start)
+    );
+    --_notch-padding: var(--spacing-050);
 
+    &.has-label {
+      // Room for the floating label's upper half, so it isn't clipped by a scrolling parent.
+      padding-block-start: calc(var(--typography-body-small-line-height) / 2);
+    }
+
+    .field-body {
+      .outline {
+        display: flex;
+        border: none;
+        border-radius: 0;
+      }
+
+      .outline-start,
+      .outline-notch,
+      .outline-end {
+        position: relative;
+        border: var(--_outline-width) solid var(--_outline-color);
+      }
+
+      .outline-start {
+        flex: none;
+        width: var(--_notch-start);
+        border-inline-end: none;
+        border-start-start-radius: var(--_container-shape-start-start);
+        border-end-start-radius: var(--_container-shape-end-start);
+      }
+
+      // Its top edge is drawn by ::before, which shrinks to the center as the label floats in.
+      .outline-notch {
+        flex: none;
+        display: flex;
+        max-width: calc(100% - var(--_notch-start) - var(--spacing-200));
+        border-block-start: none;
+        border-inline: none;
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset-block-start: 0;
+          inset-inline: 0;
+          border-block-start: var(--_outline-width) solid var(--_outline-color);
+          transition: transform var(--_label-motion);
+        }
+      }
+
+      // Sizes the notch: the floating label's text, invisible, with its padding.
+      .outline-notch-label {
+        visibility: hidden;
+        padding-inline: var(--_notch-padding);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        @include mixin.get-typography-not-important(body-small);
+      }
+
+      .outline-end {
+        flex: 1;
+        border-inline-start: none;
+        border-start-end-radius: var(--_container-shape-start-end);
+        border-end-end-radius: var(--_container-shape-end-end);
+      }
+
+      // The label. At rest it sits where the control's text starts, centred on the first line
+      // (`--field-label-rest-top`, the middle of the box unless a component sets it); floating, it
+      // is centred on the top edge inside the notch.
+      .outlined-label {
+        position: absolute;
+        z-index: 3;
+        inset-block-start: var(--field-label-rest-top, 50%);
+        inset-inline-start: calc(var(--_input-start, 0px) + var(--spacing-200));
+        max-width: calc(
+          100% - var(--_input-start, 0px) - var(--_input-end, 0px) - 2 * var(--spacing-200)
+        );
+        transform: translateY(-50%);
+        pointer-events: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: var(--_label-text-color);
+        @include mixin.get-typography-not-important(body-large);
+
+        .required {
+          color: var(--color-error);
+          padding-inline-start: var(--spacing-025);
+        }
+      }
+
+      &[data-label-ready] .outlined-label {
+        transition:
+          inset-block-start var(--_label-motion),
+          inset-inline-start var(--_label-motion),
+          max-width var(--_label-motion),
+          font-size var(--_label-motion),
+          line-height var(--_label-motion),
+          letter-spacing var(--_label-motion);
+      }
+
+      // The control and its prefix show once the label is out of the way, as in M3.
+      .input-wrapper {
+        transition: opacity var(--_label-motion);
+      }
+    }
+
+    &.has-label:not(.label-floating) .field-body .input-wrapper {
+      opacity: 0;
+    }
+
+    &.has-label.label-floating .field-body {
+      .outline-notch::before {
+        transform: scaleX(0);
+      }
+
+      .outlined-label {
+        inset-block-start: 0;
+        inset-inline-start: calc(var(--_notch-start) + var(--_notch-padding));
+        max-width: calc(
+          100% - var(--_notch-start) - 2 * var(--_notch-padding) - var(--spacing-200)
+        );
+        @include mixin.get-typography-not-important(body-small);
+      }
+    }
+
+    &:not(.disabled, .readonly, .focused) .field-body:hover {
+      --_outline-color: var(--color-on-surface);
+      --_label-text-color: var(--color-on-surface);
+    }
+
+    &.focused {
+      --_outline-width: 0.125rem;
+      --_label-text-color: var(--color-primary);
+    }
+
+    // M3 keeps the input text on-surface in error; the outline, label and helper turn red.
+    &.has-error {
+      --_label-text-color: var(--color-error);
+      --_input-text-color: var(--color-on-surface);
+
+      &:not(.disabled, .readonly, .focused) .field-body:hover {
+        --_outline-color: var(--color-on-error-container);
+        --_label-text-color: var(--color-on-error-container);
+      }
+    }
+
+    &.has-warning {
+      --_label-text-color: var(--color-warning);
+      --_input-text-color: var(--color-on-surface);
+
+      &:not(.disabled, .readonly, .focused, .has-error) .field-body:hover {
+        --_outline-color: var(--color-warning);
+        --_label-text-color: var(--color-warning);
+      }
+    }
+  }
+
+
+  // M3 disabled text field: label, value and helper in on-surface at 38%, the outline in
+  // on-surface at 12% and the container in on-surface at 4%. The filled field's bottom line
+  // stays at 38%, and the outlined field keeps no container.
   &.disabled {
-    .label {
+    .label,
+    .outlined-label {
       opacity: 0.38;
     }
-    --_input-text-color: var(--color-on-surface-variant);
-    --_outline-opacity: 0.38;
+    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
+    --_helper-text-color: var(--color-on-surface);
     --_helper-text-opacity: 0.38;
+    --_outline-color: var(--color-on-surface);
+    --_outline-opacity: 0.12;
     --_container-color: var(--color-on-surface);
-    --_container-opacity: 0.1;
+    --_container-opacity: 0.04;
     cursor: not-allowed;
+
+    &.variant-filled {
+      --_outline-opacity: 0.38;
+    }
+
+    &.variant-outlined {
+      --_container-color: transparent;
+      --_label-text-color: var(--color-on-surface);
+      --_input-text-color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
+    }
   }
 
   // A value to read, not a control switched off: the text, label and helper stay at full

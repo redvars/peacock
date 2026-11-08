@@ -15,6 +15,7 @@ export class BaseProgress extends mixinDelegatesAria(LitElement) {
   /** The value at which the task is complete. Defaults to `100`. */
   @property({ type: Number }) max = 100;
 
+  /** Shows ongoing activity with no known completion, ignoring `value`. */
   @property({ type: Boolean }) indeterminate = false;
 
   /**
@@ -23,8 +24,10 @@ export class BaseProgress extends mixinDelegatesAria(LitElement) {
    */
   @property({ type: String }) label?: string;
 
+  /** Help text shown below the progress indicator. */
   @property({ type: String, attribute: 'helper-text' }) helperText?: string;
 
+  /** Lays out the label and the indicator on one line instead of stacking them. */
   @property({ type: Boolean }) inline = false;
 
   /** Peacock's strings, for the fallback accessible name. */

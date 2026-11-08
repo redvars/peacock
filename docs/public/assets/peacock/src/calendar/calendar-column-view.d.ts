@@ -1,6 +1,6 @@
 import { LitElement, PropertyValues, TemplateResult } from 'lit';
 import { CalendarEvent } from './calendar-event.js';
-import type { WeekDay } from '@/__internal/utils/date.js';
+import type { WeekDay } from '../__internal/utils/date.js';
 /**
  * @internal
  *

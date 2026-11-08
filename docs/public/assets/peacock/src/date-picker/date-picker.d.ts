@@ -1,6 +1,6 @@
 import { LitElement, type TemplateResult } from 'lit';
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import { type WeekDay } from '@/__internal/utils/date.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
+import { type WeekDay } from '../__internal/utils/date.js';
 /**
  * @label Date Picker
  * @tag wc-date-picker
@@ -50,7 +50,9 @@ export declare class DatePicker extends LitElement {
     hideOutsideDays: boolean;
     /** Shows Today and Clear buttons below the calendar. */
     showActions: boolean;
+    /** Disables the calendar: no date can be focused or picked. */
     disabled: boolean;
+    /** Shows the selected date but stops the user changing it. */
     readonly: boolean;
     /** Return true for dates that cannot be picked, such as holidays. */
     isDateDisabled?: (iso: string) => boolean;

@@ -157,6 +157,7 @@ export class SignaturePad extends BaseInput {
   @property({ type: Boolean, reflect: true })
   error = false;
 
+  /** Error message shown below the pad while `error` is set; replaces the help text. */
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 

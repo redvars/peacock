@@ -30,6 +30,7 @@ export declare class Tab extends LitElement {
     static styles: import("lit").CSSResultGroup[];
     /** Whether this is the chosen tab. Reflects to `aria-selected` (or `aria-current` on a link tab). */
     selected: boolean;
+    /** Disables the tab: it can't be selected. */
     disabled: boolean;
     /** Why the tab is disabled; read to screen reader users. */
     disabledReason: string;
@@ -43,6 +44,7 @@ export declare class Tab extends LitElement {
      * Sets or retrieves the window or frame at which to target content.
      */
     target: string;
+    /** The URL to link to. When set, the tab renders as a link for page navigation. */
     href?: string;
     /**
      * Sets the delay for throttle in milliseconds. When unset (default), no throttle is applied.

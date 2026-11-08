@@ -1,5 +1,5 @@
 import { LitElement, type PropertyValues } from 'lit';
-import type { CloseReason } from '@/__internal/controllers/overlay-controller.js';
+import type { CloseReason } from '../__internal/controllers/overlay-controller.js';
 export type SnackbarIntent = 'info' | 'success' | 'warning' | 'danger';
 /** The reasons `close` carries for a snackbar. */
 export type SnackbarCloseReason = Extract<CloseReason, 'escape' | 'action' | 'timeout' | 'api'>;

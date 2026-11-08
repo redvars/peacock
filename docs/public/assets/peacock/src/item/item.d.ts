@@ -1,5 +1,5 @@
 import { LitElement } from 'lit';
-declare const Item_base: import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("@/__internal/mixins/element-internals.js").WithElementInternals>>;
+declare const Item_base: import("../__internal/mixins/mixin.js").MixinReturn<import("../__internal/mixins/mixin.js").MixinReturn<typeof LitElement, import("../__internal/mixins/element-internals.js").WithElementInternals>>;
 /**
  * @label Item
  * @tag wc-item

@@ -1,0 +1,67 @@
+---
+export const title = 'Infinite canvas';
+export const order = 150;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The canvas has no edges and no scrollbars: content can sit anywhere, including at negative coordinates, and
+  the dot grid runs on forever.
+</p>
+
+<ul>
+  <li><strong>Pan:</strong> drag the background, hold Space and drag, use the middle button, or scroll with a trackpad or wheel. Arrow keys pan when the canvas itself has focus.</li>
+  <li><strong>Zoom:</strong> hold Ctrl or Command and scroll, or pinch. Zoom stays between <code>min-zoom</code> and <code>max-zoom</code> (10% to 400% by default). <wc-kbd keys="+"></wc-kbd> and <wc-kbd keys="-"></wc-kbd> zoom in and out, <wc-kbd keys="mod+0"></wc-kbd> goes to 100%.</li>
+  <li><strong>Fit and back to start:</strong> <wc-kbd keys="shift+1"></wc-kbd> fits all content and <wc-kbd keys="shift+2"></wc-kbd> the selection; <wc-kbd keys="home"></wc-kbd> flies back to the start position. When nothing is in view, a "Back to content" button appears.</li>
+</ul>
+
+<p>
+  The canvas opens at <code>start-position</code>: <code>fit</code> (default) fits all content without zooming past
+  100%, <code>origin</code> puts canvas point 0,0 at the top-left corner, <code>first</code> centres the first node at
+  100%. Pass an exact <code>start-view</code> (<code>{'{ x, y, zoom }'}</code>) to restore a saved view: the
+  <code>viewport-change</code> event reports the camera once per frame while it moves and once with
+  <code>settled: true</code> when it stops.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+    <wc-button level="secondary" id="canvas-far">Go to "Archive"</wc-button>
+    <wc-button level="secondary" id="canvas-fit">Fit</wc-button>
+    <wc-button level="secondary" id="canvas-home">Back to start</wc-button>
+    <span id="canvas-view" style="align-self: center; font: var(--typography-code-small-font-size) / 1.4 monospace;"></span>
+  </div>
+  <wc-diagram id="canvas-diagram" start-position="first" style="height: 420px;">
+    <wc-diagram-controls slot="controls"></wc-diagram-controls>
+    <wc-diagram-minimap slot="minimap"></wc-diagram-minimap>
+  </wc-diagram>
+
+  <script is:inline>
+    (() => {
+      const diagram = document.querySelector('#canvas-diagram');
+      diagram.nodes = [
+        { id: 'inbox', position: { x: 0, y: 0 }, headline: 'Inbox', icon: 'inbox' },
+        { id: 'triage', position: { x: 320, y: 0 }, headline: 'Triage', icon: 'checklist' },
+        { id: 'later', position: { x: 1400, y: -900 }, headline: 'Someday', icon: 'schedule' },
+        { id: 'archive', position: { x: 3200, y: 1600 }, headline: 'Archive', icon: 'archive', intent: 'success' },
+      ];
+      diagram.edges = [
+        { id: 'a', source: 'inbox', target: 'triage' },
+        { id: 'b', source: 'triage', target: 'later', label: 'defer' },
+        { id: 'c', source: 'triage', target: 'archive', label: 'done' },
+      ];
+      const out = document.querySelector('#canvas-view');
+      diagram.addEventListener('viewport-change', e => {
+        const { x, y, zoom, settled } = e.detail;
+        if (settled) out.textContent = `view: x ${Math.round(x)}, y ${Math.round(y)}, zoom ${zoom.toFixed(2)}`;
+      });
+      document.querySelector('#canvas-far').addEventListener('click', () => diagram.zoomTo('archive'));
+      document.querySelector('#canvas-fit').addEventListener('click', () => diagram.fit());
+      document.querySelector('#canvas-home').addEventListener('click', () => diagram.home());
+    })();
+  </script>
+</DemoComponentCard>
+
+<p>
+  Only nodes and edges near the view are rendered, so large diagrams stay smooth while panning. The camera
+  flies between places, zooming out on long trips; under reduced motion it jumps instead.
+</p>

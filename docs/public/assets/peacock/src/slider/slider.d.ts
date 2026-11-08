@@ -1,5 +1,5 @@
-import type { FormRestoreState } from '@/__internal/mixins/form-associated.js';
-import type { Size } from '@/__internal/utils/size.js';
+import type { FormRestoreState } from '../__internal/mixins/form-associated.js';
+import type { Size } from '../__internal/utils/size.js';
 import BaseInput, { type ControlValidity } from '../input/BaseInput.js';
 /** Where the slider shows its value: on the thumb while it is used, after the track, or not. */
 export type SliderValueLabel = 'thumb' | 'end' | 'none';
@@ -56,6 +56,7 @@ export declare class Slider extends BaseInput {
     helperText: string;
     /** Shows the slider in its error state with `error-text`. */
     error: boolean;
+    /** Error message shown below the slider while `error` is set; replaces the help text. */
     errorText: string;
     /** Size of the track and thumb: `sm` (default), `md` or `lg`. */
     size: Size;
@@ -100,5 +101,7 @@ export declare class Slider extends BaseInput {
      */
     private snapToStep;
     private handleKeyDown;
+    /** A suggestion for a slider is a number. */
+    protected writeSuggestionValue(value: unknown): void;
     render(): import("lit-html").TemplateResult<1>;
 }

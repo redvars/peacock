@@ -1,4 +1,4 @@
-import ToggleBase from '@/__internal/toggle-base.js';
+import ToggleBase from '../__internal/toggle-base.js';
 /**
  * @label Switch
  * @tag wc-switch
@@ -31,6 +31,7 @@ export declare class Switch extends ToggleBase {
      * If true, the toggle has rounded corners. Defaults to `true`.
      */
     rounded: boolean;
+    /** Shows a check icon in the handle when on and a close icon when off. */
     withIcon: boolean;
     protected valueMissingText(): string;
     private keyDownHandler;

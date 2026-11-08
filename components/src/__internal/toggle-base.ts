@@ -94,12 +94,14 @@ export default abstract class ToggleBase extends BaseInput {
       this.controlTabIndex = this.getAttribute('tabindex') ?? undefined;
       this.removeAttribute('tabindex');
     }
+    this.addEventListener('click', this.hostClick);
     window.addEventListener('mouseup', this.windowMouseUp);
     window.addEventListener('keyup', this.windowKeyUp);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+    this.removeEventListener('click', this.hostClick);
     window.removeEventListener('mouseup', this.windowMouseUp);
     window.removeEventListener('keyup', this.windowKeyUp);
   }
@@ -246,6 +248,20 @@ export default abstract class ToggleBase extends BaseInput {
   }
 
   // ── Private ──────────────────────────────────────────────────────────────
+
+  /**
+   * A click aimed at the host itself, not at something inside it, comes from an external
+   * `<label for>`, a wrapping `<label>` or `host.click()`. Forward it to the inner native input, the
+   * control the shadow `<label>` activates, so it toggles like a click on the control. Clicks from
+   * inside (the control, the shadow label or slotted label content) start elsewhere and are left
+   * alone, so a click toggles once.
+   */
+  private hostClick = (event: MouseEvent) => {
+    if (event.composedPath()[0] !== this) return;
+    this.renderRoot
+      .querySelector<HTMLInputElement>('.input-native')
+      ?.click();
+  };
 
   private windowMouseUp = () => {
     if (this.isActive) this.isActive = false;

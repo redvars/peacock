@@ -134,6 +134,7 @@ export class MenuItem extends mixinBaseButton(
     this.renderRoot.querySelector<LitElement>('wc-item')?.requestUpdate();
   }
 
+  /** The item's tab index, managed by the parent menu's roving focus and applied to the inner control. */
   override get tabIndex() {
     return this._rovingTabIndex;
   }

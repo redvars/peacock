@@ -24,6 +24,7 @@ import { LitElement } from 'lit';
  * @cssprop --toolbar-gap - Gap between toolbar actions.
  * @cssprop --toolbar-icon-color - Color of icons inside the toolbar.
  * @cssprop --toolbar-content-color - Color of text inside the toolbar.
+ * @cssprop --toolbar-wrap - `wrap` lets actions flow onto more lines when the toolbar is narrow. Defaults to `nowrap`.
  *
  * @example
  * ```html

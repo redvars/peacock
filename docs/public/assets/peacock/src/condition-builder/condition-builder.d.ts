@@ -1,5 +1,10 @@
-import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import type { PeacockStrings } from '../__internal/i18n/strings.js';
 import { CbGroupBase } from './cb-group-base.js';
+/** `detail` of `describe`: the person's sentence and the provider's answer for it. */
+export interface ConditionBuilderDescribeDetail {
+    text: string;
+    value: unknown;
+}
 /**
  * @label Condition Builder
  * @tag wc-condition-builder
@@ -23,6 +28,13 @@ import { CbGroupBase } from './cb-group-base.js';
  *   ]
  * }</code></pre>
  * <p><code>id</code> is the element's id, <code>data</code> its <code>data-*</code> attributes. A rule's <code>value</code> is the rule's own <code>value</code> property when set, else the values of the controls slotted into it: an object keyed by <code>name</code> when every control has a name, else an array. Each node also has a non-enumerable <code>element</code>, the element it came from, which <code>JSON.stringify()</code> leaves out.</p>
+ * <p><b>Describe the condition.</b> With a provider that offers <code>parse</code> (ADR-030002), a
+ * box above the footer takes a sentence, such as "P1 incidents with no assignment group for over 30
+ * minutes". The provider gets it with <code>target: 'condition-builder'</code> and the fields in
+ * <code>ai-schema</code> (never record values), and its answer arrives as <code>describe</code>.
+ * Build the rules from it as you build any rule, with <code>suggested</code> on each
+ * <code>wc-cb-rule</code>: they show a Suggested badge until the person changes them, and removing
+ * one discards it. <code>no-ai</code> turns the box off.</p>
  * @tags condition-builder
  *
  * @fires {CustomEvent<{operator: 'and' | 'or'}>} operator-change - Dispatched when the user picks a different operator, on this or a nested group.
@@ -30,6 +42,7 @@ import { CbGroupBase } from './cb-group-base.js';
  * @fires {CustomEvent<{rule: CbRule, group: HTMLElement | null}>} rule-remove - Dispatched when a rule's remove button is clicked. Cancelable: unless prevented, the rule removes itself.
  * @fires {CustomEvent<{group: HTMLElement}>} add-rule - Dispatched when "Add rule" (or a nested group's "Add condition") is clicked.
  * @fires {CustomEvent<{group: HTMLElement}>} add-group - Dispatched when "Add inner group" is clicked, on this or a nested group.
+ * @fires {CustomEvent<ConditionBuilderDescribeDetail>} describe - The provider turned the person's sentence into conditions; build the rules from `detail.value`, marked `suggested`.
  *
  * @slot - Rules (`wc-cb-rule`) and groups (`wc-cb-group`).
  * @slot actions - Replaces the default "Add rule" and "Add inner group" buttons. Hidden while disabled or read-only.
@@ -57,5 +70,16 @@ export declare class ConditionBuilder extends CbGroupBase {
     static styles: import("lit").CSSResultGroup[];
     /** Overrides Peacock's strings for this instance only. */
     strings?: Partial<PeacockStrings>;
+    /**
+     * The fields a rule can use, sent to the provider with a described condition, such as
+     * `[{ key: 'priority', label: 'Priority', options: [...] }]`. Never record values.
+     */
+    aiSchema: unknown;
+    /** Turns off Describe the condition, even when the page's AI offers it. */
+    noAi: boolean;
+    private readonly ai;
+    private describe;
+    private onDescribeKey;
+    private renderDescribe;
     protected renderFooter(): import("lit-html").TemplateResult<1>;
 }
