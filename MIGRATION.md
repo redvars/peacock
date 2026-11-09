@@ -12,6 +12,7 @@ Peacock 4.0 cleans up the component APIs so that every component follows the sam
 - **Buttons:** `--button-container-padding-start` and `--button-container-padding-end` set uneven padding, and corner shape changes animate.
 - **Accessibility:** the menu buttons of `wc-split-button` and `wc-dropdown-button` now expose their label, `aria-haspopup` and `aria-expanded` to screen readers.
 - **Table:** a distinct sort icon for unsorted columns, and a hairline edge on pinned columns.
+- **Rich-text editors (4.2.1):** `wc-markdown-editor` and `wc-html-editor` no longer show a red "Read Only" or "Disabled" tag. Read-only keeps the text at full contrast and leaves only View source in the toolbar; disabled dims the toolbar and the text. `show-readonly-badge` adds a lock badge, as on `wc-code-editor`.
 
 ## New in 4.1
 
