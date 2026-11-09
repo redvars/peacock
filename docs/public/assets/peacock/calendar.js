@@ -3,10 +3,10 @@ import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { t as toZonedWallClock, a as addDays, b as addMonths, f as formatDate } from './utils-D92ldd1V.js';
 import { C as CalendarEvent } from './calendar-event-_OYdAT3c.js';
-import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
+import { I as I18nController } from './i18n-controller-CH4e9sju.js';
 import { A as isoToDate, B as dateToIso, w as weekStart } from './date-vFrYT1S9.js';
 import './locale-DEsJZCQG.js';
-import './strings-DnYjGbbc.js';
+import './strings-o6v6Hrmn.js';
 
 var css_248z = i`* {
   box-sizing: border-box;

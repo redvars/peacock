@@ -108,6 +108,10 @@ export default abstract class RichTextInput
   @property({ type: Boolean, attribute: 'hide-toolbar' })
   hideToolbar = false;
 
+  /** Shows a "Read only" badge in the toolbar while the editor is read-only or disabled. Not shown with `hide-toolbar`. */
+  @property({ type: Boolean, attribute: 'show-readonly-badge' })
+  showReadonlyBadge = false;
+
   /** Maximum number of characters of text. Typing stops there, and a count shows below. */
   @property({ type: Number, attribute: 'maxlength' })
   maxlength?: number;
@@ -638,17 +642,29 @@ export default abstract class RichTextInput
     if (!this.sourceView) event.preventDefault();
   };
 
+  /**
+   * The toolbar. A read-only or disabled editor shows no formatting tools, which could do
+   * nothing: only View source, and the "Read only" badge with `show-readonly-badge`.
+   */
   private renderToolbar() {
     if (this.hideToolbar) return nothing;
     const { editor, i18n } = this;
+    const locked = this.disabled || this.readonly;
     return html`<wc-toolbar
       class="toolbar"
       variant="flat"
       aria-label=${i18n.t('formattingToolbar')}
       @mousedown=${this.keepSelection}
     >
-      ${editor && !this.sourceView ? this.renderTools(editor) : nothing}
+      ${editor && !this.sourceView && !locked
+        ? this.renderTools(editor)
+        : nothing}
       <span class="toolbar-spacer" aria-hidden="true"></span>
+      ${locked && this.showReadonlyBadge
+        ? html`<span class="read-only-badge">
+            <wc-icon name="lock"></wc-icon>${i18n.t('readOnly')}
+          </span>`
+        : nothing}
       <wc-icon-button
         class="tool source-toggle"
         variant="text"
@@ -664,20 +680,6 @@ export default abstract class RichTextInput
         ><wc-icon name=${this.sourceIcon}></wc-icon
       ></wc-icon-button>
     </wc-toolbar>`;
-  }
-
-  protected renderStateTag() {
-    if (this.disabled) {
-      return html`<wc-tag class="state-tag" intent="danger"
-        >${this.i18n.t('disabled')}</wc-tag
-      >`;
-    }
-    if (this.readonly) {
-      return html`<wc-tag class="state-tag" intent="danger"
-        >${this.i18n.t('readOnlyTag')}</wc-tag
-      >`;
-    }
-    return nothing;
   }
 
   /** The count below the field, with `maxlength`. */
@@ -773,7 +775,6 @@ export default abstract class RichTextInput
                 ></wc-code-editor>
               </div>`
             : nothing}
-          ${this.renderStateTag()}
         </div>
       </wc-field>
       ${this.renderPopups()}

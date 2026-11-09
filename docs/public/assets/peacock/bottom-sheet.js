@@ -4,11 +4,11 @@ import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-NDIkZErE.js';
 import { o } from './style-map-CHOg6N_R.js';
-import { I as I18nController } from './i18n-controller-DJHsE1YH.js';
+import { I as I18nController } from './i18n-controller-CH4e9sju.js';
 import { O as OverlayController } from './overlay-controller-BOk-kfil.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './strings-DnYjGbbc.js';
+import './strings-o6v6Hrmn.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {

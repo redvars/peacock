@@ -6801,6 +6801,19 @@
           }
         },
         {
+          "name": "show-readonly-badge",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a \"Read only\" badge in the toolbar while the editor is read-only or disabled. Not shown with `hide-toolbar`.",
+          "fieldName": "showReadonlyBadge",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
           "name": "maxlength",
           "type": {
             "text": "number | undefined"
@@ -12336,7 +12349,7 @@
     "tag": "wc-html-editor",
     "rawTag": "html-editor",
     "summary": "A rich-text field whose value is HTML, with the same toolbar and mentions as the Markdown editor.",
-    "overview": "<p>Use it where the value has to be HTML, such as an email body or a CMS field. It works like\r\n<code>wc-markdown-editor</code>: a toolbar, a selection bubble, a slash menu, a block handle,\r\nmentions and a <strong>View source</strong> button that shows the HTML in\r\n<code>wc-code-editor</code>. HTML can store underline and resizable table columns, which\r\nMarkdown cannot, so the HTML editor offers them.</p>\r\n\r\n<p>Get and set the HTML through <code>value</code>; an empty editor has the value\r\n<code>''</code>. Only what the editor supports is kept: other tags, attributes and scripts in a\r\nvalue are dropped when it loads.</p>\r\n\r\n<p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by\r\ndefault) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting\r\n<code>suggestions</code>. A mention is stored as\r\n<code>&lt;span data-type=\"mention\" data-id=\"usr_142\" data-label=\"Ana Lima\"&gt;@Ana Lima&lt;/span&gt;</code>.</p>\r\n\r\n<p>The editor is form-associated, fires <code>input</code> and <code>change</code> with\r\n<code>{ value }</code>, and supports <code>required</code>, <code>maxlength</code>,\r\n<code>rows</code> and <code>max-rows</code>, as the Markdown editor does.</p>",
+    "overview": "<p>Use it where the value has to be HTML, such as an email body or a CMS field. It works like\r\n<code>wc-markdown-editor</code>: a toolbar, a selection bubble, a slash menu, a block handle,\r\nmentions and a <strong>View source</strong> button that shows the HTML in\r\n<code>wc-code-editor</code>. HTML can store underline and resizable table columns, which\r\nMarkdown cannot, so the HTML editor offers them.</p>\r\n\r\n<p>Get and set the HTML through <code>value</code>; an empty editor has the value\r\n<code>''</code>. Only what the editor supports is kept: other tags, attributes and scripts in a\r\nvalue are dropped when it loads.</p>\r\n\r\n<p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by\r\ndefault) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting\r\n<code>suggestions</code>. A mention is stored as\r\n<code>&lt;span data-type=\"mention\" data-id=\"usr_142\" data-label=\"Ana Lima\"&gt;@Ana Lima&lt;/span&gt;</code>.</p>\r\n\r\n<p>The editor is form-associated, fires <code>input</code> and <code>change</code> with\r\n<code>{ value }</code>, and supports <code>required</code>, <code>maxlength</code>,\r\n<code>rows</code> and <code>max-rows</code>, as the Markdown editor does.</p>\r\n\r\n<p><strong>Read-only and disabled.</strong> <code>readonly</code> keeps the text at full contrast\r\nand leaves only <strong>View source</strong> in the toolbar, which shows the HTML read-only.\r\n<code>disabled</code> dims the toolbar and the text. <code>show-readonly-badge</code> adds a\r\nlock badge to the toolbar in either state.</p>",
     "cssprop": "--mention-list-max-height - Maximum height of the mention suggestion list.",
     "fires": "mention - Dispatched when a suggestion is inserted as a mention.",
     "example": "```html\r\n<wc-html-editor\r\n  label=\"Email body\"\r\n  value=\"<p>Hello <strong>world</strong></p>\"\r\n></wc-html-editor>\r\n```",
@@ -12572,6 +12585,19 @@
           "default": "false",
           "description": "Hides the fixed toolbar; formatting stays available from the selection bubble, `/` and shortcuts.",
           "fieldName": "hideToolbar",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "show-readonly-badge",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a \"Read only\" badge in the toolbar while the editor is read-only or disabled. Not shown with `hide-toolbar`.",
+          "fieldName": "showReadonlyBadge",
           "inheritedFrom": {
             "name": "RichTextInput",
             "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
@@ -15245,7 +15271,7 @@
     "tag": "wc-markdown-editor",
     "rawTag": "markdown-editor",
     "summary": "A rich-text field whose value is Markdown: people format text as they type, and can view the Markdown source.",
-    "overview": "<p>Use it where a form needs more than a textarea, such as a description, notes or a release\r\nnote. People edit formatted text directly; the value is Markdown, so it stores as plain text and\r\nshows the same way in <code>wc-markdown</code>.</p>\r\n\r\n<ul>\r\n<li><strong>Toolbar.</strong> Text style, bold, italic, strikethrough, inline code, link, lists,\r\nchecklist, quote, code block, table, divider and mention. While the caret is in a table, a\r\n<em>Table</em> menu adds and removes rows and columns. <code>hide-toolbar</code> hides it.</li>\r\n<li><strong>Selection bubble.</strong> Selecting text shows the inline formats and link.</li>\r\n<li><strong>Slash menu.</strong> Typing <code>/</code> inserts a block; Markdown shortcuts such\r\nas <code>## </code>, <code>- </code> and <code>**bold**</code> work too.</li>\r\n<li><strong>Block handle.</strong> Hovering a block shows a handle to drag it and a + to insert\r\none below.</li>\r\n<li><strong>View source.</strong> The last toolbar button shows the Markdown, editable, in\r\n<code>wc-code-editor</code>.</li>\r\n</ul>\r\n\r\n<p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by\r\ndefault) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting\r\n<code>suggestions</code>, and <code>suggestions-loading</code> while you look. A chosen mention is\r\nstored as <code>[@Ana Lima](mention:usr_142)</code> and fires <code>mention</code>. Set\r\n<code>triggers=\"\"</code> to turn mentions off.</p>\r\n\r\n<p>The editor is form-associated. It fires <code>input</code> with <code>{ value }</code> as the\r\ncontent changes (after <code>debounce</code> milliseconds without typing) and <code>change</code>\r\nwhen focus leaves after an edit. <code>required</code> blocks an empty submit, and\r\n<code>maxlength</code> limits the number of characters and shows a count.</p>\r\n\r\n<p><code>rows</code> sets the height of the empty editor in lines; it grows with the text, up to\r\n<code>max-rows</code> if set, and then scrolls.</p>",
+    "overview": "<p>Use it where a form needs more than a textarea, such as a description, notes or a release\r\nnote. People edit formatted text directly; the value is Markdown, so it stores as plain text and\r\nshows the same way in <code>wc-markdown</code>.</p>\r\n\r\n<ul>\r\n<li><strong>Toolbar.</strong> Text style, bold, italic, strikethrough, inline code, link, lists,\r\nchecklist, quote, code block, table, divider and mention. While the caret is in a table, a\r\n<em>Table</em> menu adds and removes rows and columns. <code>hide-toolbar</code> hides it.</li>\r\n<li><strong>Selection bubble.</strong> Selecting text shows the inline formats and link.</li>\r\n<li><strong>Slash menu.</strong> Typing <code>/</code> inserts a block; Markdown shortcuts such\r\nas <code>## </code>, <code>- </code> and <code>**bold**</code> work too.</li>\r\n<li><strong>Block handle.</strong> Hovering a block shows a handle to drag it and a + to insert\r\none below.</li>\r\n<li><strong>View source.</strong> The last toolbar button shows the Markdown, editable, in\r\n<code>wc-code-editor</code>.</li>\r\n</ul>\r\n\r\n<p><strong>Mentions.</strong> Typing a character from <code>triggers</code> (<code>@</code> by\r\ndefault) fires <code>search</code> with <code>{ trigger, query }</code>; answer by setting\r\n<code>suggestions</code>, and <code>suggestions-loading</code> while you look. A chosen mention is\r\nstored as <code>[@Ana Lima](mention:usr_142)</code> and fires <code>mention</code>. Set\r\n<code>triggers=\"\"</code> to turn mentions off.</p>\r\n\r\n<p>The editor is form-associated. It fires <code>input</code> with <code>{ value }</code> as the\r\ncontent changes (after <code>debounce</code> milliseconds without typing) and <code>change</code>\r\nwhen focus leaves after an edit. <code>required</code> blocks an empty submit, and\r\n<code>maxlength</code> limits the number of characters and shows a count.</p>\r\n\r\n<p><code>rows</code> sets the height of the empty editor in lines; it grows with the text, up to\r\n<code>max-rows</code> if set, and then scrolls.</p>\r\n\r\n<p><strong>Read-only and disabled.</strong> <code>readonly</code> keeps the text at full contrast\r\nand leaves only <strong>View source</strong> in the toolbar, which shows the Markdown read-only.\r\n<code>disabled</code> dims the toolbar and the text. <code>show-readonly-badge</code> adds a\r\nlock badge to the toolbar in either state.</p>",
     "cssprop": "--mention-list-max-height - Maximum height of the mention suggestion list.",
     "fires": "mention - Dispatched when a suggestion is inserted as a mention.",
     "example": "```html\r\n<wc-markdown-editor\r\n  label=\"Description\"\r\n  value=\"## Steps\\n\\n1. Open **billing**\"\r\n></wc-markdown-editor>\r\n```",
@@ -15481,6 +15507,19 @@
           "default": "false",
           "description": "Hides the fixed toolbar; formatting stays available from the selection bubble, `/` and shortcuts.",
           "fieldName": "hideToolbar",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "show-readonly-badge",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a \"Read only\" badge in the toolbar while the editor is read-only or disabled. Not shown with `hide-toolbar`.",
+          "fieldName": "showReadonlyBadge",
           "inheritedFrom": {
             "name": "RichTextInput",
             "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
@@ -19794,6 +19833,19 @@
           "default": "false",
           "description": "Hides the fixed toolbar; formatting stays available from the selection bubble, `/` and shortcuts.",
           "fieldName": "hideToolbar",
+          "inheritedFrom": {
+            "name": "RichTextInput",
+            "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"
+          }
+        },
+        {
+          "name": "show-readonly-badge",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a \"Read only\" badge in the toolbar while the editor is read-only or disabled. Not shown with `hide-toolbar`.",
+          "fieldName": "showReadonlyBadge",
           "inheritedFrom": {
             "name": "RichTextInput",
             "module": "E:/git/redvars/peacock/components/src/__internal/rich-text/rich-text-input.ts"

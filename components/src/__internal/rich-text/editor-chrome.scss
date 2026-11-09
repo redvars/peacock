@@ -85,6 +85,22 @@
     flex: 1;
   }
 
+  // Shown with `show-readonly-badge` while the editor is read-only or disabled, as on
+  // wc-code-editor.
+  .read-only-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-050, 0.25rem);
+    padding: 0 var(--spacing-100, 0.5rem);
+    color: var(--color-on-surface-variant);
+
+    @include mixin.get-typography(label-small);
+
+    wc-icon {
+      --icon-size: 0.875rem;
+    }
+  }
+
   // ── Editing area ──────────────────────────────────────────────────────────
 
   .editor-area {
@@ -192,9 +208,17 @@
     border-radius: 0;
   }
 
-  :host([disabled]) .editor-area {
-    cursor: not-allowed;
-    opacity: 0.6;
+  // Disabled dims the toolbar and the text, as on wc-code-editor. Read-only keeps full contrast:
+  // the text is still meant to be read.
+  :host([disabled]) {
+    .toolbar,
+    .editor-area {
+      opacity: var(--state-disabled-content-opacity, 0.38);
+    }
+
+    .editor-area {
+      cursor: not-allowed;
+    }
   }
 
   :host([readonly]) .editor-area {
@@ -209,13 +233,6 @@
     );
 
     padding-block: var(--spacing-100, 0.5rem);
-  }
-
-  .state-tag {
-    position: absolute;
-    inset-block-start: var(--spacing-050, 0.25rem);
-    inset-inline-end: var(--spacing-050, 0.25rem);
-    z-index: 1;
   }
 
   // ── Anchors for popups ────────────────────────────────────────────────────

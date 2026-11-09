@@ -1,5 +1,5 @@
 import { i, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
-import { R as RichTextInput } from './rich-text-input-qn8ISNcx.js';
+import { R as RichTextInput } from './rich-text-input-cLDjULWP.js';
 import './property-B2TG3KEE.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
@@ -17,12 +17,12 @@ import './floating-controller-CABF4tBT.js';
 import './overlay-controller-BOk-kfil.js';
 import './mention--NNhafc7.js';
 import './url-BFUh__RO.js';
-import './BaseInput-BvS0tw15.js';
+import './BaseInput-CTOcQ_Y1.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-BHbg72PG.js';
-import './strings-DnYjGbbc.js';
+import './strings-o6v6Hrmn.js';
 import './suggestion-controller-BKMbUhgq.js';
-import './i18n-controller-DJHsE1YH.js';
+import './i18n-controller-CH4e9sju.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -249,6 +249,22 @@ img.ProseMirror-separator {
 
 .toolbar-spacer {
   flex: 1;
+}
+
+.read-only-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+  padding: 0 var(--spacing-100, 0.5rem);
+  color: var(--color-on-surface-variant);
+  font-family: var(--typography-label-small-font-family) !important;
+  font-size: var(--typography-label-small-font-size) !important;
+  font-weight: var(--typography-label-small-font-weight) !important;
+  line-height: var(--typography-label-small-line-height) !important;
+  letter-spacing: var(--typography-label-small-letter-spacing) !important;
+}
+.read-only-badge wc-icon {
+  --icon-size: 0.875rem;
 }
 
 .editor-area {
@@ -500,9 +516,12 @@ img.ProseMirror-separator {
   border-radius: 0;
 }
 
+:host([disabled]) .toolbar,
+:host([disabled]) .editor-area {
+  opacity: var(--state-disabled-content-opacity, 0.38);
+}
 :host([disabled]) .editor-area {
   cursor: not-allowed;
-  opacity: 0.6;
 }
 
 :host([readonly]) .editor-area {
@@ -514,13 +533,6 @@ img.ProseMirror-separator {
     var(--_rows, 4) * var(--_line) + 2 * var(--spacing-150, 0.75rem) + 4rem
   );
   padding-block: var(--spacing-100, 0.5rem);
-}
-
-.state-tag {
-  position: absolute;
-  inset-block-start: var(--spacing-050, 0.25rem);
-  inset-inline-end: var(--spacing-050, 0.25rem);
-  z-index: 1;
 }
 
 .slash-anchor,
@@ -992,6 +1004,11 @@ img.ProseMirror-separator {
  *
  * <p><code>rows</code> sets the height of the empty editor in lines; it grows with the text, up to
  * <code>max-rows</code> if set, and then scrolls.</p>
+ *
+ * <p><strong>Read-only and disabled.</strong> <code>readonly</code> keeps the text at full contrast
+ * and leaves only <strong>View source</strong> in the toolbar, which shows the Markdown read-only.
+ * <code>disabled</code> dims the toolbar and the text. <code>show-readonly-badge</code> adds a
+ * lock badge to the toolbar in either state.</p>
  *
  * @cssprop --rich-text-editor-background - Background behind the text.
  * @cssprop --prose-link-color - Color of links.

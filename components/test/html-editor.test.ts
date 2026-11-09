@@ -20,6 +20,17 @@ function tool(el: HtmlEditor, label: string): HTMLElement | null {
 }
 
 describe('HtmlEditor', () => {
+  it('leaves only View source in the toolbar while read-only', async () => {
+    const el = await fixture<HtmlEditor>(
+      html`<wc-html-editor readonly .value=${'<p>Hi</p>'}></wc-html-editor>`,
+    );
+    await el.updateComplete;
+    expect(tiptap(el).isEditable).to.equal(false);
+    expect(el.shadowRoot?.querySelector('wc-tag')).to.equal(null);
+    expect(tool(el, 'Underline')).to.equal(null);
+    expect(tool(el, 'View source')?.hasAttribute('disabled')).to.equal(false);
+  });
+
   it('has an empty value and is invalid while required and empty', async () => {
     const el = await fixture<HtmlEditor>(
       html`<wc-html-editor required></wc-html-editor>`,

@@ -339,12 +339,51 @@ describe('MarkdownEditor', () => {
       html`<wc-markdown-editor readonly value="text"></wc-markdown-editor>`,
     );
     expect(tiptap(el).isEditable).to.equal(false);
-    expect(tool(el, 'Bold').hasAttribute('disabled')).to.equal(true);
-    expect(root(el).querySelector('.state-tag')).to.exist;
+    expect(root(el).querySelector('wc-tag')).to.equal(null);
+    // Only View source is left in the toolbar, and it still works.
+    expect(tool(el, 'Bold')).to.equal(null);
+    expect(root(el).querySelector('.read-only-badge')).to.equal(null);
+    const source = tool(el, 'View source');
+    expect(source.hasAttribute('disabled')).to.equal(false);
+    source.click();
+    await el.updateComplete;
+    expect(
+      root(el).querySelector('wc-code-editor')?.hasAttribute('readonly'),
+    ).to.equal(true);
+    tool(el, 'View source').click();
+    await el.updateComplete;
 
     el.readonly = false;
     await el.updateComplete;
     expect(tiptap(el).isEditable).to.equal(true);
+    expect(tool(el, 'Bold')).to.exist;
+  });
+
+  it('shows no tools while disabled, and a disabled View source', async () => {
+    const el = await editor(
+      html`<wc-markdown-editor disabled value="text"></wc-markdown-editor>`,
+    );
+    expect(tiptap(el).isEditable).to.equal(false);
+    expect(root(el).querySelector('wc-tag')).to.equal(null);
+    expect(tool(el, 'Bold')).to.equal(null);
+    expect(tool(el, 'View source').hasAttribute('disabled')).to.equal(true);
+  });
+
+  it('shows the read-only badge with show-readonly-badge while locked', async () => {
+    const el = await editor(
+      html`<wc-markdown-editor show-readonly-badge></wc-markdown-editor>`,
+    );
+    const badge = () => root(el).querySelector('.toolbar .read-only-badge');
+    expect(badge()).to.equal(null);
+
+    el.readonly = true;
+    await el.updateComplete;
+    expect(badge()?.textContent?.trim()).to.equal('Read only');
+
+    el.readonly = false;
+    el.disabled = true;
+    await el.updateComplete;
+    expect(badge()).to.exist;
   });
 
   it('passes size to the source view', async () => {

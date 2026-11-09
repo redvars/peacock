@@ -38,6 +38,11 @@ import RichTextInput, { type RichTextContent } from '../__internal/rich-text/ric
  * <p><code>rows</code> sets the height of the empty editor in lines; it grows with the text, up to
  * <code>max-rows</code> if set, and then scrolls.</p>
  *
+ * <p><strong>Read-only and disabled.</strong> <code>readonly</code> keeps the text at full contrast
+ * and leaves only <strong>View source</strong> in the toolbar, which shows the Markdown read-only.
+ * <code>disabled</code> dims the toolbar and the text. <code>show-readonly-badge</code> adds a
+ * lock badge to the toolbar in either state.</p>
+ *
  * @cssprop --rich-text-editor-background - Background behind the text.
  * @cssprop --prose-link-color - Color of links.
  * @cssprop --prose-mention-background - Background of mention chips.

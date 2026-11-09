@@ -33,6 +33,11 @@ import styles from './html-editor.scss';
  * <code>{ value }</code>, and supports <code>required</code>, <code>maxlength</code>,
  * <code>rows</code> and <code>max-rows</code>, as the Markdown editor does.</p>
  *
+ * <p><strong>Read-only and disabled.</strong> <code>readonly</code> keeps the text at full contrast
+ * and leaves only <strong>View source</strong> in the toolbar, which shows the HTML read-only.
+ * <code>disabled</code> dims the toolbar and the text. <code>show-readonly-badge</code> adds a
+ * lock badge to the toolbar in either state.</p>
+ *
  * @cssprop --rich-text-editor-background - Background behind the text.
  * @cssprop --prose-link-color - Color of links.
  * @cssprop --prose-mention-background - Background of mention chips.

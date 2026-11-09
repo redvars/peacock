@@ -15,7 +15,6 @@ export const defaultStrings = {
   disabled: 'Disabled',
   readOnly: 'Read only',
   dragToReorder: 'Drag to reorder',
-  readOnlyTag: 'Read Only',
 
   // ── Intents (alert, notification) ────────────────────────────────────────
   intentNote: 'Note',

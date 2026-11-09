@@ -2,7 +2,7 @@ import { i, _ as __decorate, I as IndividualComponent, A, b } from './Individual
 import { n } from './property-B2TG3KEE.js';
 import { A as AiController } from './ai-controller-DR_Tg0sN.js';
 import { s as sparkle } from './sparkle-BmtM0vbq.js';
-import { a as CbGroupBase } from './cb-group-base-RfO8-Kc4.js';
+import { a as CbGroupBase } from './cb-group-base-DRviRLt_.js';
 import { c as css_248z$1 } from './cb-group-base-BBDUgxne.js';
 import './locale-DEsJZCQG.js';
 import './state-BCeDVCI9.js';
@@ -11,8 +11,8 @@ import './base-Cl6v8-BZ.js';
 import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 import './style-map-CHOg6N_R.js';
-import './i18n-controller-DJHsE1YH.js';
-import './strings-DnYjGbbc.js';
+import './i18n-controller-CH4e9sju.js';
+import './strings-o6v6Hrmn.js';
 
 var css_248z = i`.describe {
   display: flex;
