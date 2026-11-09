@@ -43,7 +43,7 @@ export const PRIVACY_URL = '/privacy';
 export const LICENSE_URL = '/license';
 
 // ── Analytics ─────────────────────────────────────────────────────────────
-export const GOOGLE_ANALYTICS_ID = 'G-KNH50V85RG';
+export const GOOGLE_TAG_MANAGER_ID = 'GTM-WFDGGBJ6';
 
 // ── Author ────────────────────────────────────────────────────────────────
 export const AUTHOR = {

@@ -1,7 +1,7 @@
 ---
 // The root HTML shell: search and social metadata (title, description, canonical, Open Graph,
 // Twitter card, JSON-LD from _data/seo.ts), fonts, analytics and the Peacock styles and loader.
-import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
 import '../styles/layout/base.scss';
 import { getScriptUrl, getFallbackScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
 import {
@@ -11,7 +11,7 @@ import {
   SITE_LOCALE,
   SOCIAL_IMAGE,
   AUTHOR,
-  GOOGLE_ANALYTICS_ID,
+  GOOGLE_TAG_MANAGER_ID,
 } from '../siteconfig';
 import {
   getCanonicalUrl,
@@ -100,7 +100,7 @@ const isProd = import.meta.env.PROD;
   </script>
   <link rel="sitemap" href="/sitemap-index.xml" />
 
-  <GoogleAnalytics id={GOOGLE_ANALYTICS_ID} />
+  <GoogleTagManager id={GOOGLE_TAG_MANAGER_ID} />
 
   <!-- Favicon -->
   <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
