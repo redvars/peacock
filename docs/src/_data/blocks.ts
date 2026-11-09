@@ -9,7 +9,9 @@ export type BlockGroupName =
   | 'Data Display'
   | 'Collaboration'
   | 'AI'
-  | 'Marketing';
+  | 'Marketing'
+  | 'Website'
+  | 'Portals';
 
 export type BlockPreview =
   | 'dashboard'
@@ -28,7 +30,23 @@ export type BlockPreview =
   | 'assistant'
   | 'home-ai'
   | 'incident-agent'
-  | 'agent-inbox';
+  | 'agent-inbox'
+  | 'landing'
+  | 'portal-home'
+  | 'product-page'
+  | 'blog-index'
+  | 'blog-post'
+  | 'docs-page'
+  | 'legal-page'
+  | 'not-found'
+  | 'waitlist'
+  | 'knowledge-article'
+  | 'search-results'
+  | 'service-catalog'
+  | 'my-cases'
+  | 'org-members'
+  | 'downloads'
+  | 'oidc-sign-in';
 
 export interface BlockDefinition {
   name: BlockPreview;
@@ -50,6 +68,8 @@ export const BLOCK_GROUPS: BlockGroupName[] = [
   'Collaboration',
   'AI',
   'Marketing',
+  'Website',
+  'Portals',
 ];
 
 export const BLOCKS: BlockDefinition[] = [
@@ -228,6 +248,166 @@ export const BLOCKS: BlockDefinition[] = [
     summary: 'A pricing page with a monthly and yearly toggle, three plan cards with a highlighted plan, and an FAQ accordion.',
     tags: ['marketing', 'cards', 'accordion'],
     icon: 'sell',
+    isNew: true,
+  },
+  {
+    name: 'landing',
+    label: 'Landing page',
+    href: '/blocks/landing/',
+    group: 'Marketing',
+    summary: 'A product landing page: a site header with a columns menu, a hero, a logo row, a feature grid, an FAQ, a call to action and a site footer.',
+    tags: ['marketing', 'site header', 'site footer'],
+    icon: 'web',
+    isNew: true,
+  },
+  {
+    name: 'portal-home',
+    label: 'Portal home',
+    href: '/blocks/portal-home/',
+    group: 'Portals',
+    summary: 'The home of a customer support portal: a site header with a Sign in link for visitors, a search hero, topic cards, popular articles and a slim footer.',
+    tags: ['portal', 'search', 'site header'],
+    icon: 'support_agent',
+    isNew: true,
+  },
+  {
+    name: 'product-page',
+    label: 'Product page',
+    href: '/blocks/product-page/',
+    group: 'Website',
+    summary: 'A product page: a hero with a click-to-play video, alternating feature rows with screenshots, a testimonial carousel and a call to action.',
+    tags: ['marketing', 'video', 'carousel'],
+    icon: 'storefront',
+    isNew: true,
+  },
+  {
+    name: 'blog-index',
+    label: 'Blog index',
+    href: '/blocks/blog-index/',
+    group: 'Website',
+    summary: 'A blog home: topic chips, a featured post, a grid of post cards with authors and dates, and pagination.',
+    tags: ['blog', 'cards', 'pagination'],
+    icon: 'newspaper',
+    isNew: true,
+  },
+  {
+    name: 'blog-post',
+    label: 'Blog post',
+    href: '/blocks/blog-post/',
+    group: 'Website',
+    summary: 'A blog post: breadcrumb, author and reading time, long-form text with code and a quote, an "On this page" list beside it, and related posts.',
+    tags: ['blog', 'article', 'anchor nav'],
+    icon: 'article',
+    isNew: true,
+  },
+  {
+    name: 'docs-page',
+    label: 'Docs page',
+    href: '/blocks/docs-page/',
+    group: 'Website',
+    summary: 'A documentation page: grouped side navigation, the page with a callout and code, previous and next links, and an "On this page" list.',
+    tags: ['docs', 'navigation drawer', 'anchor nav'],
+    icon: 'menu_book',
+    isNew: true,
+  },
+  {
+    name: 'legal-page',
+    label: 'Legal page',
+    href: '/blocks/legal-page/',
+    group: 'Website',
+    summary: 'A privacy policy: the date it last changed, a summary, numbered sections with a contents list beside them, and who to contact.',
+    tags: ['legal', 'article', 'anchor nav'],
+    icon: 'gavel',
+    isNew: true,
+  },
+  {
+    name: 'not-found',
+    label: 'Not found',
+    href: '/blocks/not-found/',
+    group: 'Website',
+    summary: 'A 404 page that helps people on: what happened in plain words, a search, and links to the places most people were looking for.',
+    tags: ['error', 'search', 'empty state'],
+    icon: 'travel_explore',
+    isNew: true,
+  },
+  {
+    name: 'waitlist',
+    label: 'Waitlist',
+    href: '/blocks/waitlist/',
+    group: 'Website',
+    summary: 'A waitlist sign-up: what people get beside a short validated form, a consent checkbox, and the confirmation that replaces the form.',
+    tags: ['form', 'marketing', 'validation'],
+    icon: 'hourglass_top',
+    isNew: true,
+  },
+  {
+    name: 'knowledge-article',
+    label: 'Knowledge article',
+    href: '/blocks/knowledge-article/',
+    group: 'Portals',
+    summary: 'A help article in a support portal: breadcrumb, steps, a "Was this helpful?" question, related articles and a way to open a case.',
+    tags: ['portal', 'article', 'feedback'],
+    icon: 'help',
+    isNew: true,
+  },
+  {
+    name: 'search-results',
+    label: 'Search results',
+    href: '/blocks/search-results/',
+    group: 'Portals',
+    summary: 'Portal search results with the query marked in titles and excerpts, filters by type with counts, pagination and a way out when nothing fits.',
+    tags: ['portal', 'search', 'highlight'],
+    icon: 'manage_search',
+    isNew: true,
+  },
+  {
+    name: 'service-catalog',
+    label: 'Service catalog',
+    href: '/blocks/service-catalog/',
+    group: 'Portals',
+    summary: 'An employee service catalog: categories, request cards with delivery times, and a request form in a side sheet.',
+    tags: ['portal', 'cards', 'side sheet'],
+    icon: 'shopping_bag',
+    isNew: true,
+  },
+  {
+    name: 'my-cases',
+    label: 'My cases',
+    href: '/blocks/my-cases/',
+    group: 'Portals',
+    summary: "A signed-in customer's support cases: open and resolved tabs, a table with status tags and last updates, and an Open a case action.",
+    tags: ['portal', 'table', 'tabs'],
+    icon: 'confirmation_number',
+    isNew: true,
+  },
+  {
+    name: 'org-members',
+    label: 'Organisation members',
+    href: '/blocks/org-members/',
+    group: 'Portals',
+    summary: 'The members of an organisation in an account portal: roles, invitations waiting for an answer, and an invite form in a side sheet.',
+    tags: ['portal', 'table', 'invitations'],
+    icon: 'group',
+    isNew: true,
+  },
+  {
+    name: 'downloads',
+    label: 'Downloads',
+    href: '/blocks/downloads/',
+    group: 'Portals',
+    summary: 'Downloads in an account portal: the latest release per platform with checksums, a licence key to copy, and earlier releases.',
+    tags: ['portal', 'downloads', 'copy button'],
+    icon: 'download',
+    isNew: true,
+  },
+  {
+    name: 'oidc-sign-in',
+    label: 'Sign in with a provider',
+    href: '/blocks/oidc-sign-in/',
+    group: 'Portals',
+    summary: 'Sign-in for a portal that keeps no passwords: Continue with Google or Microsoft, single sign-on found from a work email, and the terms.',
+    tags: ['auth', 'portal', 'single sign-on'],
+    icon: 'key',
     isNew: true,
   },
 ];

@@ -1,0 +1,128 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Waitlist block (pages/blocks/waitlist/). The page frame, header, footer and .site-* helpers come
+// from styles/blocks/site.scss. Columns follow the width of the demo, not the viewport.
+
+.waitlist-demo {
+  container-type: inline-size;
+}
+
+.waitlist-main {
+  justify-content: center;
+}
+
+.waitlist-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--spacing-500);
+
+  @container (min-width: 52rem) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-600);
+  }
+}
+
+.waitlist-pitch {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+}
+
+.waitlist-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  margin: var(--spacing-100) 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+  }
+}
+
+.waitlist-benefit-icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  wc-icon {
+    --icon-size: 1.25rem;
+  }
+}
+
+.waitlist-benefit-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.waitlist-card {
+  display: block;
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface);
+}
+
+.waitlist-card-inner {
+  padding: var(--spacing-400);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-250);
+  }
+}
+
+.waitlist-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+
+  // The panels are flex boxes, so `hidden` needs restating to win over display.
+  &[hidden] {
+    display: none;
+  }
+}
+
+.waitlist-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-075);
+}
+
+.waitlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+
+.waitlist-submit {
+  align-self: stretch;
+}
+
+.waitlist-done {
+  align-items: center;
+  padding-block: var(--spacing-400);
+  text-align: center;
+}
+
+.waitlist-done-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  wc-icon {
+    --icon-size: 2rem;
+  }
+}

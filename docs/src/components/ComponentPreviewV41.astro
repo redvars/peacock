@@ -244,3 +244,81 @@ const at = (left: number, top: number, width?: number, height?: number) =>
     <span class='cp41-preview'><span class='bp-line cp-strong cp-w2'></span><span class='bp-line cp-w1'></span></span>
   </div>
 )}
+
+{/* ── Site chrome ──────────────────────────────────────────── */}
+
+{name === 'site-header' && (
+  <div class='bp cp41-canvas cp41-site'>
+    <span class='cp41-site-bar'>
+      <i class='cp41-tile'></i>
+      <span class='bp-line cp-strong cp41-site-brand'></span>
+      <span class='bp-line cp41-site-link cp41-site-open'></span>
+      <span class='bp-line cp41-site-link cp41-site-current'></span>
+      <span class='bp-line cp41-site-link'></span>
+      <span class='bp-button cp41-site-cta'></span>
+    </span>
+    <span class='cp41-site-panel'>
+      <span class='cp41-site-col'><span class='bp-line cp-w1'></span><span class='bp-line'></span><span class='bp-line cp-w2'></span></span>
+      <span class='cp41-site-col'><span class='bp-line cp-w1'></span><span class='bp-line cp-w2'></span><span class='bp-line'></span></span>
+      <span class='cp41-site-feature'></span>
+    </span>
+  </div>
+)}
+
+{name === 'site-footer' && (
+  <div class='bp cp41-canvas cp41-site'>
+    <span class='cp41-site-page'></span>
+    <span class='cp41-site-footer'>
+      <span class='cp41-site-cols'>
+        <span class='cp41-site-col'><span class='cp41-site-brandrow'><i class='cp41-tile'></i><span class='bp-line cp-strong'></span></span><span class='bp-line'></span></span>
+        <span class='cp41-site-col'><span class='bp-line cp-strong cp-w1'></span><span class='bp-line'></span><span class='bp-line cp-w2'></span></span>
+        <span class='cp41-site-col'><span class='bp-line cp-strong cp-w1'></span><span class='bp-line cp-w2'></span><span class='bp-line'></span></span>
+        <span class='cp41-site-col'><span class='bp-line cp-strong cp-w1'></span><span class='bp-line'></span></span>
+      </span>
+      <span class='cp41-site-legal'><span class='bp-line cp-w2'></span><span class='cp41-site-social'><i></i><i></i><i></i></span></span>
+    </span>
+  </div>
+)}
+
+{/* ── Site content ─────────────────────────────────────────── */}
+
+{name === 'carousel' && (
+  <div class='bp cp41-canvas cp41-site'>
+    <span class='cp41-carousel-track'>
+      <span class='cp41-carousel-slide cp41-carousel-peek'></span>
+      <span class='cp41-carousel-slide'><span class='bp-line cp-w2'></span><span class='bp-line'></span><span class='cp41-carousel-who'><i></i><span class='bp-line cp-strong cp-w1'></span></span></span>
+      <span class='cp41-carousel-slide'><span class='bp-line'></span><span class='bp-line cp-w2'></span><span class='cp41-carousel-who'><i></i><span class='bp-line cp-strong cp-w1'></span></span></span>
+      <span class='cp41-carousel-slide cp41-carousel-peek'></span>
+    </span>
+    <span class='cp41-carousel-controls'>
+      <i class='cp41-carousel-arrow'></i>
+      <span class='cp41-carousel-dots'><i class='on'></i><i></i><i></i></span>
+      <i class='cp41-carousel-arrow'></i>
+    </span>
+  </div>
+)}
+
+{name === 'video' && (
+  <div class='bp cp41-canvas cp41-site cp-center'>
+    <span class='cp41-video'>
+      <span class='bp-line cp-w2 cp41-video-title'></span>
+      <i class='cp41-video-play'></i>
+      <span class='cp41-video-meta'><span class='bp-line cp-w2'></span><span class='bp-line cp-w1'></span></span>
+    </span>
+  </div>
+)}
+
+{name === 'highlight' && (
+  <div class='bp cp41-canvas cp41-site'>
+    <span class='cp41-result'>
+      <span class='bp-line cp-w1'></span>
+      <span class='cp41-text-row'><span class='cp41-mark cp-w1'></span><span class='bp-line cp-strong cp-w2'></span></span>
+      <span class='cp41-text-row'><span class='bp-line cp-w2'></span><span class='cp41-mark cp-w2'></span><span class='bp-line cp-w1'></span></span>
+    </span>
+    <span class='cp41-result'>
+      <span class='bp-line cp-w1'></span>
+      <span class='cp41-text-row'><span class='bp-line cp-strong cp-w1'></span><span class='cp41-mark cp-w1'></span></span>
+      <span class='cp41-text-row'><span class='bp-line'></span><span class='cp41-mark cp-w1'></span></span>
+    </span>
+  </div>
+)}

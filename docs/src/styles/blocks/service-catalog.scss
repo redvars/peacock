@@ -1,0 +1,118 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Service catalog block (pages/blocks/service-catalog/). The page frame, header and footer come
+// from styles/blocks/site.scss.
+
+.sc-main {
+  // The demo sits beside the docs sidebar, so the layout follows its width, not the viewport's.
+  container-type: inline-size;
+  gap: var(--spacing-300);
+}
+
+.sc-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-200) var(--spacing-400);
+}
+
+.sc-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.sc-search {
+  flex: 0 1 22rem;
+  min-width: 0;
+
+  @container (max-width: 36rem) {
+    flex-basis: 100%;
+  }
+}
+
+.sc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--spacing-200);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sc-item {
+  display: flex;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.sc-card {
+  width: 100%;
+}
+
+.sc-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-075);
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.sc-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-block-end: var(--spacing-100);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  wc-icon {
+    --icon-size: 1.5rem;
+  }
+}
+
+.sc-delivery {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-075);
+  margin-block-start: auto;
+  padding-block-start: var(--spacing-100);
+  color: var(--color-on-surface-variant);
+
+  wc-icon {
+    --icon-size: 1rem;
+  }
+}
+
+.sc-request {
+  margin-block-start: var(--spacing-100);
+}
+
+.sc-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+
+  wc-select,
+  wc-textarea,
+  wc-date-field {
+    width: 100%;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.sc-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+}

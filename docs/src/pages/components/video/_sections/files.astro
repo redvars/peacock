@@ -1,0 +1,24 @@
+---
+export const title = 'Video files';
+export const order = 200;
+---
+
+<p>
+  Any <code>src</code> that is not a YouTube or Vimeo link is a video file. It plays in the browser's
+  own player, with its keyboard-accessible controls, and loads nothing until the person presses play
+  (<code>preload="none"</code>). Put <code>&lt;track&gt;</code> elements in the video for captions
+  and subtitles; give every video with speech captions.
+</p>
+
+<pre><code>&lt;wc-video src="/media/tour.mp4" poster="/media/tour.webp" label="Product tour"&gt;
+  &lt;track kind="captions" src="/media/tour.en.vtt" srclang="en" label="English" default /&gt;
+  &lt;track kind="subtitles" src="/media/tour.de.vtt" srclang="de" label="Deutsch" /&gt;
+&lt;/wc-video&gt;</code></pre>
+
+<h3>Accessibility</h3>
+<p>
+  The poster is one button named "Play: <em>label</em>", so a screen reader announces what will play.
+  The player that replaces it takes <code>label</code> as its title and receives focus. Captions are
+  the app's to provide: on YouTube and Vimeo in the video site's own settings, and for files with
+  <code>&lt;track&gt;</code>.
+</p>

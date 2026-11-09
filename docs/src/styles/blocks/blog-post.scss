@@ -1,0 +1,165 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Blog post block (pages/blocks/blog-post/). The page frame, header, footer and .site-* helpers
+// come from styles/blocks/site.scss. Columns follow the width of the demo, not the viewport: the
+// "On this page" list shows beside the article only when there is room, and is left out on
+// narrow screens, where the article is short enough to scroll.
+
+.blogpost-demo {
+  container-type: inline-size;
+}
+
+.blogpost-main {
+  h4 {
+    margin: 0;
+  }
+}
+
+.blogpost-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  max-width: 48rem;
+}
+
+.blogpost-byline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  margin-top: var(--spacing-100);
+}
+
+.blogpost-byline-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.blogpost-hero {
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-high);
+
+  @include mixin.for-phone-only {
+    aspect-ratio: 16 / 10;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+}
+
+.blogpost-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--spacing-600);
+
+  @container (min-width: 60rem) {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+  }
+}
+
+.blogpost-body {
+  min-width: 0;
+
+  h3 {
+    margin-top: var(--spacing-300);
+  }
+
+  wc-code-highlighter {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+.blogpost-quote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin-block: var(--spacing-200);
+  padding-inline-start: var(--spacing-300);
+  border-inline-start: 4px solid var(--color-primary);
+
+  blockquote,
+  p {
+    margin: 0;
+  }
+}
+
+.blogpost-aside {
+  display: none;
+
+  @container (min-width: 60rem) {
+    display: block;
+  }
+}
+
+.blogpost-toc {
+  position: sticky;
+  top: var(--spacing-300);
+}
+
+.blogpost-related {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding-top: var(--spacing-400);
+  border-top: 1px solid var(--color-outline-variant);
+}
+
+.blogpost-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--spacing-300);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+  }
+}
+
+.blogpost-card {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--shape-corner-large);
+}
+
+.blogpost-card-media {
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface-container-high);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+}
+
+.blogpost-card-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+  padding: var(--spacing-250);
+  box-sizing: border-box;
+}
+
+.blogpost-card-author {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-050) var(--spacing-100);
+  padding-top: var(--spacing-050);
+}

@@ -125,6 +125,37 @@ export const defaultStrings = {
   previewTitle: (title: string): string => `Preview: ${title}`,
   svgPreview: 'SVG preview',
 
+  // ── Carousel and video ───────────────────────────────────────────────────
+  /** Spoken role of a carousel, read as "Testimonials, carousel". */
+  carouselRole: 'carousel',
+  /** Spoken role of each slide, read as "2 of 5, slide". */
+  carouselSlideRole: 'slide',
+  /** Name of each slide, for example "2 of 5". */
+  carouselSlideLabel: (position: string, total: string): string =>
+    `${position} of ${total}`,
+  previousSlide: 'Previous slide',
+  nextSlide: 'Next slide',
+  /** The autoplay button while slides rotate. */
+  stopSlideRotation: 'Stop slide rotation',
+  /** The autoplay button while slides are still. */
+  startSlideRotation: 'Start slide rotation',
+  /** Name of the group of picker buttons. */
+  chooseSlide: 'Choose slide',
+  /** A picker button, for example "Slide 2 of 5" or "Slides 4 to 6 of 9". */
+  carouselPicker: (first: string, last: string, total: string): string =>
+    first === last
+      ? `Slide ${first} of ${total}`
+      : `Slides ${first} to ${last} of ${total}`,
+  /** The counter shown instead of pickers when there are many pages, for example "3 of 9". */
+  carouselCounter: (page: string, total: string): string =>
+    `${page} of ${total}`,
+  /** Name of a video without `label`. */
+  video: 'Video',
+  /** The play button of a video, for example "Play: Build a portal in ten minutes". */
+  playVideo: (label: string): string => `Play: ${label}`,
+  videoFromYouTube: 'Plays from YouTube (no cookies)',
+  videoFromVimeo: 'Plays from Vimeo',
+
   // ── Navigation ───────────────────────────────────────────────────────────
   navigation: 'Navigation',
   mainNavigation: 'Main navigation',

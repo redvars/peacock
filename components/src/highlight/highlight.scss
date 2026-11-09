@@ -1,0 +1,25 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline;
+}
+
+mark {
+  border-radius: var(--shape-corner-extra-small);
+  padding-inline: 0.0625rem;
+  background-color: var(
+    --highlight-background,
+    var(--color-tertiary-container)
+  );
+  color: var(--highlight-color, var(--color-on-tertiary-container));
+  box-decoration-break: clone;
+}
+
+@media (forced-colors: active) {
+  mark {
+    background-color: Mark;
+    color: MarkText;
+  }
+}

@@ -1,0 +1,261 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalHeader from '../../../components/blocks/PortalHeader.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/org-members.scss';
+
+type Role = 'Owner' | 'Admin' | 'Member';
+
+interface Member {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  invited?: boolean;
+  // Hours since the person was last active, or since the invitation was sent.
+  hoursAgo: number;
+  lastActive: string;
+}
+
+const members: Member[] = [
+  { id: 'grace', name: 'Grace Hopper', email: 'grace@navylabs.example', role: 'Owner', hoursAgo: 0.1, lastActive: 'Now' },
+  { id: 'katherine', name: 'Katherine Johnson', email: 'katherine@navylabs.example', role: 'Admin', hoursAgo: 3, lastActive: '3 hours ago' },
+  { id: 'alan', name: 'Alan Kay', email: 'alan@navylabs.example', role: 'Member', hoursAgo: 26, lastActive: 'Yesterday' },
+  { id: 'margaret', name: 'Margaret Hamilton', email: 'margaret@navylabs.example', role: 'Member', hoursAgo: 120, lastActive: '5 days ago' },
+  { id: 'dennis', name: 'dennis@navylabs.example', email: 'dennis@navylabs.example', role: 'Member', invited: true, hoursAgo: 50, lastActive: '2 days ago' },
+  { id: 'barbara', name: 'barbara@ritchie.example', email: 'barbara@ritchie.example', role: 'Admin', invited: true, hoursAgo: 8, lastActive: '8 hours ago' },
+];
+
+const nav = [
+  { label: 'Members', icon: 'group' },
+  { label: 'Licences', icon: 'license' },
+  { label: 'Billing', icon: 'receipt_long' },
+  { label: 'Settings', icon: 'settings' },
+];
+
+const seats = 10;
+const invited = members.filter(member => member.invited).length;
+---
+
+<Layout
+  title='Organisation members'
+  description='The members of an organisation in an account portal built from Peacock components: a workspace switcher and side navigation, a members list with avatars, role selects, invitations with Resend and Revoke, relative last-active times and row menus, and an invite form in a side sheet.'
+>
+  <div class='block-demo site-demo org-demo'>
+    <PortalHeader portal='account' current='Organisation' signedIn />
+
+    <main class='site-main org-main'>
+      <div class='org-layout'>
+        <div class='org-side'>
+          <wc-workspace-switcher id='org-switcher' class='org-switcher' value='navy' hide-search></wc-workspace-switcher>
+          <nav aria-label='Organisation'>
+            <wc-list class='org-nav'>
+              {nav.map(item => (
+                <wc-list-item href='#' current={item.label === 'Members' ? true : undefined}>
+                  <wc-icon slot='start' name={item.icon}></wc-icon>
+                  {item.label}
+                </wc-list-item>
+              ))}
+            </wc-list>
+          </nav>
+        </div>
+
+        <section class='org-content' aria-labelledby='org-title'>
+          <header class='org-header'>
+            <div class='org-heading'>
+              <h2 id='org-title' class='text-headline-small'>Members</h2>
+              <p class='text-body-medium site-muted'>
+                {members.length - invited} members and {invited} invitations · {members.length} of {seats} seats used
+              </p>
+            </div>
+            <wc-button id='org-invite' level='primary'>
+              <wc-icon slot='icon' name='person_add'></wc-icon>
+              Invite people
+            </wc-button>
+          </header>
+
+          <div class='org-table'>
+            <div class='org-row org-row-head text-label-medium site-muted' aria-hidden='true'>
+              <span>Person</span>
+              <span>Role</span>
+              <span>Status</span>
+              <span>Last active</span>
+              <span></span>
+            </div>
+            <ul class='org-list' aria-label='Members'>
+              {members.map(member => (
+                <li class='org-row'>
+                  <div class='org-person'>
+                    <wc-avatar name={member.invited ? '' : member.name} size='sm'></wc-avatar>
+                    <span class='org-person-text'>
+                      <span class='text-body-medium'>{member.name}</span>
+                      {!member.invited && <span class='text-body-small site-muted'>{member.email}</span>}
+                    </span>
+                  </div>
+
+                  <div class='org-role'>
+                    {member.role === 'Owner'
+                      ? <wc-tag size='sm' accent='purple'>Owner</wc-tag>
+                      : (
+                        <wc-select size='sm' value={member.role} configAria={JSON.stringify({ 'aria-label': `Role of ${member.name}` })}>
+                          <wc-option value='Admin'>Admin</wc-option>
+                          <wc-option value='Member'>Member</wc-option>
+                        </wc-select>
+                      )}
+                  </div>
+
+                  <div class='org-status'>
+                    {member.invited
+                      ? (
+                        <>
+                          <wc-tag size='sm' intent='warning'>
+                            <wc-icon slot='icon' name='schedule_send'></wc-icon>
+                            Invited
+                          </wc-tag>
+                          <span class='org-invite-actions'>
+                            <wc-button variant='text' size='xs' class='org-resend' data-email={member.email}>Resend</wc-button>
+                            <wc-button variant='text' size='xs' color='danger' class='org-revoke' data-email={member.email}>Revoke</wc-button>
+                          </span>
+                        </>
+                      )
+                      : <wc-tag size='sm' intent='success'>Active</wc-tag>}
+                  </div>
+
+                  <div class='org-active text-body-small site-muted'>
+                    <span class='org-cell-label'>{member.invited ? 'Invited ' : 'Last active '}</span>
+                    {member.hoursAgo < 0.5
+                      ? <span>Now</span>
+                      : <wc-relative-time class='org-time' data-hours-ago={member.hoursAgo}>{member.lastActive}</wc-relative-time>}
+                  </div>
+
+                  <div class='org-menu'>
+                    <wc-icon-button id={`org-more-${member.id}`} variant='text' shape='round' aria-label={`More actions for ${member.name}`}>
+                      <wc-icon name='more_vert'></wc-icon>
+                    </wc-icon-button>
+                    <wc-menu class='org-row-menu' anchor={`org-more-${member.id}`} placement='bottom-end' aria-label={`Actions for ${member.name}`}>
+                      {member.invited
+                        ? (
+                          <wc-menu-item>
+                            <wc-icon slot='start' name='link'></wc-icon>
+                            Copy invitation link
+                          </wc-menu-item>
+                        )
+                        : (
+                          <wc-menu-item>
+                            <wc-icon slot='start' name='history'></wc-icon>
+                            View activity
+                          </wc-menu-item>
+                        )}
+                      {member.role === 'Owner'
+                        ? (
+                          <wc-menu-item>
+                            <wc-icon slot='start' name='swap_horiz'></wc-icon>
+                            Transfer ownership
+                          </wc-menu-item>
+                        )
+                        : (
+                          <>
+                            {!member.invited && (
+                              <wc-menu-item>
+                                <wc-icon slot='start' name='key'></wc-icon>
+                                Reset two-step verification
+                              </wc-menu-item>
+                            )}
+                            <wc-divider></wc-divider>
+                            <wc-menu-item>
+                              <wc-icon slot='start' name='person_remove'></wc-icon>
+                              Remove from organisation
+                            </wc-menu-item>
+                          </>
+                        )}
+                    </wc-menu>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <PortalFooter portal='account' />
+
+    <wc-side-sheet id='org-sheet' heading='Invite people'>
+      <wc-form id='org-form'>
+        <form class='org-form'>
+          <p class='text-body-medium site-muted'>They get an email with a link to join Navy Labs. Invitations expire after 7 days.</p>
+          <wc-textarea
+            name='emails'
+            label='Email addresses'
+            rows='3'
+            placeholder='name@example.com, name@example.com'
+            helper-text='Separate addresses with commas or new lines.'
+            required
+            autofocus
+          ></wc-textarea>
+          <wc-select name='role' label='Role' value='Member' helper-text='Admins can invite people and manage billing.'>
+            <wc-option value='Member'>Member</wc-option>
+            <wc-option value='Admin'>Admin</wc-option>
+          </wc-select>
+          <p class='text-body-small site-muted'>{seats - members.length} seats left on your plan.</p>
+          <div class='org-form-actions'>
+            <wc-button id='org-cancel' type='button' variant='text'>Cancel</wc-button>
+            <wc-button type='submit' level='primary'>
+              <wc-icon slot='icon' name='send'></wc-icon>
+              Send invitations
+            </wc-button>
+          </div>
+        </form>
+      </wc-form>
+    </wc-side-sheet>
+  </div>
+
+  <script is:inline>
+    {
+      const toast = title =>
+        window.dispatchEvent(new CustomEvent('peacock-toast', { detail: { title, intent: 'success', dismissible: true } }));
+
+      document.getElementById('org-switcher').workspaces = [
+        { value: 'navy', label: 'Navy Labs', description: 'Team · 10 seats' },
+        { value: 'hopper', label: 'Hopper Consulting', description: 'Free' },
+      ];
+
+      // Last-active times relative to now, so the demo never ages.
+      const now = Date.now();
+      for (const time of document.querySelectorAll('.org-time')) {
+        time.datetime = new Date(now - Number(time.dataset.hoursAgo) * 3600000).toISOString();
+      }
+
+      // Each row's more button toggles its menu.
+      for (const menu of document.querySelectorAll('.org-row-menu')) {
+        document.getElementById(menu.getAttribute('anchor')).addEventListener('click', () => {
+          menu.open = !menu.open;
+        });
+      }
+
+      for (const button of document.querySelectorAll('.org-resend')) {
+        button.addEventListener('click', () => toast(`Invitation sent again to ${button.dataset.email}`));
+      }
+      for (const button of document.querySelectorAll('.org-revoke')) {
+        button.addEventListener('click', () => {
+          button.closest('.org-row').remove();
+          toast(`Invitation to ${button.dataset.email} revoked`);
+        });
+      }
+
+      const sheet = document.getElementById('org-sheet');
+      const form = document.getElementById('org-form');
+      document.getElementById('org-invite').addEventListener('click', () => sheet.show());
+      document.getElementById('org-cancel').addEventListener('click', () => sheet.hide());
+      form.addEventListener('submit', event => {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        const count = String(event.detail.value.emails).split(/[\s,;]+/).filter(Boolean).length;
+        sheet.hide();
+        form.querySelector('form').reset();
+        toast(`${count} ${count === 1 ? 'invitation' : 'invitations'} sent`);
+      });
+    }
+  </script>
+</Layout>

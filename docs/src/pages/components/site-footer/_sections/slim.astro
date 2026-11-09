@@ -1,0 +1,21 @@
+---
+export const title = 'Slim footers';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Empty slots take no room. With only <code>legal</code> content the footer is one row, the right
+  size for a portal: the portal's footer text and a few links.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-site-footer>
+      <span slot='legal'>© Acme Corp. Support hours 08:00–18:00 CET.</span>
+      <a slot='legal' href='#'>Contact us</a>
+      <a slot='legal' href='#'>Privacy</a>
+      <a slot='legal' href='#'>Accessibility</a>
+    </wc-site-footer>
+  </div>
+</DemoComponentCard>

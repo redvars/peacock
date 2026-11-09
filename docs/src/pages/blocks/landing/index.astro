@@ -1,0 +1,169 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/landing.scss';
+
+interface Feature {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+interface Question {
+  question: string;
+  answer: string;
+}
+
+const features: Feature[] = [
+  { icon: 'table', title: 'Metadata first', text: 'Tables, forms, rules and access as records; code only where it pays.' },
+  { icon: 'shield', title: 'One check', text: 'Every read and write passes the same authorization, for members and visitors.' },
+  { icon: 'dns', title: 'Your instance', text: 'One customer, one database. Host it yourself or let us run it.' },
+];
+
+const logos = ['Acme', 'Globex', 'Initech', 'Umbrella', 'Hooli'];
+
+const questions: Question[] = [
+  { question: 'Can I host it myself?', answer: 'Yes. One command installs an instance on your own servers.' },
+  { question: 'Is there a price per user?', answer: 'No. Managed instances are priced by size and network, never by seat.' },
+  { question: 'When does it launch?', answer: 'Join the waitlist and we will write when your invitation is ready.' },
+];
+---
+
+<Layout
+  title='Landing page'
+  description='A product landing page built from Peacock components: a site header with a columns menu, a hero, a logo row, a feature grid, an FAQ accordion, a call to action and a site footer.'
+>
+  <div class='block-demo landing-demo'>
+    <wc-site-header class='landing-header' collapse-at='760'>
+      <a slot='brand' class='landing-brand' href='#'><span class='landing-mark' aria-hidden='true'>R</span>Redvars</a>
+      <wc-site-nav-menu label='Product' layout='columns'>
+        <wc-site-nav-group label='Build'>
+          <wc-site-nav-link href='#' description='Describe data, get secured screens'>
+            <wc-icon slot='icon' name='table'></wc-icon>Tables and forms
+          </wc-site-nav-link>
+          <wc-site-nav-link href='#' description='Business logic without servers'>
+            <wc-icon slot='icon' name='rule'></wc-icon>Rules
+          </wc-site-nav-link>
+        </wc-site-nav-group>
+        <wc-site-nav-group label='Run'>
+          <wc-site-nav-link href='#' description='One check on every read and write'>
+            <wc-icon slot='icon' name='shield'></wc-icon>Access
+          </wc-site-nav-link>
+          <wc-site-nav-link href='#' description='One command, your servers'>
+            <wc-icon slot='icon' name='dns'></wc-icon>Self-hosting
+          </wc-site-nav-link>
+        </wc-site-nav-group>
+        <wc-card slot='feature' variant='filled' href='#'>
+          <wc-card-content class='landing-feature'>
+            <wc-tag accent='red' size='sm'>New</wc-tag>
+            <span class='text-title-small'>Redvars 1.0 preview</span>
+            <span class='text-body-small block-muted'>See what ships in the first release.</span>
+          </wc-card-content>
+        </wc-card>
+      </wc-site-nav-menu>
+      <wc-site-nav-menu label='Solutions'>
+        <wc-site-nav-link href='#'>IT service management</wc-site-nav-link>
+        <wc-site-nav-link href='#'>Customer support</wc-site-nav-link>
+        <wc-site-nav-link href='#'>HR case management</wc-site-nav-link>
+      </wc-site-nav-menu>
+      <wc-site-nav-link href='#'>Docs</wc-site-nav-link>
+      <wc-site-nav-link href='#'>Blog</wc-site-nav-link>
+      <wc-site-nav-link href='#'>Pricing</wc-site-nav-link>
+      <wc-link-button slot='actions' variant='text' href='#'>Sign in</wc-link-button>
+      <wc-link-button slot='actions' href='#'>Join the waitlist</wc-link-button>
+    </wc-site-header>
+
+    <main class='landing-main'>
+      <section class='landing-hero'>
+        <div class='landing-hero-text'>
+          <wc-tag accent='red'>Coming soon</wc-tag>
+          <h2 class='text-display-small'>Business applications, without the plumbing.</h2>
+          <p class='text-body-large block-muted'>Describe tables, forms, rules and access as metadata. Redvars runs them as a secured application, on a laptop or on your own servers.</p>
+          <div class='landing-actions'>
+            <wc-link-button size='md' href='#'>Join the waitlist</wc-link-button>
+            <wc-link-button size='md' variant='outlined' href='#'>Read the docs</wc-link-button>
+          </div>
+        </div>
+        <div class='landing-hero-media' role='img' aria-label='Product screenshot'>
+          <div class='landing-window'>
+            <span></span><span></span><span></span>
+          </div>
+          <div class='landing-shot'>
+            <i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </section>
+
+      <section class='landing-logos' aria-label='Teams building on Redvars'>
+        {logos.map(logo => <span class='text-title-medium'>{logo}</span>)}
+      </section>
+
+      <section class='landing-section'>
+        <div class='landing-section-head'>
+          <span class='text-label-large landing-eyebrow'>Why Redvars</span>
+          <h2 class='text-headline-small'>Code less. Scale everywhere. Build natively.</h2>
+        </div>
+        <div class='landing-features'>
+          {features.map(feature => (
+            <wc-card variant='filled'>
+              <wc-card-content class='landing-feature-card'>
+                <wc-icon name={feature.icon}></wc-icon>
+                <h3 class='text-title-medium'>{feature.title}</h3>
+                <p class='text-body-medium block-muted'>{feature.text}</p>
+              </wc-card-content>
+            </wc-card>
+          ))}
+        </div>
+      </section>
+
+      <section class='landing-section landing-faq'>
+        <h2 class='text-headline-small'>Questions</h2>
+        <wc-accordion>
+          {questions.map(item => (
+            <wc-accordion-item>
+              <span slot='heading'>{item.question}</span>
+              <p>{item.answer}</p>
+            </wc-accordion-item>
+          ))}
+        </wc-accordion>
+      </section>
+
+      <section class='landing-section'>
+        <div class='landing-cta'>
+          <h2 class='text-headline-small'>Be first to build on Redvars.</h2>
+          <wc-link-button size='md' href='#'>Join the waitlist</wc-link-button>
+        </div>
+      </section>
+    </main>
+
+    <wc-site-footer>
+      <a slot='brand' class='landing-brand' href='#'><span class='landing-mark' aria-hidden='true'>R</span>Redvars</a>
+      <p slot='brand'>Code less. Scale everywhere. Build natively.</p>
+      <wc-site-footer-group label='Product'>
+        <a href='#'>Tables and forms</a>
+        <a href='#'>Portals</a>
+        <a href='#'>Pricing</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Developers'>
+        <a href='#'>Docs</a>
+        <a href='#'>Peacock</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Company'>
+        <a href='#'>About</a>
+        <a href='#'>Blog</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Support'>
+        <a href='#'>Your account</a>
+        <a href='#'>Open a case</a>
+      </wc-site-footer-group>
+      <span slot='legal'>© 2026 Redvars</span>
+      <a slot='legal' href='#'>Privacy</a>
+      <a slot='legal' href='#'>Terms</a>
+      <wc-icon-button slot='social' variant='text' shape='round' href='#' aria-label='Source code'>
+        <wc-icon name='code'></wc-icon>
+      </wc-icon-button>
+      <wc-icon-button slot='social' variant='text' shape='round' href='#' aria-label='Email us'>
+        <wc-icon name='mail'></wc-icon>
+      </wc-icon-button>
+    </wc-site-footer>
+  </div>
+</Layout>

@@ -1,0 +1,61 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-site-footer</code> ends a website or a portal page. Put the logo and a line about the
+  site in the <code>brand</code> slot, a <code>wc-site-footer-group</code> per column of links in the
+  default slot, copyright and policy links in <code>legal</code>, and icon buttons linking to the
+  site's profiles in <code>social</code>. Give each social button an <code>aria-label</code>; the
+  app supplies any brand marks, Peacock ships none.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-site-footer>
+      <a slot='brand' href='#'>
+        <img src='/assets/img/logo-plain.webp' alt='' width='32' height='32' style='border-radius: 8px;' />
+        Redvars
+      </a>
+      <p slot='brand'>Code less. Scale everywhere. Build natively.</p>
+      <wc-site-footer-group label='Product'>
+        <a href='#'>Tables and forms</a>
+        <a href='#'>Rules</a>
+        <a href='#'>Portals</a>
+        <a href='#'>Pricing</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Developers'>
+        <a href='#'>Docs</a>
+        <a href='#'>CLI reference</a>
+        <a href='#'>Peacock</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Company'>
+        <a href='#'>About</a>
+        <a href='#'>Blog</a>
+        <a href='#'>Contact</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Support'>
+        <a href='#'>Your account</a>
+        <a href='#'>Open a case</a>
+      </wc-site-footer-group>
+      <span slot='legal'>© 2026 Redvars</span>
+      <a slot='legal' href='#'>Privacy</a>
+      <a slot='legal' href='#'>Terms</a>
+      <wc-icon-button slot='social' variant='text' shape='round' href='#' aria-label='Source code'>
+        <wc-icon name='code'></wc-icon>
+      </wc-icon-button>
+      <wc-icon-button slot='social' variant='text' shape='round' href='#' aria-label='Email us'>
+        <wc-icon name='mail'></wc-icon>
+      </wc-icon-button>
+    </wc-site-footer>
+  </div>
+</DemoComponentCard>
+
+<h3>Landmarks</h3>
+<p>
+  The footer is the page's <code>contentinfo</code> landmark, and each group is a navigation
+  landmark named by its <code>label</code>, so a screen reader lists "Product", "Developers" and so
+  on among the page's landmarks.
+</p>

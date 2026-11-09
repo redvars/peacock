@@ -1,0 +1,35 @@
+---
+export const title = 'Narrow widths';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The footer responds to its own width, not the viewport's, so it fits a portal's content area or a
+  side panel as well as a full page. Below 48rem the brand sits above the columns, which wrap two to
+  a row, and links get a 44px tap height; below 24rem the columns stack. Every link stays visible,
+  one tap away, rather than folded into an accordion.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 375px;'>
+    <wc-site-footer>
+      <a slot='brand' href='#'>Redvars</a>
+      <p slot='brand'>A platform for secured business applications.</p>
+      <wc-site-footer-group label='Product'>
+        <a href='#'>Tables and forms</a>
+        <a href='#'>Portals</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Developers'>
+        <a href='#'>Docs</a>
+        <a href='#'>Peacock</a>
+      </wc-site-footer-group>
+      <wc-site-footer-group label='Company'>
+        <a href='#'>About</a>
+        <a href='#'>Blog</a>
+      </wc-site-footer-group>
+      <span slot='legal'>© 2026 Redvars</span>
+      <a slot='legal' href='#'>Privacy</a>
+    </wc-site-footer>
+  </div>
+</DemoComponentCard>

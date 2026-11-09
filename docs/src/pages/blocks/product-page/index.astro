@@ -1,0 +1,160 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/product-page.scss';
+
+interface FeatureRow {
+  eyebrow: string;
+  title: string;
+  text: string;
+  points: string[];
+  image: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Quote {
+  quote: string;
+  name: string;
+  role: string;
+}
+
+const rows: FeatureRow[] = [
+  {
+    eyebrow: 'Tables and forms',
+    title: 'Describe the data. Get the screens.',
+    text: 'Add a table and its columns as records. Redvars draws the list, the form and the API, and keeps them in step when the table changes.',
+    points: ['Lists with filters, sorting and saved views', 'Forms that follow the column types', 'A REST route for every table'],
+    image: '/assets/img/table.webp',
+    width: 1166,
+    height: 480,
+    alt: 'A list of records with column headings, a filter bar and paging',
+  },
+  {
+    eyebrow: 'Rules',
+    title: 'Business logic without servers.',
+    text: 'A rule is a condition and an action. It runs on every write, from a form, the API or an import, so the data stays right wherever it comes from.',
+    points: ['Conditions built from the columns you have', 'Runs before or after the record is saved', 'Every change to a rule is recorded'],
+    image: '/assets/img/condition-builder.webp',
+    width: 685,
+    height: 441,
+    alt: 'A condition builder with two conditions joined by "and"',
+  },
+  {
+    eyebrow: 'Flows',
+    title: 'Approvals and hand-offs, drawn as a flow.',
+    text: 'Draw who does what next. Each step reads and writes records through the same access check as everyone else.',
+    points: ['Approvals, waits and notifications', 'Steps that run as the person who asked', 'A history of every run'],
+    image: '/assets/img/flow-designer.webp',
+    width: 436,
+    height: 364,
+    alt: 'A flow designer with a start step, an approval and two branches',
+  },
+];
+
+const quotes: Quote[] = [
+  { quote: 'We moved our incident process off spreadsheets in a week, and nobody asked for the spreadsheets back.', name: 'Priya Natarajan', role: 'IT lead, Fernhill Logistics' },
+  { quote: 'Our customer portal runs on the same rules as the agents’ workspace. We stopped fixing the same bug twice.', name: 'Tomás Herrera', role: 'Support manager, Brightwater Energy' },
+  { quote: 'Self-hosting took one command and a coffee. Upgrades have been just as quiet.', name: 'Anouk de Vries', role: 'Platform engineer, Kestrel Health' },
+  { quote: 'Access is a record we can read. Our auditors finally understand who can see what.', name: 'Samuel Osei', role: 'Security officer, Northgate Insurance' },
+  { quote: 'The form follows the table. When we add a column, it is simply there, with the right checks.', name: 'Lena Fischer', role: 'Operations analyst, Alder & Finch' },
+];
+---
+
+<Layout
+  title='Product page'
+  description='A product page built from Peacock components: the shared site header, a hero with a click-to-play video, alternating feature rows with screenshots, a testimonial carousel showing three quotes at a time, a call to action and the site footer.'
+>
+  <div class='block-demo site-demo product-demo'>
+    <WebsiteHeader current='product' />
+
+    <main class='site-main product-main'>
+      <section class='product-hero'>
+        <div class='product-hero-text'>
+          <span class='text-label-large site-eyebrow'>Redvars platform</span>
+          <h2 class='text-display-small'>Build the business app. Skip the plumbing.</h2>
+          <p class='text-body-large site-muted'>
+            Tables, forms, rules and access are records. Redvars runs them as one secured application, with one check on every read and write.
+          </p>
+          <div class='product-actions'>
+            <wc-link-button size='md' href='#'>Join the waitlist</wc-link-button>
+            <wc-link-button size='md' variant='outlined' href='#'>Read the docs</wc-link-button>
+          </div>
+        </div>
+        <wc-video
+          class='product-video'
+          src='https://www.youtube.com/watch?v=aqz-KE-bpKQ'
+          label='Build a service portal in ten minutes'
+          duration='9:42'
+          poster='/assets/img/flow-designer.webp'
+        ></wc-video>
+      </section>
+
+      <section class='product-section' aria-labelledby='product-features-title'>
+        <div class='product-section-head'>
+          <span class='text-label-large site-eyebrow'>How it works</span>
+          <h2 id='product-features-title' class='text-headline-medium'>Three building blocks, one platform.</h2>
+        </div>
+        <div class='product-rows'>
+          {rows.map((row, index) => (
+            <div class:list={['product-row', { 'product-row-reverse': index % 2 === 1 }]}>
+              <div class='product-row-text'>
+                <span class='text-label-large site-eyebrow'>{row.eyebrow}</span>
+                <h3 class='text-headline-small'>{row.title}</h3>
+                <p class='text-body-large site-muted'>{row.text}</p>
+                <ul class='product-points'>
+                  {row.points.map(point => (
+                    <li class='text-body-medium'>
+                      <wc-icon name='check_circle' aria-hidden='true'></wc-icon>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <figure class='product-shot'>
+                <img src={row.image} alt={row.alt} width={row.width} height={row.height} loading='lazy' />
+              </figure>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class='product-section' aria-labelledby='product-quotes-title'>
+        <div class='product-section-head'>
+          <span class='text-label-large site-eyebrow'>Customers</span>
+          <h2 id='product-quotes-title' class='text-headline-medium'>What teams say.</h2>
+        </div>
+        <wc-carousel class='product-quotes' label='Testimonials' per-view='3'>
+          {quotes.map(item => (
+            <figure class='product-quote'>
+              <blockquote class='text-body-large'>“{item.quote}”</blockquote>
+              <figcaption class='product-quote-author'>
+                <wc-avatar name={item.name} size='sm'></wc-avatar>
+                <span class='product-quote-name'>
+                  <span class='text-title-small'>{item.name}</span>
+                  <span class='text-body-small site-muted'>{item.role}</span>
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </wc-carousel>
+      </section>
+
+      <section class='product-cta' aria-labelledby='product-cta-title'>
+        <div class='product-cta-text'>
+          <h2 id='product-cta-title' class='text-headline-small'>Ready when you are.</h2>
+          <p class='text-body-large'>Self-host with one command, or let us run your instance.</p>
+        </div>
+        <div class='product-actions'>
+          <wc-link-button size='md' href='#'>Join the waitlist</wc-link-button>
+          <wc-link-button size='md' variant='text' href='#'>Talk to us</wc-link-button>
+        </div>
+      </section>
+    </main>
+
+    <WebsiteFooter />
+  </div>
+</Layout>

@@ -1,0 +1,169 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalHeader from '../../../components/blocks/PortalHeader.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/downloads.scss';
+
+type Platform = 'windows' | 'macos' | 'linux';
+
+interface DownloadFile {
+  id: string;
+  label: string;
+  file: string;
+  size: string;
+  sha256: string;
+}
+
+const platforms: { value: Platform; label: string; files: DownloadFile[] }[] = [
+  {
+    value: 'windows',
+    label: 'Windows',
+    files: [
+      { id: 'win-x64', label: 'Installer for x64', file: 'redvars-1.0.0-x64.msi', size: '84 MB', sha256: '3f9a6c1e8b2d4f7a0c5e9b1d3a6f8c2e4b7d9a1c3e5f7b9d2a4c6e8f0b1d3a5c' },
+      { id: 'win-arm64', label: 'Installer for ARM64', file: 'redvars-1.0.0-arm64.msi', size: '81 MB', sha256: 'a7c2e9f4b1d6a3c8e5f2b9d4a1c6e3f8b5d2a9c4e1f6b3d8a5c2e7f4b9d1a6c3' },
+    ],
+  },
+  {
+    value: 'macos',
+    label: 'macOS',
+    files: [
+      { id: 'mac-universal', label: 'Disk image, Apple silicon and Intel', file: 'redvars-1.0.0-universal.dmg', size: '96 MB', sha256: 'c4e8a2f6b0d4c8e2a6f0b4d8c2e6a0f4b8d2c6e0a4f8b2d6c0e4a8f2b6d0c4e8' },
+    ],
+  },
+  {
+    value: 'linux',
+    label: 'Linux',
+    files: [
+      { id: 'linux-x64', label: 'Archive for x64', file: 'redvars-1.0.0-linux-x64.tar.gz', size: '72 MB', sha256: 'e1b5d9f3a7c1e5b9d3f7a1c5e9b3d7f1a5c9e3b7d1f5a9c3e7b1d5f9a3c7e1b5' },
+      { id: 'linux-arm64', label: 'Archive for ARM64', file: 'redvars-1.0.0-linux-arm64.tar.gz', size: '69 MB', sha256: '9d3f7b1e5a9c3d7f1b5e9a3c7d1f5b9e3a7c1d5f9b3e7a1c5d9f3b7e1a5c9d3f' },
+    ],
+  },
+];
+
+const earlier = [
+  { version: '0.9.2', date: '2026-09-02', label: '2 September 2026' },
+  { version: '0.9.1', date: '2026-07-15', label: '15 July 2026' },
+  { version: '0.9.0', date: '2026-06-03', label: '3 June 2026' },
+  { version: '0.8.0', date: '2026-03-24', label: '24 March 2026' },
+];
+
+const licenceKey = 'RVX-4F7K-9QM2-HT8D-7KQ2';
+const maskedKey = licenceKey.replace(/(?<=-)[A-Z0-9]{4}(?=-)/g, '••••');
+---
+
+<Layout
+  title='Downloads'
+  description='Downloads in an account portal built from Peacock components: the latest release in a card, a segmented button to pick the platform, download buttons with SHA-256 checksums and copy buttons, a masked licence key with Show and copy, and earlier releases in a list.'
+>
+  <div class='block-demo site-demo dl-demo'>
+    <PortalHeader portal='account' current='Downloads' signedIn />
+
+    <main class='site-main dl-main'>
+      <header class='dl-header'>
+        <h2 class='text-headline-medium'>Downloads</h2>
+        <p class='text-body-large site-muted'>Install Redvars on your own servers. Your licence key activates it.</p>
+      </header>
+
+      <wc-card variant='outlined' class='dl-release'>
+        <wc-card-content class='dl-release-content'>
+          <div class='dl-release-head'>
+            <div class='dl-release-title'>
+              <span class='site-eyebrow text-label-large'>Latest release</span>
+              <h3 class='text-title-large'>Redvars 1.0.0</h3>
+              <p class='text-body-medium site-muted'>Released <time datetime='2026-11-04'>4 November 2026</time> · <a href='#'>Release notes</a></p>
+            </div>
+            <wc-segmented-button-group id='dl-platform' label='Platform' value='windows'>
+              {platforms.map(platform => (
+                <wc-segmented-button value={platform.value}>{platform.label}</wc-segmented-button>
+              ))}
+            </wc-segmented-button-group>
+          </div>
+
+          {platforms.map(platform => (
+            <ul class='dl-files' data-platform={platform.value} aria-label={`${platform.label} downloads`} hidden={platform.value !== 'windows'}>
+              {platform.files.map(file => (
+                <li class='dl-file'>
+                  <div class='dl-file-main'>
+                    <span class='text-title-small'>{file.label}</span>
+                    <span class='text-body-small site-muted'>{file.file} · {file.size}</span>
+                  </div>
+                  <wc-link-button href='#' level='primary' download={file.file} aria-label={`Download ${file.label}`}>
+                    <wc-icon slot='icon' name='download'></wc-icon>
+                    Download
+                  </wc-link-button>
+                  <div class='dl-checksum'>
+                    <span class='text-label-medium site-muted'>SHA-256</span>
+                    <code id={`dl-sha-${file.id}`} class='dl-code'>{file.sha256}</code>
+                    <wc-copy-button for={`dl-sha-${file.id}`} label={`Copy SHA-256 checksum of ${file.file}`}></wc-copy-button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </wc-card-content>
+      </wc-card>
+
+      <div class='dl-columns'>
+        <section class='dl-licence' aria-labelledby='dl-licence-title'>
+          <h3 id='dl-licence-title' class='text-title-large'>Licence key</h3>
+          <p class='text-body-medium site-muted'>Team licence for Navy Labs · 10 seats · renews 1 March 2027</p>
+          <div class='dl-key'>
+            <code id='dl-key' class='dl-code dl-key-value' data-key={licenceKey} data-masked={maskedKey}>{maskedKey}</code>
+            <wc-button id='dl-key-toggle' variant='text'>
+              <wc-icon slot='icon' name='visibility'></wc-icon>
+              Show
+            </wc-button>
+            <wc-copy-button value={licenceKey} label='Copy licence key'></wc-copy-button>
+          </div>
+          <p class='text-body-small site-muted'>Keep the key private. Anyone with it can activate an instance on your licence.</p>
+        </section>
+
+        <section class='dl-earlier' aria-labelledby='dl-earlier-title'>
+          <h3 id='dl-earlier-title' class='text-title-large'>Earlier releases</h3>
+          <wc-list>
+            {earlier.map(release => (
+              <wc-list-item href='#'>
+                <wc-icon slot='start' name='inventory_2'></wc-icon>
+                Redvars {release.version}
+                <span slot='supporting-text'>Released <time datetime={release.date}>{release.label}</time></span>
+                <wc-icon slot='end' name='chevron_right'></wc-icon>
+              </wc-list-item>
+            ))}
+          </wc-list>
+        </section>
+      </div>
+    </main>
+
+    <PortalFooter portal='account' />
+  </div>
+
+  <script is:inline>
+    {
+      const group = document.getElementById('dl-platform');
+      const lists = [...document.querySelectorAll('.dl-files')];
+      const show = platform => {
+        for (const list of lists) list.hidden = list.dataset.platform !== platform;
+      };
+
+      // Start on the visitor's platform when the browser says which it is.
+      const os = (navigator.userAgentData?.platform || navigator.userAgent).toLowerCase();
+      const guess = os.includes('mac') ? 'macos' : os.includes('linux') && !os.includes('android') ? 'linux' : 'windows';
+      group.value = guess;
+      show(guess);
+      group.addEventListener('change', event => show(event.detail.value || 'windows'));
+
+      // Show or mask the licence key. The copy button copies the full key either way.
+      const key = document.getElementById('dl-key');
+      const toggle = document.getElementById('dl-key-toggle');
+      let visible = false;
+      toggle.addEventListener('click', () => {
+        visible = !visible;
+        key.textContent = visible ? key.dataset.key : key.dataset.masked;
+        toggle.innerHTML = visible
+          ? `<wc-icon slot='icon' name='visibility_off'></wc-icon>Hide`
+          : `<wc-icon slot='icon' name='visibility'></wc-icon>Show`;
+      });
+    }
+  </script>
+</Layout>

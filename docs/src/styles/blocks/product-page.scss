@@ -1,0 +1,190 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Product page block (pages/blocks/product-page/). The page frame, header, footer and .site-*
+// helpers come from styles/blocks/site.scss. Columns follow the width of the demo, not the
+// viewport, so the page also reads well in the narrower docs preview.
+
+.product-demo {
+  container-type: inline-size;
+}
+
+.product-main {
+  gap: var(--spacing-800);
+
+  @include mixin.for-phone-only {
+    gap: var(--spacing-500);
+  }
+}
+
+.product-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--spacing-400);
+
+  @container (min-width: 52rem) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: var(--spacing-600);
+  }
+}
+
+.product-hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-150);
+  margin-top: var(--spacing-100);
+}
+
+.product-video {
+  display: block;
+  width: 100%;
+  box-shadow: var(--elevation-level2);
+  border-radius: var(--shape-corner-large);
+}
+
+.product-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+
+.product-section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-075);
+  text-align: center;
+}
+
+.product-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+
+  @include mixin.for-phone-only {
+    gap: var(--spacing-500);
+  }
+}
+
+.product-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--spacing-300);
+
+  @container (min-width: 48rem) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-600);
+
+    &.product-row-reverse .product-shot {
+      order: -1;
+    }
+  }
+}
+
+.product-row-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+}
+
+.product-points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-100);
+  }
+
+  wc-icon {
+    --icon-size: 1.25rem;
+    flex: none;
+    color: var(--color-primary);
+  }
+}
+
+// Screenshots sit in a fixed 16:10 frame, so rows line up and nothing moves while they load.
+.product-shot {
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-high);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+}
+
+.product-quotes {
+  display: block;
+}
+
+.product-quote {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  height: 100%;
+  padding: var(--spacing-300);
+  box-sizing: border-box;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface);
+}
+
+.product-quote-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.product-quote-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-300);
+  }
+
+  .product-actions {
+    margin-top: 0;
+  }
+}
+
+.product-cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-075);
+}

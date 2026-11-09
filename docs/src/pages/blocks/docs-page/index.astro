@@ -1,0 +1,171 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/docs-page.scss';
+
+interface NavItem {
+  label: string;
+  current?: boolean;
+}
+
+interface NavGroup {
+  icon: string;
+  label: string;
+  expanded?: boolean;
+  items: NavItem[];
+}
+
+const groups: NavGroup[] = [
+  {
+    icon: 'rocket_launch',
+    label: 'Get started',
+    expanded: true,
+    items: [{ label: 'Introduction' }, { label: 'Install an instance' }, { label: 'Your first app' }],
+  },
+  {
+    icon: 'table',
+    label: 'Build',
+    items: [{ label: 'Tables and columns' }, { label: 'Forms and lists' }, { label: 'Rules' }, { label: 'Access rules', current: true }],
+  },
+  {
+    icon: 'dns',
+    label: 'Run',
+    items: [{ label: 'Self-hosting' }, { label: 'Upgrades' }, { label: 'Backups' }],
+  },
+];
+
+const rule = `{
+  "table": "incident",
+  "operation": "write",
+  "roles": ["agent"],
+  "condition": "assignment_group IN current_user.groups"
+}`;
+---
+
+<Layout
+  title='Docs page'
+  description='A documentation page built from Peacock components: the shared site header, a navigation drawer with expandable groups that becomes a modal menu on narrow screens, a breadcrumb, text with an alert as a callout and a highlighted code sample, previous and next cards, an "On this page" anchor nav and the site footer.'
+>
+  <div class='block-demo site-demo docs-demo'>
+    <WebsiteHeader current='docs' />
+
+    <div class='docs-layout'>
+      <div class='docs-sidebar'>
+        <wc-button id='docs-nav-toggle' class='docs-menu-button' variant='outlined' aria-haspopup='dialog'>
+          <wc-icon slot='icon' name='menu'></wc-icon>
+          Docs menu
+        </wc-button>
+        <wc-navigation-drawer id='docs-nav' class='docs-nav' open headline='Documentation'>
+          {groups.map(group => (
+            <wc-navigation-drawer-group expanded={group.expanded}>
+              <wc-icon slot='icon' name={group.icon}></wc-icon>
+              <span slot='label'>{group.label}</span>
+              {group.items.map(item => (
+                <wc-navigation-drawer-item href='#' current={item.current}>{item.label}</wc-navigation-drawer-item>
+              ))}
+            </wc-navigation-drawer-group>
+          ))}
+        </wc-navigation-drawer>
+      </div>
+
+      <main class='site-main docs-main'>
+        <wc-breadcrumb label='Breadcrumb'>
+          <wc-breadcrumb-item href='#'>Docs</wc-breadcrumb-item>
+          <wc-breadcrumb-item href='#'>Build</wc-breadcrumb-item>
+          <wc-breadcrumb-item current>Access rules</wc-breadcrumb-item>
+        </wc-breadcrumb>
+
+        <div class='docs-header'>
+          <h2 class='text-headline-large'>Access rules</h2>
+          <p class='text-body-large site-muted'>Decide who may read, create, change and delete the records of a table.</p>
+        </div>
+
+        <article id='docs-body' class='site-prose docs-body text-body-large'>
+          <h3 id='docs-how' class='text-title-large'>How the check works</h3>
+          <p>
+            Every read and write goes through one check, whether it comes from a form, a list, a rule, a flow, the portal or the API. The check
+            finds the access rules for the table and the operation, and allows the request when one of them matches.
+          </p>
+          <p>Without a matching rule, the request is refused. A new table is closed until you open it.</p>
+
+          <wc-alert intent='info' label='Good to know'>
+            Administrators pass every check. Test your rules with an ordinary account, or use <strong>View as</strong> on the person's record.
+          </wc-alert>
+
+          <h3 id='docs-write' class='text-title-large'>Write a rule</h3>
+          <p>A rule names a table, an operation, the roles it applies to and an optional condition. This one lets agents change the incidents of their own groups:</p>
+          <wc-code-highlighter language='json' label='incident-write.json' line-numbers value={rule}></wc-code-highlighter>
+          <ol>
+            <li>Open <strong>Access rules</strong> and choose <strong>New</strong>.</li>
+            <li>Pick the table and the operation.</li>
+            <li>Add the roles, then the condition if the rule covers only some records.</li>
+            <li>Save. The rule applies to the next request.</li>
+          </ol>
+
+          <h3 id='docs-conditions' class='text-title-large'>Conditions</h3>
+          <p>
+            A condition uses the columns of the table and the person making the request. It becomes part of the database query, so records
+            outside it are never loaded: they do not show in totals, charts or search results either.
+          </p>
+
+          <h3 id='docs-test' class='text-title-large'>Test a rule</h3>
+          <p>
+            Open any record and choose <strong>Why can I see this?</strong> to see the rule that allowed it. Every change to a rule is recorded,
+            with who made it and when.
+          </p>
+        </article>
+
+        <nav class='docs-pager' aria-label='Previous and next page'>
+          <wc-card variant='outlined' href='#'>
+            <wc-card-content class='docs-pager-card'>
+              <span class='text-label-large site-muted docs-pager-caption'>
+                <wc-icon name='arrow_back' aria-hidden='true'></wc-icon>Previous
+              </span>
+              <span class='text-title-medium'>Rules</span>
+            </wc-card-content>
+          </wc-card>
+          <wc-card variant='outlined' href='#' class='docs-pager-next'>
+            <wc-card-content class='docs-pager-card'>
+              <span class='text-label-large site-muted docs-pager-caption'>
+                Next<wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+              </span>
+              <span class='text-title-medium'>Self-hosting</span>
+            </wc-card-content>
+          </wc-card>
+        </nav>
+      </main>
+
+      <aside class='docs-aside'>
+        <wc-anchor-nav class='docs-toc' for='docs-body' headline='On this page'></wc-anchor-nav>
+      </aside>
+    </div>
+
+    <WebsiteFooter />
+  </div>
+
+  <script is:inline>
+    {
+      // The drawer sits beside the page when there is room. On a narrow demo it becomes a modal
+      // drawer that the "Docs menu" button opens.
+      const demo = document.querySelector('.docs-demo');
+      const drawer = document.getElementById('docs-nav');
+      const toggle = document.getElementById('docs-nav-toggle');
+      const apply = () => {
+        const wide = demo.clientWidth >= 768;
+        const variant = wide ? 'standard' : 'modal';
+        if (drawer.variant === variant) return;
+        drawer.variant = variant;
+        drawer.open = wide;
+      };
+      customElements.whenDefined('wc-navigation-drawer').then(() => {
+        apply();
+        new ResizeObserver(apply).observe(demo);
+      });
+      toggle.addEventListener('click', () => {
+        drawer.open = true;
+      });
+    }
+  </script>
+</Layout>

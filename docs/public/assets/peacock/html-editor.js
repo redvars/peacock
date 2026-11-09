@@ -1,5 +1,5 @@
 import { i, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
-import { R as RichTextInput } from './rich-text-input-cLDjULWP.js';
+import { R as RichTextInput } from './rich-text-input-FjTrfe0N.js';
 import './property-B2TG3KEE.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
@@ -17,12 +17,12 @@ import './floating-controller-CABF4tBT.js';
 import './overlay-controller-BOk-kfil.js';
 import './mention--NNhafc7.js';
 import './url-BFUh__RO.js';
-import './BaseInput-CTOcQ_Y1.js';
+import './BaseInput-BqE3rprN.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-BHbg72PG.js';
-import './strings-o6v6Hrmn.js';
+import './strings-MXyrGrNs.js';
 import './suggestion-controller-BKMbUhgq.js';
-import './i18n-controller-CH4e9sju.js';
+import './i18n-controller-DLJcJ5gO.js';
 
 var css_248z = i`* {
   box-sizing: border-box;

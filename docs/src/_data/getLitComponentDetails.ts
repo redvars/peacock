@@ -55,6 +55,10 @@ export function getAllComponentsForShowcase() {
       'step',
       'tree-item',
       'assistant-step',
+      'site-nav-menu',
+      'site-nav-group',
+      'site-nav-link',
+      'site-footer-group',
     ].includes(component.rawTag);
   });
 }

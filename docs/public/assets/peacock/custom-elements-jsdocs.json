@@ -2205,6 +2205,124 @@
     }
   },
   {
+    "label": "Carousel",
+    "tag": "wc-carousel",
+    "rawTag": "carousel",
+    "summary": "A row of slides shown one or a few at a time, with previous and next buttons and pickers.",
+    "overview": "<p>Carousel shows its children as slides, <code>per-view</code> at a time, for screenshots on a\nproduct page or a row of testimonials. The slides scroll with snap points, so touch swipe,\ntrackpads and the scroll wheel work as they do anywhere else, and previous, next and picker\nbuttons sit under them. With more than seven pages a \"3 of 9\" counter replaces the pickers.</p>\n<p>Each slide is never narrower than 15rem, so a carousel of three drops to two and then one as its\ncontainer narrows. Slides out of view are <code>inert</code>, so Tab never reaches a link the\nperson cannot see.</p>\n<p>Slides do not move on their own unless you set <code>autoplay</code>, and then a button to stop\nthem comes first in the controls. Rotation pauses while the pointer rests on the carousel or focus\nis inside it, stops for good when the person uses any control, and does not start at all when the\nperson asks for reduced motion.</p>",
+    "slot": "- The slides: any elements, one per slide. Give a slide an `aria-label` to name it; otherwise it is named \"2 of 5\".",
+    "csspart": "controls - The row of buttons under the slides.",
+    "cssprop": "--carousel-gap - Space between slides. Defaults to `--spacing-200`.",
+    "fires": "change - Dispatched when the slides in view change because the person used a control or scrolled, or autoplay moved on.",
+    "example": "```html\n<wc-carousel label=\"Product screenshots\" autoplay loop>\n  <img src=\"/img/workspace.webp\" alt=\"The ITSM workspace\" />\n  <img src=\"/img/portal.webp\" alt=\"The customer portal\" />\n</wc-carousel>\n```",
+    "tags": "media layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Space between slides. Defaults to `--spacing-200`.",
+          "name": "--carousel-gap"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The carousel region.",
+          "name": "base"
+        },
+        {
+          "description": "The scrolling row of slides.",
+          "name": "track"
+        },
+        {
+          "description": "The row of buttons under the slides.",
+          "name": "controls"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The slides: any elements, one per slide. Give a slide an `aria-label` to name it; otherwise it is named \"2 of 5\".",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<CarouselChangeDetail>"
+          },
+          "description": "Dispatched when the slides in view change because the person used a control or scrolled, or autoplay moved on."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "What the slides are, such as \"Testimonials\": the name of the carousel region.",
+          "fieldName": "label"
+        },
+        {
+          "name": "per-view",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "How many slides show at once. Fewer show when the carousel is too narrow for them.",
+          "fieldName": "perView"
+        },
+        {
+          "name": "index",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "The first slide in view, from 0.",
+          "fieldName": "index"
+        },
+        {
+          "name": "loop",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether previous and next wrap around from the last page to the first and back.",
+          "fieldName": "loop"
+        },
+        {
+          "name": "autoplay",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the slides move on by themselves. A stop button comes first in the controls.",
+          "fieldName": "autoplay"
+        },
+        {
+          "name": "interval",
+          "type": {
+            "text": "number"
+          },
+          "default": "5000",
+          "description": "How long each page shows while `autoplay` runs, in milliseconds.",
+          "fieldName": "interval"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-carousel",
+      "customElement": true,
+      "rawTag": {
+        "name": "carousel",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "CB Divider",
     "tag": "wc-cb-divider",
     "rawTag": "cb-divider",
@@ -12220,6 +12338,73 @@
       "customElement": true,
       "rawTag": {
         "name": "grid",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Highlight",
+    "tag": "wc-highlight",
+    "rawTag": "highlight",
+    "summary": "Marks the words of a search query in a piece of text.",
+    "overview": "<p>Highlight shows its text with each word of <code>query</code> marked, for search results in a\nknowledge base, a site search or a filtered list. Words match on their own, in any order,\nignoring case and accents, so \"resume\" marks \"Résumé\".</p>\n<p>It reads its children as plain text and never parses HTML, so text from records or a search\nindex is safe to put in it. When the server already knows where the matches are, set\n<code>ranges</code> instead of <code>query</code>.</p>\n<p>Marks use the tertiary container colour, so they differ from links and from the selection.</p>",
+    "slot": "- The text. Only its text content is used; markup in it is not rendered.",
+    "csspart": "mark - Each marked run of text, a `<mark>` element.",
+    "cssprop": "--highlight-color - Text colour of the marks. Defaults to `--color-on-tertiary-container`.",
+    "example": "```html\n<wc-highlight query=\"reset password\">\n  If you forgot your password, choose Forgot password and reset it from the link we email you.\n</wc-highlight>\n```",
+    "tags": "display search",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the marks. Defaults to `--color-tertiary-container`.",
+          "name": "--highlight-background"
+        },
+        {
+          "description": "Text colour of the marks. Defaults to `--color-on-tertiary-container`.",
+          "name": "--highlight-color"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "Each marked run of text, a `<mark>` element.",
+          "name": "mark"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The text. Only its text content is used; markup in it is not rendered.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "query",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The search query whose words are marked.",
+          "fieldName": "query"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The language to fold case in. Defaults to the nearest `lang`, else the browser's.",
+          "fieldName": "locale"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-highlight",
+      "customElement": true,
+      "rawTag": {
+        "name": "highlight",
         "description": ""
       }
     }
@@ -22408,6 +22593,540 @@
     }
   },
   {
+    "label": "Site Footer",
+    "tag": "wc-site-footer",
+    "rawTag": "site-footer",
+    "summary": "The footer of a website or portal: brand, columns of links, legal links and social links.",
+    "overview": "<p>Site footer is the page's <code>contentinfo</code> landmark. The <code>brand</code> slot and\nthe <code>wc-site-footer-group</code> columns sit at the top; a bottom row holds the\n<code>legal</code> slot (copyright and policy links) and the <code>social</code> slot (icon\nbuttons that link to the site's profiles).</p>\n<p>Slots that are empty take no room, so the same component is a full website footer or a slim\nportal footer with one row of text and links.</p>\n<p>The footer responds to its own width, not the viewport's: narrower than 48rem the columns wrap\ntwo to a row, and narrower than 24rem they stack. Links stay visible at every width, one tap away,\nrather than folded into an accordion.</p>",
+    "slot": "social - Links to the site's profiles, usually `wc-icon-button shape=\"round\"` with an `aria-label` each.",
+    "csspart": "bottom - The row of the legal and social slots.",
+    "cssprop": "--site-footer-max-width - Width the footer's content is centred in. Defaults to `none`.",
+    "example": "```html\n<wc-site-footer>\n  <span slot=\"legal\">© Acme Corp. Support hours 08:00–18:00 CET.</span>\n  <a slot=\"legal\" href=\"/p/support/contact\">Contact us</a>\n  <a slot=\"legal\" href=\"/p/support/privacy\">Privacy</a>\n</wc-site-footer>\n```",
+    "tags": "navigation layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the footer. Defaults to `--color-surface-container-low`.",
+          "name": "--site-footer-background"
+        },
+        {
+          "description": "Width the footer's content is centred in. Defaults to `none`.",
+          "name": "--site-footer-max-width"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The `<footer>` element.",
+          "name": "base"
+        },
+        {
+          "description": "The row of the brand and the columns.",
+          "name": "top"
+        },
+        {
+          "description": "The columns.",
+          "name": "groups"
+        },
+        {
+          "description": "The row of the legal and social slots.",
+          "name": "bottom"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The site's logo and name, and an optional line of text under it.",
+          "name": "brand"
+        },
+        {
+          "description": "The footer's `wc-site-footer-group` columns.",
+          "name": ""
+        },
+        {
+          "description": "Copyright and policy links, in small type.",
+          "name": "legal"
+        },
+        {
+          "description": "Links to the site's profiles, usually `wc-icon-button shape=\"round\"` with an `aria-label` each.",
+          "name": "social"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-site-footer",
+      "customElement": true,
+      "rawTag": {
+        "name": "site-footer",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Site Footer Group",
+    "tag": "wc-site-footer-group",
+    "rawTag": "site-footer-group",
+    "summary": "A titled column of links in a site footer.",
+    "overview": "<p>A column of a <code>wc-site-footer</code>: a title and a list of links. The column is a\nnavigation landmark named by its <code>label</code>, so a screen reader lists \"Product\",\n\"Company\" and so on among the page's landmarks.</p>\n<p>Put plain <code>&lt;a&gt;</code> elements or <code>wc-link</code> in it; the group lays them\nout and styles plain links.</p>",
+    "slot": "- The column's links.",
+    "csspart": "title - The column's title.",
+    "example": "```html\n<wc-site-footer-group label=\"Developers\">\n  <a href=\"/docs\">Docs</a>\n  <a href=\"https://peacock.redvars.com\">Peacock</a>\n</wc-site-footer-group>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssParts": [
+        {
+          "description": "The `<nav>` element.",
+          "name": "nav"
+        },
+        {
+          "description": "The column's title.",
+          "name": "title"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The column's links.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The column's title, also the name of its navigation landmark.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-site-footer-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "site-footer-group",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Site Header",
+    "tag": "wc-site-header",
+    "rawTag": "site-header",
+    "summary": "The top navigation bar of a website or portal: brand, links, menus and actions.",
+    "overview": "<p>Site header is the banner of a site: the brand at the start, the site's navigation, and actions\nsuch as Sign in or a call to action at the end. It is for websites and portals. For an\napplication's own chrome use <code>wc-app-bar</code>, and for a bar at the bottom of a phone\nscreen <code>wc-navigation-bar</code>.</p>\n<p>Put <code>wc-site-nav-link</code> elements in it for destinations and\n<code>wc-site-nav-menu</code> elements for sections with several pages. A menu is a disclosure\nbutton that opens a panel of links, as a list or, with <code>layout=\"columns\"</code>, as columns\nof <code>wc-site-nav-group</code> with a featured card. These are links and disclosure buttons,\nnot an ARIA menu, so Tab moves through them as through any links.</p>\n<p>When the header is narrower than <code>collapse-at</code> (720px by default), or too narrow\nfor the bar's content to fit, the links and\nmenus move into a drawer that slides in from the start edge, opened by a menu button. The\n<code>actions</code> slot moves to the bottom of the drawer; the <code>end</code> slot stays in\nthe bar, for something that must always show, such as a user menu or one short button.</p>\n<p>A visually hidden <em>Skip to main content</em> link is the first focusable element. It moves\nfocus to <code>skip-target</code> (<code>#main</code> by default).</p>",
+    "slot": "end - Content that always stays in the bar, such as a `wc-user-menu`, a search button or one short call to action.",
+    "fires": "close - Dispatched when the navigation drawer closes: Escape, a click on the scrim, choosing a link, or `hideDrawer()` (and widening the header past `collapse-at`).",
+    "csspart": "drawer - The drawer `<dialog>` on a narrow header.",
+    "cssprop": "--site-header-drawer-width - Width of the drawer. Defaults to 22.5rem.",
+    "example": "```html\n<wc-site-header sticky hide-on-scroll>\n  <a slot=\"brand\" href=\"/p/support\">Acme Support</a>\n  <wc-site-nav-link href=\"/p/support\" current>Home</wc-site-nav-link>\n  <wc-site-nav-link href=\"/p/support/tickets\">My tickets</wc-site-nav-link>\n  <wc-user-menu slot=\"end\" name=\"Ada Lovelace\"></wc-user-menu>\n</wc-site-header>\n```",
+    "tags": "navigation layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Height of the bar. Defaults to 4rem.",
+          "name": "--site-header-height"
+        },
+        {
+          "description": "Background of the bar. Defaults to `--color-surface`.",
+          "name": "--site-header-background"
+        },
+        {
+          "description": "Width the bar's content is centred in, for a full-bleed background with a narrower content column. Defaults to `none`.",
+          "name": "--site-header-max-width"
+        },
+        {
+          "description": "Stacking order of the header and its panels. Defaults to 10.",
+          "name": "--site-header-z-index"
+        },
+        {
+          "description": "Width of the drawer. Defaults to 22.5rem.",
+          "name": "--site-header-drawer-width"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The `<header>` bar.",
+          "name": "bar"
+        },
+        {
+          "description": "The navigation landmark in the bar.",
+          "name": "nav"
+        },
+        {
+          "description": "The skip link.",
+          "name": "skip-link"
+        },
+        {
+          "description": "The button that opens the drawer.",
+          "name": "menu-button"
+        },
+        {
+          "description": "The drawer `<dialog>` on a narrow header.",
+          "name": "drawer"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The site's logo and name, usually a link to the home page.",
+          "name": "brand"
+        },
+        {
+          "description": "The navigation: `wc-site-nav-link` and `wc-site-nav-menu` elements.",
+          "name": ""
+        },
+        {
+          "description": "Buttons at the end of the bar, such as Sign in and a call to action. They move to the bottom of the drawer when the header is collapsed.",
+          "name": "actions"
+        },
+        {
+          "description": "Content that always stays in the bar, such as a `wc-user-menu`, a search button or one short call to action.",
+          "name": "end"
+        }
+      ],
+      "events": [
+        {
+          "name": "open",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the navigation drawer opens on a narrow header."
+        },
+        {
+          "name": "close",
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>"
+          },
+          "description": "Dispatched when the navigation drawer closes: Escape, a click on the scrim, choosing a link, or `hideDrawer()` (and widening the header past `collapse-at`)."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the navigation landmark. Defaults to Peacock's \"Main navigation\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "collapse-at",
+          "type": {
+            "text": "number"
+          },
+          "default": "720",
+          "description": "Header width in pixels below which the navigation moves into a drawer. The header also collapses whenever the bar's content does not fit.",
+          "fieldName": "collapseAt"
+        },
+        {
+          "name": "sticky",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Keeps the header at the top of the viewport while the page scrolls.",
+          "fieldName": "sticky"
+        },
+        {
+          "name": "hide-on-scroll",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "With `sticky`, slides the header away while scrolling down and back while scrolling up.",
+          "fieldName": "hideOnScroll"
+        },
+        {
+          "name": "skip-target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'#main'",
+          "description": "Selector of the element the skip link moves focus to.",
+          "fieldName": "skipTarget"
+        },
+        {
+          "name": "open-on-hover",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Opens a menu's panel when a mouse rests on it, as well as on click.",
+          "fieldName": "openOnHover"
+        },
+        {
+          "name": "drawer-open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the navigation drawer is open. Only has an effect while the header is collapsed.",
+          "fieldName": "drawerOpen"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-site-header",
+      "customElement": true,
+      "rawTag": {
+        "name": "site-header",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Site Nav Group",
+    "tag": "wc-site-nav-group",
+    "rawTag": "site-nav-group",
+    "summary": "A titled column of links in a site header menu.",
+    "overview": "<p>Groups <code>wc-site-nav-link</code> elements under a title inside a\n<code>wc-site-nav-menu</code>, usually one with <code>layout=\"columns\"</code>, where each group is\na column. The group is labelled by its title for assistive technology.</p>",
+    "slot": "- The group's `wc-site-nav-link` elements.",
+    "csspart": "title - The group's title.",
+    "example": "```html\n<wc-site-nav-group label=\"Build\">\n  <wc-site-nav-link href=\"/tables\">Tables and forms</wc-site-nav-link>\n  <wc-site-nav-link href=\"/rules\">Rules</wc-site-nav-link>\n</wc-site-nav-group>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssParts": [
+        {
+          "description": "The group's title.",
+          "name": "title"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The group's `wc-site-nav-link` elements.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The group's title.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-site-nav-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "site-nav-group",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Site Nav Link",
+    "tag": "wc-site-nav-link",
+    "rawTag": "site-nav-link",
+    "summary": "A destination in a site header, in the bar or in a menu's panel.",
+    "overview": "<p>A link of a <code>wc-site-header</code>. In the bar it is a compact text link; inside a\n<code>wc-site-nav-menu</code> it is a row that can show an icon and a description. Mark the page\nthe person is on with <code>current</code>, which sets <code>aria-current=\"page\"</code>.</p>\n<p>It renders a real <code>&lt;a&gt;</code>, so middle-click, Open in new tab and a router that\nlistens for clicks on links all work.</p>",
+    "slot": "icon - An optional icon, shown in a menu's panel.",
+    "csspart": "description - The description text.",
+    "example": "```html\n<wc-site-nav-link href=\"/rules\" description=\"Business logic without servers\">\n  <wc-icon slot=\"icon\" name=\"rule\"></wc-icon>\n  Rules\n</wc-site-nav-link>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssParts": [
+        {
+          "description": "The `<a>` element.",
+          "name": "link"
+        },
+        {
+          "description": "The description text.",
+          "name": "description"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The link's text.",
+          "name": ""
+        },
+        {
+          "description": "An optional icon, shown in a menu's panel.",
+          "name": "icon"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The link's address.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Where to open the link, as on `<a>`.",
+          "fieldName": "target"
+        },
+        {
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Relationship to the linked page, as on `<a>`.",
+          "fieldName": "rel"
+        },
+        {
+          "name": "current",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Marks the page the person is on (`aria-current=\"page\"`).",
+          "fieldName": "current"
+        },
+        {
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A line under the label, shown in a menu's panel.",
+          "fieldName": "description"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-site-nav-link",
+      "customElement": true,
+      "rawTag": {
+        "name": "site-nav-link",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Site Nav Menu",
+    "tag": "wc-site-nav-menu",
+    "rawTag": "site-nav-menu",
+    "summary": "A section of a site header that opens a panel of links.",
+    "overview": "<p>A disclosure button in a <code>wc-site-header</code> that shows a panel of\n<code>wc-site-nav-link</code> elements under the bar. The default <code>layout=\"list\"</code> is a\nshort list under the button. <code>layout=\"columns\"</code> is a wide panel of\n<code>wc-site-nav-group</code> columns, with an optional featured card in the\n<code>feature</code> slot.</p>\n<p>It follows the disclosure navigation pattern, not the ARIA menu pattern: the button has\n<code>aria-expanded</code>, and the links follow it in the Tab order while the panel is open.\nClick, Enter or Space opens the panel; Escape closes it and returns focus to the button, and so\ndoes a click outside or moving focus out of it. Only one menu in a header is open at a time.\nArrow Down on the button opens the panel at its first link, and the arrow keys, Home and End move\nbetween the links.</p>\n<p>The menu shows as current when one of its links is <code>current</code>. When the header is\ncollapsed into its drawer, the menu becomes an expandable section of the drawer, expanded when it\nholds the current page.</p>",
+    "slot": "feature - A card shown at the end of a `columns` panel, such as a `wc-card` announcing news. Left out of the drawer.",
+    "fires": "close - Dispatched when the person closes the panel: the button, Escape, or a click or focus outside.",
+    "csspart": "panel - The panel of links.",
+    "cssprop": "--site-nav-menu-columns-max-width - Widest a `columns` panel grows. Defaults to 60rem.",
+    "example": "```html\n<wc-site-nav-menu label=\"Product\" layout=\"columns\">\n  <wc-site-nav-group label=\"Build\">\n    <wc-site-nav-link href=\"/tables\" description=\"Describe data, get secured screens\">\n      <wc-icon slot=\"icon\" name=\"table\"></wc-icon>Tables and forms\n    </wc-site-nav-link>\n  </wc-site-nav-group>\n  <wc-card slot=\"feature\" href=\"/blog/1-0\">…</wc-card>\n</wc-site-nav-menu>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Width of a `list` panel. Defaults to 16rem.",
+          "name": "--site-nav-menu-panel-width"
+        },
+        {
+          "description": "Widest a `columns` panel grows. Defaults to 60rem.",
+          "name": "--site-nav-menu-columns-max-width"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The disclosure button.",
+          "name": "trigger"
+        },
+        {
+          "description": "The panel of links.",
+          "name": "panel"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The panel's `wc-site-nav-link` and `wc-site-nav-group` elements.",
+          "name": ""
+        },
+        {
+          "description": "A card shown at the end of a `columns` panel, such as a `wc-card` announcing news. Left out of the drawer.",
+          "name": "feature"
+        }
+      ],
+      "events": [
+        {
+          "name": "open",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the person opens the panel."
+        },
+        {
+          "name": "close",
+          "type": {
+            "text": "CustomEvent<{reason: 'action' | 'escape' | 'light-dismiss'}>"
+          },
+          "description": "Dispatched when the person closes the panel: the button, Escape, or a click or focus outside."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The button's text.",
+          "fieldName": "label"
+        },
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the panel is open.",
+          "fieldName": "open"
+        },
+        {
+          "name": "layout",
+          "type": {
+            "text": "'list' | 'columns'"
+          },
+          "default": "'list'",
+          "description": "`\"list\"`: a short list under the button; `\"columns\"`: a wide panel of groups.",
+          "fieldName": "layout"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-site-nav-menu",
+      "customElement": true,
+      "rawTag": {
+        "name": "site-nav-menu",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Skeleton",
     "tag": "wc-skeleton",
     "rawTag": "skeleton",
@@ -27077,6 +27796,115 @@
       "customElement": true,
       "rawTag": {
         "name": "user-menu",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Video",
+    "tag": "wc-video",
+    "rawTag": "video",
+    "summary": "A video from YouTube, Vimeo or a file, that loads its player only when the person presses play.",
+    "overview": "<p>Video shows a poster with a play button. A YouTube or Vimeo player loads only on that click, so\nthe page makes no request to the video site until the person asks for the video: no cookies, no\ntracking, and a faster page. YouTube plays through <code>youtube-nocookie.com</code> and Vimeo with\nDo Not Track, and a line on the poster says where the video plays from.</p>\n<p>Any other <code>src</code> is a video file, shown in the browser's own player with its\ncontrols. Put <code>&lt;track&gt;</code> elements in the video for captions and subtitles.</p>\n<p>The video keeps its <code>aspect-ratio</code> before and after it loads, so nothing on the page\nmoves.</p>",
+    "slot": "- `<track>` elements for a video file's captions and subtitles.",
+    "csspart": "player - The `<iframe>` or `<video>`.",
+    "cssprop": "--video-shape - Corner radius of the frame. Defaults to `--shape-corner-large`.",
+    "fires": "play - Dispatched when the person starts the video: the player loads, or the file starts playing.",
+    "example": "```html\n<wc-video src=\"/media/tour.mp4\" poster=\"/media/tour.webp\" label=\"Product tour\">\n  <track kind=\"captions\" src=\"/media/tour.en.vtt\" srclang=\"en\" label=\"English\" default />\n</wc-video>\n```",
+    "tags": "media",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Corner radius of the frame. Defaults to `--shape-corner-large`.",
+          "name": "--video-shape"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The frame that holds the poster or the player.",
+          "name": "base"
+        },
+        {
+          "description": "The poster button that loads and plays the video.",
+          "name": "play-button"
+        },
+        {
+          "description": "The `<iframe>` or `<video>`.",
+          "name": "player"
+        }
+      ],
+      "slots": [
+        {
+          "description": "`<track>` elements for a video file's captions and subtitles.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "play",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the person starts the video: the player loads, or the file starts playing."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A YouTube or Vimeo link, or the URL of a video file.",
+          "fieldName": "src"
+        },
+        {
+          "name": "poster",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "An image shown before the video plays. Without one, the frame shows the label on a plain surface.",
+          "fieldName": "poster"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The video's title: shown on the poster, and the name of the play button and the player.",
+          "fieldName": "label"
+        },
+        {
+          "name": "duration",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The video's length as text, such as `9:42`, shown on the poster.",
+          "fieldName": "duration"
+        },
+        {
+          "name": "aspect-ratio",
+          "type": {
+            "text": "string"
+          },
+          "default": "'16 / 9'",
+          "description": "The frame's width to height, as a CSS `aspect-ratio`.",
+          "fieldName": "aspectRatio"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-video",
+      "customElement": true,
+      "rawTag": {
+        "name": "video",
         "description": ""
       }
     }

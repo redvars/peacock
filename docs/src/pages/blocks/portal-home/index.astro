@@ -1,0 +1,92 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/portal-home.scss';
+
+interface Category {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+const categories: Category[] = [
+  { icon: 'person', title: 'Accounts', text: 'Sign-in, passwords, profile' },
+  { icon: 'receipt_long', title: 'Billing', text: 'Invoices and plans' },
+  { icon: 'build', title: 'Troubleshooting', text: 'When something breaks' },
+  { icon: 'support_agent', title: 'Contact', text: 'Open a ticket' },
+];
+
+const articles = [
+  'Reset your password',
+  'Download your invoices',
+  'Add people to your organisation',
+  'What our support hours are',
+];
+---
+
+<Layout
+  title='Portal home'
+  description='The home page of a customer support portal built from Peacock components: a site header with a sign-in link for visitors, a search hero, category cards, popular articles and a slim site footer.'
+>
+  <div class='block-demo portal-demo'>
+    <wc-site-header label='Pages'>
+      <a slot='brand' class='portal-brand' href='#'><span class='portal-mark' aria-hidden='true'>A</span>Acme Support</a>
+      <wc-site-nav-link href='#' current>Home</wc-site-nav-link>
+      <wc-site-nav-menu label='Knowledge'>
+        {categories.slice(0, 3).map(category => <wc-site-nav-link href='#'>{category.title}</wc-site-nav-link>)}
+      </wc-site-nav-menu>
+      <wc-site-nav-link href='#'>Status</wc-site-nav-link>
+      <wc-link-button slot='end' variant='text' href='#'>Sign in</wc-link-button>
+    </wc-site-header>
+
+    <main class='portal-main'>
+      <section class='portal-hero'>
+        <h2 class='text-headline-large'>How can we help?</h2>
+        <wc-search class='portal-search' label='Search help articles' placeholder='Search help articles'></wc-search>
+      </section>
+
+      <div class='portal-content'>
+        <section class='portal-categories' aria-label='Browse by topic'>
+          {categories.map(category => (
+            <wc-card href='#' variant='outlined'>
+              <wc-card-content class='portal-category'>
+                <wc-icon name={category.icon}></wc-icon>
+                <span class='text-title-small'>{category.title}</span>
+                <span class='text-body-small block-muted'>{category.text}</span>
+              </wc-card-content>
+            </wc-card>
+          ))}
+        </section>
+
+        <div class='portal-columns'>
+          <section class='portal-articles'>
+            <h2 class='text-title-large'>Popular articles</h2>
+            <wc-list>
+              {articles.map(article => (
+                <wc-list-item href='#'>
+                  <wc-icon slot='start' name='article'></wc-icon>
+                  {article}
+                </wc-list-item>
+              ))}
+            </wc-list>
+          </section>
+          <section class='portal-tickets'>
+            <h2 class='text-title-large'>Your tickets</h2>
+            <wc-card variant='filled'>
+              <wc-card-content class='portal-sign-in'>
+                <span class='text-body-medium block-muted'>Sign in to see and update the tickets you opened.</span>
+                <wc-link-button href='#'>Sign in</wc-link-button>
+              </wc-card-content>
+            </wc-card>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <wc-site-footer>
+      <span slot='legal'>© Acme Corp. Support hours 08:00–18:00 CET.</span>
+      <a slot='legal' href='#'>Contact us</a>
+      <a slot='legal' href='#'>Privacy</a>
+      <a slot='legal' href='#'>Accessibility</a>
+    </wc-site-footer>
+  </div>
+</Layout>

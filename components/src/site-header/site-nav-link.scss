@@ -1,0 +1,154 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+// The link's colour lives on the host: the link reset makes `:link` and `:visited` inherit it.
+:host {
+  display: block;
+  flex: none;
+  color: var(--color-on-surface-variant);
+}
+
+:host([data-in-menu]:not([data-collapsed])) {
+  color: var(--color-on-surface);
+}
+
+.link {
+  @include mixin.reset-link-styles;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  box-sizing: border-box;
+  border-radius: var(--_shape, var(--shape-corner-full));
+
+  // The ring follows the link's shape, which differs in the bar, a panel and the drawer.
+  .focus-ring {
+    --focus-ring-container-shape-start-start: var(
+      --_shape,
+      var(--shape-corner-full)
+    );
+    --focus-ring-container-shape-start-end: var(
+      --_shape,
+      var(--shape-corner-full)
+    );
+    --focus-ring-container-shape-end-start: var(
+      --_shape,
+      var(--shape-corner-full)
+    );
+    --focus-ring-container-shape-end-end: var(
+      --_shape,
+      var(--shape-corner-full)
+    );
+  }
+
+  &:hover {
+    color: var(--color-on-surface);
+    background-color: var(--color-surface-container-high);
+  }
+}
+
+.icon {
+  display: none;
+  flex: none;
+  color: var(--color-primary);
+  --icon-size: 1.375rem;
+  --icon-color: currentColor;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.label {
+  @include mixin.get-typography(label-large);
+}
+
+.description {
+  @include mixin.get-typography(body-small);
+
+  color: var(--color-on-surface-variant);
+}
+
+// ── In the bar ────────────────────────────────────────────────────────────
+
+:host(:not([data-in-menu]):not([data-collapsed])) {
+  .link {
+    block-size: 2.5rem;
+    padding-inline: var(--spacing-150);
+    white-space: nowrap;
+  }
+
+  .description {
+    display: none;
+  }
+
+  [aria-current='page'] {
+    color: var(--color-primary);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: var(--spacing-150);
+      inset-block-end: 0.125rem;
+      block-size: 0.1875rem;
+      border-radius: var(--shape-corner-full);
+      background-color: currentColor;
+    }
+  }
+}
+
+// ── In a menu's panel ─────────────────────────────────────────────────────
+
+:host([data-in-menu]:not([data-collapsed])) {
+  .link {
+    align-items: flex-start;
+    padding: var(--spacing-100) var(--spacing-150);
+    --_shape: var(--shape-corner-medium);
+  }
+
+  .has-icon .icon {
+    display: inline-flex;
+    margin-block-start: 0.125rem;
+  }
+
+  .label {
+    @include mixin.get-typography(title-small);
+  }
+
+  [aria-current='page'] {
+    background-color: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+}
+
+// ── In the drawer ─────────────────────────────────────────────────────────
+
+:host([data-collapsed]) {
+  .link {
+    min-block-size: 3rem;
+    padding-inline: var(--spacing-200);
+  }
+
+  .description {
+    display: none;
+  }
+
+  [aria-current='page'] {
+    background-color: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+}
+
+:host([data-collapsed][data-in-menu]) .link {
+  padding-inline-start: var(--spacing-400);
+}
+
+@media (forced-colors: active) {
+  [aria-current='page'] {
+    outline: 2px solid Highlight;
+  }
+}

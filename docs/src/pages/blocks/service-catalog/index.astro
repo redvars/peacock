@@ -1,0 +1,223 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalHeader from '../../../components/blocks/PortalHeader.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/service-catalog.scss';
+
+type Category = 'hardware' | 'software' | 'access' | 'workplace';
+
+interface Request {
+  category: Category;
+  icon: string;
+  title: string;
+  text: string;
+  delivery: string;
+  // The first field of the request form: what exactly to order.
+  choiceLabel: string;
+  choices: string[];
+}
+
+const categories: { value: Category; label: string; icon: string }[] = [
+  { value: 'hardware', label: 'Hardware', icon: 'devices' },
+  { value: 'software', label: 'Software', icon: 'apps' },
+  { value: 'access', label: 'Access', icon: 'key' },
+  { value: 'workplace', label: 'Workplace', icon: 'chair' },
+];
+
+const requests: Request[] = [
+  {
+    category: 'hardware',
+    icon: 'computer',
+    title: 'New laptop',
+    text: 'A replacement or first laptop, set up and ready to sign in.',
+    delivery: 'Usually delivered in 3 days',
+    choiceLabel: 'Model',
+    choices: ['14-inch standard', '16-inch performance', '13-inch light'],
+  },
+  {
+    category: 'hardware',
+    icon: 'monitor',
+    title: 'Monitor',
+    text: 'A second screen for your desk or home office.',
+    delivery: 'Usually delivered in 2 days',
+    choiceLabel: 'Size',
+    choices: ['24-inch', '27-inch', '32-inch curved'],
+  },
+  {
+    category: 'hardware',
+    icon: 'headset_mic',
+    title: 'Headset',
+    text: 'A wired or wireless headset for calls.',
+    delivery: 'Usually delivered in 2 days',
+    choiceLabel: 'Type',
+    choices: ['Wired', 'Wireless', 'Wireless with noise cancelling'],
+  },
+  {
+    category: 'software',
+    icon: 'design_services',
+    title: 'Software licence',
+    text: 'A licence for an approved tool, added to your account.',
+    delivery: 'Usually ready in 1 day',
+    choiceLabel: 'Application',
+    choices: ['Diagram editor', 'Video editor', 'Statistics package'],
+  },
+  {
+    category: 'access',
+    icon: 'folder_shared',
+    title: 'Shared folder access',
+    text: 'Read or edit access to a team folder.',
+    delivery: 'Usually ready in 4 hours',
+    choiceLabel: 'Access level',
+    choices: ['Read only', 'Read and edit'],
+  },
+  {
+    category: 'access',
+    icon: 'vpn_key',
+    title: 'Remote access',
+    text: 'Connect to internal tools from outside the office.',
+    delivery: 'Usually ready in 1 day',
+    choiceLabel: 'Device',
+    choices: ['Company laptop', 'Company phone'],
+  },
+  {
+    category: 'workplace',
+    icon: 'desk',
+    title: 'Desk booking',
+    text: 'A fixed desk on your floor for three months or more.',
+    delivery: 'Usually confirmed in 2 days',
+    choiceLabel: 'Floor',
+    choices: ['Ground floor', 'First floor', 'Second floor'],
+  },
+  {
+    category: 'workplace',
+    icon: 'badge',
+    title: 'Building pass',
+    text: 'A new or replacement pass for the office doors.',
+    delivery: 'Usually delivered in 1 day',
+    choiceLabel: 'Reason',
+    choices: ['New starter', 'Lost pass', 'Damaged pass'],
+  },
+];
+
+const categoryLabel = (value: Category) => categories.find(category => category.value === value)?.label ?? '';
+---
+
+<Layout
+  title='Service catalog'
+  description='An employee service catalog built from Peacock components: a portal header, a search box, category filter chips, request cards with delivery times, and a request form with a select, a textarea and a date field in a side sheet.'
+>
+  <div class='block-demo site-demo sc-demo'>
+    <PortalHeader current='Request something' signedIn />
+
+    <main class='site-main sc-main'>
+      <header class='sc-header'>
+        <div class='sc-heading'>
+          <h2 class='text-headline-medium'>Request something</h2>
+          <p class='text-body-large site-muted'>Equipment, software and access, delivered by the IT and facilities teams.</p>
+        </div>
+        <wc-search class='sc-search' label='Search the catalog' placeholder='Search the catalog'></wc-search>
+      </header>
+
+      <wc-chip-set id='sc-categories' selectable label='Category' value='all'>
+        <wc-chip value='all'>All</wc-chip>
+        {categories.map(category => (
+          <wc-chip value={category.value}>
+            <wc-icon slot='icon' name={category.icon}></wc-icon>
+            {category.label}
+          </wc-chip>
+        ))}
+      </wc-chip-set>
+
+      <ul class='sc-grid' aria-label='Requests'>
+        {requests.map(request => (
+          <li class='sc-item' data-category={request.category}>
+            <wc-card variant='outlined' class='sc-card'>
+              <wc-card-content class='sc-card-content'>
+                <span class='sc-icon'><wc-icon name={request.icon}></wc-icon></span>
+                <span class='sc-category text-label-medium site-muted'>{categoryLabel(request.category)}</span>
+                <h3 class='text-title-medium'>{request.title}</h3>
+                <p class='text-body-medium site-muted'>{request.text}</p>
+                <p class='sc-delivery text-body-small'>
+                  <wc-icon name='schedule'></wc-icon>
+                  {request.delivery}
+                </p>
+                <wc-button
+                  class='sc-request'
+                  variant='tonal'
+                  data-title={request.title}
+                  data-choice-label={request.choiceLabel}
+                  data-choices={JSON.stringify(request.choices)}
+                  aria-label={`Request: ${request.title}`}
+                >
+                  Request
+                </wc-button>
+              </wc-card-content>
+            </wc-card>
+          </li>
+        ))}
+      </ul>
+    </main>
+
+    <PortalFooter />
+
+    <wc-side-sheet id='sc-sheet' heading='New laptop'>
+      <wc-form id='sc-form'>
+        <form class='sc-form'>
+          <p class='text-body-medium site-muted'>We send updates to ada@acme.example.</p>
+          <wc-select id='sc-choice' name='choice' label='Model' required>
+            {requests[0].choices.map(choice => <wc-option value={choice}>{choice}</wc-option>)}
+          </wc-select>
+          <wc-textarea name='reason' label='Why do you need it?' rows='3' maxlength='300' required></wc-textarea>
+          <wc-date-field name='needed' label='Needed by' helper-text='Leave empty if any date works.'></wc-date-field>
+          <div class='sc-form-actions'>
+            <wc-button id='sc-cancel' type='button' variant='text'>Cancel</wc-button>
+            <wc-button type='submit' level='primary'>Submit request</wc-button>
+          </div>
+        </form>
+      </wc-form>
+    </wc-side-sheet>
+  </div>
+
+  <script is:inline>
+    {
+      const chips = document.getElementById('sc-categories');
+      const items = [...document.querySelectorAll('.sc-item')];
+      const sheet = document.getElementById('sc-sheet');
+      const form = document.getElementById('sc-form');
+      const choice = document.getElementById('sc-choice');
+
+      chips.addEventListener('change', event => {
+        const category = event.detail.value || 'all';
+        for (const item of items) item.hidden = category !== 'all' && item.dataset.category !== category;
+      });
+
+      // Each card's button opens the one request form, set up for that card.
+      for (const button of document.querySelectorAll('.sc-request')) {
+        button.addEventListener('click', () => {
+          const choices = JSON.parse(button.dataset.choices);
+          form.querySelector('form').reset();
+          sheet.heading = button.dataset.title;
+          choice.label = button.dataset.choiceLabel;
+          choice.replaceChildren();
+          choice.options = choices.map(value => ({ label: value, value }));
+          choice.value = '';
+          sheet.show();
+        });
+      }
+
+      document.getElementById('sc-cancel').addEventListener('click', () => sheet.hide());
+
+      form.addEventListener('submit', event => {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        sheet.hide();
+        window.dispatchEvent(
+          new CustomEvent('peacock-toast', {
+            detail: { title: `${sheet.heading} requested. We emailed you the case number.`, intent: 'success', dismissible: true },
+          }),
+        );
+      });
+    }
+  </script>
+</Layout>

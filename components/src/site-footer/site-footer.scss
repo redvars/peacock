@@ -1,0 +1,171 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  container-type: inline-size;
+  color: var(--color-on-surface-variant);
+}
+
+.footer {
+  background-color: var(
+    --site-footer-background,
+    var(--color-surface-container-low)
+  );
+  border-block-start: 1px solid var(--color-outline-variant);
+}
+
+.inner {
+  // The max width is the content's, without the padding, so it lines up with a page's content column.
+  max-inline-size: var(--site-footer-max-width, none);
+  margin-inline: auto;
+  padding: var(--spacing-600) var(--spacing-500) var(--spacing-300);
+  box-sizing: content-box;
+}
+
+.slim .inner {
+  padding-block: var(--spacing-300);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.4fr) 4fr;
+  gap: var(--spacing-400);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.top:has(.brand[hidden]) {
+  grid-template-columns: 1fr;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  color: var(--color-on-surface);
+
+  &[hidden] {
+    display: none;
+  }
+
+  ::slotted(a) {
+    @include mixin.get-typography-not-important(title-medium);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    align-self: flex-start;
+    color: inherit;
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+
+  ::slotted(p) {
+    @include mixin.get-typography-not-important(body-medium);
+
+    max-inline-size: 22rem;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--spacing-400);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.bottom {
+  @include mixin.get-typography(body-small);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+  margin-block-start: var(--spacing-500);
+  padding-block-start: var(--spacing-300);
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.slim .bottom {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100) var(--spacing-300);
+
+  &[hidden] {
+    display: none;
+  }
+
+  ::slotted(a) {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  ::slotted(a:hover) {
+    color: var(--color-primary);
+  }
+}
+
+.social {
+  display: flex;
+  gap: var(--spacing-050);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// The footer's own width, so it fits a portal content area as well as a full page.
+@container (max-width: 48rem) {
+  .inner {
+    padding: var(--spacing-400) var(--spacing-300) var(--spacing-200);
+  }
+
+  .top {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-300);
+  }
+
+  .groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-300) var(--spacing-200);
+  }
+
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@container (max-width: 24rem) {
+  .groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (forced-colors: active) {
+  .footer,
+  .bottom {
+    border-color: CanvasText;
+  }
+}

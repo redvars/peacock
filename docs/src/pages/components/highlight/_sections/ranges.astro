@@ -1,0 +1,30 @@
+---
+export const title = 'Ranges from the server';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  When the search engine already knows where the matches are, for stemmed or fuzzy matches the query's
+  words would miss, set the <code>ranges</code> property to <code>[start, end]</code> offsets in the
+  element's text. <code>query</code> is then ignored.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-highlight id='highlight-ranges'>Running services restart after the nightly update.</wc-highlight>
+  <script is:inline>
+    // The search engine matched "run" and "restarts" to these words.
+    document.querySelector('#highlight-ranges').ranges = [
+      [0, 7],
+      [17, 24],
+    ];
+  </script>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  Matches are <code>&lt;mark&gt;</code> elements, which some screen readers announce as highlighted.
+  Their colour, the tertiary container, differs from links and from the text selection, and in forced
+  colours mode they use the system's <code>Mark</code> colour. Use <code>--highlight-background</code>
+  and <code>--highlight-color</code> to change them, keeping a 4.5:1 contrast.
+</p>

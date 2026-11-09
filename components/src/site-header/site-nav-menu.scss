@@ -1,0 +1,182 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  flex: none;
+}
+
+// A list panel sits under its button; a columns panel spans the header's content box.
+:host([layout='list']:not([data-collapsed])) {
+  position: relative;
+}
+
+.trigger {
+  @include mixin.reset-button-styles;
+  @include mixin.get-typography(label-large);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050);
+  block-size: 2.5rem;
+  padding-inline: var(--spacing-150) var(--spacing-100);
+  border-radius: var(--shape-corner-full);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  white-space: nowrap;
+
+  .focus-ring {
+    --focus-ring-container-shape-start-start: var(--shape-corner-full);
+    --focus-ring-container-shape-start-end: var(--shape-corner-full);
+    --focus-ring-container-shape-end-start: var(--shape-corner-full);
+    --focus-ring-container-shape-end-end: var(--shape-corner-full);
+  }
+
+  &:hover {
+    color: var(--color-on-surface);
+    background-color: var(--color-surface-container-high);
+  }
+}
+
+.chevron {
+  --icon-size: 1.125rem;
+  --icon-color: currentColor;
+
+  transition: transform var(--duration-short4, 200ms)
+    var(--easing-standard, ease);
+}
+
+.open .chevron {
+  transform: rotate(180deg);
+}
+
+.open .trigger {
+  background-color: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+.current .trigger {
+  color: var(--color-primary);
+}
+
+.panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--spacing-100));
+  z-index: 1;
+  box-sizing: border-box;
+  padding: var(--spacing-100);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background-color: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
+  box-shadow: var(--elevation-level2);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+:host([layout='list']) .panel {
+  inset-inline-start: 0;
+  inline-size: var(--site-nav-menu-panel-width, 16rem);
+}
+
+:host([layout='list']) .content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+}
+
+:host([layout='columns']) .panel {
+  inset-block-start: calc(100% - var(--spacing-050));
+  inset-inline: var(--spacing-400);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-200);
+  max-inline-size: var(--site-nav-menu-columns-max-width, 60rem);
+  margin-inline: auto;
+  padding: var(--spacing-200);
+
+  &.has-feature {
+    grid-template-columns: 1fr minmax(12rem, 16rem);
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+:host([layout='columns']) .content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--spacing-200);
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// ── In the drawer ─────────────────────────────────────────────────────────
+
+:host([data-collapsed]) {
+  .trigger {
+    display: flex;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: 3rem;
+    padding-inline: var(--spacing-200);
+  }
+
+  .open .trigger {
+    background-color: transparent;
+    color: var(--color-on-surface);
+  }
+
+  .panel,
+  .panel.has-feature {
+    position: static;
+    display: block;
+    inline-size: auto;
+    max-inline-size: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-025);
+  }
+
+  .feature {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .panel {
+    border-color: CanvasText;
+  }
+}

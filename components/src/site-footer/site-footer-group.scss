@@ -1,0 +1,53 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+.title {
+  @include mixin.get-typography(title-small);
+
+  margin-block-end: var(--spacing-150);
+  color: var(--color-on-surface);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+
+  ::slotted(a) {
+    @include mixin.get-typography-not-important(body-medium);
+
+    color: var(--color-on-surface-variant);
+    text-decoration: none;
+    border-radius: var(--shape-corner-extra-small);
+  }
+
+  ::slotted(a:hover) {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  ::slotted(a:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Tap targets on narrow footers.
+@container (max-width: 48rem) {
+  .links {
+    gap: 0;
+
+    ::slotted(a) {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: 2.75rem;
+    }
+  }
+}

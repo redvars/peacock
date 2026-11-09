@@ -1,0 +1,56 @@
+---
+export const title = 'Columns menu';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>layout="columns"</code> a menu opens a wide panel across the header: each
+  <code>wc-site-nav-group</code> is a titled column, and a link can carry an icon and a
+  <code>description</code>. The <code>feature</code> slot adds one card at the end, such as a
+  <code>wc-card</code> announcing news. The panel grows to <code>--site-nav-menu-columns-max-width</code>
+  (60rem).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; min-height: 380px;'>
+    <wc-site-header collapse-at='520'>
+      <a slot='brand' href='#'>Redvars</a>
+      <wc-site-nav-menu label='Product' layout='columns'>
+        <wc-site-nav-group label='Build'>
+          <wc-site-nav-link href='#' description='Describe data, get secured screens'>
+            <wc-icon slot='icon' name='table'></wc-icon>Tables and forms
+          </wc-site-nav-link>
+          <wc-site-nav-link href='#' description='Business logic without servers'>
+            <wc-icon slot='icon' name='rule'></wc-icon>Rules
+          </wc-site-nav-link>
+        </wc-site-nav-group>
+        <wc-site-nav-group label='Run'>
+          <wc-site-nav-link href='#' description='One check on every read and write'>
+            <wc-icon slot='icon' name='shield'></wc-icon>Access
+          </wc-site-nav-link>
+          <wc-site-nav-link href='#' description='One command, your servers'>
+            <wc-icon slot='icon' name='dns'></wc-icon>Self-hosting
+          </wc-site-nav-link>
+        </wc-site-nav-group>
+        <wc-site-nav-group label='Experience'>
+          <wc-site-nav-link href='#' description='Agents work queues in tabs'>
+            <wc-icon slot='icon' name='space_dashboard'></wc-icon>Workspaces
+          </wc-site-nav-link>
+          <wc-site-nav-link href='#' description='Branded sites for customers'>
+            <wc-icon slot='icon' name='storefront'></wc-icon>Portals
+          </wc-site-nav-link>
+        </wc-site-nav-group>
+        <wc-card slot='feature' variant='filled' href='#'>
+          <wc-card-content style='display: block; padding: 1rem;'>
+            <wc-tag accent='red' size='sm'>New</wc-tag>
+            <p style='margin: 0.5rem 0 0; font-weight: 600;'>Redvars 1.0 preview</p>
+            <p style='margin: 0.25rem 0 0;'>See what ships in the first release.</p>
+          </wc-card-content>
+        </wc-card>
+      </wc-site-nav-menu>
+      <wc-site-nav-link href='#'>Docs</wc-site-nav-link>
+      <wc-link-button slot='actions' href='#'>Join the waitlist</wc-link-button>
+    </wc-site-header>
+  </div>
+</DemoComponentCard>

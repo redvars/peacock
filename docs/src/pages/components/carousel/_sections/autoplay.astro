@@ -1,0 +1,36 @@
+---
+export const title = 'Autoplay';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+const shots = [
+  { src: '/assets/img/flow-designer.webp', alt: 'The flow designer' },
+  { src: '/assets/img/code-editor.webp', alt: 'The script editor' },
+  { src: '/assets/img/calendar.webp', alt: 'The team calendar' },
+  { src: '/assets/img/html-editor.webp', alt: 'The page editor' },
+];
+---
+
+<p>
+  Slides stay still unless you set <code>autoplay</code>. Moving content is hard to read and
+  distracting, so use it only where the slides are a backdrop rather than something people must read.
+  With <code>autoplay</code>, a button to stop the rotation comes first in the controls, and
+  <code>interval</code> sets how long each page shows (5 seconds by default).
+</p>
+<ul>
+  <li>Rotation pauses while the pointer rests on the carousel or focus is inside it.</li>
+  <li>It stops for good when the person uses any control; the button starts it again.</li>
+  <li>It does not start when the person asks for reduced motion.</li>
+  <li>While it rotates the slides are not announced, so a screen reader is not interrupted.</li>
+</ul>
+<p>Add <code>loop</code> so previous and next wrap around from the last page to the first.</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 560px;'>
+    <wc-carousel label='Product screenshots' autoplay loop>
+      {shots.map(shot => (
+        <img src={shot.src} alt={shot.alt} style='display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 16px;' />
+      ))}
+    </wc-carousel>
+  </div>
+</DemoComponentCard>

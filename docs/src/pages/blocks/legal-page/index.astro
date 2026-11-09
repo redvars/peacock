@@ -1,0 +1,135 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/legal-page.scss';
+
+const summary: string[] = [
+  'We collect only what we need to run your account and your instance.',
+  'Our websites set no cookies, and we use no trackers, analytics scripts or ad networks.',
+  'The records in your instance are yours. We never sell them or use them to train models.',
+  'You can ask for a copy of your data, or for us to delete it, at any time.',
+];
+---
+
+<Layout
+  title='Legal page'
+  description='A privacy policy built from Peacock components: the shared site header, the date it last changed as relative time, a plain-language summary, numbered sections with a sticky anchor nav as the contents list, a contact section and the site footer.'
+>
+  <div class='block-demo site-demo legal-demo'>
+    <WebsiteHeader />
+
+    <main class='site-main legal-main'>
+      <div class='legal-header'>
+        <h2 class='text-display-small'>Privacy policy</h2>
+        <p class='text-body-medium site-muted'>
+          Last updated <time datetime='2026-10-02'>2 October 2026</time>
+        </p>
+      </div>
+
+      <section class='legal-summary' aria-labelledby='legal-summary-title'>
+        <h3 id='legal-summary-title' class='text-title-large'>The short version</h3>
+        <ul class='legal-summary-list text-body-large'>
+          {summary.map(point => (
+            <li>
+              <wc-icon name='check_circle' aria-hidden='true'></wc-icon>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div class='legal-layout'>
+        <aside class='legal-aside'>
+          <wc-anchor-nav class='legal-toc' for='legal-body' headline='Contents'></wc-anchor-nav>
+        </aside>
+
+        <div id='legal-body' class='site-prose legal-body text-body-large'>
+          <section>
+            <h3 id='legal-who' class='text-headline-small'>1. Who we are</h3>
+            <p>
+              Redvars builds a platform for business applications. This policy covers our websites, your Redvars account and the instances we
+              run for you. When you host Redvars yourself, you decide what happens to the data in your instance.
+            </p>
+          </section>
+
+          <section>
+            <h3 id='legal-collect' class='text-headline-small'>2. What we collect</h3>
+            <ul>
+              <li><strong>Your account:</strong> your name, email address and organisation.</li>
+              <li><strong>Billing:</strong> the details our payment provider needs to charge you. We never see your full card number.</li>
+              <li><strong>Support:</strong> what you write to us when you open a case.</li>
+              <li><strong>Service logs:</strong> when you signed in and from which address, kept for 30 days to keep your account safe.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 id='legal-cookies' class='text-headline-small'>3. Cookies and tracking</h3>
+            <p>
+              Our websites set no cookies. We do not use analytics scripts, tracking pixels or ad networks, so there is nothing to accept and no
+              banner to dismiss.
+            </p>
+            <p>
+              Videos on our pages load only when you press play, and then from a privacy-enhanced player. When you sign in to an instance, it
+              sets one cookie to keep you signed in, and removes it when you sign out.
+            </p>
+          </section>
+
+          <section>
+            <h3 id='legal-use' class='text-headline-small'>4. How we use it</h3>
+            <p>
+              We use your data to run your account and instance, to bill you, to answer you when you ask for help, and to tell you about changes
+              that affect you. We do not sell it, and we do not use the records in your instance to train models.
+            </p>
+          </section>
+
+          <section>
+            <h3 id='legal-where' class='text-headline-small'>5. Where it is stored</h3>
+            <p>
+              Each managed instance has its own database, in the region you chose when you created it. Backups stay in the same region. We use a
+              small number of processors, such as our payment and email providers, and list them on request.
+            </p>
+          </section>
+
+          <section>
+            <h3 id='legal-keep' class='text-headline-small'>6. How long we keep it</h3>
+            <p>
+              We keep your account while it is open. When you close it, we delete your instance and its backups within 30 days, and keep billing
+              records only as long as the law requires.
+            </p>
+          </section>
+
+          <section>
+            <h3 id='legal-rights' class='text-headline-small'>7. Your rights</h3>
+            <p>You can ask us to:</p>
+            <ul>
+              <li>show you the data we hold about you, and give you a copy;</li>
+              <li>correct it when it is wrong;</li>
+              <li>delete it, or stop using it for a purpose you object to.</li>
+            </ul>
+            <p>We answer within one month, at no cost.</p>
+          </section>
+
+          <section>
+            <h3 id='legal-contact' class='text-headline-small'>8. How to contact us</h3>
+            <p>Write to our privacy team with any question about this policy or your data.</p>
+            <div class='legal-contact'>
+              <wc-icon name='mail' aria-hidden='true'></wc-icon>
+              <div class='legal-contact-text'>
+                <span class='text-title-medium'>Privacy team</span>
+                <span class='text-body-medium site-muted'>We reply within two working days.</span>
+              </div>
+              <wc-link-button href='#' variant='outlined'>Email the privacy team</wc-link-button>
+            </div>
+            <p class='text-body-medium site-muted'>
+              If you are not happy with our answer, you can complain to the data protection authority where you live.
+            </p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <WebsiteFooter />
+  </div>
+</Layout>

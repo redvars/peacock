@@ -158,7 +158,7 @@ export const V4_PREVIEWS_B = [
   'workspace-switcher',
 ] as const;
 
-/** Diagram and AI components added in 4.1, drawn in ComponentPreviewV41.astro. */
+/** Diagram, AI and site components added in 4.x, drawn in ComponentPreviewV41.astro. */
 export const V41_PREVIEWS = [
   'workflow',
   'workflow-timeline',
@@ -178,6 +178,11 @@ export const V41_PREVIEWS = [
   'ai-badge',
   'typing-indicator',
   'citation',
+  'site-header',
+  'site-footer',
+  'carousel',
+  'video',
+  'highlight',
 ] as const;
 
 export function isV41Preview(rawTag: string): boolean {

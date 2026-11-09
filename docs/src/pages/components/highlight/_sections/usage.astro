@@ -1,0 +1,44 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-highlight</code> marks the words of a search query in a piece of text, for search results
+  in a knowledge base, a site search or a filtered list. Put the text inside it and the query in
+  <code>query</code>. Each word matches on its own, in any order, ignoring case and accents, so
+  "resume" also marks "Résumé". One-letter words are skipped when the query has longer ones.
+</p>
+<p>
+  It reads its children as plain text and never parses HTML, so text from records or a search index
+  is safe to put inside it. Type in the field to try it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: grid; gap: 1rem;'>
+    <wc-input id='highlight-query' label='Search articles' value='reset password'></wc-input>
+    <div class='highlight-results' style='display: grid; gap: 0.75rem;'>
+      <article>
+        <a href='#' class='text-title-small'><wc-highlight query='reset password'>Reset your password</wc-highlight></a>
+        <p class='text-body-medium' style='margin: 0.25rem 0 0;'>
+          <wc-highlight query='reset password'>If you forgot your password, choose Forgot password on the sign-in page and follow the link we email you.</wc-highlight>
+        </p>
+      </article>
+      <article>
+        <a href='#' class='text-title-small'><wc-highlight query='reset password'>Change your password after a breach</wc-highlight></a>
+        <p class='text-body-medium' style='margin: 0.25rem 0 0;'>
+          <wc-highlight query='reset password'>We recommend you reset it from Account settings and turn on two-step sign-in.</wc-highlight>
+        </p>
+      </article>
+    </div>
+  </div>
+  <script is:inline>
+    document.querySelector('#highlight-query').addEventListener('input', function (event) {
+      const query = event.target.value;
+      document.querySelectorAll('.highlight-results wc-highlight').forEach(function (highlight) {
+        highlight.query = query;
+      });
+    });
+  </script>
+</DemoComponentCard>

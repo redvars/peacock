@@ -1,0 +1,121 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Knowledge article block (pages/blocks/knowledge-article/). The page frame, header and footer
+// come from styles/blocks/site.scss.
+
+.kb-main {
+  // The demo sits beside the docs sidebar, so the columns follow its width, not the viewport's.
+  container-type: inline-size;
+  gap: var(--spacing-300);
+}
+
+// Article and aside side by side; one column when the page is narrow.
+.kb-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  align-items: start;
+  gap: var(--spacing-500);
+
+  @container (max-width: 50rem) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-500);
+  }
+}
+
+.kb-article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  min-width: 0;
+}
+
+.kb-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.kb-steps li::marker {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.kb-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  max-width: 44rem;
+  padding-block-start: var(--spacing-300);
+  border-block-start: 1px solid var(--color-outline-variant);
+}
+
+.kb-question {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.kb-answers {
+  display: flex;
+  gap: var(--spacing-100);
+}
+
+.kb-comment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+
+  &[hidden] {
+    display: none;
+  }
+
+  wc-textarea {
+    width: 100%;
+  }
+}
+
+.kb-comment-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.kb-thanks {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.kb-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  min-width: 0;
+}
+
+.kb-related {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.kb-case {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+
+  > wc-icon {
+    --icon-size: 1.75rem;
+    --icon-color: var(--color-primary);
+  }
+
+  > wc-link-button {
+    margin-block-start: var(--spacing-100);
+  }
+}

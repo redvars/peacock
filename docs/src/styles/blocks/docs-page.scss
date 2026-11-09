@@ -1,0 +1,137 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Docs page block (pages/blocks/docs-page/). The page frame, header, footer and .site-* helpers
+// come from styles/blocks/site.scss. Columns follow the width of the demo, not the viewport:
+// - under 48rem: one column; the drawer is a modal menu behind the "Docs menu" button (the page
+//   script switches its variant) and the "On this page" list is left out;
+// - from 48rem: drawer and page;
+// - from 68rem: drawer, page and "On this page".
+
+.docs-demo {
+  container-type: inline-size;
+}
+
+.docs-layout {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  box-sizing: border-box;
+
+  @container (min-width: 48rem) {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+
+  @container (min-width: 68rem) {
+    grid-template-columns: 15rem minmax(0, 1fr) 13rem;
+  }
+}
+
+.docs-sidebar {
+  padding: var(--spacing-200) var(--spacing-200) 0;
+
+  @container (min-width: 48rem) {
+    padding: var(--spacing-300) 0 var(--spacing-300) var(--spacing-150);
+    border-inline-end: 1px solid var(--color-outline-variant);
+  }
+}
+
+.docs-menu-button {
+  @container (min-width: 48rem) {
+    display: none;
+  }
+}
+
+.docs-nav {
+  --navigation-drawer-width: 15rem;
+
+  // In the layout the drawer is part of the page; as a modal it keeps its own surface.
+  &:not([variant='modal']) {
+    --navigation-drawer-container-color: transparent;
+    position: sticky;
+    top: var(--spacing-300);
+    height: auto;
+  }
+
+  // Until the script has made it a modal, a narrow demo shows only the menu button.
+  @container (max-width: 47.99rem) {
+    &:not([variant='modal']) {
+      display: none;
+    }
+  }
+}
+
+.docs-main {
+  max-width: none;
+  margin-inline: 0;
+  gap: var(--spacing-300);
+}
+
+.docs-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.docs-body {
+  h3 {
+    margin-top: var(--spacing-300);
+  }
+
+  wc-alert,
+  wc-code-highlighter {
+    display: block;
+  }
+}
+
+.docs-pager {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--spacing-200);
+  max-width: 44rem;
+  margin-top: var(--spacing-300);
+
+  wc-card {
+    height: 100%;
+  }
+}
+
+.docs-pager-next .docs-pager-card {
+  align-items: flex-end;
+  text-align: end;
+}
+
+.docs-pager-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  padding: var(--spacing-250);
+  box-sizing: border-box;
+}
+
+.docs-pager-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050);
+
+  wc-icon {
+    --icon-size: 1rem;
+  }
+}
+
+.docs-aside {
+  display: none;
+  padding: var(--spacing-500) var(--spacing-200) var(--spacing-500) 0;
+
+  @container (min-width: 68rem) {
+    display: block;
+  }
+}
+
+.docs-toc {
+  position: sticky;
+  top: var(--spacing-300);
+}

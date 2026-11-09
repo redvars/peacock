@@ -1,0 +1,121 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/waitlist.scss';
+
+interface Benefit {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+const benefits: Benefit[] = [
+  { icon: 'rocket_launch', title: 'Early access', text: 'Build on the preview before it is public.' },
+  { icon: 'forum', title: 'A say in what ships', text: 'Tell us what you need. We read every reply.' },
+  { icon: 'support_agent', title: 'A direct line to the team', text: 'Get help from the people who build Redvars.' },
+  { icon: 'dns', title: 'Your choice of hosting', text: 'Self-host with one command, or let us run it.' },
+];
+
+const sizes = [
+  { value: '1-10', label: '1–10 people' },
+  { value: '11-50', label: '11–50 people' },
+  { value: '51-250', label: '51–250 people' },
+  { value: '251-1000', label: '251–1,000 people' },
+  { value: '1000+', label: 'More than 1,000 people' },
+];
+---
+
+<Layout
+  title='Waitlist'
+  description='A waitlist sign-up built from Peacock components: the shared site header without its actions, a pitch with a list of benefits, a card with a validated form (email, name, organisation size, a textarea and a consent checkbox) and a confirmation that replaces the form, and the site footer.'
+>
+  <div class='block-demo site-demo waitlist-demo'>
+    <WebsiteHeader minimal />
+
+    <main class='site-main waitlist-main'>
+      <div class='waitlist-layout'>
+        <section class='waitlist-pitch'>
+          <wc-tag accent='red'>Early access</wc-tag>
+          <h2 class='text-display-small'>Be first to build on Redvars.</h2>
+          <p class='text-body-large site-muted'>
+            We are letting teams in a few at a time. Join the list and we will write when your invitation is ready.
+          </p>
+          <ul class='waitlist-benefits'>
+            {benefits.map(benefit => (
+              <li>
+                <span class='waitlist-benefit-icon'><wc-icon name={benefit.icon} aria-hidden='true'></wc-icon></span>
+                <span class='waitlist-benefit-text'>
+                  <span class='text-title-medium'>{benefit.title}</span>
+                  <span class='text-body-medium site-muted'>{benefit.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p class='text-body-medium site-muted'>Already invited? <a href='#'>Sign in</a></p>
+        </section>
+
+        <wc-card class='waitlist-card' variant='outlined'>
+          <wc-card-content class='waitlist-card-inner'>
+            <div id='waitlist-form-panel' class='waitlist-panel'>
+              <div class='waitlist-card-head'>
+                <h3 class='text-title-large'>Join the waitlist</h3>
+                <p class='text-body-medium site-muted'>It takes a minute. Only your email is required.</p>
+              </div>
+              <wc-form id='waitlist-form'>
+                <form class='waitlist-form' action='#'>
+                  <wc-input type='email' name='email' label='Work email' placeholder='you@example.com' autocomplete='email' required></wc-input>
+                  <wc-input name='name' label='Your name' autocomplete='name'></wc-input>
+                  <wc-select name='size' label='Organisation size' placeholder='Choose a size'>
+                    {sizes.map(size => <wc-option value={size.value}>{size.label}</wc-option>)}
+                  </wc-select>
+                  <wc-textarea
+                    name='plans'
+                    label='What do you want to build?'
+                    placeholder='A customer portal, an asset register, an HR case desk…'
+                    rows='3'
+                    maxlength='500'
+                  ></wc-textarea>
+                  <wc-checkbox name='consent' label='Email me about my invitation and the launch. I can unsubscribe at any time.' required></wc-checkbox>
+                  <p class='text-body-small site-muted'>We use your details only for the waitlist. Read our <a href='#'>privacy policy</a>.</p>
+                  <wc-button type='submit' size='md' class='waitlist-submit'>Join the waitlist</wc-button>
+                </form>
+              </wc-form>
+            </div>
+
+            <div id='waitlist-done' class='waitlist-panel waitlist-done' tabindex='-1' hidden>
+              <span class='waitlist-done-icon'><wc-icon name='mark_email_read' aria-hidden='true'></wc-icon></span>
+              <h3 class='text-headline-small'>You're on the list</h3>
+              <p class='text-body-large site-muted'>
+                Thank you. We sent a confirmation to <strong id='waitlist-email'>your inbox</strong>, and we will write again when your invitation is
+                ready.
+              </p>
+              <wc-link-button variant='text' href='#'>Read the docs while you wait</wc-link-button>
+            </div>
+          </wc-card-content>
+        </wc-card>
+      </div>
+    </main>
+
+    <WebsiteFooter />
+  </div>
+
+  <script is:inline>
+    {
+      // wc-form fires a cancelable submit with the form data only when every field is valid.
+      // Cancelling it keeps the form from submitting; the confirmation then replaces the form.
+      const form = document.getElementById('waitlist-form');
+      const panel = document.getElementById('waitlist-form-panel');
+      const done = document.getElementById('waitlist-done');
+      form.addEventListener('submit', event => {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        document.getElementById('waitlist-email').textContent = event.detail.value.email;
+        panel.hidden = true;
+        done.hidden = false;
+        done.focus();
+      });
+    }
+  </script>
+</Layout>

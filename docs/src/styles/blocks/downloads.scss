@@ -1,0 +1,118 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Downloads block (pages/blocks/downloads/). The page frame, header and footer come from
+// styles/blocks/site.scss. The demo sits beside the docs sidebar, so the layout follows the
+// width of the page, not the viewport's.
+
+.dl-main {
+  container-type: inline-size;
+}
+
+.dl-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.dl-release-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+
+.dl-release-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+}
+
+.dl-release-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+}
+
+.dl-files {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// One file: name and size, the download button, and its checksum on a line of its own.
+.dl-file {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-100) var(--spacing-200);
+  padding-block: var(--spacing-200);
+  border-block-start: 1px solid var(--color-outline-variant);
+}
+
+.dl-file-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  min-width: 0;
+}
+
+.dl-checksum {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+
+.dl-code {
+  min-width: 0;
+  padding: var(--spacing-050) var(--spacing-100);
+  border-radius: var(--shape-corner-small);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+  font-family: var(--font-family-monospace, monospace);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.dl-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--spacing-500);
+
+  @container (max-width: 44rem) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-400);
+  }
+}
+
+.dl-licence,
+.dl-earlier {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+
+.dl-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
+  margin-block: var(--spacing-100);
+}
+
+.dl-key-value {
+  padding: var(--spacing-100) var(--spacing-150);
+  font-size: 0.9375rem;
+  letter-spacing: 0.05em;
+}

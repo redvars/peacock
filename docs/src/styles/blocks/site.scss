@@ -1,0 +1,90 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Shared by the website and portal blocks that use components/blocks/WebsiteHeader.astro,
+// WebsiteFooter.astro, PortalHeader.astro and PortalFooter.astro. Each block page imports this and
+// its own styles/blocks/<name>.scss. The outer frame is .block-demo from styles/pages/blocks.scss.
+
+// The page: header, main, footer in a column, with the footer at the bottom.
+.site-demo {
+  display: flex;
+  flex-direction: column;
+  min-height: 40rem;
+  padding: 0;
+  overflow: visible;
+}
+
+// The docs site colours links; a brand is the site's name, in the text colour.
+.site-brand {
+  color: var(--color-on-surface);
+  text-decoration: none;
+}
+
+.site-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--shape-corner-small);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 0.875rem;
+}
+
+// The content between header and footer: centred, padded, narrower on phones.
+.site-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-500);
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: var(--spacing-500);
+  box-sizing: border-box;
+
+  @include mixin.for-phone-only {
+    gap: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-200);
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+}
+
+// A label over a heading, such as the section of a product page.
+.site-eyebrow {
+  color: var(--color-primary);
+}
+
+.site-muted {
+  color: var(--color-on-surface-variant);
+}
+
+// Long-form text: articles, docs and policies.
+.site-prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  max-width: 44rem;
+
+  h2 {
+    margin-top: var(--spacing-200);
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding-inline-start: var(--spacing-300);
+  }
+
+  li + li {
+    margin-top: var(--spacing-075);
+  }
+}

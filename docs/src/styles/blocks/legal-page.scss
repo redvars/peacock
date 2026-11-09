@@ -1,0 +1,115 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Legal page block (pages/blocks/legal-page/). The page frame, header, footer and .site-* helpers
+// come from styles/blocks/site.scss. Columns follow the width of the demo, not the viewport: the
+// contents list sits beside the sections when there is room, and above them otherwise.
+
+.legal-demo {
+  container-type: inline-size;
+}
+
+.legal-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.legal-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  max-width: 52rem;
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+  border-radius: var(--shape-corner-large);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-250);
+  }
+}
+
+.legal-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-100);
+  }
+
+  wc-icon {
+    --icon-size: 1.25rem;
+    flex: none;
+    margin-top: 0.15em;
+  }
+}
+
+.legal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--spacing-400);
+
+  @container (min-width: 52rem) {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: var(--spacing-600);
+  }
+}
+
+// Above the sections on narrow demos, the contents list gets a frame so it reads as a block.
+.legal-aside {
+  padding: var(--spacing-200);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+
+  @container (min-width: 52rem) {
+    padding: 0;
+    border: none;
+  }
+}
+
+.legal-toc {
+  @container (min-width: 52rem) {
+    position: sticky;
+    top: var(--spacing-300);
+  }
+}
+
+.legal-body {
+  gap: var(--spacing-400);
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+}
+
+.legal-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-250);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-surface);
+
+  > wc-icon {
+    --icon-size: 1.75rem;
+    color: var(--color-primary);
+  }
+}
+
+.legal-contact-text {
+  display: flex;
+  flex: 1 1 12rem;
+  flex-direction: column;
+}

@@ -1,0 +1,48 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+const quotes = [
+  { text: 'We moved our incident process off spreadsheets in a week.', name: 'Grace Hopper', role: 'IT lead, Navy Labs' },
+  { text: "Our customer portal runs on the same rules as the agents' workspace.", name: 'Alan Turing', role: 'Head of support, Bletchley' },
+  { text: 'Self-hosting took one command and a coffee.', name: 'Katherine Johnson', role: 'Platform engineer' },
+  { text: 'Access rules we can read in one place, at last.', name: 'Ada Lovelace', role: 'Security officer' },
+  { text: 'Forms and lists for a new team took an afternoon.', name: 'Edsger Dijkstra', role: 'Business analyst' },
+];
+---
+
+<p>
+  <code>wc-carousel</code> shows its children as slides, for screenshots on a product page or a row
+  of testimonials. Name what the slides are with <code>label</code>, and set
+  <code>per-view</code> to show a few at once. The slides scroll with snap points, so swiping,
+  trackpads and the scroll wheel work as they do anywhere else; the previous, next and picker buttons
+  under them move a page at a time.
+</p>
+<p>
+  A slide is never narrower than 15rem, so this carousel of three shows two, then one, as its
+  container narrows. Slides out of view are <code>inert</code>, so Tab skips links the person cannot
+  see. Before using a carousel, consider a grid: everything in it is visible at once, and nothing hides
+  behind a button.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-carousel id='carousel-demo' label='Testimonials' per-view='3'>
+      {quotes.map(quote => (
+        <figure style='margin: 0; padding: 1.25rem; border-radius: 16px; background: var(--color-surface-container-low);'>
+          <blockquote style='margin: 0 0 1rem;' class='text-body-large'>“{quote.text}”</blockquote>
+          <figcaption class='text-body-small' style='color: var(--color-on-surface-variant);'>
+            <b class='text-title-small' style='display: block; color: var(--color-on-surface);'>{quote.name}</b>
+            {quote.role}
+          </figcaption>
+        </figure>
+      ))}
+    </wc-carousel>
+  </div>
+  <script is:inline>
+    document.querySelector('#carousel-demo').addEventListener('change', function (event) {
+      myConsole.log('change: index ' + event.detail.index);
+    });
+  </script>
+</DemoComponentCard>

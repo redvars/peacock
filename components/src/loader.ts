@@ -151,6 +151,15 @@ import { NavigationBarItem } from '@/navigation-bar/navigation-bar-item.js';
 import { NavigationDrawer } from '@/navigation-drawer/navigation-drawer.js';
 import { NavigationDrawerItem } from '@/navigation-drawer/navigation-drawer-item.js';
 import { NavigationDrawerGroup } from '@/navigation-drawer/navigation-drawer-group.js';
+import { SiteHeader } from '@/site-header/site-header.js';
+import { SiteNavMenu } from '@/site-header/site-nav-menu.js';
+import { SiteNavGroup } from '@/site-header/site-nav-group.js';
+import { SiteNavLink } from '@/site-header/site-nav-link.js';
+import { SiteFooter } from '@/site-footer/site-footer.js';
+import { SiteFooterGroup } from '@/site-footer/site-footer-group.js';
+import { Carousel } from '@/carousel/carousel.js';
+import { Video } from '@/video/video.js';
+import { Highlight } from '@/highlight/highlight.js';
 
 // Resolve the folder this script was served from. `new URL('.', …)` drops the file name and any
 // query string, so `loader.js?styles` still yields `…/dist` (no trailing slash).
@@ -673,6 +682,33 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-navigation-drawer-group': {
       CustomElementClass: NavigationDrawerGroup,
+    },
+    'wc-site-header': {
+      CustomElementClass: SiteHeader,
+    },
+    'wc-site-nav-menu': {
+      CustomElementClass: SiteNavMenu,
+    },
+    'wc-site-nav-group': {
+      CustomElementClass: SiteNavGroup,
+    },
+    'wc-site-nav-link': {
+      CustomElementClass: SiteNavLink,
+    },
+    'wc-site-footer': {
+      CustomElementClass: SiteFooter,
+    },
+    'wc-site-footer-group': {
+      CustomElementClass: SiteFooterGroup,
+    },
+    'wc-carousel': {
+      CustomElementClass: Carousel,
+    },
+    'wc-video': {
+      CustomElementClass: Video,
+    },
+    'wc-highlight': {
+      CustomElementClass: Highlight,
     },
     'wc-calendar': {
       importPath: `${distDirectory}/calendar.js`,

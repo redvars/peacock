@@ -1,0 +1,124 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+
+.track {
+  // The fallback keeps the slide width calculation valid on a page without the tokens.
+  --_gap: var(--carousel-gap, var(--spacing-200, 1rem));
+
+  display: flex;
+  gap: var(--_gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+::slotted(*) {
+  flex: 0 0
+    calc((100% - (var(--_per-view) - 1) * var(--_gap)) / var(--_per-view));
+  min-inline-size: 0;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+}
+
+// ── Controls ──────────────────────────────────────────────────────────────
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-150);
+}
+
+.chevron:dir(rtl) {
+  transform: scaleX(-1);
+}
+
+.pickers {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-050);
+}
+
+// The dot is small, the button around it is a 24px target.
+.picker {
+  @include mixin.reset-button-styles;
+
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  border-radius: var(--shape-corner-full);
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    border-radius: var(--shape-corner-full);
+    background-color: var(--color-outline-variant);
+    transition:
+      inline-size var(--duration-short4) var(--easing-standard),
+      background-color var(--duration-short4) var(--easing-standard);
+  }
+
+  &:hover::before {
+    background-color: var(--color-outline);
+  }
+
+  &.current {
+    inline-size: 2rem;
+
+    &::before {
+      inline-size: 1.5rem;
+      background-color: var(--color-primary);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 0;
+  }
+}
+
+.counter {
+  @include mixin.get-typography(label-large);
+
+  min-inline-size: 4rem;
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .picker::before {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .picker::before {
+    background-color: ButtonText;
+  }
+
+  .picker.current::before {
+    background-color: Highlight;
+  }
+}

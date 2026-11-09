@@ -1,0 +1,121 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Portal home block (pages/blocks/portal-home/). The outer frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.portal-demo {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: visible;
+}
+
+.portal-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--shape-corner-small);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 0.875rem;
+}
+
+.portal-main {
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.portal-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-800) var(--spacing-400) var(--spacing-1000);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  text-align: center;
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-500) var(--spacing-200) var(--spacing-800);
+  }
+}
+
+.portal-search {
+  display: block;
+  width: 100%;
+  max-width: 40rem;
+}
+
+.portal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+  padding: 0 var(--spacing-500) var(--spacing-500);
+
+  @include mixin.for-phone-only {
+    padding: 0 var(--spacing-200) var(--spacing-400);
+  }
+}
+
+.portal-categories {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--spacing-200);
+  margin-top: calc(-1 * var(--spacing-500));
+
+  wc-card {
+    height: 100%;
+    background: var(--color-surface);
+    border-radius: var(--shape-corner-large);
+  }
+}
+
+.portal-category {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  height: 100%;
+  padding: var(--spacing-250);
+  box-sizing: border-box;
+
+  wc-icon {
+    --icon-size: 1.75rem;
+    margin-bottom: var(--spacing-050);
+    color: var(--color-primary);
+  }
+}
+
+.portal-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-400);
+
+  @include mixin.for-phone-only {
+    grid-template-columns: 1fr;
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+}
+
+.portal-sign-in {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300);
+}
+
+// The docs site colours links; a brand is the portal's name, in the text colour.
+.portal-brand {
+  color: var(--color-on-surface);
+  text-decoration: none;
+}

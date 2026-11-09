@@ -1,0 +1,236 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Organisation members block (pages/blocks/org-members/). The page frame, header and footer come
+// from styles/blocks/site.scss. The demo sits beside the docs sidebar, so the layout follows
+// container widths, not the viewport's.
+
+$stacked: 48rem;
+
+.org-main {
+  container-type: inline-size;
+}
+
+// Side navigation beside the content; stacked when the page is narrow.
+.org-layout {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  align-items: start;
+  gap: var(--spacing-400);
+
+  @container (max-width: 52rem) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-300);
+  }
+}
+
+.org-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+
+.org-switcher {
+  width: 100%;
+}
+
+.org-content {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  min-width: 0;
+}
+
+.org-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+}
+
+.org-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+}
+
+.org-table {
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-surface);
+}
+
+.org-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// One member: person, role, status, last active and the row menu. When narrow, the cells stack
+// under the person, indented past the avatar.
+.org-row {
+  --_org-indent: calc(2rem + var(--spacing-150));
+
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.6fr) 8.5rem minmax(10rem, 1.2fr) 7rem 2.5rem;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150) var(--spacing-200);
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  @container (max-width: #{$stacked}) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'person menu'
+      'role role'
+      'status status'
+      'active active';
+    gap: var(--spacing-100);
+  }
+}
+
+.org-row-head {
+  border-block-start: 0;
+
+  @container (max-width: #{$stacked}) {
+    display: none;
+  }
+}
+
+.org-list .org-row:first-child {
+  @container (max-width: #{$stacked}) {
+    border-block-start: 0;
+  }
+}
+
+.org-person {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 0;
+
+  @container (max-width: #{$stacked}) {
+    grid-area: person;
+  }
+}
+
+.org-person-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.org-role {
+  min-width: 0;
+
+  wc-select {
+    width: 100%;
+  }
+
+  @container (max-width: #{$stacked}) {
+    grid-area: role;
+    padding-inline-start: var(--_org-indent);
+
+    wc-select {
+      width: 10rem;
+      max-width: 100%;
+    }
+  }
+}
+
+.org-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-050) var(--spacing-100);
+
+  @container (max-width: #{$stacked}) {
+    grid-area: status;
+    padding-inline-start: var(--_org-indent);
+  }
+}
+
+.org-invite-actions {
+  display: inline-flex;
+  gap: var(--spacing-050);
+}
+
+.org-active {
+  @container (max-width: #{$stacked}) {
+    grid-area: active;
+    padding-inline-start: var(--_org-indent);
+  }
+}
+
+// "Last active" is in the column header on wide screens, and shows before the time when stacked.
+.org-cell-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+
+  @container (max-width: #{$stacked}) {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+}
+
+.org-menu {
+  display: flex;
+  justify-content: flex-end;
+
+  @container (max-width: #{$stacked}) {
+    grid-area: menu;
+  }
+}
+
+// Between phone and full width, the role, status and last active share one line under the person.
+@container (min-width: 30rem) and (max-width: #{$stacked}) {
+  .org-row {
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'person person person menu'
+      'role status active active';
+    column-gap: var(--spacing-200);
+  }
+
+  .org-status,
+  .org-active {
+    padding-inline-start: 0;
+  }
+}
+
+.org-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+
+  wc-textarea,
+  wc-select {
+    width: 100%;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.org-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+}

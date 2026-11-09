@@ -1,0 +1,183 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.frame {
+  container-type: inline-size;
+  position: relative;
+  overflow: hidden;
+  inline-size: 100%;
+  border-radius: var(--video-shape, var(--shape-corner-large));
+  background-color: var(--color-surface-container-highest);
+  color: var(--color-on-surface);
+}
+
+.player {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+  background-color: var(--color-black);
+}
+
+// ── Poster ────────────────────────────────────────────────────────────────
+
+.play-button {
+  @include mixin.reset-button-styles;
+
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  color: var(--color-white);
+  cursor: pointer;
+  text-align: start;
+
+  .focus-ring {
+    --focus-ring-container-shape-start-start: var(
+      --video-shape,
+      var(--shape-corner-large)
+    );
+    --focus-ring-container-shape-start-end: var(
+      --video-shape,
+      var(--shape-corner-large)
+    );
+    --focus-ring-container-shape-end-start: var(
+      --video-shape,
+      var(--shape-corner-large)
+    );
+    --focus-ring-container-shape-end-end: var(
+      --video-shape,
+      var(--shape-corner-large)
+    );
+    // Inside the frame, which clips anything outside it.
+    --focus-ring-inset: -0.25rem;
+  }
+}
+
+// Without a poster, the frame is a plain surface with text in the surface's colour.
+.play-button:not(:has(.poster)) {
+  color: var(--color-on-surface);
+
+  .play-icon {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.title,
+.meta {
+  position: absolute;
+  inset-inline: 0;
+  padding: var(--spacing-200) var(--spacing-300);
+}
+
+.title {
+  @include mixin.get-typography(title-medium);
+
+  inset-block-start: 0;
+  background: linear-gradient(
+    color-mix(in srgb, var(--color-scrim, black) 65%, transparent),
+    transparent
+  );
+}
+
+.meta {
+  @include mixin.get-typography(body-small);
+
+  inset-block-end: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+  padding-block: var(--spacing-150);
+  background: linear-gradient(
+    transparent,
+    color-mix(in srgb, var(--color-scrim, black) 70%, transparent)
+  );
+}
+
+.play-button:not(:has(.poster)) :is(.title, .meta) {
+  background: none;
+}
+
+.play-icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  margin: auto;
+  border-radius: var(--shape-corner-full);
+  background-color: var(--color-surface-bright);
+  color: var(--color-primary);
+  box-shadow: var(--elevation-level2);
+  transition: transform var(--duration-short4) var(--easing-standard);
+
+  wc-icon {
+    --icon-size: 2.5rem;
+    --icon-color: currentColor;
+  }
+}
+
+.play-button:hover .play-icon {
+  transform: scale(1.08);
+}
+
+// A small frame, such as on a phone: smaller type and play button, so the three don't crowd.
+@container (max-width: 24rem) {
+  .title,
+  .meta {
+    padding-inline: var(--spacing-200);
+  }
+
+  .title {
+    @include mixin.get-typography(title-small);
+
+    padding-block: var(--spacing-150);
+  }
+
+  .meta {
+    padding-block: var(--spacing-100);
+  }
+
+  .play-icon {
+    inline-size: 3.5rem;
+    block-size: 3.5rem;
+
+    wc-icon {
+      --icon-size: 2rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .play-icon {
+    transition: none;
+  }
+
+  .play-button:hover .play-icon {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .play-icon {
+    border: 2px solid ButtonText;
+  }
+}

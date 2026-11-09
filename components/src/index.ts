@@ -159,6 +159,24 @@ export {
   NavigationDrawerItem,
   NavigationDrawerGroup,
 } from './navigation-drawer/index.js';
+export {
+  SiteHeader,
+  SiteNavMenu,
+  SiteNavGroup,
+  SiteNavLink,
+} from './site-header/index.js';
+export type {
+  SiteHeaderCloseDetail,
+  SiteNavMenuCloseDetail,
+  SiteNavMenuCloseReason,
+} from './site-header/index.js';
+export { SiteFooter, SiteFooterGroup } from './site-footer/index.js';
+export { Carousel } from './carousel/index.js';
+export type { CarouselChangeDetail } from './carousel/index.js';
+export { Video, parseVideoSource } from './video/index.js';
+export type { VideoProvider } from './video/index.js';
+export { Highlight, findMatches } from './highlight/index.js';
+export type { HighlightRange } from './highlight/index.js';
 export { Listbox, ListboxOption } from './listbox/index.js';
 export type { ListboxChangeDetail } from './listbox/index.js';
 export { PinInput } from './pin-input/index.js';

@@ -1,0 +1,130 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalHeader from '../../../components/blocks/PortalHeader.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/my-cases.scss';
+
+type Status = 'Waiting for you' | 'In progress' | 'New';
+type Priority = 'High' | 'Normal' | 'Low';
+
+interface Case {
+  id: string;
+  subject: string;
+  status: Status;
+  priority: Priority;
+  // Hours since the last update; the script turns it into a date, so the demo never ages.
+  hoursAgo: number;
+}
+
+const openCases: Case[] = [
+  { id: 'CS-10482', subject: 'Invoice for October shows the wrong VAT number', status: 'Waiting for you', priority: 'High', hoursAgo: 2 },
+  { id: 'CS-10477', subject: 'Cannot add a second administrator', status: 'In progress', priority: 'Normal', hoursAgo: 20 },
+  { id: 'CS-10465', subject: 'Export to CSV stops at 10,000 rows', status: 'In progress', priority: 'Normal', hoursAgo: 52 },
+  { id: 'CS-10491', subject: 'Question about the annual plan', status: 'New', priority: 'Low', hoursAgo: 0.3 },
+];
+---
+
+<Layout
+  title='My cases'
+  description="A signed-in customer's support cases built from Peacock components: a portal header, a page header with an Open a case action, tabs for open and resolved cases, a table with status tags, priorities and relative last updates, and an empty state."
+>
+  <div class='block-demo site-demo cases-demo'>
+    <PortalHeader current='My cases' signedIn />
+
+    <main class='site-main cases-main'>
+      <wc-page-header
+        class='cases-header'
+        headline='My cases'
+        heading-level='2'
+        supporting-text='Questions and problems you raised with Acme Support.'
+      >
+        <wc-link-button slot='actions' href='#' level='primary'>
+          <wc-icon slot='icon' name='add'></wc-icon>
+          Open a case
+        </wc-link-button>
+      </wc-page-header>
+
+      <wc-tab-group class='cases-tabs'>
+        <wc-tabs aria-label='Cases'>
+          <wc-tab value='open' selected>Open ({openCases.length})</wc-tab>
+          <wc-tab value='resolved'>Resolved</wc-tab>
+        </wc-tabs>
+
+        <wc-tab-panel value='open'>
+          <wc-table id='cases-open' class='cases-table' key-field='id' label='Open cases'></wc-table>
+        </wc-tab-panel>
+
+        <wc-tab-panel value='resolved'>
+          <wc-table id='cases-resolved' class='cases-table' key-field='id' label='Resolved cases'>
+            <div slot='empty' class='cases-empty'>
+              <wc-illustration name='empty-inbox' size='sm'></wc-illustration>
+              <h3 class='text-title-medium'>Nothing resolved in the last 90 days</h3>
+              <p class='text-body-medium site-muted'>Cases move here when you or our team mark them solved.</p>
+              <wc-link-button href='#' variant='outlined'>See older cases</wc-link-button>
+            </div>
+          </wc-table>
+        </wc-tab-panel>
+      </wc-tab-group>
+    </main>
+
+    <PortalFooter />
+  </div>
+
+  <script is:inline define:vars={{ openCases }}>
+    // Status shows as text in a tag; the intent only adds colour.
+    const STATUS_INTENTS = { 'Waiting for you': 'warning', 'In progress': 'info', New: '' };
+    const PRIORITY_ICONS = { High: 'keyboard_double_arrow_up', Normal: 'drag_handle', Low: 'keyboard_arrow_down' };
+    const escape = text => text.replace(/[&<>'"]/g, c => `&#${c.charCodeAt(0)};`);
+    const now = Date.now();
+
+    const columns = [
+      { name: 'id', label: 'Case', width: 7, fixed: 'start' },
+      {
+        name: 'subject',
+        label: 'Subject',
+        width: 16,
+        flex: 1,
+        template: row => `<a href='#' style='color: var(--color-primary);'>${escape(row.subject)}</a>`,
+      },
+      {
+        name: 'status',
+        label: 'Status',
+        width: 10,
+        template: row => {
+          const intent = STATUS_INTENTS[row.status];
+          return `<wc-tag size='sm'${intent ? ` intent='${intent}'` : ''}>${row.status}</wc-tag>`;
+        },
+      },
+      {
+        name: 'priority',
+        label: 'Priority',
+        width: 7,
+        template: row => `
+          <span style='display: inline-flex; align-items: center; gap: var(--spacing-050);'>
+            <wc-icon name='${PRIORITY_ICONS[row.priority]}' style='--icon-size: 1rem;' aria-hidden='true'></wc-icon>${row.priority}
+          </span>`,
+      },
+      {
+        name: 'updated',
+        label: 'Last update',
+        width: 9,
+        template: row => `<wc-relative-time datetime='${row.updated}'></wc-relative-time>`,
+      },
+    ];
+
+    const open = document.getElementById('cases-open');
+    const resolved = document.getElementById('cases-resolved');
+
+    open.columns = columns;
+    open.sortBy = 'updated';
+    open.sortOrder = 'desc';
+    open.data = openCases.map(({ hoursAgo, ...row }) => ({
+      ...row,
+      updated: new Date(now - hoursAgo * 3600000).toISOString(),
+    }));
+
+    resolved.columns = columns;
+    resolved.data = [];
+  </script>
+</Layout>

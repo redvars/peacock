@@ -1,0 +1,146 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalHeader from '../../../components/blocks/PortalHeader.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/search-results.scss';
+
+type ResultType = 'article' | 'question' | 'video';
+
+interface Result {
+  type: ResultType;
+  crumbs: string[];
+  title: string;
+  excerpt: string;
+}
+
+const query = 'reset password';
+
+// Counts across every page of results; the list shows the first page.
+const types: { value: ResultType; label: string; icon: string; total: number }[] = [
+  { value: 'article', label: 'Articles', icon: 'article', total: 14 },
+  { value: 'question', label: 'Questions', icon: 'forum', total: 6 },
+  { value: 'video', label: 'Videos', icon: 'smart_display', total: 3 },
+];
+const total = types.reduce((sum, type) => sum + type.total, 0);
+
+const results: Result[] = [
+  {
+    type: 'article',
+    crumbs: ['Knowledge', 'Accounts'],
+    title: 'Reset your password',
+    excerpt: 'If you forgot your password, choose Forgot password on the sign-in page and reset it from the link we email you.',
+  },
+  {
+    type: 'article',
+    crumbs: ['Knowledge', 'Accounts'],
+    title: 'Unlock a locked account',
+    excerpt: 'After five wrong passwords your account locks for 15 minutes. Wait, or reset your password to unlock it at once.',
+  },
+  {
+    type: 'question',
+    crumbs: ['Community', 'Sign-in'],
+    title: 'Password reset email never arrives',
+    excerpt: 'Answered: the reset email comes from no-reply@acme.example. Add it to your contacts and check the spam folder.',
+  },
+  {
+    type: 'article',
+    crumbs: ['Knowledge', 'Administration'],
+    title: 'Reset the password of someone in your team',
+    excerpt: 'Administrators can send a reset link from the Members page. The person chooses the new password themselves.',
+  },
+  {
+    type: 'video',
+    crumbs: ['Videos', 'Getting started'],
+    title: 'Sign in for the first time',
+    excerpt: 'A two-minute walk through signing in, setting a password and turning on two-step verification.',
+  },
+];
+
+const typeLabel = (type: ResultType) => types.find(t => t.value === type)?.label.replace(/s$/, '') ?? '';
+---
+
+<Layout
+  title='Search results'
+  description='Portal search results built from Peacock components: a search box, filter chips by type with counts, results with the query marked by wc-highlight in titles and excerpts, pagination and a card to open a case.'
+>
+  <div class='block-demo site-demo sr-demo'>
+    <PortalHeader current='Knowledge' signedIn />
+
+    <main class='site-main sr-main'>
+      <header class='sr-header'>
+        <h2 class='text-headline-small'>Search</h2>
+        <wc-search class='sr-search' label='Search help' placeholder='Search help' value={query}></wc-search>
+      </header>
+
+      <div class='sr-columns'>
+        <section class='sr-results' aria-labelledby='sr-count'>
+          <wc-chip-set id='sr-types' class='sr-types' selectable label='Filter by type'>
+            {types.map(type => (
+              <wc-chip value={type.value} data-total={type.total}>
+                <wc-icon slot='icon' name={type.icon}></wc-icon>
+                {type.label} ({type.total})
+              </wc-chip>
+            ))}
+          </wc-chip-set>
+
+          <p id='sr-count' class='text-body-medium site-muted' role='status' data-total={total}>
+            {total} results for “{query}”
+          </p>
+
+          <ol class='sr-list'>
+            {results.map(result => (
+              <li class='sr-item' data-type={result.type}>
+                <p class='sr-crumbs text-label-medium site-muted'>
+                  {result.crumbs.join(' › ')} · {typeLabel(result.type)}
+                </p>
+                <h3 class='text-title-medium'>
+                  <a class='sr-title' href='#'><wc-highlight query={query}>{result.title}</wc-highlight></a>
+                </h3>
+                <p class='text-body-medium'>
+                  <wc-highlight query={query}>{result.excerpt}</wc-highlight>
+                </p>
+              </li>
+            ))}
+          </ol>
+
+          <wc-pagination id='sr-pages' class='sr-pagination' page='1' page-size='5' total-items={total} hide-page-size label='Search results pages'></wc-pagination>
+        </section>
+
+        <aside class='sr-aside' aria-label='More help'>
+          <wc-card variant='filled'>
+            <wc-card-content class='sr-help'>
+              <wc-icon name='support_agent'></wc-icon>
+              <h3 class='text-title-medium'>Can't find it?</h3>
+              <p class='text-body-medium site-muted'>Try fewer words, or open a case and tell us what you were looking for.</p>
+              <wc-link-button href='#' variant='tonal'>Open a case</wc-link-button>
+            </wc-card-content>
+          </wc-card>
+        </aside>
+      </div>
+    </main>
+
+    <PortalFooter />
+  </div>
+
+  <script is:inline>
+    {
+      // Filters the first page in place; a real portal asks the search service again.
+      const chips = document.getElementById('sr-types');
+      const count = document.getElementById('sr-count');
+      const pages = document.getElementById('sr-pages');
+      const items = [...document.querySelectorAll('.sr-item')];
+      const query = 'reset password';
+
+      chips.addEventListener('change', event => {
+        const type = event.detail.value;
+        const chip = type && chips.querySelector(`wc-chip[value='${type}']`);
+        const total = Number(chip ? chip.dataset.total : count.dataset.total);
+        for (const item of items) item.hidden = Boolean(type) && item.dataset.type !== type;
+        count.textContent = `${total} ${total === 1 ? 'result' : 'results'} for “${query}”`;
+        pages.page = 1;
+        pages.totalItems = total;
+      });
+    }
+  </script>
+</Layout>

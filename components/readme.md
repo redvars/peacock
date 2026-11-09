@@ -161,6 +161,8 @@ Every component below ships in 4.0, except the [AI](#ai) group, which arrives in
 
 [App shell](https://peacock.redvars.com/components/app-shell) `wc-app-shell` ·
 [App bar](https://peacock.redvars.com/components/app-bar) `wc-app-bar` ·
+[Site header](https://peacock.redvars.com/components/site-header) `wc-site-header` ·
+[Site footer](https://peacock.redvars.com/components/site-footer) `wc-site-footer` ·
 [Page header](https://peacock.redvars.com/components/page-header) `wc-page-header` ·
 [Container](https://peacock.redvars.com/components/container) `wc-container` ·
 [Stack](https://peacock.redvars.com/components/stack) `wc-stack` ·
@@ -267,6 +269,9 @@ Every component below ships in 4.0, except the [AI](#ai) group, which arrives in
 [Diff viewer](https://peacock.redvars.com/components/diff-viewer) `wc-diff-viewer` ·
 [Code highlighter](https://peacock.redvars.com/components/code-highlighter) `wc-code-highlighter` ·
 [Number counter](https://peacock.redvars.com/components/number-counter) `wc-number-counter` ·
+[Carousel](https://peacock.redvars.com/components/carousel) `wc-carousel` ·
+[Video](https://peacock.redvars.com/components/video) `wc-video` ·
+[Highlight](https://peacock.redvars.com/components/highlight) `wc-highlight` ·
 [Image](https://peacock.redvars.com/components/image) `wc-image` ·
 SVG `wc-svg` ·
 [Icon](https://peacock.redvars.com/components/icon) `wc-icon` ·

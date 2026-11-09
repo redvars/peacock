@@ -1,0 +1,45 @@
+@charset "utf-8";
+@use '../mixin';
+
+// My cases block (pages/blocks/my-cases/). The page frame, header and footer come from
+// styles/blocks/site.scss.
+
+.cases-main {
+  gap: var(--spacing-200);
+}
+
+.cases-header {
+  --page-header-padding-inline: 0;
+  --page-header-padding-block: 0;
+}
+
+.cases-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+
+.cases-table {
+  width: 100%;
+  // Wide columns scroll inside the table on phones; the case number stays pinned.
+  contain: inline-size;
+}
+
+.cases-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-400) var(--spacing-200);
+  text-align: center;
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  > wc-link-button {
+    margin-block-start: var(--spacing-100);
+  }
+}

@@ -1,0 +1,182 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/blog-post.scss';
+
+type Accent = 'blue' | 'green' | 'purple';
+
+interface RelatedPost {
+  title: string;
+  topic: string;
+  accent: Accent;
+  author: string;
+  date: string;
+  dateLabel: string;
+  image: string;
+  width: number;
+  height: number;
+}
+
+const rule = `{
+  "table": "incident",
+  "operation": "read",
+  "roles": ["agent"],
+  "condition": "assignment_group IN current_user.groups"
+}`;
+
+const related: RelatedPost[] = [
+  {
+    title: 'One customer, one database',
+    topic: 'Engineering',
+    accent: 'blue',
+    author: 'Aiko Tanaka',
+    date: '2026-10-14',
+    dateLabel: '14 October 2026',
+    image: '/assets/img/code-editor.webp',
+    width: 492,
+    height: 300,
+  },
+  {
+    title: 'Designing forms that follow the table',
+    topic: 'Product',
+    accent: 'purple',
+    author: 'Lena Fischer',
+    date: '2026-09-30',
+    dateLabel: '30 September 2026',
+    image: '/assets/img/html-editor.webp',
+    width: 1100,
+    height: 600,
+  },
+  {
+    title: 'How Fernhill Logistics left its spreadsheets behind',
+    topic: 'Customers',
+    accent: 'green',
+    author: 'Priya Natarajan',
+    date: '2026-10-21',
+    dateLabel: '21 October 2026',
+    image: '/assets/img/table.webp',
+    width: 1166,
+    height: 480,
+  },
+];
+---
+
+<Layout
+  title='Blog post'
+  description='A blog post built from Peacock components: the shared site header, a breadcrumb, a topic tag, the author with date and reading time, long-form text with a highlighted code sample and a quote, a sticky "On this page" anchor nav beside it, related post cards and the site footer.'
+>
+  <div class='block-demo site-demo blogpost-demo'>
+    <WebsiteHeader current='blog' />
+
+    <main class='site-main blogpost-main'>
+      <wc-breadcrumb label='Breadcrumb'>
+        <wc-breadcrumb-item href='#'>Blog</wc-breadcrumb-item>
+        <wc-breadcrumb-item href='#'>Engineering</wc-breadcrumb-item>
+        <wc-breadcrumb-item current>One check on every read and write</wc-breadcrumb-item>
+      </wc-breadcrumb>
+
+      <header class='blogpost-header'>
+        <wc-tag accent='blue'>Engineering</wc-tag>
+        <h2 class='text-display-small'>Why every read and write passes one check</h2>
+        <p class='text-body-large site-muted'>
+          Agents, customers, flows and the API all reach the same records. Here is why we let one place decide who may see and change them.
+        </p>
+        <div class='blogpost-byline'>
+          <wc-avatar name='Jonas Lindqvist'></wc-avatar>
+          <div class='blogpost-byline-text'>
+            <span class='text-title-small'>Jonas Lindqvist</span>
+            <span class='text-body-small site-muted'>
+              <time datetime='2026-10-28'>28 October 2026</time> · 6 min read
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <figure class='blogpost-hero'>
+        <img src='/assets/img/condition-builder.webp' alt='An access rule in the condition builder: assignment group is one of my groups' width='685' height='441' />
+      </figure>
+
+      <div class='blogpost-layout'>
+        <article id='blogpost-body' class='site-prose blogpost-body text-body-large'>
+          <p>
+            Most business applications grow a second door. The forms check who you are, but a report, an export or an integration reads the
+            tables directly. Sooner or later the two disagree, and someone sees a record they should not.
+          </p>
+
+          <h3 id='blogpost-problem' class='text-headline-small'>The problem with many checks</h3>
+          <p>
+            When every screen checks access on its own, every new screen is a new chance to get it wrong. Tests help, but they test the screens
+            you thought of. The customer portal, the nightly import and the API each carry their own copy of the rules.
+          </p>
+          <ul>
+            <li>A field hidden on the form still comes back from the API.</li>
+            <li>An export runs as an administrator because that was easier.</li>
+            <li>A flow updates records its starter could never open.</li>
+          </ul>
+
+          <h3 id='blogpost-one-path' class='text-headline-small'>One data path</h3>
+          <p>
+            In Redvars there is one way to read or write a record: through the kernel. Forms, lists, rules, flows, the portal and the REST routes
+            all go through it, and it runs the same check every time. There is no faster path around it, so there is nothing to forget.
+          </p>
+          <p>Access rules are records too. A rule names a table, an operation, the roles it applies to and an optional condition:</p>
+          <wc-code-highlighter language='json' label='incident-read.json' value={rule}></wc-code-highlighter>
+          <p>
+            When an agent opens a list of incidents, the condition becomes part of the query. Records outside their groups are never loaded, so
+            they cannot leak through a total, a chart or a search result.
+          </p>
+
+          <h3 id='blogpost-cost' class='text-headline-small'>What it costs</h3>
+          <p>
+            A single check has to be fast, because everything waits for it. We compile each rule once, cache it per role and push conditions
+            into the database query instead of filtering rows afterwards.
+          </p>
+          <figure class='blogpost-quote'>
+            <blockquote>
+              <p class='text-title-large'>“We stopped asking whether a screen was secure. If it reads data, it went through the check.”</p>
+            </blockquote>
+            <figcaption class='text-body-medium site-muted'>Samuel Osei, security officer at Northgate Insurance</figcaption>
+          </figure>
+
+          <h3 id='blogpost-next' class='text-headline-small'>What comes next</h3>
+          <p>
+            Next we are adding a way to ask "why can I see this?" for any record, so administrators can follow the rule that allowed it. If you
+            want to try it early, <a href='#'>join the waitlist</a>.
+          </p>
+        </article>
+
+        <aside class='blogpost-aside'>
+          <wc-anchor-nav class='blogpost-toc' for='blogpost-body' headline='On this page'></wc-anchor-nav>
+        </aside>
+      </div>
+
+      <section class='blogpost-related' aria-labelledby='blogpost-related-title'>
+        <h3 id='blogpost-related-title' class='text-title-large'>Related posts</h3>
+        <ul class='blogpost-grid'>
+          {related.map(post => (
+            <li>
+              <wc-card class='blogpost-card' variant='outlined' href='#'>
+                <div class='blogpost-card-media'>
+                  <img src={post.image} alt='' width={post.width} height={post.height} loading='lazy' />
+                </div>
+                <wc-card-content class='blogpost-card-text'>
+                  <wc-tag size='sm' accent={post.accent}>{post.topic}</wc-tag>
+                  <h4 class='text-title-medium'>{post.title}</h4>
+                  <div class='blogpost-card-author'>
+                    <wc-avatar name={post.author} size='sm'></wc-avatar>
+                    <span class='text-label-large'>{post.author}</span>
+                    <time class='text-body-small site-muted' datetime={post.date}>{post.dateLabel}</time>
+                  </div>
+                </wc-card-content>
+              </wc-card>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+
+    <WebsiteFooter />
+  </div>
+</Layout>

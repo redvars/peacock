@@ -1,0 +1,82 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Not found block (pages/blocks/not-found/). The page frame, header, footer and .site-* helpers
+// come from styles/blocks/site.scss.
+
+.notfound-main {
+  justify-content: center;
+  gap: var(--spacing-600);
+
+  @include mixin.for-phone-only {
+    gap: var(--spacing-500);
+  }
+}
+
+.notfound-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-150);
+  max-width: 36rem;
+  margin-inline: auto;
+  text-align: center;
+
+  wc-illustration {
+    max-width: 100%;
+    margin-bottom: var(--spacing-100);
+  }
+}
+
+.notfound-search {
+  width: 100%;
+  margin-top: var(--spacing-200);
+
+  wc-search {
+    display: block;
+    width: 100%;
+  }
+}
+
+.notfound-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.notfound-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: var(--spacing-200);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+  }
+
+  wc-card {
+    width: 100%;
+  }
+}
+
+.notfound-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  height: 100%;
+  padding: var(--spacing-250);
+  box-sizing: border-box;
+
+  wc-icon {
+    --icon-size: 1.75rem;
+    margin-bottom: var(--spacing-050);
+    color: var(--color-primary);
+  }
+}

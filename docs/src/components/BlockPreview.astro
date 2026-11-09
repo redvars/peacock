@@ -280,6 +280,193 @@ const { name, icon } = Astro.props;
   </div>
 )}
 
-{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket', 'assistant', 'home-ai', 'incident-agent', 'agent-inbox'].includes(name) && (
+{name === 'landing' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+    <div class='bp-site-hero'>
+      <div class='bp-site-copy'><span class='bp-line bp-title'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+      <span class='bp-site-media'></span>
+    </div>
+    <div class='bp-row'><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span></div>
+    <div class='bp-site-foot'><span></span><span></span><span></span><span></span></div>
+  </div>
+)}
+
+{name === 'portal-home' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-site-signin'></span></div>
+    <div class='bp-site-search'><span class='bp-field'></span></div>
+    <div class='bp-row bp-site-cards'><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span></div>
+    <div class='bp-site-split'><div><span class='bp-line'></span><span class='bp-line'></span><span class='bp-line'></span></div><span class='bp-tile'></span></div>
+  </div>
+)}
+
+{/* ── Website ── */}
+
+{name === 'product-page' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+    <div class='bp-site-hero'>
+      <div class='bp-site-copy'><span class='bp-line bp-title'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+      <span class='bp-site-media bp-site-video'><i></i></span>
+    </div>
+    <div class='bp-site-split bp-site-flip'><span class='bp-tile'></span><div><span class='bp-line'></span><span class='bp-line bp-short'></span></div></div>
+    <div class='bp-row bp-site-quotes'><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span></div>
+    <div class='bp-site-dots'><i class='on'></i><i></i><i></i></div>
+  </div>
+)}
+
+{name === 'blog-index' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+    <div class='bp-site-chips'><i class='on'></i><i></i><i></i><i></i></div>
+    <div class='bp-site-split'><span class='bp-site-media'></span><div><span class='bp-line bp-title'></span><span class='bp-line'></span><span class='bp-line bp-short'></span></div></div>
+    <div class='bp-row bp-site-posts'><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span></div>
+  </div>
+)}
+
+{(name === 'blog-post' || name === 'legal-page') && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+    <div class='bp-site-article'>
+      <div>
+        <span class='bp-line bp-short'></span>
+        <span class='bp-line bp-title'></span>
+        {name === 'blog-post' ? <span class='bp-site-media'></span> : <span class='bp-site-note'></span>}
+        <span class='bp-line'></span><span class='bp-line'></span><span class='bp-line bp-short'></span>
+      </div>
+      <div class='bp-site-toc'><span class='bp-line on'></span><span class='bp-line'></span><span class='bp-line'></span><span class='bp-line'></span></div>
+    </div>
+  </div>
+)}
+
+{name === 'docs-page' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+    <div class='bp-site-docs'>
+      <div class='bp-site-toc'><span class='bp-line'></span><span class='bp-line on'></span><span class='bp-line'></span><span class='bp-line'></span><span class='bp-line'></span></div>
+      <div><span class='bp-line bp-title'></span><span class='bp-line'></span><span class='bp-site-note'></span><span class='bp-site-code'></span><span class='bp-line bp-short'></span></div>
+      <div class='bp-site-toc'><span class='bp-line on'></span><span class='bp-line'></span><span class='bp-line'></span></div>
+    </div>
+  </div>
+)}
+
+{name === 'not-found' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-button'></span></div>
+    <div class='bp-site-center'>
+      <span class='bp-site-404'>404</span>
+      <span class='bp-line bp-title'></span>
+      <span class='bp-field'></span>
+      <div class='bp-row'><span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span></div>
+    </div>
+  </div>
+)}
+
+{name === 'waitlist' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span></div>
+    <div class='bp-site-hero'>
+      <div class='bp-site-copy'><span class='bp-line bp-title'></span><span class='bp-site-check'></span><span class='bp-site-check'></span><span class='bp-site-check'></span></div>
+      <div class='bp-site-form'><span class='bp-field'></span><span class='bp-field'></span><span class='bp-field'></span><span class='bp-button'></span></div>
+    </div>
+  </div>
+)}
+
+{/* ── Portals ── */}
+
+{name === 'knowledge-article' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-site-avatar'></span></div>
+    <div class='bp-site-article'>
+      <div>
+        <span class='bp-line bp-short'></span>
+        <span class='bp-line bp-title'></span>
+        <span class='bp-site-step'><b>1</b><span class='bp-line'></span></span>
+        <span class='bp-site-step'><b>2</b><span class='bp-line'></span></span>
+        <span class='bp-site-step'><b>3</b><span class='bp-line'></span></span>
+        <span class='bp-site-helpful'><span class='bp-line'></span><i></i><i></i></span>
+      </div>
+      <div class='bp-site-toc'><span class='bp-line'></span><span class='bp-line'></span><span class='bp-tile'></span></div>
+    </div>
+  </div>
+)}
+
+{name === 'search-results' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-site-avatar'></span></div>
+    <div class='bp-site-results'>
+      <span class='bp-field'></span>
+      <div class='bp-site-chips'><i class='on'></i><i></i><i></i></div>
+      {[0, 1, 2].map(() => (
+        <span class='bp-site-result'><span class='bp-line bp-short'></span><span class='bp-site-row'><i class='bp-site-mark-hl'></i><span class='bp-line'></span></span><span class='bp-site-row'><span class='bp-line'></span><i class='bp-site-mark-hl'></i></span></span>
+      ))}
+    </div>
+  </div>
+)}
+
+{name === 'service-catalog' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-site-avatar'></span></div>
+    <div class='bp-site-sheet'>
+      <div>
+        <div class='bp-site-chips'><i class='on'></i><i></i><i></i></div>
+        <div class='bp-row'><span class='bp-tile'></span><span class='bp-tile'></span></div>
+        <div class='bp-row'><span class='bp-tile'></span><span class='bp-tile'></span></div>
+      </div>
+      <div class='bp-site-form'><span class='bp-line bp-title'></span><span class='bp-field'></span><span class='bp-field'></span><span class='bp-button'></span></div>
+    </div>
+  </div>
+)}
+
+{(name === 'my-cases' || name === 'org-members') && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-site-avatar'></span></div>
+    <div class={name === 'org-members' ? 'bp-site-docs bp-site-admin' : 'bp-site-results'}>
+      {name === 'org-members' && <div class='bp-site-toc'><span class='bp-line on'></span><span class='bp-line'></span><span class='bp-line'></span></div>}
+      <div class='bp-site-results'>
+        <span class='bp-site-row bp-site-head'><span class='bp-line bp-title'></span><span class='bp-button'></span></span>
+        {[0, 1, 2, 3].map(i => (
+          <span class='bp-site-row bp-site-trow'>
+            {name === 'org-members' && <span class='bp-site-avatar'></span>}
+            <span class='bp-line'></span>
+            <i class={i === 1 ? 'bp-site-tag bp-site-tag-alt' : 'bp-site-tag'}></i>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+{name === 'downloads' && (
+  <div class='bp bp-site'>
+    <div class='bp-site-bar'><i class='bp-site-mark'></i><span class='bp-line'></span><span class='bp-line'></span><span class='bp-site-avatar'></span></div>
+    <div class='bp-site-results'>
+      <span class='bp-site-release'>
+        <span class='bp-line bp-title'></span>
+        <span class='bp-site-chips'><i class='on'></i><i></i><i></i></span>
+        <span class='bp-site-row'><span class='bp-button'></span><span class='bp-site-code'></span></span>
+      </span>
+      <span class='bp-site-row'><span class='bp-site-code'></span><i class='bp-site-copy'></i></span>
+      <span class='bp-line'></span><span class='bp-line bp-short'></span>
+    </div>
+  </div>
+)}
+
+{name === 'oidc-sign-in' && (
+  <div class='bp bp-auth'>
+    <div class='bp-card'>
+      <span class='bp-dot'></span>
+      <span class='bp-line bp-short'></span>
+      <span class='bp-field bp-provider'></span>
+      <span class='bp-field bp-provider'></span>
+      <span class='bp-line bp-or'></span>
+      <span class='bp-field'></span>
+      <span class='bp-button'></span>
+    </div>
+  </div>
+)}
+
+{!['dashboard', 'login', 'signup', 'settings', 'data-table', 'two-factor', 'onboarding', 'pricing', 'record-detail', 'app-shell', 'kanban', 'calendar', 'ticket', 'assistant', 'home-ai', 'incident-agent', 'agent-inbox', 'landing', 'portal-home', 'product-page', 'blog-index', 'blog-post', 'docs-page', 'legal-page', 'not-found', 'waitlist', 'knowledge-article', 'search-results', 'service-catalog', 'my-cases', 'org-members', 'downloads', 'oidc-sign-in'].includes(name) && (
   <wc-icon class='bp-fallback' name={icon}></wc-icon>
 )}

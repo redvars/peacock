@@ -1,0 +1,126 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Sign in with a provider block (pages/blocks/oidc-sign-in/). The page frame and footer come from
+// styles/blocks/site.scss; the card follows the Login block (styles/blocks/auth.scss).
+
+.oidc-demo {
+  background:
+    radial-gradient(circle at 15% 10%, var(--color-primary-container), transparent 45%),
+    radial-gradient(circle at 85% 90%, var(--color-tertiary-container), transparent 40%),
+    var(--color-surface-container-low);
+}
+
+.oidc-main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-500) var(--spacing-200);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-300) var(--spacing-100);
+  }
+}
+
+.oidc-card {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.oidc-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  padding: var(--spacing-400) var(--spacing-300);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-300) var(--spacing-200);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.oidc-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-075);
+  text-align: center;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.oidc-logo {
+  width: 3rem;
+  height: 3rem;
+  margin-block-end: var(--spacing-050);
+  border-radius: var(--shape-corner-medium);
+  font-size: 1.25rem;
+}
+
+.oidc-providers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+// wc-button has no full-width option; stretch the host.
+.oidc-provider,
+.oidc-submit {
+  width: 100%;
+}
+
+// A neutral letter tile in the button's icon slot, where the app puts the provider's mark.
+.oidc-mark {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: var(--shape-corner-small);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.oidc-divider {
+  --divider-spacing: 0;
+}
+
+.oidc-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+
+  wc-input {
+    width: 100%;
+  }
+}
+
+.oidc-status {
+  // Stays in the layout while empty, so screen readers announce what is written into it.
+  color: var(--color-on-surface-variant);
+}
+
+.oidc-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+
+  wc-icon {
+    --icon-size: 1rem;
+
+    flex: none;
+    margin-block-start: var(--spacing-025);
+  }
+}
+
+.oidc-terms {
+  text-align: center;
+}

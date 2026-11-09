@@ -1,0 +1,64 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-site-header</code> is the top bar of a website or a portal. Put the site's logo and name
+  in the <code>brand</code> slot, <code>wc-site-nav-link</code> elements for destinations and
+  <code>wc-site-nav-menu</code> elements for sections with several pages in the default slot, and
+  buttons such as Sign in in the <code>actions</code> slot. Mark the page the person is on with
+  <code>current</code>; a menu holding the current page shows as current too.
+</p>
+<p>
+  It is for sites, not apps: an application screen uses <code>wc-app-shell</code> with a
+  <code>wc-app-bar</code>. The header collapses into a drawer when it is narrower than
+  <code>collapse-at</code> or its bar would not fit, so the demos on this page set
+  <code>collapse-at='520'</code> and keep to a few links to suit the page's column; see
+  <a href='#narrow-screens'>Narrow screens</a>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; min-height: 300px;'>
+    <wc-site-header id='site-header-demo' collapse-at='520'>
+      <a slot='brand' href='#'>
+        <img src='/assets/img/logo-plain.webp' alt='' width='32' height='32' style='border-radius: 8px;' />
+        Redvars
+      </a>
+      <wc-site-nav-menu label='Solutions'>
+        <wc-site-nav-link href='#'>IT service management</wc-site-nav-link>
+        <wc-site-nav-link href='#'>Customer support</wc-site-nav-link>
+        <wc-site-nav-link href='#'>HR case management</wc-site-nav-link>
+      </wc-site-nav-menu>
+      <wc-site-nav-link href='#' current>Docs</wc-site-nav-link>
+      <wc-site-nav-link href='#'>Pricing</wc-site-nav-link>
+      <wc-link-button slot='actions' href='#'>Sign in</wc-link-button>
+    </wc-site-header>
+  </div>
+  <script is:inline>
+    document.querySelectorAll('#site-header-demo wc-site-nav-menu').forEach(function (menu) {
+      menu.addEventListener('open', function () {
+        myConsole.log('open: ' + menu.label);
+      });
+      menu.addEventListener('close', function (event) {
+        myConsole.log('close: ' + menu.label + ' (' + event.detail.reason + ')');
+      });
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Links and menus</h3>
+<p>
+  A <code>wc-site-nav-link</code> renders a real <code>&lt;a&gt;</code>, so middle-click, Open in
+  new tab and a client-side router that listens for link clicks all work. A
+  <code>wc-site-nav-menu</code> is a disclosure button: it opens a panel under the bar on click,
+  Enter or Space, and only one menu in a header is open at a time. Set <code>open-on-hover</code> on
+  the header to also open menus when a mouse rests on them; click and keyboard still work.
+</p>
+<p>
+  The header's root is a <code>&lt;header&gt;</code>, the page's banner landmark, and the bar's
+  links sit in a <code>&lt;nav&gt;</code> named "Main navigation" (set <code>label</code> to change
+  it). A visually hidden <em>Skip to main content</em> link comes first and moves focus to
+  <code>skip-target</code>, <code>#main</code> by default; press Tab in the demo to see it.
+</p>

@@ -1,0 +1,42 @@
+---
+export const title = 'Portals';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A portal for customers signs some people in and shows others as visitors. Put a
+  <code>wc-user-menu</code> in the <code>end</code> slot for someone signed in, and a Sign in link
+  for a visitor; both stay in the bar at every width. The header takes its colours from the theme,
+  so a portal's own primary colour and shape apply without extra styling.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; min-height: 240px; display: grid; gap: 1rem;'>
+    <wc-site-header label='Pages' collapse-at='520'>
+      <a slot='brand' href='#'>Acme Support</a>
+      <wc-site-nav-link href='#'>Home</wc-site-nav-link>
+      <wc-site-nav-menu label='Knowledge'>
+        <wc-site-nav-link href='#'>Accounts</wc-site-nav-link>
+        <wc-site-nav-link href='#'>Billing</wc-site-nav-link>
+        <wc-site-nav-link href='#'>Troubleshooting</wc-site-nav-link>
+      </wc-site-nav-menu>
+      <wc-site-nav-link href='#' current>My tickets</wc-site-nav-link>
+      <wc-user-menu slot='end' name='Ada Lovelace' email='ada@acme.example'></wc-user-menu>
+    </wc-site-header>
+    <wc-site-header label='Pages' collapse-at='520'>
+      <a slot='brand' href='#'>Acme Support</a>
+      <wc-site-nav-link href='#' current>Home</wc-site-nav-link>
+      <wc-site-nav-link href='#'>Status</wc-site-nav-link>
+      <wc-link-button slot='end' variant='text' href='#'>Sign in</wc-link-button>
+    </wc-site-header>
+  </div>
+</DemoComponentCard>
+
+<h3>Sticky headers</h3>
+<p>
+  <code>sticky</code> keeps the header at the top of the viewport as the page scrolls. Add
+  <code>hide-on-scroll</code> to slide it away while the person scrolls down and back as soon as
+  they scroll up. It never slides away while it holds focus or an open panel, and moves without
+  animation when reduced motion is asked for.
+</p>

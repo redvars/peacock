@@ -1,0 +1,90 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/oidc-sign-in.scss';
+
+const providers = [
+  { mark: 'G', label: 'Continue with Google' },
+  { mark: 'M', label: 'Continue with Microsoft' },
+];
+---
+
+<Layout
+  title='Sign in with a provider'
+  description='Sign-in for a portal that keeps no passwords, built from Peacock components: buttons for Google and Microsoft with placeholder marks in their icon slot, an "or" divider, single sign-on found from a work email, and links to the terms.'
+>
+  <div class='block-demo site-demo oidc-demo'>
+    <main class='oidc-main'>
+      <wc-card class='oidc-card'>
+        <wc-card-content class='oidc-card-inner'>
+          <div class='oidc-brand'>
+            <span class='site-mark oidc-logo' aria-hidden='true'>R</span>
+            <h2 class='text-headline-small'>Sign in to Redvars</h2>
+            <p class='text-body-medium site-muted'>Use an account you already have.</p>
+          </div>
+
+          <!-- The letter tiles are placeholders: the app supplies each provider's own mark, under that provider's brand rules. -->
+          <div class='oidc-providers'>
+            {providers.map(provider => (
+              <wc-button variant='outlined' class='oidc-provider'>
+                <span slot='icon' class='oidc-mark' aria-hidden='true'>{provider.mark}</span>
+                {provider.label}
+              </wc-button>
+            ))}
+          </div>
+
+          <wc-divider class='oidc-divider'>or</wc-divider>
+
+          <wc-form id='oidc-form'>
+            <form class='oidc-form'>
+              <wc-input
+                type='email'
+                name='email'
+                label='Work email'
+                placeholder='you@company.example'
+                autocomplete='email'
+                helper-text="We find your organisation's sign-in provider from the domain."
+                required
+              ></wc-input>
+              <wc-button type='submit' variant='tonal' class='oidc-submit'>
+                <wc-icon slot='icon' name='domain'></wc-icon>
+                Continue with single sign-on
+              </wc-button>
+            </form>
+          </wc-form>
+          <p id='oidc-status' class='oidc-status text-body-small' role='status'></p>
+
+          <p class='oidc-note text-body-small site-muted'>
+            <wc-icon name='lock'></wc-icon>
+            <span>Redvars keeps no passwords. Your provider checks who you are and tells us only your name and email.</span>
+          </p>
+
+          <p class='oidc-terms text-body-small site-muted'>
+            By continuing you agree to the <a href='#'>Terms of service</a> and the <a href='#'>Privacy policy</a>.
+          </p>
+        </wc-card-content>
+      </wc-card>
+    </main>
+
+    <PortalFooter portal='account' />
+  </div>
+
+  <script is:inline>
+    {
+      const form = document.getElementById('oidc-form');
+      const status = document.getElementById('oidc-status');
+      form.addEventListener('submit', event => {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        const domain = String(event.detail.value.email).split('@')[1];
+        form.loading = true;
+        status.textContent = `Looking up the sign-in provider for ${domain}…`;
+        setTimeout(() => {
+          form.loading = false;
+          status.textContent = `Found it. In a real portal you would now go to ${domain}'s sign-in page.`;
+        }, 900);
+      });
+    }
+  </script>
+</Layout>

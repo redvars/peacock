@@ -1,0 +1,12 @@
+---
+export const title = 'Group API';
+export const order = 9000;
+import LitComponentApiPanel from '../../../../components/LitComponentApiPanel.astro';
+import { getComponentDetails } from '../../../../_data/getLitComponentDetails.ts';
+
+const details = getComponentDetails('site-footer-group');
+---
+
+<h3><code>wc-site-footer-group</code></h3>
+{details?.summary && <p>{details.summary}</p>}
+<LitComponentApiPanel componentDetails={details} />

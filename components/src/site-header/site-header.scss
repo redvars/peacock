@@ -1,0 +1,238 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  position: relative;
+  z-index: var(--site-header-z-index, 10);
+  color: var(--color-on-surface);
+  --_height: var(--site-header-height, 4rem);
+  --_background: var(--site-header-background, var(--color-surface));
+}
+
+:host([sticky]) {
+  position: sticky;
+  inset-block-start: 0;
+  transition: transform var(--duration-medium2, 300ms)
+    var(--easing-standard, ease);
+}
+
+:host([data-scrolled-away]) {
+  transform: translateY(-100%);
+}
+
+// ── Skip link ─────────────────────────────────────────────────────────────
+
+.skip-link {
+  @include mixin.get-typography(label-large);
+
+  position: absolute;
+  inset-block-start: var(--spacing-100);
+  inset-inline-start: var(--spacing-100);
+  z-index: 2;
+  padding: var(--spacing-100) var(--spacing-200);
+  border-radius: var(--shape-corner-full);
+  background-color: var(--color-inverse-surface);
+  color: var(--color-inverse-on-surface);
+  text-decoration: none;
+
+  // Out of sight until it has keyboard focus.
+  &:not(:focus) {
+    clip-path: inset(50%);
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ── Bar ───────────────────────────────────────────────────────────────────
+
+.bar {
+  background-color: var(--_background);
+  border-block-end: 1px solid var(--color-outline-variant);
+}
+
+:host([sticky]) .bar {
+  box-shadow: var(--elevation-level1);
+}
+
+.inner {
+  position: relative; // A columns panel spans this box.
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  // The max width is the content's, without the padding, so it lines up with a page's content column.
+  max-inline-size: var(--site-header-max-width, none);
+  block-size: var(--_height);
+  margin-inline: auto;
+  padding-inline: var(--spacing-400);
+  box-sizing: content-box;
+}
+
+.compact .inner {
+  gap: var(--spacing-100);
+  padding-inline: var(--spacing-200);
+}
+
+.brand {
+  display: flex;
+  flex: none;
+  align-items: center;
+  min-inline-size: 0;
+
+  ::slotted(a) {
+    @include mixin.get-typography-not-important(title-medium);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    color: inherit;
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    border-radius: var(--shape-corner-small);
+  }
+
+  ::slotted(a:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// At its natural width, so the header can measure whether the bar fits and collapse if not.
+.nav {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-050);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.actions,
+.end {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-100);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// ── Drawer (collapsed) ────────────────────────────────────────────────────
+
+.drawer {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  display: none;
+  flex-direction: column;
+  inline-size: min(
+    var(--site-header-drawer-width, 22.5rem),
+    calc(100vw - 3.5rem)
+  );
+  max-inline-size: none;
+  block-size: 100dvh;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-start-end-radius: var(--shape-corner-large);
+  border-end-end-radius: var(--shape-corner-large);
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  box-shadow: var(--elevation-level1);
+  overflow-y: auto;
+
+  &[open] {
+    display: flex;
+    animation: site-header-slide-in var(--duration-medium2, 300ms)
+      var(--easing-emphasized-decelerate, ease-out);
+  }
+
+  &:dir(rtl)[open] {
+    animation-name: site-header-slide-in-rtl;
+  }
+
+  &::backdrop {
+    background: color-mix(in srgb, var(--color-scrim, black) 32%, transparent);
+  }
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-100);
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  padding-inline: var(--spacing-150);
+}
+
+.drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin-block-start: auto;
+  padding: var(--spacing-200) var(--spacing-300) var(--spacing-300);
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  &[hidden] {
+    display: none;
+  }
+
+  ::slotted(*) {
+    inline-size: 100%;
+  }
+}
+
+@keyframes site-header-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes site-header-slide-in-rtl {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([sticky]) {
+    transition: none;
+  }
+
+  .drawer[open] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .bar {
+    border-block-end-color: CanvasText;
+  }
+
+  .drawer {
+    border-inline-end: 1px solid CanvasText;
+  }
+
+  .skip-link:focus {
+    outline: 2px solid Highlight;
+  }
+}

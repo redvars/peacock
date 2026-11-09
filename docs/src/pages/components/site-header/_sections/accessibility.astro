@@ -1,0 +1,32 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 500;
+---
+
+<p>
+  Menus follow the disclosure navigation pattern, not the ARIA menu pattern. The links are ordinary
+  links and stay in the Tab order, so the header reads and behaves like the navigation of any
+  website.
+</p>
+
+<table class='docs-table'>
+  <thead>
+    <tr><th>Key</th><th>Where</th><th>Does</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Anywhere</td><td>Moves through the skip link, the brand, the links and menu buttons, an open panel's links, then the actions. Leaving an open panel closes it.</td></tr>
+    <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Menu button</td><td>Opens or closes the panel.</td></tr>
+    <tr><td><kbd>Arrow Down</kbd></td><td>Menu button</td><td>Opens the panel and moves to its first link.</td></tr>
+    <tr><td><kbd>Arrow Down</kbd> / <kbd>Arrow Up</kbd></td><td>Panel</td><td>Moves to the next or previous link, wrapping around.</td></tr>
+    <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>Panel</td><td>Moves to the first or last link.</td></tr>
+    <tr><td><kbd>Escape</kbd></td><td>Panel</td><td>Closes it and returns focus to the menu button.</td></tr>
+    <tr><td><kbd>Escape</kbd></td><td>Drawer</td><td>Closes the drawer and returns focus to the menu button.</td></tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>The bar is the page's banner landmark and the links are in a named navigation landmark.</li>
+  <li>A menu button has <code>aria-expanded</code> and <code>aria-controls</code>; the current link has <code>aria-current="page"</code>.</li>
+  <li>The drawer is a modal dialog: the page behind it is inert and focus stays inside until it closes.</li>
+  <li>The skip link, the menu button's and close button's names and the landmark's name are Peacock strings, translated with <code>setPeacockStrings()</code>.</li>
+</ul>

@@ -1,0 +1,33 @@
+---
+export const title = 'Many slides';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+const steps = Array.from({ length: 9 }, (_, i) => i + 1);
+---
+
+<p>
+  With up to seven pages, each page has a picker button. With more, a "3 of 9" counter takes their
+  place, so the row of controls stays short.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-carousel label='Getting started'>
+      {steps.map(step => (
+        <div aria-label={`Step ${step} of 9`} style='display: grid; place-items: center; height: 160px; border-radius: 16px; background: var(--color-secondary-container); color: var(--color-on-secondary-container);' class='text-headline-small'>
+          Step {step}
+        </div>
+      ))}
+    </wc-carousel>
+  </div>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The carousel is a region named by <code>label</code> and announced as a carousel. Each slide is a
+  group announced as a slide and named "2 of 5", unless it has an <code>aria-label</code> of its own,
+  as these do. The pickers are buttons named "Slide 3 of 9", or "Slides 4 to 6 of 9" with
+  <code>per-view</code>, and the current one has <code>aria-current</code>. Previous and next stay
+  focusable at the ends, with <code>aria-disabled</code>, so focus never drops to the page.
+</p>

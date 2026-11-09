@@ -1,0 +1,25 @@
+---
+export const title = 'Menus, groups and links API';
+export const order = 9000;
+import LitComponentApiPanel from '../../../../components/LitComponentApiPanel.astro';
+import { getComponentDetails } from '../../../../_data/getLitComponentDetails.ts';
+
+const parts = ['site-nav-menu', 'site-nav-group', 'site-nav-link'].map(name => ({
+  name,
+  details: getComponentDetails(name),
+}));
+---
+
+<p>
+  The header's navigation is built from three elements: <code>wc-site-nav-menu</code> (a button that
+  opens a panel), <code>wc-site-nav-group</code> (a titled column in a panel) and
+  <code>wc-site-nav-link</code> (a destination, in the bar or in a panel).
+</p>
+
+{parts.map(part => (
+  <>
+    <h3><code>wc-{part.name}</code></h3>
+    {part.details?.summary && <p>{part.details.summary}</p>}
+    <LitComponentApiPanel componentDetails={part.details} />
+  </>
+))}

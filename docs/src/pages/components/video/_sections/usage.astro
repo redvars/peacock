@@ -1,0 +1,49 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-video</code> puts a video from YouTube or Vimeo on a page without loading anything from
+  the video site until the person presses play. Before that it is a poster with a play button: no
+  third-party request, no cookies, and nothing that slows the page down. Set <code>src</code> to the
+  video's ordinary link, <code>label</code> to its title, and optionally <code>poster</code> and
+  <code>duration</code>.
+</p>
+<p>
+  YouTube plays through <code>youtube-nocookie.com</code> and Vimeo with Do Not Track, and a line on
+  the poster tells people where the video will play from. The frame keeps its
+  <code>aspect-ratio</code> (16 / 9 by default) before and after the player loads, so nothing on the
+  page moves. Pressing play loads the player, starts it and moves focus into it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 560px;'>
+    <wc-video
+      id='video-demo'
+      src='https://www.youtube.com/watch?v=aqz-KE-bpKQ'
+      label='Build a portal in ten minutes'
+      duration='9:42'
+      poster='/assets/img/flow-designer.webp'
+    ></wc-video>
+  </div>
+  <script is:inline>
+    document.querySelector('#video-demo').addEventListener('play', function () {
+      myConsole.log('play');
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Without a poster</h3>
+<p>
+  Without <code>poster</code> the frame shows the title on a plain surface. Peacock never fetches the
+  video site's own thumbnail, because that request would reach the video site before the person asked
+  for the video.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 420px;'>
+    <wc-video src='https://vimeo.com/76979871' label='Release notes, October' duration='3:05'></wc-video>
+  </div>
+</DemoComponentCard>

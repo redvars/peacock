@@ -1,0 +1,36 @@
+---
+// The header of the portal blocks. Two portals appear: a customer support portal (Acme Support,
+// the default) and the Redvars account portal (`portal='account'`). `current` is the label of the
+// link the page belongs to; `signedIn` swaps the Sign in link for the person's user menu.
+interface Props {
+  portal?: 'support' | 'account';
+  current?: string;
+  signedIn?: boolean;
+}
+const { portal = 'support', current, signedIn = false } = Astro.props;
+
+const support = {
+  mark: 'A',
+  name: 'Acme Support',
+  links: ['Home', 'Knowledge', 'Request something', 'My cases'],
+  person: { name: 'Ada Lovelace', email: 'ada@acme.example' },
+};
+const account = {
+  mark: 'R',
+  name: 'Redvars Account',
+  links: ['Overview', 'Organisation', 'Downloads', 'Support'],
+  person: { name: 'Grace Hopper', email: 'grace@navylabs.example' },
+};
+const site = portal === 'account' ? account : support;
+---
+
+<wc-site-header label='Pages' collapse-at='760'>
+  <a slot='brand' class='site-brand' href='#'><span class='site-mark' aria-hidden='true'>{site.mark}</span>{site.name}</a>
+  {site.links.map(link => (
+    // Astro writes `current="false"` on a custom element, which is still present, so omit it instead.
+    <wc-site-nav-link href='#' current={link === current ? true : undefined}>{link}</wc-site-nav-link>
+  ))}
+  {signedIn
+    ? <wc-user-menu slot='end' name={site.person.name} email={site.person.email}></wc-user-menu>
+    : <wc-link-button slot='end' variant='text' href='#'>Sign in</wc-link-button>}
+</wc-site-header>

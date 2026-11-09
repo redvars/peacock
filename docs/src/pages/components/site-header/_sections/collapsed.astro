@@ -1,0 +1,49 @@
+---
+export const title = 'Narrow screens';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Below <code>collapse-at</code> (720px of the header's own width by default), and whenever the
+  brand, links and actions would not fit in the bar, the links and menus move into a drawer that slides in from the start edge, behind a menu button. Menus become
+  expandable sections of the drawer, expanded when they hold the current page; descriptions, icons
+  and the feature card are left out. The <code>actions</code> slot moves to the bottom of the
+  drawer. Put what must always show in the bar, such as a <code>wc-user-menu</code> or one short
+  button, in the <code>end</code> slot instead.
+</p>
+<p>
+  Choosing a link, the close button, Escape or a click on the scrim closes the drawer.
+  <code>drawer-open</code> reflects its state, and the header fires <code>open</code> and
+  <code>close</code> (with <code>detail.reason</code>) when it changes.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 400px; min-height: 160px;'>
+    <wc-site-header id='site-header-narrow-demo'>
+      <a slot='brand' href='#'>Redvars</a>
+      <wc-site-nav-menu label='Product'>
+        <wc-site-nav-link href='#'>Tables and forms</wc-site-nav-link>
+        <wc-site-nav-link href='#'>Rules</wc-site-nav-link>
+      </wc-site-nav-menu>
+      <wc-site-nav-menu label='Solutions'>
+        <wc-site-nav-link href='#'>IT service management</wc-site-nav-link>
+        <wc-site-nav-link href='#' current>Customer support</wc-site-nav-link>
+      </wc-site-nav-menu>
+      <wc-site-nav-link href='#'>Docs</wc-site-nav-link>
+      <wc-site-nav-link href='#'>Pricing</wc-site-nav-link>
+      <wc-link-button slot='actions' variant='outlined' href='#'>Sign in</wc-link-button>
+      <wc-link-button slot='actions' href='#'>Join the waitlist</wc-link-button>
+      <wc-link-button slot='end' size='xs' href='#'>Waitlist</wc-link-button>
+    </wc-site-header>
+  </div>
+  <script is:inline>
+    const narrowHeader = document.querySelector('#site-header-narrow-demo');
+    narrowHeader.addEventListener('open', function (event) {
+      if (event.target === narrowHeader) myConsole.log('open');
+    });
+    narrowHeader.addEventListener('close', function (event) {
+      if (event.target === narrowHeader) myConsole.log('close: ' + event.detail.reason);
+    });
+  </script>
+</DemoComponentCard>

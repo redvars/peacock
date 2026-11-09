@@ -1,0 +1,187 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/blog-index.scss';
+
+type Accent = 'blue' | 'green' | 'red' | 'yellow' | 'orange' | 'purple';
+
+interface Post {
+  title: string;
+  excerpt: string;
+  topic: string;
+  accent: Accent;
+  author: string;
+  date: string;
+  dateLabel: string;
+  image: string;
+  width: number;
+  height: number;
+}
+
+const topics = [
+  { value: 'all', label: 'All posts' },
+  { value: 'product', label: 'Product' },
+  { value: 'engineering', label: 'Engineering' },
+  { value: 'customers', label: 'Customers' },
+  { value: 'releases', label: 'Releases' },
+];
+
+const featured: Post = {
+  title: 'What ships in the Redvars 1.0 preview',
+  excerpt: 'Tables, forms, rules and access as records, a customer portal on the same rules, and self-hosting with one command. Here is what you can try today, and what comes next.',
+  topic: 'Product',
+  accent: 'purple',
+  author: 'Mira Okafor',
+  date: '2026-11-04',
+  dateLabel: '4 November 2026',
+  image: '/assets/img/calendar.webp',
+  width: 939,
+  height: 700,
+};
+
+const posts: Post[] = [
+  {
+    title: 'Why every read and write passes one check',
+    excerpt: 'One place decides who may see a record, for agents, customers and the API alike.',
+    topic: 'Engineering',
+    accent: 'blue',
+    author: 'Jonas Lindqvist',
+    date: '2026-10-28',
+    dateLabel: '28 October 2026',
+    image: '/assets/img/condition-builder.webp',
+    width: 685,
+    height: 441,
+  },
+  {
+    title: 'How Fernhill Logistics left its spreadsheets behind',
+    excerpt: 'An IT team of four moved incidents, assets and approvals onto Redvars in a month.',
+    topic: 'Customers',
+    accent: 'green',
+    author: 'Priya Natarajan',
+    date: '2026-10-21',
+    dateLabel: '21 October 2026',
+    image: '/assets/img/table.webp',
+    width: 1166,
+    height: 480,
+  },
+  {
+    title: 'One customer, one database',
+    excerpt: 'Why each instance gets its own PostgreSQL database, and what that means for backups.',
+    topic: 'Engineering',
+    accent: 'blue',
+    author: 'Aiko Tanaka',
+    date: '2026-10-14',
+    dateLabel: '14 October 2026',
+    image: '/assets/img/code-editor.webp',
+    width: 492,
+    height: 300,
+  },
+  {
+    title: 'Release notes: October',
+    excerpt: 'Saved views on lists, quieter notifications and faster form loading.',
+    topic: 'Releases',
+    accent: 'orange',
+    author: 'Mira Okafor',
+    date: '2026-10-07',
+    dateLabel: '7 October 2026',
+    image: '/assets/img/notification-manager.webp',
+    width: 568,
+    height: 320,
+  },
+  {
+    title: 'Designing forms that follow the table',
+    excerpt: 'Column types decide the field, the checks and the layout. You only fix the exceptions.',
+    topic: 'Product',
+    accent: 'purple',
+    author: 'Lena Fischer',
+    date: '2026-09-30',
+    dateLabel: '30 September 2026',
+    image: '/assets/img/html-editor.webp',
+    width: 1100,
+    height: 600,
+  },
+  {
+    title: 'Approvals as a flow, not a mail thread',
+    excerpt: 'How Kestrel Health replaced forwarded emails with a three-step approval flow.',
+    topic: 'Customers',
+    accent: 'green',
+    author: 'Samuel Osei',
+    date: '2026-09-23',
+    dateLabel: '23 September 2026',
+    image: '/assets/img/flow-designer.webp',
+    width: 436,
+    height: 364,
+  },
+];
+---
+
+<Layout
+  title='Blog index'
+  description='A blog home built from Peacock components: the shared site header, topic filter chips in a chip set, a featured post card, a grid of post cards with topic tags, avatars and dates, pagination and the site footer.'
+>
+  <div class='block-demo site-demo blog-demo'>
+    <WebsiteHeader current='blog' />
+
+    <main class='site-main blog-main'>
+      <section class='blog-intro'>
+        <h2 class='text-display-small'>Blog</h2>
+        <p class='text-body-large site-muted'>Notes from the team building Redvars: product news, engineering, and the people who use it.</p>
+        <wc-chip-set class='blog-topics' selectable label='Filter by topic' value='all'>
+          {topics.map(topic => <wc-chip value={topic.value}>{topic.label}</wc-chip>)}
+        </wc-chip-set>
+      </section>
+
+      <wc-card class='blog-featured' variant='filled' href='#'>
+        <div class='blog-featured-inner'>
+          <div class='blog-featured-media'>
+            <img src={featured.image} alt='' width={featured.width} height={featured.height} />
+          </div>
+          <wc-card-content class='blog-featured-text'>
+            <div class='blog-tags'>
+              <wc-tag size='sm'>Featured</wc-tag>
+              <wc-tag size='sm' accent={featured.accent}>{featured.topic}</wc-tag>
+            </div>
+            <h3 class='text-headline-small'>{featured.title}</h3>
+            <p class='text-body-large site-muted'>{featured.excerpt}</p>
+            <div class='blog-author'>
+              <wc-avatar name={featured.author} size='sm'></wc-avatar>
+              <span class='text-label-large'>{featured.author}</span>
+              <time class='text-body-small site-muted' datetime={featured.date}>{featured.dateLabel}</time>
+            </div>
+          </wc-card-content>
+        </div>
+      </wc-card>
+
+      <section class='blog-latest' aria-labelledby='blog-latest-title'>
+        <h3 id='blog-latest-title' class='text-title-large'>Latest posts</h3>
+        <ul class='blog-grid'>
+          {posts.map(post => (
+            <li>
+              <wc-card class='blog-card' variant='outlined' href='#'>
+                <div class='blog-card-media'>
+                  <img src={post.image} alt='' width={post.width} height={post.height} loading='lazy' />
+                </div>
+                <wc-card-content class='blog-card-text'>
+                  <wc-tag size='sm' accent={post.accent}>{post.topic}</wc-tag>
+                  <h4 class='text-title-medium'>{post.title}</h4>
+                  <p class='text-body-medium site-muted'>{post.excerpt}</p>
+                  <div class='blog-author'>
+                    <wc-avatar name={post.author} size='sm'></wc-avatar>
+                    <span class='text-label-large'>{post.author}</span>
+                    <time class='text-body-small site-muted' datetime={post.date}>{post.dateLabel}</time>
+                  </div>
+                </wc-card-content>
+              </wc-card>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <wc-pagination class='blog-pagination' page='1' page-size='6' total-items='42' hide-page-size label='Blog pages'></wc-pagination>
+    </main>
+
+    <WebsiteFooter />
+  </div>
+</Layout>

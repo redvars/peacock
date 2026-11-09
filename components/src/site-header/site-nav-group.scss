@@ -1,0 +1,29 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+.title {
+  @include mixin.get-typography(label-medium);
+
+  margin-block-end: var(--spacing-100);
+  padding-inline: var(--spacing-150);
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+}
+
+:host([data-collapsed]) .title {
+  margin-block: var(--spacing-150) var(--spacing-050);
+  padding-inline: var(--spacing-400);
+}

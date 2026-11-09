@@ -1,0 +1,62 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import WebsiteHeader from '../../../components/blocks/WebsiteHeader.astro';
+import WebsiteFooter from '../../../components/blocks/WebsiteFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/not-found.scss';
+
+interface Destination {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+const destinations: Destination[] = [
+  { icon: 'home', title: 'Home', text: 'What Redvars is and who it is for' },
+  { icon: 'menu_book', title: 'Docs', text: 'Install, build and run an instance' },
+  { icon: 'newspaper', title: 'Blog', text: 'Product news and engineering notes' },
+  { icon: 'mail', title: 'Contact', text: 'Questions, sales and support' },
+];
+---
+
+<Layout
+  title='Not found'
+  description='A 404 page built from Peacock components: the shared site header, the not-found illustration, a plain explanation, a site search, link cards to the most visited sections and the site footer.'
+>
+  <div class='block-demo site-demo notfound-demo'>
+    <WebsiteHeader />
+
+    <main class='site-main notfound-main'>
+      <section class='notfound-hero'>
+        <wc-illustration name='not-found' size='lg'></wc-illustration>
+        <span class='text-label-large site-eyebrow'>Error 404</span>
+        <h2 class='text-headline-large'>We can't find that page</h2>
+        <p class='text-body-large site-muted'>
+          The link may be old, or the page may have moved. Search for what you need, or start from one of the pages below.
+        </p>
+        <div class='notfound-search' role='search'>
+          <wc-search label='Search the site' placeholder='Search docs, blog and pages'></wc-search>
+        </div>
+      </section>
+
+      <nav class='notfound-nav' aria-labelledby='notfound-nav-title'>
+        <h3 id='notfound-nav-title' class='text-title-medium site-muted'>Where most people were going</h3>
+        <ul class='notfound-links'>
+          {destinations.map(destination => (
+            <li>
+              <wc-card variant='outlined' href='#'>
+                <wc-card-content class='notfound-card'>
+                  <wc-icon name={destination.icon} aria-hidden='true'></wc-icon>
+                  <span class='text-title-medium'>{destination.title}</span>
+                  <span class='text-body-small site-muted'>{destination.text}</span>
+                </wc-card-content>
+              </wc-card>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </main>
+
+    <WebsiteFooter />
+  </div>
+</Layout>

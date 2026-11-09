@@ -1,0 +1,16 @@
+---
+// The slim footer of the portal blocks.
+interface Props {
+  portal?: 'support' | 'account';
+}
+const { portal = 'support' } = Astro.props;
+---
+
+<wc-site-footer>
+  {portal === 'account'
+    ? <span slot='legal'>© 2026 Redvars</span>
+    : <span slot='legal'>© Acme Corp. Support hours 08:00–18:00 CET.</span>}
+  <a slot='legal' href='#'>Contact us</a>
+  <a slot='legal' href='#'>Privacy</a>
+  <a slot='legal' href='#'>Accessibility</a>
+</wc-site-footer>

@@ -1,0 +1,136 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import PortalHeader from '../../../components/blocks/PortalHeader.astro';
+import PortalFooter from '../../../components/blocks/PortalFooter.astro';
+import '../../../styles/blocks/site.scss';
+import '../../../styles/blocks/knowledge-article.scss';
+
+const steps = [
+  'On the sign-in page, choose Forgot password.',
+  'Enter the email address you sign in with and choose Send link.',
+  'Open the email from Acme Support. The link works for 30 minutes.',
+  'Choose a new password of at least 12 characters, then sign in with it.',
+];
+
+const related = [
+  { title: 'Turn on two-step verification', text: 'Add a code from your phone at sign-in' },
+  { title: 'Change the email you sign in with', text: 'When you move to a new address' },
+  { title: 'Unlock a locked account', text: 'After too many wrong passwords' },
+];
+---
+
+<Layout
+  title='Knowledge article'
+  description='A help article in a support portal built from Peacock components: a portal header, a breadcrumb, numbered steps with an alert tip, a "Was this helpful?" question with an optional comment, related articles in a list and a card to open a case.'
+>
+  <div class='block-demo site-demo kb-demo'>
+    <PortalHeader current='Knowledge' signedIn />
+
+    <main class='site-main kb-main'>
+      <wc-breadcrumb label='Breadcrumb'>
+        <wc-breadcrumb-item href='#'>Knowledge</wc-breadcrumb-item>
+        <wc-breadcrumb-item href='#'>Accounts</wc-breadcrumb-item>
+        <wc-breadcrumb-item current>Reset your password</wc-breadcrumb-item>
+      </wc-breadcrumb>
+
+      <div class='kb-columns'>
+        <article class='kb-article'>
+          <header class='kb-header'>
+            <h2 class='text-headline-medium'>Reset your password</h2>
+            <p class='text-body-medium site-muted'>Updated <time datetime='2026-10-28'>28 October 2026</time> · 2 min read</p>
+          </header>
+
+          <div class='site-prose text-body-large'>
+            <p>If you forgot your password, you can set a new one from the sign-in page. You need access to the email address you sign in with.</p>
+
+            <h3 class='text-title-large'>Steps</h3>
+            <ol class='kb-steps'>
+              {steps.map(step => <li>{step}</li>)}
+            </ol>
+
+            <wc-alert intent='info' label='Tip'>
+              No email after five minutes? Check your spam folder, or ask your administrator which address your account uses.
+            </wc-alert>
+
+            <h3 class='text-title-large'>If the link has expired</h3>
+            <p>Start again from step 1. Each new link replaces the one before, so always use the latest email.</p>
+          </div>
+
+          <section class='kb-feedback' aria-labelledby='kb-feedback-title'>
+            <div id='kb-question' class='kb-question'>
+              <h3 id='kb-feedback-title' class='text-title-medium'>Was this helpful?</h3>
+              <div class='kb-answers'>
+                <wc-button id='kb-yes' variant='outlined'>
+                  <wc-icon slot='icon' name='thumb_up'></wc-icon>
+                  Yes
+                </wc-button>
+                <wc-button id='kb-no' variant='outlined'>
+                  <wc-icon slot='icon' name='thumb_down'></wc-icon>
+                  No
+                </wc-button>
+              </div>
+            </div>
+
+            <form id='kb-comment' class='kb-comment' hidden>
+              <wc-textarea id='kb-comment-text' label='What was missing? (optional)' rows='3' maxlength='500'></wc-textarea>
+              <div class='kb-comment-actions'>
+                <wc-button type='submit' level='primary'>Send</wc-button>
+              </div>
+            </form>
+
+            <p id='kb-thanks' class='kb-thanks text-body-medium' role='status'></p>
+          </section>
+        </article>
+
+        <aside class='kb-aside' aria-label='More help'>
+          <section class='kb-related'>
+            <h3 class='text-title-medium'>Related articles</h3>
+            <wc-list>
+              {related.map(article => (
+                <wc-list-item href='#'>
+                  <wc-icon slot='start' name='article'></wc-icon>
+                  {article.title}
+                  <span slot='supporting-text'>{article.text}</span>
+                </wc-list-item>
+              ))}
+            </wc-list>
+          </section>
+
+          <wc-card variant='filled'>
+            <wc-card-content class='kb-case'>
+              <wc-icon name='support_agent'></wc-icon>
+              <h3 class='text-title-medium'>Still need help?</h3>
+              <p class='text-body-medium site-muted'>Open a case and our team replies within one working day.</p>
+              <wc-link-button href='#' variant='tonal'>Open a case</wc-link-button>
+            </wc-card-content>
+          </wc-card>
+        </aside>
+      </div>
+    </main>
+
+    <PortalFooter />
+  </div>
+
+  <script is:inline>
+    {
+      const question = document.getElementById('kb-question');
+      const comment = document.getElementById('kb-comment');
+      const thanks = document.getElementById('kb-thanks');
+
+      document.getElementById('kb-yes').addEventListener('click', () => {
+        question.hidden = true;
+        thanks.textContent = 'Thanks for letting us know.';
+      });
+      document.getElementById('kb-no').addEventListener('click', () => {
+        question.hidden = true;
+        comment.hidden = false;
+        thanks.textContent = 'Thanks. Tell us what was missing, if you like.';
+      });
+      comment.addEventListener('submit', event => {
+        event.preventDefault();
+        comment.hidden = true;
+        thanks.textContent = 'Thanks. We read every comment and use it to improve this article.';
+      });
+    }
+  </script>
+</Layout>

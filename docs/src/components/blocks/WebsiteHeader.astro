@@ -1,0 +1,40 @@
+---
+// The redvars.com header shared by the website blocks: a columns menu for the product, links, and
+// sign-in and waitlist actions. `current` marks the section the page belongs to.
+interface Props {
+  current?: 'product' | 'docs' | 'blog' | 'pricing';
+  /** Hides the actions, for pages that are themselves the call to action (the waitlist). */
+  minimal?: boolean;
+}
+const { current, minimal = false } = Astro.props;
+
+// Astro writes `current="false"` on a custom element, which is still present, so omit it instead.
+const isCurrent = (section: Props['current']) => (section === current ? true : undefined);
+---
+
+<wc-site-header collapse-at='760'>
+  <a slot='brand' class='site-brand' href='#'><span class='site-mark' aria-hidden='true'>R</span>Redvars</a>
+  <wc-site-nav-menu label='Product' layout='columns'>
+    <wc-site-nav-group label='Build'>
+      <wc-site-nav-link href='#' description='Describe data, get secured screens' current={isCurrent('product')}>
+        <wc-icon slot='icon' name='table'></wc-icon>Tables and forms
+      </wc-site-nav-link>
+      <wc-site-nav-link href='#' description='Business logic without servers'>
+        <wc-icon slot='icon' name='rule'></wc-icon>Rules
+      </wc-site-nav-link>
+    </wc-site-nav-group>
+    <wc-site-nav-group label='Run'>
+      <wc-site-nav-link href='#' description='One check on every read and write'>
+        <wc-icon slot='icon' name='shield'></wc-icon>Access
+      </wc-site-nav-link>
+      <wc-site-nav-link href='#' description='Customer and employee portals'>
+        <wc-icon slot='icon' name='storefront'></wc-icon>Portals
+      </wc-site-nav-link>
+    </wc-site-nav-group>
+  </wc-site-nav-menu>
+  <wc-site-nav-link href='#' current={isCurrent('docs')}>Docs</wc-site-nav-link>
+  <wc-site-nav-link href='#' current={isCurrent('blog')}>Blog</wc-site-nav-link>
+  <wc-site-nav-link href='#' current={isCurrent('pricing')}>Pricing</wc-site-nav-link>
+  {!minimal && <wc-link-button slot='actions' variant='text' href='#'>Sign in</wc-link-button>}
+  {!minimal && <wc-link-button slot='actions' href='#'>Join the waitlist</wc-link-button>}
+</wc-site-header>

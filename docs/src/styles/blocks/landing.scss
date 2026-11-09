@@ -1,0 +1,207 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Landing page block (pages/blocks/landing/). The outer frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.landing-demo {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: visible;
+}
+
+.landing-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--shape-corner-small);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 0.875rem;
+}
+
+.landing-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-075);
+  height: 100%;
+  padding: var(--spacing-200);
+  box-sizing: border-box;
+}
+
+.landing-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+  padding: var(--spacing-600) var(--spacing-500);
+
+  @include mixin.for-phone-only {
+    gap: var(--spacing-400);
+    padding: var(--spacing-400) var(--spacing-200);
+  }
+
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+.landing-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: var(--spacing-600);
+
+  @include mixin.for-phone-only {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-300);
+  }
+}
+
+.landing-hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+
+  h2 {
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.01em;
+  }
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-150);
+  margin-top: var(--spacing-100);
+}
+
+.landing-hero-media {
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-extra-large);
+  background: var(--color-surface-container-low);
+  box-shadow: var(--elevation-level2);
+}
+
+.landing-window {
+  display: flex;
+  gap: 0.375rem;
+  padding: var(--spacing-150);
+  border-bottom: 1px solid var(--color-outline-variant);
+
+  span {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background: var(--color-outline-variant);
+  }
+}
+
+.landing-shot {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--spacing-150);
+  aspect-ratio: 16 / 9;
+  padding: var(--spacing-200);
+
+  i {
+    border-radius: var(--shape-corner-medium);
+    background: var(--color-surface-container-high);
+
+    &:first-child {
+      grid-row: span 2;
+      background: var(--color-primary-container);
+    }
+  }
+}
+
+.landing-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-200) var(--spacing-500);
+  color: var(--color-on-surface-variant);
+  font-weight: var(--font-weight-bold);
+  opacity: 0.75;
+}
+
+.landing-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+
+.landing-section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-075);
+  text-align: center;
+}
+
+.landing-eyebrow {
+  color: var(--color-primary);
+}
+
+.landing-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--spacing-300);
+
+  wc-card {
+    height: 100%;
+  }
+}
+
+.landing-feature-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  height: 100%;
+  padding: var(--spacing-300);
+  box-sizing: border-box;
+
+  wc-icon {
+    --icon-size: 1.75rem;
+    color: var(--color-primary);
+  }
+}
+
+.landing-faq {
+  width: 100%;
+  max-width: 46rem;
+  margin-inline: auto;
+
+  h2 {
+    text-align: center;
+  }
+}
+
+.landing-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  border-radius: var(--shape-corner-extra-large);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-300);
+  }
+}
+
+// The docs site colours links; a brand is the site's name, in the text colour.
+.landing-brand {
+  color: var(--color-on-surface);
+  text-decoration: none;
+}

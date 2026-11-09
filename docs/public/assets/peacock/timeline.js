@@ -1,8 +1,8 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
 import { TimelineItem } from './timeline-item.js';
 import './property-B2TG3KEE.js';
-import './i18n-controller-CH4e9sju.js';
-import './strings-o6v6Hrmn.js';
+import './i18n-controller-DLJcJ5gO.js';
+import './strings-MXyrGrNs.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`:host {

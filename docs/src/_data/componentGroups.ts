@@ -37,6 +37,8 @@ const GROUPS: { name: string; components: string[] }[] = [
     components: [
       'app-shell',
       'app-bar',
+      'site-header',
+      'site-footer',
       'page-header',
       'container',
       'stack',
@@ -157,6 +159,9 @@ const GROUPS: { name: string; components: string[] }[] = [
       'diff-viewer',
       'code-highlighter',
       'number-counter',
+      'carousel',
+      'video',
+      'highlight',
     ],
   },
   {
