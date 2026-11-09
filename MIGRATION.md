@@ -2,6 +2,16 @@
 
 Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](docs/adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
 
+## New in 4.3
+
+4.3 adds components for websites and portals and changes nothing you must migrate: `npm install @redvars/peacock@4.3`, or change the CDN URLs to `@4.3.0`.
+
+- **Site header:** `wc-site-header` is the top bar of a website or portal, with a skip link to the content. It holds a `brand` slot, `wc-site-nav-link` links (`current` marks the page) and `wc-site-nav-menu` menus, which open a list or, with `layout="columns"`, `wc-site-nav-group` columns and a `feature` card. The `actions` slot holds buttons such as Sign in; the `end` slot holds what stays in the bar at every width, such as `wc-user-menu`. Below `collapse-at` (720px), or whenever the bar would not fit, the links and menus move into a drawer. `sticky` and `hide-on-scroll` are optional.
+- **Site footer:** `wc-site-footer` holds a `brand` slot, `wc-site-footer-group` columns of links, and a bottom row of `legal` and `social` slots. Empty slots take no room, so with only legal content it is a one-row portal footer. It follows its own width, not the viewport's.
+- **Carousel:** `wc-carousel` shows its children as slides, `per-view` at a time but never narrower than 15rem, with scroll snap, previous and next buttons, and pickers (a "3 of 9" counter beyond seven pages). Slides out of view are inert. `autoplay` is opt-in: a stop button comes first, rotation pauses on hover and focus, stops when the person uses a control, and never starts under reduced motion.
+- **Video:** `wc-video` shows a poster and loads a YouTube (through youtube-nocookie.com) or Vimeo (with Do Not Track) player only when the person presses play. Any other `src` plays in the browser's own player, with `<track>` children for captions.
+- **Highlight:** `wc-highlight` marks the words of `query` in its text, ignoring case and accents, for search results. It reads its children as plain text only. `ranges` marks matches a server already found.
+
 ## New in 4.2
 
 4.2 adds features and changes nothing you must migrate: `npm install @redvars/peacock@4.2`, or change the CDN URLs to `@4.2.0`.
