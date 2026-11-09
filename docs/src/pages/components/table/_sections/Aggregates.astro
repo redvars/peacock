@@ -16,7 +16,9 @@ import dataSource from '../_data-source.json';
 </p>
 <p>
   Aggregates cover every row, across pages. Set <code>aggregate-scope="page"</code> to cover the
-  current page only. A managed table aggregates the <code>data</code> it has. The footer row sticks to
+  current page only. A managed table aggregates the <code>data</code> it has; for totals across every
+  page, return the server's value from a function aggregate (see the managed demo under
+  Pagination). The footer row sticks to
   the bottom of the table, is a <code>row</code> in its own <code>rowgroup</code> (counted in
   <code>aria-rowcount</code>), and is not part of the arrow-key grid.
 </p>
