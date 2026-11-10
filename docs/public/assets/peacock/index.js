@@ -110,7 +110,7 @@ export { SiteNavLink } from './site-nav-link.js';
 export { SiteFooter } from './site-footer.js';
 export { SiteFooterGroup } from './site-footer-group.js';
 export { Carousel } from './carousel.js';
-export { V as Video, p as parseVideoSource } from './video-IwNmHyft.js';
+export { V as Video, p as parseVideoSource } from './video-BN5hezun.js';
 export { H as Highlight, f as findMatches } from './highlight-Be0wu7kh.js';
 export { Listbox } from './listbox.js';
 export { ListboxOption } from './listbox-option.js';

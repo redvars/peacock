@@ -1804,11 +1804,7 @@ export class Table extends LitElement {
           this.onSortActivate(column, event.shiftKey)}
       >
         ${renderHeaderLabel(column)}
-        <wc-icon
-          class="sort-icon"
-          aria-hidden="true"
-          name=${icon}
-        ></wc-icon>
+        <wc-icon class="sort-icon" aria-hidden="true" name=${icon}></wc-icon>
         ${showPriority
           ? html`<span class="sort-priority" aria-hidden="true"
                 >${position + 1}</span
@@ -2246,7 +2242,25 @@ export class Table extends LitElement {
 
   private renderBody(columns: GridColumn[], view: TableView) {
     return html`<div class="body" role="rowgroup">
-      ${this.renderBodyRows(columns, view)}
+      ${this.renderBodyRows(columns, view)}${this.renderFillerRow(columns)}
+    </div>`;
+  }
+
+  /**
+   * Takes the height the rows leave free in a taller table, so the pinned column edges
+   * run down to the footer instead of stopping at the last row. Not part of the grid.
+   */
+  private renderFillerRow(columns: GridColumn[]) {
+    return html`<div
+      class="row filler-row"
+      aria-hidden="true"
+      style="--_row-min-width: ${totalWidth(columns)}rem"
+    >
+      ${renderRowGroups(
+        columns,
+        entry =>
+          html`<div class="filler-cell" style=${cellStyle(entry)}></div>`,
+      )}
     </div>`;
   }
 

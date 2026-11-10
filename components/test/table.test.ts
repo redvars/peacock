@@ -30,7 +30,9 @@ function root(el: Table): ShadowRoot {
 }
 
 function bodyRows(el: Table): HTMLElement[] {
-  return [...root(el).querySelectorAll<HTMLElement>('.body .row')];
+  return [
+    ...root(el).querySelectorAll<HTMLElement>('.body .row:not(.filler-row)'),
+  ];
 }
 
 function cellText(row: HTMLElement, col: number): string {
@@ -360,6 +362,40 @@ describe('Table', () => {
       const grid = root(el).querySelector('[role="grid"]');
       expect(grid?.getAttribute('aria-rowcount')).to.equal('7');
       expect(bodyRows(el)[0].getAttribute('aria-rowindex')).to.equal('4');
+    });
+  });
+
+  describe('filler row', () => {
+    const filler = (el: Table) =>
+      root(el).querySelector('.body .filler-row') as HTMLElement;
+
+    it('takes the free height of a taller table, outside the grid', async () => {
+      const el = await render(
+        html`<wc-table style="height: 30rem" selection="multiple"></wc-table>`,
+        people(3),
+      );
+      const row = filler(el);
+      expect(row.getAttribute('aria-hidden')).to.equal('true');
+      expect(row.querySelector('[data-cell]')).to.equal(null);
+      expect(row.getBoundingClientRect().height).to.be.greaterThan(100);
+      expect(row.querySelector('.pinned-group-start')).to.exist;
+
+      // The body reaches the bottom of the scroll area.
+      const container = root(el).querySelector(
+        '.table-scroll-container',
+      ) as HTMLElement;
+      const body = root(el).querySelector('.body') as HTMLElement;
+      expect(Math.round(body.getBoundingClientRect().bottom)).to.equal(
+        Math.round(container.getBoundingClientRect().bottom),
+      );
+    });
+
+    it('collapses when the rows overflow', async () => {
+      const el = await render(
+        html`<wc-table style="height: 12rem"></wc-table>`,
+        people(20),
+      );
+      expect(filler(el).getBoundingClientRect().height).to.equal(0);
     });
   });
 });

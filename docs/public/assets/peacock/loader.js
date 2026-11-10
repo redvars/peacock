@@ -154,7 +154,7 @@ import { SiteNavLink } from './site-nav-link.js';
 import { SiteFooter } from './site-footer.js';
 import { SiteFooterGroup } from './site-footer-group.js';
 import { Carousel } from './carousel.js';
-import { V as Video } from './video-IwNmHyft.js';
+import { V as Video } from './video-BN5hezun.js';
 import { H as Highlight } from './highlight-Be0wu7kh.js';
 export { d as defaultStrings, s as setPeacockStrings } from './strings-MXyrGrNs.js';
 export { i as isAiAvailable, o as onPeacockAiChange, p as peacockAi, s as setPeacockAi } from './ai-controller-DR_Tg0sN.js';

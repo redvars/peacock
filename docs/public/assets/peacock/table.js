@@ -98,10 +98,23 @@ var css_248z = i`* {
 .table-scroll-container {
   contain: inline-size;
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
   outline: none;
+}
+.table-scroll-container > * {
+  flex: none;
+}
+.table-scroll-container > .body {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+.table-scroll-container > .body > * {
+  flex: none;
 }
 
 .row {
@@ -539,8 +552,26 @@ var css_248z = i`* {
   cursor: default;
 }
 
-.has-footer .body .row:last-child .cell {
+.has-footer .body .row:last-child .cell,
+.has-footer .body .row:has(+ .filler-row) .cell {
   border-bottom-color: transparent;
+}
+
+.body .row.filler-row {
+  flex: 1 0 0;
+  min-block-size: 0;
+  pointer-events: none;
+}
+.body .row.filler-row > .columns {
+  align-self: stretch;
+}
+
+.has-footer .body .row.filler-row {
+  background: linear-gradient(var(--table-border-color), var(--table-border-color)) top/100% 1px no-repeat;
+}
+
+.filler-cell {
+  flex-shrink: 0;
 }
 
 :host([striped]) .body .row:nth-child(even):not(.selected) {
@@ -2734,11 +2765,7 @@ let Table = class Table extends i$1 {
         @click=${(event) => this.onSortActivate(column, event.shiftKey)}
       >
         ${renderHeaderLabel(column)}
-        <wc-icon
-          class="sort-icon"
-          aria-hidden="true"
-          name=${icon}
-        ></wc-icon>
+        <wc-icon class="sort-icon" aria-hidden="true" name=${icon}></wc-icon>
         ${showPriority
             ? b `<span class="sort-priority" aria-hidden="true"
                 >${position + 1}</span
@@ -3118,7 +3145,20 @@ let Table = class Table extends i$1 {
     }
     renderBody(columns, view) {
         return b `<div class="body" role="rowgroup">
-      ${this.renderBodyRows(columns, view)}
+      ${this.renderBodyRows(columns, view)}${this.renderFillerRow(columns)}
+    </div>`;
+    }
+    /**
+     * Takes the height the rows leave free in a taller table, so the pinned column edges
+     * run down to the footer instead of stopping at the last row. Not part of the grid.
+     */
+    renderFillerRow(columns) {
+        return b `<div
+      class="row filler-row"
+      aria-hidden="true"
+      style="--_row-min-width: ${totalWidth(columns)}rem"
+    >
+      ${renderRowGroups(columns, entry => b `<div class="filler-cell" style=${cellStyle(entry)}></div>`)}
     </div>`;
     }
     /** The footer row of column aggregates, after the body. */

@@ -48,10 +48,27 @@
   // Wide rows scroll inside the table instead of widening the page around it.
   contain: inline-size;
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
   outline: none;
+
+  > * {
+    flex: none;
+  }
+
+  // The body takes the spare height, which its filler row passes on to the pinned edges.
+  > .body {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+
+    > * {
+      flex: none;
+    }
+  }
 }
 
 // ── Rows and cells ──────────────────────────────────────────────────────────
@@ -548,8 +565,35 @@
 }
 
 // The footer's top border already closes the table, so the last row needs no divider.
-.has-footer .body .row:last-child .cell {
+.has-footer .body .row:last-child .cell,
+.has-footer .body .row:has(+ .filler-row) .cell {
   border-bottom-color: transparent;
+}
+
+// ── Filler row: the free height below the last row in a taller table ──────
+
+.body .row.filler-row {
+  // Grows from zero: it shows only when the rows leave height free.
+  flex: 1 0 0;
+  min-block-size: 0;
+  pointer-events: none;
+
+  > .columns {
+    align-self: stretch;
+  }
+}
+
+// With a footer the last row drops its divider; the filler draws it while it has height.
+.has-footer .body .row.filler-row {
+  background: linear-gradient(
+      var(--table-border-color),
+      var(--table-border-color)
+    )
+    top / 100% 1px no-repeat;
+}
+
+.filler-cell {
+  flex-shrink: 0;
 }
 
 :host([striped]) .body .row:nth-child(even):not(.selected) {

@@ -396,6 +396,11 @@ export declare class Table extends LitElement {
     /** The page's body rows; with `virtual`, only those in view between two spacers. */
     private renderBodyRows;
     private renderBody;
+    /**
+     * Takes the height the rows leave free in a taller table, so the pinned column edges
+     * run down to the footer instead of stopping at the last row. Not part of the grid.
+     */
+    private renderFillerRow;
     /** The footer row of column aggregates, after the body. */
     private renderAggregateRow;
     private renderSkeletonBody;

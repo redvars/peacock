@@ -2209,12 +2209,12 @@
     "tag": "wc-carousel",
     "rawTag": "carousel",
     "summary": "A row of slides shown one or a few at a time, with previous and next buttons and pickers.",
-    "overview": "<p>Carousel shows its children as slides, <code>per-view</code> at a time, for screenshots on a\nproduct page or a row of testimonials. The slides scroll with snap points, so touch swipe,\ntrackpads and the scroll wheel work as they do anywhere else, and previous, next and picker\nbuttons sit under them. With more than seven pages a \"3 of 9\" counter replaces the pickers.</p>\n<p>Each slide is never narrower than 15rem, so a carousel of three drops to two and then one as its\ncontainer narrows. Slides out of view are <code>inert</code>, so Tab never reaches a link the\nperson cannot see.</p>\n<p>Slides do not move on their own unless you set <code>autoplay</code>, and then a button to stop\nthem comes first in the controls. Rotation pauses while the pointer rests on the carousel or focus\nis inside it, stops for good when the person uses any control, and does not start at all when the\nperson asks for reduced motion.</p>",
+    "overview": "<p>Carousel shows its children as slides, <code>per-view</code> at a time, for screenshots on a\r\nproduct page or a row of testimonials. The slides scroll with snap points, so touch swipe,\r\ntrackpads and the scroll wheel work as they do anywhere else, and previous, next and picker\r\nbuttons sit under them. With more than seven pages a \"3 of 9\" counter replaces the pickers.</p>\r\n<p>Each slide is never narrower than 15rem, so a carousel of three drops to two and then one as its\r\ncontainer narrows. Slides out of view are <code>inert</code>, so Tab never reaches a link the\r\nperson cannot see.</p>\r\n<p>Slides do not move on their own unless you set <code>autoplay</code>, and then a button to stop\r\nthem comes first in the controls. Rotation pauses while the pointer rests on the carousel or focus\r\nis inside it, stops for good when the person uses any control, and does not start at all when the\r\nperson asks for reduced motion.</p>",
     "slot": "- The slides: any elements, one per slide. Give a slide an `aria-label` to name it; otherwise it is named \"2 of 5\".",
     "csspart": "controls - The row of buttons under the slides.",
     "cssprop": "--carousel-gap - Space between slides. Defaults to `--spacing-200`.",
     "fires": "change - Dispatched when the slides in view change because the person used a control or scrolled, or autoplay moved on.",
-    "example": "```html\n<wc-carousel label=\"Product screenshots\" autoplay loop>\n  <img src=\"/img/workspace.webp\" alt=\"The ITSM workspace\" />\n  <img src=\"/img/portal.webp\" alt=\"The customer portal\" />\n</wc-carousel>\n```",
+    "example": "```html\r\n<wc-carousel label=\"Product screenshots\" autoplay loop>\r\n  <img src=\"/img/workspace.webp\" alt=\"The ITSM workspace\" />\r\n  <img src=\"/img/portal.webp\" alt=\"The customer portal\" />\r\n</wc-carousel>\r\n```",
     "tags": "media layout",
     "customElement": {
       "kind": "class",
@@ -12347,11 +12347,11 @@
     "tag": "wc-highlight",
     "rawTag": "highlight",
     "summary": "Marks the words of a search query in a piece of text.",
-    "overview": "<p>Highlight shows its text with each word of <code>query</code> marked, for search results in a\nknowledge base, a site search or a filtered list. Words match on their own, in any order,\nignoring case and accents, so \"resume\" marks \"Résumé\".</p>\n<p>It reads its children as plain text and never parses HTML, so text from records or a search\nindex is safe to put in it. When the server already knows where the matches are, set\n<code>ranges</code> instead of <code>query</code>.</p>\n<p>Marks use the tertiary container colour, so they differ from links and from the selection.</p>",
+    "overview": "<p>Highlight shows its text with each word of <code>query</code> marked, for search results in a\r\nknowledge base, a site search or a filtered list. Words match on their own, in any order,\r\nignoring case and accents, so \"resume\" marks \"Résumé\".</p>\r\n<p>It reads its children as plain text and never parses HTML, so text from records or a search\r\nindex is safe to put in it. When the server already knows where the matches are, set\r\n<code>ranges</code> instead of <code>query</code>.</p>\r\n<p>Marks use the tertiary container colour, so they differ from links and from the selection.</p>",
     "slot": "- The text. Only its text content is used; markup in it is not rendered.",
     "csspart": "mark - Each marked run of text, a `<mark>` element.",
     "cssprop": "--highlight-color - Text colour of the marks. Defaults to `--color-on-tertiary-container`.",
-    "example": "```html\n<wc-highlight query=\"reset password\">\n  If you forgot your password, choose Forgot password and reset it from the link we email you.\n</wc-highlight>\n```",
+    "example": "```html\r\n<wc-highlight query=\"reset password\">\r\n  If you forgot your password, choose Forgot password and reset it from the link we email you.\r\n</wc-highlight>\r\n```",
     "tags": "display search",
     "customElement": {
       "kind": "class",
@@ -22597,11 +22597,11 @@
     "tag": "wc-site-footer",
     "rawTag": "site-footer",
     "summary": "The footer of a website or portal: brand, columns of links, legal links and social links.",
-    "overview": "<p>Site footer is the page's <code>contentinfo</code> landmark. The <code>brand</code> slot and\nthe <code>wc-site-footer-group</code> columns sit at the top; a bottom row holds the\n<code>legal</code> slot (copyright and policy links) and the <code>social</code> slot (icon\nbuttons that link to the site's profiles).</p>\n<p>Slots that are empty take no room, so the same component is a full website footer or a slim\nportal footer with one row of text and links.</p>\n<p>The footer responds to its own width, not the viewport's: narrower than 48rem the columns wrap\ntwo to a row, and narrower than 24rem they stack. Links stay visible at every width, one tap away,\nrather than folded into an accordion.</p>",
+    "overview": "<p>Site footer is the page's <code>contentinfo</code> landmark. The <code>brand</code> slot and\r\nthe <code>wc-site-footer-group</code> columns sit at the top; a bottom row holds the\r\n<code>legal</code> slot (copyright and policy links) and the <code>social</code> slot (icon\r\nbuttons that link to the site's profiles).</p>\r\n<p>Slots that are empty take no room, so the same component is a full website footer or a slim\r\nportal footer with one row of text and links.</p>\r\n<p>The footer responds to its own width, not the viewport's: narrower than 48rem the columns wrap\r\ntwo to a row, and narrower than 24rem they stack. Links stay visible at every width, one tap away,\r\nrather than folded into an accordion.</p>",
     "slot": "social - Links to the site's profiles, usually `wc-icon-button shape=\"round\"` with an `aria-label` each.",
     "csspart": "bottom - The row of the legal and social slots.",
     "cssprop": "--site-footer-max-width - Width the footer's content is centred in. Defaults to `none`.",
-    "example": "```html\n<wc-site-footer>\n  <span slot=\"legal\">© Acme Corp. Support hours 08:00–18:00 CET.</span>\n  <a slot=\"legal\" href=\"/p/support/contact\">Contact us</a>\n  <a slot=\"legal\" href=\"/p/support/privacy\">Privacy</a>\n</wc-site-footer>\n```",
+    "example": "```html\r\n<wc-site-footer>\r\n  <span slot=\"legal\">© Acme Corp. Support hours 08:00–18:00 CET.</span>\r\n  <a slot=\"legal\" href=\"/p/support/contact\">Contact us</a>\r\n  <a slot=\"legal\" href=\"/p/support/privacy\">Privacy</a>\r\n</wc-site-footer>\r\n```",
     "tags": "navigation layout",
     "customElement": {
       "kind": "class",
@@ -22669,10 +22669,10 @@
     "tag": "wc-site-footer-group",
     "rawTag": "site-footer-group",
     "summary": "A titled column of links in a site footer.",
-    "overview": "<p>A column of a <code>wc-site-footer</code>: a title and a list of links. The column is a\nnavigation landmark named by its <code>label</code>, so a screen reader lists \"Product\",\n\"Company\" and so on among the page's landmarks.</p>\n<p>Put plain <code>&lt;a&gt;</code> elements or <code>wc-link</code> in it; the group lays them\nout and styles plain links.</p>",
+    "overview": "<p>A column of a <code>wc-site-footer</code>: a title and a list of links. The column is a\r\nnavigation landmark named by its <code>label</code>, so a screen reader lists \"Product\",\r\n\"Company\" and so on among the page's landmarks.</p>\r\n<p>Put plain <code>&lt;a&gt;</code> elements or <code>wc-link</code> in it; the group lays them\r\nout and styles plain links.</p>",
     "slot": "- The column's links.",
     "csspart": "title - The column's title.",
-    "example": "```html\n<wc-site-footer-group label=\"Developers\">\n  <a href=\"/docs\">Docs</a>\n  <a href=\"https://peacock.redvars.com\">Peacock</a>\n</wc-site-footer-group>\n```",
+    "example": "```html\r\n<wc-site-footer-group label=\"Developers\">\r\n  <a href=\"/docs\">Docs</a>\r\n  <a href=\"https://peacock.redvars.com\">Peacock</a>\r\n</wc-site-footer-group>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -22721,12 +22721,12 @@
     "tag": "wc-site-header",
     "rawTag": "site-header",
     "summary": "The top navigation bar of a website or portal: brand, links, menus and actions.",
-    "overview": "<p>Site header is the banner of a site: the brand at the start, the site's navigation, and actions\nsuch as Sign in or a call to action at the end. It is for websites and portals. For an\napplication's own chrome use <code>wc-app-bar</code>, and for a bar at the bottom of a phone\nscreen <code>wc-navigation-bar</code>.</p>\n<p>Put <code>wc-site-nav-link</code> elements in it for destinations and\n<code>wc-site-nav-menu</code> elements for sections with several pages. A menu is a disclosure\nbutton that opens a panel of links, as a list or, with <code>layout=\"columns\"</code>, as columns\nof <code>wc-site-nav-group</code> with a featured card. These are links and disclosure buttons,\nnot an ARIA menu, so Tab moves through them as through any links.</p>\n<p>When the header is narrower than <code>collapse-at</code> (720px by default), or too narrow\nfor the bar's content to fit, the links and\nmenus move into a drawer that slides in from the start edge, opened by a menu button. The\n<code>actions</code> slot moves to the bottom of the drawer; the <code>end</code> slot stays in\nthe bar, for something that must always show, such as a user menu or one short button.</p>\n<p>A visually hidden <em>Skip to main content</em> link is the first focusable element. It moves\nfocus to <code>skip-target</code> (<code>#main</code> by default).</p>",
+    "overview": "<p>Site header is the banner of a site: the brand at the start, the site's navigation, and actions\r\nsuch as Sign in or a call to action at the end. It is for websites and portals. For an\r\napplication's own chrome use <code>wc-app-bar</code>, and for a bar at the bottom of a phone\r\nscreen <code>wc-navigation-bar</code>.</p>\r\n<p>Put <code>wc-site-nav-link</code> elements in it for destinations and\r\n<code>wc-site-nav-menu</code> elements for sections with several pages. A menu is a disclosure\r\nbutton that opens a panel of links, as a list or, with <code>layout=\"columns\"</code>, as columns\r\nof <code>wc-site-nav-group</code> with a featured card. These are links and disclosure buttons,\r\nnot an ARIA menu, so Tab moves through them as through any links.</p>\r\n<p>When the header is narrower than <code>collapse-at</code> (720px by default), or too narrow\r\nfor the bar's content to fit, the links and\r\nmenus move into a drawer that slides in from the start edge, opened by a menu button. The\r\n<code>actions</code> slot moves to the bottom of the drawer; the <code>end</code> slot stays in\r\nthe bar, for something that must always show, such as a user menu or one short button.</p>\r\n<p>A visually hidden <em>Skip to main content</em> link is the first focusable element. It moves\r\nfocus to <code>skip-target</code> (<code>#main</code> by default).</p>",
     "slot": "end - Content that always stays in the bar, such as a `wc-user-menu`, a search button or one short call to action.",
     "fires": "close - Dispatched when the navigation drawer closes: Escape, a click on the scrim, choosing a link, or `hideDrawer()` (and widening the header past `collapse-at`).",
     "csspart": "drawer - The drawer `<dialog>` on a narrow header.",
     "cssprop": "--site-header-drawer-width - Width of the drawer. Defaults to 22.5rem.",
-    "example": "```html\n<wc-site-header sticky hide-on-scroll>\n  <a slot=\"brand\" href=\"/p/support\">Acme Support</a>\n  <wc-site-nav-link href=\"/p/support\" current>Home</wc-site-nav-link>\n  <wc-site-nav-link href=\"/p/support/tickets\">My tickets</wc-site-nav-link>\n  <wc-user-menu slot=\"end\" name=\"Ada Lovelace\"></wc-user-menu>\n</wc-site-header>\n```",
+    "example": "```html\r\n<wc-site-header sticky hide-on-scroll>\r\n  <a slot=\"brand\" href=\"/p/support\">Acme Support</a>\r\n  <wc-site-nav-link href=\"/p/support\" current>Home</wc-site-nav-link>\r\n  <wc-site-nav-link href=\"/p/support/tickets\">My tickets</wc-site-nav-link>\r\n  <wc-user-menu slot=\"end\" name=\"Ada Lovelace\"></wc-user-menu>\r\n</wc-site-header>\r\n```",
     "tags": "navigation layout",
     "customElement": {
       "kind": "class",
@@ -22891,10 +22891,10 @@
     "tag": "wc-site-nav-group",
     "rawTag": "site-nav-group",
     "summary": "A titled column of links in a site header menu.",
-    "overview": "<p>Groups <code>wc-site-nav-link</code> elements under a title inside a\n<code>wc-site-nav-menu</code>, usually one with <code>layout=\"columns\"</code>, where each group is\na column. The group is labelled by its title for assistive technology.</p>",
+    "overview": "<p>Groups <code>wc-site-nav-link</code> elements under a title inside a\r\n<code>wc-site-nav-menu</code>, usually one with <code>layout=\"columns\"</code>, where each group is\r\na column. The group is labelled by its title for assistive technology.</p>",
     "slot": "- The group's `wc-site-nav-link` elements.",
     "csspart": "title - The group's title.",
-    "example": "```html\n<wc-site-nav-group label=\"Build\">\n  <wc-site-nav-link href=\"/tables\">Tables and forms</wc-site-nav-link>\n  <wc-site-nav-link href=\"/rules\">Rules</wc-site-nav-link>\n</wc-site-nav-group>\n```",
+    "example": "```html\r\n<wc-site-nav-group label=\"Build\">\r\n  <wc-site-nav-link href=\"/tables\">Tables and forms</wc-site-nav-link>\r\n  <wc-site-nav-link href=\"/rules\">Rules</wc-site-nav-link>\r\n</wc-site-nav-group>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -22939,10 +22939,10 @@
     "tag": "wc-site-nav-link",
     "rawTag": "site-nav-link",
     "summary": "A destination in a site header, in the bar or in a menu's panel.",
-    "overview": "<p>A link of a <code>wc-site-header</code>. In the bar it is a compact text link; inside a\n<code>wc-site-nav-menu</code> it is a row that can show an icon and a description. Mark the page\nthe person is on with <code>current</code>, which sets <code>aria-current=\"page\"</code>.</p>\n<p>It renders a real <code>&lt;a&gt;</code>, so middle-click, Open in new tab and a router that\nlistens for clicks on links all work.</p>",
+    "overview": "<p>A link of a <code>wc-site-header</code>. In the bar it is a compact text link; inside a\r\n<code>wc-site-nav-menu</code> it is a row that can show an icon and a description. Mark the page\r\nthe person is on with <code>current</code>, which sets <code>aria-current=\"page\"</code>.</p>\r\n<p>It renders a real <code>&lt;a&gt;</code>, so middle-click, Open in new tab and a router that\r\nlistens for clicks on links all work.</p>",
     "slot": "icon - An optional icon, shown in a menu's panel.",
     "csspart": "description - The description text.",
-    "example": "```html\n<wc-site-nav-link href=\"/rules\" description=\"Business logic without servers\">\n  <wc-icon slot=\"icon\" name=\"rule\"></wc-icon>\n  Rules\n</wc-site-nav-link>\n```",
+    "example": "```html\r\n<wc-site-nav-link href=\"/rules\" description=\"Business logic without servers\">\r\n  <wc-icon slot=\"icon\" name=\"rule\"></wc-icon>\r\n  Rules\r\n</wc-site-nav-link>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -23029,12 +23029,12 @@
     "tag": "wc-site-nav-menu",
     "rawTag": "site-nav-menu",
     "summary": "A section of a site header that opens a panel of links.",
-    "overview": "<p>A disclosure button in a <code>wc-site-header</code> that shows a panel of\n<code>wc-site-nav-link</code> elements under the bar. The default <code>layout=\"list\"</code> is a\nshort list under the button. <code>layout=\"columns\"</code> is a wide panel of\n<code>wc-site-nav-group</code> columns, with an optional featured card in the\n<code>feature</code> slot.</p>\n<p>It follows the disclosure navigation pattern, not the ARIA menu pattern: the button has\n<code>aria-expanded</code>, and the links follow it in the Tab order while the panel is open.\nClick, Enter or Space opens the panel; Escape closes it and returns focus to the button, and so\ndoes a click outside or moving focus out of it. Only one menu in a header is open at a time.\nArrow Down on the button opens the panel at its first link, and the arrow keys, Home and End move\nbetween the links.</p>\n<p>The menu shows as current when one of its links is <code>current</code>. When the header is\ncollapsed into its drawer, the menu becomes an expandable section of the drawer, expanded when it\nholds the current page.</p>",
+    "overview": "<p>A disclosure button in a <code>wc-site-header</code> that shows a panel of\r\n<code>wc-site-nav-link</code> elements under the bar. The default <code>layout=\"list\"</code> is a\r\nshort list under the button. <code>layout=\"columns\"</code> is a wide panel of\r\n<code>wc-site-nav-group</code> columns, with an optional featured card in the\r\n<code>feature</code> slot.</p>\r\n<p>It follows the disclosure navigation pattern, not the ARIA menu pattern: the button has\r\n<code>aria-expanded</code>, and the links follow it in the Tab order while the panel is open.\r\nClick, Enter or Space opens the panel; Escape closes it and returns focus to the button, and so\r\ndoes a click outside or moving focus out of it. Only one menu in a header is open at a time.\r\nArrow Down on the button opens the panel at its first link, and the arrow keys, Home and End move\r\nbetween the links.</p>\r\n<p>The menu shows as current when one of its links is <code>current</code>. When the header is\r\ncollapsed into its drawer, the menu becomes an expandable section of the drawer, expanded when it\r\nholds the current page.</p>",
     "slot": "feature - A card shown at the end of a `columns` panel, such as a `wc-card` announcing news. Left out of the drawer.",
     "fires": "close - Dispatched when the person closes the panel: the button, Escape, or a click or focus outside.",
     "csspart": "panel - The panel of links.",
     "cssprop": "--site-nav-menu-columns-max-width - Widest a `columns` panel grows. Defaults to 60rem.",
-    "example": "```html\n<wc-site-nav-menu label=\"Product\" layout=\"columns\">\n  <wc-site-nav-group label=\"Build\">\n    <wc-site-nav-link href=\"/tables\" description=\"Describe data, get secured screens\">\n      <wc-icon slot=\"icon\" name=\"table\"></wc-icon>Tables and forms\n    </wc-site-nav-link>\n  </wc-site-nav-group>\n  <wc-card slot=\"feature\" href=\"/blog/1-0\">…</wc-card>\n</wc-site-nav-menu>\n```",
+    "example": "```html\r\n<wc-site-nav-menu label=\"Product\" layout=\"columns\">\r\n  <wc-site-nav-group label=\"Build\">\r\n    <wc-site-nav-link href=\"/tables\" description=\"Describe data, get secured screens\">\r\n      <wc-icon slot=\"icon\" name=\"table\"></wc-icon>Tables and forms\r\n    </wc-site-nav-link>\r\n  </wc-site-nav-group>\r\n  <wc-card slot=\"feature\" href=\"/blog/1-0\">…</wc-card>\r\n</wc-site-nav-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -24754,11 +24754,11 @@
     "tag": "wc-table",
     "rawTag": "table",
     "summary": "A data table with sorting, row selection, resizable and reorderable columns, inline editing and paging.",
-    "overview": "<p>The table displays rows of data with sorting (also by several columns), row selection, a sticky header, sticky start or end columns, and columns the user can resize, reorder and hide.</p>\r\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text. On a column header, <kbd>Shift</kbd>+<kbd>Enter</kbd> adds a sort level and <kbd>Alt</kbd>+<kbd>Left</kbd>/<kbd>Right</kbd> moves a reorderable column.</p>\r\n<p>Put a <code>wc-pagination</code> in the <code>footer</code> slot to page the rows. When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>\r\n<p>Rows can expand into a detail row (<code>detailTemplate</code>), be grouped under collapsible headers (<code>group-by</code>), and be edited in place (<code>editable</code> columns). Columns can show a footer aggregate (<code>aggregate</code>). <code>virtual</code> renders only the rows in view, for large data sets, and <code>exportCsv()</code> returns the rows as CSV.</p>",
+    "overview": "<p>The table displays rows of data with sorting (also by several columns), row selection, a sticky header, sticky start or end columns, and columns the user can resize, reorder and hide.</p>\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text. On a column header, <kbd>Shift</kbd>+<kbd>Enter</kbd> adds a sort level and <kbd>Alt</kbd>+<kbd>Left</kbd>/<kbd>Right</kbd> moves a reorderable column.</p>\n<p>Put a <code>wc-pagination</code> in the <code>footer</code> slot to page the rows. When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>\n<p>Rows can expand into a detail row (<code>detailTemplate</code>), be grouped under collapsible headers (<code>group-by</code>), and be edited in place (<code>editable</code> columns). Columns can show a footer aggregate (<code>aggregate</code>). <code>virtual</code> renders only the rows in view, for large data sets, and <code>exportCsv()</code> returns the rows as CSV.</p>",
     "fires": "group-toggle - Dispatched when the user expands or collapses a group. Detail: `{ group, expanded }`.",
     "slot": "error - Content shown while `error` is set. Defaults to an error empty state.",
     "cssprop": "--table-cell-padding-inline - Horizontal padding of a cell.",
-    "example": "```html\r\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\r\n```",
+    "example": "```html\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\n```",
     "tags": "display, data",
     "customElement": {
       "kind": "class",
@@ -24880,7 +24880,7 @@
             "text": "TableColumn[]"
           },
           "default": "[]",
-          "description": "Grid columns configuration. Each column can have: name, label, width, minWidth, maxWidth\r\nand flex (rem and grow factor), fixed, align, type, sortable, wrap, hidden, hideable,\r\nresizable, reorderable, group, headerTemplate, template; editable, editor, options,\r\nrequired, min, max, step and validate for inline editing; exportValue; aggregate.",
+          "description": "Grid columns configuration. Each column can have: name, label, width, minWidth, maxWidth\nand flex (rem and grow factor), fixed, align, type, sortable, wrap, hidden, hideable,\nresizable, reorderable, group, headerTemplate, template; editable, editor, options,\nrequired, min, max, step and validate for inline editing; exportValue; aggregate.",
           "fieldName": "columns"
         },
         {
@@ -24898,7 +24898,7 @@
             "text": "TableSelection"
           },
           "default": "'none'",
-          "description": "How rows are selected: `none` (default), `single` (one row, with radio buttons) or\r\n`multiple` (checkboxes, a select-all checkbox and the selection bar).",
+          "description": "How rows are selected: `none` (default), `single` (one row, with radio buttons) or\n`multiple` (checkboxes, a select-all checkbox and the selection bar).",
           "fieldName": "selection",
           "expandedType": {
             "text": "'none' | 'single' | 'multiple'"
@@ -24910,7 +24910,7 @@
             "text": "string[]"
           },
           "default": "[]",
-          "description": "Keys of the selected rows. Keys are compared as strings, so a numeric `id` of `1` matches\r\n`\"1\"`.",
+          "description": "Keys of the selected rows. Keys are compared as strings, so a numeric `id` of `1` matches\n`\"1\"`.",
           "fieldName": "selectedRowKeys"
         },
         {
@@ -24928,7 +24928,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, sorting and pagination are managed externally (controlled mode): the table shows\r\n`data` as given and only reports `sort` and page changes.",
+          "description": "If true, sorting and pagination are managed externally (controlled mode): the table shows\n`data` as given and only reports `sort` and page changes.",
           "fieldName": "managed"
         },
         {
@@ -24967,7 +24967,7 @@
             "text": "TableSort[]"
           },
           "default": "[]",
-          "description": "Every sort level, primary first, as `{ name, order }`. Shift+click on a header adds a level.\r\nKept in step with `sort-by` and `sort-order`, which describe the first level.",
+          "description": "Every sort level, primary first, as `{ name, order }`. Shift+click on a header adds a level.\nKept in step with `sort-by` and `sort-order`, which describe the first level.",
           "fieldName": "sorts"
         },
         {
@@ -24976,7 +24976,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Lets the user resize columns by dragging the header edges or with the arrow keys on the\r\nfocused handle. A column's own `resizable` overrides it.",
+          "description": "Lets the user resize columns by dragging the header edges or with the arrow keys on the\nfocused handle. A column's own `resizable` overrides it.",
           "fieldName": "resizable"
         },
         {
@@ -24985,7 +24985,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Lets the user move columns by dragging a header or with Alt+Left/Right. Pinned columns move\r\nonly among the columns pinned to the same edge. A column's own `reorderable` overrides it.",
+          "description": "Lets the user move columns by dragging a header or with Alt+Left/Right. Pinned columns move\nonly among the columns pinned to the same edge. A column's own `reorderable` overrides it.",
           "fieldName": "reorderable"
         },
         {
@@ -25039,7 +25039,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\r\nunder the header so the current rows stay readable.",
+          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
           "fieldName": "loading"
         },
         {
@@ -25075,7 +25075,7 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Headline text shown when the table has no data. Defaults to Peacock's `noItems` string\r\n(`\"No items\"`).",
+          "description": "Headline text shown when the table has no data. Defaults to Peacock's `noItems` string\n(`\"No items\"`).",
           "fieldName": "emptyStateHeadline"
         },
         {
@@ -25084,7 +25084,7 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Description text shown when the table has no data. Defaults to Peacock's\r\n`noItemsDescription` string (`\"There are no items to display\"`).",
+          "description": "Description text shown when the table has no data. Defaults to Peacock's\n`noItemsDescription` string (`\"There are no items to display\"`).",
           "fieldName": "emptyStateDescription"
         },
         {
@@ -25102,7 +25102,7 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Groups the rows by this field under collapsible header rows. Groups are ordered by value\r\n(descending when the table is sorted descending by this field); sorting applies within\r\ngroups. In managed mode, groups keep the order the rows come in.",
+          "description": "Groups the rows by this field under collapsible header rows. Groups are ordered by value\n(descending when the table is sorted descending by this field); sorting applies within\ngroups. In managed mode, groups keep the order the rows come in.",
           "fieldName": "groupBy"
         },
         {
@@ -25120,7 +25120,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Renders only the rows in view (plus a few on each side), for large `data` without\r\npagination. Every row must have the same height, `--table-row-height`; cells do not wrap.\r\nGive the table a height. Has no effect with `detailTemplate`.",
+          "description": "Renders only the rows in view (plus a few on each side), for large `data` without\npagination. Every row must have the same height, `--table-row-height`; cells do not wrap.\nGive the table a height. Has no effect with `detailTemplate`.",
           "fieldName": "virtual"
         },
         {
@@ -27805,12 +27805,12 @@
     "tag": "wc-video",
     "rawTag": "video",
     "summary": "A video from YouTube, Vimeo or a file, that loads its player only when the person presses play.",
-    "overview": "<p>Video shows a poster with a play button. A YouTube or Vimeo player loads only on that click, so\nthe page makes no request to the video site until the person asks for the video: no cookies, no\ntracking, and a faster page. YouTube plays through <code>youtube-nocookie.com</code> and Vimeo with\nDo Not Track, and a line on the poster says where the video plays from.</p>\n<p>Any other <code>src</code> is a video file, shown in the browser's own player with its\ncontrols. Put <code>&lt;track&gt;</code> elements in the video for captions and subtitles.</p>\n<p>The video keeps its <code>aspect-ratio</code> before and after it loads, so nothing on the page\nmoves.</p>",
+    "overview": "<p>Video shows a poster with a play button. A YouTube or Vimeo player loads only on that click, so\r\nthe page makes no request to the video site until the person asks for the video: no cookies, no\r\ntracking, and a faster page. YouTube plays through <code>youtube-nocookie.com</code> and Vimeo with\r\nDo Not Track, and a line on the poster says where the video plays from.</p>\r\n<p>Any other <code>src</code> is a video file, shown in the browser's own player with its\r\ncontrols. Put <code>&lt;track&gt;</code> elements in the video for captions and subtitles.</p>\r\n<p>The video keeps its <code>aspect-ratio</code> before and after it loads, so nothing on the page\r\nmoves.</p>",
     "slot": "- `<track>` elements for a video file's captions and subtitles.",
     "csspart": "player - The `<iframe>` or `<video>`.",
     "cssprop": "--video-shape - Corner radius of the frame. Defaults to `--shape-corner-large`.",
     "fires": "play - Dispatched when the person starts the video: the player loads, or the file starts playing.",
-    "example": "```html\n<wc-video src=\"/media/tour.mp4\" poster=\"/media/tour.webp\" label=\"Product tour\">\n  <track kind=\"captions\" src=\"/media/tour.en.vtt\" srclang=\"en\" label=\"English\" default />\n</wc-video>\n```",
+    "example": "```html\r\n<wc-video src=\"/media/tour.mp4\" poster=\"/media/tour.webp\" label=\"Product tour\">\r\n  <track kind=\"captions\" src=\"/media/tour.en.vtt\" srclang=\"en\" label=\"English\" default />\r\n</wc-video>\r\n```",
     "tags": "media",
     "customElement": {
       "kind": "class",

@@ -35,7 +35,9 @@ function grid(el: Table): HTMLElement {
 }
 
 function bodyRows(el: Table): HTMLElement[] {
-  return [...root(el).querySelectorAll<HTMLElement>('.body .row')];
+  return [
+    ...root(el).querySelectorAll<HTMLElement>('.body .row:not(.filler-row)'),
+  ];
 }
 
 function cellText(row: HTMLElement, col: number): string {
