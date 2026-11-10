@@ -198,7 +198,7 @@ export { Erd } from './erd.js';
 export { DiagramMinimap } from './diagram-minimap.js';
 export { ConditionBuilder } from './condition-builder.js';
 export { CbGroup } from './cb-group.js';
-export { C as CbRule } from './cb-group-base-YkeoDYk2.js';
+export { C as CbRule } from './cb-group-base-FdZWo34c.js';
 export { CbDivider } from './cb-divider.js';
 export { W as WORKFLOW_LOGIC_STEPS } from './workflow-model-CauduOG2.js';
 import './IndividualComponent-BK7XZjE2.js';
@@ -278,5 +278,5 @@ import './history-YbTSQZHj.js';
 import './canvas-link-CtgsALq4.js';
 import './workflow-format-BsyveyeC.js';
 import './dependency-map-layout-5KUueabk.js';
-import './cb-group-base-BBDUgxne.js';
+import './cb-group-base-DHwx72Gt.js';
 //# sourceMappingURL=index.js.map

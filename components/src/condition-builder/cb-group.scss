@@ -17,5 +17,9 @@
   align-items: center;
   gap: var(--spacing-100);
   padding-top: var(--spacing-100);
+}
+
+// Lines up with the items while the connector column shows.
+.body.connected + .footer {
   padding-inline-start: var(--_connector-width);
 }

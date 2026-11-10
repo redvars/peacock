@@ -425,4 +425,26 @@ describe('Condition builder', () => {
     setActiveRule(null);
     expect(dragOver.defaultPrevented).to.be.false;
   });
+
+  it('reserves the connector column only for two or more items', async () => {
+    const { el, group } = await renderBuilder();
+    const body = (target: ConditionBuilder | CbGroup) =>
+      target.shadowRoot?.querySelector('.body') as HTMLElement;
+    const indent = (target: ConditionBuilder | CbGroup) =>
+      parseFloat(getComputedStyle(body(target)).paddingInlineStart);
+
+    // The root joins two rules and a group; the inner group holds a single rule.
+    expect(body(el).classList.contains('connected')).to.be.true;
+    expect(indent(el)).to.be.greaterThan(0);
+    expect(body(group).classList.contains('connected')).to.be.false;
+    expect(indent(group)).to.equal(0);
+    const footer = group.shadowRoot?.querySelector('.footer') as HTMLElement;
+    expect(parseFloat(getComputedStyle(footer).paddingInlineStart)).to.equal(0);
+
+    const rule = document.createElement('wc-cb-rule');
+    rule.textContent = 'D';
+    group.append(rule);
+    await settle(group);
+    expect(indent(group)).to.be.greaterThan(0);
+  });
 });

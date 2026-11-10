@@ -2,8 +2,8 @@ import { i, _ as __decorate, I as IndividualComponent, A, b } from './Individual
 import { n } from './property-B2TG3KEE.js';
 import { A as AiController } from './ai-controller-DR_Tg0sN.js';
 import { s as sparkle } from './sparkle-BmtM0vbq.js';
-import { a as CbGroupBase } from './cb-group-base-YkeoDYk2.js';
-import { c as css_248z$1 } from './cb-group-base-BBDUgxne.js';
+import { a as CbGroupBase } from './cb-group-base-FdZWo34c.js';
+import { c as css_248z$1 } from './cb-group-base-DHwx72Gt.js';
 import './locale-DEsJZCQG.js';
 import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';

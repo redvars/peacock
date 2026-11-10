@@ -16,7 +16,11 @@
 
 .body {
   position: relative;
-  padding-inline-start: var(--_connector-width);
+
+  // The connector column shows only once there are two items to join.
+  &.connected {
+    padding-inline-start: var(--_connector-width);
+  }
 }
 
 .connector {

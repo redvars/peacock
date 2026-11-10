@@ -2485,7 +2485,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+          "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "CbGroupBase",
@@ -2498,7 +2498,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+          "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "CbGroupBase",
@@ -7220,7 +7220,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+          "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "CbGroupBase",
@@ -7233,7 +7233,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+          "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "CbGroupBase",

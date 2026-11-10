@@ -155085,7 +155085,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Shared behaviour of `wc-condition-builder` and `wc-cb-group`: the And/Or\r\noperator pill, the bracket joining the items, dropping dragged rules,\r\n`disabled`/`readonly` passed down to the items, and the `value` tree.",
+          "description": "Shared behaviour of `wc-condition-builder` and `wc-cb-group`: the And/Or\noperator pill, the bracket joining the items, dropping dragged rules,\n`disabled`/`readonly` passed down to the items, and the `value` tree.",
           "name": "CbGroupBase",
           "members": [
             {
@@ -155129,7 +155129,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
               "attribute": "disabled",
               "reflects": true
             },
@@ -155140,7 +155140,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
               "attribute": "readonly",
               "reflects": true
             },
@@ -155290,7 +155290,7 @@
               "type": {
                 "text": "CbGroupValue"
               },
-              "description": "The query this group holds, as a tree of groups and rules (see `CbGroupValue` and\r\n`CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`\r\nis left out.",
+              "description": "The query this group holds, as a tree of groups and rules (see `CbGroupValue` and\n`CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`\nis left out.",
               "readonly": true
             },
             {
@@ -155342,7 +155342,7 @@
                   }
                 }
               ],
-              "description": "Moves `rule` into this group at `index` (counted without the rule itself).\r\nFires a cancelable `rule-move` event first. Returns whether it moved."
+              "description": "Moves `rule` into this group at `index` (counted without the rule itself).\nFires a cancelable `rule-move` event first. Returns whether it moved."
             },
             {
               "kind": "method",
@@ -155400,7 +155400,7 @@
                   }
                 }
               ],
-              "description": "The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them\r\nhere. Only the menu's own (not a nested one's) changes the open state."
+              "description": "The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them\nhere. Only the menu's own (not a nested one's) changes the open state."
             },
             {
               "kind": "method",
@@ -155534,7 +155534,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
               "fieldName": "disabled"
             },
             {
@@ -155543,7 +155543,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
               "fieldName": "readonly"
             }
           ],
@@ -155702,7 +155702,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
               "attribute": "disabled",
               "reflects": true,
               "inheritedFrom": {
@@ -155717,7 +155717,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
               "attribute": "readonly",
               "reflects": true,
               "inheritedFrom": {
@@ -155931,7 +155931,7 @@
               "type": {
                 "text": "CbGroupValue"
               },
-              "description": "The query this group holds, as a tree of groups and rules (see `CbGroupValue` and\r\n`CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`\r\nis left out.",
+              "description": "The query this group holds, as a tree of groups and rules (see `CbGroupValue` and\n`CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`\nis left out.",
               "readonly": true,
               "inheritedFrom": {
                 "name": "CbGroupBase",
@@ -155999,7 +155999,7 @@
                   }
                 }
               ],
-              "description": "Moves `rule` into this group at `index` (counted without the rule itself).\r\nFires a cancelable `rule-move` event first. Returns whether it moved.",
+              "description": "Moves `rule` into this group at `index` (counted without the rule itself).\nFires a cancelable `rule-move` event first. Returns whether it moved.",
               "inheritedFrom": {
                 "name": "CbGroupBase",
                 "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
@@ -156081,7 +156081,7 @@
                   }
                 }
               ],
-              "description": "The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them\r\nhere. Only the menu's own (not a nested one's) changes the open state.",
+              "description": "The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them\nhere. Only the menu's own (not a nested one's) changes the open state.",
               "inheritedFrom": {
                 "name": "CbGroupBase",
                 "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
@@ -156297,7 +156297,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
               "fieldName": "disabled",
               "inheritedFrom": {
                 "name": "CbGroupBase",
@@ -156310,7 +156310,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
               "fieldName": "readonly",
               "inheritedFrom": {
                 "name": "CbGroupBase",
@@ -156425,7 +156425,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
               "attribute": "disabled",
               "reflects": true,
               "inheritedFrom": {
@@ -156440,7 +156440,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
               "attribute": "readonly",
               "reflects": true,
               "inheritedFrom": {
@@ -156654,7 +156654,7 @@
               "type": {
                 "text": "CbGroupValue"
               },
-              "description": "The query this group holds, as a tree of groups and rules (see `CbGroupValue` and\r\n`CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`\r\nis left out.",
+              "description": "The query this group holds, as a tree of groups and rules (see `CbGroupValue` and\n`CbRuleValue`). `JSON.stringify()` it to store or send the query; each node's `element`\nis left out.",
               "readonly": true,
               "inheritedFrom": {
                 "name": "CbGroupBase",
@@ -156722,7 +156722,7 @@
                   }
                 }
               ],
-              "description": "Moves `rule` into this group at `index` (counted without the rule itself).\r\nFires a cancelable `rule-move` event first. Returns whether it moved.",
+              "description": "Moves `rule` into this group at `index` (counted without the rule itself).\nFires a cancelable `rule-move` event first. Returns whether it moved.",
               "inheritedFrom": {
                 "name": "CbGroupBase",
                 "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
@@ -156804,7 +156804,7 @@
                   }
                 }
               ],
-              "description": "The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them\r\nhere. Only the menu's own (not a nested one's) changes the open state.",
+              "description": "The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them\nhere. Only the menu's own (not a nested one's) changes the open state.",
               "inheritedFrom": {
                 "name": "CbGroupBase",
                 "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
@@ -157008,7 +157008,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\r\noperator. Slotted controls keep their own `disabled`; set it on them too.",
+              "description": "Disables the group and everything in it: no adding, removing, moving or switching the\noperator. Slotted controls keep their own `disabled`; set it on them too.",
               "fieldName": "disabled",
               "inheritedFrom": {
                 "name": "CbGroupBase",
@@ -157021,7 +157021,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\r\nremove and drag controls and locks the operator.",
+              "description": "Makes the group and everything in it read-only: it shows the query but hides the add,\nremove and drag controls and locks the operator.",
               "fieldName": "readonly",
               "inheritedFrom": {
                 "name": "CbGroupBase",

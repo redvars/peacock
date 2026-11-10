@@ -487,7 +487,7 @@ export class CbGroupBase extends LitElement {
         @dragleave=${this._onDragLeave}
         @drop=${this._onDrop}
       >
-        <div class="body">
+        <div class=${classMap({ body: true, connected: this._itemCount > 1 })}>
           ${this._renderConnector()}
           <div class=${classMap({ items: true, empty: this._itemCount === 0 })}>
             <slot @slotchange=${this._onSlotChange}></slot>
