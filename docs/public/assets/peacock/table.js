@@ -522,7 +522,10 @@ var css_248z = i`* {
 .loading-bar {
   position: absolute;
   inset-inline: 0;
-  bottom: 0;
+  bottom: calc(-1 * var(--spacing-100, 0.5rem));
+  z-index: 2;
+  min-width: 0;
+  pointer-events: none;
   --progress-height: 2px;
 }
 

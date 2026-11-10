@@ -523,7 +523,13 @@
 .loading-bar {
   position: absolute;
   inset-inline: 0;
-  bottom: 0;
+  // The progress track has a block margin of `--spacing-100`; offset it so the track lies on
+  // the header's bottom divider instead of floating above it.
+  bottom: calc(-1 * var(--spacing-100, 0.5rem));
+  // Above the pinned column groups, so it runs the full width of the table.
+  z-index: 2;
+  min-width: 0;
+  pointer-events: none;
   --progress-height: 2px;
 }
 
