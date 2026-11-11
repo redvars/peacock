@@ -11,6 +11,7 @@ Peacock 4.0 cleans up the component APIs so that every component follows the sam
 - **Carousel:** `wc-carousel` shows its children as slides, `per-view` at a time but never narrower than 15rem, with scroll snap, previous and next buttons, and pickers (a "3 of 9" counter beyond seven pages). Slides out of view are inert. `autoplay` is opt-in: a stop button comes first, rotation pauses on hover and focus, stops when the person uses a control, and never starts under reduced motion.
 - **Video:** `wc-video` shows a poster and loads a YouTube (through youtube-nocookie.com) or Vimeo (with Do Not Track) player only when the person presses play. Any other `src` plays in the browser's own player, with `<track>` children for captions.
 - **Highlight:** `wc-highlight` marks the words of `query` in its text, ignoring case and accents, for search results. It reads its children as plain text only. `ranges` marks matches a server already found.
+- **Table and condition builder fixes (4.3.1):** in a `wc-table` taller than its rows, the pinned column edges now run down to the footer, and the loading bar of an in-place refresh sits on the header's divider across the full width. A `wc-condition-builder` group with a single item, at the root or nested, no longer leaves room for the And/Or connector.
 
 ## New in 4.2
 
