@@ -358,6 +358,11 @@ export const defaultStrings = {
   /** Label of the and/or toggle, for example "Match conditions with And". */
   matchConditionsWith: (operator: string): string =>
     `Match conditions with ${operator}`,
+  /** What a click on the and/or toggle does, for example "Switch to Or": its tooltip and description. */
+  switchOperatorTo: (operator: string): string => `Switch to ${operator}`,
+  /** Announced after the and/or toggle swapped the operator, for example "Conditions now match with Or". */
+  conditionsNowMatchWith: (operator: string): string =>
+    `Conditions now match with ${operator}`,
   /** Description of a rule's handle: the keys that move the rule. */
   reorderConditionHint:
     'Arrow Up and Arrow Down move the condition. Arrow Right moves it into the group beside it, Arrow Left out of its group.',
