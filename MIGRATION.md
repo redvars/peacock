@@ -12,6 +12,7 @@ Peacock 4.0 cleans up the component APIs so that every component follows the sam
 - **Video:** `wc-video` shows a poster and loads a YouTube (through youtube-nocookie.com) or Vimeo (with Do Not Track) player only when the person presses play. Any other `src` plays in the browser's own player, with `<track>` children for captions.
 - **Highlight:** `wc-highlight` marks the words of `query` in its text, ignoring case and accents, for search results. It reads its children as plain text only. `ranges` marks matches a server already found.
 - **Table and condition builder fixes (4.3.1):** in a `wc-table` taller than its rows, the pinned column edges now run down to the footer, and the loading bar of an in-place refresh sits on the header's divider across the full width. A `wc-condition-builder` group with a single item, at the root or nested, no longer leaves room for the And/Or connector.
+- **Condition builder (4.3.2):** the And/Or pill swaps the operator on a click instead of opening a menu. It shows a swap icon, its tooltip and description say which operator a click switches to, and the change is announced; `operator-change` fires as before. The connector is wide enough to leave a gap between the pill and the items, and a dragged rule's drag image is the rule alone, not its whole group.
 
 ## New in 4.2
 

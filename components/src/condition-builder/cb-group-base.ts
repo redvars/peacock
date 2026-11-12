@@ -30,11 +30,9 @@ const OPERATOR_LABEL_KEYS: Record<CbOperator, 'operatorAnd' | 'operatorOr'> = {
   or: 'operatorOr',
 };
 
-type MenuElement = HTMLElement & {
-  anchorElement: HTMLElement | null;
-  show: () => void;
-  close: () => void;
-};
+/** The operator the pill swaps to. */
+const otherOperator = (operator: CbOperator): CbOperator =>
+  operator === 'and' ? 'or' : 'and';
 
 /** Adds the non-enumerable `element` to a node of the `value` tree. */
 function withElement<T extends object>(node: T, element: HTMLElement): T {
@@ -44,7 +42,7 @@ function withElement<T extends object>(node: T, element: HTMLElement): T {
 
 /**
  * Shared behaviour of `wc-condition-builder` and `wc-cb-group`: the And/Or
- * operator pill, the bracket joining the items, dropping dragged rules,
+ * operator pill, which swaps the operator on a click, the bracket joining the items, dropping dragged rules,
  * `disabled`/`readonly` passed down to the items, and the `value` tree.
  */
 export class CbGroupBase extends LitElement {
@@ -87,10 +85,6 @@ export class CbGroupBase extends LitElement {
   @state()
   private _dropIndicatorTop: number | null = null;
 
-  /** Whether the operator menu is open. */
-  @state()
-  private _menuOpen = false;
-
   /** `disabled` passed down by the enclosing group. */
   @state()
   private _inheritedDisabled = false;
@@ -111,16 +105,7 @@ export class CbGroupBase extends LitElement {
   @query('.connector')
   private readonly _connectorEl?: HTMLElement;
 
-  @query('.operator-pill')
-  private readonly _pillEl?: HTMLElement;
-
-  @query('wc-menu')
-  private readonly _menuEl?: MenuElement;
-
   // ── Private fields ────────────────────────────────────────────────────────
-
-  /** Id linking the operator pill to its menu. */
-  private readonly _menuId = `cb-operator-menu-${Math.random().toString(36).slice(2, 9)}`;
 
   /** Re-measures the bracket when any item changes size; exists while connected. */
   private _resizeObserver?: ResizeObserver;
@@ -311,33 +296,16 @@ export class CbGroupBase extends LitElement {
     this._connectorEl.style.height = `${bottom - top}px`;
   }
 
+  /** The pill swaps the operator: And becomes Or, Or becomes And, announced through the live region. */
   private _onPillClick(event: MouseEvent) {
     event.stopPropagation();
-    if (this.locked || !this._menuEl || !this._pillEl) return;
+    if (this.locked) return;
 
-    if (this._menuOpen) {
-      this._menuEl.close();
-    } else {
-      this._menuEl.anchorElement = this._pillEl;
-      this._menuEl.show();
-    }
-  }
-
-  /**
-   * The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them
-   * here. Only the menu's own (not a nested one's) changes the open state.
-   */
-  private _onMenuToggle(event: Event) {
-    event.stopPropagation();
-    if (event.target !== event.currentTarget) return;
-    this._menuOpen = event.type === 'open';
-  }
-
-  private _onMenuActivate(event: CustomEvent<{ item: { value: string } }>) {
-    const operator = event.detail.item.value as CbOperator;
-    if (this.locked || operator === this.operator) return;
-
+    const operator = otherOperator(this.operator);
     this.operator = operator;
+    this.announce(
+      this.i18n.t('conditionsNowMatchWith')(this._operatorLabel(operator)),
+    );
     this.dispatchEvent(
       new CustomEvent<{ operator: CbOperator }>('operator-change', {
         detail: { operator },
@@ -421,15 +389,18 @@ export class CbGroupBase extends LitElement {
     if (this._itemCount < 2) return nothing;
 
     const label = this._operatorLabel(this.operator);
+    // The name says what the pill holds; the description and the tooltip what a click does.
+    const swap = this.i18n.t('switchOperatorTo')(
+      this._operatorLabel(otherOperator(this.operator)),
+    );
     return html`
       <div class="connector">
         <wc-cb-divider connect-start connect-end>
           <button
+            id="operator-pill"
             class="operator-pill"
             aria-label=${this.i18n.t('matchConditionsWith')(label)}
-            aria-haspopup=${this.locked ? nothing : 'menu'}
-            aria-expanded=${this.locked ? nothing : String(this._menuOpen)}
-            aria-controls=${this.locked ? nothing : this._menuId}
+            aria-description=${this.locked ? nothing : swap}
             ?disabled=${this.effectiveDisabled}
             aria-readonly=${this.effectiveReadonly ? 'true' : nothing}
             @click=${this._onPillClick}
@@ -438,36 +409,15 @@ export class CbGroupBase extends LitElement {
             <span class="operator-label">${label}</span>
             ${this.locked
               ? nothing
-              : html`<wc-icon
-                  name="arrow_drop_down"
-                  aria-hidden="true"
-                ></wc-icon>`}
+              : html`<wc-icon name="swap_vert" aria-hidden="true"></wc-icon>`}
           </button>
+          ${this.locked
+            ? nothing
+            : html`<wc-tooltip class="operator-tooltip" for="operator-pill"
+                >${swap}</wc-tooltip
+              >`}
         </wc-cb-divider>
       </div>
-    `;
-  }
-
-  private _renderOperatorMenu() {
-    if (this.locked) return nothing;
-    return html`
-      <wc-menu
-        id=${this._menuId}
-        @open=${this._onMenuToggle}
-        @close=${this._onMenuToggle}
-        @menu-item-activate=${this._onMenuActivate}
-      >
-        ${(Object.keys(OPERATOR_LABEL_KEYS) as CbOperator[]).map(
-          operator => html`
-            <wc-menu-item
-              value=${operator}
-              ?selected=${operator === this.operator}
-            >
-              ${this._operatorLabel(operator)}
-            </wc-menu-item>
-          `,
-        )}
-      </wc-menu>
     `;
   }
 
@@ -501,7 +451,6 @@ export class CbGroupBase extends LitElement {
         </div>
         ${this.renderFooter()}
       </div>
-      ${this._renderOperatorMenu()}
       <span class="sr-only" aria-live="polite">${this._announcement}</span>
     `;
   }

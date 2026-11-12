@@ -22,7 +22,7 @@ export interface ConditionBuilderDescribeDetail {
  * @overview
  * <p>The condition builder is the root group of a query. It holds rules (<code>wc-cb-rule</code>) and bordered nested groups (<code>wc-cb-group</code>), each joined by a bracket with an And/Or pill.</p>
  * <ul>
- *   <li>Click the pill to switch a group between And and Or.</li>
+ *   <li>Click the pill to swap a group between And and Or; its tooltip says which it switches to.</li>
  *   <li>Drag a rule by its handle to reorder it or move it between groups.</li>
  *   <li>Without a mouse, focus a rule's handle: ArrowUp and ArrowDown move it within its group, ArrowRight moves it into the group beside it and ArrowLeft out of its group. Each move is announced.</li>
  *   <li>Removing, moving and switching are built in; adding rules and groups is up to you, since only you know what a new rule contains. Listen for <code>add-rule</code> and <code>add-group</code>, which nested groups fire too; <code>detail.group</code> is the group to add to.</li>
@@ -46,7 +46,7 @@ export interface ConditionBuilderDescribeDetail {
  * one discards it. <code>no-ai</code> turns the box off.</p>
  * @tags condition-builder
  *
- * @fires {CustomEvent<{operator: 'and' | 'or'}>} operator-change - Dispatched when the user picks a different operator, on this or a nested group.
+ * @fires {CustomEvent<{operator: 'and' | 'or'}>} operator-change - Dispatched when the user swaps the operator with the pill, on this or a nested group.
  * @fires {CustomEvent<{rule: CbRule, from: HTMLElement | null, to: HTMLElement, index: number}>} rule-move - Dispatched before a rule is moved. Cancelable: unless prevented, the target group moves the rule.
  * @fires {CustomEvent<{rule: CbRule, group: HTMLElement | null}>} rule-remove - Dispatched when a rule's remove button is clicked. Cancelable: unless prevented, the rule removes itself.
  * @fires {CustomEvent<{group: HTMLElement}>} add-rule - Dispatched when "Add rule" (or a nested group's "Add condition") is clicked.

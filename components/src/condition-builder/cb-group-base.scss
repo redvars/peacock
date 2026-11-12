@@ -7,10 +7,13 @@
 }
 
 .group {
-  --_connector-width: 3.5rem;
+  // The pill sits centred on the bracket's line, halfway across the connector, so a connector of
+  // the pill's width plus twice a gap leaves that gap between the pill and the items.
+  --_pill-min-width: 3.25rem;
+  --_connector-width: calc(var(--_pill-min-width) + 2 * var(--spacing-100, 0.5rem));
 
   @include mixin.for-phone-only {
-    --_connector-width: 3rem;
+    --_connector-width: calc(var(--_pill-min-width) + 2 * var(--spacing-050, 0.25rem));
   }
 }
 
@@ -49,7 +52,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-025);
-  min-width: 3.25rem;
+  min-width: var(--_pill-min-width);
   height: 1.5rem;
   white-space: nowrap;
   padding-inline: var(--spacing-100) var(--spacing-050);

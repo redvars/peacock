@@ -75,59 +75,76 @@ describe('Condition builder', () => {
     expect(group.shadowRoot?.querySelector('.operator-pill')).to.exist;
   });
 
-  it('tracks its operator menu with open and close, ignoring bubbled ones', async () => {
+  it('swaps the operator with a click on the pill and fires operator-change', async () => {
     const { el } = await renderBuilder();
-    const menu = el.shadowRoot!.querySelector('wc-menu')!;
-    const expanded = () =>
-      el
-        .shadowRoot!.querySelector('.operator-pill')!
-        .getAttribute('aria-expanded');
-    expect(expanded()).to.equal('false');
-    const outside: Event[] = [];
-    el.addEventListener('open', e => outside.push(e));
-    el.addEventListener('close', e => outside.push(e));
-
-    const inner = document.createElement('span');
-    menu.append(inner);
-    inner.dispatchEvent(new CustomEvent('open', { bubbles: true }));
-    await el.updateComplete;
-    expect(expanded()).to.equal('false');
-
-    menu.dispatchEvent(new CustomEvent('open', { bubbles: true }));
-    await el.updateComplete;
-    expect(expanded()).to.equal('true');
-
-    inner.dispatchEvent(new CustomEvent('close', { bubbles: true }));
-    await el.updateComplete;
-    expect(expanded()).to.equal('true');
-
-    menu.dispatchEvent(
-      new CustomEvent('close', { bubbles: true, composed: true }),
-    );
-    await el.updateComplete;
-    expect(expanded()).to.equal('false');
-    expect(outside).to.be.empty;
-  });
-
-  it('switches the operator from the menu and fires operator-change', async () => {
-    const { el } = await renderBuilder();
-    let detail: unknown;
+    const details: unknown[] = [];
     el.addEventListener('operator-change', event => {
-      detail = (event as CustomEvent).detail;
+      details.push((event as CustomEvent).detail);
     });
+    const pill = () =>
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.operator-pill')!;
+    const tooltip = () =>
+      el.shadowRoot!.querySelector('.operator-tooltip')?.textContent?.trim();
 
-    el.shadowRoot?.querySelector('wc-menu')?.dispatchEvent(
-      new CustomEvent('menu-item-activate', {
-        detail: { item: { value: 'or' } },
-      }),
+    expect(pill().getAttribute('aria-label')).to.equal(
+      'Match conditions with And',
     );
-    await el.updateComplete;
+    expect(pill().getAttribute('aria-description')).to.equal('Switch to Or');
+    expect(pill().querySelector('wc-icon')?.getAttribute('name')).to.equal(
+      'swap_vert',
+    );
+    expect(tooltip()).to.equal('Switch to Or');
+    expect(pill().hasAttribute('aria-haspopup')).to.be.false;
+    expect(el.shadowRoot?.querySelector('wc-menu')).to.not.exist;
 
-    expect(detail).to.deep.equal({ operator: 'or' });
+    pill().click();
+    await el.updateComplete;
+    expect(details).to.deep.equal([{ operator: 'or' }]);
     expect(el.getAttribute('operator')).to.equal('or');
     expect(
       el.shadowRoot?.querySelector('.operator-label')?.textContent,
     ).to.equal('Or');
+    expect(pill().getAttribute('aria-label')).to.equal(
+      'Match conditions with Or',
+    );
+    expect(tooltip()).to.equal('Switch to And');
+
+    pill().click();
+    await el.updateComplete;
+    expect(details).to.deep.equal([{ operator: 'or' }, { operator: 'and' }]);
+    expect(el.getAttribute('operator')).to.equal('and');
+  });
+
+  it('announces the operator it swapped to', async () => {
+    const { el } = await renderBuilder();
+    el.shadowRoot!.querySelector<HTMLButtonElement>('.operator-pill')!.click();
+    await new Promise(resolve => {
+      requestAnimationFrame(resolve);
+    });
+    await el.updateComplete;
+
+    expect(
+      el.shadowRoot?.querySelector('[aria-live="polite"]')?.textContent,
+    ).to.equal('Conditions now match with Or');
+  });
+
+  it('leaves a gap between the operator pill and the items it joins', async () => {
+    const { el } = await renderBuilder();
+    const pill = el
+      .shadowRoot!.querySelector('.operator-pill')!
+      .getBoundingClientRect();
+    const first = byId<CbRule>(el, 'a').getBoundingClientRect();
+
+    expect(first.left - pill.right).to.be.at.least(4);
+  });
+
+  it('gives each rule a paint layer of its own, so a drag image shows only the rule', async () => {
+    const { el } = await renderBuilder();
+    const rule = byId<CbRule>(el, 'a');
+
+    // A drag image is painted from the dragged element's layer; a positioned host has one.
+    expect(getComputedStyle(rule).position).to.equal('relative');
+    expect(getComputedStyle(rule).zIndex).to.equal('auto');
   });
 
   it('removes a rule from its remove button unless rule-remove is prevented', async () => {
@@ -374,7 +391,8 @@ describe('Condition builder', () => {
     expect(rule.shadowRoot?.querySelector('.remove')).to.not.exist;
     expect(el.shadowRoot?.querySelector('.actions slot[name="actions"]')).to.not
       .exist;
-    expect(el.shadowRoot?.querySelector('wc-menu')).to.not.exist;
+    expect(el.shadowRoot?.querySelector('.operator-tooltip')).to.not.exist;
+    expect(el.shadowRoot?.querySelector('.operator-pill wc-icon')).to.not.exist;
     expect(group.shadowRoot?.querySelector('.footer')).to.not.exist;
 
     el.readonly = false;
