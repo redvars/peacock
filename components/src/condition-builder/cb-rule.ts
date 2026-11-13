@@ -169,6 +169,9 @@ export class CbRule extends LitElement {
       return;
     }
     const { dataTransfer } = event;
+    // A stacking context of its own while the browser paints the drag image, which happens after
+    // this handler returns, with styles updated.
+    this.toggleAttribute('drag-capture', true);
     if (dataTransfer) {
       dataTransfer.effectAllowed = 'move';
       // Firefox only starts a drag that carries data.
@@ -182,14 +185,16 @@ export class CbRule extends LitElement {
     }
     setActiveRule(this);
     // Dim the row after the browser has captured the drag image.
-    requestAnimationFrame(() =>
-      this.toggleAttribute('dragging', getActiveRule() === this),
-    );
+    requestAnimationFrame(() => {
+      this.toggleAttribute('drag-capture', false);
+      this.toggleAttribute('dragging', getActiveRule() === this);
+    });
   }
 
   private _onDragEnd() {
     setActiveRule(null);
     claimDropTarget(null);
+    this.toggleAttribute('drag-capture', false);
     this.toggleAttribute('dragging', false);
   }
 

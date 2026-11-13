@@ -3,12 +3,17 @@
 @include mixin.base-styles;
 
 :host {
-  // Positioned, so the rule has a paint layer of its own: a drag image is painted from the dragged
-  // element's layer, and without one Chrome paints the group's around it, the whole section.
-  // No z-index, so it starts no stacking context and nothing in the rule stacks differently.
   position: relative;
   display: block;
   container-type: inline-size;
+}
+
+// Chrome paints a drag image from the nearest stacking context, cut to the dragged element's box,
+// so without one of its own the rule's image shows whatever else of the group overlaps that box.
+// Set only while the drag image is captured, so menus inside a rule are not trapped under the
+// next rule the rest of the time.
+:host([drag-capture]) {
+  isolation: isolate;
 }
 
 :host([dragging]) {

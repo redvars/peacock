@@ -138,13 +138,34 @@ describe('Condition builder', () => {
     expect(first.left - pill.right).to.be.at.least(4);
   });
 
-  it('gives each rule a paint layer of its own, so a drag image shows only the rule', async () => {
+  it('isolates a rule only while its drag image is captured, so the image shows only the rule', async () => {
     const { el } = await renderBuilder();
     const rule = byId<CbRule>(el, 'a');
+    const handle = rule.shadowRoot!.querySelector('.handle')!;
 
-    // A drag image is painted from the dragged element's layer; a positioned host has one.
-    expect(getComputedStyle(rule).position).to.equal('relative');
-    expect(getComputedStyle(rule).zIndex).to.equal('auto');
+    // Chrome paints a drag image from the nearest stacking context, cut to the rule's box.
+    expect(getComputedStyle(rule).isolation).to.equal('auto');
+    handle.dispatchEvent(
+      new DragEvent('dragstart', {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+      }),
+    );
+    expect(getComputedStyle(rule).isolation).to.equal('isolate');
+
+    await new Promise(resolve => {
+      requestAnimationFrame(resolve);
+    });
+    expect(getComputedStyle(rule).isolation).to.equal('auto');
+    expect(rule.hasAttribute('dragging')).to.be.true;
+
+    handle.dispatchEvent(
+      new DragEvent('dragend', { bubbles: true, composed: true }),
+    );
+    expect(rule.hasAttribute('dragging')).to.be.false;
+    expect(rule.hasAttribute('drag-capture')).to.be.false;
   });
 
   it('removes a rule from its remove button unless rule-remove is prevented', async () => {
