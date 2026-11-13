@@ -3,7 +3,7 @@
 
 [![Build](https://github.com/redvars/peacock/workflows/Build/badge.svg)](https://github.com/redvars/peacock/actions?workflow=Build)
 [![GitHub license](https://img.shields.io/github/license/redvars/peacock.svg)](/LICENSE)
-![Version](https://img.shields.io/npm/v/%40redvars%2Fpeacock)
+[![Version](https://img.shields.io/npm/v/%40redvars%2Fpeacock)](https://www.npmjs.com/package/@redvars/peacock)
 
 
 <div align="center">
