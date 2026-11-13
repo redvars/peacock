@@ -351,6 +351,286 @@ describe('TransferList', () => {
     );
   });
 
+  describe('drag to reorder', () => {
+    const ORDERED = 'admin,editor,viewer,auditor,guest';
+
+    async function orderedSetup(
+      extra: { value?: string; searchable?: boolean } = {},
+    ) {
+      return setup(
+        html`<wc-transfer-list
+          style="width: 48rem"
+          .options=${OPTIONS}
+          ordered
+          ?searchable=${!!extra.searchable}
+          value=${extra.value ?? ORDERED}
+        ></wc-transfer-list>`,
+      );
+    }
+
+    function handle(el: TransferList, value: string) {
+      return option(el, value).querySelector<HTMLElement>('.drag-handle');
+    }
+
+    function pointer(
+      type: string,
+      x: number,
+      y: number,
+      target: EventTarget = window,
+    ) {
+      target.dispatchEvent(
+        new PointerEvent(type, {
+          pointerId: 7,
+          button: 0,
+          clientX: x,
+          clientY: y,
+          bubbles: true,
+          composed: true,
+          cancelable: true,
+        }),
+      );
+    }
+
+    /** A point above (`before`) or below (`after`) the middle of an option. */
+    function at(el: TransferList, value: string, where: 'before' | 'after') {
+      const rect = option(el, value).getBoundingClientRect();
+      return {
+        x: rect.left + rect.width / 2,
+        y: where === 'before' ? rect.top + 2 : rect.bottom - 2,
+      };
+    }
+
+    async function startDrag(el: TransferList, value: string) {
+      const grip = handle(el, value)!;
+      const rect = grip.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      pointer('pointerdown', x, y, grip);
+      return { x, y };
+    }
+
+    async function moveTo(el: TransferList, x: number, y: number) {
+      pointer('pointermove', x, y);
+      await settle(el);
+    }
+
+    async function drop(el: TransferList, x: number, y: number) {
+      pointer('pointerup', x, y);
+      await settle(el);
+    }
+
+    it('shows a drag handle on enabled selected items only with ordered', async () => {
+      const el = await orderedSetup({ value: 'admin,auditor' });
+      expect(handle(el, 'admin')).to.exist;
+      expect(handle(el, 'admin')!.getAttribute('aria-hidden')).to.equal('true');
+      expect(handle(el, 'auditor')).to.be.null;
+      expect(handle(el, 'editor')).to.be.null;
+
+      el.readonly = true;
+      await settle(el);
+      expect(handle(el, 'admin')).to.be.null;
+
+      el.readonly = false;
+      el.ordered = false;
+      await settle(el);
+      expect(handle(el, 'admin')).to.be.null;
+    });
+
+    it('moves one item down and up, announces it and fires change', async () => {
+      const el = await orderedSetup();
+      const seen = changes(el);
+      await startDrag(el, 'admin');
+      const below = at(el, 'viewer', 'after');
+      await moveTo(el, below.x, below.y);
+      expect(option(el, 'admin').classList.contains('dragging')).to.be.true;
+      expect(el.shadowRoot!.querySelector('.drop-indicator')).to.exist;
+      expect(
+        el.shadowRoot!.querySelector('.drag-preview')!.textContent,
+      ).to.contain('Administrator');
+      expect(el.shadowRoot!.querySelector('.drag-count')).to.be.null;
+      await drop(el, below.x, below.y);
+
+      expect(el.values).to.deep.equal([
+        'editor',
+        'viewer',
+        'admin',
+        'auditor',
+        'guest',
+      ]);
+      expect(seen).to.have.length(1);
+      expect(seen[0].values).to.deep.equal(el.values);
+      expect(el.shadowRoot!.querySelector('.drop-indicator')).to.be.null;
+      expect(el.shadowRoot!.querySelector('.drag-preview')).to.be.null;
+      expect(option(el, 'admin').classList.contains('dragging')).to.be.false;
+      await waitUntil(
+        () => announcement(el) === 'Administrator, position 3 of 5',
+        'announced the new position',
+      );
+
+      await startDrag(el, 'guest');
+      const top = at(el, 'editor', 'before');
+      await moveTo(el, top.x, top.y);
+      await drop(el, top.x, top.y);
+      expect(el.values).to.deep.equal([
+        'guest',
+        'editor',
+        'viewer',
+        'admin',
+        'auditor',
+      ]);
+    });
+
+    it('moves all checked items together when the dragged one is checked', async () => {
+      const el = await orderedSetup();
+      await check(el, 'admin');
+      await check(el, 'viewer');
+      await startDrag(el, 'viewer');
+      const end = at(el, 'guest', 'after');
+      await moveTo(el, end.x, end.y);
+      expect(el.shadowRoot!.querySelector('.drag-count')!.textContent).to.equal(
+        '2',
+      );
+      await drop(el, end.x, end.y);
+      expect(el.values).to.deep.equal([
+        'editor',
+        'auditor',
+        'guest',
+        'admin',
+        'viewer',
+      ]);
+      await waitUntil(
+        () => announcement(el) === '2 items moved to position 4',
+        'announced the group move',
+      );
+    });
+
+    it('moves only the dragged item when it is not checked', async () => {
+      const el = await orderedSetup();
+      await check(el, 'admin');
+      await startDrag(el, 'editor');
+      const end = at(el, 'guest', 'after');
+      await moveTo(el, end.x, end.y);
+      await drop(el, end.x, end.y);
+      expect(el.values).to.deep.equal([
+        'admin',
+        'viewer',
+        'auditor',
+        'guest',
+        'editor',
+      ]);
+    });
+
+    it('does nothing for a drop that keeps the order, a click or a short press', async () => {
+      const el = await orderedSetup();
+      const seen = changes(el);
+      const start = await startDrag(el, 'editor');
+      const same = at(el, 'editor', 'after');
+      await moveTo(el, same.x, same.y);
+      expect(el.shadowRoot!.querySelector('.drop-indicator')).to.be.null;
+      await drop(el, same.x, same.y);
+
+      await startDrag(el, 'editor');
+      await drop(el, start.x, start.y + 1);
+      expect(el.value).to.equal(ORDERED);
+      expect(seen).to.have.length(0);
+    });
+
+    it('cancels on Escape and on a release outside the list', async () => {
+      const el = await orderedSetup();
+      const seen = changes(el);
+      await startDrag(el, 'admin');
+      const target = at(el, 'guest', 'after');
+      await moveTo(el, target.x, target.y);
+      press(document.body, 'Escape');
+      await settle(el);
+      expect(el.shadowRoot!.querySelector('.drag-preview')).to.be.null;
+      await drop(el, target.x, target.y);
+      expect(el.value).to.equal(ORDERED);
+
+      await startDrag(el, 'admin');
+      await moveTo(el, target.x, target.y);
+      const box = list(el, 'available').getBoundingClientRect();
+      await moveTo(el, box.left + 10, box.top + 10);
+      expect(el.shadowRoot!.querySelector('.drop-indicator')).to.be.null;
+      await drop(el, box.left + 10, box.top + 10);
+      expect(el.value).to.equal(ORDERED);
+      expect(seen).to.have.length(0);
+    });
+
+    it('swallows the click that ends a drag, so the item is not checked', async () => {
+      const el = await orderedSetup();
+      await startDrag(el, 'admin');
+      const target = at(el, 'viewer', 'after');
+      await moveTo(el, target.x, target.y);
+      await drop(el, target.x, target.y);
+      handle(el, 'admin')!.click();
+      await settle(el);
+      expect(option(el, 'admin').selected).to.be.false;
+    });
+
+    it('drops around disabled items and keeps hidden items in place while searching', async () => {
+      const el = await orderedSetup({ searchable: true });
+      await startDrag(el, 'admin');
+      const past = at(el, 'auditor', 'after');
+      await moveTo(el, past.x, past.y);
+      await drop(el, past.x, past.y);
+      expect(el.values).to.deep.equal([
+        'editor',
+        'viewer',
+        'auditor',
+        'admin',
+        'guest',
+      ]);
+
+      // "e" hides only Auditor (Administrator matches through "Full access").
+      const search = el.shadowRoot!.querySelector<Search>('.search-selected')!;
+      search.dispatchEvent(
+        new CustomEvent('input', {
+          detail: { value: 'e' },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+      await settle(el);
+      expect(shownValues(el, 'selected')).to.deep.equal([
+        'editor',
+        'viewer',
+        'admin',
+        'guest',
+      ]);
+      await startDrag(el, 'editor');
+      const line = at(el, 'admin', 'before');
+      await moveTo(el, line.x, line.y);
+      await drop(el, line.x, line.y);
+      // Dropped right before Administrator; the hidden Auditor keeps its place above.
+      expect(el.values).to.deep.equal([
+        'viewer',
+        'auditor',
+        'editor',
+        'admin',
+        'guest',
+      ]);
+    });
+  });
+
+  it('keeps each list at --transfer-list-list-block-size and scrolls a long one', async () => {
+    const many = Array.from({ length: 30 }, (_, i) => ({
+      value: `v${i}`,
+      label: `Item ${i}`,
+    }));
+    const el = await setup(
+      html`<wc-transfer-list
+        style="width: 48rem; --transfer-list-list-block-size: 8rem"
+        .options=${many}
+      ></wc-transfer-list>`,
+    );
+    const wrapper = el.shadowRoot!.querySelector<HTMLElement>(
+      '.pane-available .list-wrapper',
+    )!;
+    expect(wrapper.clientHeight).to.equal(128);
+    expect(wrapper.scrollHeight).to.be.greaterThan(wrapper.clientHeight);
+  });
+
   it('has no reorder buttons without ordered', async () => {
     const el = await setup();
     expect(el.shadowRoot!.querySelector('.move-up')).to.be.null;

@@ -52,6 +52,7 @@
 }
 
 .pane {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
@@ -92,7 +93,9 @@
 
 .list-wrapper {
   position: relative;
-  flex: 1;
+  // The height is the basis, so a long list scrolls instead of growing the pane; it still
+  // grows to fill a pane stretched by the other one.
+  flex: 1 0 auto;
   block-size: var(--_list-block-size);
   overflow-y: auto;
 }
@@ -106,6 +109,97 @@
     border-radius: 0;
     background: transparent;
   }
+}
+
+// ── Drag to reorder (ordered) ────────────────────────────────────────────
+
+.drag-handle {
+  --icon-size: 1.25rem;
+  --icon-color: currentColor;
+
+  flex: none;
+  color: var(--color-on-surface-variant);
+  cursor: grab;
+  // Touch drags move the item instead of scrolling the list.
+  touch-action: none;
+
+  &:hover {
+    color: var(--color-on-surface);
+  }
+}
+
+wc-listbox-option.dragging {
+  opacity: 0.38;
+}
+
+.drop-indicator {
+  position: absolute;
+  inset-inline: var(--spacing-100);
+  block-size: 0.125rem;
+  margin-block-start: -0.0625rem;
+  border-radius: var(--shape-corner-full);
+  background-color: var(--color-primary);
+  pointer-events: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -0.25rem;
+    inset-block-start: -0.1875rem;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: var(--shape-corner-full);
+    background-color: var(--color-primary);
+  }
+}
+
+.drag-preview {
+  @include mixin.get-typography(body-large);
+
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  max-inline-size: 70%;
+  padding: var(--spacing-100) var(--spacing-150);
+  // The pointer holds the copy by its grip, as it held the item's handle.
+  transform: translate(calc(-1 * (var(--spacing-150) + 0.625rem)), -50%);
+  border-radius: var(--shape-corner-small);
+  background-color: var(--color-surface-container-high);
+  box-shadow: var(--elevation-level2);
+  color: var(--color-on-surface);
+  cursor: grabbing;
+  pointer-events: none;
+}
+
+.drag-preview-icon {
+  --icon-size: 1.25rem;
+  --icon-color: currentColor;
+
+  flex: none;
+  color: var(--color-on-surface-variant);
+}
+
+.drag-preview-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.drag-count {
+  @include mixin.get-typography(label-small);
+
+  position: absolute;
+  inset-inline-end: -0.5rem;
+  inset-block-start: -0.5rem;
+  min-inline-size: 1.25rem;
+  padding-inline: var(--spacing-050);
+  border-radius: var(--shape-corner-full);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  text-align: center;
+  line-height: 1.25rem;
 }
 
 .empty {

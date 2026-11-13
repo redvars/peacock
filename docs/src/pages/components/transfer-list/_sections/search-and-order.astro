@@ -15,6 +15,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <kbd>Alt</kbd>+<kbd>Down</kbd> move the focused one. Use it when the order matters, such as the
   columns of a report.
 </p>
+<p>
+  Each selected item also gets a drag handle. Drag it to where the drop line shows; when the item
+  is checked, all checked items move together, keeping their order. <kbd>Escape</kbd> or a release
+  outside the list cancels the drag. A drop is announced like a reorder ("Status, position 1 of
+  4") and fires one <code>change</code>.
+</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-transfer-list
@@ -23,7 +29,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     ordered
     available-headline='Columns'
     selected-headline='Shown'
-    value='name,status'
+    value='name,status,owner,updated'
     style='width: 100%; max-width: 44rem;'
     options='[{"value":"name","label":"Name"},{"value":"email","label":"Email"},{"value":"status","label":"Status"},{"value":"created","label":"Created","description":"Date the record was added"},{"value":"updated","label":"Updated"},{"value":"owner","label":"Owner"},{"value":"region","label":"Region"}]'
   ></wc-transfer-list>

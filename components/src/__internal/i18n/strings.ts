@@ -565,6 +565,9 @@ export const defaultStrings = {
     position: string,
     total: string,
   ): string => `${label}, position ${position} of ${total}`,
+  /** Announced after dragging several items, for example "3 items moved to position 2". */
+  transferListMovedToPosition: (count: string, position: string): string =>
+    `${count} items moved to position ${position}`,
   /** Accessible name of a dot-only status indicator without `label` or `intent`. */
   statusIndicatorNeutral: 'Status',
 
