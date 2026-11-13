@@ -1,6 +1,6 @@
 # Migrating from Peacock 3.x to 4.0
 
-Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](docs/adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
+Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
 
 ## New in 4.3
 

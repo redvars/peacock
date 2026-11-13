@@ -129,7 +129,7 @@ setPeacockAi({
 - A field with `sensitive` is never sent to the provider, and password and PIN fields never are.
 - Model text is never run or parsed as HTML: it shows through `wc-markdown` or `wc-generative-view`, which renders only an allow-listed set of components and props. `generativeViewSchema()` returns that set as a JSON Schema for your model service.
 
-[ADR-030002](docs/adr/030002-ai-native-components.md) records the decisions.
+[ADR-030002](adr/030002-ai-native-components.md) records the decisions.
 
 ### Forms and validation
 

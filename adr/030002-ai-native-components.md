@@ -3,7 +3,7 @@
 - **Status:** Proposed
 - **Date:** 2026-11-07
 - **Packages:** `@redvars/peacock`
-- **Links:** engineering [ADR-000007](../../../engineering/docs/adr/000007-ai-native-never-ai-only.md) (AI native, never AI only); the "With AI" boards in `engineering/design/home-admin-store`; [ADR-030001](030001-component-api-conventions.md) (component API conventions)
+- **Links:** engineering [ADR-000007](../../engineering/docs/adr/000007-ai-native-never-ai-only.md) (AI native, never AI only); the "With AI" boards in `engineering/design/home-admin-store`; [ADR-030001](030001-component-api-conventions.md) (component API conventions)
 
 ## Context
 
