@@ -14,6 +14,7 @@ Peacock 4.0 cleans up the component APIs so that every component follows the sam
 - **Table and condition builder fixes (4.3.1):** in a `wc-table` taller than its rows, the pinned column edges now run down to the footer, and the loading bar of an in-place refresh sits on the header's divider across the full width. A `wc-condition-builder` group with a single item, at the root or nested, no longer leaves room for the And/Or connector.
 - **Condition builder (4.3.2):** the And/Or pill swaps the operator on a click instead of opening a menu. It shows a swap icon, its tooltip and description say which operator a click switches to, and the change is announced; `operator-change` fires as before. The connector is wide enough to leave a gap between the pill and the items, and a dragged rule's drag image is the rule alone, not its whole group.
 - **Transfer list drag to reorder (4.3.3):** with `ordered`, each selected item of a `wc-transfer-list` has a drag handle. Dragging moves the item, or all checked items when it is checked, to where the drop line shows; Escape or a release outside the list cancels. Move up, Move down and Alt+Up/Down still work. `--transfer-list-list-block-size` now takes effect: each list keeps that height (16rem by default) and scrolls, where it used to grow to fit every item.
+- **Condition builder drag image (4.3.4):** a dragged rule's drag image now shows only the rule. In 4.3.2 it could still show parts of the group that overlapped the rule.
 
 ## New in 4.2
 
