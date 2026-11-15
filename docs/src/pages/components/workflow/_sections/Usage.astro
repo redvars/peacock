@@ -70,6 +70,17 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
               { id: 'failed', type: 'end', headline: 'End · failed' },
             ],
           },
+          {
+            id: 'notify', type: 'parallel', mode: 'first', headline: 'Reach the submitter', supportingText: 'First to answer', icon: 'alt_route',
+            paths: [
+              { id: 'chat-path', label: 'Chat', steps: [{ id: 'chat', type: 'action', headline: 'Send chat message', supportingText: 'Notification', icon: 'chat', accent: 'blue' }] },
+              { id: 'mail-path', label: 'Email', steps: [{ id: 'mail', type: 'action', headline: 'Send email', supportingText: 'Notification', icon: 'mail', accent: 'blue' }] },
+            ],
+          },
+          {
+            id: 'remind', type: 'loop', mode: 'times', headline: 'Remind', icon: 'repeat', over: '3',
+            steps: [{ id: 'reminder', type: 'wait', headline: 'Wait a day', icon: 'schedule', until: '1 day' }],
+          },
           { id: 'done', type: 'end' },
         ],
       };
@@ -95,8 +106,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <ul>
   <li><strong>action</strong> and <strong>wait</strong>: a card with up to three <code>fields</code> (all with <code>density="expanded"</code>). <code>{'{{Step.output}}'}</code> in a value renders as a data pill with the source step's icon. The footer shows <code>outputs</code>, AI agent <code>tools</code> or an <code>assignee</code>.</li>
   <li><strong>branch</strong>: paths side by side, each with a label pill; <code>isDefault</code> marks the "otherwise" path. Paths merge into a join dot below.</li>
-  <li><strong>parallel</strong>: every path runs, then the flow waits for all of them.</li>
-  <li><strong>loop</strong>: a frame with a back arrow; <code>mode</code> is <code>for-each</code>, <code>while</code> or <code>until</code>, and <code>over</code> what it loops over.</li>
+  <li><strong>parallel</strong>: every path runs. With <code>mode</code> <code>all</code> (the default) the flow waits for all of them ("Wait for all"); with <code>first</code> it goes on when one has ended and the others stop ("First to finish").</li>
+  <li><strong>loop</strong>: a frame with a back arrow; <code>mode</code> is <code>for-each</code>, <code>times</code>, <code>while</code> or <code>until</code>, and <code>over</code> what it loops over, how many times (<code>3</code>, <code>{'{{Settings.levels}}'}</code>, shown as "3 times") or what it tests.</li>
   <li><strong>onError</strong> on an action: a side path in the error colour, like try/catch.</li>
   <li><strong>end</strong>: stops the path. Steps after a path that always ends are flagged in a problems button, along with steps marked <code>invalid</code> (with <code>errorText</code>).</li>
 </ul>

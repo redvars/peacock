@@ -157,6 +157,51 @@ describe('wc-workflow', () => {
     ).to.equal(1);
   });
 
+  it('labels a parallel join by its mode, and a times loop by its count', async () => {
+    const path = (id: string) => ({
+      id,
+      label: id,
+      steps: [{ id: `${id}-a`, type: 'action' as const, headline: id }],
+    });
+    const value: WorkflowValue = {
+      steps: [
+        { id: 'all', type: 'parallel', paths: [path('a1'), path('a2')] },
+        {
+          id: 'race',
+          type: 'parallel',
+          mode: 'first',
+          paths: [path('r1'), path('r2')],
+        },
+        {
+          id: 'escalate',
+          type: 'loop',
+          mode: 'times',
+          over: '{{Settings.levels}}',
+          steps: [{ id: 'page', type: 'action', headline: 'Page' }],
+        },
+      ],
+    };
+    const el = await mount(value);
+    const root = el.shadowRoot as ShadowRoot;
+    const join = (id: string) =>
+      root.querySelector(`[data-join-for="${id}"]`) as HTMLElement;
+    expect(join('all').textContent?.trim()).to.equal('Wait for all');
+    expect(join('race').textContent?.trim()).to.equal('First to finish');
+    expect(join('race').classList.contains('is-first')).to.equal(true);
+    expect(card(el, 'escalate').textContent).to.contain('Repeat');
+    const over = root.querySelector(
+      '[data-loop-for="escalate"] .wf-loop-over',
+    ) as HTMLElement;
+    expect(over.textContent).to.contain('Settings');
+    expect(over.textContent?.trim().endsWith('times')).to.equal(true);
+
+    el.value = {
+      steps: [{ ...value.steps[1], mode: 'all' } as WorkflowValue['steps'][0]],
+    };
+    await settle(el);
+    expect(join('race').textContent?.trim()).to.equal('Wait for all');
+  });
+
   it('draws no join when every path ends, and flags what comes after as a problem', async () => {
     const value: WorkflowValue = {
       steps: [

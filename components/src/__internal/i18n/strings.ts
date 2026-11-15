@@ -986,6 +986,7 @@ export const defaultStrings = {
   workflowNoSteps: 'No matching steps',
   workflowOnError: 'On error',
   workflowWaitForAll: 'Wait for all',
+  workflowFirstToFinish: 'First to finish',
   workflowEnd: 'End',
   workflowMoreActions: 'More actions',
   workflowDuplicate: 'Duplicate',
@@ -1003,6 +1004,9 @@ export const defaultStrings = {
     count === 1 ? '1 problem' : `${count} problems`,
   workflowUnreachable: 'This step never runs: the path before it ends.',
   workflowLoopForEach: 'For each',
+  workflowLoopTimes: 'Repeat',
+  /** After a `times` loop's count, for example "3 times". */
+  workflowLoopTimesSuffix: 'times',
   workflowLoopWhile: 'While',
   workflowLoopUntil: 'Repeat until',
   /** Announced after a step is added, for example "Send email added". */

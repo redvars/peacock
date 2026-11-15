@@ -512,6 +512,11 @@
     background: var(--color-surface-container-high);
     color: var(--color-on-surface-variant);
     border: 2px solid var(--workflow-connector-color);
+
+    // `mode: 'first'`: the first path to end wins, so the bar is drawn open.
+    &.is-first {
+      border-style: dashed;
+    }
   }
 }
 

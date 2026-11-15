@@ -83,15 +83,24 @@ export interface WorkflowPath {
 }
 
 export interface WorkflowBranchStep extends WorkflowStepBase {
-  /** `branch` runs the first path whose condition holds; `parallel` runs every path and waits for all. */
+  /** `branch` runs the first path whose condition holds; `parallel` runs every path. */
   type: 'branch' | 'parallel';
+  /**
+   * For `parallel`: `all` (the default) goes on when every path has ended; `first` goes on when one
+   * has, and stops the others.
+   */
+  mode?: 'all' | 'first';
   paths: WorkflowPath[];
 }
 
 export interface WorkflowLoopStep extends WorkflowStepBase {
   type: 'loop';
-  mode?: 'for-each' | 'while' | 'until';
-  /** What the loop goes over or tests, for example `{{Trigger.line_items}}`. */
+  /** `for-each` item of a list, `times` a number of passes, `while` or `until` a condition. */
+  mode?: 'for-each' | 'times' | 'while' | 'until';
+  /**
+   * What the loop goes over, counts or tests: `{{Trigger.line_items}}`, `3` or
+   * `{{Settings.levels}}` for `times`, a condition for `while` and `until`.
+   */
   over?: string;
   steps: WorkflowStep[];
 }
