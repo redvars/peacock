@@ -2312,13 +2312,18 @@ export class Workflow extends DiagramCanvasElement {
               class=${classMap({
                 'wf-join': true,
                 'is-bar': step.type === 'parallel',
+                'is-first': step.type === 'parallel' && step.mode === 'first',
               })}
               data-join-for=${step.id}
               data-out-for=${step.id}
               data-flip=${`join:${step.id}`}
             >
               ${step.type === 'parallel'
-                ? html`<span>${this.i18n.t('workflowWaitForAll')}</span>`
+                ? html`<span
+                    >${step.mode === 'first'
+                      ? this.i18n.t('workflowFirstToFinish')
+                      : this.i18n.t('workflowWaitForAll')}</span
+                  >`
                 : nothing}
             </div>`}
       </div>`;
@@ -2326,6 +2331,7 @@ export class Workflow extends DiagramCanvasElement {
     if (step.type === 'loop' && !collapsed) {
       const mode = {
         'for-each': this.i18n.t('workflowLoopForEach'),
+        times: this.i18n.t('workflowLoopTimes'),
         while: this.i18n.t('workflowLoopWhile'),
         until: this.i18n.t('workflowLoopUntil'),
       }[step.mode ?? 'for-each'];
@@ -2343,7 +2349,9 @@ export class Workflow extends DiagramCanvasElement {
           )}
           ${step.over
             ? html`<span class="wf-loop-over"
-                >${this.renderValue(step.over)}</span
+                >${this.renderValue(step.over)}${step.mode === 'times'
+                  ? ` ${this.i18n.t('workflowLoopTimesSuffix')}`
+                  : nothing}</span
               >`
             : nothing}
           ${this.renderIterations(step.id)}
