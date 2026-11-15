@@ -2,6 +2,13 @@
 
 Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
 
+## New in 4.4
+
+4.4 adds to `wc-workflow` and changes nothing you must migrate: `npm install @redvars/peacock@4.4`, or change the CDN URLs to `@4.4.0`.
+
+- **Parallel modes:** a `parallel` step takes `mode`. `all`, the default, waits for every path ("Wait for all") as before; `first` goes on when one path ends and the others stop, drawn as a dashed "First to finish" bar.
+- **Loops that count:** a `loop` step's `mode` may be `times`, with `over` the number of passes (`3` or `{{Settings.levels}}`), shown as "3 times".
+
 ## New in 4.3
 
 4.3 adds components for websites and portals and changes nothing you must migrate: `npm install @redvars/peacock@4.3`, or change the CDN URLs to `@4.3.0`.
