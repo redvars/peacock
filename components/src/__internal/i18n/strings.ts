@@ -119,6 +119,18 @@ export const defaultStrings = {
   calendarEventResized: (title: string, when: string): string =>
     `Changed ${title} to ${when}.`,
 
+  // ── Timeline grid ────────────────────────────────────────────────────────
+  /** Header of a timeline grid's resource column, unless `resource-label` names it. */
+  timelineGridResources: 'Resources',
+  /** A timeline grid without resources. */
+  timelineGridEmpty: 'No resources',
+  /** Announced when an event is dragged to another resource's row, for example "Moved Standup to Room B, Nov 4, 2026, 10:00 – 10:30 AM." */
+  timelineGridEventMoved: (
+    title: string,
+    resource: string,
+    when: string,
+  ): string => `Moved ${title} to ${resource}, ${when}.`,
+
   // ── Overlays and feedback ────────────────────────────────────────────────
   closeDialog: 'Close dialog',
   closeNotification: 'Close notification',

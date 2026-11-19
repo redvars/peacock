@@ -240,6 +240,7 @@ Every component below ships in 4.0, except the [AI](#ai) group, which arrives in
 [Time picker](https://peacock.redvars.com/components/time-picker) `wc-time-picker` ·
 [Date time field](https://peacock.redvars.com/components/datetime-field) `wc-datetime-field` ·
 [Calendar](https://peacock.redvars.com/components/calendar) `wc-calendar` ·
+[Timeline grid](https://peacock.redvars.com/components/timeline-grid) `wc-timeline-grid` ·
 [Clock](https://peacock.redvars.com/components/clock) `wc-clock` ·
 [Relative time](https://peacock.redvars.com/components/relative-time) `wc-relative-time`
 

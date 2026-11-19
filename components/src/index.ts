@@ -463,6 +463,19 @@ export type {
   CalendarEventChangeAction,
   CalendarEventChangeDetail,
 } from './calendar/index.js';
+export {
+  TimelineGrid,
+  applyTimelineGridChange,
+} from './timeline-grid/index.js';
+export type {
+  TimelineGridDateChangeDetail,
+  TimelineGridEvent,
+  TimelineGridEventAddDetail,
+  TimelineGridEventChangeAction,
+  TimelineGridEventChangeDetail,
+  TimelineGridResource,
+  TimelineGridViewType,
+} from './timeline-grid/index.js';
 export { Diagram } from './diagram/index.js';
 // Deprecated alias of Diagram: wc-flow was renamed to wc-diagram. Removed in 5.0.
 export { Flow } from './diagram/index.js';

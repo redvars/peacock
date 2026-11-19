@@ -721,6 +721,10 @@ const loaderConfig: LoaderConfig = {
     'wc-calendar-column-view': {
       importPath: `${distDirectory}/calendar-column-view.js`,
     },
+    'wc-timeline-grid': {
+      importPath: `${distDirectory}/timeline-grid.js`,
+      dependencies: ['wc-linear-progress'],
+    },
     'wc-calendar-month-view': {
       importPath: `${distDirectory}/calendar-month-view.js`,
     },

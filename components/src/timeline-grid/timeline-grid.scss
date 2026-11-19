@@ -1,0 +1,445 @@
+@use '../../scss/mixin';
+@use '../calendar/calendar-header';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 16em;
+
+  --timeline-grid-resource-width: 12rem;
+  --timeline-grid-hour-width: 4rem;
+  --timeline-grid-day-width: 3rem;
+  --timeline-grid-lane-height: 2rem;
+  --timeline-grid-border-color: var(--color-outline-variant);
+
+  --timeline-grid-event-bg-color: var(--color-primary-container);
+  --timeline-grid-event-bg-color--hover: var(--color-inverse-primary);
+  --timeline-grid-event-border-color: var(--color-primary);
+  --timeline-grid-event-text-color: var(--color-on-primary-container);
+  --timeline-grid-event-text-color--hover: var(--color-on-primary);
+}
+
+.timeline-grid {
+  --_resource-width: var(--timeline-grid-resource-width);
+  --_lane: var(--timeline-grid-lane-height);
+  --_pad: 0.375rem;
+  --_border: var(--timeline-grid-border-color);
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.calendar-header {
+  @include calendar-header.styles;
+}
+
+.loader {
+  display: block;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.message {
+  padding: 1rem;
+  color: var(--color-on-surface-variant);
+}
+
+/* ── Grid ── */
+
+// One scroll container: the header stays at the top and the resource column at the inline start.
+.scroller {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border-top: 1px solid var(--_border);
+}
+
+// The resource column, then the time axis: columns share its width but never get narrower than
+// --_slot-min, so a range that does not fit scrolls sideways.
+.table {
+  display: grid;
+  grid-template-columns:
+    var(--_resource-width)
+    minmax(calc(var(--_slots) * var(--_slot-min)), 1fr);
+  width: max-content;
+  min-width: 100%;
+}
+
+// Rows keep their own boxes for assistive technology, and share the table's columns.
+.rows,
+.row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.rows {
+  position: relative;
+}
+
+/* ── Header ── */
+
+.header-row {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--color-surface-container);
+  border-bottom: 1px solid var(--_border);
+}
+
+.corner {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-surface-container);
+  border-inline-end: 1px solid var(--_border);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
+.time-header {
+  min-width: 0;
+}
+
+.slot-labels {
+  display: grid;
+  grid-template-columns: repeat(var(--_slots), minmax(0, 1fr));
+  height: 100%;
+}
+
+.slot-label {
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.375rem 0.25rem;
+  border-inline-start: 1px solid var(--_border);
+  font-size: 0.75rem;
+  color: var(--color-on-surface-variant);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // "9 PM" starts with a digit, which takes no direction of its own; read it in its own direction.
+  unicode-bidi: plaintext;
+}
+
+.day-span {
+  grid-column: span 24;
+  border-bottom: 1px solid var(--_border);
+  font-weight: 500;
+  color: var(--color-on-surface);
+
+  &.today {
+    color: var(--color-primary);
+  }
+}
+
+.day-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+
+  .day-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: var(--shape-corner-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-on-surface);
+  }
+
+  &.today .day-number {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+}
+
+/* ── Rows ── */
+
+.resource {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.125rem;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-surface);
+  border-inline-end: 1px solid var(--_border);
+  border-bottom: 1px solid var(--_border);
+
+  // Names and details come from the app, in either direction: each is read in its own.
+  .resource-title,
+  .resource-supporting {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    unicode-bidi: plaintext;
+  }
+
+  .resource-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .resource-supporting {
+    font-size: 0.75rem;
+    color: var(--color-on-surface-variant);
+  }
+}
+
+// A line at the start of every column, drawn as one background rather than an element each.
+.track {
+  position: relative;
+  min-width: 0;
+  min-height: 3rem;
+  height: calc(var(--_lanes, 1) * var(--_lane) + 2 * var(--_pad));
+  border-bottom: 1px solid var(--_border);
+  background-image: linear-gradient(
+    to right,
+    var(--_border) 0 1px,
+    transparent 1px
+  );
+  background-size: calc(100% / var(--_slots)) 100%;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--color-on-surface-variant);
+}
+
+/* ── Behind the rows: today, weekends, day boundaries and now ── */
+
+.overlay {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--_resource-width);
+  inset-inline-end: 0;
+  pointer-events: none;
+
+  .stripe {
+    position: absolute;
+    inset-block: 0;
+  }
+
+  .weekend {
+    background: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
+  }
+
+  .today {
+    background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  }
+
+  .day-start {
+    border-inline-start: 1px solid var(--color-outline);
+  }
+
+  .now {
+    position: absolute;
+    z-index: 1;
+    inset-block: 0;
+    inline-size: 2px;
+    margin-inline-start: -1px;
+    background: var(--color-primary);
+  }
+}
+
+/* ── Events ── */
+
+.event {
+  position: absolute;
+  top: calc(var(--_pad) + var(--_lane-index, 0) * var(--_lane));
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0.375rem;
+  height: calc(var(--_lane) - 0.25rem);
+  overflow: hidden;
+  padding: 0 0.375rem;
+  background: var(--timeline-grid-event-bg-color);
+  border-inline-start: 0.25rem solid var(--timeline-grid-event-border-color);
+  border-radius: var(--shape-corner-extra-small);
+  font-size: 0.75rem;
+  color: var(--timeline-grid-event-text-color);
+  white-space: nowrap;
+  transition: background 150ms ease;
+  container-type: inline-size;
+
+  .event-title {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    unicode-bidi: plaintext;
+  }
+
+  // Times start with digits, which take no direction of their own: without this, "9:00 – 10:00
+  // AM" reads "AM 10:00 – 9:00" in a right-to-left page.
+  .event-time {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    opacity: 0.8;
+    text-overflow: ellipsis;
+    unicode-bidi: plaintext;
+  }
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      background: var(--timeline-grid-event-bg-color--hover);
+      color: var(--timeline-grid-event-text-color--hover);
+
+      .resize-handle {
+        color: var(--timeline-grid-event-text-color--hover);
+      }
+    }
+
+    &:focus-visible {
+      z-index: 1;
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+  }
+
+  &.editable {
+    cursor: grab;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  // The event being moved stays where it was, faded, while a copy shows where it will land.
+  &.drag-source {
+    opacity: 0.4;
+  }
+
+  // The event being resized, in place.
+  &.lifted {
+    z-index: 1;
+    box-shadow: var(--elevation-level2);
+  }
+
+  // A new event while it is drawn, a moved one where it will land, and the placeholder that
+  // marks a new event until the app adds it.
+  &.preview {
+    z-index: 1;
+    pointer-events: none;
+    box-shadow: var(--elevation-level2);
+  }
+
+  &.placeholder {
+    box-shadow: var(--elevation-level3);
+  }
+}
+
+// A bar too narrow for its title and times shows the title alone; its name still has both.
+@container (max-width: 10rem) {
+  .event .event-time {
+    display: none;
+  }
+}
+
+// A grip at each edge an event can be resized by; the line in it shows on hover and focus.
+.resize-handle {
+  position: absolute;
+  z-index: 1;
+  inset-block: 0;
+  inline-size: 0.375rem;
+  color: var(--timeline-grid-event-text-color);
+  cursor: ew-resize;
+
+  &.start {
+    inset-inline-start: 0;
+  }
+
+  &.end {
+    inset-inline-end: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: 0.125rem;
+    block-size: 0.875rem;
+    border-radius: var(--shape-corner-full);
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+}
+
+.event.editable:hover,
+.event.editable:focus-visible,
+.event.lifted {
+  .resize-handle::after {
+    opacity: 0.6;
+  }
+}
+
+/* ── Dragging ── */
+
+// Empty time takes presses that add events, so it must not start a text selection or a
+// long-press callout.
+.scroller.addable .track {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.scroller.dragging {
+  user-select: none;
+
+  // Other events let the pointer through, so they neither flicker on hover nor set the cursor.
+  .event {
+    pointer-events: none;
+  }
+}
+
+.scroller.drag-move {
+  cursor: grabbing;
+}
+
+.scroller.drag-resize {
+  cursor: ew-resize;
+}
+
+@media (forced-colors: active) {
+  .event.preview,
+  .event.lifted {
+    outline: 2px solid Highlight;
+  }
+
+  .overlay .today {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+
+  .overlay .now {
+    background: Highlight;
+  }
+}
