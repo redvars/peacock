@@ -10,6 +10,7 @@ import {
   toZonedWallClock,
 } from './utils.js';
 import { CalendarEvent } from './calendar-event.js';
+import { renderCalendarHeader } from './calendar-header.js';
 import type {
   CalendarEventAddDetail,
   CalendarEventChangeDetail,
@@ -485,9 +486,8 @@ export class Calendar extends LitElement {
     );
   }
 
-  private _onViewSegmentChange(evt: CustomEvent<{ value: string | null }>) {
-    if (!evt.detail.value) return;
-    this.view = evt.detail.value;
+  private _changeView(value: string) {
+    this.view = value;
     this.dispatchEvent(
       new CustomEvent('view-change', {
         detail: { view: this.view },
@@ -513,56 +513,25 @@ export class Calendar extends LitElement {
   // ── Render helpers
 
   private _renderHeader() {
-    return html`
-      <div class="calendar-header-classic">
-        <div class="header-left">
-          <wc-button
-            variant="outlined"
-            size="sm"
-            class="color-secondary"
-            @click=${() => this.today()}
-          >
-            ${this._i18n.t('today')}
-          </wc-button>
-          <wc-icon-button
-            variant="text"
-            size="sm"
-            class="color-secondary"
-            aria-label=${this._i18n.t('previousPeriod')}
-            @click=${() => this.previous()}
-          >
-            <wc-icon name="chevron_left"></wc-icon>
-          </wc-icon-button>
-          <wc-icon-button
-            variant="text"
-            size="sm"
-            class="color-secondary"
-            aria-label=${this._i18n.t('nextPeriod')}
-            @click=${() => this.next()}
-          >
-            <wc-icon name="chevron_right"></wc-icon>
-          </wc-icon-button>
-          <div class="title" aria-live="polite">
-            ${this.contextDate
-              ? formatDate(this.contextDate, 'MMMM d, yyyy', this._i18n.locale)
-              : ''}
-          </div>
-        </div>
-        <div class="header-right">
-          <wc-segmented-button-group @change=${this._onViewSegmentChange}>
-            ${this.availableViews.map(
-              v =>
-                html`<wc-segmented-button
-                  .value=${v.value}
-                  ?selected=${this.view === v.value}
-                >
-                  ${this._viewLabel(v)}
-                </wc-segmented-button>`,
-            )}
-          </wc-segmented-button-group>
-        </div>
-      </div>
-    `;
+    return renderCalendarHeader({
+      title: this.contextDate
+        ? formatDate(this.contextDate, 'MMMM d, yyyy', this._i18n.locale)
+        : '',
+      views: this.availableViews.map(view => ({
+        value: view.value,
+        label: this._viewLabel(view),
+      })),
+      view: this.view,
+      labels: {
+        today: this._i18n.t('today'),
+        previous: this._i18n.t('previousPeriod'),
+        next: this._i18n.t('nextPeriod'),
+      },
+      onToday: () => this.today(),
+      onPrevious: () => this.previous(),
+      onNext: () => this.next(),
+      onViewChange: value => this._changeView(value),
+    });
   }
 
   private _renderCalendarView() {

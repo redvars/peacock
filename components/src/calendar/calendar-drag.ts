@@ -39,7 +39,7 @@ export interface DragHandlers<T> {
   cancel(data: T): void;
   /** The pointer was released before the press became a drag. */
   tap?(data: T, point: DragPoint): void;
-  /** Elements to scroll while the pointer is near their top or bottom edge. */
+  /** Elements to scroll while the pointer is near their edges, along each axis they overflow. */
   scrollers?(data: T): (HTMLElement | null)[];
 }
 
@@ -281,13 +281,21 @@ export class CalendarDragController<T> implements ReactiveController {
   private autoScroll(press: Press<T>) {
     let scrolled = false;
     (this.handlers.scrollers?.(press.data) ?? []).forEach(scroller => {
-      if (!scroller || scroller.scrollHeight <= scroller.clientHeight) return;
+      if (!scroller) return;
       const rect = scroller.getBoundingClientRect();
-      const speed = edgeSpeed(press.y, rect.top, rect.bottom);
-      if (!speed) return;
-      const before = scroller.scrollTop;
-      scroller.scrollBy({ top: speed });
-      scrolled ||= scroller.scrollTop !== before;
+      const top =
+        scroller.scrollHeight > scroller.clientHeight
+          ? edgeSpeed(press.y, rect.top, rect.bottom)
+          : 0;
+      const left =
+        scroller.scrollWidth > scroller.clientWidth
+          ? edgeSpeed(press.x, rect.left, rect.right)
+          : 0;
+      if (!top && !left) return;
+      const { scrollTop, scrollLeft } = scroller;
+      scroller.scrollBy({ top, left });
+      scrolled ||=
+        scroller.scrollTop !== scrollTop || scroller.scrollLeft !== scrollLeft;
     });
     if (scrolled) this.handlers.move(press.data, { x: press.x, y: press.y });
   }
