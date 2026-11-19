@@ -297,6 +297,7 @@ function pointer(type: string, { x, y }: Point, init: PointerInit = {}) {
     pointerType: 'mouse',
     isPrimary: true,
     button: 0,
+    buttons: type === 'pointerup' ? 0 : 1,
     ...init,
   });
 }
@@ -426,22 +427,22 @@ describe('calendar editing', () => {
 
     el.clearPlaceholder();
     await settle(el);
-    expect(placeholder()).to.equal(null);
+    expect(placeholder() === null).to.equal(true);
 
     tap(area, timedPoint(el, 4, 15));
     await settle(el);
-    expect(placeholder()).to.not.equal(null);
+    expect(placeholder() !== null).to.equal(true);
     el.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
     );
     await settle(el);
-    expect(placeholder()).to.equal(null);
+    expect(placeholder() === null).to.equal(true);
 
     tap(area, timedPoint(el, 4, 15));
     await settle(el);
     el.events = [{ title: 'Review', ...added[2].detail }];
     await settle(el);
-    expect(placeholder()).to.equal(null);
+    expect(placeholder() === null).to.equal(true);
   });
 
   it('does not add events without addable, or by pressing an event', async () => {
@@ -530,14 +531,18 @@ describe('calendar editing', () => {
     block().dispatchEvent(pointer('pointerdown', start));
     document.body.dispatchEvent(pointer('pointermove', timedPoint(el, 3, 12)));
     await settle(el);
-    expect(viewRoot(el).querySelector('.event.preview')).to.not.equal(null);
+    expect(viewRoot(el).querySelector('.event.preview') !== null).to.equal(
+      true,
+    );
     window.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
     );
     document.body.dispatchEvent(pointer('pointerup', timedPoint(el, 3, 12)));
     await settle(el);
     expect(changes.length).to.equal(0);
-    expect(viewRoot(el).querySelector('.event.preview')).to.equal(null);
+    expect(viewRoot(el).querySelector('.event.preview') === null).to.equal(
+      true,
+    );
   });
 
   it('still opens an editable event on a click without movement', async () => {
@@ -563,14 +568,14 @@ describe('calendar editing', () => {
     const block = () =>
       viewRoot(el).querySelector('.events-container .event') as HTMLElement;
     expect(block().classList.contains('editable')).to.equal(false);
-    expect(block().querySelector('.resize-handle')).to.equal(null);
+    expect(block().querySelector('.resize-handle') === null).to.equal(true);
     drag(block(), timedPoint(el, 3, 9.5), timedPoint(el, 3, 13));
     expect(changes.length).to.equal(0);
 
     el.events = [standup()];
     el.eventsReadonly = true;
     await settle(el);
-    expect(block().querySelector('.resize-handle')).to.equal(null);
+    expect(block().querySelector('.resize-handle') === null).to.equal(true);
     drag(block(), timedPoint(el, 3, 9.5), timedPoint(el, 3, 13));
     expect(changes.length).to.equal(0);
   });
@@ -712,9 +717,9 @@ describe('calendar editing', () => {
     });
     await settle(el);
     // Timed events have no handles in the month view.
-    expect(eventTitled('Standup').querySelector('.resize-handle')).to.equal(
-      null,
-    );
+    expect(
+      eventTitled('Standup').querySelector('.resize-handle') === null,
+    ).to.equal(true);
 
     const startHandle = eventTitled('Trip').querySelector(
       '.resize-handle.start',
@@ -743,6 +748,177 @@ describe('calendar editing', () => {
     expect(added[1].detail).to.deep.equal({
       start: new Date(2026, 10, 20),
       end: new Date(2026, 10, 21),
+      allDay: true,
+    });
+  });
+
+  it('moves an event that crosses midnight by the point it was grabbed', async () => {
+    const late = {
+      title: 'Late deploy',
+      start: new Date(2026, 10, 4, 22),
+      end: new Date(2026, 10, 5, 2),
+    };
+    const el = await week([late]);
+    const changes = collect<CalendarEventChangeDetail>(el, 'event-change');
+    const blocks = () =>
+      viewRoot(el).querySelectorAll<HTMLElement>('.events-container .event');
+    expect(blocks().length).to.equal(2);
+
+    // The part after midnight, grabbed at 1:00 and dragged half an hour down.
+    drag(blocks()[1], timedPoint(el, 4, 1), timedPoint(el, 4, 1.5));
+    expect(changes[0].detail.start).to.deep.equal(
+      new Date(2026, 10, 4, 22, 30),
+    );
+    expect(changes[0].detail.end).to.deep.equal(new Date(2026, 10, 5, 2, 30));
+    await settle(el);
+
+    // The part before midnight, dragged a quarter of an hour up.
+    drag(blocks()[0], timedPoint(el, 3, 23.5), timedPoint(el, 3, 23.25));
+    expect(changes[1].detail.start).to.deep.equal(
+      new Date(2026, 10, 4, 22, 15),
+    );
+    expect(changes[1].detail.end).to.deep.equal(new Date(2026, 10, 5, 2, 15));
+  });
+
+  it('keeps the start handle while a resize makes the event short', async () => {
+    const el = await week([standup()]);
+    const changes = collect<CalendarEventChangeDetail>(el, 'event-change');
+    const handle = viewRoot(el).querySelector(
+      '.events-container .resize-handle.start',
+    ) as HTMLElement;
+    handle.dispatchEvent(pointer('pointerdown', timedPoint(el, 3, 9)));
+    document.body.dispatchEvent(
+      pointer('pointermove', timedPoint(el, 3, 9.75)),
+    );
+    await settle(el);
+    // Touch events keep going to the element first touched; it must stay in the page.
+    expect(handle.isConnected).to.equal(true);
+    document.body.dispatchEvent(pointer('pointerup', timedPoint(el, 3, 9.75)));
+    expect(changes[0].detail.start).to.deep.equal(new Date(2026, 10, 4, 9, 45));
+  });
+
+  it('ends a mouse drag whose button was released out of sight', async () => {
+    const el = await week([standup()]);
+    const changes = collect<CalendarEventChangeDetail>(el, 'event-change');
+    const block = viewRoot(el).querySelector(
+      '.events-container .event',
+    ) as HTMLElement;
+    block.dispatchEvent(pointer('pointerdown', timedPoint(el, 3, 9.5)));
+    document.body.dispatchEvent(pointer('pointermove', timedPoint(el, 3, 12)));
+    document.body.dispatchEvent(
+      pointer('pointermove', timedPoint(el, 3, 13), { buttons: 0 }),
+    );
+    document.body.dispatchEvent(pointer('pointerup', timedPoint(el, 3, 13)));
+    await settle(el);
+    expect(changes.length).to.equal(0);
+    expect(viewRoot(el).querySelector('.dragging') === null).to.equal(true);
+  });
+
+  it('does not open an event when a drag canceled with Escape is released on it', async () => {
+    const el = await week([standup()]);
+    const clicks = collect(el, 'event-click');
+    const block = viewRoot(el).querySelector(
+      '.events-container .event',
+    ) as HTMLElement;
+    const at = timedPoint(el, 3, 9.5);
+    block.dispatchEvent(pointer('pointerdown', at));
+    document.body.dispatchEvent(pointer('pointermove', timedPoint(el, 3, 11)));
+    document.body.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
+    document.body.dispatchEvent(pointer('pointerup', at));
+    block.click();
+    expect(clicks.length).to.equal(0);
+  });
+
+  it('blurs the dragged event, so focus cannot land on another after the drop', async () => {
+    const el = await week([
+      standup(),
+      {
+        ...standup(),
+        id: 'other',
+        title: 'Other',
+        start: new Date(2026, 10, 4, 11),
+        end: new Date(2026, 10, 4, 12),
+      },
+    ]);
+    const block = viewRoot(el).querySelector(
+      '.events-container .event',
+    ) as HTMLElement;
+    block.focus();
+    expect(viewRoot(el).activeElement === block).to.equal(true);
+    drag(block, timedPoint(el, 3, 9.5), timedPoint(el, 6, 9.5));
+    await settle(el);
+    expect(viewRoot(el).activeElement === null).to.equal(true);
+  });
+
+  it('shows events changed in place after requestUpdate()', async () => {
+    const el = await week([standup()], '');
+    el.events.push({
+      title: 'Review',
+      start: new Date(2026, 10, 5, 9),
+      end: new Date(2026, 10, 5, 10),
+    });
+    el.requestUpdate();
+    await settle(el);
+    expect(
+      viewRoot(el).querySelectorAll('.events-container .event').length,
+    ).to.equal(2);
+  });
+
+  it('clears the placeholder on Escape while focus is on the page', async () => {
+    const el = await week([], 'addable');
+    const area = viewRoot(el).querySelector('.drawing-area') as HTMLElement;
+    tap(area, timedPoint(el, 2, 15));
+    await settle(el);
+    const placeholder = () => viewRoot(el).querySelector('.event.placeholder');
+    expect(placeholder() !== null).to.equal(true);
+    document.body.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
+    await settle(el);
+    expect(placeholder() === null).to.equal(true);
+  });
+
+  // These hold in any time zone; run the suite with TZ=America/New_York (the clocks go back on
+  // November 1, 2026) or TZ=America/Santiago (they skip midnight on September 6, 2026) to test the
+  // days the clocks change.
+  it('lands clicks on the row under the pointer on the day the clocks go back', async () => {
+    const el = await week([], 'addable');
+    const added = collect<CalendarEventAddDetail>(el, 'event-add');
+    const area = viewRoot(el).querySelector('.drawing-area') as HTMLElement;
+    tap(area, timedPoint(el, 0, 9 + 10 / 60));
+    expect(added[0].detail.start).to.deep.equal(new Date(2026, 10, 1, 9));
+    expect(added[0].detail.end).to.deep.equal(new Date(2026, 10, 1, 10));
+  });
+
+  it('drops events on the row under the pointer on the day the clocks go back', async () => {
+    const monday = {
+      title: 'Planning',
+      start: new Date(2026, 10, 2, 9),
+      end: new Date(2026, 10, 2, 10),
+    };
+    const el = await week([monday], 'editable');
+    const changes = collect<CalendarEventChangeDetail>(el, 'event-change');
+    const block = viewRoot(el).querySelector(
+      '.events-container .event',
+    ) as HTMLElement;
+    drag(block, timedPoint(el, 1, 9.5), timedPoint(el, 0, 13.5));
+    expect(changes[0].detail.start).to.deep.equal(new Date(2026, 10, 1, 13));
+    expect(changes[0].detail.end).to.deep.equal(new Date(2026, 10, 1, 14));
+  });
+
+  it('adds whole days from midnight after a day whose midnight was skipped', async () => {
+    const el = await mountWith(
+      `<wc-calendar locale="en-US" view="week" date="2026-09-09" first-day="0" style="${SIZE}" addable></wc-calendar>`,
+      [],
+    );
+    const added = collect<CalendarEventAddDetail>(el, 'event-add');
+    const strip = viewRoot(el).querySelector('.multi-events') as HTMLElement;
+    tap(strip, { x: allDayPoint(el, 1).x, y: center(strip).y });
+    expect(added[0].detail).to.deep.equal({
+      start: new Date(2026, 8, 7),
+      end: new Date(2026, 8, 8),
       allDay: true,
     });
   });

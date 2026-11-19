@@ -1,5 +1,11 @@
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
-import { addDays, differenceInDays, lastDayOf, startOfDay } from './utils.js';
+import {
+  addDays,
+  differenceInDays,
+  lastDayOf,
+  nextDay,
+  startOfDay,
+} from './utils.js';
 
 /** What a drag in a calendar view does. */
 export type CalendarDragAction = 'add' | 'move' | 'resize-start' | 'resize-end';
@@ -72,9 +78,10 @@ export function nearestIndex(elements: Element[], x: number, y?: number) {
 
 /**
  * Where a drag by whole days puts an event, or the days it adds: `from` is the day pressed and
- * `to` the day under the pointer. Moves keep the event's times of day; resizes keep the time of
- * the edge that moves and leave the event at least a day long. An added range runs from midnight
- * to the midnight after its last day.
+ * `to` the day under the pointer. Moves keep the event's times of day. Resizes keep the time of
+ * the edge that moves and never let the event end before it starts; an event that ends up shorter
+ * than a day is drawn in the hours from then on. An added range runs from midnight to the
+ * midnight after its last day.
  */
 export function dragByDays(
   action: CalendarDragAction,
@@ -89,7 +96,7 @@ export function dragByDays(
       fromDay.valueOf() <= toDay.valueOf()
         ? [fromDay, toDay]
         : [toDay, fromDay];
-    return { start: first, end: addDays(last, 1) };
+    return { start: first, end: nextDay(last) };
   }
   if (!event) return null;
   const { start, end } = event;
@@ -126,11 +133,25 @@ function edgeSpeed(position: number, start: number, end: number): number {
   );
 }
 
+/** Stops the next click from reaching anything, when it comes before the next task. */
+function swallowNextClick() {
+  const swallow = (click: Event) => {
+    click.stopPropagation();
+    click.preventDefault();
+  };
+  window.addEventListener('click', swallow, { capture: true, once: true });
+  setTimeout(() => window.removeEventListener('click', swallow, true));
+}
+
 /**
  * Turns presses in a calendar view into drags, the way `wc-kanban` does: a mouse or pen drags once
  * it moves a few pixels, a finger once it has held still briefly (moving sooner scrolls). During a
- * drag the view's scrollers scroll near their edges, the page does not scroll under a finger, and
- * Escape cancels. The click that ends a drag is swallowed, so it does not also open an event.
+ * drag the pointer is captured by the view, the view's scrollers scroll near their edges, the page
+ * does not scroll under a finger, and Escape cancels. The click that ends a drag, dropped or
+ * canceled, is swallowed, so it does not also open an event.
+ *
+ * Set `enabled` while the view can be dragged in: the touch listener that keeps the page still is
+ * not passive, so read-only views do without it.
  */
 export class CalendarDragController<T> implements ReactiveController {
   private press: Press<T> | null = null;
@@ -139,6 +160,10 @@ export class CalendarDragController<T> implements ReactiveController {
 
   private readonly handlers: DragHandlers<T>;
 
+  private _enabled = false;
+
+  private connected = false;
+
   constructor(
     host: ReactiveControllerHost & HTMLElement,
     handlers: DragHandlers<T>,
@@ -146,6 +171,18 @@ export class CalendarDragController<T> implements ReactiveController {
     this.host = host;
     this.handlers = handlers;
     host.addController(this);
+  }
+
+  /** Whether presses can become drags; turning it off cancels a drag in progress. */
+  get enabled(): boolean {
+    return this._enabled;
+  }
+
+  set enabled(value: boolean) {
+    if (value === this._enabled) return;
+    this._enabled = value;
+    if (!value) this.abort();
+    this.listen();
   }
 
   /** Whether a press is being followed, dragging or not yet. */
@@ -159,24 +196,23 @@ export class CalendarDragController<T> implements ReactiveController {
   }
 
   hostConnected() {
-    this.host.addEventListener('touchmove', this.handleTouchMove, {
-      passive: false,
-    });
-    this.host.addEventListener('contextmenu', this.handleContextMenu);
+    this.connected = true;
+    this.listen();
   }
 
   hostDisconnected() {
-    this.host.removeEventListener('touchmove', this.handleTouchMove);
-    this.host.removeEventListener('contextmenu', this.handleContextMenu);
+    this.connected = false;
+    this.listen();
     this.abort();
   }
 
   /**
-   * Follows a press from its `pointerdown`. Returns `false`, ignoring it, for a secondary button
-   * or pointer, or while another press is followed.
+   * Follows a press from its `pointerdown`. Returns `false`, ignoring it, when not `enabled`, for
+   * a secondary button or pointer, or while another press is followed.
    */
   start(event: PointerEvent, data: T): boolean {
-    if (!event.isPrimary || event.button !== 0 || this.press) return false;
+    if (!this._enabled || !event.isPrimary || event.button !== 0) return false;
+    if (this.press) return false;
     const press: Press<T> = {
       data,
       pointerId: event.pointerId,
@@ -206,10 +242,30 @@ export class CalendarDragController<T> implements ReactiveController {
     if (press.lifted) this.handlers.cancel(press.data);
   }
 
+  /** Adds the host's listeners while it is connected and enabled, and removes them otherwise. */
+  private listen() {
+    const { host } = this;
+    host.removeEventListener('touchmove', this.handleTouchMove);
+    host.removeEventListener('contextmenu', this.handleContextMenu);
+    host.removeEventListener('lostpointercapture', this.handleLostCapture);
+    if (!this.connected || !this._enabled) return;
+    host.addEventListener('touchmove', this.handleTouchMove, {
+      passive: false,
+    });
+    host.addEventListener('contextmenu', this.handleContextMenu);
+    host.addEventListener('lostpointercapture', this.handleLostCapture);
+  }
+
   private lift() {
     const { press } = this;
     if (!press || press.lifted) return;
     press.lifted = true;
+    // The element pressed may be drawn again during the drag; the host stays.
+    try {
+      this.host.setPointerCapture(press.pointerId);
+    } catch {
+      // Not an active pointer, as for events made by scripts.
+    }
     const point = { x: press.x, y: press.y };
     this.handlers.lift(press.data, point);
     if (this.press !== press) return;
@@ -249,6 +305,18 @@ export class CalendarDragController<T> implements ReactiveController {
     window.removeEventListener('keydown', this.handleKeyDown, true);
   }
 
+  /** After a drag canceled with the button still down, swallows the click its release makes. */
+  private swallowClickAfterRelease(pointerId: number) {
+    const release = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      window.removeEventListener('pointerup', release, true);
+      window.removeEventListener('pointercancel', release, true);
+      if (event.type === 'pointerup') swallowNextClick();
+    };
+    window.addEventListener('pointerup', release, true);
+    window.addEventListener('pointercancel', release, true);
+  }
+
   private readonly handlePointerMove = (event: PointerEvent) => {
     const { press } = this;
     if (!press || event.pointerId !== press.pointerId) return;
@@ -267,6 +335,11 @@ export class CalendarDragController<T> implements ReactiveController {
       if (distance >= DRAG_DISTANCE) this.lift();
       return;
     }
+    // A mouse whose release never arrived, for example outside the window, no longer drags.
+    if (press.pointerType === 'mouse' && event.buttons === 0) {
+      this.abort();
+      return;
+    }
     event.preventDefault();
     this.handlers.move(press.data, { x: press.x, y: press.y });
   };
@@ -283,12 +356,7 @@ export class CalendarDragController<T> implements ReactiveController {
       return;
     }
     // The click that follows a drag is not a click on what was dragged.
-    const swallow = (click: Event) => {
-      click.stopPropagation();
-      click.preventDefault();
-    };
-    window.addEventListener('click', swallow, { capture: true, once: true });
-    setTimeout(() => window.removeEventListener('click', swallow, true));
+    swallowNextClick();
     this.handlers.drop(press.data, point);
   };
 
@@ -297,12 +365,22 @@ export class CalendarDragController<T> implements ReactiveController {
     this.abort();
   };
 
+  private readonly handleLostCapture = (event: PointerEvent) => {
+    // Capture ends with the release, after `pointerup` has ended the press; losing it any other
+    // way would leave a drag no event can end.
+    if (this.press?.lifted && event.pointerId === this.press.pointerId) {
+      this.abort();
+    }
+  };
+
   private readonly handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key !== 'Escape' || !this.press?.lifted) return;
+    const { press } = this;
+    if (event.key !== 'Escape' || !press?.lifted) return;
     // Keep an enclosing dialog open.
     event.preventDefault();
     event.stopPropagation();
     this.abort();
+    this.swallowClickAfterRelease(press.pointerId);
   };
 
   private readonly handleTouchMove = (event: TouchEvent) => {

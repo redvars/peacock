@@ -9,6 +9,7 @@ import {
   formatDate,
   formatEventLabel,
   lastDayOf,
+  nextDay,
   rangesOverlap,
   LONG_EVENT_PADDING,
   onActivateKey,
@@ -145,7 +146,7 @@ export class CalendarMonthView extends LitElement {
   // ── Private fields
 
   private readonly _drag = new CalendarDragController<MonthPress>(this, {
-    lift: () => {},
+    lift: () => this._blurFocused(),
     move: (press, point) => this._follow(press, point),
     drop: (press, point) => this._drop(press, point),
     cancel: () => {
@@ -164,6 +165,7 @@ export class CalendarMonthView extends LitElement {
 
   override willUpdate(changed: PropertyValues<this>) {
     super.willUpdate(changed);
+    this._drag.enabled = this.addable || (this.editable && this._interactive);
     if (
       changed.has('events') ||
       changed.has('contextDate') ||
@@ -213,7 +215,7 @@ export class CalendarMonthView extends LitElement {
             event.start,
             event.end,
             weekStart,
-            addDays(weekStart, 7),
+            startOfDay(addDays(weekStart, 7)),
           ),
         ),
       );
@@ -302,7 +304,9 @@ export class CalendarMonthView extends LitElement {
       ...this.renderRoot.querySelectorAll<HTMLElement>('[role="gridcell"]'),
     ];
     const index = nearestIndex(cells, x, y);
-    return index < 0 ? null : addDays(this.dateRange.startDate, index);
+    return index < 0
+      ? null
+      : startOfDay(addDays(this.dateRange.startDate, index));
   }
 
   private _onEventPointerDown(event: PointerEvent, node: ColumnEvent) {
@@ -392,9 +396,18 @@ export class CalendarMonthView extends LitElement {
     if (press.action !== 'add') return;
     this._emitAdd({
       start: press.day,
-      end: addDays(press.day, 1),
+      end: nextDay(press.day),
       allDay: true,
     });
+  }
+
+  /**
+   * Blurs the focused event when a drag starts. The drop redraws the events, and the element that
+   * held focus could then show another event, which Enter would open.
+   */
+  private _blurFocused() {
+    const active = (this.renderRoot as ShadowRoot).activeElement;
+    if (active instanceof HTMLElement) active.blur();
   }
 
   /** The days the drag in progress, or the placeholder, covers. */
@@ -478,17 +491,18 @@ export class CalendarMonthView extends LitElement {
     const dragged = !!this._preview?.data && this._preview.data === node.data;
     const evtStyles: Record<string, string> = {
       'inset-inline-start': `${this._getDatePercent(node.start, weekStartDate) + LONG_EVENT_PADDING}%`,
-      width: `${this._getDatePercent(addDays(lastDay, 1), weekStartDate) - this._getDatePercent(node.start, weekStartDate) - 2 * LONG_EVENT_PADDING}%`,
+      width: `${this._getDatePercent(nextDay(lastDay), weekStartDate) - this._getDatePercent(node.start, weekStartDate) - 2 * LONG_EVENT_PADDING}%`,
       ...(node.color ? this._colorVars(node.color) : {}),
     };
     const activate = () => this._emitEventClick(node.data);
     // All-day events resize by whichever of their edges falls in this week.
-    const weekEnd = addDays(weekStartDate, 6).valueOf();
+    const weekEnd = startOfDay(addDays(weekStartDate, 6)).valueOf();
     const handle = (edge: 'start' | 'end') => {
       if (!editable || !allDay) return nothing;
       const shown =
         edge === 'start'
-          ? startOfDay(node.start).valueOf() >= weekStartDate.valueOf()
+          ? startOfDay(node.start).valueOf() >=
+            startOfDay(weekStartDate).valueOf()
           : lastDay.valueOf() <= weekEnd;
       return shown
         ? html`<div

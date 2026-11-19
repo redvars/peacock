@@ -44,7 +44,8 @@ export type CalendarDateChangeDetail = {
 /**
  * Applies an `event-change` to an `events` array the way the calendar does, returning a new array
  * in which the event is replaced by a copy with the new `start` and `end`. The event is found by
- * identity, else by `id`. Use it to apply a change you canceled, for example once the server has
+ * identity, else by `id`. The copy is made with object spread, so give the calendar plain objects,
+ * not class instances. Use it to apply a change you canceled, for example once the server has
  * accepted it.
  */
 export function applyCalendarChange<T extends EventType>(
@@ -236,17 +237,10 @@ export class Calendar extends LitElement {
   @state()
   private _placeholder: CalendarEventAddDetail | null = null;
 
-  /** The live region's text. */
-  @state()
-  private _announcement = '';
-
   // ── Private fields
 
   /** Peacock's strings and the resolved locale. */
   private readonly _i18n = new I18nController(this);
-
-  /** `events` wrapped for the views, made again only when `events` changes. */
-  private _calendarEvents: CalendarEvent[] = [];
 
   // ── Lifecycle
 
@@ -259,12 +253,15 @@ export class Calendar extends LitElement {
     // Capture, so a press clears the placeholder before it starts a drag of its own.
     this.addEventListener('pointerdown', this._handlePointerDown, true);
     this.addEventListener('keydown', this._handleKeyDown);
+    // Clicking empty time leaves focus on the page, so Escape is also heard there.
+    window.addEventListener('keydown', this._handleWindowKeyDown);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('pointerdown', this._handlePointerDown, true);
     this.removeEventListener('keydown', this._handleKeyDown);
+    window.removeEventListener('keydown', this._handleWindowKeyDown);
   }
 
   override willUpdate(changed: PropertyValues<this>) {
@@ -274,18 +271,6 @@ export class Calendar extends LitElement {
     }
     if (changed.has('timezone')) {
       this._currentTime = this._now();
-    }
-    if (changed.has('events')) {
-      this._calendarEvents = (this.events ?? []).map(
-        event =>
-          new CalendarEvent(
-            event.start,
-            event.end,
-            event.title,
-            event.color,
-            event,
-          ),
-      );
     }
     // The new event has been added, or the person has moved on.
     if (
@@ -396,12 +381,17 @@ export class Calendar extends LitElement {
     );
   }
 
-  /** Reads `message` in the live region. */
+  /**
+   * Reads `message` in the live region. Its text is set directly, so an announcement does not
+   * render the calendar, and its views, again.
+   */
   private _announce(message: string) {
+    const region = this.renderRoot.querySelector('[role="status"]');
+    if (!region) return;
     // Clear first, so the same message twice in a row is read again.
-    this._announcement = '';
+    region.textContent = '';
     setTimeout(() => {
-      this._announcement = message;
+      region.textContent = message;
     });
   }
 
@@ -414,6 +404,10 @@ export class Calendar extends LitElement {
     // Keep an enclosing dialog open.
     event.stopPropagation();
     this._placeholder = null;
+  };
+
+  private readonly _handleWindowKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && this._placeholder) this._placeholder = null;
   };
 
   private _onViewDateClick(evt: CustomEvent<{ date: Date }>) {
@@ -581,11 +575,22 @@ export class Calendar extends LitElement {
     const weekStartsOn = this._weekStart();
     const contextDate = this.contextDate ?? this._currentTime;
     const untitled = this._i18n.t('calendarUntitled');
+    // Wrapped on every render, so events changed in place show after `requestUpdate()`.
+    const calEvents = (this.events ?? []).map(
+      event =>
+        new CalendarEvent(
+          event.start,
+          event.end,
+          event.title,
+          event.color,
+          event,
+        ),
+    );
 
     if (this._currentView.type === 'column') {
       return html`
         <wc-calendar-column-view
-          .events=${this._calendarEvents}
+          .events=${calEvents}
           .view=${this._currentView.value}
           .days=${this._currentView.days || 7}
           .currentTime=${this._currentTime}
@@ -610,7 +615,7 @@ export class Calendar extends LitElement {
     if (this._currentView.type === 'month') {
       return html`
         <wc-calendar-month-view
-          .events=${this._calendarEvents}
+          .events=${calEvents}
           .currentTime=${this._currentTime}
           .contextDate=${contextDate}
           .weekStartsOn=${weekStartsOn}
@@ -646,9 +651,7 @@ export class Calendar extends LitElement {
         <div class="calendar-body" aria-busy=${busy ? 'true' : 'false'}>
           <div class="view-container">${this._renderCalendarView()}</div>
         </div>
-        <div class="screen-reader-only" role="status" aria-live="polite">
-          ${this._announcement}
-        </div>
+        <div class="screen-reader-only" role="status" aria-live="polite"></div>
       </div>
     `;
   }

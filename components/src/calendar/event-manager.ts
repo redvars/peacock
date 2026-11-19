@@ -39,7 +39,9 @@ export class EventManager {
       for (let i = 0; i < events.length; i++) {
         if (i === 0) {
           column.push(events[i]);
-        } else if (events[i].start.valueOf() >= column[column.length - 1].end.valueOf()) {
+        } else if (
+          events[i].start.valueOf() >= column[column.length - 1].end.valueOf()
+        ) {
           column.push(events[i]);
         }
       }

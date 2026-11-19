@@ -13,6 +13,7 @@ import {
   formatTimeRange,
   getTimePercent,
   lastDayOf,
+  nextDay,
   rangesOverlap,
   snapTime,
   timeAtFraction,
@@ -191,7 +192,7 @@ export class CalendarColumnView extends LitElement {
   // ── Private fields
 
   private readonly _drag = new CalendarDragController<ColumnPress>(this, {
-    lift: () => {},
+    lift: () => this._blurFocused(),
     move: (press, point) => this._follow(press, point),
     drop: (press, point) => this._drop(press, point),
     cancel: () => {
@@ -224,6 +225,7 @@ export class CalendarColumnView extends LitElement {
 
   override willUpdate(changed: PropertyValues<this>) {
     super.willUpdate(changed);
+    this._drag.enabled = this.addable || (this.editable && this._interactive);
     if (
       changed.has('events') ||
       changed.has('contextDate') ||
@@ -288,7 +290,7 @@ export class CalendarColumnView extends LitElement {
 
     this._forEachDayInRange(i => {
       const dayStart = startOfDay(i);
-      const dayEnd = addDays(dayStart, 1);
+      const dayEnd = nextDay(dayStart);
       const manager = new EventManager();
       manager.addEvents(
         this.events.filter(
@@ -301,7 +303,7 @@ export class CalendarColumnView extends LitElement {
       this.singleDayEvents[this._getDateOnly(i)] = manager.columns;
     });
 
-    const rangeEnd = addDays(startOfDay(this.dateRange.endDate), 1);
+    const rangeEnd = nextDay(this.dateRange.endDate);
     const multiManager = new EventManager();
     multiManager.addEvents(
       this.events.filter(
@@ -426,7 +428,7 @@ export class CalendarColumnView extends LitElement {
       const rect = columns[index].getBoundingClientRect();
       if (x < rect.left || x > rect.right) return null;
     }
-    return addDays(this.dateRange.startDate, index);
+    return startOfDay(addDays(this.dateRange.startDate, index));
   }
 
   /** The time at `y` in `day`'s column of the hours. */
@@ -520,7 +522,7 @@ export class CalendarColumnView extends LitElement {
       // The slot pressed is always part of the range; the drag stays in its day.
       const time = this._timeAt(press.day, point.y);
       const anchor = snapTime(press.time, step, 'floor');
-      const dayEnd = addDays(startOfDay(press.day), 1).valueOf();
+      const dayEnd = nextDay(press.day).valueOf();
       if (time.valueOf() >= anchor.valueOf()) {
         const end = Math.max(
           snapTime(time, step, 'ceil', press.day).valueOf(),
@@ -536,15 +538,18 @@ export class CalendarColumnView extends LitElement {
     if (!event) return null;
 
     if (press.action === 'move') {
-      // The event keeps its length and the point it was grabbed by, within the day under the pointer.
+      // The point the event was grabbed by follows the pointer, so the event keeps its length and
+      // may run past midnight; at least a step of it stays in the column under the pointer.
       const day = this._dayAt('timed', point.x) ?? press.day;
-      const dayStart = startOfDay(day);
       const length = event.length();
+      const visible = Math.min(stepMs, length);
       const grab = press.time.valueOf() - event.start.valueOf();
       const raw = new Date(this._timeAt(day, point.y).valueOf() - grab);
-      let start = snapTime(raw, step, 'round', dayStart).valueOf();
-      const latest = addDays(dayStart, 1).valueOf() - length;
-      if (latest >= dayStart.valueOf()) start = Math.min(start, latest);
+      const start = clamp(
+        snapTime(raw, step, 'round').valueOf(),
+        startOfDay(day).valueOf() + visible - length,
+        nextDay(day).valueOf() - visible,
+      );
       return { start: new Date(start), end: new Date(start + length) };
     }
 
@@ -558,7 +563,7 @@ export class CalendarColumnView extends LitElement {
         endDay,
       ).valueOf();
       const min = event.start.valueOf() + stepMs;
-      const max = Math.max(addDays(endDay, 1).valueOf(), min);
+      const max = Math.max(nextDay(endDay).valueOf(), min);
       return { start: event.start, end: new Date(clamp(end, min, max)) };
     }
 
@@ -622,18 +627,27 @@ export class CalendarColumnView extends LitElement {
     if (press.section === 'all-day') {
       this._emitAdd({
         start: press.day,
-        end: addDays(press.day, 1),
+        end: nextDay(press.day),
         allDay: true,
       });
       return;
     }
     // Starts at the half hour clicked, the rows the grid draws.
     const start = snapTime(press.time, Math.max(30, this._step), 'floor');
-    const dayEnd = addDays(startOfDay(press.day), 1).valueOf();
+    const dayEnd = nextDay(press.day).valueOf();
     const end = new Date(
       Math.min(start.valueOf() + this._duration * MINUTE_MS, dayEnd),
     );
     this._emitAdd({ start, end, allDay: false });
+  }
+
+  /**
+   * Blurs the focused event when a drag starts. The drop redraws the events, and the element that
+   * held focus could then show another event, which Enter would open.
+   */
+  private _blurFocused() {
+    const active = (this.renderRoot as ShadowRoot).activeElement;
+    if (active instanceof HTMLElement) active.blur();
   }
 
   /** How `node`'s blocks take part in the drag in progress. */
@@ -834,15 +848,16 @@ export class CalendarColumnView extends LitElement {
     const end = resized ? resized.end : node.end;
     const top = getTimePercent(start, dayStart);
     const bottom = getTimePercent(end, dayStart);
-    // A block shows the handle of an edge only on the day that edge falls on.
+    // A block shows the handle of an edge only on the day that edge falls on. The event's own
+    // times decide, not the resize's: removing the handle being dragged would strand a touch drag.
     const handles: ('start' | 'end')[] = [];
     if (
-      start.valueOf() >= dayStart.valueOf() &&
-      end.valueOf() - start.valueOf() >= START_HANDLE_MIN_MS
+      node.start.valueOf() >= dayStart.valueOf() &&
+      node.length() >= START_HANDLE_MIN_MS
     ) {
       handles.push('start');
     }
-    if (end.valueOf() <= dayEnd.valueOf()) handles.push('end');
+    if (node.end.valueOf() <= dayEnd.valueOf()) handles.push('end');
     return this._renderEvent(
       node,
       'timed',
@@ -910,7 +925,7 @@ export class CalendarColumnView extends LitElement {
     const columns: TemplateResult[] = [];
     this._forEachDayInRange(i => {
       const dayStart = startOfDay(i);
-      const dayEnd = addDays(dayStart, 1);
+      const dayEnd = nextDay(dayStart);
       const eventDay = this.singleDayEvents[this._getDateOnly(i)];
       columns.push(html`
         <div class=${this._getDayClass(i)}>
@@ -939,7 +954,7 @@ export class CalendarColumnView extends LitElement {
   /** Position of a bar in the all-day row covering the days of `start`–`end`. */
   private _allDayPosition(start: Date, end: Date): Record<string, string> {
     const from = this._getDatePercent(start);
-    const to = this._getDatePercent(addDays(lastDayOf(start, end), 1));
+    const to = this._getDatePercent(nextDay(lastDayOf(start, end)));
     return {
       'inset-inline-start': `${from + LONG_EVENT_PADDING}%`,
       width: `${to - from - 2 * LONG_EVENT_PADDING}%`,
@@ -952,14 +967,17 @@ export class CalendarColumnView extends LitElement {
       this._dragRole(node, 'all-day') === 'lifted' && preview ? preview : null;
     const start = dragged ? dragged.start : node.start;
     const end = dragged ? dragged.end : node.end;
-    // Edges outside the days shown cannot be dragged.
+    // Edges outside the days shown cannot be dragged. The event's own days decide, so the handle
+    // being dragged stays while the bar moves.
     const handles: ('start' | 'end')[] = [];
-    if (startOfDay(start).valueOf() >= this.dateRange.startDate.valueOf()) {
+    if (
+      startOfDay(node.start).valueOf() >=
+      startOfDay(this.dateRange.startDate).valueOf()
+    ) {
       handles.push('start');
     }
     if (
-      lastDayOf(start, end).valueOf() <=
-      startOfDay(this.dateRange.endDate).valueOf()
+      node.lastDay().valueOf() <= startOfDay(this.dateRange.endDate).valueOf()
     ) {
       handles.push('end');
     }
