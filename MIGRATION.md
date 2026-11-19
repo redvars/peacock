@@ -4,12 +4,13 @@ Peacock 4.0 cleans up the component APIs so that every component follows the sam
 
 ## New in 4.5
 
-4.5 adds editing to `wc-calendar` and a new component, `wc-calendar-timeline`: `npm install @redvars/peacock@4.5`, or change the CDN URLs to `@4.5.0`. One calendar fix changes how some all-day events are drawn; see the last item.
+4.5 adds editing to `wc-calendar` and a new component, `wc-calendar-timeline`: `npm install @redvars/peacock@4.5`, or change the CDN URLs to `@4.5.0`. One calendar fix changes how some all-day events are drawn; see "Event ends are exclusive".
 
 - **Calendar editing:** with `editable`, people drag an event to move it and drag its edges to change when it starts or ends: timed events in steps of `minute-step` (15 minutes), all-day events and the month view by whole days. Each drop fires the cancelable `event-change`; unless it is canceled the calendar applies it, and `applyCalendarChange()` applies a change confirmed later. With `addable`, dragging across or clicking empty time fires `event-add`, and the range stays marked as a new event until `events` changes or `clearPlaceholder()` is called. An event with `editable: false` stays put; on touch screens, people hold an event briefly before dragging it.
 - **Calendar timeline:** `wc-calendar-timeline` puts resources such as people, rooms or machines in rows against a horizontal time axis: hour columns in the day view, day columns in the week and month views, lanes for overlapping events, a header and resource column that stay in place, and the calendar's editing, with drags between rows (`event-change` carries the new `resourceId`). `group-by` groups the rows under collapsible headers, as in `wc-table`. It shares the calendar's header, `date` and views, so the two can sit under one switcher ([ADR-030003](adr/030003-calendar-timeline.md)).
 - **Calendar fixes:** the calendar no longer throws on pages that are not secure contexts (plain HTTP); the day and week views draw a 24-hour wall clock, so events line up with the hour rows on the days the clocks change; event bars mirror in right-to-left layouts; the month view no longer opens scrolled by the time of day; "(no title)" can be translated.
 - **Event ends are exclusive:** an event's `end` is now exclusive everywhere, as in iCal and Google Calendar, so an all-day event on November 4 runs until midnight on November 5. All-day events that end at midnight are drawn one day shorter than before, because they used to cover the day of `end` as well; events that end at 23:59:59.999 look the same. If you passed a midnight `end` to mean "through that day", add a day.
+- **Calendar timeline row lines (4.5.1):** when a resource's supporting text, or a roomier line height, makes a row taller than its events need, the row's hour lines and bottom border now reach the edge of the resource cell, and its events are centered in the row. In 4.5.0 they stopped short, so the lines broke between rows.
 
 ## New in 4.4
 
