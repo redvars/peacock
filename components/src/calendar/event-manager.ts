@@ -1,4 +1,5 @@
 import { CalendarEvent } from './calendar-event.js';
+import { endOfDay, startOfDay } from './utils.js';
 
 export class ColumnEvent extends CalendarEvent {
   width: number = 1;
@@ -43,7 +44,8 @@ export class EventManager {
         }
       }
       this.columns.push(column);
-      events = events.filter(e => !column.find(ce => ce.gid === e.gid));
+      const placed = new Set(column);
+      events = events.filter(e => !placed.has(e));
     }
 
     /* Calculate widths for events that span multiple columns */
@@ -90,17 +92,17 @@ export class MonthEventManager {
         if (i === 0) {
           column.push(events[i]);
         } else {
-          const lastEnd = new Date(column[column.length - 1].end);
-          lastEnd.setHours(23, 59, 59, 999);
-          const nextStart = new Date(events[i].start);
-          nextStart.setHours(0, 0, 0, 0);
+          // `end` is exclusive: an event ending at midnight leaves that day free.
+          const lastEnd = endOfDay(column[column.length - 1].lastDay());
+          const nextStart = startOfDay(events[i].start);
           if (nextStart.valueOf() > lastEnd.valueOf()) {
             column.push(events[i]);
           }
         }
       }
       this.columns.push(column);
-      events = events.filter(e => !column.find(ce => ce.gid === e.gid));
+      const placed = new Set(column);
+      events = events.filter(e => !placed.has(e));
     }
 
     for (let i = 0; i < this.columns.length - 1; i++) {

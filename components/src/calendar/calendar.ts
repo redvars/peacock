@@ -1,8 +1,21 @@
-﻿import { LitElement, html, nothing, PropertyValues } from 'lit';
+import { LitElement, html, nothing, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { addDays, addMonths, formatDate, toZonedWallClock } from './utils.js';
+import {
+  addDays,
+  addMonths,
+  formatDate,
+  formatEventLabel,
+  formatEventWhen,
+  isAllDayRange,
+  toZonedWallClock,
+} from './utils.js';
 import { CalendarEvent } from './calendar-event.js';
-import type { CalendarViewType, EventType } from './types.js';
+import type {
+  CalendarEventAddDetail,
+  CalendarEventChangeDetail,
+  CalendarViewType,
+  EventType,
+} from './types.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
@@ -14,6 +27,12 @@ import {
 } from '@/__internal/utils/date.js';
 import styles from './calendar.scss';
 
+export type {
+  CalendarEventAddDetail,
+  CalendarEventChangeAction,
+  CalendarEventChangeDetail,
+} from './types.js';
+
 /** Detail of `date-change`. */
 export type CalendarDateChangeDetail = {
   /** The new context date. */
@@ -23,6 +42,26 @@ export type CalendarDateChangeDetail = {
 };
 
 /**
+ * Applies an `event-change` to an `events` array the way the calendar does, returning a new array
+ * in which the event is replaced by a copy with the new `start` and `end`. The event is found by
+ * identity, else by `id`. Use it to apply a change you canceled, for example once the server has
+ * accepted it.
+ */
+export function applyCalendarChange<T extends EventType>(
+  events: readonly T[],
+  change: Pick<CalendarEventChangeDetail, 'event' | 'start' | 'end'>,
+): T[] {
+  const { id } = change.event;
+  let index = events.indexOf(change.event as T);
+  if (index < 0 && id !== undefined && id !== null) {
+    index = events.findIndex(event => event.id === id);
+  }
+  return events.map((event, i) =>
+    i === index ? { ...event, start: change.start, end: change.end } : event,
+  );
+}
+
+/**
  * @label Calendar
  * @tag wc-calendar
  * @rawTag calendar
@@ -30,10 +69,11 @@ export type CalendarDateChangeDetail = {
  *
  * @overview
  * <p>Pass events as the <code>events</code> property; each has a <code>start</code>,
- * <code>end</code>, <code>title</code> and optional palette <code>color</code>. The day and week
- * views lay timed events out in a column per day, with events lasting a day or more in a row
- * above; the month view shows six weeks. <code>available-views</code> sets the views offered in
- * the header's segmented buttons, and <code>view</code> the one shown.</p>
+ * <code>end</code>, <code>title</code> and optional palette <code>color</code>. <code>end</code> is
+ * exclusive: an all-day event on November 4 runs from midnight on the 4th to midnight on the 5th.
+ * The day and week views lay timed events out in a column per day, with events lasting a day or
+ * more in a row above; the month view shows six weeks. <code>available-views</code> sets the views
+ * offered in the header's segmented buttons, and <code>view</code> the one shown.</p>
  * <p>The header has a Today button, previous and next buttons and the current date, which is a
  * polite live region. <code>previous()</code>, <code>next()</code> and <code>today()</code> do the
  * same from code; each fires <code>date-change</code>. The date shown is <code>date</code> (an ISO
@@ -45,6 +85,22 @@ export type CalendarDateChangeDetail = {
  * <code>loading</code> shows a progress bar and marks the calendar busy. <code>first-day</code>
  * sets the week start (else the locale's), <code>timezone</code> the zone the current time is
  * shown in, and <code>locale</code> the language of names and times.</p>
+ * <p>With <code>editable</code>, people drag events to move them and drag their edges to change
+ * when they start or end: timed events in steps of <code>minute-step</code> minutes, all-day events
+ * and every event in the month view by whole days. Each drop fires the cancelable
+ * <code>event-change</code>; unless it is canceled, the calendar replaces <code>events</code> with
+ * a new array holding a copy of the event with its new times. To confirm a change with a server
+ * first, cancel the event and apply it later with <code>applyCalendarChange()</code>. An event with
+ * <code>editable: false</code> stays put, and <code>events-readonly</code> turns editing off. On
+ * touch screens, hold an event briefly before dragging it. Escape cancels a drag.</p>
+ * <p>With <code>addable</code>, dragging across empty time, or clicking it, fires
+ * <code>event-add</code> with the range: a click gives <code>default-duration</code> minutes, and
+ * the all-day row and the month view give whole days. The calendar does not add the event itself.
+ * It marks the range as a new event until <code>events</code> changes, the person presses Escape
+ * or starts another drag, or <code>clearPlaceholder()</code> is called, for example when a dialog
+ * asking for the event's title is canceled. Each change is announced to screen readers. Dragging
+ * needs a pointer, so offer another way to change an event's time too, such as the dialog that
+ * <code>event-click</code> opens.</p>
  *
  * @cssprop --calendar-border-color - Border color used throughout the calendar grid.
  * @cssprop --calendar-event-bg-color - Background color for calendar events.
@@ -53,10 +109,27 @@ export type CalendarDateChangeDetail = {
  * @fires {CustomEvent<{event: EventType}>} event-click - An event was clicked, or chosen with Enter or Space. Detail contains `{ event }`. Not fired with `events-readonly`.
  * @fires {CustomEvent<{view: string}>} view-change - The view changed. Detail contains `{ view }`.
  * @fires {CustomEvent<{date: Date, value: string}>} date-change - The context date changed. Detail contains `{ date, value }`: the `Date` and its ISO string.
+ * @fires {CustomEvent<CalendarEventChangeDetail>} event-change - An event was dragged to a new time (`action: 'move'`) or had its start or end dragged (`action: 'resize'`). Detail contains `{ event, start, end, action }`, where `event` is the object from `events` as it was. Cancelable: cancel it to keep the event where it was. Only with `editable`.
+ * @fires {CustomEvent<CalendarEventAddDetail>} event-add - Empty time was dragged across or clicked. Detail contains `{ start, end, allDay }`. Only with `addable`.
  *
  * @example
  * ```html
  * <wc-calendar view="week" date="2026-11-06" style="height: 600px"></wc-calendar>
+ * ```
+ *
+ * @example
+ * ```html
+ * <wc-calendar id="planner" view="week" editable addable style="height: 600px"></wc-calendar>
+ * <script>
+ *   const planner = document.getElementById('planner');
+ *   planner.events = [
+ *     { id: 1, title: 'Standup', start: new Date(2026, 10, 4, 9), end: new Date(2026, 10, 4, 9, 30) },
+ *   ];
+ *   planner.addEventListener('event-change', event => console.log(event.detail));
+ *   planner.addEventListener('event-add', ({ detail }) => {
+ *     planner.events = [...planner.events, { id: Date.now(), title: 'New event', ...detail }];
+ *   });
+ * </script>
  * ```
  */
 @IndividualComponent
@@ -109,6 +182,28 @@ export class Calendar extends LitElement {
   @property({ type: Boolean, attribute: 'events-readonly' })
   eventsReadonly: boolean = false;
 
+  /**
+   * People can drag events to move them and drag their edges to resize them. Each drop fires the
+   * cancelable `event-change`. An event with `editable: false` stays put.
+   */
+  @property({ type: Boolean, reflect: true })
+  editable: boolean = false;
+
+  /**
+   * Dragging across empty time, or clicking it, fires `event-add` with the range and marks it as a
+   * new event until `events` changes.
+   */
+  @property({ type: Boolean, reflect: true })
+  addable: boolean = false;
+
+  /** Minutes that dragging moves, resizes and draws timed events by. Defaults to 15. */
+  @property({ type: Number, attribute: 'minute-step' })
+  minuteStep: number = 15;
+
+  /** Length in minutes of an event added by clicking empty time in the day or week view. Defaults to 60. */
+  @property({ type: Number, attribute: 'default-duration' })
+  defaultDuration: number = 60;
+
   /** Shows a progress bar and marks the calendar busy while events load. */
   @property({ type: Boolean, reflect: true })
   loading: boolean = false;
@@ -137,10 +232,21 @@ export class Calendar extends LitElement {
   @state()
   private _currentView: CalendarViewType | undefined;
 
+  /** The range of the last `event-add`, marked as a new event until the app adds it. */
+  @state()
+  private _placeholder: CalendarEventAddDetail | null = null;
+
+  /** The live region's text. */
+  @state()
+  private _announcement = '';
+
   // ── Private fields
 
   /** Peacock's strings and the resolved locale. */
   private readonly _i18n = new I18nController(this);
+
+  /** `events` wrapped for the views, made again only when `events` changes. */
+  private _calendarEvents: CalendarEvent[] = [];
 
   // ── Lifecycle
 
@@ -150,6 +256,15 @@ export class Calendar extends LitElement {
     if (!this.contextDate && !isoToDate(this.date)) {
       this.contextDate = this._currentTime;
     }
+    // Capture, so a press clears the placeholder before it starts a drag of its own.
+    this.addEventListener('pointerdown', this._handlePointerDown, true);
+    this.addEventListener('keydown', this._handleKeyDown);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener('pointerdown', this._handlePointerDown, true);
+    this.removeEventListener('keydown', this._handleKeyDown);
   }
 
   override willUpdate(changed: PropertyValues<this>) {
@@ -159,6 +274,29 @@ export class Calendar extends LitElement {
     }
     if (changed.has('timezone')) {
       this._currentTime = this._now();
+    }
+    if (changed.has('events')) {
+      this._calendarEvents = (this.events ?? []).map(
+        event =>
+          new CalendarEvent(
+            event.start,
+            event.end,
+            event.title,
+            event.color,
+            event,
+          ),
+      );
+    }
+    // The new event has been added, or the person has moved on.
+    if (
+      this._placeholder &&
+      (changed.has('events') ||
+        changed.has('view') ||
+        changed.has('date') ||
+        changed.has('contextDate') ||
+        (changed.has('addable') && !this.addable))
+    ) {
+      this._placeholder = null;
     }
     this._syncDate(changed);
   }
@@ -179,6 +317,14 @@ export class Calendar extends LitElement {
   today() {
     this._currentTime = this._now();
     this._setContextDate(this._currentTime);
+  }
+
+  /**
+   * Removes the new event marked after `event-add`, for when adding it is canceled. It also goes
+   * when `events` changes.
+   */
+  clearPlaceholder() {
+    this._placeholder = null;
   }
 
   // ── Private methods
@@ -222,6 +368,11 @@ export class Calendar extends LitElement {
     return !this.eventsReadonly;
   }
 
+  /** Whether events can be dragged: `editable` and not `events-readonly`. */
+  private _eventsEditable(): boolean {
+    return this.editable && this._eventsInteractive();
+  }
+
   private _step(direction: 1 | -1) {
     if (!this._currentView || !this.contextDate) return;
     if (this._currentView.days) {
@@ -245,6 +396,26 @@ export class Calendar extends LitElement {
     );
   }
 
+  /** Reads `message` in the live region. */
+  private _announce(message: string) {
+    // Clear first, so the same message twice in a row is read again.
+    this._announcement = '';
+    setTimeout(() => {
+      this._announcement = message;
+    });
+  }
+
+  private readonly _handlePointerDown = () => {
+    if (this._placeholder) this._placeholder = null;
+  };
+
+  private readonly _handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape' || !this._placeholder) return;
+    // Keep an enclosing dialog open.
+    event.stopPropagation();
+    this._placeholder = null;
+  };
+
   private _onViewDateClick(evt: CustomEvent<{ date: Date }>) {
     evt.stopPropagation();
     this.view = 'day';
@@ -267,6 +438,56 @@ export class Calendar extends LitElement {
         bubbles: true,
         composed: true,
       }),
+    );
+  }
+
+  private _onViewEventChange(evt: CustomEvent<CalendarEventChangeDetail>) {
+    evt.stopPropagation();
+    if (!this._eventsEditable()) return;
+    const detail = { ...evt.detail };
+    const change = new CustomEvent<CalendarEventChangeDetail>('event-change', {
+      detail,
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+    if (!this.dispatchEvent(change)) return;
+    this.events = applyCalendarChange(this.events, detail);
+    const { event, start, end, action } = detail;
+    const title = event.title || this._i18n.t('calendarUntitled');
+    const when = formatEventWhen(
+      start,
+      end,
+      this._i18n.locale,
+      isAllDayRange(start, end),
+    );
+    this._announce(
+      this._i18n.t(
+        action === 'move' ? 'calendarEventMoved' : 'calendarEventResized',
+      )(title, when),
+    );
+  }
+
+  private _onViewEventAdd(evt: CustomEvent<CalendarEventAddDetail>) {
+    evt.stopPropagation();
+    if (!this.addable) return;
+    const detail = { ...evt.detail };
+    this._placeholder = detail;
+    this.dispatchEvent(
+      new CustomEvent<CalendarEventAddDetail>('event-add', {
+        detail,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    this._announce(
+      formatEventLabel(
+        this._i18n.t('calendarNewEvent'),
+        detail.start,
+        detail.end,
+        this._i18n.locale,
+        detail.allDay,
+      ),
     );
   }
 
@@ -356,46 +577,52 @@ export class Calendar extends LitElement {
     }
     const { locale } = this._i18n;
     const readonly = !this._eventsInteractive();
+    const editable = this._eventsEditable();
     const weekStartsOn = this._weekStart();
     const contextDate = this.contextDate ?? this._currentTime;
-
-    const calEvents = this.events.map(
-      event =>
-        new CalendarEvent(
-          event.start,
-          event.end,
-          event.title,
-          event.color,
-          event,
-        ),
-    );
+    const untitled = this._i18n.t('calendarUntitled');
 
     if (this._currentView.type === 'column') {
       return html`
         <wc-calendar-column-view
-          .events=${calEvents}
+          .events=${this._calendarEvents}
           .view=${this._currentView.value}
           .days=${this._currentView.days || 7}
           .currentTime=${this._currentTime}
           .contextDate=${contextDate}
           .weekStartsOn=${weekStartsOn}
           .locale=${locale}
+          .editable=${editable}
+          .addable=${this.addable}
+          .minuteStep=${this.minuteStep}
+          .defaultDuration=${this.defaultDuration}
+          .placeholder=${this._placeholder}
+          .untitledLabel=${untitled}
+          .newEventLabel=${this._i18n.t('calendarNewEvent')}
           ?events-readonly=${readonly}
           @date-click=${this._onViewDateClick}
           @event-click=${this._onViewEventClick}
+          @event-change=${this._onViewEventChange}
+          @event-add=${this._onViewEventAdd}
         ></wc-calendar-column-view>
       `;
     }
     if (this._currentView.type === 'month') {
       return html`
         <wc-calendar-month-view
-          .events=${calEvents}
+          .events=${this._calendarEvents}
           .currentTime=${this._currentTime}
           .contextDate=${contextDate}
           .weekStartsOn=${weekStartsOn}
           .locale=${locale}
+          .editable=${editable}
+          .addable=${this.addable}
+          .placeholder=${this._placeholder}
+          .untitledLabel=${untitled}
           ?events-readonly=${readonly}
           @event-click=${this._onViewEventClick}
+          @event-change=${this._onViewEventChange}
+          @event-add=${this._onViewEventAdd}
         ></wc-calendar-month-view>
       `;
     }
@@ -418,6 +645,9 @@ export class Calendar extends LitElement {
           : nothing}
         <div class="calendar-body" aria-busy=${busy ? 'true' : 'false'}>
           <div class="view-container">${this._renderCalendarView()}</div>
+        </div>
+        <div class="screen-reader-only" role="status" aria-live="polite">
+          ${this._announcement}
         </div>
       </div>
     `;

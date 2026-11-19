@@ -18,7 +18,7 @@ const calendars: TeamCalendar[] = [
 
 <Layout
   title='Calendar'
-  description='A team scheduling screen built from Peacock components: a month calendar with day and week views, an agenda of the selected day, calendar filters and a dialog to create an event.'
+  description='A team scheduling screen built from Peacock components: a month calendar with day and week views where events are dragged to reschedule them, an agenda of the selected day, calendar filters and a dialog to create an event for a range drawn on the calendar.'
 >
   <div class='block-demo block-demo-calendar'>
     <wc-page-header
@@ -38,7 +38,7 @@ const calendars: TeamCalendar[] = [
 
     <div class='calendar-layout'>
       <div class='calendar-main'>
-        <wc-calendar id='calendar-block' class='calendar-view' view='month'></wc-calendar>
+        <wc-calendar id='calendar-block' class='calendar-view' view='month' editable addable></wc-calendar>
       </div>
 
       <aside class='calendar-panel' aria-labelledby='calendar-agenda-heading'>
@@ -80,6 +80,7 @@ const calendars: TeamCalendar[] = [
 
     <wc-modal id='calendar-event-modal' heading='New event'>
       <div class='calendar-modal-fields'>
+        <p id='calendar-event-when' class='text-body-medium' hidden></p>
         <wc-input id='calendar-event-title' label='Title' placeholder='Design review'></wc-input>
         <wc-select id='calendar-event-time' label='Starts' value='10'>
           <wc-option value='9'>9:00 AM</wc-option>
@@ -109,6 +110,7 @@ const calendars: TeamCalendar[] = [
       const modal = document.getElementById('calendar-event-modal');
       const titleField = document.getElementById('calendar-event-title');
       const timeField = document.getElementById('calendar-event-time');
+      const whenText = document.getElementById('calendar-event-when');
       const calendarField = document.getElementById('calendar-event-calendar');
 
       const CALENDARS = {
@@ -181,6 +183,8 @@ const calendars: TeamCalendar[] = [
 
       const visibleCalendars = new Set(Object.keys(CALENDARS));
       let selected = new Date(today);
+      // The range drawn on the calendar that the dialog is creating an event for.
+      let pendingRange = null;
 
       const dayHeading = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
       const time = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
@@ -193,9 +197,11 @@ const calendars: TeamCalendar[] = [
         return item.start < end && item.end >= start;
       };
 
+      const visibleEvents = () => allEvents.filter(item => visibleCalendars.has(item.calendar));
+
       const renderAgenda = () => {
         heading.textContent = dayHeading.format(selected);
-        const items = calendar.events
+        const items = visibleEvents()
           .filter(item => onDay(item, selected))
           .sort((a, b) => Number(isAllDay(b)) - Number(isAllDay(a)) || a.start - b.start);
         const events = items.length === 1 ? '1 event' : `${items.length} events`;
@@ -223,7 +229,7 @@ const calendars: TeamCalendar[] = [
       };
 
       const update = () => {
-        calendar.events = allEvents.filter(item => visibleCalendars.has(item.calendar));
+        calendar.events = visibleEvents();
         renderAgenda();
       };
       update();
@@ -241,6 +247,16 @@ const calendars: TeamCalendar[] = [
         renderAgenda();
       });
 
+      // A dragged event: the calendar shows its new time itself; keep the change for the
+      // filters, and follow it in the agenda.
+      calendar.addEventListener('event-change', e => {
+        const { event: changed, start, end } = e.detail;
+        allEvents = allEvents.map(item => (item === changed ? { ...item, start, end } : item));
+        selected = new Date(start);
+        selected.setHours(0, 0, 0, 0);
+        renderAgenda();
+      });
+
       document.querySelectorAll('.calendar-filters wc-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', e => {
           if (e.detail.checked) visibleCalendars.add(checkbox.value);
@@ -249,20 +265,51 @@ const calendars: TeamCalendar[] = [
         });
       });
 
-      const openModal = () => {
+      const whenFormat = new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+      const openModal = range => {
+        pendingRange = range || null;
         titleField.value = '';
+        // A range drawn on the calendar sets the time; otherwise the dialog asks for it.
+        whenText.hidden = !pendingRange;
+        timeField.hidden = !!pendingRange;
+        if (pendingRange) {
+          const { start, end, allDay } = pendingRange;
+          const lastDay = new Date(end.getTime() - 1);
+          whenText.textContent = allDay
+            ? `${whenFormat.format(start)}${sameDay(start, lastDay) ? '' : ` – ${whenFormat.format(lastDay)}`} · All day`
+            : `${whenFormat.format(start)} · ${time.format(start)} – ${time.format(end)}`;
+        }
         modal.show();
       };
-      document.getElementById('calendar-new-event').addEventListener('click', openModal);
-      document.getElementById('calendar-agenda-add').addEventListener('click', openModal);
+      document.getElementById('calendar-new-event').addEventListener('click', () => openModal());
+      document.getElementById('calendar-agenda-add').addEventListener('click', () => openModal());
       document.getElementById('calendar-event-cancel').addEventListener('click', () => modal.hide());
+
+      // Drawing across days or hours, or clicking empty time, asks for the new event's details.
+      calendar.addEventListener('event-add', e => {
+        selected = new Date(e.detail.start);
+        selected.setHours(0, 0, 0, 0);
+        renderAgenda();
+        openModal(e.detail);
+      });
+      // Closed without creating: take the new event's mark off the calendar.
+      modal.addEventListener('close', () => {
+        if (pendingRange) calendar.clearPlaceholder();
+        pendingRange = null;
+      });
+
       document.getElementById('calendar-event-create').addEventListener('click', () => {
         const key = calendarField.value || 'product';
-        const start = new Date(selected);
-        start.setHours(Number(timeField.value || 10), 0, 0, 0);
+        let range = pendingRange;
+        if (!range) {
+          const start = new Date(selected);
+          start.setHours(Number(timeField.value || 10), 0, 0, 0);
+          range = { start, end: new Date(start.getTime() + 3600000) };
+        }
+        pendingRange = null;
         allEvents = [
           ...allEvents,
-          event(titleField.value.trim() || 'New event', key, { start, end: new Date(start.getTime() + 3600000) }, 'Room Aspen'),
+          event(titleField.value.trim() || 'New event', key, { start: range.start, end: range.end }, 'Room Aspen'),
         ];
         visibleCalendars.add(key);
         document.querySelector(`.calendar-filters wc-checkbox[value='${key}']`).checked = true;

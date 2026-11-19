@@ -1,26 +1,80 @@
 import { LitElement, html, nothing, PropertyValues, TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import {
   addDays,
   addHours,
+  clamp,
   differenceInDays,
   startOfDay,
-  endOfDay,
   calculateDateRange,
   formatDate,
   formatEventLabel,
+  formatTimeRange,
   getTimePercent,
+  lastDayOf,
+  rangesOverlap,
+  snapTime,
+  timeAtFraction,
   LONG_EVENT_PADDING,
+  MINUTE_MS,
   onActivateKey,
 } from './utils.js';
-import { BaseEvent } from './base-event.js';
 import { CalendarEvent } from './calendar-event.js';
+import {
+  CalendarDragController,
+  dragByDays,
+  nearestIndex,
+  type CalendarDragAction,
+  type DragPoint,
+} from './calendar-drag.js';
 import { EventManager } from './event-manager.js';
 import type { ColumnEvent } from './event-manager.js';
+import type {
+  CalendarEventAddDetail,
+  CalendarEventChangeDetail,
+  EventType,
+} from './types.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { resolveLocale } from '@/__internal/i18n/locale.js';
 import type { WeekDay } from '@/__internal/utils/date.js';
 import styles from './calendar-column-view.scss';
+
+/** The part of the view a drag happens in: the hours, or the all-day row above them. */
+type Section = 'timed' | 'all-day';
+
+/** A press that may become a drag. */
+interface ColumnPress {
+  action: CalendarDragAction;
+  section: Section;
+  /** The event pressed; none when adding. */
+  event?: ColumnEvent;
+  /** The day under the press. */
+  day: Date;
+  /** The time under the press; midnight in the all-day row. */
+  time: Date;
+}
+
+/** Where a drag would put an event, or the range it would add. */
+interface ColumnPreview {
+  action: CalendarDragAction;
+  section: Section;
+  /** The dragged event's object from `events`; none when adding. */
+  data?: EventType;
+  title: string;
+  color?: string;
+  start: Date;
+  end: Date;
+}
+
+/** How an event block takes part in a drag. */
+type DragRole = 'source' | 'lifted' | null;
+
+/** Events shorter than this have no handle at their start, so there is room to grab them. */
+const START_HANDLE_MIN_MS = 30 * MINUTE_MS;
+
+/** Previews shorter than this show their title and times on one line. */
+const COMPACT_PREVIEW_MS = 45 * MINUTE_MS;
 
 /**
  * @internal
@@ -36,9 +90,13 @@ import styles from './calendar-column-view.scss';
  * that open the day; events are buttons labelled with their title and time, or notes that cannot
  * be focused when <code>events-readonly</code> is set. Events lasting a day or more are shown in a
  * row above the hours.</p>
+ * <p>With <code>editable</code>, events are dragged to move them and their edges to resize them;
+ * with <code>addable</code>, dragging across empty time or clicking it asks for a new event.</p>
  *
  * @fires date-click - Internal, does not bubble; a day number was chosen. Detail contains `{ date }`.
  * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
+ * @fires event-change - Internal, does not bubble; an event was dropped at a new time. `wc-calendar` re-fires it.
+ * @fires event-add - Internal, does not bubble; a range of empty time was drawn or clicked. `wc-calendar` re-fires it.
  */
 @IndividualComponent
 export class CalendarColumnView extends LitElement {
@@ -63,6 +121,34 @@ export class CalendarColumnView extends LitElement {
   /** Events are shown but cannot be clicked or focused. */
   @property({ type: Boolean, attribute: 'events-readonly' })
   eventsReadonly: boolean = false;
+
+  /** Events can be moved and resized by dragging. */
+  @property({ type: Boolean })
+  editable: boolean = false;
+
+  /** Dragging across empty time, or clicking it, asks for a new event. */
+  @property({ type: Boolean })
+  addable: boolean = false;
+
+  /** Minutes that drags move timed events and their edges by. */
+  @property({ type: Number, attribute: false })
+  minuteStep: number = 15;
+
+  /** Minutes an event added by a click lasts. */
+  @property({ type: Number, attribute: false })
+  defaultDuration: number = 60;
+
+  /** A range waiting for its new event, drawn as one. */
+  @property({ attribute: false })
+  placeholder: CalendarEventAddDetail | null = null;
+
+  /** Title shown for an event without one. */
+  @property({ attribute: false })
+  untitledLabel: string = '(no title)';
+
+  /** Title of the block that marks a new event. */
+  @property({ attribute: false })
+  newEventLabel: string = 'New event';
 
   /** Now, which places the current-time line and marks today. */
   @property({ type: Object, attribute: false })
@@ -98,6 +184,27 @@ export class CalendarColumnView extends LitElement {
   @state()
   private multiDayEvents: ColumnEvent[][] = [];
 
+  /** The drag in progress, where it would put its event. */
+  @state()
+  private _preview: ColumnPreview | null = null;
+
+  // ── Private fields
+
+  private readonly _drag = new CalendarDragController<ColumnPress>(this, {
+    lift: () => {},
+    move: (press, point) => this._follow(press, point),
+    drop: (press, point) => this._drop(press, point),
+    cancel: () => {
+      this._preview = null;
+    },
+    tap: press => this._tap(press),
+    scrollers: press => [
+      this.renderRoot.querySelector<HTMLElement>(
+        press.section === 'timed' ? '.view-body' : '.multi-day-section-scroll',
+      ),
+    ],
+  });
+
   // ── Lifecycle
 
   override connectedCallback() {
@@ -126,6 +233,19 @@ export class CalendarColumnView extends LitElement {
     ) {
       this._processEvents();
     }
+    // A drag cannot outlive the days it started on, or editing being turned off.
+    if (
+      this._drag.pressing &&
+      (changed.has('contextDate') ||
+        changed.has('view') ||
+        changed.has('days') ||
+        changed.has('weekStartsOn') ||
+        changed.has('editable') ||
+        changed.has('addable') ||
+        changed.has('eventsReadonly'))
+    ) {
+      this._drag.abort();
+    }
   }
 
   // ── Private methods
@@ -139,6 +259,24 @@ export class CalendarColumnView extends LitElement {
     return resolveLocale(this.locale, this);
   }
 
+  /** `minuteStep` when it is a whole number of minutes in a day, else 15. */
+  private get _step(): number {
+    const step = Math.round(this.minuteStep);
+    return Number.isFinite(step) && step >= 1 ? Math.min(step, 1440) : 15;
+  }
+
+  /** `defaultDuration` when it is a positive number of minutes, else 60. */
+  private get _duration(): number {
+    const minutes = Math.round(this.defaultDuration);
+    return Number.isFinite(minutes) && minutes >= 1 ? minutes : 60;
+  }
+
+  /** Whether an event can be dragged: the view is editable and the event did not opt out. */
+  private _canEdit(node: CalendarEvent): boolean {
+    const data = node.data as EventType | undefined;
+    return this.editable && this._interactive && data?.editable !== false;
+  }
+
   private _processEvents() {
     this.dateRange = calculateDateRange(
       this.view,
@@ -149,25 +287,32 @@ export class CalendarColumnView extends LitElement {
     this.singleDayEvents = {};
 
     this._forEachDayInRange(i => {
+      const dayStart = startOfDay(i);
+      const dayEnd = addDays(dayStart, 1);
       const manager = new EventManager();
       manager.addEvents(
         this.events.filter(
           event =>
-            event.isOverlapping(new BaseEvent(startOfDay(i), endOfDay(i))) &&
-            event.length() < 86400000,
+            !event.isAllDay() &&
+            rangesOverlap(event.start, event.end, dayStart, dayEnd),
         ),
       );
       manager.process();
       this.singleDayEvents[this._getDateOnly(i)] = manager.columns;
     });
 
+    const rangeEnd = addDays(startOfDay(this.dateRange.endDate), 1);
     const multiManager = new EventManager();
     multiManager.addEvents(
       this.events.filter(
         event =>
-          event.isOverlapping(
-            new BaseEvent(this.dateRange.startDate, this.dateRange.endDate),
-          ) && event.length() >= 86400000,
+          event.isAllDay() &&
+          rangesOverlap(
+            event.start,
+            event.end,
+            this.dateRange.startDate,
+            rangeEnd,
+          ),
       ),
     );
     multiManager.process();
@@ -228,6 +373,18 @@ export class CalendarColumnView extends LitElement {
     this.dispatchEvent(new CustomEvent('event-click', { detail: { event } }));
   }
 
+  private _emitChange(detail: CalendarEventChangeDetail) {
+    this.dispatchEvent(
+      new CustomEvent<CalendarEventChangeDetail>('event-change', { detail }),
+    );
+  }
+
+  private _emitAdd(detail: CalendarEventAddDetail) {
+    this.dispatchEvent(
+      new CustomEvent<CalendarEventAddDetail>('event-add', { detail }),
+    );
+  }
+
   /** Accessible name of the view: the dates it shows. */
   private _rangeLabel(): string {
     const { startDate, endDate } = this.dateRange;
@@ -245,6 +402,270 @@ export class CalendarColumnView extends LitElement {
     return Object.entries(declarations)
       .map(([k, v]) => `${k}:${v}`)
       .join(';');
+  }
+
+  // ── Drag and drop
+
+  /** The day columns of a section. */
+  private _columnsOf(section: Section): HTMLElement[] {
+    return [
+      ...this.renderRoot.querySelectorAll<HTMLElement>(
+        section === 'timed'
+          ? '.events-container > .column'
+          : '.multi-day-background .columns > .column',
+      ),
+    ];
+  }
+
+  /** The day of the column nearest `x`; with `within`, only a column that spans `x`. */
+  private _dayAt(section: Section, x: number, within = false): Date | null {
+    const columns = this._columnsOf(section);
+    const index = nearestIndex(columns, x);
+    if (index < 0) return null;
+    if (within) {
+      const rect = columns[index].getBoundingClientRect();
+      if (x < rect.left || x > rect.right) return null;
+    }
+    return addDays(this.dateRange.startDate, index);
+  }
+
+  /** The time at `y` in `day`'s column of the hours. */
+  private _timeAt(day: Date, y: number): Date {
+    const rect = this.renderRoot
+      .querySelector('.events-container')
+      ?.getBoundingClientRect();
+    if (!rect || rect.height <= 0) return startOfDay(day);
+    return timeAtFraction(day, (y - rect.top) / rect.height);
+  }
+
+  private _onEventPointerDown(
+    event: PointerEvent,
+    node: ColumnEvent,
+    section: Section,
+  ) {
+    if (!this._canEdit(node)) return;
+    const handle =
+      event.target instanceof Element
+        ? event.target.closest<HTMLElement>('[data-handle]')?.dataset.handle
+        : undefined;
+    let action: CalendarDragAction = 'move';
+    if (handle === 'start') action = 'resize-start';
+    else if (handle === 'end') action = 'resize-end';
+    const day = this._dayAt(section, event.clientX) ?? startOfDay(node.start);
+    this._drag.start(event, {
+      action,
+      section,
+      event: node,
+      day,
+      time: section === 'timed' ? this._timeAt(day, event.clientY) : day,
+    });
+  }
+
+  private _onSectionPointerDown(event: PointerEvent, section: Section) {
+    if (!this.addable || this._drag.pressing) return;
+    // Presses on events are theirs, even on events that cannot be dragged.
+    const onEvent = event
+      .composedPath()
+      .some(
+        target =>
+          target instanceof HTMLElement && target.classList.contains('event'),
+      );
+    if (onEvent) return;
+    const day = this._dayAt(section, event.clientX, true);
+    if (!day) return;
+    this._drag.start(event, {
+      action: 'add',
+      section,
+      day,
+      time: section === 'timed' ? this._timeAt(day, event.clientY) : day,
+    });
+  }
+
+  /** Where the drag of `press` would put its event with the pointer at `point`. */
+  private _previewFor(
+    press: ColumnPress,
+    point: DragPoint,
+  ): ColumnPreview | null {
+    const { event } = press;
+    const range =
+      press.section === 'timed'
+        ? this._timedRange(press, point)
+        : dragByDays(
+            press.action,
+            press.day,
+            this._dayAt('all-day', point.x) ?? press.day,
+            event,
+          );
+    if (!range) return null;
+    return {
+      action: press.action,
+      section: press.section,
+      data: event?.data as EventType | undefined,
+      title: event ? event.title || this.untitledLabel : this.newEventLabel,
+      color: event?.color,
+      ...range,
+    };
+  }
+
+  /** The range a drag in the hours gives, snapped to `minuteStep`. */
+  private _timedRange(
+    press: ColumnPress,
+    point: DragPoint,
+  ): { start: Date; end: Date } | null {
+    const step = this._step;
+    const stepMs = step * MINUTE_MS;
+    const { event } = press;
+
+    if (press.action === 'add') {
+      // The slot pressed is always part of the range; the drag stays in its day.
+      const time = this._timeAt(press.day, point.y);
+      const anchor = snapTime(press.time, step, 'floor');
+      const dayEnd = addDays(startOfDay(press.day), 1).valueOf();
+      if (time.valueOf() >= anchor.valueOf()) {
+        const end = Math.max(
+          snapTime(time, step, 'ceil', press.day).valueOf(),
+          anchor.valueOf() + stepMs,
+        );
+        return { start: anchor, end: new Date(Math.min(end, dayEnd)) };
+      }
+      return {
+        start: snapTime(time, step, 'floor', press.day),
+        end: new Date(Math.min(anchor.valueOf() + stepMs, dayEnd)),
+      };
+    }
+    if (!event) return null;
+
+    if (press.action === 'move') {
+      // The event keeps its length and the point it was grabbed by, within the day under the pointer.
+      const day = this._dayAt('timed', point.x) ?? press.day;
+      const dayStart = startOfDay(day);
+      const length = event.length();
+      const grab = press.time.valueOf() - event.start.valueOf();
+      const raw = new Date(this._timeAt(day, point.y).valueOf() - grab);
+      let start = snapTime(raw, step, 'round', dayStart).valueOf();
+      const latest = addDays(dayStart, 1).valueOf() - length;
+      if (latest >= dayStart.valueOf()) start = Math.min(start, latest);
+      return { start: new Date(start), end: new Date(start + length) };
+    }
+
+    if (press.action === 'resize-end') {
+      // The end stays on the day it is drawn on, at least one step after the start.
+      const endDay = event.lastDay();
+      const end = snapTime(
+        this._timeAt(endDay, point.y),
+        step,
+        'round',
+        endDay,
+      ).valueOf();
+      const min = event.start.valueOf() + stepMs;
+      const max = Math.max(addDays(endDay, 1).valueOf(), min);
+      return { start: event.start, end: new Date(clamp(end, min, max)) };
+    }
+
+    // resize-start: the start stays on its day, at least one step before the end.
+    const startDay = startOfDay(event.start);
+    const start = snapTime(
+      this._timeAt(startDay, point.y),
+      step,
+      'round',
+      startDay,
+    ).valueOf();
+    const max = event.end.valueOf() - stepMs;
+    return {
+      start: new Date(clamp(start, Math.min(startDay.valueOf(), max), max)),
+      end: event.end,
+    };
+  }
+
+  private _follow(press: ColumnPress, point: DragPoint) {
+    const preview = this._previewFor(press, point);
+    if (!preview) return;
+    const current = this._preview;
+    if (
+      current &&
+      current.start.valueOf() === preview.start.valueOf() &&
+      current.end.valueOf() === preview.end.valueOf()
+    ) {
+      return;
+    }
+    this._preview = preview;
+  }
+
+  private _drop(press: ColumnPress, point: DragPoint) {
+    const preview = this._previewFor(press, point) ?? this._preview;
+    this._preview = null;
+    if (!preview) return;
+    const { start, end } = preview;
+    if (press.action === 'add') {
+      this._emitAdd({ start, end, allDay: press.section === 'all-day' });
+      return;
+    }
+    const { event } = press;
+    if (!event || !preview.data) return;
+    if (
+      start.valueOf() === event.start.valueOf() &&
+      end.valueOf() === event.end.valueOf()
+    ) {
+      return;
+    }
+    this._emitChange({
+      event: preview.data,
+      start,
+      end,
+      action: press.action === 'move' ? 'move' : 'resize',
+    });
+  }
+
+  /** A click on empty time adds an event there: `defaultDuration` long, or the whole day. */
+  private _tap(press: ColumnPress) {
+    if (press.action !== 'add') return;
+    if (press.section === 'all-day') {
+      this._emitAdd({
+        start: press.day,
+        end: addDays(press.day, 1),
+        allDay: true,
+      });
+      return;
+    }
+    // Starts at the half hour clicked, the rows the grid draws.
+    const start = snapTime(press.time, Math.max(30, this._step), 'floor');
+    const dayEnd = addDays(startOfDay(press.day), 1).valueOf();
+    const end = new Date(
+      Math.min(start.valueOf() + this._duration * MINUTE_MS, dayEnd),
+    );
+    this._emitAdd({ start, end, allDay: false });
+  }
+
+  /** How `node`'s blocks take part in the drag in progress. */
+  private _dragRole(node: CalendarEvent, section: Section): DragRole {
+    const preview = this._preview;
+    if (!preview?.data || preview.data !== node.data) return null;
+    // A timed event moving between columns is drawn again where it lands.
+    return section === 'timed' && preview.action === 'move'
+      ? 'source'
+      : 'lifted';
+  }
+
+  /** The days the drag in progress, or the placeholder, covers in the all-day row. */
+  private _allDayTarget(): { start: Date; end: Date } | null {
+    const preview = this._preview;
+    if (preview) return preview.section === 'all-day' ? preview : null;
+    return this.placeholder?.allDay ? this.placeholder : null;
+  }
+
+  /** Classes of the view while a drag is in progress, which set the cursor. */
+  private _rootClasses() {
+    const action = this._preview?.action;
+    const section = this._preview?.section;
+    const resizing = action === 'resize-start' || action === 'resize-end';
+    return {
+      'calendar-column-view': true,
+      addable: this.addable,
+      dragging: !!action,
+      'drag-move': action === 'move',
+      'drag-resize-y': resizing && section === 'timed',
+      'drag-resize-x': resizing && section === 'all-day',
+    };
   }
 
   // ── Render helpers
@@ -281,9 +702,18 @@ export class CalendarColumnView extends LitElement {
   }
 
   private _renderMultiDayBackground() {
+    const target = this._allDayTarget();
+    const first = target ? startOfDay(target.start).valueOf() : 0;
+    const last = target ? lastDayOf(target.start, target.end).valueOf() : -1;
     const columns: TemplateResult[] = [];
     this._forEachDayInRange(i => {
-      columns.push(html`<div class=${this._getDayClass(i)}></div>`);
+      const day = startOfDay(i).valueOf();
+      const covered = day >= first && day <= last;
+      columns.push(
+        html`<div
+          class="${this._getDayClass(i)}${covered ? ' drop-target' : ''}"
+        ></div>`,
+      );
     });
     return columns;
   }
@@ -320,20 +750,42 @@ export class CalendarColumnView extends LitElement {
     return html`<div class="background" aria-hidden="true">${rows}</div>`;
   }
 
-  /** One event block; `allDay` marks events lasting a day or more. */
+  /** One event block. `start` and `end` are where it is drawn, which a resize changes. */
   private _renderEvent(
     node: ColumnEvent,
+    section: Section,
     position: Record<string, string>,
-    allDay: boolean,
+    range: { start: Date; end: Date },
+    handles: ('start' | 'end')[],
   ) {
     const interactive = this._interactive;
+    const editable = this._canEdit(node);
+    const role = this._dragRole(node, section);
+    const resizing =
+      role === 'lifted' &&
+      section === 'timed' &&
+      this._preview?.action !== 'move';
     const declarations = node.color
       ? { ...position, ...this._colorVars(node.color) }
       : position;
     const activate = () => this._emitEventClick(node.data);
+    const handle = (edge: 'start' | 'end') =>
+      editable && handles.includes(edge)
+        ? html`<div
+            class="resize-handle ${edge}"
+            data-handle=${edge}
+            aria-hidden="true"
+          ></div>`
+        : nothing;
     return html`
       <div
-        class=${interactive ? 'event clickable' : 'event'}
+        class=${classMap({
+          event: true,
+          clickable: interactive,
+          editable,
+          'drag-source': role === 'source',
+          lifted: role === 'lifted',
+        })}
         style=${this._styleMap(declarations)}
         role=${interactive ? 'button' : 'note'}
         tabindex=${interactive ? '0' : nothing}
@@ -342,16 +794,114 @@ export class CalendarColumnView extends LitElement {
           node.start,
           node.end,
           this._locale,
-          allDay,
+          section === 'all-day',
         )}
         @click=${() => {
           if (interactive) activate();
         }}
         @keydown=${interactive ? onActivateKey(activate) : nothing}
+        @pointerdown=${editable
+          ? (event: PointerEvent) =>
+              this._onEventPointerDown(event, node, section)
+          : nothing}
       >
+        ${handle('start')}
         <div class="event-title" aria-hidden="true">
-          ${node.title || '(no title)'}
+          ${node.title || this.untitledLabel}
         </div>
+        ${resizing
+          ? html`<div class="event-time" aria-hidden="true">
+              ${formatTimeRange(range.start, range.end, this._locale)}
+            </div>`
+          : nothing}
+        ${handle('end')}
+      </div>
+    `;
+  }
+
+  /** A timed event's block in one day column, at its own times or those of its resize. */
+  private _renderTimedEvent(
+    node: ColumnEvent,
+    dayStart: Date,
+    dayEnd: Date,
+    columnIndex: number,
+    columnCount: number,
+  ) {
+    const preview = this._preview;
+    const resized =
+      this._dragRole(node, 'timed') === 'lifted' && preview ? preview : null;
+    const start = resized ? resized.start : node.start;
+    const end = resized ? resized.end : node.end;
+    const top = getTimePercent(start, dayStart);
+    const bottom = getTimePercent(end, dayStart);
+    // A block shows the handle of an edge only on the day that edge falls on.
+    const handles: ('start' | 'end')[] = [];
+    if (
+      start.valueOf() >= dayStart.valueOf() &&
+      end.valueOf() - start.valueOf() >= START_HANDLE_MIN_MS
+    ) {
+      handles.push('start');
+    }
+    if (end.valueOf() <= dayEnd.valueOf()) handles.push('end');
+    return this._renderEvent(
+      node,
+      'timed',
+      {
+        top: `${top}%`,
+        height: `${bottom - top}%`,
+        'inset-inline-start': `${(columnIndex / columnCount) * 100}%`,
+        width: `calc(${(node.width / columnCount) * 100}% - 1px)`,
+      },
+      { start, end },
+      handles,
+    );
+  }
+
+  /** A new or moved timed event where the drag would put it, or the placeholder. */
+  private _renderTimedPreview(dayStart: Date, dayEnd: Date) {
+    const preview = this._preview;
+    let item: { start: Date; end: Date; title: string; color?: string } | null =
+      null;
+    let placeholder = false;
+    if (preview) {
+      if (
+        preview.section === 'timed' &&
+        (preview.action === 'add' || preview.action === 'move')
+      ) {
+        item = preview;
+      }
+    } else if (this.placeholder && !this.placeholder.allDay) {
+      item = { ...this.placeholder, title: this.newEventLabel };
+      placeholder = true;
+    }
+    if (!item || !rangesOverlap(item.start, item.end, dayStart, dayEnd)) {
+      return nothing;
+    }
+    const top = getTimePercent(item.start, dayStart);
+    const bottom = getTimePercent(item.end, dayStart);
+    const position = {
+      top: `${top}%`,
+      height: `${bottom - top}%`,
+      'inset-inline-start': '0',
+      width: 'calc(100% - 1px)',
+    };
+    const time = formatTimeRange(item.start, item.end, this._locale);
+    const compact =
+      item.end.valueOf() - item.start.valueOf() < COMPACT_PREVIEW_MS;
+    return html`
+      <div
+        class=${classMap({ event: true, preview: true, placeholder })}
+        style=${this._styleMap(
+          item.color
+            ? { ...position, ...this._colorVars(item.color) }
+            : position,
+        )}
+        aria-hidden="true"
+      >
+        ${compact
+          ? html`<div class="event-title">${item.title}, ${time}</div>`
+          : html`<div class="event-title">${item.title}</div>
+              <div class="event-time">${time}</div>`}
       </div>
     `;
   }
@@ -359,27 +909,26 @@ export class CalendarColumnView extends LitElement {
   private _renderEvents() {
     const columns: TemplateResult[] = [];
     this._forEachDayInRange(i => {
-      const cls = this._getDayClass(i);
+      const dayStart = startOfDay(i);
+      const dayEnd = addDays(dayStart, 1);
       const eventDay = this.singleDayEvents[this._getDateOnly(i)];
       columns.push(html`
-        <div class=${cls}>
+        <div class=${this._getDayClass(i)}>
           <div class="column-content">
             ${eventDay
               ? eventDay.map((nodes, columnIndex) =>
                   nodes.map(node =>
-                    this._renderEvent(
+                    this._renderTimedEvent(
                       node,
-                      {
-                        top: `${getTimePercent(node.start, startOfDay(i))}%`,
-                        height: `${getTimePercent(node.end, startOfDay(i)) - getTimePercent(node.start, startOfDay(i))}%`,
-                        left: `${(columnIndex / eventDay.length) * 100}%`,
-                        width: `calc(${((1 * node.width) / eventDay.length) * 100}% - 1px)`,
-                      },
-                      false,
+                      dayStart,
+                      dayEnd,
+                      columnIndex,
+                      eventDay.length,
                     ),
                   ),
                 )
               : nothing}
+            ${this._renderTimedPreview(dayStart, dayEnd)}
           </div>
         </div>
       `);
@@ -387,26 +936,79 @@ export class CalendarColumnView extends LitElement {
     return html`<div class="events-container">${columns}</div>`;
   }
 
+  /** Position of a bar in the all-day row covering the days of `start`–`end`. */
+  private _allDayPosition(start: Date, end: Date): Record<string, string> {
+    const from = this._getDatePercent(start);
+    const to = this._getDatePercent(addDays(lastDayOf(start, end), 1));
+    return {
+      'inset-inline-start': `${from + LONG_EVENT_PADDING}%`,
+      width: `${to - from - 2 * LONG_EVENT_PADDING}%`,
+    };
+  }
+
+  private _renderAllDayEvent(node: ColumnEvent) {
+    const preview = this._preview;
+    const dragged =
+      this._dragRole(node, 'all-day') === 'lifted' && preview ? preview : null;
+    const start = dragged ? dragged.start : node.start;
+    const end = dragged ? dragged.end : node.end;
+    // Edges outside the days shown cannot be dragged.
+    const handles: ('start' | 'end')[] = [];
+    if (startOfDay(start).valueOf() >= this.dateRange.startDate.valueOf()) {
+      handles.push('start');
+    }
+    if (
+      lastDayOf(start, end).valueOf() <=
+      startOfDay(this.dateRange.endDate).valueOf()
+    ) {
+      handles.push('end');
+    }
+    return this._renderEvent(
+      node,
+      'all-day',
+      this._allDayPosition(start, end),
+      { start, end },
+      handles,
+    );
+  }
+
   private _renderMultiDayEvents() {
-    if (!this.multiDayEvents || !this.multiDayEvents.length) return nothing;
+    const preview = this._preview;
+    let adding: { start: Date; end: Date; placeholder: boolean } | null = null;
+    if (preview) {
+      if (preview.section === 'all-day' && preview.action === 'add') {
+        adding = { start: preview.start, end: preview.end, placeholder: false };
+      }
+    } else if (this.placeholder?.allDay) {
+      adding = { ...this.placeholder, placeholder: true };
+    }
+    if (!this.multiDayEvents.length && !adding) return nothing;
     return html`
       <div class="row-content">
         ${this.multiDayEvents.map(
           nodes => html`
             <div class="row">
-              ${nodes.map(node =>
-                this._renderEvent(
-                  node,
-                  {
-                    left: `${this._getDatePercent(node.start) + LONG_EVENT_PADDING}%`,
-                    width: `${this._getDatePercent(addDays(node.end, 1)) - this._getDatePercent(node.start) - 2 * LONG_EVENT_PADDING}%`,
-                  },
-                  true,
-                ),
-              )}
+              ${nodes.map(node => this._renderAllDayEvent(node))}
             </div>
           `,
         )}
+        ${adding
+          ? html`<div class="row">
+              <div
+                class=${classMap({
+                  event: true,
+                  preview: true,
+                  placeholder: adding.placeholder,
+                })}
+                style=${this._styleMap(
+                  this._allDayPosition(adding.start, adding.end),
+                )}
+                aria-hidden="true"
+              >
+                <div class="event-title">${this.newEventLabel}</div>
+              </div>
+            </div>`
+          : nothing}
         <div class="row-spacer"></div>
       </div>
     `;
@@ -453,7 +1055,7 @@ export class CalendarColumnView extends LitElement {
   render() {
     return html`
       <div
-        class="calendar-column-view"
+        class=${classMap(this._rootClasses())}
         role="region"
         aria-label=${this._rangeLabel()}
       >
@@ -464,7 +1066,11 @@ export class CalendarColumnView extends LitElement {
         </div>
         <div class="multi-day-section-wrapper">
           <div class="multi-day-section-scroll">
-            <div class="multi-day-section">
+            <div
+              class="multi-day-section"
+              @pointerdown=${(event: PointerEvent) =>
+                this._onSectionPointerDown(event, 'all-day')}
+            >
               <div class="multi-day-background" aria-hidden="true">
                 <div class="scale"></div>
                 <div class="columns">${this._renderMultiDayBackground()}</div>
@@ -476,7 +1082,11 @@ export class CalendarColumnView extends LitElement {
         <div class="view-body">
           <div class="view-body-scroll">
             <div class="scale">${this._renderScale()}</div>
-            <div class="drawing-area">
+            <div
+              class="drawing-area"
+              @pointerdown=${(event: PointerEvent) =>
+                this._onSectionPointerDown(event, 'timed')}
+            >
               ${this._renderBackgroundGrid()} ${this._renderEvents()}
             </div>
             ${this._renderCurrentTime()}

@@ -110,6 +110,90 @@ export function calculateDateRange(
 
 export const LONG_EVENT_PADDING = 0.25;
 
+/** Milliseconds in a day of 24 hours. */
+export const DAY_MS = 86400000;
+
+/** Milliseconds in a minute. */
+export const MINUTE_MS = 60000;
+
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+/** Whether `date` is at local midnight. */
+export function isMidnight(date: Date): boolean {
+  return (
+    date.getHours() === 0 &&
+    date.getMinutes() === 0 &&
+    date.getSeconds() === 0 &&
+    date.getMilliseconds() === 0
+  );
+}
+
+/**
+ * Whether a range belongs in the all-day row: it lasts a day or more, or runs from one midnight to
+ * a later one (a day the clocks go forward on has only 23 hours).
+ */
+export function isAllDayRange(start: Date, end: Date): boolean {
+  const length = end.valueOf() - start.valueOf();
+  return (
+    length >= DAY_MS || (length > 0 && isMidnight(start) && isMidnight(end))
+  );
+}
+
+/**
+ * The last day a range covers. `end` is exclusive, so a range that ends at midnight ends the day
+ * before. Never earlier than the day of `start`.
+ */
+export function lastDayOf(start: Date, end: Date): Date {
+  const first = startOfDay(start);
+  const last = startOfDay(new Date(end.valueOf() - 1));
+  return last.valueOf() < first.valueOf() ? first : last;
+}
+
+/**
+ * Whether the range `start`–`end` (end exclusive) shares time with `from`–`to`. A range without
+ * length counts when its instant falls inside.
+ */
+export function rangesOverlap(
+  start: Date,
+  end: Date,
+  from: Date,
+  to: Date,
+): boolean {
+  if (start.valueOf() >= end.valueOf()) {
+    return start.valueOf() >= from.valueOf() && start.valueOf() < to.valueOf();
+  }
+  return start.valueOf() < to.valueOf() && end.valueOf() > from.valueOf();
+}
+
+/** The time at `fraction` (0 to 1) down `day`'s column: the inverse of `getTimePercent`. */
+export function timeAtFraction(day: Date, fraction: number): Date {
+  const sd = startOfDay(day);
+  const ed = endOfDay(day);
+  return new Date(
+    sd.valueOf() + clamp(fraction, 0, 1) * (ed.valueOf() - sd.valueOf()),
+  );
+}
+
+/**
+ * `date` moved to a multiple of `minutes` after the start of `day` (by default its own day): the
+ * nearest one, or the one before or after. The result stays within `day`, whose end is the next
+ * midnight.
+ */
+export function snapTime(
+  date: Date,
+  minutes: number,
+  mode: 'round' | 'floor' | 'ceil' = 'round',
+  day: Date = date,
+): Date {
+  const sd = startOfDay(day);
+  const length = addDays(sd, 1).valueOf() - sd.valueOf();
+  const step = Math.max(1, minutes) * MINUTE_MS;
+  const steps = Math[mode]((date.valueOf() - sd.valueOf()) / step);
+  return new Date(sd.valueOf() + clamp(steps * step, 0, length));
+}
+
 /** Wall-clock date and time fields; `month` is 1–12. */
 export type WallClockParts = {
   year: number;
@@ -206,6 +290,50 @@ export function formatDate(
   return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
+/** `format.formatRange`, or both dates joined by a dash where it is missing or throws. */
+function formatRange(
+  format: Intl.DateTimeFormat,
+  start: Date,
+  end: Date,
+): string {
+  try {
+    return format.formatRange(start, end);
+  } catch {
+    return `${format.format(start)} – ${format.format(end)}`;
+  }
+}
+
+/**
+ * When an event happens, for example `Nov 6, 2026, 9:00 – 9:30 AM`. An all-day event shows its
+ * days only, through the day before an `end` at midnight.
+ */
+export function formatEventWhen(
+  start: Date,
+  end: Date,
+  locale: string,
+  allDay = false,
+): string {
+  if (allDay) {
+    const format = new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
+    return formatRange(format, start, lastDayOf(start, end));
+  }
+  const format = new Intl.DateTimeFormat(locale, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+  return formatRange(format, start, end);
+}
+
+/** The times of a range without its date, for example `9:00 – 10:30 AM`. */
+export function formatTimeRange(
+  start: Date,
+  end: Date,
+  locale: string,
+): string {
+  const format = new Intl.DateTimeFormat(locale, { timeStyle: 'short' });
+  return formatRange(format, start, end);
+}
+
 /** Accessible name of an event: its title and when it happens, for example `Standup, Nov 6, 2026, 9:00 – 9:30 AM`. */
 export function formatEventLabel(
   title: string,
@@ -214,18 +342,7 @@ export function formatEventLabel(
   locale: string,
   allDay = false,
 ): string {
-  const format = new Intl.DateTimeFormat(
-    locale,
-    allDay
-      ? { dateStyle: 'medium' }
-      : { dateStyle: 'medium', timeStyle: 'short' },
-  );
-  let when: string;
-  try {
-    when = format.formatRange(start, end);
-  } catch {
-    when = `${format.format(start)} – ${format.format(end)}`;
-  }
+  const when = formatEventWhen(start, end, locale, allDay);
   return title ? `${title}, ${when}` : when;
 }
 

@@ -108,6 +108,16 @@ export const defaultStrings = {
   previousPeriod: 'Previous',
   nextPeriod: 'Next',
   invalidView: 'Invalid view',
+  /** Title shown for a calendar event without one. */
+  calendarUntitled: '(no title)',
+  /** Title of the block that marks a new calendar event while it is drawn, until the app adds it. */
+  calendarNewEvent: 'New event',
+  /** Announced when an event is dragged to a new time, for example "Moved Standup to Nov 4, 2026, 10:00 – 10:30 AM." */
+  calendarEventMoved: (title: string, when: string): string =>
+    `Moved ${title} to ${when}.`,
+  /** Announced when an event's start or end is dragged, for example "Changed Standup to Nov 4, 2026, 9:00 – 10:30 AM." */
+  calendarEventResized: (title: string, when: string): string =>
+    `Changed ${title} to ${when}.`,
 
   // ── Overlays and feedback ────────────────────────────────────────────────
   closeDialog: 'Close dialog',
