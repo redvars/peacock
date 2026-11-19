@@ -1,10 +1,13 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
-import { g as getTimePercent, c as calculateDateRange, d as startOfDay, e as endOfDay, h as differenceInDays, a as addDays, f as formatDate, o as onActivateKey, i as addHours, j as formatEventLabel, L as LONG_EVENT_PADDING } from './utils-D92ldd1V.js';
-import { B as BaseEvent } from './calendar-event-_OYdAT3c.js';
-import { E as EventManager } from './event-manager-CWAWPOUE.js';
+import { e } from './class-map-NDIkZErE.js';
+import { j as getTimePercent, k as calculateDateRange, b as startOfDay, n as nextDay, r as rangesOverlap, d as differenceInDays, a as addDays, h as formatDate, m as timeAtFraction, o as snapTime, p as clamp, M as MINUTE_MS, q as onActivateKey, l as lastDayOf, u as addHours, g as formatEventLabel, v as formatTimeRange, L as LONG_EVENT_PADDING } from './utils-DcvLgexs.js';
+import { C as CalendarDragController, n as nearestIndex, d as dragByDays } from './calendar-drag-IXMPZrTN.js';
+import { E as EventManager } from './event-manager-KGMT2x2Q.js';
 import { r as resolveLocale } from './locale-DEsJZCQG.js';
+import './directive-ZPhl09Yt.js';
+import './calendar-event-BQChlMXy.js';
 
 var css_248z = i`@charset "UTF-8";
 * {
@@ -150,8 +153,11 @@ var css_248z = i`@charset "UTF-8";
 .multi-day-section-wrapper .multi-day-background .columns .column:first-child {
   border-inline-start: 0;
 }
+.multi-day-section-wrapper .multi-day-background .columns .column.drop-target {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
 .multi-day-section-wrapper .multi-events {
-  padding: 0 0 0 var(--scale-size);
+  padding-inline-start: var(--scale-size);
 }
 .multi-day-section-wrapper .multi-events .row {
   height: 1.8rem;
@@ -322,14 +328,149 @@ var css_248z = i`@charset "UTF-8";
 .event.clickable:hover {
   background: var(--calendar-event-bg-color--hover);
 }
-.event.clickable:hover .event-title {
+.event.clickable:hover .event-title,
+.event.clickable:hover .resize-handle {
   color: var(--calendar-event-text-color--hover);
 }
 .event.clickable:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 1px;
+}
+
+/* ── Editing ── */
+.calendar-column-view.addable .drawing-area,
+.calendar-column-view.addable .multi-day-section {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.calendar-column-view.addable .multi-events {
+  min-height: 2rem;
+}
+
+.calendar-column-view.dragging {
+  user-select: none;
+}
+.calendar-column-view.dragging .event {
+  pointer-events: none;
+}
+
+.calendar-column-view.drag-move {
+  cursor: grabbing;
+}
+
+.calendar-column-view.drag-resize-y {
+  cursor: ns-resize;
+}
+
+.calendar-column-view.drag-resize-x {
+  cursor: ew-resize;
+}
+
+.event.editable {
+  cursor: grab;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.event.drag-source {
+  opacity: 0.4;
+}
+.event.lifted {
+  z-index: 2;
+  overflow: hidden;
+  box-shadow: var(--elevation-level2);
+}
+.event.lifted .event-time {
+  white-space: normal;
+}
+.event.preview {
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: var(--elevation-level2);
+}
+.event.placeholder {
+  box-shadow: var(--elevation-level3);
+}
+.event .event-time {
+  padding: 0 0.375rem 0.25rem;
+  font-size: 0.75rem;
+  color: var(--calendar-event-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  unicode-bidi: plaintext;
+}
+
+.resize-handle {
+  position: absolute;
+  z-index: 1;
+  color: var(--calendar-event-text-color);
+}
+.resize-handle::after {
+  content: "";
+  position: absolute;
+  margin: auto;
+  border-radius: var(--shape-corner-full);
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.event.editable:hover .resize-handle::after,
+.event.editable:focus-visible .resize-handle::after,
+.event.lifted .resize-handle::after {
+  opacity: 0.6;
+}
+
+.events-container .resize-handle {
+  inset-inline: 0;
+  block-size: 0.375rem;
+  cursor: ns-resize;
+}
+.events-container .resize-handle.start {
+  inset-block-start: 0;
+}
+.events-container .resize-handle.end {
+  inset-block-end: 0;
+}
+.events-container .resize-handle::after {
+  inset: 0;
+  inline-size: 1rem;
+  block-size: 0.125rem;
+}
+
+.multi-events .resize-handle {
+  inset-block: 0;
+  inline-size: 0.375rem;
+  cursor: ew-resize;
+}
+.multi-events .resize-handle.start {
+  inset-inline-start: 0;
+}
+.multi-events .resize-handle.end {
+  inset-inline-end: 0;
+}
+.multi-events .resize-handle::after {
+  inset: 0;
+  inline-size: 0.125rem;
+  block-size: 0.875rem;
+}
+
+@media (forced-colors: active) {
+  .event.preview,
+  .event.lifted {
+    outline: 2px solid Highlight;
+  }
+  .multi-day-background .column.drop-target {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
 }`;
 
+/** Events shorter than this have no handle at their start, so there is room to grab them. */
+const START_HANDLE_MIN_MS = 30 * MINUTE_MS;
+/** Previews shorter than this show their title and times on one line. */
+const COMPACT_PREVIEW_MS = 45 * MINUTE_MS;
 /**
  * @internal
  *
@@ -344,9 +485,13 @@ var css_248z = i`@charset "UTF-8";
  * that open the day; events are buttons labelled with their title and time, or notes that cannot
  * be focused when <code>events-readonly</code> is set. Events lasting a day or more are shown in a
  * row above the hours.</p>
+ * <p>With <code>editable</code>, events are dragged to move them and their edges to resize them;
+ * with <code>addable</code>, dragging across empty time or clicking it asks for a new event.</p>
  *
  * @fires date-click - Internal, does not bubble; a day number was chosen. Detail contains `{ date }`.
  * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
+ * @fires event-change - Internal, does not bubble; an event was dropped at a new time. `wc-calendar` re-fires it.
+ * @fires event-add - Internal, does not bubble; a range of empty time was drawn or clicked. `wc-calendar` re-fires it.
  */
 let CalendarColumnView = class CalendarColumnView extends i$1 {
     constructor() {
@@ -361,6 +506,20 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         this.days = 7;
         /** Events are shown but cannot be clicked or focused. */
         this.eventsReadonly = false;
+        /** Events can be moved and resized by dragging. */
+        this.editable = false;
+        /** Dragging across empty time, or clicking it, asks for a new event. */
+        this.addable = false;
+        /** Minutes that drags move timed events and their edges by. */
+        this.minuteStep = 15;
+        /** Minutes an event added by a click lasts. */
+        this.defaultDuration = 60;
+        /** A range waiting for its new event, drawn as one. */
+        this.placeholder = null;
+        /** Title shown for an event without one. */
+        this.untitledLabel = '(no title)';
+        /** Title of the block that marks a new event. */
+        this.newEventLabel = 'New event';
         /** Now, which places the current-time line and marks today. */
         this.currentTime = new Date();
         /** A date in the range to show. */
@@ -380,6 +539,21 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         this.singleDayEvents = {};
         /** Rows of events lasting a day or more. */
         this.multiDayEvents = [];
+        /** The drag in progress, where it would put its event. */
+        this._preview = null;
+        // ── Private fields
+        this._drag = new CalendarDragController(this, {
+            lift: () => this._blurFocused(),
+            move: (press, point) => this._follow(press, point),
+            drop: (press, point) => this._drop(press, point),
+            cancel: () => {
+                this._preview = null;
+            },
+            tap: press => this._tap(press),
+            scrollers: press => [
+                this.renderRoot.querySelector(press.section === 'timed' ? '.view-body' : '.multi-day-section-scroll'),
+            ],
+        });
     }
     // ── Lifecycle
     connectedCallback() {
@@ -397,12 +571,24 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
     }
     willUpdate(changed) {
         super.willUpdate(changed);
+        this._drag.enabled = this.addable || (this.editable && this._interactive);
         if (changed.has('events') ||
             changed.has('contextDate') ||
             changed.has('view') ||
             changed.has('days') ||
             changed.has('weekStartsOn')) {
             this._processEvents();
+        }
+        // A drag cannot outlive the days it started on, or editing being turned off.
+        if (this._drag.pressing &&
+            (changed.has('contextDate') ||
+                changed.has('view') ||
+                changed.has('days') ||
+                changed.has('weekStartsOn') ||
+                changed.has('editable') ||
+                changed.has('addable') ||
+                changed.has('eventsReadonly'))) {
+            this._drag.abort();
         }
     }
     // ── Private methods
@@ -413,18 +599,37 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
     get _locale() {
         return resolveLocale(this.locale, this);
     }
+    /** `minuteStep` when it is a whole number of minutes in a day, else 15. */
+    get _step() {
+        const step = Math.round(this.minuteStep);
+        return Number.isFinite(step) && step >= 1 ? Math.min(step, 1440) : 15;
+    }
+    /** `defaultDuration` when it is a positive number of minutes, else 60. */
+    get _duration() {
+        const minutes = Math.round(this.defaultDuration);
+        return Number.isFinite(minutes) && minutes >= 1 ? minutes : 60;
+    }
+    /** Whether an event can be dragged: the view is editable and the event did not opt out. */
+    _canEdit(node) {
+        const data = node.data;
+        return this.editable && this._interactive && data?.editable !== false;
+    }
     _processEvents() {
         this.dateRange = calculateDateRange(this.view, this.contextDate, this.days, this.weekStartsOn);
         this.singleDayEvents = {};
         this._forEachDayInRange(i => {
+            const dayStart = startOfDay(i);
+            const dayEnd = nextDay(dayStart);
             const manager = new EventManager();
-            manager.addEvents(this.events.filter(event => event.isOverlapping(new BaseEvent(startOfDay(i), endOfDay(i))) &&
-                event.length() < 86400000));
+            manager.addEvents(this.events.filter(event => !event.isAllDay() &&
+                rangesOverlap(event.start, event.end, dayStart, dayEnd)));
             manager.process();
             this.singleDayEvents[this._getDateOnly(i)] = manager.columns;
         });
+        const rangeEnd = nextDay(this.dateRange.endDate);
         const multiManager = new EventManager();
-        multiManager.addEvents(this.events.filter(event => event.isOverlapping(new BaseEvent(this.dateRange.startDate, this.dateRange.endDate)) && event.length() >= 86400000));
+        multiManager.addEvents(this.events.filter(event => event.isAllDay() &&
+            rangesOverlap(event.start, event.end, this.dateRange.startDate, rangeEnd)));
         multiManager.process();
         this.multiDayEvents = multiManager.columns;
     }
@@ -469,6 +674,12 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
     _emitEventClick(event) {
         this.dispatchEvent(new CustomEvent('event-click', { detail: { event } }));
     }
+    _emitChange(detail) {
+        this.dispatchEvent(new CustomEvent('event-change', { detail }));
+    }
+    _emitAdd(detail) {
+        this.dispatchEvent(new CustomEvent('event-add', { detail }));
+    }
     /** Accessible name of the view: the dates it shows. */
     _rangeLabel() {
         const { startDate, endDate } = this.dateRange;
@@ -486,6 +697,236 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         return Object.entries(declarations)
             .map(([k, v]) => `${k}:${v}`)
             .join(';');
+    }
+    // ── Drag and drop
+    /** The day columns of a section. */
+    _columnsOf(section) {
+        return [
+            ...this.renderRoot.querySelectorAll(section === 'timed'
+                ? '.events-container > .column'
+                : '.multi-day-background .columns > .column'),
+        ];
+    }
+    /** The day of the column nearest `x`; with `within`, only a column that spans `x`. */
+    _dayAt(section, x, within = false) {
+        const columns = this._columnsOf(section);
+        const index = nearestIndex(columns, x);
+        if (index < 0)
+            return null;
+        if (within) {
+            const rect = columns[index].getBoundingClientRect();
+            if (x < rect.left || x > rect.right)
+                return null;
+        }
+        return startOfDay(addDays(this.dateRange.startDate, index));
+    }
+    /** The time at `y` in `day`'s column of the hours. */
+    _timeAt(day, y) {
+        const rect = this.renderRoot
+            .querySelector('.events-container')
+            ?.getBoundingClientRect();
+        if (!rect || rect.height <= 0)
+            return startOfDay(day);
+        return timeAtFraction(day, (y - rect.top) / rect.height);
+    }
+    _onEventPointerDown(event, node, section) {
+        if (!this._canEdit(node))
+            return;
+        const handle = event.target instanceof Element
+            ? event.target.closest('[data-handle]')?.dataset.handle
+            : undefined;
+        let action = 'move';
+        if (handle === 'start')
+            action = 'resize-start';
+        else if (handle === 'end')
+            action = 'resize-end';
+        const day = this._dayAt(section, event.clientX) ?? startOfDay(node.start);
+        this._drag.start(event, {
+            action,
+            section,
+            event: node,
+            day,
+            time: section === 'timed' ? this._timeAt(day, event.clientY) : day,
+        });
+    }
+    _onSectionPointerDown(event, section) {
+        if (!this.addable || this._drag.pressing)
+            return;
+        // Presses on events are theirs, even on events that cannot be dragged.
+        const onEvent = event
+            .composedPath()
+            .some(target => target instanceof HTMLElement && target.classList.contains('event'));
+        if (onEvent)
+            return;
+        const day = this._dayAt(section, event.clientX, true);
+        if (!day)
+            return;
+        this._drag.start(event, {
+            action: 'add',
+            section,
+            day,
+            time: section === 'timed' ? this._timeAt(day, event.clientY) : day,
+        });
+    }
+    /** Where the drag of `press` would put its event with the pointer at `point`. */
+    _previewFor(press, point) {
+        const { event } = press;
+        const range = press.section === 'timed'
+            ? this._timedRange(press, point)
+            : dragByDays(press.action, press.day, this._dayAt('all-day', point.x) ?? press.day, event);
+        if (!range)
+            return null;
+        return {
+            action: press.action,
+            section: press.section,
+            data: event?.data,
+            title: event ? event.title || this.untitledLabel : this.newEventLabel,
+            color: event?.color,
+            ...range,
+        };
+    }
+    /** The range a drag in the hours gives, snapped to `minuteStep`. */
+    _timedRange(press, point) {
+        const step = this._step;
+        const stepMs = step * MINUTE_MS;
+        const { event } = press;
+        if (press.action === 'add') {
+            // The slot pressed is always part of the range; the drag stays in its day.
+            const time = this._timeAt(press.day, point.y);
+            const anchor = snapTime(press.time, step, 'floor');
+            const dayEnd = nextDay(press.day).valueOf();
+            if (time.valueOf() >= anchor.valueOf()) {
+                const end = Math.max(snapTime(time, step, 'ceil', press.day).valueOf(), anchor.valueOf() + stepMs);
+                return { start: anchor, end: new Date(Math.min(end, dayEnd)) };
+            }
+            return {
+                start: snapTime(time, step, 'floor', press.day),
+                end: new Date(Math.min(anchor.valueOf() + stepMs, dayEnd)),
+            };
+        }
+        if (!event)
+            return null;
+        if (press.action === 'move') {
+            // The point the event was grabbed by follows the pointer, so the event keeps its length and
+            // may run past midnight; at least a step of it stays in the column under the pointer.
+            const day = this._dayAt('timed', point.x) ?? press.day;
+            const length = event.length();
+            const visible = Math.min(stepMs, length);
+            const grab = press.time.valueOf() - event.start.valueOf();
+            const raw = new Date(this._timeAt(day, point.y).valueOf() - grab);
+            const start = clamp(snapTime(raw, step, 'round').valueOf(), startOfDay(day).valueOf() + visible - length, nextDay(day).valueOf() - visible);
+            return { start: new Date(start), end: new Date(start + length) };
+        }
+        if (press.action === 'resize-end') {
+            // The end stays on the day it is drawn on, at least one step after the start.
+            const endDay = event.lastDay();
+            const end = snapTime(this._timeAt(endDay, point.y), step, 'round', endDay).valueOf();
+            const min = event.start.valueOf() + stepMs;
+            const max = Math.max(nextDay(endDay).valueOf(), min);
+            return { start: event.start, end: new Date(clamp(end, min, max)) };
+        }
+        // resize-start: the start stays on its day, at least one step before the end.
+        const startDay = startOfDay(event.start);
+        const start = snapTime(this._timeAt(startDay, point.y), step, 'round', startDay).valueOf();
+        const max = event.end.valueOf() - stepMs;
+        return {
+            start: new Date(clamp(start, Math.min(startDay.valueOf(), max), max)),
+            end: event.end,
+        };
+    }
+    _follow(press, point) {
+        const preview = this._previewFor(press, point);
+        if (!preview)
+            return;
+        const current = this._preview;
+        if (current &&
+            current.start.valueOf() === preview.start.valueOf() &&
+            current.end.valueOf() === preview.end.valueOf()) {
+            return;
+        }
+        this._preview = preview;
+    }
+    _drop(press, point) {
+        const preview = this._previewFor(press, point) ?? this._preview;
+        this._preview = null;
+        if (!preview)
+            return;
+        const { start, end } = preview;
+        if (press.action === 'add') {
+            this._emitAdd({ start, end, allDay: press.section === 'all-day' });
+            return;
+        }
+        const { event } = press;
+        if (!event || !preview.data)
+            return;
+        if (start.valueOf() === event.start.valueOf() &&
+            end.valueOf() === event.end.valueOf()) {
+            return;
+        }
+        this._emitChange({
+            event: preview.data,
+            start,
+            end,
+            action: press.action === 'move' ? 'move' : 'resize',
+        });
+    }
+    /** A click on empty time adds an event there: `defaultDuration` long, or the whole day. */
+    _tap(press) {
+        if (press.action !== 'add')
+            return;
+        if (press.section === 'all-day') {
+            this._emitAdd({
+                start: press.day,
+                end: nextDay(press.day),
+                allDay: true,
+            });
+            return;
+        }
+        // Starts at the half hour clicked, the rows the grid draws.
+        const start = snapTime(press.time, Math.max(30, this._step), 'floor');
+        const dayEnd = nextDay(press.day).valueOf();
+        const end = new Date(Math.min(start.valueOf() + this._duration * MINUTE_MS, dayEnd));
+        this._emitAdd({ start, end, allDay: false });
+    }
+    /**
+     * Blurs the focused event when a drag starts. The drop redraws the events, and the element that
+     * held focus could then show another event, which Enter would open.
+     */
+    _blurFocused() {
+        const active = this.renderRoot.activeElement;
+        if (active instanceof HTMLElement)
+            active.blur();
+    }
+    /** How `node`'s blocks take part in the drag in progress. */
+    _dragRole(node, section) {
+        const preview = this._preview;
+        if (!preview?.data || preview.data !== node.data)
+            return null;
+        // A timed event moving between columns is drawn again where it lands.
+        return section === 'timed' && preview.action === 'move'
+            ? 'source'
+            : 'lifted';
+    }
+    /** The days the drag in progress, or the placeholder, covers in the all-day row. */
+    _allDayTarget() {
+        const preview = this._preview;
+        if (preview)
+            return preview.section === 'all-day' ? preview : null;
+        return this.placeholder?.allDay ? this.placeholder : null;
+    }
+    /** Classes of the view while a drag is in progress, which set the cursor. */
+    _rootClasses() {
+        const action = this._preview?.action;
+        const section = this._preview?.section;
+        const resizing = action === 'resize-start' || action === 'resize-end';
+        return {
+            'calendar-column-view': true,
+            addable: this.addable,
+            dragging: !!action,
+            'drag-move': action === 'move',
+            'drag-resize-y': resizing && section === 'timed',
+            'drag-resize-x': resizing && section === 'all-day',
+        };
     }
     // ── Render helpers
     _renderHeader() {
@@ -519,9 +960,16 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         return columns;
     }
     _renderMultiDayBackground() {
+        const target = this._allDayTarget();
+        const first = target ? startOfDay(target.start).valueOf() : 0;
+        const last = target ? lastDayOf(target.start, target.end).valueOf() : -1;
         const columns = [];
         this._forEachDayInRange(i => {
-            columns.push(b `<div class=${this._getDayClass(i)}></div>`);
+            const day = startOfDay(i).valueOf();
+            const covered = day >= first && day <= last;
+            columns.push(b `<div
+          class="${this._getDayClass(i)}${covered ? ' drop-target' : ''}"
+        ></div>`);
         });
         return columns;
     }
@@ -555,67 +1003,207 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         }
         return b `<div class="background" aria-hidden="true">${rows}</div>`;
     }
-    /** One event block; `allDay` marks events lasting a day or more. */
-    _renderEvent(node, position, allDay) {
+    /** One event block. `start` and `end` are where it is drawn, which a resize changes. */
+    _renderEvent(node, section, position, range, handles) {
         const interactive = this._interactive;
+        const editable = this._canEdit(node);
+        const role = this._dragRole(node, section);
+        const resizing = role === 'lifted' &&
+            section === 'timed' &&
+            this._preview?.action !== 'move';
         const declarations = node.color
             ? { ...position, ...this._colorVars(node.color) }
             : position;
         const activate = () => this._emitEventClick(node.data);
+        const handle = (edge) => editable && handles.includes(edge)
+            ? b `<div
+            class="resize-handle ${edge}"
+            data-handle=${edge}
+            aria-hidden="true"
+          ></div>`
+            : A;
         return b `
       <div
-        class=${interactive ? 'event clickable' : 'event'}
+        class=${e({
+            event: true,
+            clickable: interactive,
+            editable,
+            'drag-source': role === 'source',
+            lifted: role === 'lifted',
+        })}
         style=${this._styleMap(declarations)}
         role=${interactive ? 'button' : 'note'}
         tabindex=${interactive ? '0' : A}
-        aria-label=${formatEventLabel(node.title, node.start, node.end, this._locale, allDay)}
+        aria-label=${formatEventLabel(node.title, node.start, node.end, this._locale, section === 'all-day')}
         @click=${() => {
             if (interactive)
                 activate();
         }}
         @keydown=${interactive ? onActivateKey(activate) : A}
+        @pointerdown=${editable
+            ? (event) => this._onEventPointerDown(event, node, section)
+            : A}
       >
+        ${handle('start')}
         <div class="event-title" aria-hidden="true">
-          ${node.title || '(no title)'}
+          ${node.title || this.untitledLabel}
         </div>
+        ${resizing
+            ? b `<div class="event-time" aria-hidden="true">
+              ${formatTimeRange(range.start, range.end, this._locale)}
+            </div>`
+            : A}
+        ${handle('end')}
+      </div>
+    `;
+    }
+    /** A timed event's block in one day column, at its own times or those of its resize. */
+    _renderTimedEvent(node, dayStart, dayEnd, columnIndex, columnCount) {
+        const preview = this._preview;
+        const resized = this._dragRole(node, 'timed') === 'lifted' && preview ? preview : null;
+        const start = resized ? resized.start : node.start;
+        const end = resized ? resized.end : node.end;
+        const top = getTimePercent(start, dayStart);
+        const bottom = getTimePercent(end, dayStart);
+        // A block shows the handle of an edge only on the day that edge falls on. The event's own
+        // times decide, not the resize's: removing the handle being dragged would strand a touch drag.
+        const handles = [];
+        if (node.start.valueOf() >= dayStart.valueOf() &&
+            node.length() >= START_HANDLE_MIN_MS) {
+            handles.push('start');
+        }
+        if (node.end.valueOf() <= dayEnd.valueOf())
+            handles.push('end');
+        return this._renderEvent(node, 'timed', {
+            top: `${top}%`,
+            height: `${bottom - top}%`,
+            'inset-inline-start': `${(columnIndex / columnCount) * 100}%`,
+            width: `calc(${(node.width / columnCount) * 100}% - 1px)`,
+        }, { start, end }, handles);
+    }
+    /** A new or moved timed event where the drag would put it, or the placeholder. */
+    _renderTimedPreview(dayStart, dayEnd) {
+        const preview = this._preview;
+        let item = null;
+        let placeholder = false;
+        if (preview) {
+            if (preview.section === 'timed' &&
+                (preview.action === 'add' || preview.action === 'move')) {
+                item = preview;
+            }
+        }
+        else if (this.placeholder && !this.placeholder.allDay) {
+            item = { ...this.placeholder, title: this.newEventLabel };
+            placeholder = true;
+        }
+        if (!item || !rangesOverlap(item.start, item.end, dayStart, dayEnd)) {
+            return A;
+        }
+        const top = getTimePercent(item.start, dayStart);
+        const bottom = getTimePercent(item.end, dayStart);
+        const position = {
+            top: `${top}%`,
+            height: `${bottom - top}%`,
+            'inset-inline-start': '0',
+            width: 'calc(100% - 1px)',
+        };
+        const time = formatTimeRange(item.start, item.end, this._locale);
+        const compact = item.end.valueOf() - item.start.valueOf() < COMPACT_PREVIEW_MS;
+        return b `
+      <div
+        class=${e({ event: true, preview: true, placeholder })}
+        style=${this._styleMap(item.color
+            ? { ...position, ...this._colorVars(item.color) }
+            : position)}
+        aria-hidden="true"
+      >
+        ${compact
+            ? b `<div class="event-title">${item.title}, ${time}</div>`
+            : b `<div class="event-title">${item.title}</div>
+              <div class="event-time">${time}</div>`}
       </div>
     `;
     }
     _renderEvents() {
         const columns = [];
         this._forEachDayInRange(i => {
-            const cls = this._getDayClass(i);
+            const dayStart = startOfDay(i);
+            const dayEnd = nextDay(dayStart);
             const eventDay = this.singleDayEvents[this._getDateOnly(i)];
             columns.push(b `
-        <div class=${cls}>
+        <div class=${this._getDayClass(i)}>
           <div class="column-content">
             ${eventDay
-                ? eventDay.map((nodes, columnIndex) => nodes.map(node => this._renderEvent(node, {
-                    top: `${getTimePercent(node.start, startOfDay(i))}%`,
-                    height: `${getTimePercent(node.end, startOfDay(i)) - getTimePercent(node.start, startOfDay(i))}%`,
-                    left: `${(columnIndex / eventDay.length) * 100}%`,
-                    width: `calc(${((1 * node.width) / eventDay.length) * 100}% - 1px)`,
-                }, false)))
+                ? eventDay.map((nodes, columnIndex) => nodes.map(node => this._renderTimedEvent(node, dayStart, dayEnd, columnIndex, eventDay.length)))
                 : A}
+            ${this._renderTimedPreview(dayStart, dayEnd)}
           </div>
         </div>
       `);
         });
         return b `<div class="events-container">${columns}</div>`;
     }
+    /** Position of a bar in the all-day row covering the days of `start`–`end`. */
+    _allDayPosition(start, end) {
+        const from = this._getDatePercent(start);
+        const to = this._getDatePercent(nextDay(lastDayOf(start, end)));
+        return {
+            'inset-inline-start': `${from + LONG_EVENT_PADDING}%`,
+            width: `${to - from - 2 * LONG_EVENT_PADDING}%`,
+        };
+    }
+    _renderAllDayEvent(node) {
+        const preview = this._preview;
+        const dragged = this._dragRole(node, 'all-day') === 'lifted' && preview ? preview : null;
+        const start = dragged ? dragged.start : node.start;
+        const end = dragged ? dragged.end : node.end;
+        // Edges outside the days shown cannot be dragged. The event's own days decide, so the handle
+        // being dragged stays while the bar moves.
+        const handles = [];
+        if (startOfDay(node.start).valueOf() >=
+            startOfDay(this.dateRange.startDate).valueOf()) {
+            handles.push('start');
+        }
+        if (node.lastDay().valueOf() <= startOfDay(this.dateRange.endDate).valueOf()) {
+            handles.push('end');
+        }
+        return this._renderEvent(node, 'all-day', this._allDayPosition(start, end), { start, end }, handles);
+    }
     _renderMultiDayEvents() {
-        if (!this.multiDayEvents || !this.multiDayEvents.length)
+        const preview = this._preview;
+        let adding = null;
+        if (preview) {
+            if (preview.section === 'all-day' && preview.action === 'add') {
+                adding = { start: preview.start, end: preview.end, placeholder: false };
+            }
+        }
+        else if (this.placeholder?.allDay) {
+            adding = { ...this.placeholder, placeholder: true };
+        }
+        if (!this.multiDayEvents.length && !adding)
             return A;
         return b `
       <div class="row-content">
         ${this.multiDayEvents.map(nodes => b `
             <div class="row">
-              ${nodes.map(node => this._renderEvent(node, {
-            left: `${this._getDatePercent(node.start) + LONG_EVENT_PADDING}%`,
-            width: `${this._getDatePercent(addDays(node.end, 1)) - this._getDatePercent(node.start) - 2 * LONG_EVENT_PADDING}%`,
-        }, true))}
+              ${nodes.map(node => this._renderAllDayEvent(node))}
             </div>
           `)}
+        ${adding
+            ? b `<div class="row">
+              <div
+                class=${e({
+                event: true,
+                preview: true,
+                placeholder: adding.placeholder,
+            })}
+                style=${this._styleMap(this._allDayPosition(adding.start, adding.end))}
+                aria-hidden="true"
+              >
+                <div class="event-title">${this.newEventLabel}</div>
+              </div>
+            </div>`
+            : A}
         <div class="row-spacer"></div>
       </div>
     `;
@@ -655,7 +1243,7 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
     render() {
         return b `
       <div
-        class="calendar-column-view"
+        class=${e(this._rootClasses())}
         role="region"
         aria-label=${this._rangeLabel()}
       >
@@ -666,7 +1254,10 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         </div>
         <div class="multi-day-section-wrapper">
           <div class="multi-day-section-scroll">
-            <div class="multi-day-section">
+            <div
+              class="multi-day-section"
+              @pointerdown=${(event) => this._onSectionPointerDown(event, 'all-day')}
+            >
               <div class="multi-day-background" aria-hidden="true">
                 <div class="scale"></div>
                 <div class="columns">${this._renderMultiDayBackground()}</div>
@@ -678,7 +1269,10 @@ let CalendarColumnView = class CalendarColumnView extends i$1 {
         <div class="view-body">
           <div class="view-body-scroll">
             <div class="scale">${this._renderScale()}</div>
-            <div class="drawing-area">
+            <div
+              class="drawing-area"
+              @pointerdown=${(event) => this._onSectionPointerDown(event, 'timed')}
+            >
               ${this._renderBackgroundGrid()} ${this._renderEvents()}
             </div>
             ${this._renderCurrentTime()}
@@ -702,6 +1296,27 @@ __decorate([
     n({ type: Boolean, attribute: 'events-readonly' })
 ], CalendarColumnView.prototype, "eventsReadonly", void 0);
 __decorate([
+    n({ type: Boolean })
+], CalendarColumnView.prototype, "editable", void 0);
+__decorate([
+    n({ type: Boolean })
+], CalendarColumnView.prototype, "addable", void 0);
+__decorate([
+    n({ type: Number, attribute: false })
+], CalendarColumnView.prototype, "minuteStep", void 0);
+__decorate([
+    n({ type: Number, attribute: false })
+], CalendarColumnView.prototype, "defaultDuration", void 0);
+__decorate([
+    n({ attribute: false })
+], CalendarColumnView.prototype, "placeholder", void 0);
+__decorate([
+    n({ attribute: false })
+], CalendarColumnView.prototype, "untitledLabel", void 0);
+__decorate([
+    n({ attribute: false })
+], CalendarColumnView.prototype, "newEventLabel", void 0);
+__decorate([
     n({ type: Object, attribute: false })
 ], CalendarColumnView.prototype, "currentTime", void 0);
 __decorate([
@@ -722,6 +1337,9 @@ __decorate([
 __decorate([
     r()
 ], CalendarColumnView.prototype, "multiDayEvents", void 0);
+__decorate([
+    r()
+], CalendarColumnView.prototype, "_preview", void 0);
 CalendarColumnView = __decorate([
     IndividualComponent
 ], CalendarColumnView);

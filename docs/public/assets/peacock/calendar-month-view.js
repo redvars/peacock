@@ -1,10 +1,13 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-BK7XZjE2.js';
 import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
-import { g as getTimePercent, k as calculateMonthRange, a as addDays, d as startOfDay, e as endOfDay, h as differenceInDays, f as formatDate, L as LONG_EVENT_PADDING, j as formatEventLabel, o as onActivateKey } from './utils-D92ldd1V.js';
-import { B as BaseEvent } from './calendar-event-_OYdAT3c.js';
-import { M as MonthEventManager } from './event-manager-CWAWPOUE.js';
+import { e } from './class-map-NDIkZErE.js';
+import { w as calculateMonthRange, a as addDays, b as startOfDay, r as rangesOverlap, d as differenceInDays, n as nextDay, h as formatDate, l as lastDayOf, L as LONG_EVENT_PADDING, g as formatEventLabel, q as onActivateKey } from './utils-DcvLgexs.js';
+import { C as CalendarDragController, n as nearestIndex, d as dragByDays } from './calendar-drag-IXMPZrTN.js';
+import { M as MonthEventManager } from './event-manager-KGMT2x2Q.js';
 import { r as resolveLocale } from './locale-DEsJZCQG.js';
+import './directive-ZPhl09Yt.js';
+import './calendar-event-BQChlMXy.js';
 
 var css_248z = i`@charset "UTF-8";
 * {
@@ -203,6 +206,78 @@ var css_248z = i`@charset "UTF-8";
 }
 .calendar-month-view .view-body .view-body-scroll .drawing-area .multi-day-section .multi-day-background .columns .column.today .column-header {
   border-top-color: var(--color-primary);
+}
+.calendar-month-view .view-body .view-body-scroll .drawing-area .multi-day-section .multi-day-background .columns .column.drop-target {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+/* ── Editing ── */
+.calendar-month-view.addable .drawing-area {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.calendar-month-view.dragging {
+  user-select: none;
+}
+.calendar-month-view.dragging .event {
+  pointer-events: none;
+}
+
+.calendar-month-view.drag-move {
+  cursor: grabbing;
+}
+
+.calendar-month-view.drag-resize-x {
+  cursor: ew-resize;
+}
+
+.event.editable {
+  cursor: grab;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.event.drag-source {
+  opacity: 0.4;
+}
+
+.resize-handle {
+  position: absolute;
+  z-index: 1;
+  inset-block: 0;
+  inline-size: 0.375rem;
+  cursor: ew-resize;
+}
+.resize-handle.start {
+  inset-inline-start: 0;
+}
+.resize-handle.end {
+  inset-inline-end: 0;
+}
+.resize-handle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 0.125rem;
+  block-size: 0.875rem;
+  border-radius: var(--shape-corner-full);
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.event.editable:hover .resize-handle::after,
+.event.editable:focus-visible .resize-handle::after {
+  opacity: 0.6;
+}
+
+@media (forced-colors: active) {
+  .column.drop-target {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
 }`;
 
 /**
@@ -219,8 +294,13 @@ var css_248z = i`@charset "UTF-8";
  * gridcell per day labelled with its full date. Each event is owned (<code>aria-owns</code>) by the
  * cell of the day it starts on in that week. Events are buttons labelled with their title and
  * time, or notes that cannot be focused when <code>events-readonly</code> is set.</p>
+ * <p>With <code>editable</code>, events are dragged to other days and all-day events resized by
+ * their edges; with <code>addable</code>, dragging across days or clicking one asks for an
+ * all-day event. The days a drag covers are highlighted.</p>
  *
  * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
+ * @fires event-change - Internal, does not bubble; an event was dropped on new days. `wc-calendar` re-fires it.
+ * @fires event-add - Internal, does not bubble; days were drawn across or a day clicked. `wc-calendar` re-fires it.
  */
 let CalendarMonthView = class CalendarMonthView extends i$1 {
     constructor() {
@@ -231,6 +311,14 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
         this.events = [];
         /** Events are shown but cannot be clicked or focused. */
         this.eventsReadonly = false;
+        /** Events can be moved to other days, and all-day events resized, by dragging. */
+        this.editable = false;
+        /** Dragging across days, or clicking one, asks for a new all-day event. */
+        this.addable = false;
+        /** A range waiting for its new event; its days are highlighted. */
+        this.placeholder = null;
+        /** Title shown for an event without one. */
+        this.untitledLabel = '(no title)';
         /** Now, which marks today. */
         this.currentTime = new Date();
         /** A date in the month to show. */
@@ -248,39 +336,59 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
         };
         /** Event rows per week. */
         this.weekDayEvents = [];
+        /** The drag in progress, where it would put its event. */
+        this._preview = null;
+        // ── Private fields
+        this._drag = new CalendarDragController(this, {
+            lift: () => this._blurFocused(),
+            move: (press, point) => this._follow(press, point),
+            drop: (press, point) => this._drop(press, point),
+            cancel: () => {
+                this._preview = null;
+            },
+            tap: press => this._tap(press),
+            scrollers: () => [this.renderRoot.querySelector('.view-body')],
+        });
     }
     // ── Lifecycle
     connectedCallback() {
         super.connectedCallback();
         this._processEvents();
     }
-    firstUpdated() {
-        const viewBody = this.renderRoot.querySelector('.view-body');
-        if (viewBody) {
-            const viewBodyHeight = viewBody.scrollHeight;
-            viewBody.scrollTo({
-                top: (getTimePercent(this.currentTime) / 100) * viewBodyHeight - 150,
-            });
-        }
-    }
     willUpdate(changed) {
         super.willUpdate(changed);
+        this._drag.enabled = this.addable || (this.editable && this._interactive);
         if (changed.has('events') ||
             changed.has('contextDate') ||
             changed.has('weekStartsOn')) {
             this._processEvents();
+        }
+        // A drag cannot outlive the month it started in, or editing being turned off.
+        if (this._drag.pressing &&
+            (changed.has('contextDate') ||
+                changed.has('weekStartsOn') ||
+                changed.has('editable') ||
+                changed.has('addable') ||
+                changed.has('eventsReadonly'))) {
+            this._drag.abort();
         }
     }
     // ── Private methods
     get _interactive() {
         return !this.eventsReadonly;
     }
+    /** Whether an event can be dragged: the view is editable and the event did not opt out. */
+    _canEdit(node) {
+        const data = node.data;
+        return this.editable && this._interactive && data?.editable !== false;
+    }
     _processEvents() {
         this.dateRange = calculateMonthRange(this.contextDate, this.weekStartsOn);
         this.weekDayEvents = [];
         for (let i = new Date(this.dateRange.startDate), j = 0; j < 6; i = addDays(i, 7), j += 1) {
+            const weekStart = startOfDay(i);
             const manager = new MonthEventManager();
-            manager.addEvents(this.events.filter(event => event.isOverlapping(new BaseEvent(startOfDay(i), endOfDay(addDays(i, 6))))));
+            manager.addEvents(this.events.filter(event => rangesOverlap(event.start, event.end, weekStart, startOfDay(addDays(weekStart, 7)))));
             manager.process();
             this.weekDayEvents.push(manager.columns);
         }
@@ -315,6 +423,12 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
     _emitEventClick(event) {
         this.dispatchEvent(new CustomEvent('event-click', { detail: { event } }));
     }
+    _emitChange(detail) {
+        this.dispatchEvent(new CustomEvent('event-change', { detail }));
+    }
+    _emitAdd(detail) {
+        this.dispatchEvent(new CustomEvent('event-add', { detail }));
+    }
     /** The locale day names and numbers are formatted in. */
     get _locale() {
         return resolveLocale(this.locale, this);
@@ -337,6 +451,126 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
             .map(([k, v]) => `${k}:${v}`)
             .join(';');
     }
+    // ── Drag and drop
+    /** The day of the cell under, or nearest, a point. */
+    _dayAt(x, y) {
+        const cells = [
+            ...this.renderRoot.querySelectorAll('[role="gridcell"]'),
+        ];
+        const index = nearestIndex(cells, x, y);
+        return index < 0
+            ? null
+            : startOfDay(addDays(this.dateRange.startDate, index));
+    }
+    _onEventPointerDown(event, node) {
+        if (!this._canEdit(node))
+            return;
+        const handle = event.target instanceof Element
+            ? event.target.closest('[data-handle]')?.dataset.handle
+            : undefined;
+        let action = 'move';
+        if (handle === 'start')
+            action = 'resize-start';
+        else if (handle === 'end')
+            action = 'resize-end';
+        const day = this._dayAt(event.clientX, event.clientY) ?? startOfDay(node.start);
+        this._drag.start(event, { action, event: node, day });
+    }
+    _onAreaPointerDown(event) {
+        if (!this.addable || this._drag.pressing)
+            return;
+        // Presses on events are theirs, even on events that cannot be dragged.
+        const onEvent = event
+            .composedPath()
+            .some(target => target instanceof HTMLElement && target.classList.contains('event'));
+        if (onEvent)
+            return;
+        const day = this._dayAt(event.clientX, event.clientY);
+        if (!day)
+            return;
+        this._drag.start(event, { action: 'add', day });
+    }
+    _previewFor(press, point) {
+        const day = this._dayAt(point.x, point.y) ?? press.day;
+        const range = dragByDays(press.action, press.day, day, press.event);
+        if (!range)
+            return null;
+        return {
+            action: press.action,
+            data: press.event?.data,
+            ...range,
+        };
+    }
+    _follow(press, point) {
+        const preview = this._previewFor(press, point);
+        if (!preview)
+            return;
+        const current = this._preview;
+        if (current &&
+            current.start.valueOf() === preview.start.valueOf() &&
+            current.end.valueOf() === preview.end.valueOf()) {
+            return;
+        }
+        this._preview = preview;
+    }
+    _drop(press, point) {
+        const preview = this._previewFor(press, point) ?? this._preview;
+        this._preview = null;
+        if (!preview)
+            return;
+        const { start, end } = preview;
+        if (press.action === 'add') {
+            this._emitAdd({ start, end, allDay: true });
+            return;
+        }
+        const { event } = press;
+        if (!event || !preview.data)
+            return;
+        if (start.valueOf() === event.start.valueOf() &&
+            end.valueOf() === event.end.valueOf()) {
+            return;
+        }
+        this._emitChange({
+            event: preview.data,
+            start,
+            end,
+            action: press.action === 'move' ? 'move' : 'resize',
+        });
+    }
+    /** A click on a day adds an all-day event on it. */
+    _tap(press) {
+        if (press.action !== 'add')
+            return;
+        this._emitAdd({
+            start: press.day,
+            end: nextDay(press.day),
+            allDay: true,
+        });
+    }
+    /**
+     * Blurs the focused event when a drag starts. The drop redraws the events, and the element that
+     * held focus could then show another event, which Enter would open.
+     */
+    _blurFocused() {
+        const active = this.renderRoot.activeElement;
+        if (active instanceof HTMLElement)
+            active.blur();
+    }
+    /** The days the drag in progress, or the placeholder, covers. */
+    _target() {
+        return this._preview ?? this.placeholder;
+    }
+    /** Classes of the view while a drag is in progress, which set the cursor. */
+    _rootClasses() {
+        const action = this._preview?.action;
+        return {
+            'calendar-month-view': true,
+            addable: this.addable,
+            dragging: !!action,
+            'drag-move': action === 'move',
+            'drag-resize-x': action === 'resize-start' || action === 'resize-end',
+        };
+    }
     // ── Render helpers
     _renderHeader() {
         const locale = this._locale;
@@ -355,6 +589,9 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
     _renderDayCells(sd, placed) {
         const locale = this._locale;
         const long = new Intl.DateTimeFormat(locale, { dateStyle: 'full' });
+        const target = this._target();
+        const first = target ? startOfDay(target.start).valueOf() : 0;
+        const last = target ? lastDayOf(target.start, target.end).valueOf() : -1;
         const columns = [];
         for (let i = new Date(sd), j = 0; j < 7; i = addDays(i, 1), j += 1) {
             const owned = placed
@@ -362,9 +599,11 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
                 .map(p => p.id)
                 .join(' ');
             const today = this._getDayClass(i).includes('today');
+            const day = startOfDay(i).valueOf();
+            const covered = day >= first && day <= last;
             columns.push(b `
         <div
-          class=${this._getDayClass(i)}
+          class="${this._getDayClass(i)}${covered ? ' drop-target' : ''}"
           role="gridcell"
           aria-label=${long.format(i)}
           aria-current=${today ? 'date' : A}
@@ -383,29 +622,60 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
     _renderEvent(placed, weekStartDate) {
         const { node, id } = placed;
         const interactive = this._interactive;
+        const editable = this._canEdit(node);
+        const allDay = node.isAllDay();
+        const lastDay = node.lastDay();
+        const dragged = !!this._preview?.data && this._preview.data === node.data;
         const evtStyles = {
-            left: `${this._getDatePercent(node.start, weekStartDate) + LONG_EVENT_PADDING}%`,
-            width: `${this._getDatePercent(addDays(node.end, 1), weekStartDate) - this._getDatePercent(node.start, weekStartDate) - 2 * LONG_EVENT_PADDING}%`,
+            'inset-inline-start': `${this._getDatePercent(node.start, weekStartDate) + LONG_EVENT_PADDING}%`,
+            width: `${this._getDatePercent(nextDay(lastDay), weekStartDate) - this._getDatePercent(node.start, weekStartDate) - 2 * LONG_EVENT_PADDING}%`,
             ...(node.color ? this._colorVars(node.color) : {}),
         };
         const activate = () => this._emitEventClick(node.data);
+        // All-day events resize by whichever of their edges falls in this week.
+        const weekEnd = startOfDay(addDays(weekStartDate, 6)).valueOf();
+        const handle = (edge) => {
+            if (!editable || !allDay)
+                return A;
+            const shown = edge === 'start'
+                ? startOfDay(node.start).valueOf() >=
+                    startOfDay(weekStartDate).valueOf()
+                : lastDay.valueOf() <= weekEnd;
+            return shown
+                ? b `<div
+            class="resize-handle ${edge}"
+            data-handle=${edge}
+            aria-hidden="true"
+          ></div>`
+                : A;
+        };
         return b `
       <div
         id=${id}
-        class=${interactive ? 'event clickable' : 'event'}
+        class=${e({
+            event: true,
+            clickable: interactive,
+            editable,
+            'drag-source': dragged,
+        })}
         style=${this._styleMap(evtStyles)}
         role=${interactive ? 'button' : 'note'}
         tabindex=${interactive ? '0' : A}
-        aria-label=${formatEventLabel(node.title, node.start, node.end, this._locale, node.length() >= 86400000)}
+        aria-label=${formatEventLabel(node.title, node.start, node.end, this._locale, allDay)}
         @click=${() => {
             if (interactive)
                 activate();
         }}
         @keydown=${interactive ? onActivateKey(activate) : A}
+        @pointerdown=${editable
+            ? (event) => this._onEventPointerDown(event, node)
+            : A}
       >
+        ${handle('start')}
         <div class="event-title" aria-hidden="true">
-          ${node.title || '(no title)'}
+          ${node.title || this.untitledLabel}
         </div>
+        ${handle('end')}
       </div>
     `;
     }
@@ -451,7 +721,7 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
         }).format(context);
         return b `
       <div
-        class="calendar-month-view"
+        class=${e(this._rootClasses())}
         role="grid"
         aria-label=${label}
         aria-readonly="true"
@@ -462,7 +732,12 @@ let CalendarMonthView = class CalendarMonthView extends i$1 {
         </div>
         <div class="view-body">
           <div class="view-body-scroll">
-            <div class="drawing-area">${this._renderWeeks()}</div>
+            <div
+              class="drawing-area"
+              @pointerdown=${(event) => this._onAreaPointerDown(event)}
+            >
+              ${this._renderWeeks()}
+            </div>
           </div>
         </div>
       </div>
@@ -476,6 +751,18 @@ __decorate([
 __decorate([
     n({ type: Boolean, attribute: 'events-readonly' })
 ], CalendarMonthView.prototype, "eventsReadonly", void 0);
+__decorate([
+    n({ type: Boolean })
+], CalendarMonthView.prototype, "editable", void 0);
+__decorate([
+    n({ type: Boolean })
+], CalendarMonthView.prototype, "addable", void 0);
+__decorate([
+    n({ attribute: false })
+], CalendarMonthView.prototype, "placeholder", void 0);
+__decorate([
+    n({ attribute: false })
+], CalendarMonthView.prototype, "untitledLabel", void 0);
 __decorate([
     n({ type: Object, attribute: false })
 ], CalendarMonthView.prototype, "currentTime", void 0);
@@ -494,6 +781,9 @@ __decorate([
 __decorate([
     r()
 ], CalendarMonthView.prototype, "weekDayEvents", void 0);
+__decorate([
+    r()
+], CalendarMonthView.prototype, "_preview", void 0);
 CalendarMonthView = __decorate([
     IndividualComponent
 ], CalendarMonthView);

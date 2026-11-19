@@ -24,6 +24,7 @@
 .calendar-timeline {
   --_resource-width: var(--calendar-timeline-resource-width);
   --_lane: var(--calendar-timeline-lane-height);
+  --_lane-gap: 0.25rem;
   --_pad: 0.375rem;
   --_border: var(--calendar-timeline-border-color);
 
@@ -208,12 +209,16 @@
   }
 }
 
-// A line at the start of every column, drawn as one background rather than an element each.
+// A line at the start of every column, drawn as one background rather than an element each. The
+// track is at least as tall as its lanes and stretches to its row, which a resource with
+// supporting text can make taller, so its lines and border meet the resource cell's.
 .track {
   position: relative;
   min-width: 0;
-  min-height: 3rem;
-  height: calc(var(--_lanes, 1) * var(--_lane) + 2 * var(--_pad));
+  min-height: max(
+    3rem,
+    calc(var(--_lanes, 1) * var(--_lane) + 2 * var(--_pad))
+  );
   border-bottom: 1px solid var(--_border);
   background-image: linear-gradient(
     to right,
@@ -373,14 +378,19 @@
 
 /* ── Events ── */
 
+// The lanes are centered in the track, which can be taller than they are, as the resource's
+// name is in its cell.
 .event {
   position: absolute;
-  top: calc(var(--_pad) + var(--_lane-index, 0) * var(--_lane));
+  top: calc(
+    (100% - var(--_lanes, 1) * var(--_lane) + var(--_lane-gap)) / 2 +
+      var(--_lane-index, 0) * var(--_lane)
+  );
   display: flex;
   align-items: center;
   gap: 0.375rem;
   min-width: 0.375rem;
-  height: calc(var(--_lane) - 0.25rem);
+  height: calc(var(--_lane) - var(--_lane-gap));
   overflow: hidden;
   padding: 0 0.375rem;
   background: var(--calendar-timeline-event-bg-color);

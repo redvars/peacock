@@ -225,6 +225,23 @@ describe('wc-calendar-timeline', () => {
     );
   });
 
+  it('stretches a track to a taller resource cell and centers its lanes', async () => {
+    const el = await mount([review()], '');
+    // A roomy line height makes Aspen's name and supporting text taller than one lane.
+    el.style.lineHeight = '2.5';
+    await el.updateComplete;
+    const track = tracks(el)[0].getBoundingClientRect();
+    const cell = root(el).querySelector('.resource')?.getBoundingClientRect();
+    // Taller than a one-lane track's 3rem, so the row takes its height from the cell.
+    expect(cell?.height ?? 0).to.be.greaterThan(3 * 16 + 8);
+    // The track's column lines and bottom border reach the resource cell's.
+    expect(track.top).to.be.closeTo(cell?.top ?? 0, 0.5);
+    expect(track.bottom).to.be.closeTo(cell?.bottom ?? 0, 0.5);
+    const bar = eventsIn(el, 0)[0].getBoundingClientRect();
+    // Above the bar, and below it to the track's 1px bottom border.
+    expect(bar.top - track.top).to.be.closeTo(track.bottom - 1 - bar.bottom, 1);
+  });
+
   it('labels hours in the day view and days in the week and month views', async () => {
     const el = await mount([], '');
     const labels = () => root(el).querySelectorAll('.slot-label');
