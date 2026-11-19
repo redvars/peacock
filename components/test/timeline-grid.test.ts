@@ -13,6 +13,7 @@ import type {
   TimelineGridEvent,
   TimelineGridEventAddDetail,
   TimelineGridEventChangeDetail,
+  TimelineGridGroupToggleDetail,
   TimelineGridResource,
 } from '../src/timeline-grid/types.js';
 
@@ -101,6 +102,20 @@ function dayPoint(
   days: number,
 ): Point {
   return timePoint(el, row, (day + 0.5) * 24, days * 24);
+}
+
+/** A point `hours` into the day in the row of resource `index` (its place in `resources`). */
+function resourcePoint(el: TimelineGrid, index: number, hours: number): Point {
+  const header = (
+    root(el).querySelector('.time-header') as HTMLElement
+  ).getBoundingClientRect();
+  const track = (
+    root(el).querySelector(`.track[data-row="${index}"]`) as HTMLElement
+  ).getBoundingClientRect();
+  return {
+    x: header.left + (hours / 24) * header.width,
+    y: track.top + track.height / 2,
+  };
 }
 
 function eventsIn(el: TimelineGrid, row: number): HTMLElement[] {
@@ -405,6 +420,86 @@ describe('wc-timeline-grid', () => {
     const added = collect<TimelineGridEventAddDetail>(el, 'event-add');
     tap(tracks(el)[0], timePoint(el, 0, 9 + 10 / 60));
     expect(added[0].detail.start).to.deep.equal(new Date(2026, 10, 1, 9));
+  });
+
+  const people = (): TimelineGridResource[] => [
+    { id: 'priya', title: 'Priya', team: 'Design' },
+    { id: 'tomas', title: 'Tomás', team: 'Engineering' },
+    { id: 'mei', title: 'Mei', team: 'Design' },
+    { id: 'ana', title: 'Ana' },
+  ];
+
+  it('groups rows under headers by group-by, and collapses a group', async () => {
+    const el = await mount(
+      [{ ...review(), resourceId: 'mei' }],
+      'editable group-by="team"',
+      people(),
+    );
+    const groupNames = () =>
+      [...root(el).querySelectorAll('.group-label')].map(name =>
+        name.textContent?.trim(),
+      );
+    const rowTitles = () =>
+      [...root(el).querySelectorAll('.resource-title')].map(title =>
+        title.textContent?.trim(),
+      );
+    // Groups keep the order they first appear in; a group's rows come together.
+    expect(groupNames()).to.deep.equal(['Design', 'Engineering', '(Empty)']);
+    expect(rowTitles()).to.deep.equal(['Priya', 'Mei', 'Tomás', 'Ana']);
+    expect(
+      root(el).querySelector('.group-count')?.textContent?.trim(),
+    ).to.equal('2 resources');
+
+    const toggles = collect<TimelineGridGroupToggleDetail>(el, 'group-toggle');
+    const button = root(el).querySelector('.group-toggle') as HTMLButtonElement;
+    expect(button.getAttribute('aria-expanded')).to.equal('true');
+    expect(button.getAttribute('aria-label')).to.equal('Collapse group Design');
+    button.click();
+    await el.updateComplete;
+    expect(toggles[0].detail).to.deep.equal({
+      group: 'Design',
+      expanded: false,
+    });
+    expect(el.collapsedGroups).to.deep.equal(['Design']);
+    expect(rowTitles()).to.deep.equal(['Tomás', 'Ana']);
+    expect(button.getAttribute('aria-expanded')).to.equal('false');
+    expect(button.getAttribute('aria-label')).to.equal('Expand group Design');
+    // A collapsed group still shows when it is busy.
+    expect(
+      root(el).querySelectorAll('.group-row.collapsed .summary-bar').length,
+    ).to.equal(1);
+
+    button.click();
+    await el.updateComplete;
+    expect(toggles[1].detail).to.deep.equal({
+      group: 'Design',
+      expanded: true,
+    });
+    expect(el.collapsedGroups).to.deep.equal([]);
+    expect(rowTitles().length).to.equal(4);
+  });
+
+  it('starts with collapsed-groups collapsed, and drags events between groups', async () => {
+    const el = await mount(
+      [{ ...review(), resourceId: 'mei' }],
+      `editable group-by="team" collapsed-groups='["Engineering"]'`,
+      people(),
+    );
+    expect(
+      [...root(el).querySelectorAll('.resource-title')].map(title =>
+        title.textContent?.trim(),
+      ),
+    ).to.deep.equal(['Priya', 'Mei', 'Ana']);
+    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
+    const block = root(el).querySelector(
+      '.track[data-row="2"] .event',
+    ) as HTMLElement;
+    // From Mei (Design) to Ana, in the group of resources without a team.
+    drag(block, resourcePoint(el, 2, 9.5), resourcePoint(el, 3, 9.5));
+    expect(changes[0].detail).to.deep.include({
+      resourceId: 'ana',
+      start: new Date(2026, 10, 4, 9),
+    });
   });
 
   it('applyTimelineGridChange replaces the event, with its new resource', () => {

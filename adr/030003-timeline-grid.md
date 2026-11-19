@@ -25,6 +25,11 @@ Option 2. ADR-030001 makes a mode its own component when it changes the value th
 - `resources`: the rows, in order, as `{ id, title, supportingText? }`. The row header shows the title and the supporting text.
 - `events`: the calendar's event objects with a `resourceId`. An event whose `resourceId` matches no resource is not shown. `end` is exclusive, as in the calendar.
 
+### Groups
+- The same contract as `wc-table`'s groups: `group-by` names a resource field (`team`, `floor`), `collapsed-groups` holds the keys of the collapsed groups (their values as strings, `""` for resources without one), and `group-toggle` fires with `{ group, expanded }`.
+- Groups keep the order they first appear in, and their rows keep theirs. Each group has a header row with its name, its number of resources and a button that collapses it.
+- A collapsed group's header shows its events as thin bars, darker where they overlap, so a scheduler still sees when the group is busy. Events can be dragged between rows of different groups; rows of collapsed groups take no drops.
+
 ### Views
 - `available-views` entries are `{ value, label?, slot, days? }`. `slot` is what a column stands for: `hour` or `day`. Without `days`, the view is a calendar month.
 - The defaults are `day` (24 hour columns), `week` (7 day columns, starting on the week's first day) and `month` (a column per day of the month). A view such as `{ value: 'week-hours', slot: 'hour', days: 7 }` puts a week on hour columns.
@@ -52,7 +57,7 @@ Option 2. ADR-030001 makes a mode its own component when it changes the value th
 - Right-to-left layouts mirror the time axis.
 
 ### Not in the first version
-- Grouped and collapsible rows.
+- Groups within groups, and a custom group header (`wc-table`'s `groupTemplate`).
 - Virtual scrolling for hundreds of rows.
 - Keyboard editing (shared with the calendar's next phase).
 - Per-row working hours.
@@ -63,4 +68,4 @@ Option 2. ADR-030001 makes a mode its own component when it changes the value th
 
 - **Easier:** people who know `wc-calendar` know the timeline. One drag engine and one set of time rules serve both. Apps that only show a personal calendar do not load resource layout.
 - **Harder:** two components must keep their shared API in step. The shared pieces in `src/calendar/` must stay free of calendar-only assumptions, and they move to `src/__internal/` if a third component needs them.
-- **Follow-up:** the list above, starting with grouped rows and virtual scrolling, which real resource lists need first.
+- **Follow-up:** the list above, starting with virtual scrolling, which long resource lists need first.

@@ -7,7 +7,9 @@ export const order = 300;
   The grid is a table named by the days it shows. Each resource is a row, with its title as the row header and its
   events in its one cell. Events are buttons, named with their title, resource and time, that fire
   <code>event-click</code> on a click, <kbd>Enter</kbd> or <kbd>Space</kbd>. With <code>events-readonly</code> they are
-  notes that cannot be focused.
+  notes that cannot be focused. With <code>group-by</code>, each group's header row has its name as the row header and
+  a button that says whether it expands or collapses the group (<code>aria-expanded</code>); the rows of a collapsed
+  group are not in the table.
 </p>
 
 <p>

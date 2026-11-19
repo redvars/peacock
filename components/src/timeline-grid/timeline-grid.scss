@@ -230,6 +230,111 @@
   color: var(--color-on-surface-variant);
 }
 
+/* ── Groups ── */
+
+.group-row {
+  background: var(--color-surface-container-low);
+}
+
+.group-header {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.375rem 0.75rem 0.375rem 0.25rem;
+  background: var(--color-surface-container-low);
+  border-inline-end: 1px solid var(--_border);
+  border-bottom: 1px solid var(--_border);
+}
+
+// The same disclosure as wc-table's group headers: the chevron points along the reading
+// direction, and down when the group is open.
+.group-toggle {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: var(--shape-corner-full);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+
+  wc-icon {
+    --icon-size: 1.25rem;
+    font-size: 1.25rem;
+    transition: transform var(--duration-short4, 200ms) ease;
+  }
+
+  &[aria-expanded='true'] wc-icon {
+    transform: rotate(90deg);
+  }
+
+  &:dir(rtl) wc-icon {
+    transform: scaleX(-1);
+  }
+
+  &:dir(rtl)[aria-expanded='true'] wc-icon {
+    transform: rotate(90deg);
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+}
+
+.group-label {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  unicode-bidi: plaintext;
+}
+
+.group-count {
+  flex: none;
+  font-size: 0.75rem;
+  color: var(--color-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+  // "3 resources" starts with a digit; read it in its own direction.
+  unicode-bidi: plaintext;
+}
+
+.group-track {
+  position: relative;
+  min-width: 0;
+  border-bottom: 1px solid var(--_border);
+}
+
+// A collapsed group's events, overlapping where they overlap, so busier times read darker.
+.summary {
+  position: absolute;
+  inset: 0;
+
+  .summary-bar {
+    position: absolute;
+    top: 50%;
+    height: 0.5rem;
+    min-width: 0.25rem;
+    margin-top: -0.25rem;
+    border-radius: var(--shape-corner-full);
+    background: var(--timeline-grid-event-border-color);
+    opacity: 0.45;
+  }
+}
+
 /* ── Behind the rows: today, weekends, day boundaries and now ── */
 
 .overlay {
@@ -441,5 +546,9 @@
 
   .overlay .now {
     background: Highlight;
+  }
+
+  .summary .summary-bar {
+    background: CanvasText;
   }
 }

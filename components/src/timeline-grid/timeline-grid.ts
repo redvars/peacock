@@ -52,6 +52,7 @@ import type {
   TimelineGridEvent,
   TimelineGridEventAddDetail,
   TimelineGridEventChangeDetail,
+  TimelineGridGroupToggleDetail,
   TimelineGridResource,
   TimelineGridViewType,
 } from './types.js';
@@ -62,6 +63,7 @@ export type {
   TimelineGridEventAddDetail,
   TimelineGridEventChangeAction,
   TimelineGridEventChangeDetail,
+  TimelineGridGroupToggleDetail,
   TimelineGridResource,
   TimelineGridViewType,
 } from './types.js';
@@ -87,6 +89,12 @@ interface LaidOutRow {
   resource: TimelineGridResource;
   events: PlacedEvent[];
   lanes: number;
+}
+
+/** The rows of one `group-by` value: indices into the laid-out rows, in order. */
+interface RowGroup {
+  key: string;
+  rows: number[];
 }
 
 /** A press that may become a drag. */
@@ -180,6 +188,12 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
  * as a new event until <code>events</code> changes or <code>clearPlaceholder()</code> is called.
  * An event with <code>editable: false</code> stays put, and <code>events-readonly</code> turns
  * editing off.</p>
+ * <p><code>group-by</code> names a resource field, such as <code>team</code>, to group the rows by.
+ * Groups keep the order they first appear in, and resources without the field form an
+ * "(Empty)" group. Each group has a header row whose button collapses or expands it and fires
+ * <code>group-toggle</code>; <code>collapsed-groups</code> holds the keys of the collapsed groups,
+ * their values as strings. A collapsed group's header shows its events as thin bars, so its busy
+ * times stay in sight. Events can be dragged between rows of different groups.</p>
  * <p>The grid is a table: a row per resource, with the resource's title as its row header and its
  * events in its cell. Events are buttons, named with their title, resource and time, that fire
  * <code>event-click</code>. Changes are announced to screen readers. Dragging needs a pointer, so
@@ -198,6 +212,7 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
  * @fires {CustomEvent<TimelineGridDateChangeDetail>} date-change - The context date changed. Detail contains `{ date, value }`: the `Date` and its ISO string.
  * @fires {CustomEvent<TimelineGridEventChangeDetail>} event-change - An event was dragged to a new time or row (`action: 'move'`), or had its start or end dragged (`action: 'resize'`). Detail contains `{ event, start, end, resourceId, action }`, where `event` is the object from `events` as it was. Cancelable: cancel it to keep the event where it was. Only with `editable`.
  * @fires {CustomEvent<TimelineGridEventAddDetail>} event-add - Empty time in a row was dragged across or clicked. Detail contains `{ start, end, allDay, resourceId }`. Only with `addable`.
+ * @fires {CustomEvent<TimelineGridGroupToggleDetail>} group-toggle - A group was collapsed or expanded with its header's button. Detail contains `{ group, expanded }`.
  *
  * @example
  * ```html
@@ -265,6 +280,17 @@ export class TimelineGrid extends LitElement {
   @property({ type: String, attribute: 'resource-label' })
   resourceLabel: string = '';
 
+  /**
+   * A resource field to group the rows by, such as `team`. Each group gets a header row that
+   * collapses it. Groups keep the order they first appear in.
+   */
+  @property({ type: String, attribute: 'group-by' })
+  groupBy: string = '';
+
+  /** Keys of the collapsed groups: their `group-by` values as strings (`""` for resources without one). */
+  @property({ type: Array, attribute: 'collapsed-groups' })
+  collapsedGroups: string[] = [];
+
   /** Events are shown but cannot be clicked or focused, and `event-click` does not fire. */
   @property({ type: Boolean, attribute: 'events-readonly' })
   eventsReadonly: boolean = false;
@@ -330,8 +356,11 @@ export class TimelineGrid extends LitElement {
   /** The days shown. */
   private _range: TimelineRange = { start: startOfDay(new Date()), days: 1 };
 
-  /** The rows, laid out before each render. */
+  /** The rows, laid out before each render, in the order of `resources`. */
   private _rows: LaidOutRow[] = [];
+
+  /** The rows by `group-by` value, when grouped. */
+  private _groups: RowGroup[] | null = null;
 
   /** Whether to scroll the axis to now, or to the morning, after the next render. */
   private _scrollPending = true;
@@ -390,6 +419,7 @@ export class TimelineGrid extends LitElement {
       this._scrollPending = true;
     }
     this._rows = this._layout();
+    this._groups = this.groupBy ? this._groupsOf(this._rows) : null;
 
     this._drag.enabled = this.addable || this._eventsEditable();
     // A drag cannot outlive the days or rows it started on, or editing being turned off.
@@ -398,6 +428,8 @@ export class TimelineGrid extends LitElement {
       (rangeChanged ||
         changed.has('view') ||
         changed.has('resources') ||
+        changed.has('groupBy') ||
+        changed.has('collapsedGroups') ||
         changed.has('editable') ||
         changed.has('addable') ||
         changed.has('eventsReadonly'))
@@ -546,6 +578,42 @@ export class TimelineGrid extends LitElement {
       }));
       return { resource, events, lanes };
     });
+  }
+
+  /** The rows by their `group-by` value, in the order each value first appears. */
+  private _groupsOf(rows: LaidOutRow[]): RowGroup[] {
+    const groups = new Map<string, RowGroup>();
+    rows.forEach((row, index) => {
+      const value = row.resource[this.groupBy];
+      const key = value === undefined || value === null ? '' : String(value);
+      const group = groups.get(key);
+      if (group) group.rows.push(index);
+      else groups.set(key, { key, rows: [index] });
+    });
+    return [...groups.values()];
+  }
+
+  /** `collapsedGroups` as strings. */
+  private _collapsedKeys(): string[] {
+    return (
+      Array.isArray(this.collapsedGroups) ? this.collapsedGroups : []
+    ).map(key => String(key));
+  }
+
+  /** Collapses or expands a group, and fires `group-toggle`. */
+  private _toggleGroup(key: string) {
+    const keys = this._collapsedKeys();
+    const expanded = keys.includes(key);
+    this.collapsedGroups = expanded
+      ? keys.filter(entry => entry !== key)
+      : [...keys, key];
+    this.dispatchEvent(
+      new CustomEvent<TimelineGridGroupToggleDetail>('group-toggle', {
+        detail: { group: key, expanded },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private _shift(direction: 1 | -1) {
@@ -730,18 +798,21 @@ export class TimelineGrid extends LitElement {
     return dayOfRange(this._range, index);
   }
 
-  /** The index of the row at viewport `y`, or of the nearest; -1 without rows. */
+  /**
+   * The index of the row at viewport `y`, or of the nearest shown; -1 without rows. Rows of
+   * collapsed groups are not shown, so each track names its row.
+   */
   private _rowAt(y: number): number {
     let best = -1;
     let bestDistance = Infinity;
     this.renderRoot
-      .querySelectorAll<HTMLElement>('.track')
-      .forEach((track, index) => {
+      .querySelectorAll<HTMLElement>('.track[data-row]')
+      .forEach(track => {
         const rect = track.getBoundingClientRect();
         const distance = Math.max(0, rect.top - y, y - rect.bottom);
         if (distance < bestDistance) {
           bestDistance = distance;
-          best = index;
+          best = Number(track.dataset.row);
         }
       });
     return best;
@@ -1302,6 +1373,7 @@ export class TimelineGrid extends LitElement {
         <div
           class="track"
           role="cell"
+          data-row=${index}
           style="--_lanes: ${row.lanes}"
           @pointerdown=${(event: PointerEvent) =>
             this._onTrackPointerDown(event, index)}
@@ -1311,6 +1383,83 @@ export class TimelineGrid extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  /** A collapsed group's events as thin bars, so its busy times stay in sight. */
+  private _renderGroupSummary(group: RowGroup) {
+    return html`<div class="summary" aria-hidden="true">
+      ${group.rows.map(index =>
+        (this._rows[index]?.events ?? []).map(
+          event =>
+            html`<span
+              class="summary-bar"
+              style=${this._styleMap({
+                ...this._position(event),
+                ...this._colorVars(event.data.color),
+              })}
+            ></span>`,
+        ),
+      )}
+    </div>`;
+  }
+
+  /** A group's header row, then its rows unless it is collapsed. */
+  private _renderGroup(group: RowGroup, collapsed: boolean, slot: string) {
+    const name = group.key === '' ? this._i18n.t('emptyGroup') : group.key;
+    const count = group.rows.length;
+    return html`
+      <div
+        class=${classMap({ row: true, 'group-row': true, collapsed })}
+        role="row"
+      >
+        <div class="group-header" role="rowheader">
+          <button
+            type="button"
+            class="group-toggle"
+            aria-expanded=${collapsed ? 'false' : 'true'}
+            aria-label=${collapsed
+              ? this._i18n.t('expandGroup')(name)
+              : this._i18n.t('collapseGroup')(name)}
+            @click=${() => this._toggleGroup(group.key)}
+          >
+            <wc-icon name="chevron_right" aria-hidden="true"></wc-icon>
+          </button>
+          <span class="group-label">${name}</span>
+          <span class="group-count"
+            >${this._i18n.t('timelineGridGroupCount')(
+              new Intl.NumberFormat(this._i18n.locale).format(count),
+              count,
+            )}</span
+          >
+        </div>
+        <div class="group-track" role="cell">
+          ${collapsed ? this._renderGroupSummary(group) : nothing}
+        </div>
+      </div>
+      ${collapsed
+        ? nothing
+        : group.rows.map(index =>
+            this._renderRow(this._rows[index], index, slot),
+          )}
+    `;
+  }
+
+  /** The rows, under their groups' headers when grouped. */
+  private _renderRows(slot: string) {
+    if (!this._rows.length) {
+      return html`<div class="row" role="row">
+        <div class="empty" role="cell">
+          ${this._i18n.t('timelineGridEmpty')}
+        </div>
+      </div>`;
+    }
+    if (!this._groups) {
+      return this._rows.map((row, index) => this._renderRow(row, index, slot));
+    }
+    const collapsed = new Set(this._collapsedKeys());
+    return this._groups.map(group =>
+      this._renderGroup(group, collapsed.has(group.key), slot),
+    );
   }
 
   private _renderGrid() {
@@ -1348,16 +1497,7 @@ export class TimelineGrid extends LitElement {
             </div>
           </div>
           <div class="rows" role="rowgroup">
-            ${this._renderOverlay(view)}
-            ${this._rows.length
-              ? this._rows.map((row, index) =>
-                  this._renderRow(row, index, view.slot),
-                )
-              : html`<div class="row" role="row">
-                  <div class="empty" role="cell">
-                    ${this._i18n.t('timelineGridEmpty')}
-                  </div>
-                </div>`}
+            ${this._renderOverlay(view)} ${this._renderRows(view.slot)}
           </div>
         </div>
       </div>

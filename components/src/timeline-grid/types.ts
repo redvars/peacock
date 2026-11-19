@@ -55,3 +55,11 @@ export type TimelineGridEventAddDetail = {
   /** The resource whose row the range is in. */
   resourceId: string | number;
 };
+
+/** Detail of `group-toggle`. */
+export type TimelineGridGroupToggleDetail = {
+  /** The group's key: its `group-by` value as a string, `""` for resources without one. */
+  group: string;
+  /** Whether the group is expanded now. */
+  expanded: boolean;
+};

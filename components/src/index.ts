@@ -473,6 +473,7 @@ export type {
   TimelineGridEventAddDetail,
   TimelineGridEventChangeAction,
   TimelineGridEventChangeDetail,
+  TimelineGridGroupToggleDetail,
   TimelineGridResource,
   TimelineGridViewType,
 } from './timeline-grid/index.js';

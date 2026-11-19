@@ -5,6 +5,7 @@ export type {
   TimelineGridEventAddDetail,
   TimelineGridEventChangeAction,
   TimelineGridEventChangeDetail,
+  TimelineGridGroupToggleDetail,
   TimelineGridResource,
   TimelineGridViewType,
 } from './types.js';
