@@ -3,9 +3,9 @@ import { n } from './property-B2TG3KEE.js';
 import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
 import { o as observeThemeChange } from './observe-theme-change-CkSENG98.js';
-import { I as I18nController } from './i18n-controller-DLJcJ5gO.js';
+import { I as I18nController } from './i18n-controller-BTeChxE0.js';
 import './base-Cl6v8-BZ.js';
-import './strings-MXyrGrNs.js';
+import './strings-DeiQWMd9.js';
 import './locale-DEsJZCQG.js';
 
 /**

@@ -13,11 +13,11 @@ import { a as mixinBaseButton } from './base-button-BJMGMcMv.js';
 import { m as mixinHyperlink } from './hyperlink-DycWPKwU.js';
 import { m as mixinDelegatesAria } from './delegate-Bw2wdPFP.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { I as I18nController } from './i18n-controller-DLJcJ5gO.js';
+import { I as I18nController } from './i18n-controller-BTeChxE0.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './warn-once-BNxX1Y98.js';
-import './strings-MXyrGrNs.js';
+import './strings-DeiQWMd9.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z$1 = i`* {

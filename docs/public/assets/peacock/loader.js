@@ -126,7 +126,7 @@ import { AssistantStep } from './assistant-step.js';
 import { DraftCard } from './draft-card.js';
 import { AssistantPanel } from './assistant-panel.js';
 import { AiSummary } from './ai-summary.js';
-import { G as GenerativeView } from './generative-view-CfhaDyKn.js';
+import { G as GenerativeView } from './generative-view-DsSOPf26.js';
 import { HoverCard } from './hover-card.js';
 import { Kanban } from './kanban.js';
 import { VirtualList } from './virtual-list.js';
@@ -137,7 +137,7 @@ import { ScrollArea } from './scroll-area.js';
 import { PresenceIndicator } from './presence-indicator.js';
 import { RelativeTime } from './relative-time.js';
 import { RedvarsLoader } from './redvars-loader.js';
-import { I as Illustration } from './illustration-CjXPCjlF.js';
+import { I as Illustration } from './illustration-DQ-_sz1l.js';
 import { Toolbar } from './toolbar.js';
 import { AppBar } from './app-bar.js';
 import { NavigationRail } from './navigation-rail.js';
@@ -154,12 +154,12 @@ import { SiteNavLink } from './site-nav-link.js';
 import { SiteFooter } from './site-footer.js';
 import { SiteFooterGroup } from './site-footer-group.js';
 import { Carousel } from './carousel.js';
-import { V as Video } from './video-BN5hezun.js';
+import { V as Video } from './video-DPjOBk6I.js';
 import { H as Highlight } from './highlight-Be0wu7kh.js';
-export { d as defaultStrings, s as setPeacockStrings } from './strings-MXyrGrNs.js';
+export { d as defaultStrings, s as setPeacockStrings } from './strings-DeiQWMd9.js';
 export { i as isAiAvailable, o as onPeacockAiChange, p as peacockAi, s as setPeacockAi } from './ai-controller-DR_Tg0sN.js';
 export { r as readStream } from './stream-C16hbcio.js';
-export { g as generativeViewSchema } from './schema-CdzpFksN.js';
+export { g as generativeViewSchema } from './schema-D0PCeIEA.js';
 import './IndividualComponent-BK7XZjE2.js';
 import './property-B2TG3KEE.js';
 import './attachable-controller-DofeyflD.js';
@@ -184,19 +184,19 @@ import './warn-once-BNxX1Y98.js';
 import './form-associated-BHbg72PG.js';
 import './is-link-Dk2OV3PM.js';
 import './hyperlink-DycWPKwU.js';
-import './i18n-controller-DLJcJ5gO.js';
+import './i18n-controller-BTeChxE0.js';
 import './locale-DEsJZCQG.js';
 import './menu-trigger-controller-CEJq1ugC.js';
 import './spread-B5cgadZl.js';
-import './BaseField-DWCBl4Yj.js';
-import './BaseInput-BqE3rprN.js';
-import './suggestion-controller-BKMbUhgq.js';
-import './date-vFrYT1S9.js';
-import './utils-D92ldd1V.js';
-import './picker-field-DNBoxRx8.js';
-import './range-utils-BoKOhxVX.js';
+import './BaseField-BbOj212R.js';
+import './BaseInput-Cv03GZLu.js';
+import './suggestion-controller-7YRQqkaI.js';
+import './date-cfPx3alz.js';
+import './utils-DcvLgexs.js';
+import './picker-field-DmXYPvbF.js';
+import './range-utils-DZe96GnO.js';
 import './style-map-CHOg6N_R.js';
-import './toggle-base-BulGgHRz.js';
+import './toggle-base-BtjRAZ5z.js';
 import './floating-controller-CABF4tBT.js';
 import './placement-C4GO0JP9.js';
 import './query-assigned-elements-BJaGSqM0.js';
@@ -204,7 +204,7 @@ import './query-all-ThKhg-Lp.js';
 import './roving-focus-controller-fm95JkZJ.js';
 import './accordion-item.js';
 import './NativeHyperlinkMixin-WdY0fM-H.js';
-import './base-progress-CKQ32Ruw.js';
+import './base-progress-CqsyiVOV.js';
 import './overlay-controller-BOk-kfil.js';
 import './observe-theme-change-CkSENG98.js';
 import './repeat-D_ERDRYT.js';
@@ -218,8 +218,8 @@ import './platform-BUuoTAmr.js';
 import './relative-time-BNxqvEbg.js';
 import './url-BFUh__RO.js';
 import './diff-CT416thw.js';
-import './navigation-item-base-YtzLu9UE.js';
-import './indicator-navigation-item-rlDwOUwW.js';
+import './navigation-item-base-kUrvJgCx.js';
+import './indicator-navigation-item-CmyhsOmy.js';
 import './site-nav-shared-BDR2HG8e.js';
 
 /** Marks `Element.prototype` once its `attachShadow` is wrapped. */
@@ -938,6 +938,10 @@ const loaderConfig = {
         },
         'wc-calendar-column-view': {
             importPath: `${distDirectory}/calendar-column-view.js`,
+        },
+        'wc-calendar-timeline': {
+            importPath: `${distDirectory}/calendar-timeline.js`,
+            dependencies: ['wc-linear-progress'],
         },
         'wc-calendar-month-view': {
             importPath: `${distDirectory}/calendar-month-view.js`,

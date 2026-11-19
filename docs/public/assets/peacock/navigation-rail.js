@@ -2,16 +2,16 @@ import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './Ind
 import { n } from './property-B2TG3KEE.js';
 import { e } from './class-map-NDIkZErE.js';
 import { NavigationRailItem } from './navigation-rail-item.js';
-import { I as I18nController } from './i18n-controller-DLJcJ5gO.js';
-import { s as selectNavigationItem } from './navigation-item-base-YtzLu9UE.js';
+import { I as I18nController } from './i18n-controller-BTeChxE0.js';
+import { s as selectNavigationItem } from './navigation-item-base-kUrvJgCx.js';
 import './directive-ZPhl09Yt.js';
-import './indicator-navigation-item-rlDwOUwW.js';
+import './indicator-navigation-item-CmyhsOmy.js';
 import './state-BCeDVCI9.js';
 import './observe-slot-change-DPxaZrZF.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
 import './throttle-SQ9t-HL7.js';
-import './strings-MXyrGrNs.js';
+import './strings-DeiQWMd9.js';
 import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {
