@@ -1,0 +1,68 @@
+---
+export const title = 'Editing';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>editable</code> lets people drag an event to move it and drag its top or bottom edge to change when it starts
+  or ends, in steps of <code>minute-step</code> minutes (15 by default). All-day events, and every event in the month
+  view, move and resize by whole days. Each drop fires the cancelable <code>event-change</code> with
+  <code>{ event, start, end, action }</code>; unless you cancel it, the calendar replaces <code>events</code> with a
+  new array holding a copy of the event with its new times. To save a change on the server first, cancel the event and
+  apply it later with <code>applyCalendarChange(events, detail)</code>. Give an event <code>editable: false</code> to
+  keep it in place; <code>events-readonly</code> turns editing off.
+</p>
+
+<p>
+  <code>addable</code> lets people drag across empty time, or click it, to add an event. <code>event-add</code> fires
+  with <code>{ start, end, allDay }</code>: a click gives <code>default-duration</code> minutes (60 by default), and the
+  all-day row and the month view give whole days. The calendar does not add the event itself: it marks the range as a
+  new event until <code>events</code> changes, so you can ask for a title first. Call
+  <code>clearPlaceholder()</code> if that is canceled. <code>end</code> is exclusive throughout: an all-day event on
+  November 4 ends at midnight on November 5.
+</p>
+
+<p>
+  On touch screens, people hold an event briefly before dragging it, so a swipe still scrolls. Escape cancels a drag,
+  and each change is announced to screen readers. Dragging needs a pointer, so also let people change an event's time
+  another way, such as in the dialog you open on <code>event-click</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-calendar id='editing-calendar' view='week' editable addable style='height: 700px; width: 100%'></wc-calendar>
+  <script is:inline>
+    (function() {
+      const $calendar = document.getElementById('editing-calendar');
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      function at(days, hours, minutes) {
+        const result = new Date(today);
+        result.setDate(result.getDate() + days);
+        result.setHours(hours, minutes || 0, 0, 0);
+        return result;
+      }
+
+      let nextId = 1;
+      $calendar.events = [
+        { id: nextId++, title: 'Standup', start: at(0, 9), end: at(0, 9, 30) },
+        { id: nextId++, title: 'Design review', start: at(1, 11), end: at(1, 12), color: 'red' },
+        { id: nextId++, title: 'Focus time', start: at(-1, 14), end: at(-1, 16), color: 'blue' },
+        { id: nextId++, title: 'Offsite', start: at(2, 0), end: at(4, 0), color: 'orange' },
+        { id: nextId++, title: 'Public holiday', start: at(-2, 0), end: at(-1, 0), color: 'green', editable: false },
+      ];
+
+      // The calendar applies moves and resizes itself; cancel the event to keep one.
+      $calendar.addEventListener('event-change', function(evt) {
+        console.log('Changed:', evt.detail.action, evt.detail.event.title, evt.detail.start, evt.detail.end);
+      });
+
+      // The calendar only marks the range; adding the event keeps it.
+      $calendar.addEventListener('event-add', function(evt) {
+        $calendar.events = [...$calendar.events, { id: nextId++, title: 'New event', ...evt.detail }];
+      });
+    })();
+  </script>
+</DemoComponentCard>

@@ -453,11 +453,15 @@ export {
   Calendar,
   CalendarColumnView,
   CalendarMonthView,
+  applyCalendarChange,
 } from './calendar/index.js';
 export type {
   CalendarViewType,
   EventType,
   CalendarDateChangeDetail,
+  CalendarEventAddDetail,
+  CalendarEventChangeAction,
+  CalendarEventChangeDetail,
 } from './calendar/index.js';
 export { Diagram } from './diagram/index.js';
 // Deprecated alias of Diagram: wc-flow was renamed to wc-diagram. Removed in 5.0.

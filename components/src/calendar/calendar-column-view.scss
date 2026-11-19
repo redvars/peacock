@@ -123,12 +123,16 @@
         &:first-child {
           border-inline-start: 0;
         }
+
+        &.drop-target {
+          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+        }
       }
     }
   }
 
   .multi-events {
-    padding: 0 0 0 var(--scale-size);
+    padding-inline-start: var(--scale-size);
 
     .row {
       height: 1.8rem;
@@ -323,7 +327,8 @@
     &:hover {
       background: var(--calendar-event-bg-color--hover);
 
-      .event-title {
+      .event-title,
+      .resize-handle {
         color: var(--calendar-event-text-color--hover);
       }
     }
@@ -332,5 +337,172 @@
       outline: 2px solid var(--color-primary);
       outline-offset: 1px;
     }
+  }
+}
+
+/* ── Editing ── */
+
+// Empty time takes presses that add events, so it must not start a text selection or a
+// long-press callout.
+.calendar-column-view.addable {
+  .drawing-area,
+  .multi-day-section {
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  // Leave room to draw an all-day event when there are none yet.
+  .multi-events {
+    min-height: 2rem;
+  }
+}
+
+.calendar-column-view.dragging {
+  user-select: none;
+
+  // Other events let the pointer through, so they neither flicker on hover nor set the cursor.
+  .event {
+    pointer-events: none;
+  }
+}
+
+.calendar-column-view.drag-move {
+  cursor: grabbing;
+}
+
+.calendar-column-view.drag-resize-y {
+  cursor: ns-resize;
+}
+
+.calendar-column-view.drag-resize-x {
+  cursor: ew-resize;
+}
+
+.event {
+  &.editable {
+    cursor: grab;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  // The event being moved stays at its old time, faded, while a copy shows where it will land.
+  &.drag-source {
+    opacity: 0.4;
+  }
+
+  // The event being resized, or moved along the all-day row, in place. Its times may wrap in a
+  // narrow column.
+  &.lifted {
+    z-index: 2;
+    overflow: hidden;
+    box-shadow: var(--elevation-level2);
+
+    .event-time {
+      white-space: normal;
+    }
+  }
+
+  // A new event while it is drawn, a moved one where it will land, and the placeholder that
+  // marks a new event until the app adds it.
+  &.preview {
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+    box-shadow: var(--elevation-level2);
+  }
+
+  &.placeholder {
+    box-shadow: var(--elevation-level3);
+  }
+
+  .event-time {
+    padding: 0 0.375rem 0.25rem;
+    font-size: 0.75rem;
+    color: var(--calendar-event-text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // Times start with digits, which take no direction of their own: without this, "9:00 – 10:00
+    // AM" reads "AM 10:00 – 9:00" in a right-to-left page.
+    unicode-bidi: plaintext;
+  }
+}
+
+// A grip at each edge an event can be resized by; the line in it shows on hover and focus.
+.resize-handle {
+  position: absolute;
+  z-index: 1;
+  color: var(--calendar-event-text-color);
+
+  &::after {
+    content: '';
+    position: absolute;
+    margin: auto;
+    border-radius: var(--shape-corner-full);
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+}
+
+.event.editable:hover,
+.event.editable:focus-visible,
+.event.lifted {
+  .resize-handle::after {
+    opacity: 0.6;
+  }
+}
+
+// Timed events resize at the top and bottom.
+.events-container .resize-handle {
+  inset-inline: 0;
+  block-size: 0.375rem;
+  cursor: ns-resize;
+
+  &.start {
+    inset-block-start: 0;
+  }
+
+  &.end {
+    inset-block-end: 0;
+  }
+
+  &::after {
+    inset: 0;
+    inline-size: 1rem;
+    block-size: 0.125rem;
+  }
+}
+
+// All-day events resize at their start and end.
+.multi-events .resize-handle {
+  inset-block: 0;
+  inline-size: 0.375rem;
+  cursor: ew-resize;
+
+  &.start {
+    inset-inline-start: 0;
+  }
+
+  &.end {
+    inset-inline-end: 0;
+  }
+
+  &::after {
+    inset: 0;
+    inline-size: 0.125rem;
+    block-size: 0.875rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .event.preview,
+  .event.lifted {
+    outline: 2px solid Highlight;
+  }
+
+  .multi-day-background .column.drop-target {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
   }
 }

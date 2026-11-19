@@ -110,6 +110,116 @@ export function calculateDateRange(
 
 export const LONG_EVENT_PADDING = 0.25;
 
+/** Milliseconds in a day of 24 hours. */
+export const DAY_MS = 86400000;
+
+/** Milliseconds in a minute. */
+export const MINUTE_MS = 60000;
+
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+/** Whether `date` is at local midnight. */
+export function isMidnight(date: Date): boolean {
+  return (
+    date.getHours() === 0 &&
+    date.getMinutes() === 0 &&
+    date.getSeconds() === 0 &&
+    date.getMilliseconds() === 0
+  );
+}
+
+/**
+ * Whether a range belongs in the all-day row: it lasts a day or more, or runs from one midnight to
+ * a later one (a day the clocks go forward on has only 23 hours).
+ */
+export function isAllDayRange(start: Date, end: Date): boolean {
+  const length = end.valueOf() - start.valueOf();
+  return (
+    length >= DAY_MS || (length > 0 && isMidnight(start) && isMidnight(end))
+  );
+}
+
+/**
+ * The last day a range covers. `end` is exclusive, so a range that ends at midnight ends the day
+ * before. Never earlier than the day of `start`.
+ */
+export function lastDayOf(start: Date, end: Date): Date {
+  const first = startOfDay(start);
+  const last = startOfDay(new Date(end.valueOf() - 1));
+  return last.valueOf() < first.valueOf() ? first : last;
+}
+
+/**
+ * Whether the range `start`–`end` (end exclusive) shares time with `from`–`to`. A range without
+ * length counts when its instant falls inside.
+ */
+export function rangesOverlap(
+  start: Date,
+  end: Date,
+  from: Date,
+  to: Date,
+): boolean {
+  if (start.valueOf() >= end.valueOf()) {
+    return start.valueOf() >= from.valueOf() && start.valueOf() < to.valueOf();
+  }
+  return start.valueOf() < to.valueOf() && end.valueOf() > from.valueOf();
+}
+
+/**
+ * The start of the day after `date`'s. Unlike `addDays(day, 1)`, it lands on midnight even after a
+ * day whose midnight the clocks skipped, where `startOfDay` gives 01:00.
+ */
+export function nextDay(date: Date): Date {
+  return startOfDay(addDays(startOfDay(date), 1));
+}
+
+/** Minutes in a day on the wall clock, which the day and week views draw. */
+const DAY_MINUTES = 1440;
+
+/**
+ * Wall-clock minutes from the start of `day` to `date`: negative before it, 1440 or more after
+ * it. The day and week views draw 24 equal hours, also on the days the clocks change.
+ */
+export function wallMinutes(date: Date, day: Date): number {
+  return (
+    differenceInDays(date, day) * DAY_MINUTES +
+    date.getHours() * 60 +
+    date.getMinutes() +
+    date.getSeconds() / 60 +
+    date.getMilliseconds() / MINUTE_MS
+  );
+}
+
+/** The time `minutes` after the start of `day` on the wall clock; 1440 is the next midnight. */
+export function atWallMinutes(day: Date, minutes: number): Date {
+  const date = startOfDay(day);
+  date.setHours(0, 0, 0, Math.round(minutes * MINUTE_MS));
+  return date;
+}
+
+/** The time at `fraction` (0 to 1) down `day`'s column: the inverse of `getTimePercent`. */
+export function timeAtFraction(day: Date, fraction: number): Date {
+  return atWallMinutes(day, clamp(fraction, 0, 1) * DAY_MINUTES);
+}
+
+/**
+ * `date` moved to a multiple of `minutes` on the wall clock after the start of `day` (by default
+ * its own day): the nearest one, or the one before or after. The result stays within `day`, whose
+ * end is the next midnight.
+ */
+export function snapTime(
+  date: Date,
+  minutes: number,
+  mode: 'round' | 'floor' | 'ceil' = 'round',
+  day: Date = date,
+): Date {
+  const step = Math.max(1, minutes);
+  const steps = Math[mode](wallMinutes(date, day) / step);
+  return atWallMinutes(day, clamp(steps * step, 0, DAY_MINUTES));
+}
+
 /** Wall-clock date and time fields; `month` is 1–12. */
 export type WallClockParts = {
   year: number;
@@ -206,6 +316,50 @@ export function formatDate(
   return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
+/** `format.formatRange`, or both dates joined by a dash where it is missing or throws. */
+function formatRange(
+  format: Intl.DateTimeFormat,
+  start: Date,
+  end: Date,
+): string {
+  try {
+    return format.formatRange(start, end);
+  } catch {
+    return `${format.format(start)} – ${format.format(end)}`;
+  }
+}
+
+/**
+ * When an event happens, for example `Nov 6, 2026, 9:00 – 9:30 AM`. An all-day event shows its
+ * days only, through the day before an `end` at midnight.
+ */
+export function formatEventWhen(
+  start: Date,
+  end: Date,
+  locale: string,
+  allDay = false,
+): string {
+  if (allDay) {
+    const format = new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
+    return formatRange(format, start, lastDayOf(start, end));
+  }
+  const format = new Intl.DateTimeFormat(locale, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+  return formatRange(format, start, end);
+}
+
+/** The times of a range without its date, for example `9:00 – 10:30 AM`. */
+export function formatTimeRange(
+  start: Date,
+  end: Date,
+  locale: string,
+): string {
+  const format = new Intl.DateTimeFormat(locale, { timeStyle: 'short' });
+  return formatRange(format, start, end);
+}
+
 /** Accessible name of an event: its title and when it happens, for example `Standup, Nov 6, 2026, 9:00 – 9:30 AM`. */
 export function formatEventLabel(
   title: string,
@@ -214,18 +368,7 @@ export function formatEventLabel(
   locale: string,
   allDay = false,
 ): string {
-  const format = new Intl.DateTimeFormat(
-    locale,
-    allDay
-      ? { dateStyle: 'medium' }
-      : { dateStyle: 'medium', timeStyle: 'short' },
-  );
-  let when: string;
-  try {
-    when = format.formatRange(start, end);
-  } catch {
-    when = `${format.format(start)} – ${format.format(end)}`;
-  }
+  const when = formatEventWhen(start, end, locale, allDay);
   return title ? `${title}, ${when}` : when;
 }
 
@@ -238,13 +381,10 @@ export function onActivateKey(action: () => void) {
   };
 }
 
+/**
+ * How far down `forDay`'s column (by default `date`'s own day) `date` falls, in percent, on a
+ * 24-hour wall clock: a 9:00 event sits at the 9 AM row also on the days the clocks change.
+ */
 export function getTimePercent(date: Date, forDay?: Date): number {
-  const day = forDay || date;
-  const sd = startOfDay(day);
-  const ed = endOfDay(day);
-  const percent =
-    ((date.valueOf() - sd.valueOf()) / (ed.valueOf() - sd.valueOf())) * 100;
-  if (percent < 0) return 0;
-  if (percent > 100) return 100;
-  return percent;
+  return clamp((wallMinutes(date, forDay || date) / DAY_MINUTES) * 100, 0, 100);
 }
