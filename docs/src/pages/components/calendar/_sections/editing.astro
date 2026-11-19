@@ -8,7 +8,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <code>editable</code> lets people drag an event to move it and drag its top or bottom edge to change when it starts
   or ends, in steps of <code>minute-step</code> minutes (15 by default). All-day events, and every event in the month
   view, move and resize by whole days. Each drop fires the cancelable <code>event-change</code> with
-  <code>{ event, start, end, action }</code>; unless you cancel it, the calendar replaces <code>events</code> with a
+  <code>&#123; event, start, end, action &#125;</code>; unless you cancel it, the calendar replaces <code>events</code> with a
   new array holding a copy of the event with its new times. To save a change on the server first, cancel the event and
   apply it later with <code>applyCalendarChange(events, detail)</code>. Give an event <code>editable: false</code> to
   keep it in place; <code>events-readonly</code> turns editing off.
@@ -16,7 +16,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <p>
   <code>addable</code> lets people drag across empty time, or click it, to add an event. <code>event-add</code> fires
-  with <code>{ start, end, allDay }</code>: a click gives <code>default-duration</code> minutes (60 by default), and the
+  with <code>&#123; start, end, allDay &#125;</code>: a click gives <code>default-duration</code> minutes (60 by default), and the
   all-day row and the month view give whole days. The calendar does not add the event itself: it marks the range as a
   new event until <code>events</code> changes, so you can ask for a title first. Call
   <code>clearPlaceholder()</code> if that is canceled. <code>end</code> is exclusive throughout: an all-day event on
