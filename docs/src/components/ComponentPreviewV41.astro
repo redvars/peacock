@@ -52,6 +52,26 @@ const at = (left: number, top: number, width?: number, height?: number) =>
   </div>
 )}
 
+{name === 'calendar-timeline' && (
+  <div class='bp cp41-gantt'>
+    {[
+      [[4, 20, 'ok'], [36, 16, 'run']],
+      [[14, 26, 'wait']],
+      [[0, 14, 'ok'], [48, 30, 'ok']],
+      [[26, 20, 'run']],
+    ].map(bars => (
+      <span class='cp41-gantt-row'>
+        <span class='bp-line cp41-gantt-label'></span>
+        <span class='cp41-gantt-track'>
+          {bars.map(([left, width, state]) => (
+            <i class:list={['cp41-bar', `cp41-bar-${state}`]} style={`left:${left}%;width:${width}%`}></i>
+          ))}
+        </span>
+      </span>
+    ))}
+  </div>
+)}
+
 {name === 'tree-chart' && (
   <div class='bp cp41-canvas'>
     <svg class='cp-edges' viewBox='0 0 100 60' preserveAspectRatio='none' aria-hidden='true'>

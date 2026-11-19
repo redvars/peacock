@@ -126,6 +126,7 @@ const GROUPS: { name: string; components: string[] }[] = [
       'time-picker',
       'datetime-field',
       'calendar',
+      'calendar-timeline',
       'clock',
       'relative-time',
     ],

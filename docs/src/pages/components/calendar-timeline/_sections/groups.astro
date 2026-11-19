@@ -1,0 +1,67 @@
+---
+export const title = 'Groups';
+export const order = 250;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>group-by</code> names a resource field, such as <code>team</code> or <code>floor</code>, to group the rows by.
+  Groups keep the order they first appear in, a group's rows keep their order, and resources without the field form
+  an "(Empty)" group. Each group starts with a header row showing its name and number of resources, and the header's
+  button collapses or expands it.
+</p>
+
+<p>
+  <code>group-toggle</code> fires with <code>&#123; group, expanded &#125;</code>, and <code>collapsed-groups</code>
+  holds the keys of the collapsed groups (their values as strings, <code>""</code> for the empty group). Set it to
+  start groups collapsed or to remember them between visits, as with <code>wc-table</code>'s groups. A collapsed
+  group's header shows its events as thin bars, darker where they overlap, so you can see when it is busy without
+  opening it. Events can be dragged between rows of different groups.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-calendar-timeline
+    id='teams-timeline'
+    resource-label='People'
+    group-by='team'
+    collapsed-groups='["Support"]'
+    editable
+    style='height: 420px; width: 100%'
+  ></wc-calendar-timeline>
+  <script is:inline>
+    (function() {
+      const $timeline = document.getElementById('teams-timeline');
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      function at(hours, minutes) {
+        const result = new Date(today);
+        result.setHours(hours, minutes || 0, 0, 0);
+        return result;
+      }
+
+      $timeline.resources = [
+        { id: 'priya', title: 'Priya Natarajan', supportingText: 'Lead', team: 'Design' },
+        { id: 'tomas', title: 'Tomás Ruiz', supportingText: 'Backend', team: 'Engineering' },
+        { id: 'jo', title: 'Jo Park', supportingText: 'Researcher', team: 'Design' },
+        { id: 'sam', title: 'Sam Okafor', supportingText: 'Frontend', team: 'Engineering' },
+        { id: 'mei', title: 'Mei Chen', supportingText: 'Tier 2', team: 'Support' },
+        { id: 'lea', title: 'Léa Martin', supportingText: 'Tier 1', team: 'Support' },
+      ];
+
+      $timeline.events = [
+        { resourceId: 'priya', title: 'Design critique', start: at(10), end: at(11, 30), color: 'red' },
+        { resourceId: 'jo', title: 'User interviews', start: at(13), end: at(16), color: 'orange' },
+        { resourceId: 'tomas', title: 'Incident review', start: at(9), end: at(10), color: 'blue' },
+        { resourceId: 'sam', title: 'Pairing', start: at(14), end: at(17), color: 'blue' },
+        { resourceId: 'mei', title: 'Morning shift', start: at(7), end: at(15), color: 'green' },
+        { resourceId: 'lea', title: 'Late shift', start: at(12), end: at(20), color: 'green' },
+      ];
+
+      $timeline.addEventListener('group-toggle', function(evt) {
+        console.log('Group', evt.detail.group, evt.detail.expanded ? 'expanded' : 'collapsed');
+      });
+    })();
+  </script>
+</DemoComponentCard>

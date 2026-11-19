@@ -463,6 +463,20 @@ export type {
   CalendarEventChangeAction,
   CalendarEventChangeDetail,
 } from './calendar/index.js';
+export {
+  CalendarTimeline,
+  applyCalendarTimelineChange,
+} from './calendar-timeline/index.js';
+export type {
+  CalendarTimelineDateChangeDetail,
+  CalendarTimelineEvent,
+  CalendarTimelineEventAddDetail,
+  CalendarTimelineEventChangeAction,
+  CalendarTimelineEventChangeDetail,
+  CalendarTimelineGroupToggleDetail,
+  CalendarTimelineResource,
+  CalendarTimelineViewType,
+} from './calendar-timeline/index.js';
 export { Diagram } from './diagram/index.js';
 // Deprecated alias of Diagram: wc-flow was renamed to wc-diagram. Removed in 5.0.
 export { Flow } from './diagram/index.js';

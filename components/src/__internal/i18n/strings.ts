@@ -119,6 +119,21 @@ export const defaultStrings = {
   calendarEventResized: (title: string, when: string): string =>
     `Changed ${title} to ${when}.`,
 
+  // ── Calendar timeline ────────────────────────────────────────────────────
+  /** Header of a calendar timeline's resource column, unless `resource-label` names it. */
+  calendarTimelineResources: 'Resources',
+  /** A calendar timeline without resources. */
+  calendarTimelineEmpty: 'No resources',
+  /** Resource count of a calendar timeline's group header; `count` is formatted, `n` the number for plural rules. */
+  calendarTimelineGroupCount: (count: string, n: number): string =>
+    n === 1 ? `${count} resource` : `${count} resources`,
+  /** Announced when an event is dragged to another resource's row, for example "Moved Standup to Room B, Nov 4, 2026, 10:00 – 10:30 AM." */
+  calendarTimelineEventMoved: (
+    title: string,
+    resource: string,
+    when: string,
+  ): string => `Moved ${title} to ${resource}, ${when}.`,
+
   // ── Overlays and feedback ────────────────────────────────────────────────
   closeDialog: 'Close dialog',
   closeNotification: 'Close notification',

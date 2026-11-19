@@ -45,6 +45,25 @@ export function weekStart(locale: string): WeekDay {
   return 0;
 }
 
+/**
+ * The weekend days of a locale (0 = Sunday), from `Intl.Locale` week info when available, else
+ * Saturday and Sunday.
+ */
+export function weekendDays(locale: string): WeekDay[] {
+  try {
+    const loc = new Intl.Locale(locale) as Intl.Locale & {
+      weekInfo?: { weekend: number[] };
+      getWeekInfo?: () => { weekend: number[] };
+    };
+    const info = loc.getWeekInfo?.() ?? loc.weekInfo;
+    // Week info numbers days 1 (Monday) to 7 (Sunday).
+    if (info?.weekend) return info.weekend.map(day => (day % 7) as WeekDay);
+  } catch {
+    // Unknown locale tag: fall through.
+  }
+  return [6, 0];
+}
+
 /** The locale's preferred hour cycle. */
 export function localeHourCycle(locale: string): HourCycle {
   const options = new Intl.DateTimeFormat(locale, {
