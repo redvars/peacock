@@ -20,17 +20,17 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-timeline-grid
-    id='teams-grid'
+  <wc-calendar-timeline
+    id='teams-timeline'
     resource-label='People'
     group-by='team'
     collapsed-groups='["Support"]'
     editable
     style='height: 420px; width: 100%'
-  ></wc-timeline-grid>
+  ></wc-calendar-timeline>
   <script is:inline>
     (function() {
-      const $grid = document.getElementById('teams-grid');
+      const $timeline = document.getElementById('teams-timeline');
 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -41,7 +41,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         return result;
       }
 
-      $grid.resources = [
+      $timeline.resources = [
         { id: 'priya', title: 'Priya Natarajan', supportingText: 'Lead', team: 'Design' },
         { id: 'tomas', title: 'Tomás Ruiz', supportingText: 'Backend', team: 'Engineering' },
         { id: 'jo', title: 'Jo Park', supportingText: 'Researcher', team: 'Design' },
@@ -50,7 +50,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         { id: 'lea', title: 'Léa Martin', supportingText: 'Tier 1', team: 'Support' },
       ];
 
-      $grid.events = [
+      $timeline.events = [
         { resourceId: 'priya', title: 'Design critique', start: at(10), end: at(11, 30), color: 'red' },
         { resourceId: 'jo', title: 'User interviews', start: at(13), end: at(16), color: 'orange' },
         { resourceId: 'tomas', title: 'Incident review', start: at(9), end: at(10), color: 'blue' },
@@ -59,7 +59,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         { resourceId: 'lea', title: 'Late shift', start: at(12), end: at(20), color: 'green' },
       ];
 
-      $grid.addEventListener('group-toggle', function(evt) {
+      $timeline.addEventListener('group-toggle', function(evt) {
         console.log('Group', evt.detail.group, evt.detail.expanded ? 'expanded' : 'collapsed');
       });
     })();

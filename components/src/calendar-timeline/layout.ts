@@ -1,5 +1,5 @@
 /**
- * The time axis of `wc-timeline-grid`: the days a view shows, where a time falls along them, and
+ * The time axis of `wc-calendar-timeline`: the days a view shows, where a time falls along them, and
  * which lane each event of a row takes. Pure functions, so they can be tested without a page.
  *
  * The axis counts wall-clock minutes from the first midnight, 1440 to a day, like the calendar's
@@ -18,7 +18,7 @@ import {
   wallMinutes,
 } from '@/calendar/utils.js';
 import type { WeekDay } from '@/__internal/utils/date.js';
-import type { TimelineGridViewType } from './types.js';
+import type { CalendarTimelineViewType } from './types.js';
 
 /** Minutes in a day on the wall clock. */
 export const DAY_MINUTES = 1440;
@@ -37,7 +37,7 @@ export interface AxisSpan {
 
 /** The days `view` shows around `date`: a calendar month when it has no `days`. */
 export function viewRange(
-  view: TimelineGridViewType,
+  view: CalendarTimelineViewType,
   date: Date,
   weekStartsOn: WeekDay,
 ): TimelineRange {
@@ -88,7 +88,7 @@ export function dateAtAxis(range: TimelineRange, minutes: number): Date {
  */
 export function eventSpan(
   range: TimelineRange,
-  slot: TimelineGridViewType['slot'],
+  slot: CalendarTimelineViewType['slot'],
   start: Date,
   end: Date,
 ): AxisSpan {

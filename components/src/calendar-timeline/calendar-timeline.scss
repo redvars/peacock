@@ -8,24 +8,24 @@
   height: 100%;
   min-height: 16em;
 
-  --timeline-grid-resource-width: 12rem;
-  --timeline-grid-hour-width: 4rem;
-  --timeline-grid-day-width: 3rem;
-  --timeline-grid-lane-height: 2rem;
-  --timeline-grid-border-color: var(--color-outline-variant);
+  --calendar-timeline-resource-width: 12rem;
+  --calendar-timeline-hour-width: 4rem;
+  --calendar-timeline-day-width: 3rem;
+  --calendar-timeline-lane-height: 2rem;
+  --calendar-timeline-border-color: var(--color-outline-variant);
 
-  --timeline-grid-event-bg-color: var(--color-primary-container);
-  --timeline-grid-event-bg-color--hover: var(--color-inverse-primary);
-  --timeline-grid-event-border-color: var(--color-primary);
-  --timeline-grid-event-text-color: var(--color-on-primary-container);
-  --timeline-grid-event-text-color--hover: var(--color-on-primary);
+  --calendar-timeline-event-bg-color: var(--color-primary-container);
+  --calendar-timeline-event-bg-color--hover: var(--color-inverse-primary);
+  --calendar-timeline-event-border-color: var(--color-primary);
+  --calendar-timeline-event-text-color: var(--color-on-primary-container);
+  --calendar-timeline-event-text-color--hover: var(--color-on-primary);
 }
 
-.timeline-grid {
-  --_resource-width: var(--timeline-grid-resource-width);
-  --_lane: var(--timeline-grid-lane-height);
+.calendar-timeline {
+  --_resource-width: var(--calendar-timeline-resource-width);
+  --_lane: var(--calendar-timeline-lane-height);
   --_pad: 0.375rem;
-  --_border: var(--timeline-grid-border-color);
+  --_border: var(--calendar-timeline-border-color);
 
   display: flex;
   flex-direction: column;
@@ -330,7 +330,7 @@
     min-width: 0.25rem;
     margin-top: -0.25rem;
     border-radius: var(--shape-corner-full);
-    background: var(--timeline-grid-event-border-color);
+    background: var(--calendar-timeline-event-border-color);
     opacity: 0.45;
   }
 }
@@ -383,11 +383,11 @@
   height: calc(var(--_lane) - 0.25rem);
   overflow: hidden;
   padding: 0 0.375rem;
-  background: var(--timeline-grid-event-bg-color);
-  border-inline-start: 0.25rem solid var(--timeline-grid-event-border-color);
+  background: var(--calendar-timeline-event-bg-color);
+  border-inline-start: 0.25rem solid var(--calendar-timeline-event-border-color);
   border-radius: var(--shape-corner-extra-small);
   font-size: 0.75rem;
-  color: var(--timeline-grid-event-text-color);
+  color: var(--calendar-timeline-event-text-color);
   white-space: nowrap;
   transition: background 150ms ease;
   container-type: inline-size;
@@ -416,11 +416,11 @@
     cursor: pointer;
 
     &:hover {
-      background: var(--timeline-grid-event-bg-color--hover);
-      color: var(--timeline-grid-event-text-color--hover);
+      background: var(--calendar-timeline-event-bg-color--hover);
+      color: var(--calendar-timeline-event-text-color--hover);
 
       .resize-handle {
-        color: var(--timeline-grid-event-text-color--hover);
+        color: var(--calendar-timeline-event-text-color--hover);
       }
     }
 
@@ -474,7 +474,7 @@
   z-index: 1;
   inset-block: 0;
   inline-size: 0.375rem;
-  color: var(--timeline-grid-event-text-color);
+  color: var(--calendar-timeline-event-text-color);
   cursor: ew-resize;
 
   &.start {

@@ -49,27 +49,27 @@ import {
   type TimelineRange,
 } from './layout.js';
 import type {
-  TimelineGridEvent,
-  TimelineGridEventAddDetail,
-  TimelineGridEventChangeDetail,
-  TimelineGridGroupToggleDetail,
-  TimelineGridResource,
-  TimelineGridViewType,
+  CalendarTimelineEvent,
+  CalendarTimelineEventAddDetail,
+  CalendarTimelineEventChangeDetail,
+  CalendarTimelineGroupToggleDetail,
+  CalendarTimelineResource,
+  CalendarTimelineViewType,
 } from './types.js';
-import styles from './timeline-grid.scss';
+import styles from './calendar-timeline.scss';
 
 export type {
-  TimelineGridEvent,
-  TimelineGridEventAddDetail,
-  TimelineGridEventChangeAction,
-  TimelineGridEventChangeDetail,
-  TimelineGridGroupToggleDetail,
-  TimelineGridResource,
-  TimelineGridViewType,
+  CalendarTimelineEvent,
+  CalendarTimelineEventAddDetail,
+  CalendarTimelineEventChangeAction,
+  CalendarTimelineEventChangeDetail,
+  CalendarTimelineGroupToggleDetail,
+  CalendarTimelineResource,
+  CalendarTimelineViewType,
 } from './types.js';
 
 /** Detail of `date-change`. */
-export type TimelineGridDateChangeDetail = {
+export type CalendarTimelineDateChangeDetail = {
   /** The new context date. */
   date: Date;
   /** The same date as an ISO string, `YYYY-MM-DD`. */
@@ -78,7 +78,7 @@ export type TimelineGridDateChangeDetail = {
 
 /** An event laid out in its row. */
 interface PlacedEvent extends AxisSpan {
-  data: TimelineGridEvent;
+  data: CalendarTimelineEvent;
   start: Date;
   end: Date;
   lane: number;
@@ -86,7 +86,7 @@ interface PlacedEvent extends AxisSpan {
 
 /** A resource's row, laid out. */
 interface LaidOutRow {
-  resource: TimelineGridResource;
+  resource: CalendarTimelineResource;
   events: PlacedEvent[];
   lanes: number;
 }
@@ -112,7 +112,7 @@ interface GridPress {
 interface GridPreview {
   action: CalendarDragAction;
   /** The dragged event's object from `events`; none when adding. */
-  data?: TimelineGridEvent;
+  data?: CalendarTimelineEvent;
   /** The index of the row it would land in. */
   row: number;
   title: string;
@@ -125,15 +125,15 @@ interface GridPreview {
 const START_HANDLE_MIN_MS = 30 * MINUTE_MS;
 
 /**
- * Applies an `event-change` to an `events` array the way the grid does, returning a new array in
+ * Applies an `event-change` to an `events` array the way the timeline does, returning a new array in
  * which the event is replaced by a copy with the new `start`, `end` and `resourceId`. The event is
- * found by identity, else by `id`. The copy is made with object spread, so give the grid plain
+ * found by identity, else by `id`. The copy is made with object spread, so give the timeline plain
  * objects. Use it to apply a change you canceled, for example once the server has accepted it.
  */
-export function applyTimelineGridChange<T extends TimelineGridEvent>(
+export function applyCalendarTimelineChange<T extends CalendarTimelineEvent>(
   events: readonly T[],
   change: Pick<
-    TimelineGridEventChangeDetail,
+    CalendarTimelineEventChangeDetail,
     'event' | 'start' | 'end' | 'resourceId'
   >,
 ): T[] {
@@ -155,9 +155,9 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
 }
 
 /**
- * @label Timeline Grid
- * @tag wc-timeline-grid
- * @rawTag timeline-grid
+ * @label Calendar Timeline
+ * @tag wc-calendar-timeline
+ * @rawTag calendar-timeline
  * @summary Resources such as people, rooms or machines as rows against a horizontal time axis, with events that can be dragged between times and rows.
  *
  * @overview
@@ -171,7 +171,7 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
  * columns), <code>week</code> (7 day columns from the week's first day) and <code>month</code>. In
  * hour views an event is drawn from its start to its end; in day views it covers the days it
  * touches. Events that overlap in a row stack in lanes. Columns share the width, never narrower
- * than <code>--timeline-grid-hour-width</code> or <code>--timeline-grid-day-width</code>, and a
+ * than <code>--calendar-timeline-hour-width</code> or <code>--calendar-timeline-day-width</code>, and a
  * range that does not fit scrolls sideways under a header and a resource column that stay in
  * place. A line marks the current time.</p>
  * <p>The header, <code>date</code>, <code>contextDate</code>, <code>view</code>,
@@ -181,9 +181,9 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
  * <p>With <code>editable</code>, people drag an event to another time or another resource's row,
  * and drag its edges to resize it: in steps of <code>minute-step</code> minutes in hour views, by
  * whole days in day views. Each drop fires the cancelable <code>event-change</code>, with the new
- * <code>resourceId</code>; unless it is canceled, the grid replaces <code>events</code> with a new
+ * <code>resourceId</code>; unless it is canceled, the timeline replaces <code>events</code> with a new
  * array holding a copy of the event. To confirm a change with a server first, cancel the event and
- * apply it later with <code>applyTimelineGridChange()</code>. With <code>addable</code>, dragging
+ * apply it later with <code>applyCalendarTimelineChange()</code>. With <code>addable</code>, dragging
  * across empty time in a row, or clicking it, fires <code>event-add</code>; the range stays marked
  * as a new event until <code>events</code> changes or <code>clearPlaceholder()</code> is called.
  * An event with <code>editable: false</code> stays put, and <code>events-readonly</code> turns
@@ -194,29 +194,29 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
  * <code>group-toggle</code>; <code>collapsed-groups</code> holds the keys of the collapsed groups,
  * their values as strings. A collapsed group's header shows its events as thin bars, so its busy
  * times stay in sight. Events can be dragged between rows of different groups.</p>
- * <p>The grid is a table: a row per resource, with the resource's title as its row header and its
+ * <p>The timeline is a table: a row per resource, with the resource's title as its row header and its
  * events in its cell. Events are buttons, named with their title, resource and time, that fire
  * <code>event-click</code>. Changes are announced to screen readers. Dragging needs a pointer, so
  * offer another way to change an event too, such as the dialog <code>event-click</code> opens.</p>
  *
- * @cssprop --timeline-grid-resource-width - Width of the resource column. Defaults to `12rem`.
- * @cssprop --timeline-grid-hour-width - Narrowest an hour column gets before the grid scrolls. Defaults to `4rem`.
- * @cssprop --timeline-grid-day-width - Narrowest a day column gets before the grid scrolls. Defaults to `3rem`.
- * @cssprop --timeline-grid-lane-height - Height of each lane of events in a row. Defaults to `2rem`.
- * @cssprop --timeline-grid-border-color - Color of the grid lines.
- * @cssprop --timeline-grid-event-bg-color - Background color of events without a `color`.
- * @cssprop --timeline-grid-event-border-color - Start border color of events without a `color`.
+ * @cssprop --calendar-timeline-resource-width - Width of the resource column. Defaults to `12rem`.
+ * @cssprop --calendar-timeline-hour-width - Narrowest an hour column gets before the timeline scrolls. Defaults to `4rem`.
+ * @cssprop --calendar-timeline-day-width - Narrowest a day column gets before the timeline scrolls. Defaults to `3rem`.
+ * @cssprop --calendar-timeline-lane-height - Height of each lane of events in a row. Defaults to `2rem`.
+ * @cssprop --calendar-timeline-border-color - Color of the grid lines.
+ * @cssprop --calendar-timeline-event-bg-color - Background color of events without a `color`.
+ * @cssprop --calendar-timeline-event-border-color - Start border color of events without a `color`.
  *
- * @fires {CustomEvent<{event: TimelineGridEvent}>} event-click - An event was clicked, or chosen with Enter or Space. Detail contains `{ event }`. Not fired with `events-readonly`.
+ * @fires {CustomEvent<{event: CalendarTimelineEvent}>} event-click - An event was clicked, or chosen with Enter or Space. Detail contains `{ event }`. Not fired with `events-readonly`.
  * @fires {CustomEvent<{view: string}>} view-change - The view changed. Detail contains `{ view }`.
- * @fires {CustomEvent<TimelineGridDateChangeDetail>} date-change - The context date changed. Detail contains `{ date, value }`: the `Date` and its ISO string.
- * @fires {CustomEvent<TimelineGridEventChangeDetail>} event-change - An event was dragged to a new time or row (`action: 'move'`), or had its start or end dragged (`action: 'resize'`). Detail contains `{ event, start, end, resourceId, action }`, where `event` is the object from `events` as it was. Cancelable: cancel it to keep the event where it was. Only with `editable`.
- * @fires {CustomEvent<TimelineGridEventAddDetail>} event-add - Empty time in a row was dragged across or clicked. Detail contains `{ start, end, allDay, resourceId }`. Only with `addable`.
- * @fires {CustomEvent<TimelineGridGroupToggleDetail>} group-toggle - A group was collapsed or expanded with its header's button. Detail contains `{ group, expanded }`.
+ * @fires {CustomEvent<CalendarTimelineDateChangeDetail>} date-change - The context date changed. Detail contains `{ date, value }`: the `Date` and its ISO string.
+ * @fires {CustomEvent<CalendarTimelineEventChangeDetail>} event-change - An event was dragged to a new time or row (`action: 'move'`), or had its start or end dragged (`action: 'resize'`). Detail contains `{ event, start, end, resourceId, action }`, where `event` is the object from `events` as it was. Cancelable: cancel it to keep the event where it was. Only with `editable`.
+ * @fires {CustomEvent<CalendarTimelineEventAddDetail>} event-add - Empty time in a row was dragged across or clicked. Detail contains `{ start, end, allDay, resourceId }`. Only with `addable`.
+ * @fires {CustomEvent<CalendarTimelineGroupToggleDetail>} group-toggle - A group was collapsed or expanded with its header's button. Detail contains `{ group, expanded }`.
  *
  * @example
  * ```html
- * <wc-timeline-grid id="rooms" view="day" resource-label="Rooms" editable addable style="height: 24rem"></wc-timeline-grid>
+ * <wc-calendar-timeline id="rooms" view="day" resource-label="Rooms" editable addable style="height: 24rem"></wc-calendar-timeline>
  * <script>
  *   const rooms = document.getElementById('rooms');
  *   rooms.resources = [
@@ -231,7 +231,7 @@ export function applyTimelineGridChange<T extends TimelineGridEvent>(
  * ```
  */
 @IndividualComponent
-export class TimelineGrid extends LitElement {
+export class CalendarTimeline extends LitElement {
   // ── Static
 
   static styles = [styles];
@@ -240,18 +240,18 @@ export class TimelineGrid extends LitElement {
 
   /** The rows, in order. */
   @property({ attribute: false })
-  resources: TimelineGridResource[] = [];
+  resources: CalendarTimelineResource[] = [];
 
   /** The events. Each one is shown in the row of the resource its `resourceId` names. */
   @property({ attribute: false })
-  events: TimelineGridEvent[] = [];
+  events: CalendarTimelineEvent[] = [];
 
   /**
    * The views offered in the header. A view without a `label` shows Peacock's `day`, `week` or
    * `month` string for those values, else its `value`.
    */
   @property({ type: Array, attribute: 'available-views' })
-  availableViews: TimelineGridViewType[] = [
+  availableViews: CalendarTimelineViewType[] = [
     { value: 'day', slot: 'hour', days: 1 },
     { value: 'week', slot: 'day', days: 7 },
     { value: 'month', slot: 'day' },
@@ -317,7 +317,7 @@ export class TimelineGrid extends LitElement {
   @property({ type: Number, attribute: 'default-duration' })
   defaultDuration: number = 60;
 
-  /** Shows a progress bar and marks the grid busy while events load. */
+  /** Shows a progress bar and marks the timeline busy while events load. */
   @property({ type: Boolean, reflect: true })
   loading: boolean = false;
 
@@ -346,7 +346,7 @@ export class TimelineGrid extends LitElement {
 
   /** The range of the last `event-add`, marked as a new event until the app adds it. */
   @state()
-  private _placeholder: TimelineGridEventAddDetail | null = null;
+  private _placeholder: CalendarTimelineEventAddDetail | null = null;
 
   // ── Private fields
 
@@ -486,12 +486,12 @@ export class TimelineGrid extends LitElement {
   // ── Private methods
 
   /** The entry of `availableViews` matching `view`. */
-  private get _view(): TimelineGridViewType | undefined {
+  private get _view(): CalendarTimelineViewType | undefined {
     return this.availableViews.find(view => view.value === this.view);
   }
 
   /** What a column of the current view stands for. */
-  private get _slot(): TimelineGridViewType['slot'] {
+  private get _slot(): CalendarTimelineViewType['slot'] {
     return this._view?.slot === 'day' ? 'day' : 'hour';
   }
 
@@ -546,8 +546,8 @@ export class TimelineGrid extends LitElement {
     return this.editable && !this.eventsReadonly;
   }
 
-  /** Whether an event can be dragged: the grid is editable and the event did not opt out. */
-  private _canEdit(event: TimelineGridEvent): boolean {
+  /** Whether an event can be dragged: the timeline is editable and the event did not opt out. */
+  private _canEdit(event: CalendarTimelineEvent): boolean {
     return this._eventsEditable() && event.editable !== false;
   }
 
@@ -557,7 +557,7 @@ export class TimelineGrid extends LitElement {
     if (!view) return [];
     const range = this._range;
     const end = rangeEnd(range);
-    const byResource = new Map<string | number, TimelineGridEvent[]>();
+    const byResource = new Map<string | number, CalendarTimelineEvent[]>();
     (this.events ?? []).forEach(event => {
       if (!rangesOverlap(event.start, event.end, range.start, end)) return;
       const list = byResource.get(event.resourceId);
@@ -608,7 +608,7 @@ export class TimelineGrid extends LitElement {
       ? keys.filter(entry => entry !== key)
       : [...keys, key];
     this.dispatchEvent(
-      new CustomEvent<TimelineGridGroupToggleDetail>('group-toggle', {
+      new CustomEvent<CalendarTimelineGroupToggleDetail>('group-toggle', {
         detail: { group: key, expanded },
         bubbles: true,
         composed: true,
@@ -632,7 +632,7 @@ export class TimelineGrid extends LitElement {
     this.contextDate = date;
     this.date = dateToIso(date);
     this.dispatchEvent(
-      new CustomEvent<TimelineGridDateChangeDetail>('date-change', {
+      new CustomEvent<CalendarTimelineDateChangeDetail>('date-change', {
         detail: { date, value: this.date },
         bubbles: true,
         composed: true,
@@ -652,7 +652,7 @@ export class TimelineGrid extends LitElement {
   }
 
   /** The view's own label, else Peacock's string for the built-in views, else its value. */
-  private _viewLabel(view: TimelineGridViewType): string {
+  private _viewLabel(view: CalendarTimelineViewType): string {
     if (view.label) return view.label;
     if (
       view.value === 'day' ||
@@ -692,11 +692,11 @@ export class TimelineGrid extends LitElement {
   private _colorVars(color: string | undefined): Record<string, string> {
     if (!color) return {};
     return {
-      '--timeline-grid-event-bg-color': `var(--color-${color}-container)`,
-      '--timeline-grid-event-bg-color--hover': `var(--color-inverse-${color})`,
-      '--timeline-grid-event-border-color': `var(--color-${color})`,
-      '--timeline-grid-event-text-color': `var(--color-on-${color}-container)`,
-      '--timeline-grid-event-text-color--hover': `var(--color-on-${color})`,
+      '--calendar-timeline-event-bg-color': `var(--color-${color}-container)`,
+      '--calendar-timeline-event-bg-color--hover': `var(--color-inverse-${color})`,
+      '--calendar-timeline-event-border-color': `var(--color-${color})`,
+      '--calendar-timeline-event-text-color': `var(--color-on-${color}-container)`,
+      '--calendar-timeline-event-text-color--hover': `var(--color-on-${color})`,
     };
   }
 
@@ -737,7 +737,7 @@ export class TimelineGrid extends LitElement {
 
   /**
    * Reads `message` in the live region. Its text is set directly, so an announcement does not
-   * render the grid again.
+   * render the timeline again.
    */
   private _announce(message: string) {
     const region = this.renderRoot.querySelector('[role="status"]');
@@ -1023,21 +1023,21 @@ export class TimelineGrid extends LitElement {
   }
 
   /** Fires `event-change` and, unless it is canceled, applies and announces it. */
-  private _change(detail: TimelineGridEventChangeDetail) {
+  private _change(detail: CalendarTimelineEventChangeDetail) {
     if (!this._eventsEditable()) return;
-    const change = new CustomEvent<TimelineGridEventChangeDetail>(
+    const change = new CustomEvent<CalendarTimelineEventChangeDetail>(
       'event-change',
       { detail, bubbles: true, composed: true, cancelable: true },
     );
     if (!this.dispatchEvent(change)) return;
-    this.events = applyTimelineGridChange(this.events, detail);
+    this.events = applyCalendarTimelineChange(this.events, detail);
     const title = detail.event.title || this._i18n.t('calendarUntitled');
     const when = this._when(detail.start, detail.end);
     if (detail.resourceId !== detail.event.resourceId) {
       const resource =
         this.resources.find(item => item.id === detail.resourceId)?.title ?? '';
       this._announce(
-        this._i18n.t('timelineGridEventMoved')(title, resource, when),
+        this._i18n.t('calendarTimelineEventMoved')(title, resource, when),
       );
       return;
     }
@@ -1051,11 +1051,11 @@ export class TimelineGrid extends LitElement {
   }
 
   /** Marks the range as a new event, fires `event-add` and announces it. */
-  private _add(detail: TimelineGridEventAddDetail) {
+  private _add(detail: CalendarTimelineEventAddDetail) {
     if (!this.addable) return;
     this._placeholder = detail;
     this.dispatchEvent(
-      new CustomEvent<TimelineGridEventAddDetail>('event-add', {
+      new CustomEvent<CalendarTimelineEventAddDetail>('event-add', {
         detail,
         bubbles: true,
         composed: true,
@@ -1138,7 +1138,7 @@ export class TimelineGrid extends LitElement {
   }
 
   /** The column labels: hours (under their days when there are several), or days. */
-  private _renderTimeHeader(view: TimelineGridViewType) {
+  private _renderTimeHeader(view: CalendarTimelineViewType) {
     const { locale } = this._i18n;
     const range = this._range;
     const today = startOfDay(this._currentTime).valueOf();
@@ -1197,7 +1197,7 @@ export class TimelineGrid extends LitElement {
   }
 
   /** Today, weekends and day boundaries behind every row, and the current-time line. */
-  private _renderOverlay(view: TimelineGridViewType) {
+  private _renderOverlay(view: CalendarTimelineViewType) {
     const range = this._range;
     const today = startOfDay(this._currentTime).valueOf();
     const weekend = weekendDays(this._i18n.locale);
@@ -1426,7 +1426,7 @@ export class TimelineGrid extends LitElement {
           </button>
           <span class="group-label">${name}</span>
           <span class="group-count"
-            >${this._i18n.t('timelineGridGroupCount')(
+            >${this._i18n.t('calendarTimelineGroupCount')(
               new Intl.NumberFormat(this._i18n.locale).format(count),
               count,
             )}</span
@@ -1449,7 +1449,7 @@ export class TimelineGrid extends LitElement {
     if (!this._rows.length) {
       return html`<div class="row" role="row">
         <div class="empty" role="cell">
-          ${this._i18n.t('timelineGridEmpty')}
+          ${this._i18n.t('calendarTimelineEmpty')}
         </div>
       </div>`;
     }
@@ -1475,13 +1475,13 @@ export class TimelineGrid extends LitElement {
         class=${classMap(this._scrollerClasses())}
         style="--_slots: ${slots}; --_days: ${range.days}; --_slot-min: var(${view.slot ===
         'day'
-          ? '--timeline-grid-day-width'
-          : '--timeline-grid-hour-width'})"
+          ? '--calendar-timeline-day-width'
+          : '--calendar-timeline-hour-width'})"
       >
         <div class="table" role="table" aria-label=${label}>
           <div class="row header-row" role="row">
             <div class="corner" role="columnheader">
-              ${this.resourceLabel || this._i18n.t('timelineGridResources')}
+              ${this.resourceLabel || this._i18n.t('calendarTimelineResources')}
             </div>
             <div
               class=${classMap({
@@ -1509,7 +1509,7 @@ export class TimelineGrid extends LitElement {
   render() {
     const busy = this.loading;
     return html`
-      <div class="timeline-grid">
+      <div class="calendar-timeline">
         <div class="calendar-header">${this._renderHeader()}</div>
         ${busy
           ? html`<wc-linear-progress

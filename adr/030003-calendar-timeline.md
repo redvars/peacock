@@ -1,8 +1,8 @@
-# ADR-030003: Timeline grid
+# ADR-030003: Calendar timeline
 
 - **Status:** Proposed
 - **Date:** 2026-11-19
-- **Packages:** `@redvars/peacock` (`wc-timeline-grid`, `wc-calendar`)
+- **Packages:** `@redvars/peacock` (`wc-calendar-timeline`, `wc-calendar`)
 - **Links:** [ADR-030001](030001-component-api-conventions.md) (component API conventions); redvars/peacock#153 (calendar editing)
 
 ## Context
@@ -14,12 +14,14 @@ Most of what a timeline needs already exists in the calendar: the pointer drag e
 ## Options considered
 
 1. **A `timeline` view of `wc-calendar`.** One element and one view switcher. But the timeline brings options that do nothing in the day, week and month views (`resources`, the resource column, slot widths), and dragging an event to another row changes which resource it belongs to, so `event-change` would carry a field the other views never set.
-2. **A separate `wc-timeline-grid` built on the calendar's engine.** Two elements with the same vocabulary, sharing the drag controller, the time math and the header.
+2. **A separate `wc-calendar-timeline` built on the calendar's engine.** Two elements with the same vocabulary, sharing the drag controller, the time math and the header.
 3. **Grow `wc-workflow-timeline`.** It already draws bars on a shared time scale, but it shows the steps of one workflow run, read-only. Rows of resources and editing would change what it is for.
 
 ## Decision
 
 Option 2. ADR-030001 makes a mode its own component when it changes the value the consumer reads or writes, or adds options that do nothing in the other modes; the timeline does both.
+
+The component is `wc-calendar-timeline`, named after the calendar it extends. The name `timeline-grid` stays free for another component.
 
 ### Data
 - `resources`: the rows, in order, as `{ id, title, supportingText? }`. The row header shows the title and the supporting text.
@@ -38,7 +40,7 @@ Option 2. ADR-030001 makes a mode its own component when it changes the value th
 
 ### Layout
 - One scroll container. The header with the time columns stays at the top, and the resource column stays at the inline start.
-- Columns share the width, never narrower than `--timeline-grid-hour-width` or `--timeline-grid-day-width`. A range that does not fit scrolls sideways.
+- Columns share the width, never narrower than `--calendar-timeline-hour-width` or `--calendar-timeline-day-width`. A range that does not fit scrolls sideways.
 - Events that overlap in a row stack in lanes, and the row grows to fit them.
 - A line marks the current time. In day views, today is tinted and weekends are shaded.
 
@@ -46,12 +48,12 @@ Option 2. ADR-030001 makes a mode its own component when it changes the value th
 - The calendar's contract, with the row added:
   - `editable` lets people drag an event to another time or another row, and drag its edges to resize it. Hour views snap to `minute-step`; day views move by whole days.
   - `addable` lets people drag across empty time in a row, or click it, to fire `event-add` with `{ start, end, allDay, resourceId }`. The calendar does not add the event; the range stays marked as a new event until `events` changes or `clearPlaceholder()` is called.
-  - `event-change` is cancelable and carries `{ event, start, end, resourceId, action }`. Unless it is canceled, the grid applies the change. `applyTimelineGridChange()` applies one later.
+  - `event-change` is cancelable and carries `{ event, start, end, resourceId, action }`. Unless it is canceled, the timeline applies the change. `applyCalendarTimelineChange()` applies one later.
   - An event with `editable: false` stays put, and `events-readonly` turns editing off.
 - The drag controller, the whole-day drag math and the header are shared with `wc-calendar` from `src/calendar/`. The controller now auto-scrolls along both axes.
 
 ### Accessibility
-- The grid is a table: a row per resource, the resource's title as its row header and its events as buttons in its one cell. Each event's name includes its resource and time.
+- The timeline is a table: a row per resource, the resource's title as its row header and its events as buttons in its one cell. Each event's name includes its resource and time.
 - Moves, resizes and new events are announced in a live region.
 - Clicking empty time adds an event without dragging. Apps open the event on `event-click` to offer another way to change its time.
 - Right-to-left layouts mirror the time axis.

@@ -21,7 +21,7 @@ export interface CalendarHeaderOptions {
 }
 
 /**
- * The header `wc-calendar` and `wc-timeline-grid` share: a Today button, Previous and Next, the
+ * The header `wc-calendar` and `wc-calendar-timeline` share: a Today button, Previous and Next, the
  * period shown (a polite live region) and the views as segmented buttons. Its styles are the
  * `styles` mixin of `_calendar-header.scss`.
  */

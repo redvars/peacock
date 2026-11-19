@@ -1,7 +1,7 @@
 import type { EventType } from '@/calendar/types.js';
 
-/** A row of the grid: a person, a room, a machine. Add any fields of your own. */
-export type TimelineGridResource = {
+/** A row of the timeline: a person, a room, a machine. Add any fields of your own. */
+export type CalendarTimelineResource = {
   id: string | number;
   /** Shown in the row header, and read with the row's events. */
   title: string;
@@ -10,11 +10,11 @@ export type TimelineGridResource = {
   [key: string]: unknown;
 };
 
-/** An event of the grid: a calendar event with the `id` of the resource whose row it is in. */
-export type TimelineGridEvent = EventType & { resourceId: string | number };
+/** An event of the timeline: a calendar event with the `id` of the resource whose row it is in. */
+export type CalendarTimelineEvent = EventType & { resourceId: string | number };
 
-/** A view of the grid. */
-export type TimelineGridViewType = {
+/** A view of the timeline. */
+export type CalendarTimelineViewType = {
   value: string;
   /** Text of the view's button. Defaults to Peacock's `day`, `week` or `month` string, else `value`. */
   label?: string;
@@ -28,12 +28,12 @@ export type TimelineGridViewType = {
 };
 
 /** How an `event-change` changed the event. */
-export type TimelineGridEventChangeAction = 'move' | 'resize';
+export type CalendarTimelineEventChangeAction = 'move' | 'resize';
 
 /** Detail of `event-change`. */
-export type TimelineGridEventChangeDetail = {
+export type CalendarTimelineEventChangeDetail = {
   /** The event as it was, the object from `events`. */
-  event: TimelineGridEvent;
+  event: CalendarTimelineEvent;
   /** The new start. */
   start: Date;
   /** The new end. */
@@ -41,11 +41,11 @@ export type TimelineGridEventChangeDetail = {
   /** The resource the event belongs to now: `event.resourceId`, unless it was dragged to another row. */
   resourceId: string | number;
   /** `move` when the event was dragged, `resize` when its start or end was. */
-  action: TimelineGridEventChangeAction;
+  action: CalendarTimelineEventChangeAction;
 };
 
 /** Detail of `event-add`. */
-export type TimelineGridEventAddDetail = {
+export type CalendarTimelineEventAddDetail = {
   /** Start of the range the person drew or clicked. */
   start: Date;
   /** End of the range, exclusive: midnight after the last day of a range of whole days. */
@@ -57,7 +57,7 @@ export type TimelineGridEventAddDetail = {
 };
 
 /** Detail of `group-toggle`. */
-export type TimelineGridGroupToggleDetail = {
+export type CalendarTimelineGroupToggleDetail = {
   /** The group's key: its `group-by` value as a string, `""` for resources without one. */
   group: string;
   /** Whether the group is expanded now. */

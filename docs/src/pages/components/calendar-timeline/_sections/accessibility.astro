@@ -4,7 +4,7 @@ export const order = 300;
 ---
 
 <p>
-  The grid is a table named by the days it shows. Each resource is a row, with its title as the row header and its
+  The timeline is a table named by the days it shows. Each resource is a row, with its title as the row header and its
   events in its one cell. Events are buttons, named with their title, resource and time, that fire
   <code>event-click</code> on a click, <kbd>Enter</kbd> or <kbd>Space</kbd>. With <code>events-readonly</code> they are
   notes that cannot be focused. With <code>group-by</code>, each group's header row has its name as the row header and
@@ -14,7 +14,7 @@ export const order = 300;
 
 <p>
   Moves, resizes and new events are announced in a live region. On touch screens, people hold an event briefly before
-  dragging it, so a swipe still scrolls the grid, and <kbd>Escape</kbd> cancels a drag. Clicking empty time adds an
+  dragging it, so a swipe still scrolls the timeline, and <kbd>Escape</kbd> cancels a drag. Clicking empty time adds an
   event without dragging. Dragging needs a pointer, so also let people change an event's time and resource another way,
   such as in the dialog you open on <code>event-click</code>. Right-to-left layouts run the time axis from the right.
 </p>

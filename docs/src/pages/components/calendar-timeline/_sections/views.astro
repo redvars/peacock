@@ -15,7 +15,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   In hour views an event is drawn from its start to its end, and drags snap to <code>minute-step</code> minutes. In day
   views an event covers the days it touches and shows its start time, and drags move it by whole days, keeping its
   times. Events that overlap in a row stack in lanes. Columns share the width but are never narrower than
-  <code>--timeline-grid-hour-width</code> (4rem) or <code>--timeline-grid-day-width</code> (3rem); a range that does
+  <code>--calendar-timeline-hour-width</code> (4rem) or <code>--calendar-timeline-day-width</code> (3rem); a range that does
   not fit scrolls sideways, under a header and a resource column that stay in place. Today is tinted and weekends are
   shaded in day views, and a line marks the current time.
 </p>
@@ -28,12 +28,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-timeline-grid id='team-grid' view='week' resource-label='People' style='height: 360px; width: 100%'></wc-timeline-grid>
+  <wc-calendar-timeline id='week-timeline' view='week' resource-label='People' style='height: 360px; width: 100%'></wc-calendar-timeline>
   <script is:inline>
     (function() {
-      const $grid = document.getElementById('team-grid');
+      const $timeline = document.getElementById('week-timeline');
 
-      $grid.availableViews = [
+      $timeline.availableViews = [
         { value: 'day', slot: 'hour', days: 1 },
         { value: 'week', slot: 'day', days: 7 },
         { value: 'week-hours', label: 'Week by hour', slot: 'hour', days: 7 },
@@ -50,13 +50,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         return result;
       }
 
-      $grid.resources = [
+      $timeline.resources = [
         { id: 'priya', title: 'Priya Natarajan', supportingText: 'Design' },
         { id: 'tomas', title: 'Tomás Ruiz', supportingText: 'Engineering' },
         { id: 'mei', title: 'Mei Chen', supportingText: 'Support' },
       ];
 
-      $grid.events = [
+      $timeline.events = [
         { resourceId: 'priya', title: 'Workshop', start: day(-1, 9), end: day(-1, 17), color: 'blue' },
         { resourceId: 'priya', title: 'Leave', start: day(2), end: day(4), color: 'orange' },
         { resourceId: 'tomas', title: 'On call', start: day(0), end: day(3), color: 'red' },

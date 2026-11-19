@@ -1,24 +1,24 @@
 /// <reference types="mocha" />
 import { expect, fixture } from '@open-wc/testing';
 import {
-  TimelineGrid,
-  applyTimelineGridChange,
-} from '../src/timeline-grid/timeline-grid.js';
+  CalendarTimeline,
+  applyCalendarTimelineChange,
+} from '../src/calendar-timeline/calendar-timeline.js';
 import {
   assignLanes,
   eventSpan,
   viewRange,
-} from '../src/timeline-grid/layout.js';
+} from '../src/calendar-timeline/layout.js';
 import type {
-  TimelineGridEvent,
-  TimelineGridEventAddDetail,
-  TimelineGridEventChangeDetail,
-  TimelineGridGroupToggleDetail,
-  TimelineGridResource,
-} from '../src/timeline-grid/types.js';
+  CalendarTimelineEvent,
+  CalendarTimelineEventAddDetail,
+  CalendarTimelineEventChangeDetail,
+  CalendarTimelineGroupToggleDetail,
+  CalendarTimelineResource,
+} from '../src/calendar-timeline/types.js';
 
-if (!customElements.get('wc-timeline-grid')) {
-  customElements.define('wc-timeline-grid', TimelineGrid);
+if (!customElements.get('wc-calendar-timeline')) {
+  customElements.define('wc-calendar-timeline', CalendarTimeline);
 }
 
 type Point = { x: number; y: number };
@@ -69,13 +69,13 @@ function collect<T>(el: Element, type: string): CustomEvent<T>[] {
   return fired;
 }
 
-function tracks(el: TimelineGrid): HTMLElement[] {
+function tracks(el: CalendarTimeline): HTMLElement[] {
   return [...root(el).querySelectorAll<HTMLElement>('.track')];
 }
 
 /** A point in row `row`, `hours` hours after the start of the range of an hour view. */
 function timePoint(
-  el: TimelineGrid,
+  el: CalendarTimeline,
   row: number,
   hours: number,
   totalHours = 24,
@@ -96,7 +96,7 @@ function timePoint(
 
 /** The middle of day `day` (0-based) of a day view, in row `row`. */
 function dayPoint(
-  el: TimelineGrid,
+  el: CalendarTimeline,
   row: number,
   day: number,
   days: number,
@@ -105,7 +105,11 @@ function dayPoint(
 }
 
 /** A point `hours` into the day in the row of resource `index` (its place in `resources`). */
-function resourcePoint(el: TimelineGrid, index: number, hours: number): Point {
+function resourcePoint(
+  el: CalendarTimeline,
+  index: number,
+  hours: number,
+): Point {
   const header = (
     root(el).querySelector('.time-header') as HTMLElement
   ).getBoundingClientRect();
@@ -118,24 +122,24 @@ function resourcePoint(el: TimelineGrid, index: number, hours: number): Point {
   };
 }
 
-function eventsIn(el: TimelineGrid, row: number): HTMLElement[] {
+function eventsIn(el: CalendarTimeline, row: number): HTMLElement[] {
   return [...tracks(el)[row].querySelectorAll<HTMLElement>('.event')];
 }
 
-async function announcement(el: TimelineGrid): Promise<string> {
+async function announcement(el: CalendarTimeline): Promise<string> {
   await new Promise(resolve => {
     setTimeout(resolve);
   });
   return root(el).querySelector('[role="status"]')?.textContent?.trim() ?? '';
 }
 
-const rooms = (): TimelineGridResource[] => [
+const rooms = (): CalendarTimelineResource[] => [
   { id: 'aspen', title: 'Aspen', supportingText: '8 seats' },
   { id: 'birch', title: 'Birch' },
   { id: 'cedar', title: 'Cedar' },
 ];
 
-const review = (): TimelineGridEvent => ({
+const review = (): CalendarTimelineEvent => ({
   id: 1,
   resourceId: 'aspen',
   title: 'Design review',
@@ -143,23 +147,23 @@ const review = (): TimelineGridEvent => ({
   end: new Date(2026, 10, 4, 10),
 });
 
-/** A grid on Wednesday, November 4, 2026, with weeks starting on Sunday. */
+/** A timeline on Wednesday, November 4, 2026, with weeks starting on Sunday. */
 async function mount(
-  events: TimelineGridEvent[],
+  events: CalendarTimelineEvent[],
   attributes = 'editable addable',
   resources = rooms(),
 ) {
   const host = document.createElement('div');
-  host.innerHTML = `<wc-timeline-grid locale="en-US" date="2026-11-04" first-day="0" style="height: 900px; width: 1200px" ${attributes}></wc-timeline-grid>`;
-  const el = host.firstElementChild as TimelineGrid;
+  host.innerHTML = `<wc-calendar-timeline locale="en-US" date="2026-11-04" first-day="0" style="height: 900px; width: 1200px" ${attributes}></wc-calendar-timeline>`;
+  const el = host.firstElementChild as CalendarTimeline;
   el.resources = resources;
   el.events = events;
-  const mounted = await fixture<TimelineGrid>(el);
+  const mounted = await fixture<CalendarTimeline>(el);
   await mounted.updateComplete;
   return mounted;
 }
 
-describe('wc-timeline-grid', () => {
+describe('wc-calendar-timeline', () => {
   it('renders a row per resource with its events on the time axis', async () => {
     const el = await mount(
       [
@@ -267,7 +271,10 @@ describe('wc-timeline-grid', () => {
   it('moves an event to another time and row, and applies the change', async () => {
     const original = review();
     const el = await mount([original]);
-    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
+    const changes = collect<CalendarTimelineEventChangeDetail>(
+      el,
+      'event-change',
+    );
     drag(eventsIn(el, 0)[0], timePoint(el, 0, 9.5), timePoint(el, 1, 11.5));
     expect(changes.length).to.equal(1);
     expect(changes[0].cancelable).to.equal(true);
@@ -290,7 +297,10 @@ describe('wc-timeline-grid', () => {
 
   it('resizes an event by its edges, in its own row', async () => {
     const el = await mount([review()]);
-    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
+    const changes = collect<CalendarTimelineEventChangeDetail>(
+      el,
+      'event-change',
+    );
     const handle = (edge: string) =>
       eventsIn(el, 0)[0].querySelector(`.resize-handle.${edge}`) as HTMLElement;
     drag(handle('end'), timePoint(el, 0, 10), timePoint(el, 2, 11.25));
@@ -307,7 +317,7 @@ describe('wc-timeline-grid', () => {
 
   it('adds events by dragging or clicking empty time in a row', async () => {
     const el = await mount([]);
-    const added = collect<TimelineGridEventAddDetail>(el, 'event-add');
+    const added = collect<CalendarTimelineEventAddDetail>(el, 'event-add');
     drag(
       tracks(el)[2],
       timePoint(el, 2, 13 + 2 / 60),
@@ -335,7 +345,7 @@ describe('wc-timeline-grid', () => {
   });
 
   it('moves by whole days, keeping the time, in the week view', async () => {
-    const offsite: TimelineGridEvent = {
+    const offsite: CalendarTimelineEvent = {
       id: 2,
       resourceId: 'birch',
       title: 'Offsite',
@@ -343,8 +353,11 @@ describe('wc-timeline-grid', () => {
       end: new Date(2026, 10, 4),
     };
     const el = await mount([review(), offsite], 'editable addable view="week"');
-    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
-    const added = collect<TimelineGridEventAddDetail>(el, 'event-add');
+    const changes = collect<CalendarTimelineEventChangeDetail>(
+      el,
+      'event-change',
+    );
+    const added = collect<CalendarTimelineEventAddDetail>(el, 'event-add');
     // The week runs Sunday, November 1, to Saturday, November 7.
     drag(eventsIn(el, 0)[0], dayPoint(el, 0, 3, 7), dayPoint(el, 2, 5, 7));
     expect(changes[0].detail).to.deep.include({
@@ -376,7 +389,7 @@ describe('wc-timeline-grid', () => {
 
   it('keeps the event when event-change is canceled, and does not drag locked events', async () => {
     const original = review();
-    const locked: TimelineGridEvent = {
+    const locked: CalendarTimelineEvent = {
       ...review(),
       id: 2,
       resourceId: 'birch',
@@ -388,7 +401,10 @@ describe('wc-timeline-grid', () => {
     drag(eventsIn(el, 0)[0], timePoint(el, 0, 9.5), timePoint(el, 0, 14));
     expect(el.events).to.equal(list);
 
-    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
+    const changes = collect<CalendarTimelineEventChangeDetail>(
+      el,
+      'event-change',
+    );
     const lockedBlock = eventsIn(el, 1)[0];
     expect(lockedBlock.querySelector('.resize-handle') === null).to.equal(true);
     drag(lockedBlock, timePoint(el, 1, 9.5), timePoint(el, 1, 14));
@@ -403,7 +419,10 @@ describe('wc-timeline-grid', () => {
 
   it('runs the axis from the inline start in right-to-left layouts', async () => {
     const el = await mount([review()], 'editable dir="rtl"');
-    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
+    const changes = collect<CalendarTimelineEventChangeDetail>(
+      el,
+      'event-change',
+    );
     const from = timePoint(el, 0, 9.5);
     const to = timePoint(el, 0, 11.5);
     // Later times lie to the left.
@@ -417,12 +436,12 @@ describe('wc-timeline-grid', () => {
     const el = await mount([], 'addable date="2026-11-01"');
     el.date = '2026-11-01';
     await el.updateComplete;
-    const added = collect<TimelineGridEventAddDetail>(el, 'event-add');
+    const added = collect<CalendarTimelineEventAddDetail>(el, 'event-add');
     tap(tracks(el)[0], timePoint(el, 0, 9 + 10 / 60));
     expect(added[0].detail.start).to.deep.equal(new Date(2026, 10, 1, 9));
   });
 
-  const people = (): TimelineGridResource[] => [
+  const people = (): CalendarTimelineResource[] => [
     { id: 'priya', title: 'Priya', team: 'Design' },
     { id: 'tomas', title: 'Tomás', team: 'Engineering' },
     { id: 'mei', title: 'Mei', team: 'Design' },
@@ -450,7 +469,10 @@ describe('wc-timeline-grid', () => {
       root(el).querySelector('.group-count')?.textContent?.trim(),
     ).to.equal('2 resources');
 
-    const toggles = collect<TimelineGridGroupToggleDetail>(el, 'group-toggle');
+    const toggles = collect<CalendarTimelineGroupToggleDetail>(
+      el,
+      'group-toggle',
+    );
     const button = root(el).querySelector('.group-toggle') as HTMLButtonElement;
     expect(button.getAttribute('aria-expanded')).to.equal('true');
     expect(button.getAttribute('aria-label')).to.equal('Collapse group Design');
@@ -490,7 +512,10 @@ describe('wc-timeline-grid', () => {
         title.textContent?.trim(),
       ),
     ).to.deep.equal(['Priya', 'Mei', 'Ana']);
-    const changes = collect<TimelineGridEventChangeDetail>(el, 'event-change');
+    const changes = collect<CalendarTimelineEventChangeDetail>(
+      el,
+      'event-change',
+    );
     const block = root(el).querySelector(
       '.track[data-row="2"] .event',
     ) as HTMLElement;
@@ -502,12 +527,12 @@ describe('wc-timeline-grid', () => {
     });
   });
 
-  it('applyTimelineGridChange replaces the event, with its new resource', () => {
+  it('applyCalendarTimelineChange replaces the event, with its new resource', () => {
     const first = review();
-    const second: TimelineGridEvent = { ...review(), id: 2 };
+    const second: CalendarTimelineEvent = { ...review(), id: 2 };
     const start = new Date(2026, 10, 5, 9);
     const end = new Date(2026, 10, 5, 10);
-    const next = applyTimelineGridChange([first, second], {
+    const next = applyCalendarTimelineChange([first, second], {
       event: second,
       start,
       end,
@@ -524,7 +549,7 @@ describe('wc-timeline-grid', () => {
   });
 });
 
-describe('timeline grid layout', () => {
+describe('calendar timeline layout', () => {
   it('gives a view its days: a week from its first day, a month in full', () => {
     const date = new Date(2026, 10, 4);
     const week = viewRange({ value: 'week', slot: 'day', days: 7 }, date, 1);

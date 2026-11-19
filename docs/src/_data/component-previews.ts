@@ -162,7 +162,7 @@ export const V4_PREVIEWS_B = [
 export const V41_PREVIEWS = [
   'workflow',
   'workflow-timeline',
-  'timeline-grid',
+  'calendar-timeline',
   'tree-chart',
   'dependency-map',
   'erd',

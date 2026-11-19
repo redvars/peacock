@@ -5,7 +5,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  A timeline grid puts one row per resource, such as a room, a person or a machine, against a horizontal time axis.
+  A calendar timeline puts one row per resource, such as a room, a person or a machine, against a horizontal time axis.
   Set <code>resources</code> to the rows, as <code>&#123; id, title, supportingText? &#125;</code>, and
   <code>events</code> to the calendar's event objects with a <code>resourceId</code>. An event whose
   <code>resourceId</code> matches no resource is not shown, and <code>end</code> is exclusive, as in
@@ -15,24 +15,24 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p>
   With <code>editable</code>, people drag an event to another time or another row, and drag its edges to resize it.
   Each drop fires the cancelable <code>event-change</code> with <code>&#123; event, start, end, resourceId, action
-  &#125;</code>; unless you cancel it, the grid applies the change. To save it on the server first, cancel the event
-  and apply it later with <code>applyTimelineGridChange(events, detail)</code>. With <code>addable</code>, dragging
+  &#125;</code>; unless you cancel it, the timeline applies the change. To save it on the server first, cancel the event
+  and apply it later with <code>applyCalendarTimelineChange(events, detail)</code>. With <code>addable</code>, dragging
   across empty time in a row, or clicking it, fires <code>event-add</code> with <code>&#123; start, end, allDay,
   resourceId &#125;</code>. The range stays marked as a new event until <code>events</code> changes, or until you call
   <code>clearPlaceholder()</code>. Give an event <code>editable: false</code> to keep it in place.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-timeline-grid
-    id='rooms-grid'
+  <wc-calendar-timeline
+    id='rooms-timeline'
     resource-label='Rooms'
     editable
     addable
     style='height: 420px; width: 100%'
-  ></wc-timeline-grid>
+  ></wc-calendar-timeline>
   <script is:inline>
     (function() {
-      const $grid = document.getElementById('rooms-grid');
+      const $timeline = document.getElementById('rooms-timeline');
 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -44,7 +44,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         return result;
       }
 
-      $grid.resources = [
+      $timeline.resources = [
         { id: 'aspen', title: 'Aspen', supportingText: '8 seats' },
         { id: 'birch', title: 'Birch', supportingText: '4 seats' },
         { id: 'cedar', title: 'Cedar', supportingText: '12 seats, video' },
@@ -52,7 +52,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       ];
 
       let nextId = 1;
-      $grid.events = [
+      $timeline.events = [
         { id: nextId++, resourceId: 'aspen', title: 'Design review', start: at(0, 9), end: at(0, 10, 30), color: 'red' },
         { id: nextId++, resourceId: 'aspen', title: 'Roadmap sync', start: at(0, 10), end: at(0, 11), color: 'blue' },
         { id: nextId++, resourceId: 'birch', title: 'Hiring panel', start: at(0, 14), end: at(0, 16), color: 'green' },
@@ -60,14 +60,14 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         { id: nextId++, resourceId: 'elm', title: 'Maintenance', start: at(0, 8), end: at(0, 9), color: 'orange', editable: false },
       ];
 
-      // The grid applies moves and resizes itself; cancel the event to keep one.
-      $grid.addEventListener('event-change', function(evt) {
+      // The timeline applies moves and resizes itself; cancel the event to keep one.
+      $timeline.addEventListener('event-change', function(evt) {
         console.log('Changed:', evt.detail.action, evt.detail.event.title, evt.detail.resourceId, evt.detail.start, evt.detail.end);
       });
 
-      // The grid only marks the range; adding the event keeps it.
-      $grid.addEventListener('event-add', function(evt) {
-        $grid.events = [...$grid.events, { id: nextId++, title: 'New booking', ...evt.detail }];
+      // The timeline only marks the range; adding the event keeps it.
+      $timeline.addEventListener('event-add', function(evt) {
+        $timeline.events = [...$timeline.events, { id: nextId++, title: 'New booking', ...evt.detail }];
       });
     })();
   </script>
