@@ -194,6 +194,39 @@ describe('Toolbar', () => {
       expect(tabIndexes(el)).to.deep.equal([-1, -1, 0]);
     });
 
+    it('hands the tab stop to the next enabled item when its item becomes disabled or hidden', async () => {
+      const el = await toolbarWithButtons();
+      const [one, two, three] = buttons(el);
+      // MutationObserver callbacks run as a microtask; a task is enough to see them.
+      const settle = () =>
+        new Promise(resolve => {
+          setTimeout(resolve);
+        });
+      two.dispatchEvent(
+        new FocusEvent('focusin', { bubbles: true, composed: true }),
+      );
+      expect(tabIndexes(el)).to.deep.equal([-1, 0, -1]);
+
+      two.disabled = true;
+      await settle();
+      expect(tabIndexes(el)).to.deep.equal([-1, -1, 0]);
+
+      // The last enabled item gives the stop back to the one before it.
+      three.setAttribute('aria-disabled', 'true');
+      await settle();
+      expect(tabIndexes(el)).to.deep.equal([0, -1, -1]);
+
+      // Re-enabling an item leaves the stop where it is.
+      two.disabled = false;
+      await settle();
+      expect(tabIndexes(el)).to.deep.equal([0, -1, -1]);
+
+      // A hidden item gives up the stop too.
+      one.hidden = true;
+      await settle();
+      expect(tabIndexes(el)).to.deep.equal([-1, 0, -1]);
+    });
+
     it('updates tab stops when items are added', async () => {
       const el = await fixture<Toolbar>(html`<wc-toolbar></wc-toolbar>`);
       await el.updateComplete;

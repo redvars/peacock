@@ -26,7 +26,9 @@ const SEPARATOR_SELECTOR = 'wc-divider, hr, [role="separator"]';
  *
  * <p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow
  * keys along its orientation move focus between actions (Home and End jump to the first and last).
- * Disabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>
+ * Disabled actions and dividers are skipped, and when the action that holds the tab stop becomes
+ * disabled or hidden, the next enabled action (else the previous one) takes it over. Give the
+ * toolbar an <code>aria-label</code>.</p>
  *
  * @cssprop --toolbar-container-color - Background color of the toolbar.
  * @cssprop --toolbar-container-shape - Border radius of the floating toolbar.
@@ -104,12 +106,30 @@ export class Toolbar extends LitElement {
     orientation: () => this.orientation,
   });
 
+  /**
+   * Re-applies the tab stop when an action becomes disabled, aria-disabled or hidden, so it moves
+   * to the next enabled action instead of leaving the toolbar out of the Tab order.
+   */
+  private readonly __actionStateObserver = new MutationObserver(() => {
+    this.roving.sync();
+  });
+
   // ── Lifecycle
 
   override connectedCallback() {
     super.connectedCallback();
     // The role lives on the host so the host's aria-label names the toolbar.
     this.setAttribute('role', 'toolbar');
+    this.__actionStateObserver.observe(this, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['disabled', 'aria-disabled', 'hidden'],
+    });
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.__actionStateObserver.disconnect();
   }
 
   override updated(changed: Map<string, unknown>) {
@@ -120,7 +140,10 @@ export class Toolbar extends LitElement {
 
   // ── Private methods
 
-  /** Actions that can take focus, in slot order. */
+  /**
+   * The actions, in slot order. Disabled and hidden ones are included: the roving controller skips
+   * them, takes the tab stop off them and hands it to the next enabled action.
+   */
   private __getItems(): HTMLElement[] {
     const slot = this.shadowRoot?.querySelector('slot');
     if (!slot) return [];
@@ -128,11 +151,7 @@ export class Toolbar extends LitElement {
       .assignedElements({ flatten: true })
       .filter(
         (el): el is HTMLElement =>
-          el instanceof HTMLElement &&
-          !el.matches(SEPARATOR_SELECTOR) &&
-          !el.hasAttribute('disabled') &&
-          el.getAttribute('aria-disabled') !== 'true' &&
-          !el.hidden,
+          el instanceof HTMLElement && !el.matches(SEPARATOR_SELECTOR),
       );
   }
 

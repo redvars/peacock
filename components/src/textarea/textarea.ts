@@ -124,6 +124,11 @@ export class Textarea extends BaseField {
     return true;
   }
 
+  /** Multi-line: like a native textarea, it does not count for implicit submission. */
+  protected override get singleLineTextField(): boolean {
+    return false;
+  }
+
   // ── Public methods ───────────────────────────────────────────────────────
 
   override focus() {

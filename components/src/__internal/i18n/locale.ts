@@ -21,7 +21,7 @@ function closestLang(element: Element): string {
     if (node.parentElement) {
       node = node.parentElement;
     } else {
-      const root = node.getRootNode();
+      const root: Node = node.getRootNode();
       node = root instanceof ShadowRoot ? root.host : null;
     }
   }

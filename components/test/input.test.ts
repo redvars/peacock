@@ -1,12 +1,22 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
+import { Button } from '../src/button/button/button.js';
 import { Field } from '../src/field/index.js';
 import { Input } from '../src/input/index.js';
+import { NumberField } from '../src/number-field/index.js';
+import { Search } from '../src/search/index.js';
+import { Textarea } from '../src/textarea/index.js';
+import { UrlField } from '../src/url-field/index.js';
 
 for (const [tag, element] of [
+  ['wc-button', Button],
   ['wc-field', Field],
   ['wc-input', Input],
+  ['wc-number-field', NumberField],
+  ['wc-search', Search],
+  ['wc-textarea', Textarea],
+  ['wc-url-field', UrlField],
 ] as const) {
   if (!customElements.get(tag)) customElements.define(tag, element);
 }
@@ -292,5 +302,180 @@ describe('Input validation', () => {
     form.reset();
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector<Field>('wc-field')!.error).to.be.false;
+  });
+});
+
+describe('Input implicit submission', () => {
+  /** Presses Enter in the field's native input, as a person typing would. */
+  function pressEnter(
+    el: Input,
+    init: { key?: string; isComposing?: boolean; ctrlKey?: boolean } = {},
+  ) {
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      ...init,
+    });
+    nativeInput(el).dispatchEvent(event);
+    return event;
+  }
+
+  /** Records each submission's submitter and stops the page from navigating. */
+  function recordSubmits(form: HTMLFormElement) {
+    const submitters: (HTMLElement | null)[] = [];
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      submitters.push(event.submitter);
+    });
+    return submitters;
+  }
+
+  it('clicks the default button, which submits the form', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-input name="user"></wc-input>
+        <wc-input name="password"></wc-input>
+        <wc-button type="button">Help</wc-button>
+        <wc-button type="submit">Sign in</wc-button>
+        <wc-button type="submit">Other</wc-button>
+      </form>
+    `);
+    const [user] = form.querySelectorAll<Input>('wc-input');
+    const signIn = form.querySelectorAll<Button>('wc-button')[1];
+    let clicks = 0;
+    signIn.addEventListener('click', () => {
+      clicks += 1;
+    });
+    const submitters = recordSubmits(form);
+
+    pressEnter(user);
+
+    expect(clicks).to.equal(1);
+    expect(submitters).to.deep.equal([signIn]);
+  });
+
+  it('clicks a native default button', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-input name="user"></wc-input>
+        <button>Sign in</button>
+      </form>
+    `);
+    const submitters = recordSubmits(form);
+
+    pressEnter(form.querySelector<Input>('wc-input')!);
+
+    expect(submitters).to.deep.equal([form.querySelector('button')]);
+  });
+
+  it('submits a form without a submit button when it is the only text field', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-input name="q"></wc-input></form>
+    `);
+    const submitters = recordSubmits(form);
+
+    pressEnter(form.querySelector<Input>('wc-input')!);
+
+    expect(submitters).to.deep.equal([null]);
+  });
+
+  it('does not submit a form without a submit button that has more text fields', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-input name="first"></wc-input>
+        <input name="last" />
+      </form>
+    `);
+    const submitters = recordSubmits(form);
+
+    pressEnter(form.querySelector<Input>('wc-input')!);
+
+    expect(submitters).to.deep.equal([]);
+  });
+
+  for (const other of [
+    html`<wc-number-field name="age"></wc-number-field>`,
+    html`<wc-url-field name="site"></wc-url-field>`,
+    html`<wc-search name="q"></wc-search>`,
+  ]) {
+    it(`counts another single-line Peacock field as a text field (${other.strings[0].trim()})`, async () => {
+      const form = await fixture<HTMLFormElement>(html`
+        <form><wc-input name="first"></wc-input>${other}</form>
+      `);
+      const submitters = recordSubmits(form);
+
+      pressEnter(form.querySelector<Input>('wc-input')!);
+
+      expect(submitters).to.deep.equal([]);
+    });
+  }
+
+  it('does not count a textarea as a text field, like a native one', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-input name="subject"></wc-input>
+        <wc-textarea name="body"></wc-textarea>
+      </form>
+    `);
+    const submitters = recordSubmits(form);
+
+    pressEnter(form.querySelector<Input>('wc-input')!);
+
+    expect(submitters).to.deep.equal([null]);
+  });
+
+  it('does not submit when the default button is disabled', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-input name="q"></wc-input>
+        <wc-button type="submit" disabled>Go</wc-button>
+        <wc-button type="submit">Other</wc-button>
+      </form>
+    `);
+    const submitters = recordSubmits(form);
+
+    pressEnter(form.querySelector<Input>('wc-input')!);
+
+    expect(submitters).to.deep.equal([]);
+  });
+
+  it('lets a keydown listener cancel it, and ignores Enter while composing or with a modifier', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-input name="q"></wc-input></form>
+    `);
+    const el = form.querySelector<Input>('wc-input')!;
+    const submitters = recordSubmits(form);
+    const cancel = (event: Event) => event.preventDefault();
+
+    document.addEventListener('keydown', cancel);
+    pressEnter(el);
+    document.removeEventListener('keydown', cancel);
+    pressEnter(el, { isComposing: true });
+    pressEnter(el, { ctrlKey: true });
+    pressEnter(el, { key: 'a' });
+
+    expect(submitters).to.deep.equal([]);
+
+    pressEnter(el);
+    expect(submitters).to.deep.equal([null]);
+  });
+
+  it('is blocked by an invalid field, like a native submission', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-input name="q" required></wc-input></form>
+    `);
+    const submitters = recordSubmits(form);
+
+    pressEnter(form.querySelector<Input>('wc-input')!);
+
+    expect(submitters).to.deep.equal([]);
+  });
+
+  it('does nothing outside a form', async () => {
+    const el = await fixture<Input>(html`<wc-input name="q"></wc-input>`);
+    const event = pressEnter(el);
+    expect(event.defaultPrevented).to.be.false;
   });
 });

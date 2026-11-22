@@ -84,6 +84,40 @@ describe('SplitButton', () => {
     expect(nativeTrigger(el).getAttribute('aria-expanded')).to.equal('false');
   });
 
+  it('fires click for the primary button only, not when a menu item is picked', async () => {
+    const el = await fixture<SplitButton>(html`
+      <wc-split-button>
+        Save
+        <wc-menu-item slot="menu">Draft</wc-menu-item>
+      </wc-split-button>
+    `);
+    const { actionEl, menu } = parts(el);
+    const item = el.querySelector<MenuItem>('wc-menu-item')!;
+    const hostClicks: (EventTarget | null)[] = [];
+    el.addEventListener('click', event => hostClicks.push(event.target));
+    let itemClicks = 0;
+    item.addEventListener('click', () => {
+      itemClicks += 1;
+    });
+    const activated: MenuItem[] = [];
+    el.addEventListener('menu-item-activate', event => {
+      activated.push((event as CustomEvent<{ item: MenuItem }>).detail.item);
+    });
+
+    el.show();
+    await settle(el);
+    item.shadowRoot!.querySelector<HTMLElement>('#menu-item')!.click();
+    await settle(el);
+
+    expect(hostClicks).to.deep.equal([]);
+    expect(itemClicks).to.equal(1);
+    expect(activated).to.deep.equal([item]);
+    expect(menu.open).to.be.false;
+
+    actionEl.click();
+    expect(hostClicks).to.deep.equal([el]);
+  });
+
   it('names the menu trigger and marks it as opening a menu', async () => {
     resetWarnOnce();
     const warnings: string[] = [];

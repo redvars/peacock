@@ -271,6 +271,11 @@ export class MentionInput extends BaseField {
 
   // ── Protected methods ────────────────────────────────────────────────────
 
+  /** Multi-line: like a native textarea, it does not count for implicit submission. */
+  protected override get singleLineTextField(): boolean {
+    return false;
+  }
+
   protected override computeValidity(): ControlValidity {
     return this._textarea
       ? nativeValidity(this._textarea)
