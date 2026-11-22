@@ -49,3 +49,16 @@
 .stepper.horizontal ::slotted(wc-step:last-child) {
   flex: none;
 }
+
+// A narrow row shows only the current step's text (see step.scss). The other steps keep their
+// indicator and connector, and the current step takes most of the spare room, shrinking (with an
+// ellipsis) only when the row is too narrow for its label.
+@container stepper (inline-size < 36rem) {
+  .stepper.horizontal ::slotted(wc-step:not(:last-child)) {
+    flex: 1 0 auto;
+  }
+
+  .stepper.horizontal ::slotted(wc-step[status='current']:not(:last-child)) {
+    flex: 8 1 auto;
+  }
+}

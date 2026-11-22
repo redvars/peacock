@@ -32,7 +32,7 @@ interface HiddenAvatar {
  *
  * @slot - The `wc-avatar` elements.
  *
- * @cssprop --avatar-group-overlap - How far each avatar slides under the previous one. Defaults to a quarter of the avatar size.
+ * @cssprop --avatar-group-overlap - How far each avatar slides under the previous one. Defaults to a quarter of the avatar size, a tenth at `size="sm"`.
  * @cssprop --avatar-group-ring-width - Width of the ring between avatars. Defaults to `2px`.
  * @cssprop --avatar-group-ring-color - Color of the ring between avatars. Defaults to `var(--color-surface)`; set it to the background the group sits on.
  *

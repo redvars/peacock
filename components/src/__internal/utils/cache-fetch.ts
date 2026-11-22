@@ -16,15 +16,18 @@ export async function createCacheFetch(name: string) {
 
     const fetchPromise = (async () => {
       const request = new Request(url);
+      const urlObj = new URL(request.url);
+      // The Cache API only stores http(s) requests: `put` rejects data: and blob: URLs.
+      const cacheable =
+        urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
 
-      if (cache) {
+      if (cache && cacheable) {
         const cachedResponse = await cache.match(request);
         if (cachedResponse) {
           return cachedResponse.text();
         }
       }
 
-      const urlObj = new URL(request.url);
       const isSameOrigin = urlObj.origin === window.location.origin;
 
       const response = await fetch(request.url, {
@@ -40,7 +43,7 @@ export async function createCacheFetch(name: string) {
 
       const result = await response.text();
 
-      if (cache && response.status === 200) {
+      if (cache && cacheable && response.status === 200) {
         await cache.put(
           request,
           new Response(result, {

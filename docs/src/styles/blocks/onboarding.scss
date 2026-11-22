@@ -47,14 +47,6 @@
   }
 }
 
-// A narrow stepper shows only the current step's text, but every step keeps an equal share of the
-// row, so the text gets squeezed; give the current step the spare room.
-@include mixin.for-phone-only {
-  .onboarding-header wc-step.is-current:not(:last-child) {
-    flex-grow: 4;
-  }
-}
-
 .onboarding-body {
   padding: var(--spacing-300);
   min-height: 24rem;

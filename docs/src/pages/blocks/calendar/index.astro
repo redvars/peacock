@@ -234,8 +234,8 @@ const calendars: TeamCalendar[] = [
       };
       update();
 
-      // The month view has no day selection: an event chosen in any view, or the date the
-      // calendar moves to, picks the day the agenda shows.
+      // A day chosen in the month view, an event chosen in any view, or the date the calendar
+      // moves to picks the day the agenda shows.
       calendar.addEventListener('event-click', e => {
         selected = new Date(e.detail.event.start);
         selected.setHours(0, 0, 0, 0);

@@ -123,6 +123,41 @@ describe('Stepper', () => {
         'current',
       ]);
     });
+
+    it('reflects each step state as a status attribute', async () => {
+      const { el, steps } = await checkout();
+      expect(steps.map(step => step.getAttribute('status'))).to.deep.equal([
+        'complete',
+        'current',
+        'upcoming',
+        'upcoming',
+      ]);
+      el.current = 'payment';
+      await settle(el);
+      expect(steps[1].getAttribute('status')).to.equal('complete');
+      expect(steps[2].getAttribute('status')).to.equal('current');
+    });
+
+    it('gives the current step room for its label in a narrow stepper', async () => {
+      const { steps } = await stepper(html`
+        <wc-stepper current="workspace" style="width: 320px">
+          <wc-step value="workspace" label="Workspace"></wc-step>
+          <wc-step value="team" label="Team"></wc-step>
+          <wc-step value="preferences" label="Preferences"></wc-step>
+          <wc-step value="done" label="Done"></wc-step>
+        </wc-stepper>
+      `);
+      const label = steps[0].shadowRoot?.querySelector<HTMLElement>('.label');
+      expect(label).to.exist;
+      // The label is not cut short with an ellipsis.
+      expect(label?.scrollWidth ?? 1).to.be.at.most(label?.clientWidth ?? 0);
+      expect(label?.clientWidth ?? 0).to.be.greaterThan(0);
+      // The other steps keep their connector to the next step.
+      const connector = steps[1].shadowRoot?.querySelector('.connector');
+      expect(connector?.getBoundingClientRect().width ?? 0).to.be.greaterThan(
+        0,
+      );
+    });
   });
 
   describe('overrides', () => {

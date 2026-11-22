@@ -289,6 +289,7 @@ export function toZonedWallClock(date: Date, timeZone: string): Date {
 /** `Intl` options for each display pattern; the output matches the pattern in `en-US`. */
 const DISPLAY_FORMATS: Record<string, Intl.DateTimeFormatOptions> = {
   'MMMM d, yyyy': { month: 'long', day: 'numeric', year: 'numeric' },
+  'MMMM yyyy': { month: 'long', year: 'numeric' },
   EEEE: { weekday: 'long' },
   E: { weekday: 'short' },
   d: { day: 'numeric' },

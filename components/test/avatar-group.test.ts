@@ -168,3 +168,26 @@ describe('AvatarGroup', () => {
     expect(dRect.right).to.be.greaterThan(cRect.left);
   });
 });
+
+describe('AvatarGroup size="sm"', () => {
+  it('overlaps less, so the next avatar and its ring do not cover the initials', async () => {
+    const el = await render(
+      html`<wc-avatar-group size="sm">
+        <wc-avatar name="Marcus Reid"></wc-avatar>
+        <wc-avatar name="Marcus Reid"></wc-avatar>
+      </wc-avatar-group>`,
+    );
+    const [first, second] = assigned(el) as Avatar[];
+    await first.updateComplete;
+    await second.updateComplete;
+    const initials = first.shadowRoot?.querySelector('.initials');
+    expect(initials).to.exist;
+    const range = document.createRange();
+    if (initials) range.selectNodeContents(initials);
+    const text = range.getBoundingClientRect();
+    const ring = 2;
+    expect(text.right).to.be.at.most(
+      second.getBoundingClientRect().left - ring,
+    );
+  });
+});
