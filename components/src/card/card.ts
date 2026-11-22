@@ -30,11 +30,12 @@ const DISABLED_REASON_ID = 'disabled-reason';
  * edge-to-edge media.</p>
  * <p>Set <code>actionable</code> to make the whole card a single button that fires
  * <code>click</code>, or <code>href</code> (with <code>target</code>, <code>rel</code> and
- * <code>download</code>) to make it a link. The content of an actionable or link card is inert, so
- * don't put buttons or links inside one; use a plain card with its own actions instead.
+ * <code>download</code>) to make it a link. The content of an actionable or link card names the
+ * button or link, and anything focusable or clickable inside it stops responding, so don't put
+ * buttons or links inside one; use a plain card with its own actions instead.
  * <code>throttle-delay</code> throttles activation.</p>
- * <p><code>disabled</code> dims the card and makes its content inert; an actionable or link card
- * also stops responding to clicks and leaves the tab order. With <code>disabled-reason</code> it
+ * <p><code>disabled</code> dims the card. A static card's content becomes inert; an actionable or
+ * link card stops responding to clicks and leaves the tab order. With <code>disabled-reason</code> it
  * stays focusable and screen readers read the reason with it.</p>
  *
  * @cssprop --card-container-shape - Corner radius of the card. Defaults to `--shape-corner-large`.
@@ -67,15 +68,16 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
   variant: CardVariant = 'elevated';
 
   /**
-   * Dims the card and makes its content inert. An actionable or link card also stops responding
-   * to clicks and leaves the tab order, unless `disabled-reason` is set.
+   * Dims the card. A static card's content becomes inert. An actionable or link card stops
+   * responding to clicks and leaves the tab order, unless `disabled-reason` is set.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
   /**
-   * Makes the whole card a single button that fires `click`. Its content becomes inert, so don't
-   * put buttons or links inside an actionable card.
+   * Makes the whole card a single button that fires `click`. Its content names the button, and
+   * anything focusable or clickable inside it stops responding, so don't put buttons or links
+   * inside an actionable card.
    */
   @property({ type: Boolean, reflect: true })
   actionable: boolean = false;
@@ -167,8 +169,11 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
 
   renderDisabledReason() {
     if (!this.__isSoftDisabled()) return nothing;
+    // aria-hidden keeps the reason out of the control's name (it sits inside the button or link);
+    // aria-describedby still reads it as the description.
     return html`<div
       id=${DISABLED_REASON_ID}
+      aria-hidden="true"
       role="tooltip"
       aria-label=${this.disabledReason}
       class="screen-reader-only"
@@ -187,11 +192,9 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
       disabled: this.disabled,
       'has-content': this.slotHasContent,
     };
-    const inertContent = interactive || this.disabled;
-
     if (!interactive) {
       return html`<div class=${classMap(cssClasses)} id="card">
-        ${this.renderCardContent(inertContent)}
+        ${this.renderCardContent(false)}
       </div>`;
     }
 
@@ -207,7 +210,7 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
         aria-disabled=${ifDefined(this.disabled ? 'true' : undefined)}
         ?disabled=${removedFromTabOrder}
       >
-        ${this.renderCardContent(inertContent)} ${this.renderDisabledReason()}
+        ${this.renderCardContent(true)} ${this.renderDisabledReason()}
       </button>`;
     }
 
@@ -223,15 +226,23 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
       aria-describedby=${ifDefined(this.__getDisabledReasonID())}
       aria-disabled=${ifDefined(this.disabled ? 'true' : undefined)}
     >
-      ${this.renderCardContent(inertContent)} ${this.renderDisabledReason()}
+      ${this.renderCardContent(true)} ${this.renderDisabledReason()}
     </a>`;
   }
 
-  renderCardContent(inertContent: boolean) {
+  /**
+   * Renders the slotted content. Inside the button or link of an actionable or link card the
+   * content stays in the accessibility tree, because it gives the control its name: `inert` would
+   * remove it and leave screen readers announcing just "button" or "link". Instead, a slot with a
+   * negative tabindex takes everything assigned to it out of sequential focus navigation, and
+   * `.card-content` ignores the pointer (see card.scss). A disabled static card has no control to
+   * name, so its content is simply inert.
+   */
+  renderCardContent(interactive: boolean) {
     return html`
       <div class="card-content">
-        <div class="slot-container" ?inert=${inertContent}>
-          <slot></slot>
+        <div class="slot-container" ?inert=${!interactive && this.disabled}>
+          <slot tabindex=${ifDefined(interactive ? '-1' : undefined)}></slot>
         </div>
       </div>
     `;

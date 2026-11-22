@@ -5,8 +5,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  Add <code>actionable</code> to make the whole card one button. It fires <code>click</code>, shows
-  hover and press states, and its content becomes inert, so don’t put buttons or links inside it.
+  Add <code>actionable</code> to make the whole card one button. It fires <code>click</code> and
+  shows hover and press states. Its content gives the button its accessible name, and anything
+  focusable or clickable inside it stops responding, so don’t put buttons or links inside it.
   When a card needs more than one action, use a static card with its own buttons instead.
 </p>
 

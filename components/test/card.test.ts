@@ -27,7 +27,7 @@ describe('Card', () => {
     expect(slotContainer(el).inert).to.be.false;
   });
 
-  it('renders a button with inert content when actionable', async () => {
+  it('renders a button whose content leaves the tab order but stays named', async () => {
     const el = await fixture<Card>(html`<wc-card actionable>Pick me</wc-card>`);
 
     const button = inner(el) as HTMLButtonElement;
@@ -35,7 +35,11 @@ describe('Card', () => {
     expect(button.type).to.equal('button');
     expect(button.disabled).to.be.false;
     expect(button.hasAttribute('aria-disabled')).to.be.false;
-    expect(slotContainer(el).inert).to.be.true;
+    // Inert content would leave the button without an accessible name.
+    expect(slotContainer(el).inert).to.be.false;
+    expect(
+      slotContainer(el).querySelector('slot')?.getAttribute('tabindex'),
+    ).to.equal('-1');
   });
 
   it('renders a link with target, rel and download when href is set', async () => {

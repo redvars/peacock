@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './list-item.scss';
 import { isLink } from '@/__internal/utils/is-link.js';
@@ -246,9 +247,14 @@ export class ListItem extends mixinBaseButton(
     const hasTrailingSupportingText = this.__hasNamedSlot(
       'trailing-supporting-text',
     );
+    // In a clickable item the content gives the button or link its name, so it
+    // must stay in the accessibility tree; `inert` would remove it. Slots with a
+    // negative tabindex take the slotted content out of the tab order instead,
+    // and `.clickable` makes it ignore the pointer (see list-item.scss).
+    const slotTabindex = clickable ? '-1' : undefined;
 
     return html`
-      <wc-item class="list-item-content" ?inert=${clickable}>
+      <wc-item class=${classMap({ 'list-item-content': true, clickable })}>
         <div class="background" slot="container"></div>
         ${clickable
           ? html`<wc-focus-ring
@@ -265,20 +271,43 @@ export class ListItem extends mixinBaseButton(
         <wc-skeleton class="skeleton" slot="container"></wc-skeleton>
 
         ${hasStart
-          ? html`<slot class="icon-slot" name="start" slot="start"></slot>`
+          ? html`<slot
+              class="icon-slot"
+              name="start"
+              slot="start"
+              tabindex=${ifDefined(slotTabindex)}
+            ></slot>`
           : nothing}
-        <slot name="overline" slot="overline"></slot>
-        <slot name="headline" slot="headline"></slot>
-        <slot></slot>
-        <slot name="supporting-text" slot="supporting-text"></slot>
+        <slot
+          name="overline"
+          slot="overline"
+          tabindex=${ifDefined(slotTabindex)}
+        ></slot>
+        <slot
+          name="headline"
+          slot="headline"
+          tabindex=${ifDefined(slotTabindex)}
+        ></slot>
+        <slot tabindex=${ifDefined(slotTabindex)}></slot>
+        <slot
+          name="supporting-text"
+          slot="supporting-text"
+          tabindex=${ifDefined(slotTabindex)}
+        ></slot>
         ${hasTrailingSupportingText
           ? html`<slot
               name="trailing-supporting-text"
               slot="trailing-supporting-text"
+              tabindex=${ifDefined(slotTabindex)}
             ></slot>`
           : nothing}
         ${hasEnd
-          ? html`<slot class="icon-slot" name="end" slot="end"></slot>`
+          ? html`<slot
+              class="icon-slot"
+              name="end"
+              slot="end"
+              tabindex=${ifDefined(slotTabindex)}
+            ></slot>`
           : nothing}
       </wc-item>
     `;
