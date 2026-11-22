@@ -107,11 +107,6 @@ export class MenuItem extends mixinBaseButton(
   /** Roving tabindex value managed by the parent Menu. */
   private _rovingTabIndex = -1;
 
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
@@ -173,18 +168,16 @@ export class MenuItem extends mixinBaseButton(
     this.itemElement?.blur();
   }
 
+  /** A soft-disabled item, or a disabled link, swallows clicks. */
+  override __isClickBlocked() {
+    return this.softDisabled || (this.disabled && isLink(this));
+  }
+
   /**
-   * Handles clicks on the host: stops them for soft-disabled items and disabled links, and turns
-   * a click fired at the host (`item.click()`, Enter in the menu) into a click on the inner button
-   * or link, so a link item navigates.
+   * Turns a click fired at the host (`item.click()`, Enter in the menu) into a click on the inner
+   * button or link, so a link item navigates.
    */
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    if (this.softDisabled || (this.disabled && isLink(this))) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
-
     if (!isActivationClick(event) || !this.itemElement) {
       return;
     }

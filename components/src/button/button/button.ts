@@ -152,13 +152,6 @@ export class Button extends mixinButtonLevel(
   /** Cleanup returned by observerSlotChangesWithCallback for the label slot. */
   private __labelSlotCleanup: (() => void) | null = null;
 
-  // ── Constructor ───────────────────────────────────────────────────────────
-
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   override disconnectedCallback() {
@@ -219,16 +212,12 @@ export class Button extends mixinButtonLevel(
 
   // ── Private methods ───────────────────────────────────────────────────────
 
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or loading, we need to explicitly prevent
-    // the click from propagating to other event listeners as well as prevent
-    // the default action.
-    if (this.softDisabled || this.loading || this.skeleton) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
+  /** A soft-disabled, loading or skeleton button swallows clicks. */
+  override __isClickBlocked() {
+    return this.softDisabled || this.loading || this.skeleton;
+  }
 
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     // Each activation reaches this listener once: either the inner button's
     // click bubbling out, or a click fired at the host and forwarded below.
     toggleButtonSelected(this);

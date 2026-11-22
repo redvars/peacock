@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -8,7 +8,6 @@ import {
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
 import { isLink } from '@/__internal/utils/is-link.js';
-import { throttle } from '@/__internal/utils/throttle.js';
 import styles from './chip.scss';
 import sizeStyles from './chip-sizes.scss';
 import { spread } from '@/__internal/directive/spread.js';
@@ -114,26 +113,12 @@ export class Chip extends mixinBaseButton(
   /** Peacock's strings for the dismiss button label. */
   private readonly i18n = new I18nController(this);
 
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
+  /** A soft-disabled or skeleton chip, or a disabled link, swallows clicks. */
+  override __isClickBlocked() {
+    return this.softDisabled || (this.disabled && !!this.href) || this.skeleton;
   }
 
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
-
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
-
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
     }
@@ -172,13 +157,8 @@ export class Chip extends mixinBaseButton(
     this.buttonElement?.blur();
   }
 
-  override firstUpdated() {
-    if (typeof this.throttleDelay === 'number') {
-      this.__dispatchClickWithThrottle = throttle(
-        this.__dispatchClick,
-        this.throttleDelay,
-      );
-    }
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
     observerSlotChangesWithCallback(
       this.renderRoot.querySelector('slot[name="icon"]'),
       hasContent => {
