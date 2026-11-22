@@ -55,12 +55,6 @@
   }
 }
 
-// The board styles its card wrappers (light-DOM divs) with ::slotted, which
-// loses to the site's CSS reset on div; restore the card padding here.
-.kanban-board [data-kanban-card] {
-  padding: var(--spacing-150);
-}
-
 .kanban-card {
   display: flex;
   flex-direction: column;

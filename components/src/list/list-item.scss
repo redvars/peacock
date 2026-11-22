@@ -45,6 +45,11 @@
     --item-multiline-height: 3rem;
     --item-label-text-color: var(--_label-text-color);
     --item-label-text-opacity: var(--_label-text-opacity);
+
+    /* In a button or link, clicks land on the control, not on its content. */
+    &.clickable {
+      pointer-events: none;
+    }
   }
 
   .icon-slot {

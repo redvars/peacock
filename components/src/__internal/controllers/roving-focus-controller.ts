@@ -1,7 +1,10 @@
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
 
 export interface RovingFocusOptions {
-  /** The items, in order. Disabled or hidden ones are skipped automatically. */
+  /**
+   * The items, in order. Disabled or hidden ones are skipped automatically; include them, so that
+   * when the item holding the tab stop becomes disabled the next item takes the stop over.
+   */
   items: () => HTMLElement[];
   /** `horizontal` uses Left/Right (mirrored in right-to-left), `vertical` Up/Down, `both` all four. */
   orientation?: () => 'horizontal' | 'vertical' | 'both';
@@ -80,14 +83,23 @@ export class RovingFocusController implements ReactiveController {
     return this.active;
   }
 
-  /** Re-applies the tab stops; call after the items change. */
+  /**
+   * Re-applies the tab stops; call after the items change, including when one becomes disabled
+   * or hidden. An item that can no longer take focus hands the tab stop to the focusable item
+   * after it (else the one before it), unless `initialItem` picks another.
+   */
   sync() {
-    const items = this.focusableItems();
+    const all = this.options.items();
+    const items = this.focusableItems(all);
     if (!this.active || !items.includes(this.active)) {
-      this.active = this.options.initialItem?.(items) ?? items[0] ?? null;
+      this.active =
+        this.options.initialItem?.(items) ??
+        this.nearestFocusable(all, items) ??
+        items[0] ??
+        null;
     }
     if (!(this.options.manageTabIndex?.() ?? true)) return;
-    for (const item of this.options.items()) {
+    for (const item of all) {
       const stop = item === this.active;
       if (item.tabIndex !== (stop ? 0 : -1)) item.tabIndex = stop ? 0 : -1;
     }
@@ -131,9 +143,25 @@ export class RovingFocusController implements ReactiveController {
 
   // ── Private ──────────────────────────────────────────────────────────────
 
-  private focusableItems() {
+  private focusableItems(all = this.options.items()) {
     const focusable = this.options.isFocusable ?? defaultFocusable;
-    return this.options.items().filter(item => focusable(item));
+    return all.filter(item => focusable(item));
+  }
+
+  /**
+   * For an active item that is still in the set but can no longer take focus: the first focusable
+   * item after it, else the nearest one before it.
+   */
+  private nearestFocusable(all: HTMLElement[], focusable: HTMLElement[]) {
+    const index = this.active ? all.indexOf(this.active) : -1;
+    if (index < 0) return undefined;
+    return (
+      all.slice(index + 1).find(item => focusable.includes(item)) ??
+      all
+        .slice(0, index)
+        .reverse()
+        .find(item => focusable.includes(item))
+    );
   }
 
   private itemFromEvent(event: Event): HTMLElement | null {

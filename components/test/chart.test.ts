@@ -522,6 +522,23 @@ describe('wc-chart-doughnut', () => {
     );
   });
 
+  it('sizes the centre caption to the hole once the chart is drawn', async () => {
+    const el = await mount<ChartDoughnut>(
+      html`<wc-chart-doughnut
+        disable-animation
+        .data=${slices}
+      ></wc-chart-doughnut>`,
+    );
+    const center = root(el).querySelector<HTMLElement>('.center');
+    const width = parseFloat(
+      center?.style.getPropertyValue('--_center-width') ?? '',
+    );
+    expect(width).to.be.greaterThan(0);
+    const label = root(el).querySelector<HTMLElement>('.center-label');
+    expect(label?.textContent).to.equal('Total');
+    expect(label?.getBoundingClientRect().width ?? 0).to.be.greaterThan(0);
+  });
+
   it('owns inner-radius and drops the centre at 0', async () => {
     const el = await mount<ChartDoughnut>(
       html`<wc-chart-doughnut

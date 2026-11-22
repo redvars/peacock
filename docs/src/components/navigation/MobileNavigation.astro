@@ -34,7 +34,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
 
 <header class="show-tablet-portrait-below" data-pagefind-ignore="all">
 <wc-app-bar>
-  <wc-icon-button slot="start" variant="text" id="show-main-menu">
+  <wc-icon-button slot="start" variant="text" id="show-main-menu" aria-label="Open main menu">
     <wc-icon name="menu"></wc-icon>
   </wc-icon-button>
 
@@ -43,7 +43,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     {SITE_TITLE}
   </a>
   <VersionBadge slotName="end" />
-  <wc-icon-button slot="end" variant="text"  class="search-button">
+  <wc-icon-button slot="end" variant="text" class="search-button" aria-label="Search">
     <wc-icon name="search"></wc-icon>
   </wc-icon-button>
 </wc-app-bar>
@@ -51,7 +51,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
 
 <wc-side-sheet id="main-menu-modal" variant="modal" placement="start" label="Main menu" class="show-tablet-portrait-below" data-pagefind-ignore="all">
 
-  <wc-icon-button variant="text" id="hide-main-menu">
+  <wc-icon-button variant="text" id="hide-main-menu" aria-label="Close main menu">
     <wc-icon name="close"></wc-icon>
   </wc-icon-button>
 

@@ -68,11 +68,14 @@ interface MonthPreview {
  * <p>The month is a read-only ARIA grid labelled with the month and year: one row per week, one
  * gridcell per day labelled with its full date. Each event is owned (<code>aria-owns</code>) by the
  * cell of the day it starts on in that week. Events are buttons labelled with their title and
- * time, or notes that cannot be focused when <code>events-readonly</code> is set.</p>
+ * time, or notes that cannot be focused when <code>events-readonly</code> is set. Each day number is
+ * a button that fires <code>date-click</code>; the day of <code>contextDate</code> is marked
+ * selected. Pressing a day number never starts a drag or adds an event.</p>
  * <p>With <code>editable</code>, events are dragged to other days and all-day events resized by
  * their edges; with <code>addable</code>, dragging across days or clicking one asks for an
  * all-day event. The days a drag covers are highlighted.</p>
  *
+ * @fires date-click - Internal, does not bubble; a day number was chosen and `wc-calendar` selects that day. Detail contains `{ date }`.
  * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
  * @fires event-change - Internal, does not bubble; an event was dropped on new days. `wc-calendar` re-fires it.
  * @fires event-add - Internal, does not bubble; days were drawn across or a day clicked. `wc-calendar` re-fires it.
@@ -253,6 +256,12 @@ export class CalendarMonthView extends LitElement {
     };
   }
 
+  private _emitDateClick(date: Date) {
+    this.dispatchEvent(
+      new CustomEvent<{ date: Date }>('date-click', { detail: { date } }),
+    );
+  }
+
   private _emitEventClick(event: unknown) {
     this.dispatchEvent(new CustomEvent('event-click', { detail: { event } }));
   }
@@ -325,14 +334,17 @@ export class CalendarMonthView extends LitElement {
 
   private _onAreaPointerDown(event: PointerEvent) {
     if (!this.addable || this._drag.pressing) return;
-    // Presses on events are theirs, even on events that cannot be dragged.
-    const onEvent = event
+    // Presses on events are theirs, even on events that cannot be dragged, and presses on a day
+    // number choose that day: neither starts a drag or adds an event.
+    const onOwnTarget = event
       .composedPath()
       .some(
         target =>
-          target instanceof HTMLElement && target.classList.contains('event'),
+          target instanceof HTMLElement &&
+          (target.classList.contains('event') ||
+            target.classList.contains('date')),
       );
-    if (onEvent) return;
+    if (onOwnTarget) return;
     const day = this._dayAt(event.clientX, event.clientY);
     if (!day) return;
     this._drag.start(event, { action: 'add', day });
@@ -454,6 +466,7 @@ export class CalendarMonthView extends LitElement {
     const target = this._target();
     const first = target ? startOfDay(target.start).valueOf() : 0;
     const last = target ? lastDayOf(target.start, target.end).valueOf() : -1;
+    const selectedDay = startOfDay(this.contextDate).valueOf();
     const columns = [];
     for (let i = new Date(sd), j = 0; j < 7; i = addDays(i, 1), j += 1) {
       const owned = placed
@@ -463,17 +476,29 @@ export class CalendarMonthView extends LitElement {
       const today = this._getDayClass(i).includes('today');
       const day = startOfDay(i).valueOf();
       const covered = day >= first && day <= last;
+      const selected = day === selectedDay;
+      const date = startOfDay(i);
       columns.push(html`
         <div
-          class="${this._getDayClass(i)}${covered ? ' drop-target' : ''}"
+          class="${this._getDayClass(i)}${covered
+            ? ' drop-target'
+            : ''}${selected ? ' selected' : ''}"
           role="gridcell"
           aria-label=${long.format(i)}
           aria-current=${today ? 'date' : nothing}
+          aria-selected=${selected ? 'true' : 'false'}
           aria-owns=${owned || nothing}
         >
           <div class="column-content">
-            <div class="column-header" aria-hidden="true">
-              <div class="day">${formatDate(i, 'd', locale)}</div>
+            <div class="column-header">
+              <button
+                type="button"
+                class="date"
+                aria-label=${long.format(i)}
+                @click=${() => this._emitDateClick(date)}
+              >
+                ${formatDate(i, 'd', locale)}
+              </button>
             </div>
           </div>
         </div>

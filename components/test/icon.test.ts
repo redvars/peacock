@@ -1,7 +1,8 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixture, expect } from '@open-wc/testing';
+import { fixture, expect, waitUntil } from '@open-wc/testing';
 import { Icon } from '../src/icon/index.js';
+import { createCacheFetch } from '../src/__internal/utils/cache-fetch.js';
 
 if (!customElements.get('wc-icon')) {
   customElements.define('wc-icon', Icon);
@@ -56,5 +57,34 @@ describe('Icon', () => {
     );
     expect(el.hasAttribute('aria-hidden')).to.equal(false);
     expect(el.getAttribute('aria-label')).to.equal('Home');
+  });
+
+  it('renders an SVG from a data: URL in src', async () => {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle class="dot" cx="12" cy="12" r="6"/></svg>';
+    const el = await fixture<Icon>(
+      html`<wc-icon
+        src=${`data:image/svg+xml,${encodeURIComponent(svg)}`}
+      ></wc-icon>`,
+    );
+    await waitUntil(
+      () => el.shadowRoot?.querySelector('svg circle.dot'),
+      'the data: URL SVG never rendered',
+    );
+  });
+});
+
+describe('createCacheFetch', () => {
+  it('fetches data: and blob: URLs without trying to cache them', async () => {
+    const cacheFetch = await createCacheFetch('test-data-url-cache');
+    expect(await cacheFetch('data:text/plain,hello')).to.equal('hello');
+    const blobUrl = URL.createObjectURL(
+      new Blob(['from a blob'], { type: 'text/plain' }),
+    );
+    try {
+      expect(await cacheFetch(blobUrl)).to.equal('from a blob');
+    } finally {
+      URL.revokeObjectURL(blobUrl);
+    }
   });
 });

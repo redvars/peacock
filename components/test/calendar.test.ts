@@ -232,6 +232,86 @@ describe('wc-calendar', () => {
     expect(owner?.getAttribute('aria-label')).to.contain('November 4, 2026');
   });
 
+  it('selects a day chosen in the month view and stays on the month', async () => {
+    const el = await mount(
+      html`<wc-calendar
+        locale="en-US"
+        view="month"
+        date="2026-11-04"
+      ></wc-calendar>`,
+    );
+    const selected = () =>
+      viewRoot(el).querySelector('[role="gridcell"][aria-selected="true"]');
+    expect(selected()?.getAttribute('aria-label')).to.contain(
+      'November 4, 2026',
+    );
+    expect(selected()?.classList.contains('selected')).to.equal(true);
+
+    const day = [
+      ...viewRoot(el).querySelectorAll<HTMLButtonElement>('button.date'),
+    ].find(d => d.getAttribute('aria-label')?.includes('November 12, 2026'));
+    expect(day?.textContent?.trim()).to.equal('12');
+    // The day number is on top, so a real press reaches it.
+    const box = day?.getBoundingClientRect();
+    const hit = box
+      ? viewRoot(el).elementFromPoint(
+          box.left + box.width / 2,
+          box.top + box.height / 2,
+        )
+      : null;
+    expect(hit).to.equal(day);
+
+    setTimeout(() => day?.click());
+    const change = (await oneEvent(
+      el,
+      'date-change',
+    )) as CustomEvent<CalendarDateChangeDetail>;
+    await settle(el);
+    expect(change.detail.value).to.equal('2026-11-12');
+    expect(el.view).to.equal('month');
+    expect(selected()?.getAttribute('aria-label')).to.contain(
+      'November 12, 2026',
+    );
+    expect(
+      viewRoot(el).querySelectorAll('[role="gridcell"][aria-selected="true"]')
+        .length,
+    ).to.equal(1);
+  });
+
+  it('titles the month view with the month and year, other views with the date', async () => {
+    const el = await mount(
+      html`<wc-calendar
+        locale="en-US"
+        view="month"
+        date="2026-11-04"
+      ></wc-calendar>`,
+    );
+    const title = () => root(el).querySelector('.title')?.textContent?.trim();
+    expect(title()).to.equal('November 2026');
+    el.view = 'week';
+    await settle(el);
+    expect(title()).to.equal('November 4, 2026');
+  });
+
+  it('wraps the header so the view buttons stay visible when narrow', async () => {
+    const el = await mount(
+      html`<wc-calendar
+        locale="en-US"
+        view="month"
+        date="2026-11-04"
+        style="width: 320px"
+      ></wc-calendar>`,
+    );
+    const header = root(el).querySelector(
+      '.calendar-header-classic',
+    ) as HTMLElement;
+    const views = root(el).querySelector('.header-right') as HTMLElement;
+    expect(getComputedStyle(header).flexWrap).to.equal('wrap');
+    expect(views.getBoundingClientRect().right).to.be.at.most(
+      el.getBoundingClientRect().right + 1,
+    );
+  });
+
   it('labels the previous, next and today buttons', async () => {
     const el = await mount(html`<wc-calendar></wc-calendar>`);
     const labels = [...root(el).querySelectorAll('wc-icon-button')].map(b =>
@@ -750,6 +830,34 @@ describe('calendar editing', () => {
       end: new Date(2026, 10, 21),
       allDay: true,
     });
+  });
+
+  it('selects a day from its number in an editable month view without adding or dragging', async () => {
+    const original = standup();
+    const el = await mountWith(
+      `<wc-calendar locale="en-US" view="month" date="2026-11-04" first-day="0" style="${SIZE}" editable addable></wc-calendar>`,
+      [original],
+    );
+    const added = collect<CalendarEventAddDetail>(el, 'event-add');
+    const changes = collect<CalendarEventChangeDetail>(el, 'event-change');
+    const dates = collect<CalendarDateChangeDetail>(el, 'date-change');
+    const dayButton = (day: number) =>
+      viewRoot(el).querySelectorAll<HTMLButtonElement>('button.date')[day - 1];
+
+    // A press and release on the number, then the click it makes.
+    const at = center(dayButton(10));
+    tap(dayButton(10), at);
+    dayButton(10).click();
+    await settle(el);
+    // A drag that starts on a number does not draw a new event either.
+    drag(dayButton(11), center(dayButton(11)), center(dayButton(13)));
+    await settle(el);
+
+    expect(added.length).to.equal(0);
+    expect(changes.length).to.equal(0);
+    expect(dates.map(d => d.detail.value)).to.deep.equal(['2026-11-10']);
+    expect(el.view).to.equal('month');
+    expect(viewRoot(el).querySelectorAll('.drop-target').length).to.equal(0);
   });
 
   it('moves an event that crosses midnight by the point it was grabbed', async () => {

@@ -36,7 +36,9 @@ const STEPPER_INPUTS = ['value', 'error', 'disabled', 'optional'] as const;
  * before the stepper's <code>current</code> step are complete (a check), the current one has
  * <code>aria-current="step"</code>, and later ones are upcoming (their number). <code>error</code>
  * marks it with a warning icon and <code>error-text</code>, <code>disabled</code> takes it out of
- * navigation, and <code>optional</code> adds an "Optional" caption.</p>
+ * navigation, and <code>optional</code> adds an "Optional" caption. The step reflects its state
+ * as a read-only <code>status</code> attribute (<code>complete</code>, <code>current</code> or
+ * <code>upcoming</code>) for styling, for example <code>wc-step[status='current']</code>.</p>
  * <p>A screen reader reads each step as its position, label and state, for example
  * "Step 2 of 4, Shipping, Completed".</p>
  *
@@ -149,6 +151,10 @@ export class Step extends LitElement {
       old.orientation !== context.orientation
     ) {
       this.context = context;
+    }
+    // Reflected so pages (and the stepper's narrow layout) can style a step by its state.
+    if (this.getAttribute('status') !== context.status) {
+      this.setAttribute('status', context.status);
     }
   }
 

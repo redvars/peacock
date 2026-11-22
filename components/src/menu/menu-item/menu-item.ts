@@ -174,8 +174,10 @@ export class MenuItem extends mixinBaseButton(
   }
 
   /**
-   * Turns a click fired at the host (`item.click()`, Enter in the menu) into a click on the inner
-   * button or link, so a link item navigates.
+   * Turns a click fired at the host (`item.click()`) into a click on the inner button or link, so
+   * a link item navigates. Enter and Space in the menu click the inner button or link directly,
+   * like a pointer, so a listener on the item can cancel a link with `preventDefault()`. Blocked
+   * clicks (soft-disabled items, disabled links) are swallowed before this, by the host listener.
    */
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     if (!isActivationClick(event) || !this.itemElement) {

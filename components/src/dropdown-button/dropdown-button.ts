@@ -1,7 +1,9 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import type { ARIAMixinStrict } from '@/__internal/aria/aria.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { MenuTriggerController } from '@/__internal/menu-trigger-controller.js';
 import type { OverlayPlacement } from '@/__internal/utils/placement.js';
 import styles from './dropdown-button.scss';
@@ -15,6 +17,8 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @summary A button that opens a menu of actions or options.
  * @overview
  * <p>Clicking the button opens its menu, and clicking it again closes it.</p>
+ * <p>An <code>aria-label</code> on the dropdown button names its button. Give one to a dropdown
+ * button that shows only an icon.</p>
  *
  * @cssprop --dropdown-button-container-shape: Defines the border radius of the dropdown button container shape.
  *
@@ -32,7 +36,7 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @tags controls
  */
 @IndividualComponent
-export class DropdownButton extends LitElement {
+export class DropdownButton extends mixinDelegatesAria(LitElement) {
   static override styles = [styles];
 
   /**
@@ -128,6 +132,7 @@ export class DropdownButton extends LitElement {
         color=${this.color}
         trailing-icon
         ?disabled=${this.disabled}
+        aria-label=${(this as ARIAMixinStrict).ariaLabel || nothing}
         aria-haspopup="menu"
         aria-expanded=${String(this._trigger.open)}
         @click=${this._trigger.handleTriggerClick}

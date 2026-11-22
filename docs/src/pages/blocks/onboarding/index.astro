@@ -15,7 +15,7 @@ import '../../../styles/blocks/onboarding.scss';
           <span class='text-title-medium'>Lumen</span>
         </div>
         <wc-stepper id='onboarding-stepper' current='workspace' label='Workspace setup'>
-          <wc-step value='workspace' label='Workspace' description='Name and branding' class='is-current'></wc-step>
+          <wc-step value='workspace' label='Workspace' description='Name and branding'></wc-step>
           <wc-step value='team' label='Team' description='Invite people'></wc-step>
           <wc-step value='preferences' label='Preferences' description='How you work'></wc-step>
           <wc-step value='done' label='Done'></wc-step>
@@ -148,10 +148,6 @@ import '../../../styles/blocks/onboarding.scss';
         index = Math.max(0, Math.min(steps.length - 1, i));
         const step = steps[index];
         stepper.current = step;
-        // Lets the phone layout give the current step, the only one with text, more room.
-        stepper.querySelectorAll('wc-step').forEach(el => {
-          el.classList.toggle('is-current', el.value === step);
-        });
         panels.forEach(panel => {
           panel.hidden = panel.dataset.step !== step;
         });

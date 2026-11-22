@@ -116,6 +116,28 @@ describe('wc-kanban', () => {
     expect(done?.textContent).to.equal('No cards');
   });
 
+  it('keeps the card padding when the page resets div padding', async () => {
+    const reset = document.createElement('style');
+    reset.textContent = 'div { padding: 0; margin: 4px; background: none; }';
+    document.head.append(reset);
+    try {
+      // The test page loads no design tokens, so the card chrome is set through its properties.
+      const el = await mount(
+        html`<wc-kanban
+          label="Sprint"
+          style="--kanban-card-padding: 12px; --kanban-card-container-color: rgb(1, 2, 3)"
+        ></wc-kanban>`,
+      );
+      const style = getComputedStyle(card(el, 'a'));
+      expect(style.paddingTop).to.equal('12px');
+      expect(style.paddingInlineStart).to.equal('12px');
+      expect(style.marginTop).to.equal('0px');
+      expect(style.backgroundColor).to.equal('rgb(1, 2, 3)');
+    } finally {
+      reset.remove();
+    }
+  });
+
   it('flags a column over its limit', async () => {
     const el = await mount();
     const doing = el.shadowRoot?.querySelector<HTMLElement>(

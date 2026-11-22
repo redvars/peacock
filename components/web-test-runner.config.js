@@ -3,6 +3,7 @@
 import path from 'node:path';
 import * as sass from 'sass';
 import { chromeLauncher } from '@web/test-runner-chrome';
+import { a11ySnapshotPlugin } from '@web/test-runner-commands/plugins';
 
 const filteredLogs = ['Running in dev mode', 'Lit is in dev mode'];
 
@@ -64,7 +65,8 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
     exportConditions: ['browser', 'development'],
   },
 
-  plugins: [scssPlugin, aliasResolvePlugin],
+  /** a11ySnapshot lets tests read the browser's accessibility tree, such as computed names. */
+  plugins: [scssPlugin, aliasResolvePlugin, a11ySnapshotPlugin()],
 
   /** Stylesheets are served as JS modules but have no source to map coverage onto. */
   coverageConfig: {
