@@ -7,7 +7,7 @@ import {
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
-import { throttle } from '@/__internal/utils/throttle.js';
+import { createActivationGate } from '@/__internal/utils/activation-gate.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import { spread } from '@/__internal/directive/spread.js';
 
@@ -84,7 +84,9 @@ export class Tab extends LitElement {
   @property({ type: String, reflect: true }) href?: string;
 
   /**
-   * Sets the delay for throttle in milliseconds. When unset (default), no throttle is applied.
+   * Throttles activation by this many milliseconds: after a click, every click inside the delay
+   * is swallowed, so neither `click` listeners nor `wc-tabs` see it. When unset (default), no
+   * throttle is applied.
    */
   @property({ type: Number, attribute: 'throttle-delay' })
   throttleDelay?: number;
@@ -112,16 +114,10 @@ export class Tab extends LitElement {
 
   constructor() {
     super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    this.addEventListener('click', this.__handleHostClick);
   }
 
   override firstUpdated() {
-    if (typeof this.throttleDelay === 'number') {
-      this.__dispatchClickWithThrottle = throttle(
-        this.__dispatchClick,
-        this.throttleDelay,
-      );
-    }
     observerSlotChangesWithCallback(
       this.renderRoot.querySelector('slot:not([name])'),
       hasContent => {
@@ -167,19 +163,27 @@ export class Tab extends LitElement {
 
   // ── Private
 
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
+  /** Whether `throttle-delay` lets a click through now; opens a new delay when it does. */
+  private readonly __throttleAllows = createActivationGate(
+    () => this.throttleDelay,
+  );
 
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // A disabled link must not navigate, and its click must not reach other listeners.
-    if (this.disabled && this.href) {
-      event.stopImmediatePropagation();
+  /**
+   * Host click listener. Every activation reaches it once: a click on the inner control
+   * bubbling out, or a click fired at the host. A disabled link must not navigate, and a click
+   * inside the `throttle-delay` window must not act; both are swallowed so no other listener
+   * (including `wc-tabs`) sees them. A disabled link's click does not open a throttle window.
+   */
+  private __handleHostClick = (event: MouseEvent) => {
+    if ((this.disabled && this.href) || !this.__throttleAllows()) {
       event.preventDefault();
+      event.stopImmediatePropagation();
       return;
     }
+    this.__dispatchClick(event);
+  };
 
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     if (!isActivationClick(event) || !this.tabElement) {
       return;
     }

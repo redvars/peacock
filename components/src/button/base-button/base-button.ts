@@ -1,7 +1,7 @@
 import { LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import { WithElementInternals } from '@/__internal/mixins/element-internals.js';
-import { throttle } from '@/__internal/utils/throttle.js';
+import { createActivationGate } from '@/__internal/utils/activation-gate.js';
 import { warnOnce } from '@/__internal/utils/warn-once.js';
 import { MixinBase, MixinReturn } from '@/__internal/mixins/mixin.js';
 import type {
@@ -27,9 +27,9 @@ export interface BaseButton {
 
   throttleDelay?: number;
 
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void;
-
   __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
+
+  __isClickBlocked(): boolean;
 }
 
 export function mixinBaseButton<
@@ -67,27 +67,52 @@ export function mixinBaseButton<
     disabledReason: string = '';
 
     /**
-     * Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.
+     * Throttles activation by this many milliseconds: after a click, every click inside the delay
+     * is swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no
+     * throttle is applied.
      */
     @property({ type: Number, attribute: 'throttle-delay' })
     throttleDelay?: number;
 
-    __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-      event => {
-        this.__dispatchClick(event);
-      };
+    /** Whether `throttle-delay` lets a click through now; opens a new delay when it does. */
+    private readonly __throttleAllows = createActivationGate(
+      () => this.throttleDelay,
+    );
 
     abstract __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
 
-    override firstUpdated(changedProperties: PropertyValues) {
-      super.firstUpdated(changedProperties);
-      if (typeof this.throttleDelay === 'number') {
-        this.__dispatchClickWithThrottle = throttle(
-          this.__dispatchClick,
-          this.throttleDelay,
-        );
-      }
+    // Mixins must have a constructor with `...args: any[]`
+    // tslint:disable-next-line:no-any
+    constructor(...args: any[]) {
+      super(...args);
+      this.addEventListener('click', this.__handleHostClick);
     }
+
+    /**
+     * Whether a click must be swallowed: it stops other listeners and the default action. A
+     * component returns `true` while it is soft-disabled, loading and so on.
+     */
+    __isClickBlocked() {
+      return false;
+    }
+
+    /**
+     * Host click listener. Every activation reaches it once: a click on the inner control
+     * bubbling out, or a click fired at the host. It swallows a blocked click, and one inside the
+     * `throttle-delay` window, so later host listeners, ancestors' listeners and the form
+     * submitter (which checks `defaultPrevented`) never see it. A blocked click does not open a
+     * throttle window.
+     */
+    private __handleHostClick = (event: MouseEvent) => {
+      if (this.__isClickBlocked() || !this.__throttleAllows()) {
+        // preventDefault() first: the dispatch hooks run the form submitter's afterDispatch()
+        // synchronously inside stopImmediatePropagation(), and it must see defaultPrevented.
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+      this.__dispatchClick(event);
+    };
   }
 
   return BaseButtonElement;

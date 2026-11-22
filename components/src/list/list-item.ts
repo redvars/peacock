@@ -107,11 +107,6 @@ export class ListItem extends mixinBaseButton(
     this.requestUpdate();
   });
 
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
@@ -147,11 +142,15 @@ export class ListItem extends mixinBaseButton(
     this.itemElement?.blur();
   }
 
+  /** A soft-disabled or skeleton item, or a disabled link, swallows clicks. */
+  override __isClickBlocked() {
+    return this.softDisabled || (this.disabled && !!this.href) || this.skeleton;
+  }
+
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+    // The inner control calls this directly as well as through the host
+    // listener, so it repeats the block.
+    if (this.__isClickBlocked()) {
       event.stopImmediatePropagation();
       event.preventDefault();
       return;

@@ -131,13 +131,6 @@ export class IconButton extends mixinButtonLevel(
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
-  // ── Constructor ───────────────────────────────────────────────────────────
-
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   override firstUpdated(changedProperties: PropertyValues<this>) {
@@ -157,21 +150,17 @@ export class IconButton extends mixinButtonLevel(
 
   // ── Private methods ───────────────────────────────────────────────────────
 
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled, loading or a disabled link, we need to
-    // explicitly prevent the click from propagating to other event listeners
-    // as well as prevent the default action.
-    if (
+  /** A soft-disabled, loading or skeleton button, or a disabled link, swallows clicks. */
+  override __isClickBlocked() {
+    return (
       this.softDisabled ||
       this.loading ||
-      (this.disabled && this.href) ||
+      (this.disabled && !!this.href) ||
       this.skeleton
-    ) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
+    );
+  }
 
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     // Each activation reaches this listener once: either the inner button's
     // click bubbling out, or a click fired at the host and forwarded below.
     if (!isLink(this)) toggleButtonSelected(this);

@@ -95,13 +95,6 @@ export class LinkButton extends mixinButtonLevel(
 
   private __labelSlotCleanup: (() => void) | null = null;
 
-  // ── Constructor ───────────────────────────────────────────────────────────
-
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   override disconnectedCallback() {
@@ -143,15 +136,15 @@ export class LinkButton extends mixinButtonLevel(
 
   // ── Private methods ───────────────────────────────────────────────────────
 
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // A link has no native disabled state, so a disabled, soft-disabled or
-    // skeleton link swallows the click and stops the navigation.
-    if (this.disabled || this.softDisabled || this.skeleton) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
+  /**
+   * A link has no native disabled state, so a disabled, soft-disabled or skeleton link swallows
+   * the click and stops the navigation.
+   */
+  override __isClickBlocked() {
+    return this.disabled || this.softDisabled || this.skeleton;
+  }
 
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     if (!isActivationClick(event) || !this.linkElement) {
       return;
     }
