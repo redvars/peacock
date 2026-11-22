@@ -178,10 +178,19 @@ export class ChartPie extends ChartBase {
     return 0;
   }
 
+  /**
+   * The outer radius for the current size. It depends only on reactive properties, so a render
+   * (the doughnut's centre) can read it before the chart is drawn at that size.
+   */
+  protected outerRadius(): number {
+    const { width, height } = this.svgSize();
+    return Math.max(Math.min(width, height) / 2 - PADDING, 0);
+  }
+
   protected draw(animate: boolean): void {
     if (!this.svgElement) return;
     const { width, height } = this.svgSize();
-    const radius = Math.max(Math.min(width, height) / 2 - PADDING, 0);
+    const radius = this.outerRadius();
     this.radius = radius;
     this.center = { x: width / 2, y: height / 2 };
     const inner = radius * this.innerFraction();

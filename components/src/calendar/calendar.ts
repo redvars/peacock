@@ -81,7 +81,10 @@ export function applyCalendarChange<T extends EventType>(
  * same from code; each fires <code>date-change</code>. The date shown is <code>date</code> (an ISO
  * string) or <code>contextDate</code> (a <code>Date</code>), kept in step. Choosing a day number
  * in a column view switches to the day view and fires <code>view-change</code> and
- * <code>date-change</code>.</p>
+ * <code>date-change</code>. In the month view, choosing a day number selects that day (it is
+ * highlighted and becomes <code>contextDate</code>) and fires <code>date-change</code>, staying on
+ * the month. The header shows the month and year in the month view and the full date otherwise,
+ * and wraps onto two lines when the calendar is narrow.</p>
  * <p>Events are buttons, chosen with a click, Enter or Space, which fire <code>event-click</code>.
  * With <code>events-readonly</code> they are shown but cannot be focused or clicked.
  * <code>loading</code> shows a progress bar and marks the calendar busy. <code>first-day</code>
@@ -424,6 +427,12 @@ export class Calendar extends LitElement {
     this._setContextDate(evt.detail.date);
   }
 
+  /** A day chosen in the month view becomes the selected day; the view stays on the month. */
+  private _onMonthDateClick(evt: CustomEvent<{ date: Date }>) {
+    evt.stopPropagation();
+    this._setContextDate(evt.detail.date);
+  }
+
   private _onViewEventClick(evt: CustomEvent<{ event: unknown }>) {
     evt.stopPropagation();
     if (!this._eventsInteractive()) return;
@@ -514,8 +523,13 @@ export class Calendar extends LitElement {
 
   private _renderHeader() {
     return renderCalendarHeader({
+      // "November 2026" in the month view, the full date in the others.
       title: this.contextDate
-        ? formatDate(this.contextDate, 'MMMM d, yyyy', this._i18n.locale)
+        ? formatDate(
+            this.contextDate,
+            this._currentView?.type === 'month' ? 'MMMM yyyy' : 'MMMM d, yyyy',
+            this._i18n.locale,
+          )
         : '',
       views: this.availableViews.map(view => ({
         value: view.value,
@@ -594,6 +608,7 @@ export class Calendar extends LitElement {
           .placeholder=${this._placeholder}
           .untitledLabel=${untitled}
           ?events-readonly=${readonly}
+          @date-click=${this._onMonthDateClick}
           @event-click=${this._onViewEventClick}
           @event-change=${this._onViewEventChange}
           @event-add=${this._onViewEventAdd}

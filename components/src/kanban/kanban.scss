@@ -108,19 +108,23 @@
   min-block-size: 3rem;
 }
 
+// The card wrappers are light-DOM divs, so a page rule such as `div { padding: 0 }` would beat a
+// normal ::slotted declaration. Important declarations from the shadow tree win over the page's,
+// so the chrome is marked important; the --kanban-card-* properties stay the way to change it.
 ::slotted([data-kanban-card]) {
   @include mixin.get-typography-not-important(body-medium);
 
-  display: block;
-  box-sizing: border-box;
-  padding: var(--kanban-card-padding, var(--spacing-150));
-  border-radius: var(--shape-corner-small);
+  display: block !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: var(--kanban-card-padding, var(--spacing-150)) !important;
+  border-radius: var(--shape-corner-small) !important;
   background-color: var(
     --kanban-card-container-color,
     var(--color-surface)
-  );
+  ) !important;
   color: var(--color-on-surface);
-  box-shadow: var(--elevation-level1);
+  box-shadow: var(--elevation-level1) !important;
   cursor: grab;
   user-select: none;
   outline: none;
@@ -132,7 +136,7 @@
 }
 
 ::slotted([data-dragging]) {
-  box-shadow: var(--elevation-level3);
+  box-shadow: var(--elevation-level3) !important;
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }

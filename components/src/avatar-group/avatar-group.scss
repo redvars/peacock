@@ -16,7 +16,10 @@
   display: none;
 }
 
+// Small avatars have little room around their initials, so they overlap by a tenth of their
+// size instead of a quarter; at a quarter the next avatar and its ring cut off the last letter.
 :host([size='sm']) {
+  --avatar-group-overlap: calc(var(--_size) * 0.1);
   --_size: 1.5rem;
 }
 

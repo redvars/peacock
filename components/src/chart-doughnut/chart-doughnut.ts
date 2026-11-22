@@ -107,7 +107,12 @@ export class ChartDoughnut extends ChartPie {
     const caption = active
       ? (active.label ?? active.name)
       : this.centerLabel || this.i18n.t('total');
-    const hole = Math.max(this.radius * this.innerFraction() * 2 - 16, 0);
+    // From the current size, not the last draw: the draw runs after this render, so its radius
+    // would leave the caption 0px wide until something else re-rendered.
+    const hole = Math.max(
+      this.outerRadius() * this.innerFraction() * 2 - 16,
+      0,
+    );
     return html`<div
       class="center"
       part="center"
