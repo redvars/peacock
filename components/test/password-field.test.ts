@@ -173,3 +173,71 @@ describe('PasswordField validation', () => {
     expect(input.getAttribute('aria-invalid')).to.equal('true');
   });
 });
+
+describe('PasswordField implicit submission', () => {
+  function enter() {
+    return new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+  }
+
+  it('submits its form on Enter, through the default button', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-password-field name="password" value="secret"></wc-password-field>
+        <button>Sign in</button>
+      </form>
+    `);
+    const el = form.querySelector<PasswordField>('wc-password-field')!;
+    const submitters: (HTMLElement | null)[] = [];
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      submitters.push(event.submitter);
+    });
+
+    nativeInput(el).dispatchEvent(enter());
+
+    expect(submitters).to.deep.equal([form.querySelector('button')]);
+  });
+
+  it('counts as a text field, so a form with another one needs a submit button', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <input name="user" />
+        <wc-password-field name="password" value="secret"></wc-password-field>
+      </form>
+    `);
+    const el = form.querySelector<PasswordField>('wc-password-field')!;
+    let submits = 0;
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      submits += 1;
+    });
+
+    nativeInput(el).dispatchEvent(enter());
+
+    expect(submits).to.equal(0);
+  });
+
+  it('does not submit when Enter is pressed on the show-password toggle', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-password-field name="password" value="secret"></wc-password-field>
+      </form>
+    `);
+    const el = form.querySelector<PasswordField>('wc-password-field')!;
+    await toggle(el).updateComplete;
+    let submits = 0;
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      submits += 1;
+    });
+
+    toggle(el).dispatchEvent(enter());
+
+    expect(submits).to.equal(0);
+  });
+});

@@ -597,7 +597,10 @@ export class Menu extends LitElement {
           return;
         }
 
-        activeItem.click();
+        // Click the item's own button or link, as a pointer does: the click reaches the item's
+        // listeners before a link follows its href, so `preventDefault()` (a single-page app
+        // routing the link itself) works for the keyboard as it does for the mouse.
+        (activeItem.itemElement ?? activeItem).click();
         break;
       }
       default:

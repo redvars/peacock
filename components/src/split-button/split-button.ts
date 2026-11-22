@@ -34,7 +34,7 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @cssprop --elevated-split-button-container-color: Color of the elevated split button container.
  * @cssprop --elevated-split-button-label-text-color: Text color of the elevated split button label.
  *
- * @fires {MouseEvent} click - Dispatched when the primary action button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the primary action button is clicked, and only then: a menu item's click does not bubble past the split button. Listen on the item, or for the `menu-item-activate` event (`detail.item`) that the menu fires through the split button.
  * @fires {CustomEvent} open - Dispatched after the menu opens.
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` or the primary action `api`.
  *
@@ -143,6 +143,14 @@ export class SplitButton extends LitElement {
     }
   }
 
+  /**
+   * The split button's `click` means the primary action, so a menu item's click stops here: the
+   * item's own listeners and the menu have seen it, and the host still gets `menu-item-activate`.
+   */
+  private _onMenuClick(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
   override render() {
     const actionClasses = {
       'action-button': true,
@@ -196,6 +204,7 @@ export class SplitButton extends LitElement {
         id=${this._trigger.menuId}
         .placement=${this.placement}
         variant=${this.menuVariant}
+        @click=${this._onMenuClick}
         @open=${this._trigger.handleMenuOpen}
         @close=${this._trigger.handleMenuClose}
       >

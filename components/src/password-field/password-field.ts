@@ -4,6 +4,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { ALWAYS_SENSITIVE } from '@/__internal/ai/ai-controller.js';
 import { spread } from '@/__internal/directive/spread.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { setupImplicitSubmission } from '@/__internal/implicit-submission.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 import BaseField from '../input/BaseField.js';
@@ -24,7 +25,8 @@ import styles from './password-field.scss';
  * <p>It validates like a native password input: <code>required</code>, <code>minlength</code>,
  * <code>maxlength</code> and <code>pattern</code> block form submission, and the message shows under
  * the field once the value is committed or the form is submitted. Inside a <code>&lt;form&gt;</code>
- * its <code>value</code> is submitted under its <code>name</code>.</p>
+ * its <code>value</code> is submitted under its <code>name</code>, and Enter submits the form as in
+ * a native input (see <code>wc-input</code>).</p>
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the user types.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed.
@@ -88,6 +90,14 @@ export class PasswordField extends BaseField {
 
   /** Peacock's strings for the show/hide toggle. */
   private readonly i18n = new I18nController(this);
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  constructor() {
+    super();
+    // Enter in the input (not on the show/hide toggle) submits the form, as in a native one.
+    setupImplicitSubmission(this, () => this.inputElement);
+  }
 
   // ── Public methods ───────────────────────────────────────────────────────
 

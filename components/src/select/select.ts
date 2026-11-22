@@ -245,6 +245,11 @@ export class Select extends BaseField {
 
   // ── Protected ──────────────────────────────────────────────────────────────
 
+  /** Like a native select, it does not count for implicit submission. */
+  protected override get singleLineTextField(): boolean {
+    return false;
+  }
+
   protected override valueMissingText(): string {
     return peacockString('valueMissingSelect');
   }

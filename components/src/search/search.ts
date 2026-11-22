@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { registerTextField } from '@/__internal/implicit-submission.js';
 import { AiController } from '@/__internal/ai/ai-controller.js';
 import { sparkle } from '@/__internal/ai/sparkle.js';
 import BaseInput, {
@@ -140,6 +141,14 @@ export class Search extends BaseInput {
   /** Whether Ask is offered now: `ask`, and AI on for the page. */
   private get __asking(): boolean {
     return this.ask && this.ai.available;
+  }
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  constructor() {
+    super();
+    // Counts like a native search input when Enter decides whether to submit a form.
+    registerTextField(this);
   }
 
   // ── Public methods ───────────────────────────────────────────────────────

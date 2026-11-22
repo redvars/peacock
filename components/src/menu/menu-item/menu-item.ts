@@ -175,8 +175,9 @@ export class MenuItem extends mixinBaseButton(
 
   /**
    * Handles clicks on the host: stops them for soft-disabled items and disabled links, and turns
-   * a click fired at the host (`item.click()`, Enter in the menu) into a click on the inner button
-   * or link, so a link item navigates.
+   * a click fired at the host (`item.click()`) into a click on the inner button or link, so a link
+   * item navigates. Enter and Space in the menu click the inner button or link directly, like a
+   * pointer, so a listener on the item can cancel a link with `preventDefault()`.
    */
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     if (this.softDisabled || (this.disabled && isLink(this))) {

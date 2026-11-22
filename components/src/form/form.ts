@@ -9,6 +9,7 @@ import {
 } from '@/__internal/ai/suggestion-controller.js';
 import type { AiSuggestion } from '@/__internal/ai/types.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { isSubmitButton } from '@/__internal/utils/form-submission.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './form.scss';
 
@@ -122,15 +123,6 @@ function isNativeControl(
     el instanceof HTMLSelectElement ||
     el instanceof HTMLTextAreaElement
   );
-}
-
-/** Whether `el` is a submit button of the form: native, or a Peacock button with `type="submit"`. */
-function isSubmitButton(el: FormControl): boolean {
-  if (el instanceof HTMLButtonElement) return el.type === 'submit';
-  if (el instanceof HTMLInputElement) {
-    return el.type === 'submit' || el.type === 'image';
-  }
-  return el.localName.includes('-') && el.type === 'submit';
 }
 
 let formCount = 0;

@@ -2,6 +2,7 @@ import { html, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
 import { spread } from '@/__internal/directive/spread.js';
+import { setupImplicitSubmission } from '@/__internal/implicit-submission.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 import BaseField from './BaseField.js';
@@ -16,7 +17,10 @@ import styles from './input.scss';
  * @summary A single-line text field for plain text, an email address or a phone number.
  * @overview
  * <p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted
- * under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>
+ * under its <code>name</code>, and <code>form.reset()</code> restores the starting value. Enter
+ * submits the form as in a native text input: it clicks the form's first submit button, or,
+ * without one, submits a form that has no other text field. A disabled default button blocks it,
+ * and <code>preventDefault()</code> on the <code>keydown</code> stops it.</p>
  * <p>It validates like a native input: <code>required</code> and an invalid <code>type="email"</code>
  * block form submission, and the message shows under the field once the value is committed or the
  * form is submitted. <code>checkValidity()</code>, <code>reportValidity()</code> and
@@ -86,6 +90,14 @@ export class Input extends BaseField {
 
   @query('.input-element')
   private inputElement?: HTMLInputElement;
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  constructor() {
+    super();
+    // Enter submits the surrounding form, as in a native text input.
+    setupImplicitSubmission(this, () => this.inputElement);
+  }
 
   // ── Public methods ───────────────────────────────────────────────────────
 

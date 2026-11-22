@@ -2,6 +2,7 @@ import { html, nothing, type PropertyValues, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 
 import { peacockString } from '@/__internal/i18n/strings.js';
+import { registerTextField } from '@/__internal/implicit-submission.js';
 import type { Size } from '@/__internal/utils/size.js';
 import BaseInput from './BaseInput.js';
 
@@ -97,6 +98,13 @@ export default abstract class BaseField extends BaseInput {
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
+  constructor() {
+    super();
+    // A single-line field keeps Enter in another field from submitting a form without a
+    // submit button, as a second native text input would.
+    if (this.singleLineTextField) registerTextField(this);
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     // `aria-*` and `tabindex` set on the host belong to the inner control; move them there.
@@ -140,6 +148,15 @@ export default abstract class BaseField extends BaseInput {
    */
   protected get suggestionBadgeIconOnly(): boolean {
     return false;
+  }
+
+  /**
+   * Whether the field is a single-line text field, which counts like a native text input when
+   * Enter decides whether to submit a form that has no submit button. Multi-line fields and
+   * selects turn it off. Read in the constructor, so an override must not use instance fields.
+   */
+  protected get singleLineTextField(): boolean {
+    return true;
   }
 
   /**

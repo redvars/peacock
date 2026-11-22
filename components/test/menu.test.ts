@@ -283,6 +283,71 @@ describe('Menu', () => {
     expect(activations).to.equal(1);
   });
 
+  it('activates a link item with Enter through a click its listeners can cancel', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-menu-item href="#menu-enter-target">Go</wc-menu-item>
+      </wc-menu>
+    `);
+    const item = el.querySelector<MenuItem>('wc-menu-item')!;
+    await item.updateComplete;
+    const link = item.shadowRoot!.querySelector('a')!;
+    const startUrl = window.location.href;
+    let cancel = true;
+    let clicks = 0;
+    let activations = 0;
+    item.addEventListener('click', event => {
+      clicks += 1;
+      // A single-page shell routes the link itself.
+      if (cancel) event.preventDefault();
+    });
+    el.addEventListener('menu-item-activate', () => {
+      activations += 1;
+    });
+
+    try {
+      key(link, 'Enter');
+      await el.updateComplete;
+      expect(clicks).to.equal(1);
+      expect(activations).to.equal(1);
+      expect(window.location.hash).to.not.equal('#menu-enter-target');
+
+      // Not cancelled, Enter follows the link like a click does.
+      cancel = false;
+      el.open = true;
+      await el.updateComplete;
+      key(link, 'Enter');
+      await el.updateComplete;
+      expect(clicks).to.equal(2);
+      expect(window.location.hash).to.equal('#menu-enter-target');
+    } finally {
+      window.history.replaceState(null, '', startUrl);
+    }
+  });
+
+  it('activates a button item once with Space', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-menu-item keep-open>One</wc-menu-item>
+      </wc-menu>
+    `);
+    const item = el.querySelector<MenuItem>('wc-menu-item')!;
+    await item.updateComplete;
+    let clicks = 0;
+    let activations = 0;
+    item.addEventListener('click', () => {
+      clicks += 1;
+    });
+    el.addEventListener('menu-item-activate', () => {
+      activations += 1;
+    });
+
+    key(item, ' ');
+    await el.updateComplete;
+    expect(clicks).to.equal(1);
+    expect(activations).to.equal(1);
+  });
+
   it('opens on the logical side of its anchor, mirrored in right-to-left', async () => {
     // fixtureSync and waitUntil: a non-Lit root and nextFrame both wait on animation frames,
     // which a background test page may not get.

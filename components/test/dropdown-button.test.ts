@@ -143,6 +143,35 @@ describe('DropdownButton', () => {
     expect(seen).to.deep.equal(['open:host', 'close:host:api']);
   });
 
+  it('names its button with the aria-label set on the dropdown button', async () => {
+    const el = await fixture<DropdownButton>(html`
+      <wc-dropdown-button aria-label="More actions">
+        <wc-icon name="more_vert"></wc-icon>
+        <wc-menu-item slot="menu">Edit</wc-menu-item>
+      </wc-dropdown-button>
+    `);
+    await settle(el);
+
+    expect(nativeTrigger(el).getAttribute('aria-label')).to.equal(
+      'More actions',
+    );
+    // Moved off the host, so the name is not announced twice.
+    expect(el.hasAttribute('aria-label')).to.be.false;
+    expect(el.ariaLabel).to.equal('More actions');
+    // The menu ARIA from the trigger is still there.
+    expect(nativeTrigger(el).getAttribute('aria-haspopup')).to.equal('menu');
+
+    el.setAttribute('aria-label', 'Row actions');
+    await settle(el);
+    expect(nativeTrigger(el).getAttribute('aria-label')).to.equal(
+      'Row actions',
+    );
+
+    el.ariaLabel = null;
+    await settle(el);
+    expect(nativeTrigger(el).hasAttribute('aria-label')).to.be.false;
+  });
+
   it('passes logical placements to the menu', async () => {
     const el = await fixture<DropdownButton>(html`
       <wc-dropdown-button placement="end-start">
