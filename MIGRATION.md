@@ -2,6 +2,21 @@
 
 Peacock 4.0 cleans up the component APIs so that every component follows the same conventions ([ADR-030001](adr/030001-component-api-conventions.md)): one event contract, one vocabulary, one size scale and logical placements. It also adds more than 50 components. This guide lists everything you may need to change when you upgrade from 3.17.
 
+## New in 4.6
+
+4.6 fixes keyboard, form, accessibility and click bugs across many components: `npm install @redvars/peacock@4.6`, or change the CDN URLs to `@4.6.0`. Two changes may need yours: see "Enter submits the form" and "Split button clicks".
+
+- **Enter submits the form:** in `wc-input` and `wc-password-field`, Enter submits the surrounding form, as in a native text input. It clicks the form's first submit button, which becomes the submitter; when that button is disabled, nothing is submitted. Without a submit button, the form is submitted only when the field is its only single-line text field: Peacock's number, URL, phone, currency, color, PIN, date, time, datetime, date-range and search fields count, `wc-textarea`, `wc-mention-input` and `wc-select` do not. `preventDefault()` on the `keydown` cancels it, and Enter while composing or with Ctrl, Alt or Meta is ignored. **If you added your own Enter handler to submit such a form, remove it, or the form submits twice.**
+- **Split button clicks:** `wc-split-button` fires `click` only for its primary button. Picking a menu item no longer also fires `click` on the split button, and the item's click no longer reaches listeners above the split button. Listeners on the item still get it; listen for `menu-item-activate` (`detail.item`) on the split button to react to picks.
+- **Menus:** Enter and Space click the item's inner button or link, as a pointer does, so `preventDefault()` in a link item's `click` listener (for example, an app routing the link itself) cancels keyboard navigation too.
+- **Toolbar:** when the action holding the tab stop becomes disabled, aria-disabled or hidden, the next enabled action takes it (the previous one if it was last), so the toolbar stays reachable by Tab. Disabled actions get `tabindex="-1"`.
+- **Dropdown button:** `wc-dropdown-button` passes its `aria-label` to its inner button, so an icon-only dropdown button has an accessible name.
+- **Cards and list items:** actionable and link cards, and clickable list items, are named by their content; screen readers used to announce them as just "button" or "link". Their content still stays out of the tab order and ignores clicks, so don't put buttons or links inside. Only a disabled static card's content is inert, and a card's `disabled-reason` is its description only, no longer part of its name.
+- **`throttle-delay` works:** on `wc-button`, `wc-icon-button`, `wc-fab`, `wc-link-button`, `wc-chip`, `wc-list-item`, `wc-menu-item` and `wc-tab`, a click inside the delay is dropped, whether from a pointer, the keyboard or `element.click()`: no `click` listeners, no toggle, no form submit, and it is not replayed when the delay ends. Changing `throttle-delay` after the first render takes effect. A soft-disabled, loading or skeleton submit button no longer submits its form.
+- **Calendar:** in the month view, day numbers are buttons: choosing one selects that day (it is highlighted and becomes `contextDate`), fires `date-change` and stays on the month. The header shows the month and year in the month view ("November 2026") and wraps when the calendar is narrow, in `wc-calendar-timeline` too.
+- **Stepper:** `wc-step` reflects its state as a read-only `status` attribute (`complete`, `current` or `upcoming`) for styling, and in a narrow stepper the current step's label is no longer cut short.
+- **Smaller fixes:** the `wc-chart-doughnut` centre label shows; `wc-kanban` cards keep their padding under page resets; `wc-icon` loads `data:` and `blob:` URLs; `wc-avatar-group size="sm"` no longer clips initials; the `wc-navigation-rail` background reaches the bottom.
+
 ## New in 4.5
 
 4.5 adds editing to `wc-calendar` and a new component, `wc-calendar-timeline`: `npm install @redvars/peacock@4.5`, or change the CDN URLs to `@4.5.0`. One calendar fix changes how some all-day events are drawn; see "Event ends are exclusive".
