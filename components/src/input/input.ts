@@ -1,5 +1,6 @@
 import { html, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
+import '@ui-sdk/web/input';
 
 import { spread } from '@/__internal/directive/spread.js';
 import { setupImplicitSubmission } from '@/__internal/implicit-submission.js';
@@ -135,30 +136,41 @@ export class Input extends BaseField {
     this.emitValue('change');
   }
 
+  /**
+   * `ui-input` reports every change. Typing already arrives through the native `input` and
+   * `change` events; a change from its `api`, such as an agent's `setValue`, fires only `input`,
+   * so commit it here as a `change` too.
+   */
+  private handleUiValueChange(event: CustomEvent<{ reason?: string }>) {
+    if (event.detail?.reason !== 'imperative') return;
+    this.updateComplete.then(() => this.emitValue('change'));
+  }
+
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
     return this.renderField(
-      html`<input
-        class="input input-element"
-        type=${this.type}
-        placeholder=${this.placeholder}
-        autocomplete=${this.autocomplete || nothing}
-        minlength=${this.minLength ?? nothing}
-        maxlength=${this.maxLength ?? nothing}
-        pattern=${this.pattern || nothing}
-        inputmode=${this.inputModeAttribute ?? nothing}
-        spellcheck=${this.spellcheckAttribute ?? nothing}
-        .value=${this.value}
-        ?readonly=${this.readonly}
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-        @input=${this.handleInput}
-        @change=${this.handleChange}
-        @focus=${this.handleFieldFocus}
-        @blur=${this.handleFieldFocus}
-        ${spread(this.fieldAria())}
-      />`,
+      html`<ui-input class="ui-input" @valuechange=${this.handleUiValueChange}
+        ><input
+          class="input input-element"
+          type=${this.type}
+          placeholder=${this.placeholder}
+          autocomplete=${this.autocomplete || nothing}
+          minlength=${this.minLength ?? nothing}
+          maxlength=${this.maxLength ?? nothing}
+          pattern=${this.pattern || nothing}
+          inputmode=${this.inputModeAttribute ?? nothing}
+          spellcheck=${this.spellcheckAttribute ?? nothing}
+          .value=${this.value}
+          ?readonly=${this.readonly}
+          ?required=${this.required}
+          ?disabled=${this.disabled}
+          @input=${this.handleInput}
+          @change=${this.handleChange}
+          @focus=${this.handleFieldFocus}
+          @blur=${this.handleFieldFocus}
+          ${spread(this.fieldAria())}
+      /></ui-input>`,
       {
         populated: !!this.value,
         textCount: this.characterCount(this.maxLength),

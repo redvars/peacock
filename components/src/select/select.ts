@@ -17,6 +17,11 @@ import styles from './select.scss';
 import type { Field } from '../field/field.js';
 import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
 import { SelectOptionElement } from './option.js';
+import '@/__internal/agent/choice-surface.js';
+import {
+  type AgentChoiceChangeEvent,
+  type AgentChoiceItem,
+} from '@/__internal/agent/choice-surface.js';
 
 export interface SelectOption {
   label: string;
@@ -759,6 +764,31 @@ export class Select extends BaseField {
     this.emitValue('change');
   }
 
+  // ── Agent surface ──────────────────────────────────────────────────────────
+
+  /** The options as ui-sdk's agent bridge lists them. */
+  private get _agentItems(): AgentChoiceItem[] {
+    return this._optionElements.map(opt => ({
+      value: opt.value,
+      label: this._getLabelForValue(opt.value),
+      disabled: opt.disabled,
+    }));
+  }
+
+  /** Applies an agent's change like a pick: sets `value` and fires `change`. */
+  private _handleAgentChange(event: AgentChoiceChangeEvent) {
+    event.stopPropagation();
+    if (!this._isInteractive) {
+      event.preventDefault();
+      return;
+    }
+    const { value } = event.detail;
+    const next = Array.isArray(value) ? value.join(',') : value;
+    if (next === this.value) return;
+    this.value = next;
+    this._dispatchChange();
+  }
+
   private _handleSearchInput(event: InputEvent) {
     // The native event escapes the shadow root; the search box is internal to the select.
     event.stopPropagation();
@@ -782,6 +812,8 @@ export class Select extends BaseField {
   private _handleSlotChange() {
     this._syncOptionStates();
     this._menu?.syncItems();
+    // The agent surface lists the options.
+    this.requestUpdate();
   }
 
   private _handleChipDismiss(event: CustomEvent, chipValue: string) {
@@ -964,13 +996,26 @@ export class Select extends BaseField {
     </div>`;
   }
 
+  /** The combobox inside ui-sdk's agent surface, so agents can read and pick its value. */
+  private _renderAgentSurface() {
+    return html`<peacock-agent-choice
+      .value=${this.multiple ? this._selectedValues : this.value}
+      .items=${this._agentItems}
+      .disabled=${this.disabled}
+      .readOnly=${this.readonly}
+      .required=${this.required}
+      @valuechange=${this._handleAgentChange}
+      >${this._renderTrigger()}</peacock-agent-choice
+    >`;
+  }
+
   render() {
     // The wrapper takes clicks anywhere on the field, so they open the options; keys are handled
     // on the combobox.
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <div class="select-field" @click=${this._handleFieldClick}>
-        ${this.renderField(this._renderTrigger(), {
+        ${this.renderField(this._renderAgentSurface(), {
           populated: this._isPopulated,
           focused: this._focused,
           end: this._renderFieldEnd(),

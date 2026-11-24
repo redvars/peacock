@@ -78,6 +78,8 @@
     "@tiptap/suggestion": "^3.33.0",
     "@tiptap/y-tiptap": "^3.2.0",
     "@types/prettier": "^3.0.0",
+    "@ui-sdk/core": "0.1.0-beta.16",
+    "@ui-sdk/web": "0.1.0-beta.16",
     "d3": "^7.9.0",
     "install": "^0.13.0",
     "lit": "^3.1.4",
