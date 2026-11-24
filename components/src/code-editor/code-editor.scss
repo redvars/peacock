@@ -59,6 +59,11 @@
     --code-editor-background,
     var(--field-container-color, var(--color-surface-container-lowest))
   );
+  // Outlined like wc-field too: `--field-outline-color`, then `--color-outline`.
+  --_border-color: var(
+    --code-editor-border-color,
+    var(--field-outline-color, var(--color-outline))
+  );
 
   height: auto;
 
@@ -79,6 +84,15 @@
       --code-editor-background,
       color-mix(in srgb, var(--color-on-surface) 4%, transparent)
     );
+
+    // A lighter outline at rest, full again on focus.
+    &:not(.focused) {
+      --_border-color: color-mix(
+        in srgb,
+        var(--code-editor-border-color, var(--field-outline-color, var(--color-outline))) 38%,
+        transparent
+      );
+    }
   }
 
   &.disabled {
