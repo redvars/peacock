@@ -1122,7 +1122,7 @@
       "description": "",
       "cssProperties": [
         {
-          "description": "How far each avatar slides under the previous one. Defaults to a quarter of the avatar size.",
+          "description": "How far each avatar slides under the previous one. Defaults to a quarter of the avatar size, a tenth at `size=\"sm\"`.",
           "name": "--avatar-group-overlap"
         },
         {
@@ -1758,7 +1758,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -1909,7 +1909,7 @@
     "tag": "wc-calendar",
     "rawTag": "calendar",
     "summary": "A calendar that shows events by day, week or month, with controls to move between periods.",
-    "overview": "<p>Pass events as the <code>events</code> property; each has a <code>start</code>,\n<code>end</code>, <code>title</code> and optional palette <code>color</code>. <code>end</code> is\nexclusive: an all-day event on November 4 runs from midnight on the 4th to midnight on the 5th.\nThe day and week views lay timed events out in a column per day, with events lasting a day or\nmore in a row above; the month view shows six weeks. <code>available-views</code> sets the views\noffered in the header's segmented buttons, and <code>view</code> the one shown.</p>\n<p>The header has a Today button, previous and next buttons and the current date, which is a\npolite live region. <code>previous()</code>, <code>next()</code> and <code>today()</code> do the\nsame from code; each fires <code>date-change</code>. The date shown is <code>date</code> (an ISO\nstring) or <code>contextDate</code> (a <code>Date</code>), kept in step. Choosing a day number\nin a column view switches to the day view and fires <code>view-change</code> and\n<code>date-change</code>.</p>\n<p>Events are buttons, chosen with a click, Enter or Space, which fire <code>event-click</code>.\nWith <code>events-readonly</code> they are shown but cannot be focused or clicked.\n<code>loading</code> shows a progress bar and marks the calendar busy. <code>first-day</code>\nsets the week start (else the locale's), <code>timezone</code> the zone the current time is\nshown in, and <code>locale</code> the language of names and times.</p>\n<p>With <code>editable</code>, people drag events to move them and drag their edges to change\nwhen they start or end: timed events in steps of <code>minute-step</code> minutes, all-day events\nand every event in the month view by whole days. Each drop fires the cancelable\n<code>event-change</code>; unless it is canceled, the calendar replaces <code>events</code> with\na new array holding a copy of the event with its new times. To confirm a change with a server\nfirst, cancel the event and apply it later with <code>applyCalendarChange()</code>. An event with\n<code>editable: false</code> stays put, and <code>events-readonly</code> turns editing off. On\ntouch screens, hold an event briefly before dragging it. Escape cancels a drag.</p>\n<p>With <code>addable</code>, dragging across empty time, or clicking it, fires\n<code>event-add</code> with the range: a click gives <code>default-duration</code> minutes, and\nthe all-day row and the month view give whole days. The calendar does not add the event itself.\nIt marks the range as a new event until <code>events</code> changes, the person presses Escape\nor starts another drag, or <code>clearPlaceholder()</code> is called, for example when a dialog\nasking for the event's title is canceled. Each change is announced to screen readers. Dragging\nneeds a pointer, so offer another way to change an event's time too, such as the dialog that\n<code>event-click</code> opens.</p>",
+    "overview": "<p>Pass events as the <code>events</code> property; each has a <code>start</code>,\n<code>end</code>, <code>title</code> and optional palette <code>color</code>. <code>end</code> is\nexclusive: an all-day event on November 4 runs from midnight on the 4th to midnight on the 5th.\nThe day and week views lay timed events out in a column per day, with events lasting a day or\nmore in a row above; the month view shows six weeks. <code>available-views</code> sets the views\noffered in the header's segmented buttons, and <code>view</code> the one shown.</p>\n<p>The header has a Today button, previous and next buttons and the current date, which is a\npolite live region. <code>previous()</code>, <code>next()</code> and <code>today()</code> do the\nsame from code; each fires <code>date-change</code>. The date shown is <code>date</code> (an ISO\nstring) or <code>contextDate</code> (a <code>Date</code>), kept in step. Choosing a day number\nin a column view switches to the day view and fires <code>view-change</code> and\n<code>date-change</code>. In the month view, choosing a day number selects that day (it is\nhighlighted and becomes <code>contextDate</code>) and fires <code>date-change</code>, staying on\nthe month. The header shows the month and year in the month view and the full date otherwise,\nand wraps onto two lines when the calendar is narrow.</p>\n<p>Events are buttons, chosen with a click, Enter or Space, which fire <code>event-click</code>.\nWith <code>events-readonly</code> they are shown but cannot be focused or clicked.\n<code>loading</code> shows a progress bar and marks the calendar busy. <code>first-day</code>\nsets the week start (else the locale's), <code>timezone</code> the zone the current time is\nshown in, and <code>locale</code> the language of names and times.</p>\n<p>With <code>editable</code>, people drag events to move them and drag their edges to change\nwhen they start or end: timed events in steps of <code>minute-step</code> minutes, all-day events\nand every event in the month view by whole days. Each drop fires the cancelable\n<code>event-change</code>; unless it is canceled, the calendar replaces <code>events</code> with\na new array holding a copy of the event with its new times. To confirm a change with a server\nfirst, cancel the event and apply it later with <code>applyCalendarChange()</code>. An event with\n<code>editable: false</code> stays put, and <code>events-readonly</code> turns editing off. On\ntouch screens, hold an event briefly before dragging it. Escape cancels a drag.</p>\n<p>With <code>addable</code>, dragging across empty time, or clicking it, fires\n<code>event-add</code> with the range: a click gives <code>default-duration</code> minutes, and\nthe all-day row and the month view give whole days. The calendar does not add the event itself.\nIt marks the range as a new event until <code>events</code> changes, the person presses Escape\nor starts another drag, or <code>clearPlaceholder()</code> is called, for example when a dialog\nasking for the event's title is canceled. Each change is announced to screen readers. Dragging\nneeds a pointer, so offer another way to change an event's time too, such as the dialog that\n<code>event-click</code> opens.</p>",
     "cssprop": "--calendar-event-border-color - Left border color for calendar events.",
     "fires": "event-add - Empty time was dragged across or clicked. Detail contains `{ start, end, allDay }`. Only with `addable`.",
     "example": "```html\n<wc-calendar id=\"planner\" view=\"week\" editable addable style=\"height: 600px\"></wc-calendar>\n<script>\n  const planner = document.getElementById('planner');\n  planner.events = [\n    { id: 1, title: 'Standup', start: new Date(2026, 10, 4, 9), end: new Date(2026, 10, 4, 9, 30) },\n  ];\n  planner.addEventListener('event-change', event => console.log(event.detail));\n  planner.addEventListener('event-add', ({ detail }) => {\n    planner.events = [...planner.events, { id: Date.now(), title: 'New event', ...detail }];\n  });\n</script>\n```",
@@ -1950,7 +1950,7 @@
     "tag": "wc-calendar-month-view",
     "rawTag": "calendar-month-view",
     "summary": "The calendar's month view, six weeks of days with the events on each.",
-    "overview": "<p>Rendered by <code>wc-calendar</code>; not meant to be used on its own.</p>\n<p>The month is a read-only ARIA grid labelled with the month and year: one row per week, one\ngridcell per day labelled with its full date. Each event is owned (<code>aria-owns</code>) by the\ncell of the day it starts on in that week. Events are buttons labelled with their title and\ntime, or notes that cannot be focused when <code>events-readonly</code> is set.</p>\n<p>With <code>editable</code>, events are dragged to other days and all-day events resized by\ntheir edges; with <code>addable</code>, dragging across days or clicking one asks for an\nall-day event. The days a drag covers are highlighted.</p>",
+    "overview": "<p>Rendered by <code>wc-calendar</code>; not meant to be used on its own.</p>\n<p>The month is a read-only ARIA grid labelled with the month and year: one row per week, one\ngridcell per day labelled with its full date. Each event is owned (<code>aria-owns</code>) by the\ncell of the day it starts on in that week. Events are buttons labelled with their title and\ntime, or notes that cannot be focused when <code>events-readonly</code> is set. Each day number is\na button that fires <code>date-click</code>; the day of <code>contextDate</code> is marked\nselected. Pressing a day number never starts a drag or adds an event.</p>\n<p>With <code>editable</code>, events are dragged to other days and all-day events resized by\ntheir edges; with <code>addable</code>, dragging across days or clicking one asks for an\nall-day event. The days a drag covers are highlighted.</p>",
     "fires": "event-add - Internal, does not bubble; days were drawn across or a day clicked. `wc-calendar` re-fires it."
   },
   {
@@ -1991,7 +1991,7 @@
     "tag": "wc-card",
     "rawTag": "card",
     "summary": "A surface that groups content and actions about one subject.",
-    "overview": "<p>A card is <code>elevated</code> (the default), <code>filled</code> or <code>outlined</code>.\nIt adds no padding of its own: put text in <code>wc-card-content</code>, which can sit next to\nedge-to-edge media.</p>\n<p>Set <code>actionable</code> to make the whole card a single button that fires\n<code>click</code>, or <code>href</code> (with <code>target</code>, <code>rel</code> and\n<code>download</code>) to make it a link. The content of an actionable or link card is inert, so\ndon't put buttons or links inside one; use a plain card with its own actions instead.\n<code>throttle-delay</code> throttles activation.</p>\n<p><code>disabled</code> dims the card and makes its content inert; an actionable or link card\nalso stops responding to clicks and leaves the tab order. With <code>disabled-reason</code> it\nstays focusable and screen readers read the reason with it.</p>",
+    "overview": "<p>A card is <code>elevated</code> (the default), <code>filled</code> or <code>outlined</code>.\nIt adds no padding of its own: put text in <code>wc-card-content</code>, which can sit next to\nedge-to-edge media.</p>\n<p>Set <code>actionable</code> to make the whole card a single button that fires\n<code>click</code>, or <code>href</code> (with <code>target</code>, <code>rel</code> and\n<code>download</code>) to make it a link. The content of an actionable or link card names the\nbutton or link, and anything focusable or clickable inside it stops responding, so don't put\nbuttons or links inside one; use a plain card with its own actions instead.\n<code>throttle-delay</code> throttles activation.</p>\n<p><code>disabled</code> dims the card. A static card's content becomes inert; an actionable or\nlink card stops responding to clicks and leaves the tab order. With <code>disabled-reason</code> it\nstays focusable and screen readers read the reason with it.</p>",
     "cssprop": "--card-gap - Gap between the card's children. Defaults to 0.",
     "example": "```html\n<wc-card variant=\"outlined\">\n  <wc-card-content>\n    <h3 class=\"text-title-large\">Title</h3>\n    <p class=\"text-body-medium\">Supporting text</p>\n  </wc-card-content>\n</wc-card>\n```",
     "customElement": {
@@ -2030,7 +2030,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Dims the card and makes its content inert. An actionable or link card also stops responding\nto clicks and leaves the tab order, unless `disabled-reason` is set.",
+          "description": "Dims the card. A static card's content becomes inert. An actionable or link card stops\nresponding to clicks and leaves the tab order, unless `disabled-reason` is set.",
           "fieldName": "disabled"
         },
         {
@@ -2039,7 +2039,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Makes the whole card a single button that fires `click`. Its content becomes inert, so don't\nput buttons or links inside an actionable card.",
+          "description": "Makes the whole card a single button that fires `click`. Its content names the button, and\nanything focusable or clickable inside it stops responding, so don't put buttons or links\ninside an actionable card.",
           "fieldName": "actionable"
         },
         {
@@ -5340,15 +5340,15 @@
           "name": "--code-editor-height"
         },
         {
-          "description": "Frame background. Defaults to `--color-surface-container-low`.",
+          "description": "Frame background. Defaults to `--field-container-color`, then `--color-surface-container-lowest`, like the other input fields.",
           "name": "--code-editor-background"
         },
         {
-          "description": "Frame border color. Defaults to `--color-outline-variant`.",
+          "description": "Frame border color. Defaults to `--field-outline-color`, then `--color-outline`, like the other input fields.",
           "name": "--code-editor-border-color"
         },
         {
-          "description": "Frame corner radius. Defaults to `--shape-corner-medium`.",
+          "description": "Frame corner radius. Defaults to the `--field-container-shape-*` corners, then `--shape-corner-extra-small`, like the other input fields.",
           "name": "--code-editor-shape"
         },
         {
@@ -10921,7 +10921,7 @@
     "tag": "wc-dropdown-button",
     "rawTag": "dropdown-button",
     "summary": "A button that opens a menu of actions or options.",
-    "overview": "<p>Clicking the button opens its menu, and clicking it again closes it.</p>",
+    "overview": "<p>Clicking the button opens its menu, and clicking it again closes it.</p>\n<p>An <code>aria-label</code> on the dropdown button names its button. Give one to a dropdown\nbutton that shows only an icon.</p>",
     "cssprop": "--dropdown-button-container-shape: Defines the border radius of the dropdown button container shape.",
     "fires": "close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` `api`.",
     "example": "```html\n<wc-dropdown-button>\n  Actions\n  <wc-menu-item slot=\"menu\">Edit</wc-menu-item>\n  <wc-menu-item slot=\"menu\">Delete</wc-menu-item>\n</wc-dropdown-button>\n```",
@@ -11017,6 +11017,12 @@
           "expandedType": {
             "text": "'standard' | 'expressive'"
           }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "mixinDelegatesAria",
+          "package": "@/__internal/aria/delegate.js"
         }
       ],
       "superclass": {
@@ -11544,7 +11550,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -13202,7 +13208,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -13657,7 +13663,7 @@
     "tag": "wc-input",
     "rawTag": "input",
     "summary": "A single-line text field for plain text, an email address or a phone number.",
-    "overview": "<p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted\nunder its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>\n<p>It validates like a native input: <code>required</code> and an invalid <code>type=\"email\"</code>\nblock form submission, and the message shows under the field once the value is committed or the\nform is submitted. <code>checkValidity()</code>, <code>reportValidity()</code> and\n<code>setCustomValidity()</code> work as on <code>&lt;input&gt;</code>, and so do\n<code>minlength</code>, <code>maxlength</code> and <code>pattern</code>. With\n<code>maxlength</code> a character counter shows under the field.</p>\n<p>For a password, use <code>wc-password-field</code>.</p>",
+    "overview": "<p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted\nunder its <code>name</code>, and <code>form.reset()</code> restores the starting value. Enter\nsubmits the form as in a native text input: it clicks the form's first submit button, or,\nwithout one, submits a form that has no other text field. A disabled default button blocks it,\nand <code>preventDefault()</code> on the <code>keydown</code> stops it.</p>\n<p>It validates like a native input: <code>required</code> and an invalid <code>type=\"email\"</code>\nblock form submission, and the message shows under the field once the value is committed or the\nform is submitted. <code>checkValidity()</code>, <code>reportValidity()</code> and\n<code>setCustomValidity()</code> work as on <code>&lt;input&gt;</code>, and so do\n<code>minlength</code>, <code>maxlength</code> and <code>pattern</code>. With\n<code>maxlength</code> a character counter shows under the field.</p>\n<p>For a password, use <code>wc-password-field</code>.</p>",
     "fires": "change - Dispatched when the value is committed.",
     "example": "```html\n<wc-input label=\"Name\" required placeholder=\"Enter your name\"></wc-input>\n```",
     "tags": "input, form",
@@ -14594,7 +14600,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -15173,7 +15179,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -16514,7 +16520,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -18392,7 +18398,7 @@
     "tag": "wc-password-field",
     "rawTag": "password-field",
     "summary": "A text field for a password, with a button that shows or hides what was typed.",
-    "overview": "<p>Password field hides what is typed until the person presses the show button; pressing it\nagain hides the text. Set <code>autocomplete=\"new-password\"</code> on sign-up and\nchange-password forms so password managers offer to generate one; the default,\n<code>current-password</code>, suits sign-in forms.</p>\n<p>It validates like a native password input: <code>required</code>, <code>minlength</code>,\n<code>maxlength</code> and <code>pattern</code> block form submission, and the message shows under\nthe field once the value is committed or the form is submitted. Inside a <code>&lt;form&gt;</code>\nits <code>value</code> is submitted under its <code>name</code>.</p>",
+    "overview": "<p>Password field hides what is typed until the person presses the show button; pressing it\nagain hides the text. Set <code>autocomplete=\"new-password\"</code> on sign-up and\nchange-password forms so password managers offer to generate one; the default,\n<code>current-password</code>, suits sign-in forms.</p>\n<p>It validates like a native password input: <code>required</code>, <code>minlength</code>,\n<code>maxlength</code> and <code>pattern</code> block form submission, and the message shows under\nthe field once the value is committed or the form is submitted. Inside a <code>&lt;form&gt;</code>\nits <code>value</code> is submitted under its <code>name</code>, and Enter submits the form as in\na native input (see <code>wc-input</code>).</p>",
     "fires": "change - Dispatched when the value is committed.",
     "example": "```html\n<wc-password-field\n  label=\"New password\"\n  autocomplete=\"new-password\"\n  minlength=\"12\"\n  helper-text=\"At least 12 characters\"\n></wc-password-field>\n```",
     "tags": "input, form",
@@ -22121,7 +22127,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed (no `click` listeners, no form submit, no toggle). When undefined (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay",
           "inheritedFrom": {
             "name": "MenuItem",
@@ -23627,7 +23633,7 @@
           "type": {
             "text": "MouseEvent"
           },
-          "description": "Dispatched when the primary action button is clicked.",
+          "description": "Dispatched when the primary action button is clicked, and only then: a menu item's click does not bubble past the split button. Listen on the item, or for the `menu-item-activate` event (`detail.item`) that the menu fires through the split button.",
           "name": "click"
         },
         {
@@ -24013,7 +24019,7 @@
     "tag": "wc-step",
     "rawTag": "step",
     "summary": "One step of a stepper, shown as complete, current or upcoming from its position.",
-    "overview": "<p>Step is one entry in a <code>wc-stepper</code>. Its state comes from its position: steps\nbefore the stepper's <code>current</code> step are complete (a check), the current one has\n<code>aria-current=\"step\"</code>, and later ones are upcoming (their number). <code>error</code>\nmarks it with a warning icon and <code>error-text</code>, <code>disabled</code> takes it out of\nnavigation, and <code>optional</code> adds an \"Optional\" caption.</p>\n<p>A screen reader reads each step as its position, label and state, for example\n\"Step 2 of 4, Shipping, Completed\".</p>",
+    "overview": "<p>Step is one entry in a <code>wc-stepper</code>. Its state comes from its position: steps\nbefore the stepper's <code>current</code> step are complete (a check), the current one has\n<code>aria-current=\"step\"</code>, and later ones are upcoming (their number). <code>error</code>\nmarks it with a warning icon and <code>error-text</code>, <code>disabled</code> takes it out of\nnavigation, and <code>optional</code> adds an \"Optional\" caption. The step reflects its state\nas a read-only <code>status</code> attribute (<code>complete</code>, <code>current</code> or\n<code>upcoming</code>) for styling, for example <code>wc-step[status='current']</code>.</p>\n<p>A screen reader reads each step as its position, label and state, for example\n\"Step 2 of 4, Shipping, Completed\".</p>",
     "slot": "icon - An icon shown instead of the step number while the step is current or upcoming.",
     "example": "```html\n<wc-step value=\"shipping\" label=\"Shipping\" description=\"Address and delivery\"></wc-step>\n```",
     "tags": "navigation",
@@ -24633,7 +24639,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When unset (default), no throttle is applied.",
+          "description": "Throttles activation by this many milliseconds: after a click, every click inside the delay\nis swallowed, so neither `click` listeners nor `wc-tabs` see it. When unset (default), no\nthrottle is applied.",
           "fieldName": "throttleDelay"
         }
       ],
@@ -26219,7 +26225,7 @@
     "tag": "wc-toolbar",
     "rawTag": "toolbar",
     "summary": "A group of related actions, such as editor formatting controls.",
-    "overview": "<p>The toolbar groups related actions into one control. The <code>floating</code> variant\n(default) is an elevated pill that sits over content, such as a canvas or a selection. The\n<code>flat</code> variant has no container of its own, for embedding in existing chrome like a\ncard or editor header. Both variants lay their actions out horizontally or vertically.</p>\n\n<p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of\nactions; in a horizontal toolbar give it <code>orientation=\"vertical\"</code>.</p>\n\n<p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow\nkeys along its orientation move focus between actions (Home and End jump to the first and last).\nDisabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>",
+    "overview": "<p>The toolbar groups related actions into one control. The <code>floating</code> variant\n(default) is an elevated pill that sits over content, such as a canvas or a selection. The\n<code>flat</code> variant has no container of its own, for embedding in existing chrome like a\ncard or editor header. Both variants lay their actions out horizontally or vertically.</p>\n\n<p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of\nactions; in a horizontal toolbar give it <code>orientation=\"vertical\"</code>.</p>\n\n<p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow\nkeys along its orientation move focus between actions (Home and End jump to the first and last).\nDisabled actions and dividers are skipped, and when the action that holds the tab stop becomes\ndisabled or hidden, the next enabled action (else the previous one) takes it over. Give the\ntoolbar an <code>aria-label</code>.</p>",
     "cssprop": "--toolbar-wrap - `wrap` lets actions flow onto more lines when the toolbar is narrow. Defaults to `nowrap`.",
     "example": "```html\n<!-- Flat toolbar inside existing chrome -->\n<wc-toolbar variant=\"flat\" aria-label=\"Row actions\">\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Edit\"><wc-icon name=\"edit\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Delete\"><wc-icon name=\"delete\"></wc-icon></wc-icon-button>\n</wc-toolbar>\n```",
     "tags": "display",

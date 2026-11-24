@@ -5,11 +5,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 ---
 
 <p class='text-body-medium'>
-  The editor sits in the same frame as <code class='text-code-block'>wc-code-highlighter</code>, and its colors
-  come from the theme's color roles, so it follows light, dark and custom themes. Set
-  <code class='text-code-block'>label</code> for a header with a title, put an icon in the
-  <code class='text-code-block'>icon</code> slot and extra buttons in the <code class='text-code-block'>actions</code>
-  slot. Without a header, the copy button floats at the top end. <code class='text-code-block'>wrap-toggle</code> adds
+  The editor is styled like the other input fields, with the same fill, outline, label and corners, and shows code in
+  the same syntax colors as <code class='text-code-block'>wc-code-highlighter</code>. Its colors come from the theme's
+  color roles, so it follows light, dark and custom themes. Set <code class='text-code-block'>file-name</code> for a
+  header with a title, put an icon in the <code class='text-code-block'>icon</code> slot and extra buttons in the
+  <code class='text-code-block'>actions</code> slot. Without a header, the copy button floats at the top end. <code class='text-code-block'>wrap-toggle</code> adds
   a button that wraps long lines, and the code shows as plain text until the editor has loaded.
 </p>
 
@@ -38,7 +38,7 @@ function myBusinessRuleFunction() {
 
 <h3 class='text-title-medium'>Without a header</h3>
 <p class='text-body-medium'>
-  Leave out <code class='text-code-block'>label</code> for a plain editor. <code class='text-code-block'>size="sm"</code>
+  Leave out <code class='text-code-block'>file-name</code> for a plain editor. <code class='text-code-block'>size="sm"</code>
   uses smaller text and padding, and <code class='text-code-block'>--code-editor-height</code> sets the height of the
   editing area.
 </p>
