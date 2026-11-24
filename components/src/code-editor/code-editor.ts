@@ -158,7 +158,7 @@ function loadMonaco(): Promise<Monaco> {
  * @cssprop --code-editor-height - Height of the editing area. Defaults to 300px. Ignored with `fill`.
  * @cssprop --code-editor-background - Frame background. Defaults to `--field-container-color`, then `--color-surface-container-lowest`, like the other input fields.
  * @cssprop --code-editor-border-color - Frame border color. Defaults to `--field-outline-color`, then `--color-outline`, like the other input fields.
- * @cssprop --code-editor-shape - Frame corner radius. Defaults to `--shape-corner-medium`.
+ * @cssprop --code-editor-shape - Frame corner radius. Defaults to the `--field-container-shape-*` corners, then `--shape-corner-extra-small`, like the other input fields.
  * @cssprop --code-highlighter-token-keyword - Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched on each edit.
@@ -871,7 +871,14 @@ export class CodeEditor extends BaseInput {
 
   private renderFieldLabel() {
     if (!this.label) return nothing;
-    return html`<div class="field-label" part="label">
+    return html`<div
+      class=${classMap({
+        'field-label': true,
+        disabled: this.disabled,
+        'has-error': this.error || !!this.validationText,
+      })}
+      part="label"
+    >
       ${this.label}${this.required
         ? html`<span class="required" aria-hidden="true">*</span>`
         : nothing}

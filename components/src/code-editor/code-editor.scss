@@ -18,9 +18,22 @@
 
 .field-label {
   margin-block-end: var(--spacing-100);
-  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  color: var(--field-label-text-color, var(--color-primary));
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @include mixin.get-typography(body-small);
+
+  &.has-error {
+    color: var(--color-error);
+  }
+
+  // Disabled, as on wc-field: on-surface at 38%.
+  &.disabled {
+    color: var(--color-on-surface);
+    opacity: var(--state-disabled-content-opacity, 0.38);
+  }
 
   .required {
     padding-inline-start: var(--spacing-025);
@@ -113,6 +126,28 @@
       opacity: var(--state-disabled-content-opacity);
     }
   }
+}
+
+// The corners of wc-field, which follow its `--field-container-shape-*` properties, at every
+// size (the shared chrome rounds the small size differently).
+.code-block,
+:host([size='sm']) .code-block {
+  border-start-start-radius: var(
+    --code-editor-shape,
+    var(--field-container-shape-start-start, var(--shape-corner-extra-small))
+  );
+  border-start-end-radius: var(
+    --code-editor-shape,
+    var(--field-container-shape-start-end, var(--shape-corner-extra-small))
+  );
+  border-end-start-radius: var(
+    --code-editor-shape,
+    var(--field-container-shape-end-start, var(--shape-corner-extra-small))
+  );
+  border-end-end-radius: var(
+    --code-editor-shape,
+    var(--field-container-shape-end-end, var(--shape-corner-extra-small))
+  );
 }
 
 // The floating toolbar stays visible while it shows the read-only badge.

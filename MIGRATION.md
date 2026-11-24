@@ -16,6 +16,7 @@ Peacock 4.0 cleans up the component APIs so that every component follows the sam
 - **Calendar:** in the month view, day numbers are buttons: choosing one selects that day (it is highlighted and becomes `contextDate`), fires `date-change` and stays on the month. The header shows the month and year in the month view ("November 2026") and wraps when the calendar is narrow, in `wc-calendar-timeline` too.
 - **Stepper:** `wc-step` reflects its state as a read-only `status` attribute (`complete`, `current` or `upcoming`) for styling, and in a narrow stepper the current step's label is no longer cut short.
 - **Smaller fixes:** the `wc-chart-doughnut` centre label shows; `wc-kanban` cards keep their padding under page resets; `wc-icon` loads `data:` and `blob:` URLs; `wc-avatar-group size="sm"` no longer clips initials; the `wc-navigation-rail` background reaches the bottom.
+- **Code editor looks like a field (4.6.1):** `wc-code-editor` takes the fill, outline, label and corners of `wc-field`, so it matches the other inputs in a form: `--field-container-color` and `--field-outline-color` (surface-container-lowest and outline by default), a primary label that turns red on error, extra-small corners from the `--field-container-shape-*` properties, and the field's faint box when read-only or disabled. `--code-editor-background`, `--code-editor-border-color` and `--code-editor-shape` still override them; set those to keep the 4.6.0 look. `wc-code-highlighter` is unchanged.
 
 ## New in 4.5
 
