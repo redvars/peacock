@@ -1,0 +1,70 @@
+---
+export const title = 'In a form';
+export const order = 150;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<p class='text-body-medium'>
+  The editor is a form field, and looks like one next to <code class='text-code-block'>wc-input</code> and the other
+  fields. <code class='text-code-block'>label</code> shows above it and names it for assistive technology,
+  <code class='text-code-block'>helper-text</code> shows below it, and <code class='text-code-block'>name</code>
+  submits the code with the form. <code class='text-code-block'>required</code> blocks submission while the editor is
+  empty, and <code class='text-code-block'>error</code> with <code class='text-code-block'>error-text</code> puts it
+  in its error state, with a red label, outline and message.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form id='code-editor-form' style='display: grid; gap: var(--spacing-300); width: 100%;'>
+    <wc-input name='rule-name' label='Rule name' value='Discount for members'></wc-input>
+    <wc-code-editor
+      name='script'
+      label='Script'
+      helper-text='Runs before the order is saved.'
+      language='javascript'
+      required
+      style='display: block; --code-editor-height: 8rem;'
+    ></wc-code-editor>
+    <wc-code-editor
+      label='Condition'
+      language='javascript'
+      error
+      error-text='Expected an expression that returns true or false.'
+      value='order.total >'
+      line-numbers='false'
+      style='display: block; --code-editor-height: 3rem;'
+    ></wc-code-editor>
+    <div><wc-button type='submit'>Save</wc-button></div>
+  </form>
+  <script is:inline>
+    document.getElementById('code-editor-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      myConsole.log(`Submitted ${data.get('script').split('\n').length} lines of script`, 'wc-code-editor');
+    });
+  </script>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Styling</h3>
+<p class='text-body-medium'>
+  The editor follows the properties that theme the input fields: <code class='text-code-block'>--field-container-color</code>
+  for the fill, <code class='text-code-block'>--field-outline-color</code> for the outline,
+  <code class='text-code-block'>--field-label-text-color</code> for the label and the
+  <code class='text-code-block'>--field-container-shape-*</code> corners. To style one editor apart from the fields, set
+  <code class='text-code-block'>--code-editor-background</code>, <code class='text-code-block'>--code-editor-border-color</code>
+  or <code class='text-code-block'>--code-editor-shape</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-editor
+    id='styled-code-editor'
+    language='css'
+    file-name='card.css'
+    style='display: block; width: 100%; --code-editor-height: 6rem; --code-editor-background: var(--color-surface-container-low); --code-editor-border-color: var(--color-outline-variant); --code-editor-shape: var(--shape-corner-medium);'
+  ></wc-code-editor>
+  <script is:inline>
+    document.getElementById('styled-code-editor').value = `.card {
+  padding: var(--spacing-200);
+  border-radius: var(--shape-corner-medium);
+}`;
+  </script>
+</DemoComponentCard>
