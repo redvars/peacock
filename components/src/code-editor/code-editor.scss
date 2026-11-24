@@ -53,6 +53,12 @@
 .code-block {
   // Where the code starts below the header or frame edge; Monaco reads it from the probe.
   --_pad-top: var(--_pad-block);
+  // Filled like the other input fields (wc-field): surface-container-lowest by default, and
+  // `--field-container-color` themes it alongside them.
+  --_background: var(
+    --code-editor-background,
+    var(--field-container-color, var(--color-surface-container-lowest))
+  );
 
   height: auto;
 
@@ -67,7 +73,21 @@
     outline-offset: -2px;
   }
 
+  // Read-only, as on wc-field: a faint on-surface box, with the text at full contrast.
+  &.readonly:not(.disabled) {
+    --_background: var(
+      --code-editor-background,
+      color-mix(in srgb, var(--color-on-surface) 4%, transparent)
+    );
+  }
+
   &.disabled {
+    // Disabled, as on wc-field: the container in on-surface at 4%.
+    --_background: var(
+      --code-editor-background,
+      color-mix(in srgb, var(--color-on-surface) 4%, transparent)
+    );
+
     border-color: color-mix(
       in srgb,
       var(--color-on-surface) calc(var(--state-disabled-container-opacity) * 100%),
