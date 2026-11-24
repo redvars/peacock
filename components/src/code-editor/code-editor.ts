@@ -156,8 +156,8 @@ function loadMonaco(): Promise<Monaco> {
  * @csspart editor - The area Monaco renders into.
  *
  * @cssprop --code-editor-height - Height of the editing area. Defaults to 300px. Ignored with `fill`.
- * @cssprop --code-editor-background - Frame background. Defaults to `--color-surface-container-low`.
- * @cssprop --code-editor-border-color - Frame border color. Defaults to `--color-outline-variant`.
+ * @cssprop --code-editor-background - Frame background. Defaults to `--field-container-color`, then `--color-surface-container-lowest`, like the other input fields.
+ * @cssprop --code-editor-border-color - Frame border color. Defaults to `--field-outline-color`, then `--color-outline`, like the other input fields.
  * @cssprop --code-editor-shape - Frame corner radius. Defaults to `--shape-corner-medium`.
  * @cssprop --code-highlighter-token-keyword - Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.
  *
@@ -907,6 +907,7 @@ export class CodeEditor extends BaseInput {
           'has-header': hasHeader,
           focused: this.hasFocus,
           disabled: this.disabled,
+          readonly: this.readonly,
           'has-error': invalid,
           numbered: this.lineNumbers,
           'breakpoint-gutter': this.breakpointGutter,
